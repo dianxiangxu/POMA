@@ -38,7 +38,7 @@ abstract class MutantTester {
 	public static Graph graph;
 	
 
-	public String initialGraphConfig = "C:/data/ngac_config_Vlad3.json";
+	public String initialGraphConfig = "GPMSPolicies/gpms_testing_config.json";
 	List<Node> UAs;
 	List<Node> UAsOAs;
 	List<Node> UAsPCs;
@@ -68,7 +68,7 @@ abstract class MutantTester {
 
 			String UAname = sArray[2];
 			String OAname = sArray[3];
-			if (UA == null || OA == null) {
+			if (UAname == null || OAname == null || !mutant.exists(UAname) || !mutant.exists(OAname)) {
 				mutantTest[counter] = "Fail";
 				counter++;
 				continue;
@@ -125,16 +125,16 @@ abstract class MutantTester {
 			bool = file2.mkdir();
 		}
 		if (bool) {
-			//System.out.println("The directory was created or was already there");
+			System.out.println("The directory was created or was already there");
 		} else {
-			//System.out.println("Failure with creating the directory");
+			System.out.println("Failure with creating the directory");
 			return;
 		}
 		if (directoryForTestResults.createNewFile()) {
-			//System.out.println("File has been created.");
+			System.out.println("File has been created.");
 		} else {
 
-			//System.out.println("File already exists.");
+			System.out.println("File already exists.");
 		}
 		BufferedWriter writer = null;
 		writer = new BufferedWriter(new FileWriter(directoryForTestResults));
@@ -154,6 +154,7 @@ abstract class MutantTester {
 	}
 
 	public void getOAsInGraph() throws PMException {
+		System.out.println(graph);
 		Node[] nodes = graph.getNodes().toArray(new Node[graph.getNodes().size()]);
 		OAs = new ArrayList<Node>();
 		for (Node node : nodes) {
@@ -168,28 +169,29 @@ abstract class MutantTester {
 		File file = getFileFromResources(filepath);
 
 		String json = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
-		Graph graph = new MemGraph();
+		 graph = new MemGraph();
 		GraphSerializer.fromJson(graph, json);
+		System.out.println(graph);
 		getOAsInGraph();
 		if (OAs.size() == 0) {
-			//System.out.println("No OAs found");
+			System.out.println("No OAs found");
 			return;
 		}
 		getUAsInGraph();
 		if (UAs.size() == 0) {
-			//System.out.println("No OAs found");
+			System.out.println("No OAs found");
 			return;
 		}
 		loadAssociations();
 		
 		getUAsPCsInGraph();
 		if (UAsPCs.size() == 0) {
-			//System.out.println("No UAs and PCs found");
+			System.out.println("No UAs and PCs found");
 			return;
 		}
 		getUAsPCsOAsInGraph();
 		if (UAsPCsOAs.size() == 0) {
-			//System.out.println("No UAs, PCs, and OAs found");
+			System.out.println("No UAs, PCs, and OAs found");
 			return;
 		}
 		getUAsOAsInGraph();

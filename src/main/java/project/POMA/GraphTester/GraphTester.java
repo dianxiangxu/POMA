@@ -65,8 +65,7 @@ public class GraphTester {
 		List<String[]> data4 = gt4.testGraphPairwisePC();
 		graphTester.saveCSV(data4, "PP");
 
-		// loader.setPolicy(gt1.getGraph());
-		// loader.savePolicy(gt1.getGraph(),"C:/data/ngac_config_Vlad3.json");
+		savePolicy(gt1.getGraph(),"GPMSPolicies/gpms_testing_config.json");
 		/*
 		 * File folder = new File("C:/Users/dubro/git/GPMS-NGAC/CSV/RS"); int i = 0; for
 		 * (final File fileEntry1 : folder.listFiles()) { if (i == 0) { i++; continue; }
@@ -151,6 +150,39 @@ public class GraphTester {
 		CSVwriter.writeAll(data);
 		writer.flush();
 		CSVwriter.close();
+
+		if (writer != null)
+			writer.close();
+
+	}
+	/**
+	 * @param path is the location and name to save the json policy
+	 * if path is provided null or empty string it will be saved to a default location
+	 * @throws PMException
+	 * @throws IOException
+	 */
+	public static void savePolicy(Graph policy, String path) throws PMException, IOException {
+
+		String policyString = GraphSerializer.toJson(policy);
+
+		File file;
+		if (path == null || path.isEmpty()) {
+			file = new File("C:/data/ngac_config_Vlad3.json");
+		} else {
+			file = new File(path);
+		}
+
+		if (file.createNewFile()) {
+			System.out.println("File has been created.");
+		} else {
+
+			System.out.println("File already exists.");
+		}
+
+		BufferedWriter writer = null;
+		writer = new BufferedWriter(new FileWriter(file));
+		writer.write(policyString);
+		writer.flush();
 
 		if (writer != null)
 			writer.close();

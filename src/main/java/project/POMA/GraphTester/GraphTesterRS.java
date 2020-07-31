@@ -182,7 +182,6 @@ public abstract class GraphTesterRS {
 		graph.assign(tenureTrackTenuredUA.getName(), PIElegibleUA.getName());
 
 
-		graph.assign(PIElegibleUA.getName(), policy.getName());
 
 		graph.associate(PIElegibleUA.getName(), createPDS.getName(), operationsPI);
 		

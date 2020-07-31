@@ -84,7 +84,6 @@ public abstract class GraphTesterPairwise {
 		graph.assign(tenureTrackTenuredUA.getName(), PIElegibleUA.getName());
 
 
-		graph.assign(PIElegibleUA.getName(), policy.getName());
 
 		graph.associate(PIElegibleUA.getName(), createPDS.getName(), operationsPI);
 		

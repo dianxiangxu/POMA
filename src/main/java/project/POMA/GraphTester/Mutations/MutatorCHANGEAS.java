@@ -40,7 +40,9 @@ public class MutatorCHANGEAS extends MutantTester {
 				}
 
 				Graph mutant = createCopy();
-
+				if(mutant.getChildren(parentToBe.getName()).contains(childNode.getName())) {
+					continue;
+				}
 				changeAssignment(mutant, childNode.getName(), node.getName(), testMethod, testSuitePath, parentToBe);
 				testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
 				setNumberOfMutants(getNumberOfMutants() + 1);
