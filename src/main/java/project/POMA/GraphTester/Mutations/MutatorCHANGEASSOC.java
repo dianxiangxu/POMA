@@ -42,7 +42,7 @@ public class MutatorCHANGEASSOC extends MutantTester {
 			
 			Graph mutant = createCopy();
 			for (Node ua : UAs) {
-				if (ua.getName().equals(pastSourceID)) {
+				if (!ua.getName().equals(pastSourceID)) {
 					changeAssociation(mutant, pastSourceID, oa.getName(), ua.getName(), accessRights);
 					testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
 					setNumberOfMutants(getNumberOfMutants() + 1);

@@ -36,6 +36,9 @@ public class MutatorCHANGEAS extends MutantTester {
 
 				if (parentToBe.getType() != UA || parentToBe.getName().equals(node.getName())
 						|| childNode.getName().equals(parentToBe.getName()) || childrentOfChild.contains(parentToBe.getName())) {
+					Graph mutant = createCopy();
+					testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
+					setNumberOfMutants(getNumberOfMutants() + 1);
 					continue;
 				}
 
