@@ -1,3 +1,4 @@
+/META-INF/
 /project/
-#ignore java temporary files
-*.class
+/gui/
+/editor/
