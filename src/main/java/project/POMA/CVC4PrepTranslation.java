@@ -18,26 +18,36 @@ public class CVC4PrepTranslation {
 		return "(set-option :produce-assignments true)";
 	}
 
+//	private String declareCVC4Containment() {
+//		return "(declare-fun UA_containment () (Set (Tuple String String)))" + System.lineSeparator()
+//				+ "(declare-fun OA_containment () (Set (Tuple String String)))";
+//	}
+
 	private String declareCVC4Containment() {
-		return "(declare-fun UA_containment () (Set (Tuple String String)))" + System.lineSeparator()
-				+ "(declare-fun OA_containment () (Set (Tuple String String)))";
+		return "(declare-fun Containment () (Set (Tuple String String)))";
 	}
+	
+//	private String declareCVC4TClosure() {
+//		return "(declare-fun UA_tclosure () (Set (Tuple String String)))" + System.lineSeparator()
+//				+ "(declare-fun OA_tclosure () (Set (Tuple String String)))";
+//	}
 
 	private String declareCVC4TClosure() {
-		return "(declare-fun UA_tclosure () (Set (Tuple String String)))" + System.lineSeparator()
-				+ "(declare-fun OA_tclosure () (Set (Tuple String String)))";
+		return "(declare-fun Tclosure () (Set (Tuple String String)))";
 	}
-
+	
 	private String declareCVC4AssociationDatatype() {
 		return "(declare-datatypes ((association 0))" + System.lineSeparator()
 				+ "   (((rec (UA String) (access_rights (Set String)) (AT String)))))";
 	}
 
+//	public String assertTClosures() {
+//		return "(assert (= UA_tclosure (tclosure UA_containment)))" + System.lineSeparator()
+//				+ "(assert (= OA_tclosure (tclosure OA_containment)))";
+//	}
 	public String assertTClosures() {
-		return "(assert (= UA_tclosure (tclosure UA_containment)))" + System.lineSeparator()
-				+ "(assert (= OA_tclosure (tclosure OA_containment)))";
+		return "(assert (= Tclosure (tclosure Containment)))";
 	}
-	
 	@Override
 	public String toString() {
 

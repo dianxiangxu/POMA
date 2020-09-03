@@ -29,6 +29,7 @@ public class CVC4Translator {
 	private Graph ngacGraph;
 	private List<AssociationRelation> listOfAssociations = new ArrayList<AssociationRelation>();;
 	private String pathToGraph;
+	private List<String> nodesWithoutContainment = new ArrayList<String>();
 
 	public CVC4Translator(String pathToGraph) {
 		this.pathToGraph = pathToGraph;
@@ -87,16 +88,31 @@ public class CVC4Translator {
 		for (AssociationRelation ar : listOfAssociations) {
 			sb.append(ar.toString());
 		}
-
-		sb.append(translateUAsContainment());
-		sb.append(System.lineSeparator());
-		sb.append(translateOAsContainment());
+		sb.append(translateContainment());
+		//sb.append(translateUAsContainment());
+		//sb.append(System.lineSeparator());
+		//sb.append(translateOAsContainment());
 		sb.append(System.lineSeparator());
 		sb.append(prepTranslation.assertTClosures());
 		sb.append(System.lineSeparator());
 		return sb.toString();
 	}
 
+	private String translateContainment() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("(assert (= Containment (insert ");
+		for (Iterator<String> iterator = tuplesUA.iterator(); iterator.hasNext();) {
+			String tuple = iterator.next();
+			if (!iterator.hasNext()) {
+				sb.append("(singleton " + tuple + "))))");
+			} else {
+				sb.append(tuple + " ");
+			}
+		}
+		return sb.toString();
+	}
+
+	
 	private String translateUAsContainment() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("(assert (= UA_containment (insert ");
@@ -163,8 +179,9 @@ public class CVC4Translator {
 
 	private void findTClosuresForAllPCs() throws PMException {
 		for (String policyClass : ngacGraph.getPolicyClasses()) {
-			findTClosureForUA(policyClass);
-			findTClosureForOA(policyClass);
+			//findTClosureForUA(policyClass);
+			//findTClosureForOA(policyClass);
+			findTClosureForGraph(policyClass);
 		}
 	}
 
@@ -181,7 +198,7 @@ public class CVC4Translator {
 		GraphSerializer.fromJson(ngacGraph, eligibility_policy);
 	}
 
-	private void readAnyGraph(String path) throws PMException, IOException, NodeIsNotContainedByPolicyClassException {
+	public void readAnyGraph(String path) throws PMException, IOException {
 		File file_eligibility_policy = new File(path);
 		String eligibility_policy = new String(
 				Files.readAllBytes(Paths.get(file_eligibility_policy.getAbsolutePath())));
@@ -190,6 +207,7 @@ public class CVC4Translator {
 
 		GraphSerializer.fromJson(ngacGraph, eligibility_policy);
 	}
+
 
 	private void findTClosureForUA(String policyClass) throws PMException {
 		DepthFirstSearcher dfs = new DepthFirstSearcher(ngacGraph);
@@ -205,6 +223,20 @@ public class CVC4Translator {
 		}, visitor, Direction.CHILDREN);
 	}
 
+	private void findTClosureForGraph(String policyClass) throws PMException {
+		DepthFirstSearcher dfs = new DepthFirstSearcher(ngacGraph);
+		Visitor visitor = node -> {
+			if ((node.getType().toString().equals("UA") || node.getType().toString().equals("U") || node.getType().toString().equals("O") || node.getType().toString().equals("OA"))
+					&& !node.getName().contains("super")) {
+				for (String parent : ngacGraph.getParents(node.getName())) {
+					tuplesUA.add(new AssignmentRelation(node.getName(), parent).toString());
+				}
+			}
+		};
+		dfs.traverse(ngacGraph.getNode(policyClass), (c, p) -> {
+		}, visitor, Direction.CHILDREN);
+	}
+	
 	private void findTClosureForOA(String policyClass) throws PMException {
 		DepthFirstSearcher dfs = new DepthFirstSearcher(ngacGraph);
 		Visitor visitor = node -> {
@@ -219,7 +251,7 @@ public class CVC4Translator {
 		}, visitor, Direction.CHILDREN);
 	}
 
-	private boolean isContainedByAnyPC(String child) throws PMException {
+	private void isContainedByAnyPC(String child) throws PMException {
 		System.out.println("CHILD: " + child);
 		for (String pc : ngacGraph.getPolicyClasses()) {
 
@@ -232,21 +264,28 @@ public class CVC4Translator {
 			};
 			dfs.traverse(ngacGraph.getNode(child), (c, p) -> {
 			}, visitor, Direction.PARENTS);
-			if (nodes.contains(pc)) {
-				return true;
+			if (!nodes.contains(pc)) {
+				nodesWithoutContainment.add(child);
+			}
+			else if(nodes.contains(pc) && nodesWithoutContainment.contains(child)) {
+				nodesWithoutContainment.remove(child);
+				return;
+			}
+			else if(nodes.contains(pc)) {
+				return;
 			}
 		}
-		return false;
 	}
 
 	private void checkGraph() throws PMException, NodeIsNotContainedByPolicyClassException {
 		for (Node node : ngacGraph.getNodes()) {
 			if (!node.getType().toString().equals("PC")) {
-				if (!isContainedByAnyPC(node.getName())) {
-					throw new NodeIsNotContainedByPolicyClassException(
-							"Every node has to be contained by a policy class.");
-				}
+				isContainedByAnyPC(node.getName());				
 			}
+		}
+		if (!nodesWithoutContainment.isEmpty()) {
+			throw new NodeIsNotContainedByPolicyClassException(
+					"Every node has to be contained by a policy class. The following nodes are not contained by any policy class: " + nodesWithoutContainment.toString());
 		}
 	}
 }
