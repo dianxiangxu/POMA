@@ -21,7 +21,14 @@
 package editor;
 
 import gui.AbstractPolicyEditor;
+import project.POMA.SimpleTestGraph;
+import project.POMA.GraphVisualization.GUI;
+
 import org.xml.sax.SAXException;
+
+import gov.nist.csd.pm.exceptions.PMException;
+import gov.nist.csd.pm.pip.graph.GraphSerializer;
+import gov.nist.csd.pm.pip.graph.MemGraph;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -314,13 +321,47 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 			File temporal = fileChooser.getSelectedFile();
 //			AnalizadorSAX asax = new AnalizadorSAX();
 //			try {
-				if (!temporal.toString().endsWith(".xml")) {
+			MemGraph g = null;
+			SimpleTestGraph simpleTestGraph = new SimpleTestGraph();
+			try {
+			 g = simpleTestGraph.readAnyGraph(temporal.getPath());
+			}catch(PMException e) {
+				JOptionPane.showMessageDialog(this,
+						"Graph cannot be built, some nodes do not exsist",
+						"Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+			} catch (IOException | NullPointerException e) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(this,
+						"File cannot be opened",
+						"Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+			}
+				if (!temporal.toString().endsWith(".json")) {
 					JOptionPane.showMessageDialog(this,
-							"The open File is not a Policy *.xml",
+							"The open File is not a Policy *.json",
 							"Error of Selection",
 							JOptionPane.WARNING_MESSAGE);
 				} else {
+					JPanel p1 = new JPanel(); 
+					
+					JTextArea t1 = new JTextArea(); 
+					t1.setEditable(false);
+					 try {
+						t1.setText(GraphSerializer.toJson(g));
+					} catch (PMException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+					 int deviderLocation = jSplitPane1.getDividerLocation();
+					 JScrollPane scroll = new JScrollPane (t1, 
+							   JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+					 scroll.setPreferredSize(new Dimension(500, 750));
 
+					p1.add(scroll); 
+					
+					jSplitPane1.setRightComponent(p1);
+					jSplitPane1.setDividerLocation(deviderLocation);
 //					CurrentPath.getInstancia().setCurrdir(
 //							temporal.getParentFile());
 					// JR English
@@ -813,10 +854,12 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws PMException, IOException {				
+		
 		JFrame frame = new JFrame();
 		PolicyEditorPanelDemo panel = new PolicyEditorPanelDemo();
 		frame.getContentPane().add(panel);
+		
 		frame.pack();
 		frame.setVisible(true);
 	}

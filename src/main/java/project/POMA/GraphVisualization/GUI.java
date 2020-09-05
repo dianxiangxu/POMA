@@ -38,6 +38,7 @@ import java.awt.GridBagConstraints;
 
 import javax.swing.SwingConstants;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -89,7 +90,18 @@ public class GUI extends JApplet {
 		frame.setVisible(true);
 
 	}
+	public void buildJFrame(JFrame frame) {
+		frame.getContentPane().add(this);
+		frame.setTitle("NGAC Graph Visualization");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
 
+	}
+	
+	public Component returnPane() {
+		return this;
+	}
 	private List<mxICell> getCellsWithTypeInGraph(String type) {
 		List<mxICell> List = new ArrayList<mxICell>();
 		for (Map.Entry<String, mxICell> entry : jgxAdapter.getVertexToCellMap().entrySet()) {
@@ -192,12 +204,12 @@ public class GUI extends JApplet {
 		panel.add(controls, BorderLayout.SOUTH);
 		controls.setLayout(new GridLayout(0,6));
 		
-		textField = new JTextField();
-		controls.add(textField);
-		textField.setColumns(20);
+//		textField = new JTextField();
+//		controls.add(textField);
+//		textField.setColumns(20);
 		
-		JButton loadFromFile = new JButton("Load JSON");
-		controls.add(loadFromFile);
+		//JButton loadFromFile = new JButton("Load JSON");
+		//controls.add(loadFromFile);
 		
 		JTextArea textArea = new JTextArea();
 		textArea.setEditable(false);
