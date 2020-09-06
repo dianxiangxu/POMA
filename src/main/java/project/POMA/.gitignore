@@ -1,0 +1,3 @@
+/App.java
+#ignore java temporary files
+*.class
