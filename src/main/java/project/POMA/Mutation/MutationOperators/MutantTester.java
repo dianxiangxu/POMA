@@ -1,4 +1,4 @@
-package project.POMA.GraphTester.Mutations;
+package project.POMA.Mutation.MutationOperators;
 
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.OA;
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.PC;
@@ -29,6 +29,7 @@ import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 abstract class MutantTester {
+	String mutationMethod = "";
 	private double numberOfKilledMutants = 0;
 	private int numberOfMutants = 0;
 	List<Set<String>> operations = new ArrayList<Set<String>>();
@@ -39,10 +40,10 @@ abstract class MutantTester {
 	
 
 	public String initialGraphConfig = "GPMSPolicies/gpms_testing_config.json";
-	List<Node> UAs;
-	List<Node> UAsOAs;
-	List<Node> UAsPCs;
-	List<Node> UAsPCsOAs;
+	static List<Node> UAs;
+	static List<Node> UAsOAs;
+	static List<Node> UAsPCs;
+	static List<Node> UAsPCsOAs;
 	public void testMutant(Graph mutant, File testSuiteCSV, String testMethod, int mutantNumber, String mutationMethod)
 			throws PMException, IOException {
 
@@ -167,9 +168,8 @@ abstract class MutantTester {
 
 	public void getGraphLoaded(String filepath) throws PMException, IOException {
 		File file = getFileFromResources(filepath);
-
 		String json = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
-		 graph = new MemGraph();
+		graph = new MemGraph();
 		GraphSerializer.fromJson(graph, json);
 		System.out.println(graph);
 		getOAsInGraph();
@@ -281,5 +281,8 @@ abstract class MutantTester {
 		
 		GraphSerializer.fromJson(mutant, json);
 		return mutant;
+	}
+	public String getMutationMethod () {
+		return mutationMethod;
 	}
 }

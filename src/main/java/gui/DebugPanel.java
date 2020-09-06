@@ -28,7 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.apache.commons.io.IOUtils;
 //import org.seal.xacml.TestRecord;
 import components.JPanelPB;
-import junit.framework.TestSuite;
+//import junit.framework.TestSuite;
 //import org.seal.xacml.components.MutationBasedTestMutationMethods;
 //import org.seal.xacml.policyUtils.PolicyLoader;
 //import org.seal.xacml.policyUtils.XpathSolver;
@@ -198,30 +198,30 @@ public class DebugPanel extends JPanelPB {
 		
 	//}
 
-	private boolean hasFault(TestSuite testSuite) {
-		try{
-//			List<Boolean> results = testSuite.runTests(PolicyLoader.loadPolicy(xpa.getWorkingPolicyFile()));
-//			for(Boolean b:results){
-//				if(!b){
-//					return true;
-//				}
-//			}
-		} catch(Exception e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
-	private TestSuite getTestSuite(){
-		List<String> requests = new ArrayList<String>();
-		List<String> oracles = new ArrayList<String>();
-//		for(TestRecord record: xpa.getTestPanel().getPolicyTestSuite().getTestRecords()){
-//			requests.add(record.getRequest());
-//			oracles.add(record.getOracle());
+//	private boolean hasFault(TestSuite testSuite) {
+//		try{
+////			List<Boolean> results = testSuite.runTests(PolicyLoader.loadPolicy(xpa.getWorkingPolicyFile()));
+////			for(Boolean b:results){
+////				if(!b){
+////					return true;
+////				}
+////			}
+//		} catch(Exception e){
+//			e.printStackTrace();
 //		}
-//		return new TestSuite(null,requests, oracles);
-		return null;
-	}
+//		return false;
+//	}
+//	
+//	private TestSuite getTestSuite(){
+//		List<String> requests = new ArrayList<String>();
+//		List<String> oracles = new ArrayList<String>();
+////		for(TestRecord record: xpa.getTestPanel().getPolicyTestSuite().getTestRecords()){
+////			requests.add(record.getRequest());
+////			oracles.add(record.getOracle());
+////		}
+////		return new TestSuite(null,requests, oracles);
+//		return null;
+//	}
 	
 	private boolean checkInputs(){
 		if (!poma.hasWorkingPolicy()) {
