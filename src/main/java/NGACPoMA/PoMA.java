@@ -1,4 +1,4 @@
-package xpa;
+package NGACPoMA;
 
 
 import java.awt.BorderLayout;
@@ -42,7 +42,7 @@ import gui.TestPanel;
 import project.POMA.SimpleTestGraph;
 import project.POMA.GraphVisualization.GUI;
 
-public class XPA extends JFrame implements ItemListener, ActionListener {
+public class PoMA extends JFrame implements ItemListener, ActionListener {
 	
 	public int totalWidth;
 	public int totalheight;
@@ -64,7 +64,7 @@ public class XPA extends JFrame implements ItemListener, ActionListener {
 	protected MutationPanel mutationPanel;
 	protected DebugPanel debugPanel;	
 	
-	public XPA() {
+	public PoMA() {
 		try {
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			init();
@@ -738,7 +738,7 @@ public class XPA extends JFrame implements ItemListener, ActionListener {
 		try {
 			rootPath = rootDir.getCanonicalPath();
 		} catch (Exception e) {
-			XPA.log(e);
+			PoMA.log(e);
 		}
 		return rootPath;
 	}
@@ -764,7 +764,7 @@ public class XPA extends JFrame implements ItemListener, ActionListener {
 				} catch (Exception exception) {
 					exception.printStackTrace();
 				}
-				XPA frame = new XPA();
+				PoMA frame = new PoMA();
 				
 				
 				
@@ -782,9 +782,9 @@ public class XPA extends JFrame implements ItemListener, ActionListener {
 }
 
 class MiWindowAdapter extends WindowAdapter {
-	private XPA adaptee;
+	private PoMA adaptee;
 
-	MiWindowAdapter(XPA adaptee) {
+	MiWindowAdapter(PoMA adaptee) {
 		this.adaptee = adaptee;
 	}
 
