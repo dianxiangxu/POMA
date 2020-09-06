@@ -253,7 +253,7 @@ public class GUI extends JApplet {
 		setCommonStyle();		
 		resize(DEFAULT_SIZE);
 		setComponent();
-
+			//hello world
 		jgxAdapter.getModel().setGeometry(jgxAdapter.getDefaultParent(),
 				new mxGeometry((DEFAULT_SIZE.width) / 8, (30), DEFAULT_SIZE.width / 2.0, DEFAULT_SIZE.height / 2.0));
 		setLayout();	
