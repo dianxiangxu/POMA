@@ -1,4 +1,4 @@
-package POMA.GUI;
+package POMA.GUI.editor;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

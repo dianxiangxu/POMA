@@ -1,4 +1,4 @@
-package POMA.GUI;
+package POMA.GUI.editor;
 
 import java.awt.Font;
 import java.awt.Insets;

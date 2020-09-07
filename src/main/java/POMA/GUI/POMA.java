@@ -30,7 +30,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import POMA.GUI.GraphVisualization.GUI;
+import POMA.GUI.editor.AbstractPolicyEditor;
+import POMA.GUI.editor.DebugPanel;
+import POMA.GUI.editor.MutationPanel;
 import POMA.GUI.editor.PolicyEditorPanelDemo;
+import POMA.GUI.editor.TestPanel;
 import POMA.Verification.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.MemGraph;

@@ -22,7 +22,6 @@ package POMA.GUI.editor;
 
 import org.xml.sax.SAXException;
 
-import POMA.GUI.AbstractPolicyEditor;
 import POMA.GUI.GraphVisualization.GUI;
 import POMA.Verification.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;

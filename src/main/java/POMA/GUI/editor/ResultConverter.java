@@ -1,4 +1,4 @@
-package POMA.GUI;
+package POMA.GUI.editor;
 
 public  class ResultConverter {
 

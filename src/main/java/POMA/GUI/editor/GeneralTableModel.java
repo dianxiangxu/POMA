@@ -1,7 +1,7 @@
 /* 	
 	Author Dianxiang Xu
 */
-package POMA.GUI;
+package POMA.GUI.editor;
 
 import java.awt.Dimension;
 import java.util.*;

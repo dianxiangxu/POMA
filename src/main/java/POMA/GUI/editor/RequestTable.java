@@ -1,4 +1,4 @@
-package POMA.GUI;
+package POMA.GUI.editor;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
