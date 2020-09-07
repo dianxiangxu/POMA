@@ -329,8 +329,10 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 						"Graph cannot be built, some nodes do not exsist",
 						"Error of Selection",
 						JOptionPane.WARNING_MESSAGE);
+				e.printStackTrace();
 			} catch (IOException | NullPointerException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
 				JOptionPane.showMessageDialog(this,
 						"File cannot be opened",
 						"Error of Selection",

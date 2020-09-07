@@ -266,7 +266,23 @@
    "properties": {
           
         }
-  }          
+  }     
+  ,
+  {
+   "name" : "IRBOfficer",
+   "type" : "UA",
+   "properties": {
+          
+        }
+  } 
+  ,
+  {
+   "name" : "PDSWhole",
+   "type" : "OA",
+   "properties": {
+          
+        }
+  }             
  ],
    
  "assignments":[

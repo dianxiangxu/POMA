@@ -324,6 +324,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 				MemGraph graph = null;
 				try {
 					graph = simpleTestGraph.readAnyGraph(getWorkingPolicyFilePath());
+					//graph = simpleTestGraph.readGPMSGraph();
 					 gui = new GUI(graph);
 					 gui.init();
 						Component graphComponent = gui.returnPane();

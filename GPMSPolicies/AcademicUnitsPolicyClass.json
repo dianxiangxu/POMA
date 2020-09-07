@@ -140,7 +140,64 @@
       "name": "bmChemUser",
       "type": "U",
       "properties": {}
-    }  
+    } 
+    ,
+    {
+      "name": "nazmul",
+      "type": "U",
+      "properties": {}
+    },
+ {
+      "name": "tomtom",
+      "type": "U",
+      "properties": {}
+    },  
+ 
+  {
+      "name": "liliana",
+      "type": "U",
+      "properties": {}
+    },
+     {
+      "name": "amy",
+      "type": "U",
+      "properties": {}
+    },    
+    {
+      "name": "samer",
+      "type": "U",
+      "properties": {}
+    },    
+    {
+      "name": "milson",
+      "type": "U",
+      "properties": {}
+    },    
+    {
+      "name": "edmund",
+      "type": "U",
+      "properties": {}
+    },  
+    {
+      "name": "vlad",
+      "type": "U",
+      "properties": {}
+    },   
+    {
+      "name": "tamanna",
+      "type": "U",
+      "properties": {}
+    },    
+    {
+      "name": "selena",
+      "type": "U",
+      "properties": {}
+    },    
+    {
+      "name": "NickC",
+      "type": "U",
+      "properties": {}
+    } 
  ],
  
  "assignments":[ 

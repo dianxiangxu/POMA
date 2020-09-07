@@ -72,12 +72,30 @@ public class SimpleTestGraph {
 	}
 	
 	public MemGraph readAnyGraph(String path) throws PMException, IOException {
-		File file_eligibility_policy = new File(path);
-		File file_superPolicy = new File("Graphs/super_config.json");
-		File file_org = new File("Graphs/AcademicUnitsPolicyClass.json");
-		File file_adm = new File("Graphs/AdministrationUnitsPolicyClass.json");
+		File graphFile = new File(path);
+		
 
-		File editingFile = new File("Graphs/EditingPolicyClass.json");
+		
+		String graphJSON = new String(
+				Files.readAllBytes(Paths.get(graphFile.getAbsolutePath())));
+		
+		
+		ngacGraph = new MemGraph();
+
+		GraphSerializer.fromJson(ngacGraph, graphJSON);
+
+
+		
+		
+		return ngacGraph;
+	}
+	public MemGraph readGPMSGraph() throws PMException, IOException {
+		File file_eligibility_policy = new File("GPMSPolicies/EligibilityPolicyClass.json");
+		File file_superPolicy = new File("GPMSPolicies/super_config.json");
+		File file_org = new File("GPMSPolicies/AcademicUnitsPolicyClass.json");
+		File file_adm = new File("GPMSPolicies/AdministrationUnitsPolicyClass.json");
+
+		File editingFile = new File("GPMSPolicies/EditingPolicyClass.json");
 
 		String superPolicy = new String(
 				Files.readAllBytes(Paths.get(file_superPolicy.getAbsolutePath())));
@@ -91,18 +109,17 @@ public class SimpleTestGraph {
 		String editing_policy = new String(
 				Files.readAllBytes(Paths.get(editingFile.getAbsolutePath())));
 		ngacGraph = new MemGraph();
-		//GraphSerializer.fromJson(ngacGraph, superPolicy);
+		GraphSerializer.fromJson(ngacGraph, superPolicy);
 
 		GraphSerializer.fromJson(ngacGraph, eligibility_policy);
 		
-		//GraphSerializer.fromJson(ngacGraph, org_policy);
-		//GraphSerializer.fromJson(ngacGraph, adm_policy);
+		GraphSerializer.fromJson(ngacGraph, org_policy);
+		GraphSerializer.fromJson(ngacGraph, adm_policy);
 		
-		//GraphSerializer.fromJson(ngacGraph, editing_policy);
+		GraphSerializer.fromJson(ngacGraph, editing_policy);
 
 		
 		
 		return ngacGraph;
 	}
-
 }
