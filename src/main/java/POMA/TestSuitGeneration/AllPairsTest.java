@@ -1,4 +1,4 @@
-package POMA.LegacyTestingProject.GraphTester;
+package POMA.TestSuitGeneration;
 
 import java.util.ArrayList;
 
@@ -39,12 +39,11 @@ public class AllPairsTest {
 		  
 	  }
 	  static void test104(){
-		  int[] choices = {12, 1, 2};
+		  int[] choices = {6, 5, 10};
 		  boolean noShuffle = true;
 		  int maxGoes = 100;
 		  long seed = 42;
-		  printPairs(AllPairs.generatePairs(choices, seed, maxGoes, !noShuffle, null, false));
-		  
+		  printPairs(AllPairs.generatePairs(choices, seed, maxGoes, !noShuffle, null, false));		  
 	  }
 	  static void printPairs(ArrayList<int[]> pairs){
 		  //System.out.println("#pairs: "+pairs.size());
@@ -52,12 +51,12 @@ public class AllPairsTest {
 			  System.out.print(pairs.indexOf(pair)+1+".");
 			  for (int i=0; i<pair.length; i++)
 				  System.out.print(" "+pair[i]);
-			  //System.out.println();
+			  System.out.println();
 		  }
 	  }
 	  
 	  public static void main(String[] s) {
-//		  test1();
+		  //test102();
 //		  test2();
 		  test104();
 		//  test103();

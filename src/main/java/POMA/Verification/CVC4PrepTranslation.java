@@ -26,7 +26,7 @@ public class CVC4PrepTranslation {
 	private String declareCVC4Containment() {
 		return "(declare-fun Containment () (Set (Tuple String String)))";
 	}
-	
+
 //	private String declareCVC4TClosure() {
 //		return "(declare-fun UA_tclosure () (Set (Tuple String String)))" + System.lineSeparator()
 //				+ "(declare-fun OA_tclosure () (Set (Tuple String String)))";
@@ -35,7 +35,7 @@ public class CVC4PrepTranslation {
 	private String declareCVC4TClosure() {
 		return "(declare-fun Tclosure () (Set (Tuple String String)))";
 	}
-	
+
 	private String declareCVC4AssociationDatatype() {
 		return "(declare-datatypes ((association 0))" + System.lineSeparator()
 				+ "   (((rec (UA String) (access_rights (Set String)) (AT String)))))";
@@ -48,13 +48,18 @@ public class CVC4PrepTranslation {
 	public String assertTClosures() {
 		return "(assert (= Tclosure (tclosure Containment)))";
 	}
+
+	public String declareSetAssociation() {
+		return "(define-sort SetAssociation () (Set association)) (declare-const setAssociation SetAssociation)";
+	}
+
 	@Override
 	public String toString() {
 
 		return setCVC4LogicAllSupported() + System.lineSeparator() + setCVC4OptionUnsatCores() + System.lineSeparator()
 				+ setCVC4OptionModels() + System.lineSeparator() + setCVC4OptionAssignments() + System.lineSeparator()
 				+ declareCVC4Containment() + System.lineSeparator() + declareCVC4TClosure() + System.lineSeparator()
-				+ declareCVC4AssociationDatatype() + System.lineSeparator();
+				+ declareCVC4AssociationDatatype() + System.lineSeparator() + declareSetAssociation()+ System.lineSeparator();
 	}
 
 }

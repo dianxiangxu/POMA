@@ -3,17 +3,25 @@ package POMA.Mutation.MutationOperators;
 import java.io.File;
 import java.io.IOException;
 
+import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorRAGR extends MutantTester {
-	public void init(String testMethod) throws PMException, IOException {
+	public MutatorRAGR(String testMethod) {
+		super(testMethod);
+	}
+	public void init() throws PMException, IOException {
 		this.mutationMethod = "RAGR";
 		String testResults = "CSV/"+testMethod+"/"+testMethod+"testResultsRAGR.csv";
-		String testSuitePath = "CSV/testSuits/"+testMethod+"testSuite.csv";
+		String testSuitePath = getTestSuitPathByMethod(testMethod);
 //		getGraphLoaded("GPMSPolicies/gpms_testing_config.json");
-		getGraphLoaded("GPMSPolicies/bank_policy_config.json");
+		//getGraphLoaded("GPMSPolicies/bank_policy_config.json");
+	//	getGraphLoaded(initialGraphConfig);
+
+		//readGPMSGraph();
+
 		Node nodeB, nodePc;
 		
 		for (Node nodeA : UAsOAs) {
@@ -24,14 +32,20 @@ public class MutatorRAGR extends MutantTester {
 //					System.out.println("a is "+ua.toString()+"| b is "+ub.toString());
 					continue;
 				}
-				
-				nodePc = GraphUtils.getPcOf(nodeB);
 //				System.out.println("Debug:" + "RAD:" + "a:" + ua.toString() + " || " + "b:" + ub.toString() + " || " + "pc:" + pc.toString());
-				if (nodePc == nodeA) {
+				
+				String pcName = Utils.getPCOf(graph, nodeB.getName());
+				if (pcName.isEmpty()) {
 					System.out.println("PC not found.");
 					continue;
 				}
+				nodePc = graph.getNode(pcName);
+				try {
 				performMutation(nodeA, nodeB, nodePc, testMethod, testSuitePath);
+				}
+				catch (IllegalArgumentException e) {
+					continue;
+				}
 			}
 			
 		}

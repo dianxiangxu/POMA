@@ -14,14 +14,19 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorRARAA extends MutantTester {
 	OperationSet allAccessRightSet;
-	
-	public void init(String testMethod) throws PMException, IOException {
+	public MutatorRARAA(String testMethod) {
+		super(testMethod);
+	}
+	public void init() throws PMException, IOException {
 		this.mutationMethod = "RARAA";
 		String testResults = "CSV/"+testMethod+"/"+testMethod+"testResultsRARAA.csv";
-		String testSuitePath = "CSV/testSuits/"+testMethod+"testSuite.csv";
-		getGraphLoaded("GPMSPolicies/gpms_testing_config.json");
+		String testSuitePath = getTestSuitPathByMethod(testMethod);
+		//getGraphLoaded("GPMSPolicies/gpms_testing_config.json");
 //		getGraphLoaded("GPMSPolicies/bank_policy_config.json");
-		
+	//	getGraphLoaded(initialGraphConfig);
+
+		//readGPMSGraph();
+
 		allAccessRightSet = GraphUtils.getAllAccessRights();
 		if (allAccessRightSet == null)
 			return;

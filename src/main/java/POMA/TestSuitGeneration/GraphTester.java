@@ -1,4 +1,4 @@
-package POMA.LegacyTestingProject.GraphTester;
+package POMA.TestSuitGeneration;
 
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -18,6 +18,9 @@ import org.apache.commons.io.FileUtils;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+
+import POMA.LegacyTestingProject.GraphTester.GraphTesterReachability;
+import POMA.LegacyTestingProject.GraphTester.GraphTesterReachabilitySneakpath;
 
 import java.io.*;
 import java.net.URL;
@@ -50,22 +53,23 @@ public class GraphTester {
 		 * 
 		 * graphTester.saveCSV(data); graphTester.COUNTER++; }
 		 */
-		GraphTesterReachabilitySneakpath gt1 = new GraphTesterReachabilitySneakpath();
-		List<String[]> data1 = gt1.testGraphPC();
-		graphTester.saveCSV(data1, "RS");
-
-		GraphTesterReachability gt2 = new GraphTesterReachability();
-		List<String[]> data2 = gt2.testGraphPC();
-		graphTester.saveCSV(data2, "R");
-
-		GraphTesterPairwiseNoPath gt3 = new GraphTesterPairwiseNoPath();
+//		GraphTesterReachabilitySneakpath gt1 = new GraphTesterReachabilitySneakpath();
+//		List<String[]> data1 = gt1.testGraphPC();
+//		graphTester.saveCSV(data1, "RS");
+//
+//		GraphTesterReachability gt2 = new GraphTesterReachability();
+//		List<String[]> data2 = gt2.testGraphPC();
+//		graphTester.saveCSV(data2, "R");
+		
+		
+		String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
+		//String simpleGraphPath = "GPMSPolicies/bank_policy_config.json";
+		GraphTesterPairwise gt3 = new GraphTesterPairwise();
 		List<String[]> data3 = gt3.testGraphPairwisePC();
-		graphTester.saveCSV(data3, "PNP");
-		GraphTesterPairwisePath gt4 = new GraphTesterPairwisePath();
-		List<String[]> data4 = gt4.testGraphPairwisePC();
-		graphTester.saveCSV(data4, "PP");
+		graphTester.saveCSV(data3, "P");
 
-		savePolicy(gt1.getGraph(),"GPMSPolicies/gpms_testing_config.json");
+
+		//savePolicy(gt1.getGraph(),"GPMSPolicies/gpms_testing_config.json");
 		/*
 		 * File folder = new File("C:/Users/dubro/git/GPMS-NGAC/CSV/RS"); int i = 0; for
 		 * (final File fileEntry1 : folder.listFiles()) { if (i == 0) { i++; continue; }

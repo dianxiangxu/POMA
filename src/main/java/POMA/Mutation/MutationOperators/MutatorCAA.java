@@ -3,19 +3,28 @@ package POMA.Mutation.MutationOperators;
 import java.io.File;
 import java.io.IOException;
 
+import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorCAA extends MutantTester {
-	public void init(String testMethod) throws PMException, IOException {
+	public MutatorCAA(String testMethod) {
+		super(testMethod);
+	}
+
+	public void init() throws PMException, IOException {
 		this.mutationMethod = "CAA";
-		String testResults = "CSV/"+testMethod+"/"+testMethod+"testResultsCAA.csv";
-		String testSuitePath = "CSV/testSuits/"+testMethod+"testSuite.csv";
+		String testResults = "CSV/" + testMethod + "/" + testMethod + "testResultsCAA.csv";
+		String testSuitePath = getTestSuitPathByMethod(testMethod);
 //		getGraphLoaded("GPMSPolicies/gpms_testing_config.json");
-		getGraphLoaded("GPMSPolicies/bank_policy_config.json");
+		// getGraphLoaded("GPMSPolicies/bank_policy_config.json");
+		// getGraphLoaded(initialGraphConfig);
+
+		// readGPMSGraph();
+
 		Node nodeB, nodePc;
-		
+
 		for (Node nodeA : UAsOAs) {
 			for (String obName : graph.getParents(nodeA.getName())) {
 				nodeB = graph.getNode(obName);
@@ -24,7 +33,12 @@ public class MutatorCAA extends MutantTester {
 //					System.out.println("a is "+ua.toString()+"| b is "+ub.toString());
 					continue;
 				}
-				nodePc = GraphUtils.getPcOf(nodeB);
+				String pcName = Utils.getPCOf(graph, nodeB.getName());
+				if (pcName.isEmpty()) {
+					System.out.println("PC not found.");
+					continue;
+				}
+				nodePc = graph.getNode(pcName);
 				for (Node nodeC : UAsOAs) {
 					if (nodeC.getType() != nodeA.getType()) {
 						continue;
@@ -33,7 +47,7 @@ public class MutatorCAA extends MutantTester {
 						continue;
 					}
 					if (graph.isAssigned(nodeC.getName(), nodeB.getName())) {
-						//assignment <c,b> already exists
+						// assignment <c,b> already exists
 						continue;
 					}
 					if (GraphUtils.isContained(nodeB, nodeC)) {
@@ -42,48 +56,47 @@ public class MutatorCAA extends MutantTester {
 					if (graph.isAssigned(nodeA.getName(), nodeC.getName())) {
 						continue;
 					}
-					performMutation(nodeA, nodeB, nodeC, nodePc, testMethod, testSuitePath);
+					try {
+						performMutation(nodeA, nodeB, nodeC, nodePc, testMethod, testSuitePath);
+					} catch (IllegalArgumentException e) {
+						continue;
+					}
 				}
 			}
-			
+
 		}
 		saveCSV(data, new File(testResults), testMethod);
-		
 
 	}
 
-	private void performMutation(Node nodeA, Node nodeB, Node nodeC, Node nodePc, String testMethod, String testSuitePath) throws PMException, IOException {
+	private void performMutation(Node nodeA, Node nodeB, Node nodeC, Node nodePc, String testMethod,
+			String testSuitePath) throws PMException, IOException {
 		File testSuite = new File(testSuitePath);
 		double before, after;
-		
-		try {
-			Graph mutant = createCopy();
-			
-			mutant = changeAssignmentDescendent(mutant, nodeA, nodeB, nodeC);
-			
-			//if a cycle, here will throw e, below will not be conducted
 
-			if (GraphUtils.isContained(nodeA, nodePc) != true) {
-				//add assignment if node a is not PC-connected
-				mutant.assign(nodeA.getName(), nodePc.getName());
-			}
-			
-			before = getNumberOfKilledMutants();
-			testMutant(mutant, testSuite,testMethod , getNumberOfMutants(), mutationMethod);
-			after = getNumberOfKilledMutants();
-			
-			if (before == after)
-				System.out.println("Unkilled mutant:" + "CAA:" + "a:" + nodeA.toString() + " || " + "b:" + nodeB.toString() + " || " + "c:" + nodeC.toString());
-			setNumberOfMutants(getNumberOfMutants() + 1);
+		Graph mutant = createCopy();
+
+		mutant = changeAssignmentDescendent(mutant, nodeA, nodeB, nodeC);
+
+		// if a cycle, here will throw e, below will not be conducted
+
+		if (GraphUtils.isContained(nodeA, nodePc) != true) {
+			// add assignment if node a is not PC-connected
+			mutant.assign(nodeA.getName(), nodePc.getName());
 		}
-		catch (PMException e) {
-			//throw an error when detecting cycle after reverse assignment
-			e.printStackTrace();
-			System.out.println("CAD_" + nodeA.toString() + "_" + nodeB.toString() + "_" + nodeC.toString());
-		}
+
+		before = getNumberOfKilledMutants();
+		testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
+		after = getNumberOfKilledMutants();
+
+		if (before == after)
+			System.out.println("Unkilled mutant:" + "CAA:" + "a:" + nodeA.toString() + " || " + "b:" + nodeB.toString()
+					+ " || " + "c:" + nodeC.toString());
+		setNumberOfMutants(getNumberOfMutants() + 1);
 	}
 
-	private Graph changeAssignmentDescendent(Graph mutant, Node nodeA, Node nodeB, Node nodeC) throws PMException, IOException {
+	private Graph changeAssignmentDescendent(Graph mutant, Node nodeA, Node nodeB, Node nodeC)
+			throws PMException, IOException {
 		mutant.deassign(nodeA.getName(), nodeB.getName());
 		mutant.assign(nodeC.getName(), nodeB.getName());
 		return mutant;

@@ -21,6 +21,9 @@ import java.util.Set;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
+import POMA.Exceptions.NoTypeProvidedException;
+import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pdp.decider.PReviewDecider;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -28,7 +31,7 @@ import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
-abstract class MutantTester {
+public class MutantTester {
 	String mutationMethod = "";
 	private double numberOfKilledMutants = 0;
 	private int numberOfMutants = 0;
@@ -37,13 +40,32 @@ abstract class MutantTester {
 	List<String[]> data = new ArrayList<String[]>();
 	List<Node> OAs;
 	public static Graph graph;
-	
+	String testMethod;
+	// public String initialGraphConfig = "GPMSPolicies/SimpleGraphToSMT.json";
+	public String initialGraphConfig = "GPMSPolicies/bank_policy_config.json";
 
-	public String initialGraphConfig = "GPMSPolicies/gpms_testing_config.json";
 	static List<Node> UAs;
 	static List<Node> UAsOAs;
 	static List<Node> UAsPCs;
 	static List<Node> UAsPCsOAs;
+
+	public MutantTester(String testMethod) {
+		this.testMethod = testMethod;
+		try {
+			graph = Utils.readGPMSGraph();// .readAnyGraph(initialGraphConfig);
+			if (!Utils.verifyTestSuitIsForGraph(graph, getTestSuitPathByMethod(testMethod))) {
+				throw new GraphDoesNotMatchTestSuitException("Please verify that the testing suit is for this graph");
+			}
+			getGraphLoaded();
+
+		} catch (PMException | IOException e) {
+			e.printStackTrace();
+		} catch (GraphDoesNotMatchTestSuitException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
 	public void testMutant(Graph mutant, File testSuiteCSV, String testMethod, int mutantNumber, String mutationMethod)
 			throws PMException, IOException {
 
@@ -67,15 +89,15 @@ abstract class MutantTester {
 
 		for (String[] sArray : testSuite) {
 
-			String UAname = sArray[2];
-			String OAname = sArray[3];
+			String UAname = sArray[1];
+			String OAname = sArray[2];
 			if (UAname == null || OAname == null || !mutant.exists(UAname) || !mutant.exists(OAname)) {
 				mutantTest[counter] = "Fail";
 				counter++;
 				continue;
 			}
-			String[] AR = { sArray[4] };
-			Boolean result = Boolean.parseBoolean(sArray[5]);
+			String[] AR = { sArray[3] };
+			Boolean result = Boolean.parseBoolean(sArray[4]);
 			if (decider.check(UAname, "", OAname, AR) != result) {
 				mutantTest[counter] = "Fail";
 			} else {
@@ -95,10 +117,6 @@ abstract class MutantTester {
 
 	}
 
-	
-	
-	
-
 	public double calculateMutationScore(double numberOfMutations, double numberOfKilledMutants) {
 		return (numberOfKilledMutants / numberOfMutations * 100);
 	}
@@ -113,14 +131,15 @@ abstract class MutantTester {
 		return csvList;
 	}
 
-	public void saveCSV(List<String[]> data, File directoryForTestResults, String testMethod) throws PMException, IOException {
+	public void saveCSV(List<String[]> data, File directoryForTestResults, String testMethod)
+			throws PMException, IOException {
 		boolean bool = true;
 		String folderCSV = "CSV";
 		File file = new File(folderCSV);
 		if (!file.exists()) {
 			bool = file.mkdir();
 		}
-		String folderTests = "CSV/"+testMethod;
+		String folderTests = "CSV/" + testMethod;
 		File file2 = new File(folderTests);
 		if (!file2.exists() && bool) {
 			bool = file2.mkdir();
@@ -179,11 +198,37 @@ abstract class MutantTester {
 		}
 		getUAsInGraph();
 		if (UAs.size() == 0) {
-			System.out.println("No OAs found");
+			System.out.println("No UAs found");
 			return;
 		}
 		loadAssociations();
-		
+
+		getUAsPCsInGraph();
+		if (UAsPCs.size() == 0) {
+			System.out.println("No UAs and PCs found");
+			return;
+		}
+		getUAsPCsOAsInGraph();
+		if (UAsPCsOAs.size() == 0) {
+			System.out.println("No UAs, PCs, and OAs found");
+			return;
+		}
+		getUAsOAsInGraph();
+	}
+
+	public void getGraphLoaded() throws PMException, IOException {
+		getOAsInGraph();
+		if (OAs.size() == 0) {
+			System.out.println("No OAs found");
+			return;
+		}
+		getUAsInGraph();
+		if (UAs.size() == 0) {
+			System.out.println("No UAs found");
+			return;
+		}
+		loadAssociations();
+
 		getUAsPCsInGraph();
 		if (UAsPCs.size() == 0) {
 			System.out.println("No UAs and PCs found");
@@ -208,39 +253,43 @@ abstract class MutantTester {
 		}
 
 	}
+
 	private void getUAsOAsInGraph() throws PMException {
 		UAsOAs = new ArrayList<Node>();
 
 		Node[] nodes = graph.getNodes().toArray(new Node[graph.getNodes().size()]);
 		for (Node node : nodes) {
-			if (node.getType() == UA||node.getType() == OA) {
+			if (node.getType() == UA || node.getType() == OA) {
 				UAsOAs.add(node);
 			}
 		}
 
 	}
+
 	private void getUAsPCsInGraph() throws PMException {
 		UAsPCs = new ArrayList<Node>();
 
 		Node[] nodes = graph.getNodes().toArray(new Node[graph.getNodes().size()]);
 		for (Node node : nodes) {
-			if (node.getType() == UA||node.getType() == PC) {
+			if (node.getType() == UA || node.getType() == PC) {
 				UAsPCs.add(node);
 			}
 		}
 
 	}
+
 	private void getUAsPCsOAsInGraph() throws PMException {
 		UAsPCsOAs = new ArrayList<Node>();
 
 		Node[] nodes = graph.getNodes().toArray(new Node[graph.getNodes().size()]);
 		for (Node node : nodes) {
-			if (node.getType() == UA||node.getType() == PC|| node.getType() == OA) {
+			if (node.getType() == UA || node.getType() == PC || node.getType() == OA) {
 				UAsPCsOAs.add(node);
 			}
 		}
 
 	}
+
 	public double getNumberOfKilledMutants() {
 		return numberOfKilledMutants;
 	}
@@ -252,37 +301,90 @@ abstract class MutantTester {
 	public void setNumberOfKilledMutants(double numberOfKilledMutants) {
 		this.numberOfKilledMutants = numberOfKilledMutants;
 	}
+
 	public void setNumberOfMutants(int numberOfMutants) {
 		this.numberOfMutants = numberOfMutants;
 	}
+
 	private void loadAssociations() throws PMException {
 		Map<String, Set<String>> associations = new HashMap<String, Set<String>>();
 		for (Node oa : OAs) {
-			if (graph.getTargetAssociations(oa.getName()) != null)
-			{
+			if (graph.getTargetAssociations(oa.getName()) != null) {
 				associations.putAll(graph.getTargetAssociations(oa.getName()));
 			}
 			List<String> list = new ArrayList<String>(associations.keySet());
-			
+
 			for (int i = 0; i < list.size(); i++) {
 				String objectID = list.get(i);
 				Node obj = graph.getNode(objectID);
-				
-				if(!operations.contains(associations.get(objectID))){
+
+				if (!operations.contains(associations.get(objectID))) {
 					operations.add(associations.get(objectID));
 				}
-				//graph.dissociate(objectID, oa.getID());
+				// graph.dissociate(objectID, oa.getID());
 			}
 		}
 	}
+
 	public Graph createCopy() throws PMException {
 		Graph mutant = new MemGraph();
 		String json = GraphSerializer.toJson(graph);
-		
+
 		GraphSerializer.fromJson(mutant, json);
 		return mutant;
 	}
-	public String getMutationMethod () {
+
+	public String getMutationMethod() {
 		return mutationMethod;
+	}
+
+	public void readGPMSGraph() throws PMException, IOException {
+		File file_eligibility_policy = new File("GPMSPolicies/EligibilityPolicyClass.json");
+		File file_org = new File("GPMSPolicies/AcademicUnitsPolicyClass.json");
+		File file_adm = new File("GPMSPolicies/AdministrationUnitsPolicyClass.json");
+
+		File editingFile = new File("GPMSPolicies/EditingPolicyClass.json");
+
+		String eligibility_policy = new String(
+				Files.readAllBytes(Paths.get(file_eligibility_policy.getAbsolutePath())));
+
+		String org_policy = new String(Files.readAllBytes(Paths.get(file_org.getAbsolutePath())));
+		String adm_policy = new String(Files.readAllBytes(Paths.get(file_adm.getAbsolutePath())));
+		String editing_policy = new String(Files.readAllBytes(Paths.get(editingFile.getAbsolutePath())));
+		graph = new MemGraph();
+
+		GraphSerializer.fromJson(graph, eligibility_policy);
+
+		GraphSerializer.fromJson(graph, org_policy);
+		GraphSerializer.fromJson(graph, adm_policy);
+
+		GraphSerializer.fromJson(graph, editing_policy);
+		getOAsInGraph();
+		if (OAs.size() == 0) {
+			System.out.println("No OAs found");
+			return;
+		}
+		getUAsInGraph();
+		if (UAs.size() == 0) {
+			System.out.println("No OAs found");
+			return;
+		}
+		loadAssociations();
+
+		getUAsPCsInGraph();
+		if (UAsPCs.size() == 0) {
+			System.out.println("No UAs and PCs found");
+			return;
+		}
+		getUAsPCsOAsInGraph();
+		if (UAsPCsOAs.size() == 0) {
+			System.out.println("No UAs, PCs, and OAs found");
+			return;
+		}
+		getUAsOAsInGraph();
+	}
+
+	public String getTestSuitPathByMethod(String testMethod) {
+		return "CSV/testSuits/" + testMethod + "testSuite.csv";
 	}
 }

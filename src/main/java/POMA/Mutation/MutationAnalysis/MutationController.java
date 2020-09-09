@@ -21,7 +21,10 @@ import POMA.Mutation.MutationOperators.MutatorRAD;
 import POMA.Mutation.MutationOperators.MutatorRAGR;
 import POMA.Mutation.MutationOperators.MutatorRARA;
 import POMA.Mutation.MutationOperators.MutatorRARAA;
+import POMA.TestSuitGeneration.Utils;
+import POMA.Mutation.MutationOperators.*;
 import gov.nist.csd.pm.exceptions.PMException;
+import gov.nist.csd.pm.pip.graph.*;
 
 public class MutationController {
 	List<String> testMethods;
@@ -31,33 +34,35 @@ public class MutationController {
 	int totalNumberOfKilledMutantsForTest = 0;
 	List<String[]> data = new ArrayList<String[]>();
 	String[] row;
-	String CSVFilePath = "CSV/OverallMutationResults2.csv";
+	String CSVFilePath = "CSV/OverallMutationResults.csv";
 	static int rowCount = 20;
-
+	Graph graph;
+	
 	public static void main(String[] args) throws PMException, IOException {
 		MutationController mc = new MutationController();
 		File CSV = new File(mc.CSVFilePath);
+		
+		
+		//for (String testMethod : mc.testMethods) {
+		long startTime = System.currentTimeMillis();
 
-		mc.createTestMethods();
-		mc.createHeaderForCSV();
-		for (String testMethod : mc.testMethods) {
 			String[] row=new String[rowCount];
 			mc.totalNumberOfMutantsForTest = 0;
 			mc.totalNumberOfKilledMutantsForTest = 0;
-			double resultRAD = mc.testRAD(testMethod);
-			double resultCAD = mc.testCAD(testMethod);
-			double resultCAA = mc.testCAA(testMethod);
-			double resultRAGR = mc.testRAGR(testMethod);
-			double resultAAGR = mc.testAAGR(testMethod);
-			double resultCUAA = mc.testCUAA(testMethod);
-			double resultCOAA = mc.testCOAA(testMethod);
-			double resultRARA = mc.testRARA(testMethod);
-			double resultAARA = mc.testAARA(testMethod);
-			double resultRACR = mc.testRACR(testMethod);
-			double resultAACR = mc.testAACR(testMethod);
-			double resultRARAA = mc.testRARAA(testMethod);
+			double resultRAD = mc.testRAD("P");
+			double resultCAD = mc.testCAD("P");
+			double resultCAA = mc.testCAA("P");
+			double resultRAGR = mc.testRAGR("P");
+			double resultAAGR = mc.testAAGR("P");
+			double resultCUAA = mc.testCUAA("P");
+			double resultCOAA = mc.testCOAA("P");
+			double resultRARA = mc.testRARA("P");
+			double resultAARA = mc.testAARA("P");
+			double resultRACR = mc.testRACR("P");
+			double resultAACR = mc.testAACR("P");
+			double resultRARAA = mc.testRARAA("P");
 
-			row[0] = testMethod;
+			row[0] = "P";
 			row[1] = Double.toString(resultRAD);
 			row[2] = Double.toString(resultCAD);
 			row[3] = Double.toString(resultCAA);
@@ -72,14 +77,29 @@ public class MutationController {
 			row[12] = Double.toString(resultRARAA);
 			row[13] = Double.toString((double)mc.totalNumberOfKilledMutantsForTest/(double)mc.totalNumberOfMutantsForTest*100);
 			mc.data.add(row);
-		}
+		//}
 		mc.saveCSV(mc.data, CSV);
+		
+		long endTime = System.currentTimeMillis();
+		long timeElapsed = endTime - startTime;
+		long minutes = (timeElapsed / 1000)  / 60;
+		int seconds = (int)((timeElapsed / 1000) % 60);
+		System.out.println("Execution time in milliseconds: " + timeElapsed);
+		System.out.println("Execution time in min and sec: " + minutes + ":" + seconds);
+
 	}
 
+	public MutationController() {
+		createTestMethods();
+		createHeaderForCSV();
+	}
+	
 	private double testRAD(String testMethod) {
-		MutatorRAD mutatorRAD = new MutatorRAD();
+		MutatorRAD mutatorRAD = new MutatorRAD(testMethod);
+		System.out.println("MutationMethod is RAD");
+
 		try {
-			mutatorRAD.init(testMethod);
+			mutatorRAD.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -88,7 +108,6 @@ public class MutationController {
 		double mutationScore = mutatorRAD.calculateMutationScore(mutatorRAD.getNumberOfMutants(),
 				mutatorRAD.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("MutationMethod is " + mutatorRAD.getMutationMethod());
 		System.out.println("Number of mutations: " + mutatorRAD.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorRAD.getNumberOfKilledMutants());
 
@@ -100,9 +119,11 @@ public class MutationController {
 	}
 
 	private double testCAD(String testMethod) {
-		MutatorCAD mutatorCAD = new MutatorCAD();
+		MutatorCAD mutatorCAD = new MutatorCAD(testMethod);
+		System.out.println("MutationMethod is CAD");
+
 		try {
-			mutatorCAD.init(testMethod);
+			mutatorCAD.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -111,7 +132,6 @@ public class MutationController {
 		double mutationScore = mutatorCAD.calculateMutationScore(mutatorCAD.getNumberOfMutants(),
 				mutatorCAD.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("MutationMethod is " + mutatorCAD.getMutationMethod());
 		System.out.println("Number of mutations: " + mutatorCAD.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorCAD.getNumberOfKilledMutants());
 
@@ -123,9 +143,11 @@ public class MutationController {
 	}
 	
 	private double testCAA(String testMethod) {
-		MutatorCAA mutatorCAA = new MutatorCAA();
+		MutatorCAA mutatorCAA = new MutatorCAA(testMethod);
+		System.out.println("MutationMethod is CAA");
+
 		try {
-			mutatorCAA.init(testMethod);
+			mutatorCAA.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -134,7 +156,6 @@ public class MutationController {
 		double mutationScore = mutatorCAA.calculateMutationScore(mutatorCAA.getNumberOfMutants(),
 				mutatorCAA.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("MutationMethod is " + mutatorCAA.getMutationMethod());
 		System.out.println("Number of mutations: " + mutatorCAA.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorCAA.getNumberOfKilledMutants());
 
@@ -146,9 +167,11 @@ public class MutationController {
 	}
 	
 	private double testRAGR(String testMethod) {
-		MutatorRAGR mutatorRAGR = new MutatorRAGR();
+		MutatorRAGR mutatorRAGR = new MutatorRAGR(testMethod);
+		System.out.println("MutationMethod is RAGR");
+
 		try {
-			mutatorRAGR.init(testMethod);
+			mutatorRAGR.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -157,7 +180,6 @@ public class MutationController {
 		double mutationScore = mutatorRAGR.calculateMutationScore(mutatorRAGR.getNumberOfMutants(),
 				mutatorRAGR.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("MutationMethod is " + mutatorRAGR.getMutationMethod());
 		System.out.println("Number of mutations: " + mutatorRAGR.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorRAGR.getNumberOfKilledMutants());
 
@@ -169,9 +191,11 @@ public class MutationController {
 	}
 	
 	private double testAAGR(String testMethod) {
-		MutatorAAGR mutatorAAGR = new MutatorAAGR();
+		MutatorAAGR mutatorAAGR = new MutatorAAGR(testMethod);
+		System.out.println("MutationMethod is AAGR");
+
 		try {
-			mutatorAAGR.init(testMethod);
+			mutatorAAGR.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -180,7 +204,6 @@ public class MutationController {
 		double mutationScore = mutatorAAGR.calculateMutationScore(mutatorAAGR.getNumberOfMutants(),
 				mutatorAAGR.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("MutationMethod is " + mutatorAAGR.getMutationMethod());
 		System.out.println("Number of mutations: " + mutatorAAGR.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorAAGR.getNumberOfKilledMutants());
 
@@ -192,9 +215,11 @@ public class MutationController {
 	}
 	
 	private double testCUAA(String testMethod) {
-		MutatorCUAA mutatorCUAA = new MutatorCUAA();
+		MutatorCUAA mutatorCUAA = new MutatorCUAA(testMethod);
+		System.out.println("MutationMethod is CUAA");
+
 		try {
-			mutatorCUAA.init(testMethod);
+			mutatorCUAA.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -203,7 +228,6 @@ public class MutationController {
 		double mutationScore = mutatorCUAA.calculateMutationScore(mutatorCUAA.getNumberOfMutants(),
 				mutatorCUAA.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("MutationMethod is " + mutatorCUAA.getMutationMethod());
 		System.out.println("Number of mutations: " + mutatorCUAA.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorCUAA.getNumberOfKilledMutants());
 
@@ -215,9 +239,11 @@ public class MutationController {
 	}
 	
 	private double testCOAA(String testMethod) {
-		MutatorCOAA mutatorCOAA = new MutatorCOAA();
+		MutatorCOAA mutatorCOAA = new MutatorCOAA(testMethod);
+		System.out.println("MutationMethod is COAA");
+
 		try {
-			mutatorCOAA.init(testMethod);
+			mutatorCOAA.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -226,7 +252,6 @@ public class MutationController {
 		double mutationScore = mutatorCOAA.calculateMutationScore(mutatorCOAA.getNumberOfMutants(),
 				mutatorCOAA.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("MutationMethod is " + mutatorCOAA.getMutationMethod());
 		System.out.println("Number of mutations: " + mutatorCOAA.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorCOAA.getNumberOfKilledMutants());
 
@@ -238,9 +263,11 @@ public class MutationController {
 	}
 
 	private double testRARA(String testMethod) {
-		MutatorRARA mutatorRARA = new MutatorRARA();
+		MutatorRARA mutatorRARA = new MutatorRARA(testMethod);
+		System.out.println("MutationMethod is RARA" + mutatorRARA.getMutationMethod());
+
 		try {
-			mutatorRARA.init(testMethod);
+			mutatorRARA.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -249,7 +276,6 @@ public class MutationController {
 		double mutationScore = mutatorRARA.calculateMutationScore(mutatorRARA.getNumberOfMutants(),
 				mutatorRARA.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("MutationMethod is " + mutatorRARA.getMutationMethod());
 		System.out.println("Number of mutations: " + mutatorRARA.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorRARA.getNumberOfKilledMutants());
 
@@ -261,9 +287,11 @@ public class MutationController {
 	}
 	
 	private double testAARA(String testMethod) {
-		MutatorAARA mutatorAARA = new MutatorAARA();
+		MutatorAARA mutatorAARA = new MutatorAARA(testMethod);
+		System.out.println("MutationMethod is AARA");
+
 		try {
-			mutatorAARA.init(testMethod);
+			mutatorAARA.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -272,7 +300,6 @@ public class MutationController {
 		double mutationScore = mutatorAARA.calculateMutationScore(mutatorAARA.getNumberOfMutants(),
 				mutatorAARA.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("MutationMethod is " + mutatorAARA.getMutationMethod());
 		System.out.println("Number of mutations: " + mutatorAARA.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorAARA.getNumberOfKilledMutants());
 
@@ -284,9 +311,11 @@ public class MutationController {
 	}
 
 	private double testRACR(String testMethod) {
-		MutatorRACR mutatorRACR = new MutatorRACR();
+		MutatorRACR mutatorRACR = new MutatorRACR(testMethod);
+		System.out.println("MutationMethod is RACR");
+
 		try {
-			mutatorRACR.init(testMethod);
+			mutatorRACR.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -295,7 +324,6 @@ public class MutationController {
 		double mutationScore = mutatorRACR.calculateMutationScore(mutatorRACR.getNumberOfMutants(),
 				mutatorRACR.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("MutationMethod is " + mutatorRACR.getMutationMethod());
 		System.out.println("Number of mutations: " + mutatorRACR.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorRACR.getNumberOfKilledMutants());
 
@@ -307,9 +335,11 @@ public class MutationController {
 	}
 	
 	private double testAACR(String testMethod) {
-		MutatorAACR mutatorAACR = new MutatorAACR();
+		MutatorAACR mutatorAACR = new MutatorAACR(testMethod);
+		System.out.println("MutationMethod is AACR");
+
 		try {
-			mutatorAACR.init(testMethod);
+			mutatorAACR.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -318,7 +348,6 @@ public class MutationController {
 		double mutationScore = mutatorAACR.calculateMutationScore(mutatorAACR.getNumberOfMutants(),
 				mutatorAACR.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("MutationMethod is " + mutatorAACR.getMutationMethod());
 		System.out.println("Number of mutations: " + mutatorAACR.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorAACR.getNumberOfKilledMutants());
 
@@ -330,9 +359,11 @@ public class MutationController {
 	}
 	
 	private double testRARAA(String testMethod) {
-		MutatorRARAA mutatorRARAA = new MutatorRARAA();
+		MutatorRARAA mutatorRARAA = new MutatorRARAA(testMethod);
+		System.out.println("MutationMethod is RARAA");
+
 		try {
-			mutatorRARAA.init(testMethod);
+			mutatorRARAA.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -341,7 +372,6 @@ public class MutationController {
 		double mutationScore = mutatorRARAA.calculateMutationScore(mutatorRARAA.getNumberOfMutants(),
 				mutatorRARAA.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("MutationMethod is " + mutatorRARAA.getMutationMethod());
 		System.out.println("Number of mutations: " + mutatorRARAA.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorRARAA.getNumberOfKilledMutants());
 
@@ -356,7 +386,7 @@ public class MutationController {
 		testMethods = new ArrayList<String>();
 //		testMethods.add("RS");
 //		testMethods.add("R");
-		testMethods.add("PNP");
+		testMethods.add("P");
 //		testMethods.add("PP");
 
 

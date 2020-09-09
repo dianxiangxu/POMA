@@ -85,6 +85,13 @@ public class AssociationRelation {
 				+ ") (= (AT " + name + ") \"" + AT + "\")))";
 	}
 
+	private String addAssociationToSetCVC4Assertion() {
+		return "(assert (member " + name + " setAssociation))";
+	}
+	
+	public static String setCardSetAssociationSetCVC4Assertion(int cardinality) {
+		return "(assert (= "+cardinality+" (card setAssociation)))";
+	}
 	@Override
 	public String toString() {
 
@@ -92,6 +99,6 @@ public class AssociationRelation {
 				+ getOSSizeCVC4Assertion() + System.lineSeparator() + getOSCVC4AssertionsMembership()
 				+ System.lineSeparator() + getOSCVC4AssertionCardinality() + System.lineSeparator()
 				+ getAssociationCVC4Def() + System.lineSeparator() + getAssociationCVC4Assertion()
-				+ System.lineSeparator();
+				+ System.lineSeparator() + addAssociationToSetCVC4Assertion() +System.lineSeparator() ;
 	}
 }

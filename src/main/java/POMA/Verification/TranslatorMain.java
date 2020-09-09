@@ -43,608 +43,131 @@ import org.jgrapht.graph.*;
 
 import javax.swing.*;
 import java.awt.*;
+
 public class TranslatorMain {
 	MemGraph graph;
+
 	public static void main(String[] args) throws PMException, IOException {
-		
-		
-		
-		String simpleGraphPath = "Graphs/simpleGraph.json";
-		String translatedGraphResultPath = "SMTLIB2Input/tclosureTranslatedGraph.smt2";
+
+		 String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
+		String translatedGraphResultPath = "SMTLIBv2Files/SMTLIB2Input/tclosureTranslatedGraph.smt2";
 		SimpleTestGraph simpleTestGraph = new SimpleTestGraph();
 		TranslatorMain applet = new TranslatorMain();
-		//applet.graph = simpleTestGraph.readAnyGraph("Graphs/NGACExample1.json");
+		// applet.graph = simpleTestGraph.readAnyGraph("Graphs/NGACExample1.json");
 		applet.graph = simpleTestGraph.buildSimpleGraph();
 
+		 saveDataToFile(GraphSerializer.toJson(applet.graph), simpleGraphPath);
+		// saveDataToFile(GraphSerializer.toJson(graph), "Graphs/NGACExample1.json");
+		CVC4Translator translator = new CVC4Translator(applet.graph);
+		translator.initTranslation();
 
-		
-		
-		
-		
-		
-		//saveDataToFile(GraphSerializer.toJson(applet.graph), simpleGraphPath);
-		//saveDataToFile(GraphSerializer.toJson(graph), "Graphs/NGACExample1.json");
-		//CVC4Translator translator = new CVC4Translator(applet.graph);
-		//translator.initTranslation();
-
-//		saveDataToFile(translator.getTranslatedGraph()+"(declare-const access_to_check1 String)\r\n" + 
-//				"(declare-const access_to_check2 String)\r\n" + 
-//				"(declare-const access_to_check3 String)\r\n" + 
-//				"(declare-const access_to_check4 String)\r\n" + 
-//				"\r\n" + 
-//				"(assert (= \"r\"  access_to_check1))\r\n" + 
-//				"(assert (= \"x\"  access_to_check2))\r\n" + 
-//				"(assert (= \"w\"  access_to_check3))\r\n" + 
-//				"(assert (= \"add\"  access_to_check4))\r\n" + 
-//				"\r\n" + 
-//				";----------------------------------------------------------------------------------------------------------------------------------------------------------------\r\n" + 
-//				";Access Rights U1 has on O1\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(declare-const output String)\r\n" + 
-//				"(assert (= \"Access Rights U1 has on O1--------------------------------------------------------\" output))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-value (output))\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"; Access Right r check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua2_oa2)) Tclosure) (member access_to_check1 (access_rights ua2_oa2)) (member (mkTuple \"O1\" (AT ua2_oa2)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_oa1)) Tclosure) (member access_to_check1 (access_rights ua1_oa1)) (member (mkTuple \"O1\" (AT ua1_oa1)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_ua3)) Tclosure) (member access_to_check1 (access_rights ua1_ua3)) (member (mkTuple \"O1\" (AT ua1_ua3)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"; Access Right x check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua2_oa2)) Tclosure) (member access_to_check2 (access_rights ua2_oa2)) (member (mkTuple \"O1\" (AT ua2_oa2)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_oa1)) Tclosure) (member access_to_check2 (access_rights ua1_oa1)) (member (mkTuple \"O1\" (AT ua1_oa1)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_ua3)) Tclosure) (member access_to_check2 (access_rights ua1_ua3)) (member (mkTuple \"O1\" (AT ua1_ua3)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"; Access Right w check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua2_oa2)) Tclosure) (member access_to_check3 (access_rights ua2_oa2)) (member (mkTuple \"O1\" (AT ua2_oa2)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_oa1)) Tclosure) (member access_to_check3 (access_rights ua1_oa1)) (member (mkTuple \"O1\" (AT ua1_oa1)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_ua3)) Tclosure) (member access_to_check3 (access_rights ua1_ua3)) (member (mkTuple \"O1\" (AT ua1_ua3)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"; Access Right add check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua2_oa2)) Tclosure) (member access_to_check4 (access_rights ua2_oa2)) (member (mkTuple \"O1\" (AT ua2_oa2)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_oa1)) Tclosure) (member access_to_check4 (access_rights ua1_oa1)) (member (mkTuple \"O1\" (AT ua1_oa1)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_ua3)) Tclosure) (member access_to_check4 (access_rights ua1_ua3)) (member (mkTuple \"O1\" (AT ua1_ua3)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				";----------------------------------------------------------------------------------------------------------------------------------------------------------------\r\n" + 
-//				"\r\n" + 
-//				";Access Rights U1 has on O2\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(declare-const output String)\r\n" + 
-//				"(assert (= \"Access Rights U1 has on O2--------------------------------------------------------\" output))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-value (output))\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"; Access Right r check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua2_oa2)) Tclosure) (member access_to_check1 (access_rights ua2_oa2)) (member (mkTuple \"O2\" (AT ua2_oa2)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_oa1)) Tclosure) (member access_to_check1 (access_rights ua1_oa1)) (member (mkTuple \"O2\" (AT ua1_oa1)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_ua3)) Tclosure) (member access_to_check1 (access_rights ua1_ua3)) (member (mkTuple \"O2\" (AT ua1_ua3)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"; Access Right x check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua2_oa2)) Tclosure) (member access_to_check2 (access_rights ua2_oa2)) (member (mkTuple \"O2\" (AT ua2_oa2)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_oa1)) Tclosure) (member access_to_check2 (access_rights ua1_oa1)) (member (mkTuple \"O2\" (AT ua1_oa1)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_ua3)) Tclosure) (member access_to_check2 (access_rights ua1_ua3)) (member (mkTuple \"O2\" (AT ua1_ua3)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"; Access Right w check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua2_oa2)) Tclosure) (member access_to_check3 (access_rights ua2_oa2)) (member (mkTuple \"O2\" (AT ua2_oa2)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_oa1)) Tclosure) (member access_to_check3 (access_rights ua1_oa1)) (member (mkTuple \"O2\" (AT ua1_oa1)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_ua3)) Tclosure) (member access_to_check3 (access_rights ua1_ua3)) (member (mkTuple \"O2\" (AT ua1_ua3)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"; Access Right add check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua2_oa2)) Tclosure) (member access_to_check4 (access_rights ua2_oa2)) (member (mkTuple \"O2\" (AT ua2_oa2)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_oa1)) Tclosure) (member access_to_check4 (access_rights ua1_oa1)) (member (mkTuple \"O2\" (AT ua1_oa1)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_ua3)) Tclosure) (member access_to_check4 (access_rights ua1_ua3)) (member (mkTuple \"O2\" (AT ua1_ua3)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				";----------------------------------------------------------------------------------------------------------------------------------------------------------------\r\n" + 
-//				"\r\n" + 
-//				";Access Rights U2 has on O1\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(declare-const output String)\r\n" + 
-//				"(assert (= \"Access Rights U2 has on O1--------------------------------------------------------\" output))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-value (output))\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"; Access Right r check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua2_oa2)) Tclosure) (member access_to_check1 (access_rights ua2_oa2)) (member (mkTuple \"O1\" (AT ua2_oa2)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_oa1)) Tclosure) (member access_to_check1 (access_rights ua1_oa1)) (member (mkTuple \"O1\" (AT ua1_oa1)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_ua3)) Tclosure) (member access_to_check1 (access_rights ua1_ua3)) (member (mkTuple \"O1\" (AT ua1_ua3)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"; Access Right x check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua2_oa2)) Tclosure) (member access_to_check2 (access_rights ua2_oa2)) (member (mkTuple \"O1\" (AT ua2_oa2)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_oa1)) Tclosure) (member access_to_check2 (access_rights ua1_oa1)) (member (mkTuple \"O1\" (AT ua1_oa1)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_ua3)) Tclosure) (member access_to_check2 (access_rights ua1_ua3)) (member (mkTuple \"O1\" (AT ua1_ua3)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"; Access Right w check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua2_oa2)) Tclosure) (member access_to_check3 (access_rights ua2_oa2)) (member (mkTuple \"O1\" (AT ua2_oa2)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_oa1)) Tclosure) (member access_to_check3 (access_rights ua1_oa1)) (member (mkTuple \"O1\" (AT ua1_oa1)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_ua3)) Tclosure) (member access_to_check3 (access_rights ua1_ua3)) (member (mkTuple \"O1\" (AT ua1_ua3)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"; Access Right add check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua2_oa2)) Tclosure) (member access_to_check4 (access_rights ua2_oa2)) (member (mkTuple \"O1\" (AT ua2_oa2)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_oa1)) Tclosure) (member access_to_check4 (access_rights ua1_oa1)) (member (mkTuple \"O1\" (AT ua1_oa1)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_ua3)) Tclosure) (member access_to_check4 (access_rights ua1_ua3)) (member (mkTuple \"O1\" (AT ua1_ua3)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				";----------------------------------------------------------------------------------------------------------------------------------------------------------------\r\n" + 
-//				"\r\n" + 
-//				";Access Rights U2 has on O2\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(declare-const output String)\r\n" + 
-//				"(assert (= \"Access Rights U2 has on O2--------------------------------------------------------\" output))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-value (output))\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"; Access Right r check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua2_oa2)) Tclosure) (member access_to_check1 (access_rights ua2_oa2)) (member (mkTuple \"O2\" (AT ua2_oa2)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_oa1)) Tclosure) (member access_to_check1 (access_rights ua1_oa1)) (member (mkTuple \"O2\" (AT ua1_oa1)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_ua3)) Tclosure) (member access_to_check1 (access_rights ua1_ua3)) (member (mkTuple \"O2\" (AT ua1_ua3)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"; Access Right x check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua2_oa2)) Tclosure) (member access_to_check2 (access_rights ua2_oa2)) (member (mkTuple \"O2\" (AT ua2_oa2)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_oa1)) Tclosure) (member access_to_check2 (access_rights ua1_oa1)) (member (mkTuple \"O2\" (AT ua1_oa1)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_ua3)) Tclosure) (member access_to_check2 (access_rights ua1_ua3)) (member (mkTuple \"O2\" (AT ua1_ua3)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"; Access Right w check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua2_oa2)) Tclosure) (member access_to_check3 (access_rights ua2_oa2)) (member (mkTuple \"O2\" (AT ua2_oa2)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_oa1)) Tclosure) (member access_to_check3 (access_rights ua1_oa1)) (member (mkTuple \"O2\" (AT ua1_oa1)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_ua3)) Tclosure) (member access_to_check3 (access_rights ua1_ua3)) (member (mkTuple \"O2\" (AT ua1_ua3)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"; Access Right add check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua2_oa2)) Tclosure) (member access_to_check4 (access_rights ua2_oa2)) (member (mkTuple \"O2\" (AT ua2_oa2)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_oa1)) Tclosure) (member access_to_check4 (access_rights ua1_oa1)) (member (mkTuple \"O2\" (AT ua1_oa1)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_ua3)) Tclosure) (member access_to_check4 (access_rights ua1_ua3)) (member (mkTuple \"O2\" (AT ua1_ua3)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				";----------------------------------------------------------------------------------------------------------------------------------------------------------------\r\n" + 
-//				"\r\n" + 
-//				";Access Rights U1 has on U3\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(declare-const output String)\r\n" + 
-//				"(assert (= \"Access Rights U1 has on UA3--------------------------------------------------------\" output))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-value (output))\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"; Access Right r check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua2_oa2)) Tclosure) (member access_to_check1 (access_rights ua2_oa2)) (member (mkTuple \"U3\" (AT ua2_oa2)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_oa1)) Tclosure) (member access_to_check1 (access_rights ua1_oa1)) (member (mkTuple \"U3\" (AT ua1_oa1)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_ua3)) Tclosure) (member access_to_check1 (access_rights ua1_ua3)) (member (mkTuple \"U3\" (AT ua1_ua3)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"; Access Right x check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua2_oa2)) Tclosure) (member access_to_check2 (access_rights ua2_oa2)) (member (mkTuple \"U3\" (AT ua2_oa2)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_oa1)) Tclosure) (member access_to_check2 (access_rights ua1_oa1)) (member (mkTuple \"U3\" (AT ua1_oa1)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_ua3)) Tclosure) (member access_to_check2 (access_rights ua1_ua3)) (member (mkTuple \"U3\" (AT ua1_ua3)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"; Access Right w check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua2_oa2)) Tclosure) (member access_to_check3 (access_rights ua2_oa2)) (member (mkTuple \"U3\" (AT ua2_oa2)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_oa1)) Tclosure) (member access_to_check3 (access_rights ua1_oa1)) (member (mkTuple \"U3\" (AT ua1_oa1)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_ua3)) Tclosure) (member access_to_check3 (access_rights ua1_ua3)) (member (mkTuple \"U3\" (AT ua1_ua3)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"; Access Right add check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua2_oa2)) Tclosure) (member access_to_check4 (access_rights ua2_oa2)) (member (mkTuple \"U3\" (AT ua2_oa2)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_oa1)) Tclosure) (member access_to_check4 (access_rights ua1_oa1)) (member (mkTuple \"U3\" (AT ua1_oa1)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U1\" (UA ua1_ua3)) Tclosure) (member access_to_check4 (access_rights ua1_ua3)) (member (mkTuple \"U3\" (AT ua1_ua3)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				";----------------------------------------------------------------------------------------------------------------------------------------------------------------\r\n" + 
-//				"\r\n" + 
-//				";Access Rights U2 has on U3\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(declare-const output String)\r\n" + 
-//				"(assert (= \"Access Rights U2 has on UA3--------------------------------------------------------\" output))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-value (output))\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"; Access Right r check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua2_oa2)) Tclosure) (member access_to_check1 (access_rights ua2_oa2)) (member (mkTuple \"U3\" (AT ua2_oa2)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_oa1)) Tclosure) (member access_to_check1 (access_rights ua1_oa1)) (member (mkTuple \"U3\" (AT ua1_oa1)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_ua3)) Tclosure) (member access_to_check1 (access_rights ua1_ua3)) (member (mkTuple \"U3\" (AT ua1_ua3)) Tclosure))) :named r))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"; Access Right x check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua2_oa2)) Tclosure) (member access_to_check2 (access_rights ua2_oa2)) (member (mkTuple \"U3\" (AT ua2_oa2)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_oa1)) Tclosure) (member access_to_check2 (access_rights ua1_oa1)) (member (mkTuple \"U3\" (AT ua1_oa1)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_ua3)) Tclosure) (member access_to_check2 (access_rights ua1_ua3)) (member (mkTuple \"U3\" (AT ua1_ua3)) Tclosure))) :named x))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"\r\n" + 
-//				"; Access Right w check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua2_oa2)) Tclosure) (member access_to_check3 (access_rights ua2_oa2)) (member (mkTuple \"U3\" (AT ua2_oa2)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_oa1)) Tclosure) (member access_to_check3 (access_rights ua1_oa1)) (member (mkTuple \"U3\" (AT ua1_oa1)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_ua3)) Tclosure) (member access_to_check3 (access_rights ua1_ua3)) (member (mkTuple \"U3\" (AT ua1_ua3)) Tclosure))) :named w))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"; Access Right add check\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua2_oa2)) Tclosure) (member access_to_check4 (access_rights ua2_oa2)) (member (mkTuple \"U3\" (AT ua2_oa2)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_oa1)) Tclosure) (member access_to_check4 (access_rights ua1_oa1)) (member (mkTuple \"U3\" (AT ua1_oa1)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)\r\n" + 
-//				"\r\n" + 
-//				"(push 1)\r\n" + 
-//				"(assert (!(not(and (member (mkTuple \"U2\" (UA ua1_ua3)) Tclosure) (member access_to_check4 (access_rights ua1_ua3)) (member (mkTuple \"U3\" (AT ua1_ua3)) Tclosure))) :named add))\r\n" + 
-//				"(check-sat)\r\n" + 
-//				"(get-unsat-core)\r\n" + 
-//				"(pop 1)", "SMTLIB2Input/tclosureSimpleGraph.smt2");
+		saveDataToFile(translator.getTranslatedGraph() + "(declare-const access_to_check1 String)\r\n"
+				+ "(declare-const access_to_check2 String)\r\n" + "(declare-const access_to_check3 String)\r\n"
+				+ "(declare-const access_to_check4 String)\r\n" + "\r\n" + "(assert (= \"r\"  access_to_check1))\r\n"
+				+ "(assert (= \"x\"  access_to_check2))\r\n" + "(assert (= \"w\"  access_to_check3))\r\n"
+				+ "(assert (= \"add\"  access_to_check4))\r\n" + "\r\n" + "(declare-fun ar () String)\r\n" + "\r\n"
+				+ "(echo \"U1 O1\")\r\n" + "; Access Right r check\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check1 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check2 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check3 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check4 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "\r\n" + "\r\n"
+				+ "(echo \"U1 O2\")\r\n" + "; Access Right r check\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check1 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check2 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check3 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check4 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "\r\n" + "(echo \"U2 O2\")\r\n"
+				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check2 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check3 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check4 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "\r\n" + "(echo \"U2 O1\")\r\n"
+				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check2 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check3 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check4 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "\r\n" + "(echo \"U3 O1\")\r\n"
+				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check2 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check3 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check4 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "(echo \"U3 O2\")\r\n"
+				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check2 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check3 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check4 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "(echo \"U1 U3\")\r\n"
+				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check2 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check3 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check4 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "(echo \"U2 U3\")\r\n"
+				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check2 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check3 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+				+ "(assert (= access_to_check4 ar))\r\n"
+				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)", "SMTLIBv2Files/SMTLIB2Input/tclosureSimpleGraph.smt2");
 
 		CVC4Runner runner = new CVC4Runner();
-		
-	//	runner.runFromSMTLIB2("SMTLIB2Input/tclosureSimpleGraph.smt2");
-		
-//		App app = new App();
-//		File super_config = new File("Graphs/super_config.json");
-//		File file_eligibility_policy = new File("Graphs/EligibilityPolicyClass.json");
-//		String super_policy = new String(Files.readAllBytes(Paths.get(super_config.getAbsolutePath())));
-//		String eligibility_policy = new String(
-//				Files.readAllBytes(Paths.get(file_eligibility_policy.getAbsolutePath())));
-//
-//		Graph ngacGraph = new MemGraph();
-//		
-//
-//		GraphSerializer.fromJson(ngacGraph, super_policy);
-//		GraphSerializer.fromJson(ngacGraph, eligibility_policy);
 
-//		ngacGraph.createPolicyClass("PC2", null);
-//		
-//		ngacGraph.createNode("OA1", OA, null, "PC2");
-//		ngacGraph.createNode("O1", O, null, "OA1");
-//		ngacGraph.associate("PIEligible", "OA1", new OperationSet("w"));
-
-		// ngacGraph.deassign("OA1", "PC2");
-		// ngacGraph.assign("OA1", "EligibilityPolicyClass");
-		// System.out.println(ngacGraph.getNode("OA1").toString());
-
-//		PReviewDecider decider = new PReviewDecider(ngacGraph);
-
-//		
-//		for(String s : decider.list("PIEligible", "", "O1")) {
-//			System.out.println(s);
-//		}
-//		
-
-		// ngacGraph.getSourceAssociations(source);
+		runner.runFromSMTLIB2("SMTLIBv2Files/SMTLIB2Input/tclosureSimpleGraph.smt2");
 
 //		Runtime rt = Runtime.getRuntime();
 //		String[] commands = { "CVC4/cvc4.exe", "--incremental", "SMTLIB2Input/tclosureSimpleGraph.smt2" };

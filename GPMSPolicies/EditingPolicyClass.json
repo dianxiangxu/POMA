@@ -211,26 +211,13 @@
         }
   },
   {
-   "name" : "CoPIAdd",
-   "type" : "UA",
-   "properties": {
-          
-        }
-  },
-  {
    "name" : "SP",
    "type" : "UA",
    "properties": {
           
         }
   },
-  {
-   "name" : "SPAdd",
-   "type" : "UA",
-   "properties": {
-          
-        }
-  },
+
   
   {
    "name" : "Chair",
@@ -327,22 +314,14 @@
   {                                  
        "source": "Research Director",  
        "target": "EditingPolicyClass"  
-     },                                 
-  {                                  
-       "source": "SPAdd",
-       "target": "SP"   
-     },                                  
+     },                                                                  
   {                                   
        "source": "CoPI",
-       "target": "SPAdd"   
-     },
-  {                                  
-       "source": "CoPIAdd", 
-       "target": "CoPI"  
-     },    
+       "target": "SP"   
+     },  
   {
        "source": "PI", 
-       "target": "CoPIAdd" 
+       "target": "CoPI" 
      },
  
   {

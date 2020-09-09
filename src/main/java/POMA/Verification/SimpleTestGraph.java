@@ -16,13 +16,14 @@ import java.nio.file.Paths;
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.U;
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.O;
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.OA;
+
 public class SimpleTestGraph {
 
 	public MemGraph ngacGraph;
 
 	public MemGraph buildSimpleGraph() throws PMException {
 		ngacGraph = new MemGraph();
-		
+
 		ngacGraph.createPolicyClass("PC1", null);
 		ngacGraph.createNode("UA2", UA, null, "PC1");
 		ngacGraph.createNode("UA1", UA, null, "UA2");
@@ -34,17 +35,17 @@ public class SimpleTestGraph {
 		ngacGraph.createNode("OA1", OA, null, "OA2");
 		ngacGraph.createNode("O2", O, null, "OA2");
 		ngacGraph.createNode("O1", O, null, "OA1");
-		ngacGraph.associate("UA2", "OA2", new OperationSet("r","x"));
+		ngacGraph.associate("UA2", "OA2", new OperationSet("r", "x"));
 		ngacGraph.associate("UA1", "OA1", new OperationSet("w"));
 		ngacGraph.associate("UA1", "UA3", new OperationSet("add"));
 		ngacGraph.associate("UA1", "UA2", new OperationSet("test"));
 
 		return ngacGraph;
 	}
-	
+
 	public MemGraph buildGraphNGACExample1() throws PMException {
 		ngacGraph = new MemGraph();
-		
+
 		ngacGraph.createPolicyClass("position-contraints", null);
 		ngacGraph.createPolicyClass("branch-contraints", null);
 
@@ -66,60 +67,45 @@ public class SimpleTestGraph {
 		ngacGraph.createNode("l11", O, null, "loans1");
 		ngacGraph.createNode("l12", O, null, "loans1");
 
-		ngacGraph.associate("branch1", "products1", new OperationSet("r","w"));
-		ngacGraph.associate("teller", "accounts", new OperationSet("r","w"));
+		ngacGraph.associate("branch1", "products1", new OperationSet("r", "w"));
+		ngacGraph.associate("teller", "accounts", new OperationSet("r", "w"));
 		return ngacGraph;
 	}
-	
+
 	public MemGraph readAnyGraph(String path) throws PMException, IOException {
 		File graphFile = new File(path);
-		
 
-		
-		String graphJSON = new String(
-				Files.readAllBytes(Paths.get(graphFile.getAbsolutePath())));
-		
-		
+		String graphJSON = new String(Files.readAllBytes(Paths.get(graphFile.getAbsolutePath())));
+
 		ngacGraph = new MemGraph();
 
 		GraphSerializer.fromJson(ngacGraph, graphJSON);
 
-
-		
-		
 		return ngacGraph;
 	}
+
 	public MemGraph readGPMSGraph() throws PMException, IOException {
 		File file_eligibility_policy = new File("GPMSPolicies/EligibilityPolicyClass.json");
-		File file_superPolicy = new File("GPMSPolicies/super_config.json");
 		File file_org = new File("GPMSPolicies/AcademicUnitsPolicyClass.json");
 		File file_adm = new File("GPMSPolicies/AdministrationUnitsPolicyClass.json");
 
 		File editingFile = new File("GPMSPolicies/EditingPolicyClass.json");
 
-		String superPolicy = new String(
-				Files.readAllBytes(Paths.get(file_superPolicy.getAbsolutePath())));
 		String eligibility_policy = new String(
 				Files.readAllBytes(Paths.get(file_eligibility_policy.getAbsolutePath())));
-		
-		String org_policy = new String(
-				Files.readAllBytes(Paths.get(file_org.getAbsolutePath())));
-		String adm_policy = new String(
-				Files.readAllBytes(Paths.get(file_adm.getAbsolutePath())));
-		String editing_policy = new String(
-				Files.readAllBytes(Paths.get(editingFile.getAbsolutePath())));
+
+		String org_policy = new String(Files.readAllBytes(Paths.get(file_org.getAbsolutePath())));
+		String adm_policy = new String(Files.readAllBytes(Paths.get(file_adm.getAbsolutePath())));
+		String editing_policy = new String(Files.readAllBytes(Paths.get(editingFile.getAbsolutePath())));
 		ngacGraph = new MemGraph();
-		GraphSerializer.fromJson(ngacGraph, superPolicy);
 
 		GraphSerializer.fromJson(ngacGraph, eligibility_policy);
-		
+
 		GraphSerializer.fromJson(ngacGraph, org_policy);
 		GraphSerializer.fromJson(ngacGraph, adm_policy);
-		
+
 		GraphSerializer.fromJson(ngacGraph, editing_policy);
 
-		
-		
 		return ngacGraph;
 	}
 }

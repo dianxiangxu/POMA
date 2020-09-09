@@ -13,12 +13,19 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorCUAA extends MutantTester {
-	public void init(String testMethod) throws PMException, IOException {
+	public MutatorCUAA(String testMethod) {
+		super(testMethod);
+	}
+	public void init() throws PMException, IOException {
 		this.mutationMethod = "CUAA";
 		String testResults = "CSV/"+testMethod+"/"+testMethod+"testResultsCUAA.csv";
-		String testSuitePath = "CSV/testSuits/"+testMethod+"testSuite.csv";
+		String testSuitePath = getTestSuitPathByMethod(testMethod);
 //		getGraphLoaded("GPMSPolicies/gpms_testing_config.json");
-		getGraphLoaded("GPMSPolicies/bank_policy_config.json");
+	//	getGraphLoaded("GPMSPolicies/bank_policy_config.json");
+	//	getGraphLoaded(initialGraphConfig);
+
+		//readGPMSGraph();
+
 		
 		for (Node oldSourceNode : UAs) {
 			performMutation(oldSourceNode, testMethod, testSuitePath);
@@ -47,6 +54,7 @@ public class MutatorCUAA extends MutantTester {
 					if (!newSourceNode.getName().equals(oldSourceNode.getName())) {
 						changeUserAttributeOfAssociate(mutant, oldSourceNode.getName(), targetNode, newSourceNode.getName(), accessRights);
 						before = getNumberOfKilledMutants();
+						if(mutant==null) continue;
 						testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
 						after = getNumberOfKilledMutants();
 						if (before == after)
@@ -57,15 +65,19 @@ public class MutatorCUAA extends MutantTester {
 			}
 		}
 		catch (PMException e) {
-			//throw an error when detecting cycle after reverse assignment
 			e.printStackTrace();
 //			System.out.println("CUAA_" + "oldSourceNode:" + oldSourceNode.getName() + "_newSourceName:" + newSourceNode.getName() + "_targetNode:" + targetNode + "_accessRights:" + accessRights.toString());
 		}
 	}
 
-	private Graph changeUserAttributeOfAssociate(Graph mutant, String oldSourceName, String targetName, String newSourceName, OperationSet accessRights) throws PMException, IOException {
+	private void changeUserAttributeOfAssociate(Graph mutant, String oldSourceName, String targetName, String newSourceName, OperationSet accessRights) throws PMException, IOException {
 		mutant.dissociate(oldSourceName, targetName);
-		mutant.associate(newSourceName, targetName, accessRights);;
-		return mutant;
+		//Catch error detecting cycle after reverse assignment
+		try {
+		mutant.associate(newSourceName, targetName, accessRights);
+		}
+		catch(IllegalArgumentException e) {
+			mutant = null;
+		}
 	}
 }

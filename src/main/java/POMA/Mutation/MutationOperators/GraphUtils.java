@@ -2,10 +2,15 @@ package POMA.Mutation.MutationOperators;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.opencsv.CSVReader;
 
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
@@ -13,8 +18,13 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class GraphUtils extends MutantTester {
-	//decide whether a is contained by b or not
-	public static boolean isContained (Node nodeA, Node nodeB) throws PMException {
+
+	public GraphUtils(String testSuit) {
+		super(testSuit);
+	}
+
+	// decide whether a is contained by b or not
+	public static boolean isContained(Node nodeA, Node nodeB) throws PMException {
 		for (String parent : graph.getParents(nodeA.getName())) {
 			if (parent.equals(nodeB.getName())) {
 				return true;
@@ -27,7 +37,7 @@ public class GraphUtils extends MutantTester {
 		return false;
 	}
 
-	public static Node getPcOf (Node node) throws PMException{
+	public static Node getPcOf(Node node) throws PMException {
 		Node nodePc;
 
 		for (String pc : graph.getPolicyClasses()) {
@@ -38,8 +48,8 @@ public class GraphUtils extends MutantTester {
 		}
 		return node;
 	}
-	
-	public static OperationSet getAllAccessRights () throws PMException, IOException {
+
+	public static OperationSet getAllAccessRights() throws PMException, IOException {
 		OperationSet ARSet = new OperationSet();
 		for (Node SourceNode : UAs) {
 			if (graph.getSourceAssociations(SourceNode.getName()) == null) {
@@ -53,7 +63,8 @@ public class GraphUtils extends MutantTester {
 				ARSet.addAll(accessRights);
 			}
 		}
-		System.out.println("allAccessRightSet is :" + ARSet);
+		// System.out.println("allAccessRightSet is :" + ARSet);
 		return ARSet;
 	}
+
 }
