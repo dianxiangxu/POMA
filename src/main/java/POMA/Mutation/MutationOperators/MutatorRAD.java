@@ -44,6 +44,7 @@ public class MutatorRAD extends MutantTester {
 				try {
 					performMutation(nodeA, nodeB, nodePc, testMethod, testSuitePath);
 				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
 					continue;
 				}
 			}
@@ -57,12 +58,9 @@ public class MutatorRAD extends MutantTester {
 		File testSuite = new File(testSuitePath);
 		double before, after;
 
-		try {
 			Graph mutant = createCopy();
 
 			mutant = reverseAssignment(mutant, nodeA, nodeB);
-
-			// if a cycle, here will throw e, below will not be conducted
 
 			// add function to check node connected to PC or not
 			if (GraphUtils.isContained(nodeA, nodePc) != true) {
@@ -75,14 +73,11 @@ public class MutatorRAD extends MutantTester {
 			after = getNumberOfKilledMutants();
 
 			if (before == after)
-				System.out.println("Unkilled mutant:" + "RAD:" + "a:" + nodeA.toString() + " || " + "b:"
-						+ nodeB.toString() + " || " + "pc:" + nodePc.toString());
+				System.out.println("Unkilled mutant:" + "RAD:" 
+							+ "NodeA:" + nodeA.toString() + " || " 
+							+ "NodeB:" + nodeB.toString() + " || " 
+							+ "PC:" + nodePc.toString());
 			setNumberOfMutants(getNumberOfMutants() + 1);
-		} catch (PMException e) {
-			// throw an error when detecting cycle after reverse assignment
-			e.printStackTrace();
-			System.out.println("RAD" + nodeA.toString() + nodeB.toString() + nodePc.toString());
-		}
 	}
 
 	private Graph reverseAssignment(Graph mutant, Node nodeA, Node nodeB) throws PMException, IOException {

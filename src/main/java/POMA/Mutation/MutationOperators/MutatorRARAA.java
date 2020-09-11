@@ -41,35 +41,39 @@ public class MutatorRARAA extends MutantTester {
 		File testSuite = new File(testSuitePath);
 		double before, after;
 
-		try {
-			for (Node SourceNode : UAs) {
-				if (graph.getSourceAssociations(SourceNode.getName()) == null) {
+		for (Node sourceNode : UAs) {
+			if (graph.getSourceAssociations(sourceNode.getName()) == null) {
+				continue;
+			}
+			Map<String, OperationSet> sources = graph.getSourceAssociations(sourceNode.getName());
+			List<String> targetNodes = new ArrayList<String>(sources.keySet());
+			for (String targetNode : targetNodes) {
+				Set<String> operateSet = sources.get(targetNode);
+				OperationSet accessRights = new OperationSet(operateSet);
+			
+				if (!accessRights.contains(deleteAR))
+					continue;
+				
+				Graph mutant = createCopy();
+			
+				removeAccessRightFromAssociate(mutant, sourceNode.getName(), targetNode, accessRights, deleteAR);
+				before = getNumberOfKilledMutants();
+				try {
+					testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
 					continue;
 				}
-				Map<String, OperationSet> sources = graph.getSourceAssociations(SourceNode.getName());
-				List<String> targetNodes = new ArrayList<String>(sources.keySet());
-				for (String targetNode : targetNodes) {
-					Set<String> operateSet = sources.get(targetNode);
-					OperationSet accessRights = new OperationSet(operateSet);
-			
-					if (!accessRights.contains(deleteAR))
-						continue;
-				
-					Graph mutant = createCopy();
-			
-					removeAccessRightFromAssociate(mutant, SourceNode.getName(), targetNode, accessRights, deleteAR);
-					before = getNumberOfKilledMutants();
-					testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
-					after = getNumberOfKilledMutants();
-					if (before == after) {
-						System.out.println("Unkilled mutant:" + "RARAA:" + "SourceNode:" + SourceNode.getName() + " || " + "targetNode:" + targetNode + " || " + "accessRights:" + accessRights.toString() + " || " + "removedAR:" + deleteAR);
-					}
-					setNumberOfMutants(getNumberOfMutants() + 1);
+				after = getNumberOfKilledMutants();
+				if (before == after) {
+					System.out.println("Unkilled mutant:" + "RARAA:" 
+									+ "sourceNode:" + sourceNode.getName() + " || " 
+									+ "targetNode:" + targetNode + " || " 
+									+ "accessRights:" + accessRights.toString() + " || " 
+									+ "removedAR:" + deleteAR);
 				}
+				setNumberOfMutants(getNumberOfMutants() + 1);
 			}
-		}
-		catch (PMException e) {
-			e.printStackTrace();
 		}
 	}
 

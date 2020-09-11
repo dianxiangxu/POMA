@@ -28,54 +28,58 @@ public class MutatorCOAA extends MutantTester {
 		//readGPMSGraph();
 
 		
-		for (Node SourceNode : UAs) {
-			performMutation(SourceNode, testMethod, testSuitePath);
+		for (Node sourceNode : UAs) {
+			performMutation(sourceNode, testMethod, testSuitePath);
 		}
 		saveCSV(data, new File(testResults), testMethod);
 	}
 
-	private void performMutation(Node SourceNode, String testMethod, String testSuitePath) throws PMException, IOException {
+	private void performMutation(Node sourceNode, String testMethod, String testSuitePath) throws PMException, IOException {
 		File testSuite = new File(testSuitePath);
 		double before, after;
 		
-		if (graph.getSourceAssociations(SourceNode.getName()) == null) {
+		if (graph.getSourceAssociations(sourceNode.getName()) == null) {
 			return;
 		}
 		
-		Map<String, OperationSet> sources = graph.getSourceAssociations(SourceNode.getName());
+		Map<String, OperationSet> sources = graph.getSourceAssociations(sourceNode.getName());
 		List<String> oldTargetNodes = new ArrayList<String>(sources.keySet());
 		
-		try {
-			for (String oldTargetNode : oldTargetNodes) {
-				Set<String> operateSet = sources.get(oldTargetNode);
-				OperationSet accessRights = new OperationSet(operateSet);
-				Graph mutant = createCopy();
-				
-				for (Node newTargetNode : UAsOAs) {
-					if (newTargetNode.getName().equals(SourceNode.getName())) {
-						continue;
-					}
-					if (newTargetNode.getName().equals(oldTargetNode)) {
-						continue;
-					}
-					if (newTargetNode.getType().equals(NodeType.UA)) {
-						if (GraphUtils.isContained(newTargetNode, SourceNode)) {
-							continue;
-						}
-					}
-					changeObjectAttributeOfAssociate(mutant, SourceNode.getName(), oldTargetNode, newTargetNode.getName(), accessRights);
-					before = getNumberOfKilledMutants();
-					testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
-					after = getNumberOfKilledMutants();
-					if (before == after) {
-						System.out.println("Unkilled mutant:" + "COAA:" + "SourceNode:" + SourceNode.getName() + " || " + "newTargetName:" + newTargetNode.getName() + " || " + "oldTargetNode:" + oldTargetNode + " || " + "accessRights:" + accessRights.toString());
-					}
-						setNumberOfMutants(getNumberOfMutants() + 1);
+		for (String oldTargetNode : oldTargetNodes) {
+			Set<String> operateSet = sources.get(oldTargetNode);
+			OperationSet accessRights = new OperationSet(operateSet);
+			Graph mutant = createCopy();
+			
+			for (Node newTargetNode : UAsOAs) {
+				if (newTargetNode.getName().equals(sourceNode.getName())) {
+					continue;
 				}
+				if (newTargetNode.getName().equals(oldTargetNode)) {
+					continue;
+				}
+				if (newTargetNode.getType().equals(NodeType.UA)) {
+					if (GraphUtils.isContained(newTargetNode, sourceNode)) {
+						continue;
+					}
+				}
+				changeObjectAttributeOfAssociate(mutant, sourceNode.getName(), oldTargetNode, newTargetNode.getName(), accessRights);
+				before = getNumberOfKilledMutants();
+				try {
+					testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+					continue;
+				}
+				after = getNumberOfKilledMutants();
+				if (before == after) {
+					System.out.println("Unkilled mutant:" + "COAA:" 
+									+ "sourceNode:" + sourceNode.getName() + " || " 
+									+ "newTargetName:" + newTargetNode.getName() + " || " 
+									+ "oldTargetNode:" + oldTargetNode + " || " 
+									+ "accessRights:" + accessRights.toString());
+				}
+					setNumberOfMutants(getNumberOfMutants() + 1);
 			}
-		}
-		catch (PMException e) {
-			e.printStackTrace();
 		}
 	}
 

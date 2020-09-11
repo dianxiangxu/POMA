@@ -69,6 +69,7 @@ public class MutatorAACR extends MutantTester {
 					try {
 						addAssociate(mutant, sourceNode.getName(), targetNode.getName(), accessRights);
 					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
 						continue;
 					}
 					before = getNumberOfKilledMutants();
@@ -78,8 +79,9 @@ public class MutatorAACR extends MutantTester {
 					after = getNumberOfKilledMutants();
 
 					if (before == after) {
-						// System.out.println("Unkilled mutant:" + "AACR:" + "sourceNode:" +
-						// sourceNode.getName() + " || " + "targetNode:" + targetNode);
+						 System.out.println("Unkilled mutant:" + "AACR:" 
+								 	+ "sourceNode:" + sourceNode.getName() + " || " 
+								 	+ "targetNode:" + targetNode);
 					}
 
 					setNumberOfMutants(getNumberOfMutants() + 1);

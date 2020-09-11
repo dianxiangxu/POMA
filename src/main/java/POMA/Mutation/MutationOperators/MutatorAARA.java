@@ -30,49 +30,51 @@ public class MutatorAARA extends MutantTester {
 		// readGPMSGraph();
 
 		allAccessRightSet = GraphUtils.getAllAccessRights();
-		for (Node SourceNode : UAs) {
-			performMutation(SourceNode, testMethod, testSuitePath);
+		for (Node sourceNode : UAs) {
+			performMutation(sourceNode, testMethod, testSuitePath);
 		}
 		saveCSV(data, new File(testResults), testMethod);
 	}
 
-	private void performMutation(Node SourceNode, String testMethod, String testSuitePath)
+	private void performMutation(Node sourceNode, String testMethod, String testSuitePath)
 			throws PMException, IOException {
 		File testSuite = new File(testSuitePath);
 		double before, after;
 
-		if (graph.getSourceAssociations(SourceNode.getName()) == null) {
+		if (graph.getSourceAssociations(sourceNode.getName()) == null) {
 			return;
 		}
 
-		Map<String, OperationSet> sources = graph.getSourceAssociations(SourceNode.getName());
+		Map<String, OperationSet> sources = graph.getSourceAssociations(sourceNode.getName());
 		List<String> targetNodes = new ArrayList<String>(sources.keySet());
 
-		try {
-			for (String targetNode : targetNodes) {
-				Set<String> operateSet = sources.get(targetNode);
-				OperationSet accessRights = new OperationSet(operateSet);
+		for (String targetNode : targetNodes) {
+			Set<String> operateSet = sources.get(targetNode);
+			OperationSet accessRights = new OperationSet(operateSet);
 
-				for (String accessRight : allAccessRightSet) {
-					if (accessRights.contains(accessRight)) {
-						continue;
-					}
-					Graph mutant = createCopy();
-
-					addAccessRightToAssociate(mutant, SourceNode.getName(), targetNode, accessRights, accessRight);
-					before = getNumberOfKilledMutants();
-					testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
-					after = getNumberOfKilledMutants();
-					if (before == after) {
-						System.out.println("Unkilled mutant:" + "AARA:" + "SourceNode:" + SourceNode.getName() + " || "
-								+ "targetNode:" + targetNode + " || " + "accessRights:" + accessRights.toString()
-								+ " || " + "addedAR:" + accessRight);
-					}
-					setNumberOfMutants(getNumberOfMutants() + 1);
+			for (String accessRight : allAccessRightSet) {
+				if (accessRights.contains(accessRight)) {
+					continue;
 				}
+				Graph mutant = createCopy();
+				addAccessRightToAssociate(mutant, sourceNode.getName(), targetNode, accessRights, accessRight);
+				before = getNumberOfKilledMutants();
+				try {
+					testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+					continue;
+				}
+				after = getNumberOfKilledMutants();
+				if (before == after) {
+					System.out.println("Unkilled mutant:" + "AARA:" 
+								+ "sourceNode:" + sourceNode.getName() + " || "
+								+ "targetNode:" + targetNode + " || " 
+								+ "accessRights:" + accessRights.toString() + " || " 
+								+ "addedAR:" + accessRight);
+				}
+				setNumberOfMutants(getNumberOfMutants() + 1);
 			}
-		} catch (PMException e) {
-			e.printStackTrace();
 		}
 	}
 

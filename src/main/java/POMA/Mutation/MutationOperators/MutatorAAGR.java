@@ -43,6 +43,7 @@ public class MutatorAAGR extends MutantTester {
 				try {
 					performMutation(nodeA, nodeB, testMethod, testSuitePath);
 				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
 					continue;
 				}
 			}

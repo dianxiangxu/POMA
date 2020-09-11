@@ -59,6 +59,7 @@ public class MutatorCAA extends MutantTester {
 					try {
 						performMutation(nodeA, nodeB, nodeC, nodePc, testMethod, testSuitePath);
 					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
 						continue;
 					}
 				}

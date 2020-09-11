@@ -44,29 +44,32 @@ public class MutatorCUAA extends MutantTester {
 		Map<String, OperationSet> sources = graph.getSourceAssociations(oldSourceNode.getName());
 		List<String> targetNodes = new ArrayList<String>(sources.keySet());
 		
-		try {
-			for (String targetNode : targetNodes) {
-				Set<String> operateSet = sources.get(targetNode);
-				OperationSet accessRights = new OperationSet(operateSet);
+		for (String targetNode : targetNodes) {
+			Set<String> operateSet = sources.get(targetNode);
+			OperationSet accessRights = new OperationSet(operateSet);
 				
-				Graph mutant = createCopy();
-				for (Node newSourceNode : UAs) {
-					if (!newSourceNode.getName().equals(oldSourceNode.getName())) {
-						changeUserAttributeOfAssociate(mutant, oldSourceNode.getName(), targetNode, newSourceNode.getName(), accessRights);
-						before = getNumberOfKilledMutants();
-						if(mutant==null) continue;
+			Graph mutant = createCopy();
+			for (Node newSourceNode : UAs) {
+				if (!newSourceNode.getName().equals(oldSourceNode.getName())) {
+					changeUserAttributeOfAssociate(mutant, oldSourceNode.getName(), targetNode, newSourceNode.getName(), accessRights);
+					before = getNumberOfKilledMutants();
+					if(mutant==null) continue;
+					try {
 						testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
-						after = getNumberOfKilledMutants();
-						if (before == after)
-							System.out.println("Unkilled mutant:" + "CUAA:" + "oldSourceNode:" + oldSourceNode.getName() + " || " + "newSourceName:" + newSourceNode.getName() + " || " + "targetNode:" + targetNode + " || " + "accessRights:" + accessRights.toString());
-						setNumberOfMutants(getNumberOfMutants() + 1);
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+						continue;
 					}
+					after = getNumberOfKilledMutants();
+					if (before == after)
+						System.out.println("Unkilled mutant:" + "CUAA:" 
+									+ "oldSourceNode:" + oldSourceNode.getName() + " || " 
+									+ "newSourceName:" + newSourceNode.getName() + " || " 
+									+ "targetNode:" + targetNode + " || " 
+									+ "accessRights:" + accessRights.toString());
+					setNumberOfMutants(getNumberOfMutants() + 1);
 				}
 			}
-		}
-		catch (PMException e) {
-			e.printStackTrace();
-//			System.out.println("CUAA_" + "oldSourceNode:" + oldSourceNode.getName() + "_newSourceName:" + newSourceNode.getName() + "_targetNode:" + targetNode + "_accessRights:" + accessRights.toString());
 		}
 	}
 

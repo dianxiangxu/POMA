@@ -41,9 +41,10 @@ public class MutatorRAGR extends MutantTester {
 				}
 				nodePc = graph.getNode(pcName);
 				try {
-				performMutation(nodeA, nodeB, nodePc, testMethod, testSuitePath);
+					performMutation(nodeA, nodeB, nodePc, testMethod, testSuitePath);
 				}
 				catch (IllegalArgumentException e) {
+					e.printStackTrace();
 					continue;
 				}
 			}
@@ -59,12 +60,8 @@ public class MutatorRAGR extends MutantTester {
 		double before, after;
 		
 		try {
-			Graph mutant = createCopy();
-			
+			Graph mutant = createCopy();		
 			mutant = RemoveAssignment(mutant, nodeA, nodeB);
-			
-			//if a cycle, here will throw e, below will not be conducted
-
 			if (GraphUtils.isContained(nodeA, nodePc) != true) {
 				//add assignment if node a is not PC-connected
 				mutant.assign(nodeA.getName(), nodePc.getName());
@@ -75,7 +72,10 @@ public class MutatorRAGR extends MutantTester {
 			after = getNumberOfKilledMutants();
 			
 			if (before == after)
-				System.out.println("Unkilled mutant:" + "RAGR:" + "a:" + nodeA.toString() + " || " + "b:" + nodeB.toString() + " || " + "pc:" + nodePc.toString());
+				System.out.println("Unkilled mutant:" + "RAGR:" 
+							+ "NodeA:" + nodeA.toString() + " || " 
+							+ "NodeB:" + nodeB.toString() + " || " 
+							+ "PC:" + nodePc.toString());
 			setNumberOfMutants(getNumberOfMutants() + 1);
 		}
 		catch (PMException e) {

@@ -25,40 +25,42 @@ public class MutatorRACR extends MutantTester {
 
 	//	readGPMSGraph();
 
-		for (Node SourceNode : UAs) {
-			performMutation(SourceNode, testMethod, testSuitePath);
+		for (Node sourceNode : UAs) {
+			performMutation(sourceNode, testMethod, testSuitePath);
 		}
 		saveCSV(data, new File(testResults), testMethod);
 	}
 
-	private void performMutation(Node SourceNode, String testMethod, String testSuitePath) throws PMException, IOException {
+	private void performMutation(Node sourceNode, String testMethod, String testSuitePath) throws PMException, IOException {
 		File testSuite = new File(testSuitePath);
 		double before, after;
 		
-		if (graph.getSourceAssociations(SourceNode.getName()) == null) {
+		if (graph.getSourceAssociations(sourceNode.getName()) == null) {
 			return;
 		}
 		
-		Map<String, OperationSet> sources = graph.getSourceAssociations(SourceNode.getName());
+		Map<String, OperationSet> sources = graph.getSourceAssociations(sourceNode.getName());
 		List<String> targetNodes = new ArrayList<String>(sources.keySet());
 		
-		try {
-			for (String targetNode : targetNodes) {
-				Graph mutant = createCopy();
+		for (String targetNode : targetNodes) {
+			Graph mutant = createCopy();
 					
-				removeAssociate(mutant, SourceNode.getName(), targetNode);
+			removeAssociate(mutant, sourceNode.getName(), targetNode);
 				
-				before = getNumberOfKilledMutants();
+			before = getNumberOfKilledMutants();
+			try {
 				testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
-				after = getNumberOfKilledMutants();
-				if (before == after) {
-					System.out.println("Unkilled mutant:" + "RACR:" + "SourceNode:" + SourceNode.getName() + " || " + "targetNode:" + targetNode);
-				}
-				setNumberOfMutants(getNumberOfMutants() + 1);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+				continue;
 			}
-		}
-		catch (PMException e) {
-			e.printStackTrace();
+			after = getNumberOfKilledMutants();
+			if (before == after) {
+				System.out.println("Unkilled mutant:" + "RACR:" 
+							+ "sourceNode:" + sourceNode.getName() + " || " 
+							+ "TargetNode:" + targetNode);
+			}
+			setNumberOfMutants(getNumberOfMutants() + 1);
 		}
 	}
 

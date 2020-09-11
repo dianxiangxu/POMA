@@ -76,8 +76,9 @@ public class MutatorCAD extends MutantTester {
 			after = getNumberOfKilledMutants();
 
 			if (before == after)
-				System.out.println("Unkilled mutant:" + "CAD:" + "a:" + nodeA.toString() + " || " + "b:"
-						+ nodeB.toString() + " || " + "c:" + nodeC.toString());
+				System.out.println("Unkilled mutant:" + "CAD:" 
+								+ "a:" + nodeA.toString() + " || " 
+								+ "b:" + nodeB.toString() + " || " + "c:" + nodeC.toString());
 			setNumberOfMutants(getNumberOfMutants() + 1);
 		} catch (IllegalArgumentException e) {
 			// throw an error when detecting cycle after reverse assignment
