@@ -27,29 +27,30 @@ public class CVC4Runner {
 		List<String> outputList = new ArrayList<String>();
 		while ((s = stdInput.readLine()) != null) {
 			if (!s.contains("sat") && !s.contains("error")) {
-				//System.out.println(s);
+				// System.out.println(s);
 				// sb.append(s.split("\"")[1]+System.lineSeparator()) ;
 				outputList.add(s);
 			}
 
 		}
-
+		String currentRelation = "";
 		for (int i = 0; i < outputList.size(); i++) {
-
 			if (i < outputList.size() - 1) {
 				if (outputList.get(i + 1).contains("((")) {
-					sb.append(outputList.get(i).split("\"")[1] + " ");
+					if (!currentRelation.equals(outputList.get(i).split("\"")[1])) {
+						currentRelation = outputList.get(i).split("\"")[1];
+						sb.append(System.lineSeparator()+currentRelation + System.lineSeparator());
+						sb.append(outputList.get(i + 1).split("\"")[1]);
+					}
+					else {
+						sb.append(" "+outputList.get(i + 1).split("\"")[1]);
+					} 
+
 				}
-				else {
-					sb.append(outputList.get(i).split("\"")[1] + System.lineSeparator());
-				}
-			}
-			else {
-				sb.append(outputList.get(i).split("\"")[1] + System.lineSeparator());
 			}
 		}
 
-		System.out.println(sb.toString());
+		 System.out.println(sb.toString());
 		// Read any errors from the attempted command
 		System.out.println("Here is the standard error of the command (if any):\n");
 		while ((s = stdError.readLine()) != null) {

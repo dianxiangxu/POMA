@@ -319,15 +319,14 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			
 			switch(mainTabbedPane.getTabCount()) {
 			case 2:
-				SimpleTestGraph simpleTestGraph = new SimpleTestGraph();
 //				try {
 //				System.out.println(getWorkingPolicyFile().getPath());}
 //				catch(NullPointerException e) {
 //					System.out.println("error");
 //				}
 				MemGraph graph = null;
-				try {
-					graph = simpleTestGraph.readAnyGraph(getWorkingPolicyFilePath());
+					
+					graph = editorPanel.getGraph();
 					//graph = simpleTestGraph.readGPMSGraph();
 					 gui = new GUI(graph);
 					 gui.init();
@@ -340,11 +339,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 					//	mainTabbedPane.setSelectedComponent(graphComponent);
 						
 						//setJMenuBar(createMenuBar());
-				} catch (PMException | NullPointerException ex) {
-					// TODO Auto-generated catch block					
-				} catch (IOException ex) {
-					// TODO Auto-generated catch block					
-				}
+
 				
 				
 		       
@@ -585,7 +580,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 //		editorPanel = new EditorPanel(this);
 
 //		testPanel = new TestPanel(this);
-//		mutationPanel = new MutationPanel(this);
+		mutationPanel = new MutationPanel(this);
 //		debugPanel = new DebugPanel(this);
 		
 		mainTabbedPane = new JTabbedPane();

@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import POMA.Exceptions.NoTypeProvidedException;
 import POMA.Exceptions.NodeIsNotContainedByPolicyClassException;
+import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -80,7 +82,7 @@ public class CVC4Translator {
 
 	}
 
-	public String getTranslatedGraph() {
+	public String getTranslatedGraph() throws PMException, NoTypeProvidedException, IOException {
 		StringBuilder sb = new StringBuilder();
 		CVC4PrepTranslation prepTranslation = new CVC4PrepTranslation();
 		sb.append(prepTranslation.toString());
@@ -94,7 +96,46 @@ public class CVC4Translator {
 		sb.append(System.lineSeparator());
 		sb.append(prepTranslation.assertTClosures());
 		sb.append(System.lineSeparator());
-		return sb.toString();
+		//System.out.println(getTestSuits());
+		return sb.toString() + getTestSuits(ngacGraph);
+	}
+
+	public static String getTestSuits(Graph ngacGraph) throws PMException, NoTypeProvidedException {
+		TestingSuitGenerator tsg = new TestingSuitGenerator();
+		String finalizedTests = "";
+
+			int i = 0;
+
+			List<String> subjects = Utils.getNodesByTypes(ngacGraph, "U");
+			List<String> targets = Utils.getNodesByTypes(ngacGraph, "U", "O");
+			List<String> accessRights = new ArrayList<String>(Utils.getAllAccessRights(ngacGraph));
+			for (String subject : subjects) {
+				System.out.println("COUNT: " + i);
+
+				for (String target : targets) {
+					if(subject.equals(target)) {
+						continue;
+					}
+					for (String accessRight : accessRights) {
+						i++;
+						System.out.println(subject.toString() +" "+ accessRight + " "+ target);
+
+						finalizedTests+=tsg.generateTest(subject, accessRight, target, Integer.toString(i));
+						finalizedTests+=System.lineSeparator();
+						//System.out.println(finalizedTests);
+
+					}
+				}
+
+			}
+			System.out.println("COUNT: " + i);
+			System.out.println(subjects.toString());
+			System.out.println(targets.toString());
+			System.out.println(accessRights.toString());
+
+			System.out.println(finalizedTests);
+
+		return finalizedTests;
 	}
 
 	private String translateContainment() {

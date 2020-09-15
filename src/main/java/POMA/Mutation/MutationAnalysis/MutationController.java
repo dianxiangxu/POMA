@@ -37,32 +37,32 @@ public class MutationController {
 	String CSVFilePath = "CSV/OverallMutationResults.csv";
 	static int rowCount = 20;
 	Graph graph;
-	
+
 	public static void main(String[] args) throws PMException, IOException {
 		MutationController mc = new MutationController();
 		File CSV = new File(mc.CSVFilePath);
-		
-		
-		//for (String testMethod : mc.testMethods) {
 		long startTime = System.currentTimeMillis();
+		mc.createHeaderForCSV();
 
-			String[] row=new String[rowCount];
+		for (String testMethod : mc.testMethods) {
+
+			String[] row = new String[rowCount];
 			mc.totalNumberOfMutantsForTest = 0;
 			mc.totalNumberOfKilledMutantsForTest = 0;
-			double resultRAD = mc.testRAD("P");
-			double resultCAD = mc.testCAD("P");
-			double resultCAA = mc.testCAA("P");
-			double resultRAGR = mc.testRAGR("P");
-			double resultAAGR = mc.testAAGR("P");
-			double resultCUAA = mc.testCUAA("P");
-			double resultCOAA = mc.testCOAA("P");
-			double resultRARA = mc.testRARA("P");
-			double resultAARA = mc.testAARA("P");
-			double resultRACR = mc.testRACR("P");
-			double resultAACR = mc.testAACR("P");
-			double resultRARAA = mc.testRARAA("P");
+			double resultRAD = mc.testRAD(testMethod);
+			double resultCAD = mc.testCAD(testMethod);
+			double resultCAA = mc.testCAA(testMethod);
+			double resultRAGR = mc.testRAGR(testMethod);
+			double resultAAGR = mc.testAAGR(testMethod);
+			double resultCUAA = mc.testCUAA(testMethod);
+			double resultCOAA = mc.testCOAA(testMethod);
+			double resultRARA = mc.testRARA(testMethod);
+			double resultAARA = mc.testAARA(testMethod);
+			double resultRACR = mc.testRACR(testMethod);
+			double resultAACR = mc.testAACR(testMethod);
+			double resultRARAA = mc.testRARAA(testMethod);
 
-			row[0] = "P";
+			row[0] = testMethod;
 			row[1] = Double.toString(resultRAD);
 			row[2] = Double.toString(resultCAD);
 			row[3] = Double.toString(resultCAA);
@@ -75,15 +75,16 @@ public class MutationController {
 			row[10] = Double.toString(resultRACR);
 			row[11] = Double.toString(resultAACR);
 			row[12] = Double.toString(resultRARAA);
-			row[13] = Double.toString((double)mc.totalNumberOfKilledMutantsForTest/(double)mc.totalNumberOfMutantsForTest*100);
+			row[13] = Double.toString(
+					(double) mc.totalNumberOfKilledMutantsForTest / (double) mc.totalNumberOfMutantsForTest * 100);
 			mc.data.add(row);
-		//}
+		}
 		mc.saveCSV(mc.data, CSV);
-		
+
 		long endTime = System.currentTimeMillis();
 		long timeElapsed = endTime - startTime;
-		long minutes = (timeElapsed / 1000)  / 60;
-		int seconds = (int)((timeElapsed / 1000) % 60);
+		long minutes = (timeElapsed / 1000) / 60;
+		int seconds = (int) ((timeElapsed / 1000) % 60);
 		System.out.println("Execution time in milliseconds: " + timeElapsed);
 		System.out.println("Execution time in min and sec: " + minutes + ":" + seconds);
 
@@ -91,9 +92,73 @@ public class MutationController {
 
 	public MutationController() {
 		createTestMethods();
-		createHeaderForCSV();
 	}
-	
+
+	public void createMutants(List<String> mutantNames) {
+		createHeaderForCSV(mutantNames);
+
+		File CSV = new File(CSVFilePath);
+		long startTime = System.currentTimeMillis();
+
+		for (String testMethod : testMethods) {
+			String[] row = new String[rowCount];
+			totalNumberOfMutantsForTest = 0;
+			totalNumberOfKilledMutantsForTest = 0;
+			row[0] = testMethod;
+
+			for (int i = 0; i < mutantNames.size(); i++) {
+				System.out.println(mutantNames.toString());
+				double result = 0;
+				if (mutantNames.get(i).equals("RAD")) {
+					result = testRAD(testMethod);
+				} else if (mutantNames.get(i).equals("CAD")) {
+					result = testCAD(testMethod);
+				} else if (mutantNames.get(i).equals("CAA")) {
+					result = testCAA(testMethod);
+				} else if (mutantNames.get(i).equals("RAGR")) {
+					result = testRAGR(testMethod);
+				} else if (mutantNames.get(i).equals("AAGR")) {
+					result = testAAGR(testMethod);
+					System.out.println("HELLO");
+				} else if (mutantNames.get(i).equals("CUAA")) {
+					result = testCUAA(testMethod);
+				} else if (mutantNames.get(i).equals("COAA")) {
+					result = testCOAA(testMethod);
+				} else if (mutantNames.get(i).equals("RARA")) {
+					result = testRARA(testMethod);
+				} else if (mutantNames.get(i).equals("AARA")) {
+					result = testAARA(testMethod);
+				} else if (mutantNames.get(i).equals("RACR")) {
+					result = testRACR(testMethod);
+				} else if (mutantNames.get(i).equals("AACR")) {
+					result = testAACR(testMethod);
+				} else if (mutantNames.get(i).equals("RARAA")) {
+					result = testRARAA(testMethod);
+				}
+
+				row[i+1] = Double.toString(result);
+				
+			}
+			row[mutantNames.size()+1] = Double.toString(
+					(double) totalNumberOfKilledMutantsForTest / (double) totalNumberOfMutantsForTest * 100);
+			data.add(row);
+		}
+		try {
+			saveCSV(data, CSV);
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		long endTime = System.currentTimeMillis();
+		long timeElapsed = endTime - startTime;
+		long minutes = (timeElapsed / 1000) / 60;
+		int seconds = (int) ((timeElapsed / 1000) % 60);
+		System.out.println("Execution time in milliseconds: " + timeElapsed);
+		System.out.println("Execution time in min and sec: " + minutes + ":" + seconds);
+	}
+
 	private double testRAD(String testMethod) {
 		MutatorRAD mutatorRAD = new MutatorRAD(testMethod);
 		System.out.println("MutationMethod is RAD");
@@ -141,7 +206,7 @@ public class MutationController {
 		totalNumberOfKilledMutantsForTest += mutatorCAD.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testCAA(String testMethod) {
 		MutatorCAA mutatorCAA = new MutatorCAA(testMethod);
 		System.out.println("MutationMethod is CAA");
@@ -165,7 +230,7 @@ public class MutationController {
 		totalNumberOfKilledMutantsForTest += mutatorCAA.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testRAGR(String testMethod) {
 		MutatorRAGR mutatorRAGR = new MutatorRAGR(testMethod);
 		System.out.println("MutationMethod is RAGR");
@@ -189,7 +254,7 @@ public class MutationController {
 		totalNumberOfKilledMutantsForTest += mutatorRAGR.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testAAGR(String testMethod) {
 		MutatorAAGR mutatorAAGR = new MutatorAAGR(testMethod);
 		System.out.println("MutationMethod is AAGR");
@@ -213,7 +278,7 @@ public class MutationController {
 		totalNumberOfKilledMutantsForTest += mutatorAAGR.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testCUAA(String testMethod) {
 		MutatorCUAA mutatorCUAA = new MutatorCUAA(testMethod);
 		System.out.println("MutationMethod is CUAA");
@@ -237,7 +302,7 @@ public class MutationController {
 		totalNumberOfKilledMutantsForTest += mutatorCUAA.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testCOAA(String testMethod) {
 		MutatorCOAA mutatorCOAA = new MutatorCOAA(testMethod);
 		System.out.println("MutationMethod is COAA");
@@ -285,7 +350,7 @@ public class MutationController {
 		totalNumberOfKilledMutantsForTest += mutatorRARA.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testAARA(String testMethod) {
 		MutatorAARA mutatorAARA = new MutatorAARA(testMethod);
 		System.out.println("MutationMethod is AARA");
@@ -333,7 +398,7 @@ public class MutationController {
 		totalNumberOfKilledMutantsForTest += mutatorRACR.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testAACR(String testMethod) {
 		MutatorAACR mutatorAACR = new MutatorAACR(testMethod);
 		System.out.println("MutationMethod is AACR");
@@ -357,7 +422,7 @@ public class MutationController {
 		totalNumberOfKilledMutantsForTest += mutatorAACR.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testRARAA(String testMethod) {
 		MutatorRARAA mutatorRARAA = new MutatorRARAA(testMethod);
 		System.out.println("MutationMethod is RARAA");
@@ -381,14 +446,13 @@ public class MutationController {
 		totalNumberOfKilledMutantsForTest += mutatorRARAA.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private void createTestMethods() {
 		testMethods = new ArrayList<String>();
 //		testMethods.add("RS");
 //		testMethods.add("R");
-		testMethods.add("P");
-//		testMethods.add("PP");
-
+		testMethods.add("Pairwise");
+		testMethods.add("AllCombinations");
 
 	}
 
@@ -410,7 +474,17 @@ public class MutationController {
 		header[13] = "totalMutationScore";
 		data.add(header);
 	}
-	
+
+	private void createHeaderForCSV(List<String> mutantNames) {
+		String[] header = new String[rowCount];
+		header[0] = "TestMethod";
+		for(int i=0;i< mutantNames.size(); i++) {
+			header[i+1] =  mutantNames.get(i);
+		}
+		header[mutantNames.size()+1] = "totalMutationScore";
+		data.add(header);
+	}
+
 	public void saveCSV(List<String[]> data, File directoryForTestResults) throws PMException, IOException {
 
 		if (directoryForTestResults.createNewFile()) {

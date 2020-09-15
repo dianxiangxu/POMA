@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 
 import POMA.Exceptions.NoTypeProvidedException;
 
-public class GraphTesterPairwise {
+public class AllCombTestSuitGenerator {
 	Graph graph;
 	List<String> UAs;
 	List<String> OAs;
@@ -43,16 +43,16 @@ public class GraphTesterPairwise {
 	public static void main(String[] args) throws PMException, InterruptedException, IOException {
 		String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
 
-		GraphTesterPairwise gt;
+		PairwiseTestSuitGenerator gt;
 		try {
-			gt = new GraphTesterPairwise(simpleGraphPath);
-			List<String[]> testSuit = gt.testGraphPairwisePC();
+			gt = new PairwiseTestSuitGenerator(simpleGraphPath);
+			List<String[]> testSuit = gt.generatPairwiseTests();
 		} catch (NoTypeProvidedException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public GraphTesterPairwise(String path)
+	public AllCombTestSuitGenerator(String path)
 			throws PMException, InterruptedException, IOException, NoTypeProvidedException {
 		graph = Utils.readAnyGraph(path);
 		populateLists(graph);
@@ -62,14 +62,9 @@ public class GraphTesterPairwise {
 		}
 	}
 
-	public GraphTesterPairwise() throws PMException, InterruptedException, IOException, NoTypeProvidedException {
+	public AllCombTestSuitGenerator() throws PMException, InterruptedException, IOException, NoTypeProvidedException {
 		graph = Utils.readGPMSGraph();
 		populateLists(graph);
-
-		for (String s : Utils.getNodesByTypes(graph, "U", "UA", "PC")) {
-			System.out.println(graph.getNode(s).toString());
-		}
-
 	}
 
 	private void populateLists(Graph graph) throws PMException, NoTypeProvidedException, IOException {
@@ -80,7 +75,8 @@ public class GraphTesterPairwise {
 		allAccessRights = operationSet.toArray(new String[operationSet.size()]);
 	}
 
-	public List<String[]> testGraphPairwisePC() throws PMException {
+
+	public List<String[]> generateAllCombinationsTests() throws PMException {
 
 		List<String[]> data = new ArrayList<String[]>();
 
@@ -91,33 +87,24 @@ public class GraphTesterPairwise {
 		int numberOfTrue = 0;
 		int numberOfFalse = 0;
 
-		for (int[] pair : getListOfPairs()) {
-			String subject = UsUAs.get(pair[0]);
-			String ar = allAccessRights[pair[1]];
-			String target = UAsOAsUsOs.get(pair[2]);
+		for (String subject : UsUAs) {
+			for (String target : UAsOAsUsOs) {
+				for (String accessRight : allAccessRights) {
+					boolean result = decider.check(subject, "", target, accessRight);
+					data.add(new String[] { Integer.toString(i), subject, target, accessRight, Boolean.toString(result) });
+					i++;
+					if (result == true) {
+						numberOfTrue++;
+					} else {
+						numberOfFalse++;
+					}
+				}
 
-			boolean result = decider.check(subject, "", target, ar);
-			data.add(new String[] { Integer.toString(i), subject, target, ar, Boolean.toString(result) });
-			i++;
-			if (result == true) {
-				numberOfTrue++;
-			} else {
-				numberOfFalse++;
 			}
-
+			System.out.println("True: " + numberOfTrue + " False: " + numberOfFalse);
 		}
-		System.out.println("True: " + numberOfTrue + " False: " + numberOfFalse);
+
 		return data;
 	}
 
-	private ArrayList<int[]> getListOfPairs() {
-		// int[] choices = { UsUAs.size(), operationSet.size(), UAsOAsUsOs.size(),
-		// PCs.size() };
-		int[] choices = { UsUAs.size(), operationSet.size(), UAsOAsUsOs.size() };
-		System.out.println(UsUAs.size() + " " + operationSet.size() + " " + " " + UAsOAsUsOs.size());
-		boolean noShuffle = true;
-		int maxGoes = 100;
-		long seed = 42;
-		return AllPairs.generatePairs(choices, seed, maxGoes, !noShuffle, null, false);
-	}
 }

@@ -33,6 +33,8 @@ import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxStylesheet;
 
+import POMA.Exceptions.NoTypeProvidedException;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -47,128 +49,162 @@ import java.awt.*;
 public class TranslatorMain {
 	MemGraph graph;
 
-	public static void main(String[] args) throws PMException, IOException {
+	public static void main(String[] args) throws PMException, IOException, NoTypeProvidedException {
 
-		 String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
+		// String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
+		 String simpleGraphPath = "GPMSPolicies/bank_policy_config.json";
+		 
 		String translatedGraphResultPath = "SMTLIBv2Files/SMTLIB2Input/tclosureTranslatedGraph.smt2";
 		SimpleTestGraph simpleTestGraph = new SimpleTestGraph();
 		TranslatorMain applet = new TranslatorMain();
 		// applet.graph = simpleTestGraph.readAnyGraph("Graphs/NGACExample1.json");
-		applet.graph = simpleTestGraph.buildSimpleGraph();
-
-		 saveDataToFile(GraphSerializer.toJson(applet.graph), simpleGraphPath);
+		//applet.graph = simpleTestGraph.buildSimpleGraph();
+		applet.graph = simpleTestGraph.readAnyGraph(simpleGraphPath);
+		// saveDataToFile(GraphSerializer.toJson(applet.graph), simpleGraphPath);
 		// saveDataToFile(GraphSerializer.toJson(graph), "Graphs/NGACExample1.json");
 		CVC4Translator translator = new CVC4Translator(applet.graph);
 		translator.initTranslation();
-
-		saveDataToFile(translator.getTranslatedGraph() + "(declare-const access_to_check1 String)\r\n"
-				+ "(declare-const access_to_check2 String)\r\n" + "(declare-const access_to_check3 String)\r\n"
-				+ "(declare-const access_to_check4 String)\r\n" + "\r\n" + "(assert (= \"r\"  access_to_check1))\r\n"
-				+ "(assert (= \"x\"  access_to_check2))\r\n" + "(assert (= \"w\"  access_to_check3))\r\n"
-				+ "(assert (= \"add\"  access_to_check4))\r\n" + "\r\n" + "(declare-fun ar () String)\r\n" + "\r\n"
-				+ "(echo \"U1 O1\")\r\n" + "; Access Right r check\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check1 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check2 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check3 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check4 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "\r\n" + "\r\n"
-				+ "(echo \"U1 O2\")\r\n" + "; Access Right r check\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check1 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check2 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check3 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check4 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "\r\n" + "(echo \"U2 O2\")\r\n"
-				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check2 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check3 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check4 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "\r\n" + "(echo \"U2 O1\")\r\n"
-				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check2 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check3 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check4 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "\r\n" + "(echo \"U3 O1\")\r\n"
-				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check2 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check3 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check4 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "(echo \"U3 O2\")\r\n"
-				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check2 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check3 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check4 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "(echo \"U1 U3\")\r\n"
-				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check2 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check3 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check4 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "(echo \"U2 U3\")\r\n"
-				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check2 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check3 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
-				+ "(assert (= access_to_check4 ar))\r\n"
-				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
-				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)", "SMTLIBv2Files/SMTLIB2Input/tclosureSimpleGraph.smt2");
-
+		String translatedGraph = translator.getTranslatedGraph();
+		//System.out.println(translatedGraph);
+		saveDataToFile(translatedGraph, "SMTLIBv2Files/SMTLIB2Input/tclosureSimpleGraph.smt2");
+		
+		
 		CVC4Runner runner = new CVC4Runner();
 
 		runner.runFromSMTLIB2("SMTLIBv2Files/SMTLIB2Input/tclosureSimpleGraph.smt2");
 
+		
+		
+//		saveDataToFile(translator.getTranslatedGraph() + "(declare-const access_to_check1 String)\r\n"
+//				+ "(declare-const access_to_check2 String)\r\n" + "(declare-const access_to_check3 String)\r\n"
+//				+ "(declare-const access_to_check4 String)\r\n" + "\r\n" + "(assert (= \"r\"  access_to_check1))\r\n"
+//				+ "(assert (= \"x\"  access_to_check2))\r\n" + "(assert (= \"w\"  access_to_check3))\r\n"
+//				+ "(assert (= \"add\"  access_to_check4))\r\n" + "\r\n" + "(declare-fun ar () String)\r\n" + "\r\n"
+//				+ "(echo \"U1 O1\")\r\n" + "; Access Right r check\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check1 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check2 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check3 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check4 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "\r\n" + "\r\n"
+//				+ "(echo \"U1 O2\")\r\n" + "; Access Right r check\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check1 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check2 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check3 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check4 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "\r\n" + "(echo \"U2 O2\")\r\n"
+//				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check2 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check3 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check4 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "\r\n" + "(echo \"U2 O1\")\r\n"
+//				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check2 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check3 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check4 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "\r\n" + "(echo \"U3 O1\")\r\n"
+//				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check2 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check3 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check4 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O1\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "(echo \"U3 O2\")\r\n"
+//				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check2 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check3 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check4 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U3\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"O2\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "(echo \"U1 U3\")\r\n"
+//				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check2 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check3 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check4 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U1\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "\r\n" + "(echo \"U2 U3\")\r\n"
+//				+ "; Access Right r check\r\n" + "(push 1)\r\n" + "(assert (= access_to_check1 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check2 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check3 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)\r\n" + "(push 1)\r\n"
+//				+ "(assert (= access_to_check4 ar))\r\n"
+//				+ "(assert (exists ((relationAssociation association)) (and (= relationAssociation (choose setAssociation)) (member (mkTuple \"U2\" (UA relationAssociation)) Tclosure) (member ar (access_rights relationAssociation)) (member (mkTuple \"U3\" (AT relationAssociation)) Tclosure))))\r\n"
+//				+ "(check-sat)\r\n" + "(get-value (ar))\r\n" + "(pop 1)", "SMTLIBv2Files/SMTLIB2Input/tclosureSimpleGraph.smt2");
+
+		
+		
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 //		Runtime rt = Runtime.getRuntime();
 //		String[] commands = { "CVC4/cvc4.exe", "--incremental", "SMTLIB2Input/tclosureSimpleGraph.smt2" };
 //		Process proc = rt.exec(commands);

@@ -42,7 +42,7 @@ public class MutantTester {
 	public static Graph graph;
 	String testMethod;
 	// public String initialGraphConfig = "GPMSPolicies/SimpleGraphToSMT.json";
-	public String initialGraphConfig = "GPMSPolicies/bank_policy_config.json";
+	public String initialGraphConfig = "GPMSPolicies/simpleGraphToSMT.json";
 
 	static List<Node> UAs;
 	static List<Node> UAsOAs;
@@ -52,7 +52,7 @@ public class MutantTester {
 	public MutantTester(String testMethod) {
 		this.testMethod = testMethod;
 		try {
-			graph = Utils.readGPMSGraph();// .readAnyGraph(initialGraphConfig);
+			graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
 			if (!Utils.verifyTestSuitIsForGraph(graph, getTestSuitPathByMethod(testMethod))) {
 				throw new GraphDoesNotMatchTestSuitException("Please verify that the testing suit is for this graph");
 			}
@@ -118,6 +118,9 @@ public class MutantTester {
 	}
 
 	public double calculateMutationScore(double numberOfMutations, double numberOfKilledMutants) {
+		if(numberOfMutations == 0) {
+			return 0;
+		}
 		return (numberOfKilledMutants / numberOfMutations * 100);
 	}
 

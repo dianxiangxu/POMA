@@ -33,6 +33,8 @@ import org.apache.commons.io.FileUtils;
 
 import POMA.GUI.*;
 import POMA.GUI.components.JPanelPB;
+import POMA.GUI.components.MutationBasedTestMutationMethods;
+import POMA.Mutation.MutationAnalysis.MutationController;
 
 
 public class MutationPanel extends JPanelPB {
@@ -320,18 +322,18 @@ public class MutationPanel extends JPanelPB {
 	}
 
 	public void generateMutants() {
-//		if (!xpa.hasWorkingPolicy()) {
-//			JOptionPane.showMessageDialog(xpa, "There is no policy.");
+//		if (!poma.hasWorkingPolicy()) {
+//			JOptionPane.showMessageDialog(poma, "There is no policy.");
 //			return;
 //		}
-//		MutationBasedTestMutationMethods mutPanel = new MutationBasedTestMutationMethods();
-//		
-//		int result = JOptionPane.showConfirmDialog(xpa, mutPanel.createPanel(),"Please Select Mutation Methods",JOptionPane.OK_CANCEL_OPTION);
-//		Map<String,String> mutantOperators = new HashMap<String,String>();
-//		if (result == JOptionPane.OK_OPTION) {
-//			this.startProgressStatus();
-//			try {
-//				File policyFile = xpa.getWorkingPolicyFile();
+		MutationBasedTestMutationMethods mutPanel = new MutationBasedTestMutationMethods();
+		
+		int result = JOptionPane.showConfirmDialog(poma, mutPanel.createPanel(),"Please Select Mutation Methods",JOptionPane.OK_CANCEL_OPTION);
+		Map<String,String> mutantOperators = new HashMap<String,String>();
+		if (result == JOptionPane.OK_OPTION) {
+			this.startProgressStatus();
+			try {
+//				File policyFile = poma.getWorkingPolicyFile();
 //				AbstractPolicy policy = PolicyLoader.loadPolicy(policyFile);
 //				List<Mutant> mutants = new ArrayList<Mutant>();
 //		        Mutator mutator = new Mutator(new Mutant(policy, XACMLElementUtil.getPolicyName(policyFile)));
@@ -341,12 +343,12 @@ public class MutationPanel extends JPanelPB {
 //		        } else{
 //		        	mutantsFolder.mkdir();
 //		        }
-//		        MutationBasedTestGenerator testGenerator = new MutationBasedTestGenerator(xpa.getWorkingPolicyFilePath());
+		      //  MutationBasedTestGenerator testGenerator = new MutationBasedTestGenerator(xpa.getWorkingPolicyFilePath());
 //				MutationBasedTestMutationMethods mbtMethods = new MutationBasedTestMutationMethods();
-//				String policyFilePath = xpa.getWorkingPolicyFilePath();
+//				String policyFilePath = poma.getWorkingPolicyFilePath();
 //				List<String> mutationMethods = new ArrayList<String>();
 //				mutationMethods.add("createCombiningAlgorithmMutants");
-//				//mutationMethods.add("createRuleConditionTrueMutants");
+				//mutationMethods.add("createRuleConditionTrueMutants");
 //				int rulesCount = XACMLElementUtil.getRuleFromPolicy(policy).size();
 //				if(rulesCount<1000) { // if number of rules is larger than 1000, then checking equivalent mutants of type RTT is costly, so to reduce mutants generation time, automatic removal is disabled and instead do manually or remove this if condition
 //					mutationMethods.add("createRuleTargetTrueMutants"); 
@@ -360,15 +362,17 @@ public class MutationPanel extends JPanelPB {
 //				
 //				// did not test with every mutation operator to reduce mutation generation time
 //				// if there exists other equivalent mutant from other mutation operators, needs to add it here to remove equivalent mutant
-//				List<TaggedRequest> taggedRequests = testGenerator.generateRequests(mutationMethods);
-//				AbstractPolicy p = PolicyLoader.loadPolicy(xpa.getWorkingPolicyFile());
-//				List<Mutant> tR = new ArrayList<Mutant>();
+////				List<TaggedRequest> taggedRequests = testGenerator.generateRequests(mutationMethods);
+////				AbstractPolicy p = PolicyLoader.loadPolicy(xpa.getWorkingPolicyFile());
+////				List<Mutant> tR = new ArrayList<Mutant>();
 //		        
-//		        for(String method:mutPanel.getMutationOperatorList(false)) {
-//		        	List<String> methods = new ArrayList<String>();
-//		        	methods.add(method);
-//			        List<Mutant> muts = mutator.generateSelectedMutantsAndSave(methods,mutantsFolder.toString());
-//			        
+		      //  for(String method:mutPanel.getMutationOperatorList(false)) {
+		        //	List<String> methods = new ArrayList<String>();
+		        //	methods.add(method);
+		    		MutationController mc = new MutationController();
+		    		mc.createMutants(mutPanel.getMutationOperatorList(false));
+			       // List<Mutant> muts = mutator.generateSelectedMutantsAndSave(methods,mutantsFolder.toString());
+			        
 //			        for(Mutant mutant: muts){
 //			        	if(methods.get(0).equals("createCombiningAlgorithmMutants")||(methods.get(0).equals("createRuleTargetTrueMutants") && !disableEquivalentMutantFilterFlag &&  rulesCount<1000)|| (methods.get(0).equals("createRemoveParallelTargetElementMutants") && rulesCount<50)) {
 //			        		boolean live = true;
@@ -400,13 +404,14 @@ public class MutationPanel extends JPanelPB {
 //				mutantSuite = new PolicySpreadSheetMutantSuite(mutantsFolder.toString(),mutants,XACMLElementUtil.getPolicyName(policyFile)); // write to spreadsheet		
 //				mutantSuite.writePolicyMutantsSpreadSheet(mutants,XACMLElementUtil.getPolicyName(policyFile) + "_mutants.xls");
 //				setUpMutantPanel(mutants, PropertiesLoader.getProperties("config").getProperty("mutantsFolderName"));
-//		        
-//			
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			this.stopProgressStatus();
-//		}
+		        
+			
+			//}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			this.stopProgressStatus();
+		}
 		
 	}
 	

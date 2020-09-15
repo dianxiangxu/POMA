@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,23 +38,24 @@ import gov.nist.csd.pm.pip.graph.dag.visitor.Visitor;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class Utils {
-	
+
 	public static Boolean isContainedBy(Graph graph, String descendant, String container) throws PMException {
 		Node containerNode = graph.getNode(container);
 		Node descendantNode = graph.getNode(descendant);
 		DepthFirstSearcher dfs = new DepthFirstSearcher(graph);
-        Set<String> nodes = new HashSet<>();
-        Visitor visitor = node -> {
-            if (node.getName().equals(containerNode.getName())) {
-                nodes.add(node.getName());
-            }
-        };
-        dfs.traverse(descendantNode, (c, p) -> {}, visitor, Direction.PARENTS);
+		Set<String> nodes = new HashSet<>();
+		Visitor visitor = node -> {
+			if (node.getName().equals(containerNode.getName())) {
+				nodes.add(node.getName());
+			}
+		};
+		dfs.traverse(descendantNode, (c, p) -> {
+		}, visitor, Direction.PARENTS);
 
-        return nodes.contains(containerNode.getName());
+		return nodes.contains(containerNode.getName());
 	}
-	
-	public static String getPCOf(Graph graph, String node) throws PMException {		
+
+	public static String getPCOf(Graph graph, String node) throws PMException {
 		for (String pc : graph.getPolicyClasses()) {
 			if (isContainedBy(graph, node, pc)) {
 				return pc;
@@ -61,12 +63,10 @@ public class Utils {
 		}
 		return "";
 	}
-	
-	
-	
-	public static OperationSet getAllAccessRights(Graph graph) throws PMException, IOException, NoTypeProvidedException {
+
+	public static OperationSet getAllAccessRights(Graph graph) throws PMException, NoTypeProvidedException {
 		OperationSet ARSet = new OperationSet();
-		for (String SourceNode : getNodesByTypes(graph,"UA")) {
+		for (String SourceNode : getNodesByTypes(graph, "UA")) {
 			if (graph.getSourceAssociations(SourceNode) == null) {
 				continue;
 			}
@@ -234,8 +234,9 @@ public class Utils {
 		return csvList;
 	}
 
-	public static List<String> getNodesByTypes(Graph graph, String ... types) throws PMException, NoTypeProvidedException {
-		if(types.length==0) {
+	public static List<String> getNodesByTypes(Graph graph, String... types)
+			throws PMException, NoTypeProvidedException {
+		if (types.length == 0) {
 			throw new NoTypeProvidedException("Please provide at least one type to search for in graph");
 		}
 		List<String> listOfTypes = Arrays.asList(types);
@@ -252,16 +253,16 @@ public class Utils {
 	public static List<String> mergeTwoLists(List<String> list1, List<String> list2) {
 		return Stream.of(list1, list2).flatMap(x -> x.stream()).collect(Collectors.toList());
 	}
-	
-	public static Boolean verifyTestSuitIsForGraph(Graph graph, String testSuitPath) throws IOException, PMException{
+
+	public static Boolean verifyTestSuitIsForGraph(Graph graph, String testSuitPath) throws IOException, PMException {
 		List<String[]> testSuite = loadCSV(new File(testSuitPath));
 		for (String[] sArray : testSuite) {
 			String UorUAname = sArray[1];
 			String OorOAname = sArray[2];
 			String ar = sArray[3];
-			
+
 			try {
-				if(!graph.exists(UorUAname) || !graph.exists(OorOAname) || !getAllAccessRights(graph).contains(ar)) {
+				if (!graph.exists(UorUAname) || !graph.exists(OorOAname) || !getAllAccessRights(graph).contains(ar)) {
 					return false;
 				}
 			} catch (NoTypeProvidedException e) {
@@ -269,5 +270,36 @@ public class Utils {
 			}
 		}
 		return true;
+	}
+
+	private static void addJSONToGraph(MemGraph graph, String path) {
+		File file = new File(path);
+		String JSON = "";
+		try {
+			JSON = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			GraphSerializer.fromJson(graph, JSON);
+		} catch (PMException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static MemGraph readAllFilesInFolderToGraph(final File folder) {
+		MemGraph graph = new MemGraph();
+		for (final File fileEntry : folder.listFiles()) {
+			System.out.println(fileEntry.getAbsolutePath());
+			addJSONToGraph(graph, fileEntry.getAbsolutePath());
+		}
+		try {
+			System.out.println(GraphSerializer.toJson(graph));
+		} catch (PMException e) {
+			e.printStackTrace();
+		}
+		return graph;
+
 	}
 }

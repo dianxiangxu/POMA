@@ -23,6 +23,7 @@ package POMA.GUI.editor;
 import org.xml.sax.SAXException;
 
 import POMA.GUI.GraphVisualization.GUI;
+import POMA.TestSuitGeneration.Utils;
 import POMA.Verification.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
@@ -52,13 +53,15 @@ import java.util.Hashtable;
 public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	// Store the policy for editing
 	protected 	String 		policy;
-	
+	MemGraph g;
 	// The expected usage is: 
 	//		PanelPolicy pp = new PanelPolicy(); 
 	//		pp.setPolicy(oldPolicy);
 	//		if (pp.isPolicyChanged())
 	//			newPolicy = pp.getPolicy();
-	
+	public MemGraph getGraph() {
+		return g;
+	}
 	public void setPolicy(String policy) {
 		this.policy = policy;
 
@@ -314,35 +317,46 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setMultiSelectionEnabled(false);
 		fileChooser.setCurrentDirectory(getCurrentDirectory());
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
 //		fileChooser.setFileFilter(new XMLFileFilter("xml"));
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			File temporal = fileChooser.getSelectedFile();
+			
+			
 //			AnalizadorSAX asax = new AnalizadorSAX();
 //			try {
-			MemGraph g = null;
+			 g = null;
 			SimpleTestGraph simpleTestGraph = new SimpleTestGraph();
-			try {
-			 g = simpleTestGraph.readAnyGraph(temporal.getPath());
-			}catch(PMException e) {
-				JOptionPane.showMessageDialog(this,
-						"Graph cannot be built, some nodes do not exsist",
-						"Error of Selection",
-						JOptionPane.WARNING_MESSAGE);
-				e.printStackTrace();
-			} catch (IOException | NullPointerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(this,
-						"File cannot be opened",
-						"Error of Selection",
-						JOptionPane.WARNING_MESSAGE);
-			}
-				if (!temporal.toString().endsWith(".json")) {
+			
+				if (!temporal.toString().endsWith(".json") && !temporal.isDirectory()) {
+					System.out.println(temporal.toString());
 					JOptionPane.showMessageDialog(this,
 							"The open File is not a Policy *.json",
 							"Error of Selection",
 							JOptionPane.WARNING_MESSAGE);
-				} else {
+					return;
+				} 
+				else if(temporal.isDirectory()) {
+					System.out.println("Is directory");
+					g = Utils.readAllFilesInFolderToGraph(temporal);
+				}
+				else {
+				 try {
+					g = simpleTestGraph.readAnyGraph(temporal.getPath());
+				} catch (PMException e) {
+					JOptionPane.showMessageDialog(this,
+							"Graph cannot be built, some nodes do not exsist",
+							"Error of Selection",
+							JOptionPane.WARNING_MESSAGE);
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(this,
+							"File cannot be opened",
+							"Error of Selection",
+							JOptionPane.WARNING_MESSAGE);
+				}
+
+				}
 					JPanel p1 = new JPanel(); 
 					
 					JTextArea t1 = new JTextArea(); 
@@ -394,7 +408,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 ////				vm.getPrintStream().println(exc.toString());
 //			}
 		}
-	}
+	
 	
 	public void openFile(String file){
 	/*	saveChanged();

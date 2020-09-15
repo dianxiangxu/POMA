@@ -15,20 +15,20 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class MutationBasedTestMutationMethods {
-	private JCheckBox boxPTT;
-	private JCheckBox boxPTF;
-	private JCheckBox boxCRE;
-	private JCheckBox boxRER;
-	private JCheckBox boxRTT;
-	private JCheckBox boxRTF;
-	private JCheckBox boxRCT;
-	private JCheckBox boxRCF;
-	private JCheckBox boxFPR;
-	private JCheckBox boxFDR;
-	private JCheckBox boxANF;
+	private JCheckBox boxAACR;
+	private JCheckBox boxAAGR;
+	private JCheckBox boxCAA;
+	private JCheckBox boxRAD;
+	private JCheckBox boxCAD;
+	private JCheckBox boxCOAA;
+	private JCheckBox boxCUAA;
+	private JCheckBox boxRACR;
+	private JCheckBox boxRAGR;
+	private JCheckBox boxRARA;
+	private JCheckBox boxRARAA;
 	private JCheckBox boxRNF;
 	private JCheckBox boxRPTE;
-	private JCheckBox boxCCA;
+	private JCheckBox boxAARA;
 	//private JCheckBox boxRCCF;
 	//private JCheckBox boxPCCF;
 	private JCheckBox boxSelectM8;
@@ -36,111 +36,111 @@ public class MutationBasedTestMutationMethods {
 	
 	
 	public JCheckBox getBoxPTT() {
-		return boxPTT;
+		return boxAACR;
 	}
 
 
 	public void setBoxPTT(JCheckBox boxPTT) {
-		this.boxPTT = boxPTT;
+		this.boxAACR = boxPTT;
 	}
 
 
 	public JCheckBox getBoxPTF() {
-		return boxPTF;
+		return boxAAGR;
 	}
 
 
 	public void setBoxPTF(JCheckBox boxPTF) {
-		this.boxPTF = boxPTF;
+		this.boxAAGR = boxPTF;
 	}
 
 	public JCheckBox getBoxCRE() {
-		return boxCRE;
+		return boxCAA;
 	}
 
 
 	public void setBoxCRE(JCheckBox boxCRE) {
-		this.boxCRE = boxCRE;
+		this.boxCAA = boxCRE;
 	}
 
 
 	public JCheckBox getBoxRER() {
-		return boxRER;
+		return boxRAD;
 	}
 
 
 	public void setBoxRER(JCheckBox boxRER) {
-		this.boxRER = boxRER;
+		this.boxRAD = boxRER;
 	}
 
 
 	public JCheckBox getBoxRTT() {
-		return boxRTT;
+		return boxCAD;
 	}
 
 
 	public void setBoxRTT(JCheckBox boxRTT) {
-		this.boxRTT = boxRTT;
+		this.boxCAD = boxRTT;
 	}
 
 
 	public JCheckBox getBoxRTF() {
-		return boxRTF;
+		return boxCOAA;
 	}
 
 
 	public void setBoxRTF(JCheckBox boxRTF) {
-		this.boxRTF = boxRTF;
+		this.boxCOAA = boxRTF;
 	}
 
 
 	public JCheckBox getBoxRCT() {
-		return boxRCT;
+		return boxCUAA;
 	}
 
 
 	public void setBoxRCT(JCheckBox boxRCT) {
-		this.boxRCT = boxRCT;
+		this.boxCUAA = boxRCT;
 	}
 
 
 	public JCheckBox getBoxRCF() {
-		return boxRCF;
+		return boxRACR;
 	}
 
 
 	public void setBoxRCF(JCheckBox boxRCF) {
-		this.boxRCF = boxRCF;
+		this.boxRACR = boxRCF;
 	}
 
 
 	public JCheckBox getBoxFPR() {
-		return boxFPR;
+		return boxRAGR;
 	}
 
 
 	public void setBoxFPR(JCheckBox boxFPR) {
-		this.boxFPR = boxFPR;
+		this.boxRAGR = boxFPR;
 	}
 
 
 	public JCheckBox getBoxFDR() {
-		return boxFDR;
+		return boxRARA;
 	}
 
 
 	public void setBoxFDR(JCheckBox boxFDR) {
-		this.boxFDR = boxFDR;
+		this.boxRARA = boxFDR;
 	}
 
 
 	public JCheckBox getBoxANF() {
-		return boxANF;
+		return boxRARAA;
 	}
 
 
 	public void setBoxANF(JCheckBox boxANF) {
-		this.boxANF = boxANF;
+		this.boxRARAA = boxANF;
 	}
 
 
@@ -164,12 +164,12 @@ public class MutationBasedTestMutationMethods {
 	}
 
 	public JCheckBox getBoxCCA() {
-		return boxCCA;
+		return boxAARA;
 	}
 
 
 	public void setBoxCCA(JCheckBox boxCCA) {
-		this.boxCCA = boxCCA;
+		this.boxAARA = boxCCA;
 	}
 
 //	public JCheckBox getBoxRCCF() {
@@ -200,47 +200,45 @@ public class MutationBasedTestMutationMethods {
 	
 	public List<JCheckBox> getAllBoxes() {
 		List<JCheckBox> boxes = new ArrayList<JCheckBox>();
-		boxes.add(boxPTT);
-		boxes.add(boxPTF);
-		boxes.add(boxCCA);
-		boxes.add(boxCRE);
-		boxes.add(boxRTT);
-		boxes.add(boxRTF);
-		boxes.add(boxRCT);
-		boxes.add(boxRCF);
-		boxes.add(boxRER);
-		boxes.add(boxFPR);
-		boxes.add(boxFDR);
-		boxes.add(boxANF);
-		boxes.add(boxRNF);
+		boxes.add(boxAACR);
+		boxes.add(boxAAGR);
+		boxes.add(boxAARA);
+		boxes.add(boxCAA);
+		boxes.add(boxCAD);
+		boxes.add(boxCOAA);
+		boxes.add(boxCUAA);
+		boxes.add(boxRACR);
+		boxes.add(boxRAD);
+		boxes.add(boxRAGR);
+		boxes.add(boxRARA);
+		boxes.add(boxRARAA);
+		//boxes.add(boxRNF);
 //		boxes.add(boxRCCF);
 //		boxes.add(boxPCCF);
-		boxes.add(boxRPTE);
-		boxes.add(boxSelectM8);
+		//boxes.add(boxRPTE);
+	//	boxes.add(boxSelectM8);
 		boxes.add(boxSelectAll);
 		return boxes;
 	}
 
 
 	public MutationBasedTestMutationMethods(){
-		boxPTT = new JCheckBox("Policy Target True (PTT)");
-		boxPTF = new JCheckBox("Policy Target False (PTF)");
-		boxCCA = new JCheckBox("Change Combining Algorithm (CCA)");
-		boxCRE = new JCheckBox("Flip Rule Effect (CRE)");
-		boxRTT = new JCheckBox("Rule Target True (RTT)");
-		boxRTF = new JCheckBox("Rule Target False (RTF)");
-		boxRCT = new JCheckBox("Rule Condition True (RCT)");
-		boxRCF = new JCheckBox("Rule Condition False (RCF)");
-		boxRER = new JCheckBox("Remove One Rule (RER)");
-		boxFPR = new JCheckBox("First Permit Rules (FPR)");
-		boxFDR = new JCheckBox("First Deny Rules (FDR)");
-		boxANF = new JCheckBox("Add Not Function (ANF)");
-		boxRNF = new JCheckBox("Remove Not Function (RNF)");
-//		boxRCCF = new JCheckBox("Rule Change Comparision Function (RCCF)");
-//		boxPCCF = new JCheckBox("Policy Change Comparision Function (PCCF)");
-		boxRPTE = new JCheckBox("Remove Parallel Target Element (RPTE)");
+		boxAACR = new JCheckBox("AACR");
+		boxAAGR = new JCheckBox("AAGR");
+		boxAARA = new JCheckBox("AARA");
+		boxCAA = new JCheckBox("CAA");
+		boxCAD = new JCheckBox("CAD");
+		boxCOAA = new JCheckBox("COAA");
+		boxCUAA = new JCheckBox("CUAA");
+		boxRACR = new JCheckBox("RACR");
+		boxRAD = new JCheckBox("RAD");
+		boxRAGR = new JCheckBox("RAGR");
+		boxRARA = new JCheckBox("RARA");
+		boxRARAA = new JCheckBox("RARAA");
+		//boxRNF = new JCheckBox("Remove Not Function (RNF)");
+
 		boxSelectAll = new JCheckBox("Select All");
-		boxSelectM8 = new JCheckBox("Select Eight(M8)");
+		//boxSelectM8 = new JCheckBox("Select Eight(M8)");
 		boxSelectAll.addActionListener(new ActionListener() {		 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -251,15 +249,15 @@ public class MutationBasedTestMutationMethods {
 			}
         });
 		
-		boxSelectM8.addActionListener(new ActionListener() {		 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (boxSelectM8.isSelected())
-		        	setM8Boxes(true);
-		        else
-		        	setM8Boxes(false);			
-			}
-        });
+//		boxSelectM8.addActionListener(new ActionListener() {		 
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if (boxSelectM8.isSelected())
+//		        	setM8Boxes(true);
+//		        else
+//		        	setM8Boxes(false);			
+//			}
+//        });
 		
 		
 	}
@@ -267,64 +265,63 @@ public class MutationBasedTestMutationMethods {
 	public List<String> getMutationOperatorList(boolean filter){
 		boolean flag = false;
 		List<String> lst = new ArrayList<String>();
-		if (boxCRE.isSelected()) {
+		if (boxCAA.isSelected()) {
 			if(!filter||!flag)
-			lst.add("createRuleEffectFlippingMutants");
+			lst.add("CAA");
 			flag = true;
 		}
-		if (boxRPTE.isSelected()) {
-			lst.add("createRemoveParallelTargetElementMutants");
-		}
-		if (boxRER.isSelected()) {
+//		if (boxRPTE.isSelected()) {
+//			lst.add("RPTE");
+//		}
+		if (boxRARAA.isSelected()) {
 			if(!filter||!flag)
-			lst.add("createRemoveRuleMutants");
+			lst.add("RARAA");
 			flag = true;
 
 		}
-		
-		if (boxRTF.isSelected()) {
+		if (boxRAD.isSelected()) {
+			if(!filter||!flag)
+			lst.add("RAD");
+			flag = true;
+
+		}
+		if (boxCOAA.isSelected()) {
 			
 			if(!filter||!flag)
 				
-			lst.add("createRuleTargetFalseMutants");
+			lst.add("COAA");
 			flag = true;
 		}
-		if (boxRCT.isSelected()) {
-			lst.add("createRuleConditionTrueMutants");
+		if (boxCUAA.isSelected()) {
+			lst.add("CUAA");
 		}
-		if (boxRCF.isSelected()) {
+		if (boxRACR.isSelected()) {
 			if(!filter||!flag)
 				
-			lst.add("createRuleConditionFalseMutants");
+			lst.add("RACR");
 			flag = true;
 
 		}
-		if (boxFPR.isSelected()) {
-			lst.add("createFirstPermitRuleMutants");
+		if (boxRAGR.isSelected()) {
+			lst.add("RAGR");
 		}
-		if (boxFDR.isSelected()) {
-			lst.add("createFirstDenyRuleMutants");
+		if (boxRARA.isSelected()) {
+			lst.add("RARA");
 		}
-		if (boxANF.isSelected()) {
-			if(!filter||!flag)
-				
-			lst.add("createAddNotFunctionMutants");
-			flag = true;
 
-		}
-		if (boxRNF.isSelected()) {
-			if(!filter||!flag)
-				
-			lst.add("createRemoveNotFunctionMutants");
-			flag = true;
-
-		}
+//		if (boxRNF.isSelected()) {
+//			if(!filter||!flag)
+//				
+//			lst.add("createRemoveNotFunctionMutants");
+//			flag = true;
+//
+//		}
 		
-		if (boxCCA.isSelected()) {
-			lst.add("createCombiningAlgorithmMutants");
+		if (boxAARA.isSelected()) {
+			lst.add("AARA"); //+
 		}
-		if (boxRTT.isSelected()) {
-			lst.add("createRuleTargetTrueMutants");
+		if (boxCAD.isSelected()) {
+			lst.add("CAD");
 		}
 //		if (boxRCCF.isSelected()) {
 //			lst.add("createRuleChangeComparisonFunctionMutants");
@@ -333,51 +330,51 @@ public class MutationBasedTestMutationMethods {
 //			lst.add("createPolicyTargetChangeComparisonFunctionMutants");
 //		}
 		
-		if (boxPTT.isSelected()) {
-			lst.add("createPolicyTargetTrueMutants");
+		if (boxAACR.isSelected()) {
+			lst.add("AACR");
 		}
-		if (boxPTF.isSelected()) {
-			lst.add("createPolicyTargetFalseMutants");
+		if (boxAAGR.isSelected()) {
+			lst.add("AAGR");
 		}
 		
 		return lst;
 	}
 	
 	public void setAllIndividualBoxes(boolean selected) {
-		boxPTT.setSelected(selected);
-		boxPTF.setSelected(selected);
-		boxCCA.setSelected(selected);
-		boxCRE.setSelected(selected);
-		boxRTT.setSelected(selected);
-		boxRTF.setSelected(selected);
-		boxRCT.setSelected(selected);
-		boxRCF.setSelected(selected);
-		boxRER.setSelected(selected);
+		boxAACR.setSelected(selected);
+		boxAAGR.setSelected(selected);
+		boxAARA.setSelected(selected);
+		boxCAA.setSelected(selected);
+		boxCAD.setSelected(selected);
+		boxCOAA.setSelected(selected);
+		boxCUAA.setSelected(selected);
+		boxRACR.setSelected(selected);
+		boxRAD.setSelected(selected);
 		
-		boxFPR.setSelected(selected);
-		boxFDR.setSelected(selected);
-		boxANF.setSelected(selected);
-		boxRNF.setSelected(selected);
-		boxRPTE.setSelected(selected);
+		boxRAGR.setSelected(selected);
+		boxRARA.setSelected(selected);
+		boxRARAA.setSelected(selected);
+		//boxRNF.setSelected(selected);
+		//boxRPTE.setSelected(selected);
 //		boxRCCF.setSelected(selected);
 //		boxPCCF.setSelected(selected);
 		
 		boxSelectAll.setSelected(selected);
 	}
 	
-	public void setM8Boxes(boolean selected) {
-		setAllIndividualBoxes(false);
-		boxPTT.setSelected(selected);
-		boxPTF.setSelected(selected);
-		boxCCA.setSelected(selected);
-		boxCRE.setSelected(selected);
-		boxRTT.setSelected(selected);
-		boxRTF.setSelected(selected);
-		boxRCT.setSelected(selected);
-		boxRCF.setSelected(selected);
-		
-		
-	}
+//	public void setM8Boxes(boolean selected) {
+//		setAllIndividualBoxes(false);
+//		boxAACR.setSelected(selected);
+//		boxAAGR.setSelected(selected);
+//		boxAARA.setSelected(selected);
+//		boxCAA.setSelected(selected);
+//		boxCAD.setSelected(selected);
+//		boxCOAA.setSelected(selected);
+//		boxCUAA.setSelected(selected);
+//		boxRACR.setSelected(selected);
+//		
+//		
+//	}
 	
 
 	
@@ -388,23 +385,23 @@ public class MutationBasedTestMutationMethods {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(13, 2));
-		panel.add(boxPTT);
-		panel.add(boxPTF);
-		panel.add(boxCRE);
-		panel.add(boxRER);
-		panel.add(boxRTT);
-		panel.add(boxRTF);
-		panel.add(boxRCT);
-		panel.add(boxRCF);
-		panel.add(boxFPR);
-		panel.add(boxFDR);
-		panel.add(boxANF);
-		panel.add(boxRNF);
-		panel.add(boxRPTE);
-		panel.add(boxCCA);
+		panel.add(boxAACR);
+		panel.add(boxAAGR);
+		panel.add(boxCAA);
+		panel.add(boxRAD);
+		panel.add(boxCAD);
+		panel.add(boxCOAA);
+		panel.add(boxCUAA);
+		panel.add(boxRACR);
+		panel.add(boxRAGR);
+		panel.add(boxRARA);
+		panel.add(boxRARAA);
+		//panel.add(boxRNF);
+		//panel.add(boxRPTE);
+		panel.add(boxAARA);
 //		panel.add(boxRCCF);
 //		panel.add(boxPCCF);
-		panel.add(boxSelectM8);
+		//panel.add(boxSelectM8);
 		panel.add(boxSelectAll);
 		panel.setBorder(new TitledBorder(new EtchedBorder(), ""));
 		return panel;

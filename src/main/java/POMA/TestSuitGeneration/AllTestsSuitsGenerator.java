@@ -27,7 +27,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class GraphTester {
+public class AllTestsSuitsGenerator {
 
 	public static void main(String[] args) throws Exception {
 
@@ -36,7 +36,7 @@ public class GraphTester {
 		// loader.setPolicy(gt.getGraph());
 		// loader.savePolicy(gt.getGraph(),"C:/data/ngac_config_Vlad.json");
 
-		GraphTester graphTester = new GraphTester();
+		AllTestsSuitsGenerator graphTester = new AllTestsSuitsGenerator();
 
 		/*
 		 * File file = new File("C:/Users/dubro/git/GPMS-NGAC/mutants/REMNODE"); for
@@ -64,10 +64,12 @@ public class GraphTester {
 		
 		String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
 		//String simpleGraphPath = "GPMSPolicies/bank_policy_config.json";
-		GraphTesterPairwise gt3 = new GraphTesterPairwise();
-		List<String[]> data3 = gt3.testGraphPairwisePC();
-		graphTester.saveCSV(data3, "P");
-
+		PairwiseTestSuitGenerator pairwiseGenerator = new PairwiseTestSuitGenerator(simpleGraphPath);
+		List<String[]> data1 = pairwiseGenerator.generatPairwiseTests();
+		graphTester.saveCSV(data1, "Pairwise");
+		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(simpleGraphPath);
+		List<String[]> data2 = allCombinationsGenerator.generateAllCombinationsTests();
+		graphTester.saveCSV(data2, "AllCombinations");
 
 		//savePolicy(gt1.getGraph(),"GPMSPolicies/gpms_testing_config.json");
 		/*

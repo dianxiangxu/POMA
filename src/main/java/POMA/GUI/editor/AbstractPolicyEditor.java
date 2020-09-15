@@ -5,7 +5,10 @@ import java.io.IOException;
 
 import javax.swing.JPanel;
 
+import gov.nist.csd.pm.pip.graph.MemGraph;
+
 public abstract class AbstractPolicyEditor extends JPanel{
+	MemGraph g;
 
 	abstract public File getWorkingPolicyFile();	
 		
@@ -22,7 +25,9 @@ public abstract class AbstractPolicyEditor extends JPanel{
 	public void saveAsFile(){
 		
 	}
-
+	public MemGraph getGraph() {
+		return g;
+	}
 	public static File getCurrentDirectory() {
 		File resultFile = null;
 		File dir1 = new File(".");
