@@ -291,6 +291,9 @@ public class Utils {
 	public static MemGraph readAllFilesInFolderToGraph(final File folder) {
 		MemGraph graph = new MemGraph();
 		for (final File fileEntry : folder.listFiles()) {
+			if (!fileEntry.toString().endsWith(".json")) {
+				continue;
+			}
 			System.out.println(fileEntry.getAbsolutePath());
 			addJSONToGraph(graph, fileEntry.getAbsolutePath());
 		}
