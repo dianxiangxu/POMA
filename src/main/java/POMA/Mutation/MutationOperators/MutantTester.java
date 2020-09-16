@@ -49,10 +49,11 @@ public class MutantTester {
 	static List<Node> UAsPCs;
 	static List<Node> UAsPCsOAs;
 
-	public MutantTester(String testMethod) {
+	public MutantTester(String testMethod, Graph graph) {
 		this.testMethod = testMethod;
+		this.graph = graph;
 		try {
-			graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
+			//graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
 			if (!Utils.verifyTestSuitIsForGraph(graph, getTestSuitPathByMethod(testMethod))) {
 				throw new GraphDoesNotMatchTestSuitException("Please verify that the testing suit is for this graph");
 			}
@@ -62,10 +63,12 @@ public class MutantTester {
 			e.printStackTrace();
 		} catch (GraphDoesNotMatchTestSuitException e) {
 			e.printStackTrace();
-			System.exit(1);
+			//System.exit(1);
 		}
 	}
-
+	public void setGraph(Graph graph) {
+		this.graph = graph;
+	}
 	public void testMutant(Graph mutant, File testSuiteCSV, String testMethod, int mutantNumber, String mutationMethod)
 			throws PMException, IOException {
 

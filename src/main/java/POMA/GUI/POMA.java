@@ -497,7 +497,8 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			mutationPanel.generateMutants();
+			
+			mutationPanel.generateMutants(editorPanel.getGraph());
 		}
 	}
 	public class GenerateSecondOrderMutantsAction extends AbstractAction {

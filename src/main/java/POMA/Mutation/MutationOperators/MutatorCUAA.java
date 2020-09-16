@@ -13,8 +13,8 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorCUAA extends MutantTester {
-	public MutatorCUAA(String testMethod) {
-		super(testMethod);
+	public MutatorCUAA(String testMethod, Graph graph) {
+		super(testMethod, graph);
 	}
 	public void init() throws PMException, IOException {
 		this.mutationMethod = "CUAA";

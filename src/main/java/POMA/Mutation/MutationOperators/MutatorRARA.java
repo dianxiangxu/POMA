@@ -13,8 +13,8 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorRARA extends MutantTester {
-	public MutatorRARA(String testMethod) {
-		super(testMethod);
+	public MutatorRARA(String testMethod, Graph graph) {
+		super(testMethod, graph);
 	}
 
 	public void init() throws PMException, IOException {

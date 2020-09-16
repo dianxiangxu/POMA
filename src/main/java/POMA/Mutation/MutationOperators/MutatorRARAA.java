@@ -14,8 +14,8 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorRARAA extends MutantTester {
 	OperationSet allAccessRightSet;
-	public MutatorRARAA(String testMethod) {
-		super(testMethod);
+	public MutatorRARAA(String testMethod, Graph graph) {
+		super(testMethod, graph);
 	}
 	public void init() throws PMException, IOException {
 		this.mutationMethod = "RARAA";

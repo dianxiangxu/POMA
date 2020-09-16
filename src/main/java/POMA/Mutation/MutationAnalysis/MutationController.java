@@ -43,24 +43,26 @@ public class MutationController {
 		File CSV = new File(mc.CSVFilePath);
 		long startTime = System.currentTimeMillis();
 		mc.createHeaderForCSV();
+		 String initialGraphConfig = "GPMSPolicies/simpleGraphToSMT.json";
 
+		mc.graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
 		for (String testMethod : mc.testMethods) {
 
 			String[] row = new String[rowCount];
 			mc.totalNumberOfMutantsForTest = 0;
 			mc.totalNumberOfKilledMutantsForTest = 0;
-			double resultRAD = mc.testRAD(testMethod);
-			double resultCAD = mc.testCAD(testMethod);
-			double resultCAA = mc.testCAA(testMethod);
-			double resultRAGR = mc.testRAGR(testMethod);
-			double resultAAGR = mc.testAAGR(testMethod);
-			double resultCUAA = mc.testCUAA(testMethod);
-			double resultCOAA = mc.testCOAA(testMethod);
-			double resultRARA = mc.testRARA(testMethod);
-			double resultAARA = mc.testAARA(testMethod);
-			double resultRACR = mc.testRACR(testMethod);
-			double resultAACR = mc.testAACR(testMethod);
-			double resultRARAA = mc.testRARAA(testMethod);
+			double resultRAD = mc.testRAD(testMethod, mc.graph);
+			double resultCAD = mc.testCAD(testMethod, mc.graph);
+			double resultCAA = mc.testCAA(testMethod, mc.graph);
+			double resultRAGR = mc.testRAGR(testMethod, mc.graph);
+			double resultAAGR = mc.testAAGR(testMethod, mc.graph);
+			double resultCUAA = mc.testCUAA(testMethod, mc.graph);
+			double resultCOAA = mc.testCOAA(testMethod, mc.graph);
+			double resultRARA = mc.testRARA(testMethod, mc.graph);
+			double resultAARA = mc.testAARA(testMethod, mc.graph);
+			double resultRACR = mc.testRACR(testMethod, mc.graph);
+			double resultAACR = mc.testAACR(testMethod, mc.graph);
+			double resultRARAA = mc.testRARAA(testMethod, mc.graph);
 
 			row[0] = testMethod;
 			row[1] = Double.toString(resultRAD);
@@ -94,7 +96,7 @@ public class MutationController {
 		createTestMethods();
 	}
 
-	public void createMutants(List<String> mutantNames) {
+	public void createMutants(List<String> mutantNames, Graph graph) {
 		createHeaderForCSV(mutantNames);
 
 		File CSV = new File(CSVFilePath);
@@ -110,30 +112,30 @@ public class MutationController {
 				System.out.println(mutantNames.toString());
 				double result = 0;
 				if (mutantNames.get(i).equals("RAD")) {
-					result = testRAD(testMethod);
+					result = testRAD(testMethod, graph);
 				} else if (mutantNames.get(i).equals("CAD")) {
-					result = testCAD(testMethod);
+					result = testCAD(testMethod, graph);
 				} else if (mutantNames.get(i).equals("CAA")) {
-					result = testCAA(testMethod);
+					result = testCAA(testMethod, graph);
 				} else if (mutantNames.get(i).equals("RAGR")) {
-					result = testRAGR(testMethod);
+					result = testRAGR(testMethod, graph);
 				} else if (mutantNames.get(i).equals("AAGR")) {
-					result = testAAGR(testMethod);
+					result = testAAGR(testMethod, graph);
 					System.out.println("HELLO");
 				} else if (mutantNames.get(i).equals("CUAA")) {
-					result = testCUAA(testMethod);
+					result = testCUAA(testMethod, graph);
 				} else if (mutantNames.get(i).equals("COAA")) {
-					result = testCOAA(testMethod);
+					result = testCOAA(testMethod, graph);
 				} else if (mutantNames.get(i).equals("RARA")) {
-					result = testRARA(testMethod);
+					result = testRARA(testMethod, graph);
 				} else if (mutantNames.get(i).equals("AARA")) {
-					result = testAARA(testMethod);
+					result = testAARA(testMethod, graph);
 				} else if (mutantNames.get(i).equals("RACR")) {
-					result = testRACR(testMethod);
+					result = testRACR(testMethod, graph);
 				} else if (mutantNames.get(i).equals("AACR")) {
-					result = testAACR(testMethod);
+					result = testAACR(testMethod, graph);
 				} else if (mutantNames.get(i).equals("RARAA")) {
-					result = testRARAA(testMethod);
+					result = testRARAA(testMethod, graph);
 				}
 
 				row[i+1] = Double.toString(result);
@@ -159,8 +161,8 @@ public class MutationController {
 		System.out.println("Execution time in min and sec: " + minutes + ":" + seconds);
 	}
 
-	private double testRAD(String testMethod) {
-		MutatorRAD mutatorRAD = new MutatorRAD(testMethod);
+	private double testRAD(String testMethod, Graph graph) {
+		MutatorRAD mutatorRAD = new MutatorRAD(testMethod, graph);
 		System.out.println("MutationMethod is RAD");
 
 		try {
@@ -183,8 +185,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testCAD(String testMethod) {
-		MutatorCAD mutatorCAD = new MutatorCAD(testMethod);
+	private double testCAD(String testMethod, Graph graph) {
+		MutatorCAD mutatorCAD = new MutatorCAD(testMethod, graph);
 		System.out.println("MutationMethod is CAD");
 
 		try {
@@ -207,8 +209,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testCAA(String testMethod) {
-		MutatorCAA mutatorCAA = new MutatorCAA(testMethod);
+	private double testCAA(String testMethod, Graph graph) {
+		MutatorCAA mutatorCAA = new MutatorCAA(testMethod, graph);
 		System.out.println("MutationMethod is CAA");
 
 		try {
@@ -231,8 +233,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testRAGR(String testMethod) {
-		MutatorRAGR mutatorRAGR = new MutatorRAGR(testMethod);
+	private double testRAGR(String testMethod, Graph graph) {
+		MutatorRAGR mutatorRAGR = new MutatorRAGR(testMethod, graph);
 		System.out.println("MutationMethod is RAGR");
 
 		try {
@@ -255,8 +257,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testAAGR(String testMethod) {
-		MutatorAAGR mutatorAAGR = new MutatorAAGR(testMethod);
+	private double testAAGR(String testMethod, Graph graph) {
+		MutatorAAGR mutatorAAGR = new MutatorAAGR(testMethod, graph);
 		System.out.println("MutationMethod is AAGR");
 
 		try {
@@ -279,8 +281,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testCUAA(String testMethod) {
-		MutatorCUAA mutatorCUAA = new MutatorCUAA(testMethod);
+	private double testCUAA(String testMethod, Graph graph) {
+		MutatorCUAA mutatorCUAA = new MutatorCUAA(testMethod, graph);
 		System.out.println("MutationMethod is CUAA");
 
 		try {
@@ -303,8 +305,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testCOAA(String testMethod) {
-		MutatorCOAA mutatorCOAA = new MutatorCOAA(testMethod);
+	private double testCOAA(String testMethod, Graph graph) {
+		MutatorCOAA mutatorCOAA = new MutatorCOAA(testMethod, graph);
 		System.out.println("MutationMethod is COAA");
 
 		try {
@@ -327,8 +329,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testRARA(String testMethod) {
-		MutatorRARA mutatorRARA = new MutatorRARA(testMethod);
+	private double testRARA(String testMethod, Graph graph) {
+		MutatorRARA mutatorRARA = new MutatorRARA(testMethod, graph);
 		System.out.println("MutationMethod is RARA" + mutatorRARA.getMutationMethod());
 
 		try {
@@ -351,8 +353,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testAARA(String testMethod) {
-		MutatorAARA mutatorAARA = new MutatorAARA(testMethod);
+	private double testAARA(String testMethod, Graph graph) {
+		MutatorAARA mutatorAARA = new MutatorAARA(testMethod, graph);
 		System.out.println("MutationMethod is AARA");
 
 		try {
@@ -375,8 +377,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testRACR(String testMethod) {
-		MutatorRACR mutatorRACR = new MutatorRACR(testMethod);
+	private double testRACR(String testMethod, Graph graph) {
+		MutatorRACR mutatorRACR = new MutatorRACR(testMethod, graph);
 		System.out.println("MutationMethod is RACR");
 
 		try {
@@ -399,8 +401,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testAACR(String testMethod) {
-		MutatorAACR mutatorAACR = new MutatorAACR(testMethod);
+	private double testAACR(String testMethod, Graph graph) {
+		MutatorAACR mutatorAACR = new MutatorAACR(testMethod, graph);
 		System.out.println("MutationMethod is AACR");
 
 		try {
@@ -423,8 +425,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testRARAA(String testMethod) {
-		MutatorRARAA mutatorRARAA = new MutatorRARAA(testMethod);
+	private double testRARAA(String testMethod, Graph graph) {
+		MutatorRARAA mutatorRARAA = new MutatorRARAA(testMethod, graph);
 		System.out.println("MutationMethod is RARAA");
 
 		try {

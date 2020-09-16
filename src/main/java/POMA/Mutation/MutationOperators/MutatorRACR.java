@@ -12,8 +12,8 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorRACR extends MutantTester {
-	public MutatorRACR(String testMethod) {
-		super(testMethod);
+	public MutatorRACR(String testMethod, Graph graph) {
+		super(testMethod, graph);
 	}
 	public void init() throws PMException, IOException {
 		this.mutationMethod = "RACR";

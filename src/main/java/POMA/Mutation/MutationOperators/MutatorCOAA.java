@@ -14,8 +14,8 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.graph.model.nodes.NodeType;
 
 public class MutatorCOAA extends MutantTester {
-	public MutatorCOAA(String testMethod) {
-		super(testMethod);
+	public MutatorCOAA(String testMethod, Graph graph) {
+		super(testMethod, graph);
 	}
 	public void init() throws PMException, IOException {
 		this.mutationMethod = "COAA";

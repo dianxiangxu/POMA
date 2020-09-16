@@ -9,8 +9,8 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorRAGR extends MutantTester {
-	public MutatorRAGR(String testMethod) {
-		super(testMethod);
+	public MutatorRAGR(String testMethod, Graph graph) {
+		super(testMethod, graph);
 	}
 	public void init() throws PMException, IOException {
 		this.mutationMethod = "RAGR";

@@ -10,8 +10,8 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorRAD extends MutantTester {
 
-	public MutatorRAD(String testMethod) {
-		super(testMethod);
+	public MutatorRAD(String testMethod, Graph graph) {
+		super(testMethod, graph);
 	}
 
 	public void init() throws PMException, IOException {

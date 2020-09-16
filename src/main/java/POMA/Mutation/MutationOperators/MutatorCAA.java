@@ -9,8 +9,8 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorCAA extends MutantTester {
-	public MutatorCAA(String testMethod) {
-		super(testMethod);
+	public MutatorCAA(String testMethod, Graph graph) {
+		super(testMethod, graph);
 	}
 
 	public void init() throws PMException, IOException {

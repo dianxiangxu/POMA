@@ -19,8 +19,8 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class GraphUtils extends MutantTester {
 
-	public GraphUtils(String testSuit) {
-		super(testSuit);
+	public GraphUtils(String testSuit, Graph graph) {
+		super(testSuit, graph);
 	}
 
 	// decide whether a is contained by b or not

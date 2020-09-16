@@ -35,6 +35,7 @@ import POMA.GUI.*;
 import POMA.GUI.components.JPanelPB;
 import POMA.GUI.components.MutationBasedTestMutationMethods;
 import POMA.Mutation.MutationAnalysis.MutationController;
+import gov.nist.csd.pm.pip.graph.Graph;
 
 
 public class MutationPanel extends JPanelPB {
@@ -321,7 +322,7 @@ public class MutationPanel extends JPanelPB {
 		}
 	}
 
-	public void generateMutants() {
+	public void generateMutants(Graph graph) {
 //		if (!poma.hasWorkingPolicy()) {
 //			JOptionPane.showMessageDialog(poma, "There is no policy.");
 //			return;
@@ -370,7 +371,7 @@ public class MutationPanel extends JPanelPB {
 		        //	List<String> methods = new ArrayList<String>();
 		        //	methods.add(method);
 		    		MutationController mc = new MutationController();
-		    		mc.createMutants(mutPanel.getMutationOperatorList(false));
+		    		mc.createMutants(mutPanel.getMutationOperatorList(false),graph);
 			       // List<Mutant> muts = mutator.generateSelectedMutantsAndSave(methods,mutantsFolder.toString());
 			        
 //			        for(Mutant mutant: muts){
