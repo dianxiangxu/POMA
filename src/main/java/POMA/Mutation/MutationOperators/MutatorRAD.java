@@ -3,6 +3,7 @@ package POMA.Mutation.MutationOperators;
 import java.io.File;
 import java.io.IOException;
 
+import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -10,7 +11,7 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorRAD extends MutantTester {
 
-	public MutatorRAD(String testMethod, Graph graph) {
+	public MutatorRAD(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph);
 	}
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -15,7 +16,7 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 public class MutatorAARA extends MutantTester {
 	OperationSet allAccessRightSet;
 
-	public MutatorAARA(String testMethod, Graph graph) {
+	public MutatorAARA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph);
 	}
 

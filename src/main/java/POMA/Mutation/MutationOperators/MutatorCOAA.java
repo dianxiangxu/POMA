@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -14,7 +15,7 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.graph.model.nodes.NodeType;
 
 public class MutatorCOAA extends MutantTester {
-	public MutatorCOAA(String testMethod, Graph graph) {
+	public MutatorCOAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph);
 	}
 	public void init() throws PMException, IOException {

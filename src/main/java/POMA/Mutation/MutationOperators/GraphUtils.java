@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.opencsv.CSVReader;
 
+import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -19,7 +20,7 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class GraphUtils extends MutantTester {
 
-	public GraphUtils(String testSuit, Graph graph) {
+	public GraphUtils(String testSuit, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		super(testSuit, graph);
 	}
 

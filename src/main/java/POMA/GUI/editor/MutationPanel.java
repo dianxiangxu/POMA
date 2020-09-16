@@ -31,6 +31,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.commons.io.FileUtils;
 
+import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.GUI.*;
 import POMA.GUI.components.JPanelPB;
 import POMA.GUI.components.MutationBasedTestMutationMethods;
@@ -333,7 +334,7 @@ public class MutationPanel extends JPanelPB {
 		Map<String,String> mutantOperators = new HashMap<String,String>();
 		if (result == JOptionPane.OK_OPTION) {
 			this.startProgressStatus();
-			try {
+
 //				File policyFile = poma.getWorkingPolicyFile();
 //				AbstractPolicy policy = PolicyLoader.loadPolicy(policyFile);
 //				List<Mutant> mutants = new ArrayList<Mutant>();
@@ -371,7 +372,16 @@ public class MutationPanel extends JPanelPB {
 		        //	List<String> methods = new ArrayList<String>();
 		        //	methods.add(method);
 		    		MutationController mc = new MutationController();
-		    		mc.createMutants(mutPanel.getMutationOperatorList(false),graph);
+		    		try {
+						mc.createMutants(mutPanel.getMutationOperatorList(false),graph);
+					} catch (GraphDoesNotMatchTestSuitException e) {
+						e.printStackTrace();
+						this.stopProgressStatus();
+						JOptionPane.showMessageDialog(this,
+								"Policy and Testing Suits do not match.",
+								"Error of Selection",
+								JOptionPane.WARNING_MESSAGE);
+					}
 			       // List<Mutant> muts = mutator.generateSelectedMutantsAndSave(methods,mutantsFolder.toString());
 			        
 //			        for(Mutant mutant: muts){
@@ -408,9 +418,7 @@ public class MutationPanel extends JPanelPB {
 		        
 			
 			//}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		
 			this.stopProgressStatus();
 		}
 		

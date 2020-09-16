@@ -49,7 +49,7 @@ public class MutantTester {
 	static List<Node> UAsPCs;
 	static List<Node> UAsPCsOAs;
 
-	public MutantTester(String testMethod, Graph graph) {
+	public MutantTester(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		this.testMethod = testMethod;
 		this.graph = graph;
 		try {
@@ -61,9 +61,6 @@ public class MutantTester {
 
 		} catch (PMException | IOException e) {
 			e.printStackTrace();
-		} catch (GraphDoesNotMatchTestSuitException e) {
-			e.printStackTrace();
-			//System.exit(1);
 		}
 	}
 	public void setGraph(Graph graph) {

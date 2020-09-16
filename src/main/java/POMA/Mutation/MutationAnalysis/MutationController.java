@@ -22,6 +22,7 @@ import POMA.Mutation.MutationOperators.MutatorRAGR;
 import POMA.Mutation.MutationOperators.MutatorRARA;
 import POMA.Mutation.MutationOperators.MutatorRARAA;
 import POMA.TestSuitGeneration.Utils;
+import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Mutation.MutationOperators.*;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.*;
@@ -38,7 +39,7 @@ public class MutationController {
 	static int rowCount = 20;
 	Graph graph;
 
-	public static void main(String[] args) throws PMException, IOException {
+	public static void main(String[] args) throws PMException, IOException, GraphDoesNotMatchTestSuitException {
 		MutationController mc = new MutationController();
 		File CSV = new File(mc.CSVFilePath);
 		long startTime = System.currentTimeMillis();
@@ -96,7 +97,7 @@ public class MutationController {
 		createTestMethods();
 	}
 
-	public void createMutants(List<String> mutantNames, Graph graph) {
+	public void createMutants(List<String> mutantNames, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		createHeaderForCSV(mutantNames);
 
 		File CSV = new File(CSVFilePath);
@@ -161,7 +162,7 @@ public class MutationController {
 		System.out.println("Execution time in min and sec: " + minutes + ":" + seconds);
 	}
 
-	private double testRAD(String testMethod, Graph graph) {
+	private double testRAD(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorRAD mutatorRAD = new MutatorRAD(testMethod, graph);
 		System.out.println("MutationMethod is RAD");
 
@@ -185,7 +186,7 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testCAD(String testMethod, Graph graph) {
+	private double testCAD(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorCAD mutatorCAD = new MutatorCAD(testMethod, graph);
 		System.out.println("MutationMethod is CAD");
 
@@ -209,7 +210,7 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testCAA(String testMethod, Graph graph) {
+	private double testCAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorCAA mutatorCAA = new MutatorCAA(testMethod, graph);
 		System.out.println("MutationMethod is CAA");
 
@@ -233,7 +234,7 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testRAGR(String testMethod, Graph graph) {
+	private double testRAGR(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorRAGR mutatorRAGR = new MutatorRAGR(testMethod, graph);
 		System.out.println("MutationMethod is RAGR");
 
@@ -257,7 +258,7 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testAAGR(String testMethod, Graph graph) {
+	private double testAAGR(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorAAGR mutatorAAGR = new MutatorAAGR(testMethod, graph);
 		System.out.println("MutationMethod is AAGR");
 
@@ -281,7 +282,7 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testCUAA(String testMethod, Graph graph) {
+	private double testCUAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorCUAA mutatorCUAA = new MutatorCUAA(testMethod, graph);
 		System.out.println("MutationMethod is CUAA");
 
@@ -305,7 +306,7 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testCOAA(String testMethod, Graph graph) {
+	private double testCOAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorCOAA mutatorCOAA = new MutatorCOAA(testMethod, graph);
 		System.out.println("MutationMethod is COAA");
 
@@ -329,7 +330,7 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testRARA(String testMethod, Graph graph) {
+	private double testRARA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorRARA mutatorRARA = new MutatorRARA(testMethod, graph);
 		System.out.println("MutationMethod is RARA" + mutatorRARA.getMutationMethod());
 
@@ -353,7 +354,7 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testAARA(String testMethod, Graph graph) {
+	private double testAARA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorAARA mutatorAARA = new MutatorAARA(testMethod, graph);
 		System.out.println("MutationMethod is AARA");
 
@@ -377,7 +378,7 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testRACR(String testMethod, Graph graph) {
+	private double testRACR(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorRACR mutatorRACR = new MutatorRACR(testMethod, graph);
 		System.out.println("MutationMethod is RACR");
 
@@ -401,7 +402,7 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testAACR(String testMethod, Graph graph) {
+	private double testAACR(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorAACR mutatorAACR = new MutatorAACR(testMethod, graph);
 		System.out.println("MutationMethod is AACR");
 
@@ -425,7 +426,7 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testRARAA(String testMethod, Graph graph) {
+	private double testRARAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorRARAA mutatorRARAA = new MutatorRARAA(testMethod, graph);
 		System.out.println("MutationMethod is RARAA");
 

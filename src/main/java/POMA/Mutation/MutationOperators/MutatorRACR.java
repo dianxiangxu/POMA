@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 public class MutatorRACR extends MutantTester {
-	public MutatorRACR(String testMethod, Graph graph) {
+	public MutatorRACR(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph);
 	}
 	public void init() throws PMException, IOException {

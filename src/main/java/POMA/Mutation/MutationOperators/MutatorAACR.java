@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -15,7 +16,7 @@ import gov.nist.csd.pm.pip.graph.model.nodes.NodeType;
 public class MutatorAACR extends MutantTester {
 	OperationSet allAccessRightSet;
 
-	public MutatorAACR(String testMethod, Graph graph) {
+	public MutatorAACR(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph);
 	}
 
