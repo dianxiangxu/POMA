@@ -6,7 +6,6 @@ import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -60,26 +59,25 @@ public class AllTestsSuitsGenerator {
 //		GraphTesterReachability gt2 = new GraphTesterReachability();
 //		List<String[]> data2 = gt2.testGraphPC();
 //		graphTester.saveCSV(data2, "R");
-		
-		
+
 		String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
-		//String simpleGraphPath = "GPMSPolicies/bank_policy_config.json";
+		// String simpleGraphPath = "GPMSPolicies/bank_policy_config.json";
 		PairwiseTestSuitGenerator pairwiseGenerator = new PairwiseTestSuitGenerator(simpleGraphPath);
 		List<String[]> data1 = pairwiseGenerator.generatPairwiseTests();
-		graphTester.saveCSV(data1, "Pairwise");
+		graphTester.saveCSV("GPMSPolicies/SimpleGraph/", data1, "Pairwise");
 		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(simpleGraphPath);
 		List<String[]> data2 = allCombinationsGenerator.generateAllCombinationsTests();
-		graphTester.saveCSV(data2, "AllCombinations");
+		graphTester.saveCSV("GPMSPolicies/SimpleGraph/", data2, "AllCombinations");
 
-		//savePolicy(gt1.getGraph(),"GPMSPolicies/gpms_testing_config.json");
+		// savePolicy(gt1.getGraph(),"GPMSPolicies/gpms_testing_config.json");
 		/*
 		 * File folder = new File("C:/Users/dubro/git/GPMS-NGAC/CSV/RS"); int i = 0; for
 		 * (final File fileEntry1 : folder.listFiles()) { if (i == 0) { i++; continue; }
 		 * //System.out.println("Killed number " +i + " mutant: " +
 		 * !graphTester.compareCSV(new
 		 * File("C:/Users/dubro/git/GPMS-NGAC/CSV/RS/csv0.csv"), fileEntry1)); i++; }
-		 * //System.out.println("Mutant death ratio:" + i/(folder.listFiles().length - 1)
-		 * * 100 + "%"); //System.out.println("Number of mutants" + (i-1));
+		 * //System.out.println("Mutant death ratio:" + i/(folder.listFiles().length -
+		 * 1) * 100 + "%"); //System.out.println("Number of mutants" + (i-1));
 		 */
 		/*
 		 * //System.out.println("============================================");
@@ -91,12 +89,13 @@ public class AllTestsSuitsGenerator {
 		 * usersTrue = gttrue.getUsers(); gttrue.testGraphPC();
 		 * //System.out.println("============================================");
 		 * 
-		 * //System.out.println(""); //System.out.println("Pairwise combinations Path:");
-		 * GraphTesterPairwisePath gtptrue = new GraphTesterPairwisePath();
-		 * gtptrue.testGraphPairwisePC();
+		 * //System.out.println("");
+		 * //System.out.println("Pairwise combinations Path:"); GraphTesterPairwisePath
+		 * gtptrue = new GraphTesterPairwisePath(); gtptrue.testGraphPairwisePC();
 		 * //System.out.println("============================================");
 		 * 
-		 * //System.out.println(""); //System.out.println("Pairwise combinations Path:");
+		 * //System.out.println("");
+		 * //System.out.println("Pairwise combinations Path:");
 		 * GraphTesterPairwiseNoPath gtpfalse = new GraphTesterPairwiseNoPath();
 		 * gtpfalse.testGraphPairwisePC();
 		 * //System.out.println("============================================");
@@ -124,31 +123,31 @@ public class AllTestsSuitsGenerator {
 		 */
 	}
 
-	private void saveCSV(List<String[]> data, String testMethod) throws PMException, IOException {
+	private void saveCSV(String folderPath, List<String[]> data, String testMethod) throws PMException, IOException {
 		boolean bool = true;
-		String folderCSV = "CSV";
+		String folderCSV = folderPath+"CSV";
 		File file = new File(folderCSV);
 		if (!file.exists()) {
 			bool = file.mkdir();
 		}
-		String folderTestSuits = "CSV/testSuits";
+		String folderTestSuits = folderPath+"CSV/testSuits";
 		File file2 = new File(folderTestSuits);
 		if (!file2.exists() && bool) {
 			bool = file2.mkdir();
 		}
 		if (bool) {
-			//System.out.println("The directory was created or was already there");
+			// System.out.println("The directory was created or was already there");
 		} else {
-			//System.out.println("Failure with creating the directory");
+			// System.out.println("Failure with creating the directory");
 			return;
 		}
-		String testSuiteFile = "CSV/testSuits/" + testMethod + "testSuite.csv";
+		String testSuiteFile = folderPath+"CSV/testSuits/" + testMethod + "testSuite.csv";
 		file = new File(testSuiteFile);
 		if (file.createNewFile()) {
-			//System.out.println("File has been created.");
+			// System.out.println("File has been created.");
 		} else {
 
-			//System.out.println("File already exists.");
+			// System.out.println("File already exists.");
 		}
 		BufferedWriter writer = null;
 		writer = new BufferedWriter(new FileWriter(file));
@@ -161,9 +160,11 @@ public class AllTestsSuitsGenerator {
 			writer.close();
 
 	}
+
 	/**
-	 * @param path is the location and name to save the json policy
-	 * if path is provided null or empty string it will be saved to a default location
+	 * @param path is the location and name to save the json policy if path is
+	 *             provided null or empty string it will be saved to a default
+	 *             location
 	 * @throws PMException
 	 * @throws IOException
 	 */

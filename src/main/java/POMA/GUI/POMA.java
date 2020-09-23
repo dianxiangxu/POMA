@@ -1,6 +1,5 @@
 package POMA.GUI;
 
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -15,6 +14,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -26,8 +27,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.table.AbstractTableModel;
 
 import POMA.GUI.GraphVisualization.GUI;
 import POMA.GUI.editor.AbstractPolicyEditor;
@@ -35,23 +41,27 @@ import POMA.GUI.editor.DebugPanel;
 import POMA.GUI.editor.MutationPanel;
 import POMA.GUI.editor.PolicyEditorPanelDemo;
 import POMA.GUI.editor.TestPanel;
+import POMA.TestSuitGeneration.Utils;
 import POMA.Verification.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 
 public class POMA extends JFrame implements ItemListener, ActionListener {
-	
+
 	public int totalWidth;
 	public int totalheight;
 	GUI gui;
 	protected Action newAction, openAction, saveAction, saveAsAction, checkSchemaAction;
-	protected Action openTestsAction, generateCoverageTestsAction, generateMutationTestsAction, generatePNOMutationTestsAction, runTestsAction, evaluateCoverageAction;
+	protected Action openTestsAction, generateCoverageTestsAction, generateMutationTestsAction,
+			generatePNOMutationTestsAction, runTestsAction, evaluateCoverageAction;
 	protected Action openMutantsAction, generateMutantsAction, generateSecondOrderMutantsAction, testMutantsAction;
 	protected Action localizeFaultAction, fixFaultAction;
+	protected Action translatePolicyGraphAction, verifyAccessRightsAction, showAllAccessRightsAction,
+			verifyObligationsAction;
 	protected JCheckBoxMenuItem[] items;
 	protected Action saveOracleValuesAction;
 
-	//VentanaMensajes vm = new VentanaMensajes();
+	// VentanaMensajes vm = new VentanaMensajes();
 	boolean showVersionWarning = true;
 
 	protected JTabbedPane mainTabbedPane;
@@ -59,8 +69,8 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 	protected TestPanel testPanel;
 	protected MutationPanel mutationPanel;
-	protected DebugPanel debugPanel;	
-	
+	protected DebugPanel debugPanel;
+
 	public POMA() {
 		try {
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -73,10 +83,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	/** Returns an ImageIcon, or null if the path was invalid. */
 	protected ImageIcon createNavigationIcon(String imageName) {
 		String imgLocation = "org/umu/icons/" + imageName + ".gif";
-		java.net.URL imageURL = this.getClass().getClassLoader()
-				.getResource(imgLocation);
+		java.net.URL imageURL = this.getClass().getClassLoader().getResource(imgLocation);
 		if (imageURL == null) {
-			//System.err.println("Resource not found: " + imgLocation);
+			// System.err.println("Resource not found: " + imgLocation);
 			return null;
 		} else {
 			return new ImageIcon(imageURL);
@@ -89,26 +98,89 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		menuBar.add(createTestMenu());
 		menuBar.add(createDebuggingMenu());
 		menuBar.add(createMutationMenu());
+		menuBar.add(createVerifyMenu());
 		menuBar.add(createHelpMenu());
 		return menuBar;
 	}
 
+	public class TranslatePolicyGraphAction extends AbstractAction {
+		public TranslatePolicyGraphAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
+			super(text, icon);
+			putValue(SHORT_DESCRIPTION, desc);
+			putValue(MNEMONIC_KEY, mnemonic);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			// editorPanel.openFile();
+			System.out.println("Translate Action Performed");
+		}
+
+	}
+
+	public class VerifyAccessRightsAction extends AbstractAction {
+		public VerifyAccessRightsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
+			super(text, icon);
+			putValue(SHORT_DESCRIPTION, desc);
+			putValue(MNEMONIC_KEY, mnemonic);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			// editorPanel.openFile();
+			System.out.println("Verify Access Rights Action Performed");
+		}
+
+	}
+
+	public class ShowAllAccessRightsAction extends AbstractAction {
+		public ShowAllAccessRightsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
+			super(text, icon);
+			putValue(SHORT_DESCRIPTION, desc);
+			putValue(MNEMONIC_KEY, mnemonic);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			// editorPanel.openFile();
+			System.out.println("Show All Access Rights Action Performed");
+		}
+
+	}
+
+	public class VerifyObligationsAction extends AbstractAction {
+		public VerifyObligationsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
+			super(text, icon);
+			putValue(SHORT_DESCRIPTION, desc);
+			putValue(MNEMONIC_KEY, mnemonic);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			// editorPanel.openFile();
+			System.out.println("Verify Obligations");
+		}
+
+	}
+
 	private void createActions() {
-		newAction = new NewAction("New", createNavigationIcon("new"), "New",
-				new Integer(KeyEvent.VK_N));
-		openAction = new OpenAction("Open...", createNavigationIcon("open"),
-				"Open", new Integer(KeyEvent.VK_O));
-		saveAction = new SaveAction("Save", createNavigationIcon("save"),
-				"Save", new Integer(KeyEvent.VK_S));
-		saveAsAction = new SaveAsAction("Save As...",
-				createNavigationIcon("saveas"), "SaveAs", new Integer(
-						KeyEvent.VK_A));
-		checkSchemaAction = new CheckSchemaAction("Check Schema...",
-				createNavigationIcon("CheckSchema"), "CheckSchema",
+		translatePolicyGraphAction = new TranslatePolicyGraphAction("Translate Policy",
+				createNavigationIcon("translate"), "translate policy", new Integer(KeyEvent.VK_O));
+
+		verifyAccessRightsAction = new VerifyAccessRightsAction("Verify Access Rights",
+				createNavigationIcon("verifyAccessRights"), "verify access rights", new Integer(KeyEvent.VK_O));
+
+		showAllAccessRightsAction = new ShowAllAccessRightsAction("Show All Access Rights",
+				createNavigationIcon("showAllAccessRights"), "show all accesses", new Integer(KeyEvent.VK_O));
+
+		verifyObligationsAction = new VerifyObligationsAction("Verify Obligations",
+				createNavigationIcon("verifyObligations"), "verify obligations", new Integer(KeyEvent.VK_O));
+
+		newAction = new NewAction("New", createNavigationIcon("new"), "New", new Integer(KeyEvent.VK_N));
+		openAction = new OpenAction("Open...", createNavigationIcon("open"), "Open", new Integer(KeyEvent.VK_O));
+		saveAction = new SaveAction("Save", createNavigationIcon("save"), "Save", new Integer(KeyEvent.VK_S));
+		saveAsAction = new SaveAsAction("Save As...", createNavigationIcon("saveas"), "SaveAs",
+				new Integer(KeyEvent.VK_A));
+		checkSchemaAction = new CheckSchemaAction("Check Schema...", createNavigationIcon("CheckSchema"), "CheckSchema",
 				new Integer(KeyEvent.VK_C));
 
-		openTestsAction = new OpenTestsAction("Open Tests...",
-				createNavigationIcon("opentests"), "OpenTests",
+		openTestsAction = new OpenTestsAction("Open Tests...", createNavigationIcon("opentests"), "OpenTests",
 				new Integer(KeyEvent.VK_O));
 
 		generateCoverageTestsAction = new GenerateCoverageBasedTestsAction("Generate Coverage-Based Tests...",
@@ -123,40 +195,30 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 				createNavigationIcon("generatemutationtests"), "GenerateMutationBasedTests",
 				new Integer(KeyEvent.VK_M));
 
-		runTestsAction = new RunTestsAction("Run Tests",
-				createNavigationIcon("runtests"), "RunTests", new Integer(
-						KeyEvent.VK_R));
+		runTestsAction = new RunTestsAction("Run Tests", createNavigationIcon("runtests"), "RunTests",
+				new Integer(KeyEvent.VK_R));
 		evaluateCoverageAction = new EvaluateCoverageAction("Evaluate Coverage",
-				createNavigationIcon("evaluateCoverage"), "EvaluateCoverage", new Integer(
-						KeyEvent.VK_R));
+				createNavigationIcon("evaluateCoverage"), "EvaluateCoverage", new Integer(KeyEvent.VK_R));
 
-		openMutantsAction = new OpenMutantsAction(
-				"Open Mutants...", createNavigationIcon("openmutants"),
-				"OpenMutants", new Integer(KeyEvent.VK_P));
+		openMutantsAction = new OpenMutantsAction("Open Mutants...", createNavigationIcon("openmutants"), "OpenMutants",
+				new Integer(KeyEvent.VK_P));
 
-		generateMutantsAction = new GenerateMutantsAction(
-				"Generate Mutants...", createNavigationIcon("generatemutants"),
-				"GenerateMutants", new Integer(KeyEvent.VK_T));
+		generateMutantsAction = new GenerateMutantsAction("Generate/Test Mutants...",
+				createNavigationIcon("generatemutants"), "GenerateMutants", new Integer(KeyEvent.VK_T));
 
-		generateSecondOrderMutantsAction = new GenerateSecondOrderMutantsAction(
-				"Generate Second-Order Mutants...", createNavigationIcon("generatemutants"),
-				"GenerateSecondOrderMutants", new Integer(KeyEvent.VK_B));
+		generateSecondOrderMutantsAction = new GenerateSecondOrderMutantsAction("Generate Second-Order Mutants...",
+				createNavigationIcon("generatemutants"), "GenerateSecondOrderMutants", new Integer(KeyEvent.VK_B));
 
-		testMutantsAction = new RunMutantsAction("Test Mutants",
-				createNavigationIcon("runmutants"), "TestMutants", new Integer(
-						KeyEvent.VK_U));
+		testMutantsAction = new RunMutantsAction("Test Mutants", createNavigationIcon("runmutants"), "TestMutants",
+				new Integer(KeyEvent.VK_U));
 
-		saveOracleValuesAction = new SaveOraclesAction("Save as Oracles",
-				createNavigationIcon(""), "SaveResults", new Integer(
-						KeyEvent.VK_A));
+		saveOracleValuesAction = new SaveOraclesAction("Save as Oracles", createNavigationIcon(""), "SaveResults",
+				new Integer(KeyEvent.VK_A));
 
-		localizeFaultAction = new LocalizeFaultAction("Localize Fault",
-				createNavigationIcon(""), "LocalizeFault", new Integer(
-						KeyEvent.VK_L));
+		localizeFaultAction = new LocalizeFaultAction("Localize Fault", createNavigationIcon(""), "LocalizeFault",
+				new Integer(KeyEvent.VK_L));
 
-		fixFaultAction = new FixFaultAction("Repair",
-				createNavigationIcon(""), "Repair", new Integer(
-						KeyEvent.VK_F));
+		fixFaultAction = new FixFaultAction("Repair", createNavigationIcon(""), "Repair", new Integer(KeyEvent.VK_F));
 
 	}
 
@@ -200,10 +262,12 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	protected JMenu createPolicyMenu() {
 		JMenuItem menuItem = null;
 		JMenu fileMenu = new JMenu("Policy");
-		/*Action[] actions = { openAction, saveAction, saveAsAction,
-				checkSchemaAction };*/
+		/*
+		 * Action[] actions = { openAction, saveAction, saveAsAction, checkSchemaAction
+		 * };
+		 */
 		Action[] actions = { openAction };
-		
+
 		for (int i = 0; i < actions.length; i++) {
 			menuItem = new JMenuItem(actions[i]);
 			menuItem.setIcon(null); // arbitrarily chose not to use icon
@@ -241,7 +305,21 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 	protected JMenu createTestMenu() {
 		JMenu testMenu = new JMenu("Test");
-		Action[] actions = { openTestsAction, generateCoverageTestsAction, generateMutationTestsAction, generatePNOMutationTestsAction,runTestsAction, saveOracleValuesAction, evaluateCoverageAction};
+		Action[] actions = { openTestsAction, generateCoverageTestsAction, generateMutationTestsAction,
+				generatePNOMutationTestsAction, runTestsAction, saveOracleValuesAction, evaluateCoverageAction };
+		for (int i = 0; i < actions.length; i++) {
+			JMenuItem menuItem = new JMenuItem(actions[i]);
+			menuItem.setIcon(null); // arbitrarily chose not to use icon
+			testMenu.add(menuItem);
+		}
+
+		return testMenu;
+	}
+
+	protected JMenu createVerifyMenu() {
+		JMenu testMenu = new JMenu("Verify");
+		Action[] actions = { translatePolicyGraphAction, verifyAccessRightsAction, showAllAccessRightsAction,
+				verifyObligationsAction };
 		for (int i = 0; i < actions.length; i++) {
 			JMenuItem menuItem = new JMenuItem(actions[i]);
 			menuItem.setIcon(null); // arbitrarily chose not to use icon
@@ -253,7 +331,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 	protected JMenu createMutationMenu() {
 		JMenu mutationMenu = new JMenu("Mutate");
-		Action[] actions = { openMutantsAction, generateMutantsAction, generateSecondOrderMutantsAction, testMutantsAction };
+		Action[] actions = { openMutantsAction, generateMutantsAction };
 		for (int i = 0; i < actions.length; i++) {
 			JMenuItem menuItem = new JMenuItem(actions[i]);
 			menuItem.setIcon(null);
@@ -264,7 +342,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 	protected JMenu createDebuggingMenu() {
 		JMenu debuggingMenu = new JMenu("Debug");
-		Action[] actions = {localizeFaultAction, fixFaultAction};
+		Action[] actions = { localizeFaultAction, fixFaultAction };
 		for (int i = 0; i < actions.length; i++) {
 			JMenuItem menuItem = new JMenuItem(actions[i]);
 			menuItem.setIcon(null);
@@ -272,7 +350,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		}
 		return debuggingMenu;
 	}
-
 
 	protected JMenu createHelpMenu() {
 		JMenu caMenu = new JMenu("Help");
@@ -290,25 +367,20 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class NewAction extends AbstractAction {
-		public NewAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public NewAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			
-			
-			
 
 			editorPanel.newFile();
 		}
 	}
 
 	public class OpenAction extends AbstractAction {
-		public OpenAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public OpenAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -316,8 +388,8 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			editorPanel.openFile();
-			
-			switch(mainTabbedPane.getTabCount()) {
+
+			switch (mainTabbedPane.getTabCount()) {
 			case 2:
 //				try {
 //				System.out.println(getWorkingPolicyFile().getPath());}
@@ -325,25 +397,21 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 //					System.out.println("error");
 //				}
 				MemGraph graph = null;
-					
-					graph = editorPanel.getGraph();
-					//graph = simpleTestGraph.readGPMSGraph();
-					 gui = new GUI(graph);
-					 gui.init();
-						Component graphComponent = gui.returnPane();
-						mainTabbedPane.addTab("Graph",
-								createNavigationIcon("images/policy.gif"), graphComponent);
-						mainTabbedPane.removeTabAt(1);	
-						mainTabbedPane.revalidate();
-						mainTabbedPane.updateUI();
-					//	mainTabbedPane.setSelectedComponent(graphComponent);
-						
-						//setJMenuBar(createMenuBar());
 
-				
-				
-		       
-			break;
+				graph = editorPanel.getGraph();
+				// graph = simpleTestGraph.readGPMSGraph();
+				gui = new GUI(graph);
+				gui.init();
+				Component graphComponent = gui.returnPane();
+				mainTabbedPane.addTab("Graph", createNavigationIcon("images/policy.gif"), graphComponent);
+				mainTabbedPane.removeTabAt(1);
+				mainTabbedPane.revalidate();
+				mainTabbedPane.updateUI();
+				// mainTabbedPane.setSelectedComponent(graphComponent);
+
+				// setJMenuBar(createMenuBar());
+
+				break;
 			case 3:
 				mainTabbedPane.removeTabAt(2);
 				mainTabbedPane.removeTabAt(1);
@@ -353,15 +421,14 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 				mainTabbedPane.removeTabAt(2);
 				mainTabbedPane.removeTabAt(1);
 				break;
-			
-		}
-		
+
+			}
+
 		}
 	}
 
 	public class SaveAction extends AbstractAction {
-		public SaveAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public SaveAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -373,8 +440,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class SaveAsAction extends AbstractAction {
-		public SaveAsAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public SaveAsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -386,8 +452,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class CheckSchemaAction extends AbstractAction {
-		public CheckSchemaAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public CheckSchemaAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -399,60 +464,57 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}//
 
 	public class OpenTestsAction extends AbstractAction {
-		public OpenTestsAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public OpenTestsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			testPanel.openTests();		
+			testPanel.openTests();
 		}
 	}
 
 	public class GenerateCoverageBasedTestsAction extends AbstractAction {
-		public GenerateCoverageBasedTestsAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public GenerateCoverageBasedTestsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			testPanel.generateCoverageBasedTests();		
+			testPanel.generateCoverageBasedTests();
 		}
 	}
+
 	//
 	public class GenerateMutationBasedTestsAction extends AbstractAction {
-		public GenerateMutationBasedTestsAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public GenerateMutationBasedTestsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
 		}
-		
+
 		public void actionPerformed(ActionEvent e) {
-			testPanel.generateMutationBasedTests();		
+			testPanel.generateMutationBasedTests();
+
 		}
 	}
-	
+
 	public class GeneratePNOMutationBasedTestsAction extends AbstractAction {
-		public GeneratePNOMutationBasedTestsAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public GeneratePNOMutationBasedTestsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
 		}
-		
+
 		public void actionPerformed(ActionEvent e) {
-			testPanel.generatePNOMutationBasedTests();		
+			testPanel.generatePNOMutationBasedTests();
 		}
 	}
 
 	public class RunTestsAction extends AbstractAction {
-		public RunTestsAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public RunTestsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -464,8 +526,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class EvaluateCoverageAction extends AbstractAction {
-		public EvaluateCoverageAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public EvaluateCoverageAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -477,7 +538,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class OpenMutantsAction extends AbstractAction {
-		public OpenMutantsAction(String text, ImageIcon icon, String desc,Integer mnemonic) {
+		public OpenMutantsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -489,21 +550,66 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class GenerateMutantsAction extends AbstractAction {
-		public GenerateMutantsAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public GenerateMutantsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			mutationPanel.generateMutants(editorPanel.getGraph(), editorPanel.getCurrentFile().getParentFile());
+			JTable table = new JTable(new MyModel());
+			// table.setPreferredScrollableViewportSize(new Dimension(700, 70));
+	        table.setFillsViewportHeight(true);
+	        MyModel NewModel = new MyModel();
+	        table.setModel(NewModel);
+	        JScrollPane scrollPane = new JScrollPane(table);
+	      //  add(scrollPane, BorderLayout.CENTER);
+			System.out.println("generate mutants");
 			
-			mutationPanel.generateMutants(editorPanel.getGraph());
+			if (mainTabbedPane.getTabCount() > 2) {
+				mainTabbedPane.removeTabAt(2);
+			}
+			JPanel p1 = new JPanel(); 
+			JPanel p2 = new JPanel(); 
+			File file = new File((editorPanel.getCurrentFile().getParentFile().getPath()+"/OverallMutationResults.csv"));
+			try {
+		        NewModel.AddCSVData(Utils.loadCSV(file));
+				
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			JTextArea t2 = new JTextArea();
+			t2.setEditable(false);
+
+			t2.setText(editorPanel.getCurrentFile().toString());
+			JSplitPane jSplitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+			System.out.println("DEVIDER LOCATION1: "+jSplitPane1.getDividerLocation());
+
+			 JScrollPane scroll2 = new JScrollPane (t2, 
+					   JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			 scrollPane.setPreferredSize(new Dimension(500, 750));
+			 scroll2.setPreferredSize(new Dimension(700, 750));
+			 int deviderLocation = jSplitPane1.getDividerLocation();
+			p1.add(scrollPane); 
+			p2.add(scroll2); 
+
+			jSplitPane1.setLeftComponent(p2);
+
+			jSplitPane1.setRightComponent(p1);
+			jSplitPane1.setDividerLocation(deviderLocation-10);
+			System.out.println("DEVIDER LOCATION2: "+jSplitPane1.getDividerLocation());
+
+			System.out.println(mainTabbedPane.getTabCount());
+			mainTabbedPane.addTab("Mutation Results", createNavigationIcon("images/policy.gif"), jSplitPane1);
+			mainTabbedPane.setSelectedIndex(2);
+
 		}
 	}
+
 	public class GenerateSecondOrderMutantsAction extends AbstractAction {
-		public GenerateSecondOrderMutantsAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public GenerateSecondOrderMutantsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -515,8 +621,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class RunMutantsAction extends AbstractAction {
-		public RunMutantsAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {//
+		public RunMutantsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {//
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -528,8 +633,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class SaveOraclesAction extends AbstractAction {
-		public SaveOraclesAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public SaveOraclesAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -541,8 +645,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class LocalizeFaultAction extends AbstractAction {
-		public LocalizeFaultAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public LocalizeFaultAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -554,8 +657,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class FixFaultAction extends AbstractAction {
-		public FixFaultAction(String text, ImageIcon icon, String desc,
-				Integer mnemonic) {
+		public FixFaultAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -566,65 +668,60 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		}
 	}
 
-	public void updateMainTabbedPane(){
+	public void updateMainTabbedPane() {
 		mainTabbedPane.validate();
 		mainTabbedPane.updateUI();
 	}
-	public void setEditorPanel(AbstractPolicyEditor editorPanel){
-		this.editorPanel =   editorPanel;
+
+	public void setEditorPanel(AbstractPolicyEditor editorPanel) {
+		this.editorPanel = editorPanel;
 	}
+
 	private void createMainTabbedPane() {
-		
-		
-		
+
 		editorPanel = new PolicyEditorPanelDemo();
 //		editorPanel = new EditorPanel(this);
 
 //		testPanel = new TestPanel(this);
 		mutationPanel = new MutationPanel(this);
 //		debugPanel = new DebugPanel(this);
-		
+
 		mainTabbedPane = new JTabbedPane();
 		mainTabbedPane.setBorder(BorderFactory.createEtchedBorder(0));
-		mainTabbedPane.addTab("Policy",
-				createNavigationIcon("images/policy.gif"), editorPanel);
-		mainTabbedPane.addTab("Graph",
-				createNavigationIcon("images/policy.gif"), null);
+		mainTabbedPane.addTab("Policy", createNavigationIcon("images/policy.gif"), editorPanel);
+		mainTabbedPane.addTab("Graph", createNavigationIcon("images/policy.gif"), null);
 //		mainTabbedPane.addTab("Tests", createNavigationIcon("images/test.gif"),
 //				testPanel);
 //		mainTabbedPane.addTab("Debugging",
 //				createNavigationIcon("images/mutation.gif"), debugPanel);
-		
-		
+
 		mainTabbedPane.setSelectedComponent(editorPanel);
 	}
 
-	public void setToPolicyPane(){
-		mainTabbedPane.setSelectedComponent(editorPanel);		
+	public void setToPolicyPane() {
+		mainTabbedPane.setSelectedComponent(editorPanel);
 	}
 
-	public void setToTestPane(){
-		
-		if(mainTabbedPane.indexOfTab("Test") == -1){
-			mainTabbedPane.addTab("Tests", createNavigationIcon("images/test.gif"),
-					testPanel);
+	public void setToTestPane() {
+
+		if (mainTabbedPane.indexOfTab("Test") == -1) {
+			mainTabbedPane.addTab("Tests", createNavigationIcon("images/test.gif"), testPanel);
 		}
-		mainTabbedPane.setSelectedComponent(testPanel);		
+		mainTabbedPane.setSelectedComponent(testPanel);
 	}
 
-	public void setToMutantPane(){
-		if(mainTabbedPane.indexOfTab("Mutant") == -1){
+	public void setToMutantPane() {
+		if (mainTabbedPane.indexOfTab("Mutant") == -1) {
 			mainTabbedPane.addTab("Mutants", createNavigationIcon("images/mutation.gif"), mutationPanel);
 		}
-		mainTabbedPane.setSelectedComponent(mutationPanel);		
+		mainTabbedPane.setSelectedComponent(mutationPanel);
 	}
-	
-	public void setToDebugPane(){
-		if(mainTabbedPane.indexOfTab("Debud") == -1){
-			mainTabbedPane.addTab("Debugging",
-					createNavigationIcon("images/mutation.gif"), debugPanel);
+
+	public void setToDebugPane() {
+		if (mainTabbedPane.indexOfTab("Debud") == -1) {
+			mainTabbedPane.addTab("Debugging", createNavigationIcon("images/mutation.gif"), debugPanel);
 		}
-		mainTabbedPane.setSelectedComponent(debugPanel);		
+		mainTabbedPane.setSelectedComponent(debugPanel);
 	}
 
 	private void init() throws Exception {
@@ -639,13 +736,12 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		contentPane.setLayout(new BorderLayout());
 		contentPane.add(mainTabbedPane, BorderLayout.CENTER);
 
-	//	contentPane.add(gui.returnPane(),BorderLayout.EAST );
+		// contentPane.add(gui.returnPane(),BorderLayout.EAST );
 		setJMenuBar(createMenuBar());
 
 		createToolBar();
 		if (getWorkingPolicyFile() != null) {
-			setTitle("XACML Policy Analyzer - "
-					+ getWorkingPolicyFile().getName());
+			setTitle("XACML Policy Analyzer - " + getWorkingPolicyFile().getName());
 		} else {
 			setTitle("XACML Policy Analyzer - Unnamed");
 		}
@@ -664,21 +760,21 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 //		vm.getPrintStream().println(string);
 //	}
 
-	public boolean hasWorkingPolicy(){
-		return editorPanel.getWorkingPolicyFile()!=null;
+	public boolean hasWorkingPolicy() {
+		return editorPanel.getWorkingPolicyFile() != null;
 	}
-	
+
 	public File getWorkingPolicyFile() {
 		return editorPanel.getWorkingPolicyFile();
 	}
-	
+
 	public String getWorkingPolicyFilePath() {
 		String path = null;
-		if(editorPanel!=null) {
+		if (editorPanel != null) {
 			File file = editorPanel.getWorkingPolicyFile();
-			if(file!=null) {
+			if (file != null) {
 				path = file.getAbsolutePath();
-			} 
+			}
 		}
 		return path;
 	}
@@ -691,17 +787,18 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		return testPanel.getWorkingTestSuiteFileName();
 	}
 
-	public boolean hasTests(){
+	public boolean hasTests() {
 		return testPanel.hasTests();
 	}
-	
-	public TestPanel getTestPanel(){
+
+	public TestPanel getTestPanel() {
 		return testPanel;
 	}
-	public boolean hasTestFailure(){
+
+	public boolean hasTestFailure() {
 		return testPanel.hasTestFailure();
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equalsIgnoreCase("Exit")) {
 			windowClosing();
@@ -712,12 +809,12 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 //		editorPanel.windowClosing();
 		this.dispose();
 	}
-	
+
 	public static String getResourcesPath() {
 		String path = null;
 		try {
 			path = (new File(".")).getCanonicalPath() + File.separator + "resources";
-		
+
 		} catch (IOException e) {
 			System.err.println("Can not locate policy repository");
 			e.printStackTrace();
@@ -725,7 +822,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		return path;
 
 	}
-	
+
 	public static String getRootPath() {
 		File rootDir = new File(".");
 		String rootPath = null;
@@ -736,45 +833,70 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		}
 		return rootPath;
 	}
-	
+
 	public static void log(Exception e) {
 		e.printStackTrace();
 	}
-	
-	public static void main(String[] args) {
-		
-		
-		//
-		try{
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					// turn off bold fonts
-					// UIManager.put("swing.boldMetal", Boolean.FALSE);
 
-					// re-install the Metal Look and Feel
-					// UIManager.setLookAndFeel(new
-					// javax.swing.plaf.metal.MetalLookAndFeel());
-				} catch (Exception exception) {
-					exception.printStackTrace();
+	public static void main(String[] args) {
+
+		//
+		try {
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						// turn off bold fonts
+						// UIManager.put("swing.boldMetal", Boolean.FALSE);
+
+						// re-install the Metal Look and Feel
+						// UIManager.setLookAndFeel(new
+						// javax.swing.plaf.metal.MetalLookAndFeel());
+					} catch (Exception exception) {
+						exception.printStackTrace();
+					}
+					POMA frame = new POMA();
+
+					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frame.pack();
+					frame.setVisible(true);
+
 				}
-				POMA frame = new POMA();
-				
-				
-				
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.pack();
-				frame.setVisible(true);
-				
-			}
-		});
-		}catch(Exception e){
+			});
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 }
+class MyModel extends AbstractTableModel {
+    private final String[] columnNames = { "TestMethod", "Pairwise", "AllCombinations"};
+    private List<String[]> Data = new ArrayList<String[]>();
 
+    public void AddCSVData(List<String[]> DataIn) {
+        this.Data = DataIn;
+        this.fireTableDataChanged();
+    }
+
+    @Override
+    public int getColumnCount() {
+        return columnNames.length;// length;
+    }
+
+    @Override
+    public int getRowCount() {
+        return Data.size();
+    }
+
+    @Override
+    public String getColumnName(int col) {
+        return columnNames[col];
+    }
+
+    @Override
+    public Object getValueAt(int row, int col) {
+        return Data.get(row)[col];
+    }
+}
 class MiWindowAdapter extends WindowAdapter {
 	private POMA adaptee;
 

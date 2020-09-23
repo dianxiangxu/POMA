@@ -323,7 +323,7 @@ public class MutationPanel extends JPanelPB {
 		}
 	}
 
-	public void generateMutants(Graph graph) {
+	public void generateMutants(Graph graph, File folder) {
 //		if (!poma.hasWorkingPolicy()) {
 //			JOptionPane.showMessageDialog(poma, "There is no policy.");
 //			return;
@@ -373,7 +373,7 @@ public class MutationPanel extends JPanelPB {
 		        //	methods.add(method);
 		    		MutationController mc = new MutationController();
 		    		try {
-						mc.createMutants(mutPanel.getMutationOperatorList(false),graph);
+						mc.createMutants(mutPanel.getMutationOperatorList(false),graph, folder);
 					} catch (GraphDoesNotMatchTestSuitException e) {
 						e.printStackTrace();
 						this.stopProgressStatus();

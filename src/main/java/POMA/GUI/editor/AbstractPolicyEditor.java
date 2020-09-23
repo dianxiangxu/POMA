@@ -9,6 +9,7 @@ import gov.nist.csd.pm.pip.graph.MemGraph;
 
 public abstract class AbstractPolicyEditor extends JPanel{
 	MemGraph g;
+    File temporal;
 
 	abstract public File getWorkingPolicyFile();	
 		
@@ -27,6 +28,9 @@ public abstract class AbstractPolicyEditor extends JPanel{
 	}
 	public MemGraph getGraph() {
 		return g;
+	}
+	public File getCurrentFile() {
+		return temporal;
 	}
 	public static File getCurrentDirectory() {
 		File resultFile = null;

@@ -59,8 +59,12 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	//		pp.setPolicy(oldPolicy);
 	//		if (pp.isPolicyChanged())
 	//			newPolicy = pp.getPolicy();
+    File temporal;
 	public MemGraph getGraph() {
 		return g;
+	}
+	public File getCurrentFile() {
+		return temporal;
 	}
 	public void setPolicy(String policy) {
 		this.policy = policy;
@@ -321,7 +325,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 
 //		fileChooser.setFileFilter(new XMLFileFilter("xml"));
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			File temporal = fileChooser.getSelectedFile();
+			 temporal = fileChooser.getSelectedFile();
 			
 			
 //			AnalizadorSAX asax = new AnalizadorSAX();

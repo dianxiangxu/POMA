@@ -52,7 +52,7 @@ public class TranslatorMain {
 	public static void main(String[] args) throws PMException, IOException, NoTypeProvidedException {
 
 		// String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
-		 String simpleGraphPath = "GPMSPolicies/bank_policy_config.json";
+		 String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
 		 
 		String translatedGraphResultPath = "SMTLIBv2Files/SMTLIB2Input/tclosureTranslatedGraph.smt2";
 		SimpleTestGraph simpleTestGraph = new SimpleTestGraph();

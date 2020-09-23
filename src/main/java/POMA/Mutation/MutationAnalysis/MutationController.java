@@ -36,9 +36,20 @@ public class MutationController {
 	List<String[]> data = new ArrayList<String[]>();
 	String[] row;
 	String CSVFilePath = "CSV/OverallMutationResults.csv";
-	static int rowCount = 20;
+	static int colCount = 3;
 	Graph graph;
 
+	
+	private void createHeaderForCSV(List<String> mutantNames) {
+		String[] header = new String[colCount];
+		header[0]= "TestMethod";
+		for(int i=0;i< mutantNames.size(); i++) {
+			header[i+1] =  mutantNames.get(i);
+		}
+		header[mutantNames.size()+1] = "totalMutationScore";
+		data.add(header);
+	}
+	
 	public static void main(String[] args) throws PMException, IOException, GraphDoesNotMatchTestSuitException {
 		MutationController mc = new MutationController();
 		File CSV = new File(mc.CSVFilePath);
@@ -49,7 +60,7 @@ public class MutationController {
 		mc.graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
 		for (String testMethod : mc.testMethods) {
 
-			String[] row = new String[rowCount];
+			String[] row = new String[colCount];
 			mc.totalNumberOfMutantsForTest = 0;
 			mc.totalNumberOfKilledMutantsForTest = 0;
 			double resultRAD = mc.testRAD(testMethod, mc.graph);
@@ -97,14 +108,35 @@ public class MutationController {
 		createTestMethods();
 	}
 
-	public void createMutants(List<String> mutantNames, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		createHeaderForCSV(mutantNames);
+	public void createMutants(List<String> mutantNames, Graph graph, File folder) throws GraphDoesNotMatchTestSuitException {
+		
+		//createHeaderForCSV(mutantNames);
+		List<String[]> outputList = new ArrayList<String[]>();
+		
+		
+		String[] row1 = new String[]{"TestMethod", "Pairwise", "AllCombination"};
+		data.add(row1);
+		String[] row2 = new String[colCount];
+		String[] row3 = new String[colCount];
+		String[] row4 = new String[colCount];
+		String[] row5 = new String[colCount];
+		String[] row6 = new String[colCount];
+		String[] row7 = new String[colCount];
+		String[] row8 = new String[colCount];
+		String[] row9 = new String[colCount];
+		String[] row10 = new String[colCount];
+		String[] row11 = new String[colCount];
+		String[] row12 = new String[colCount];
+		String[] row13 = new String[colCount];
+		String[] row14 = new String[colCount];
+		row14[0] = "totalMutationScore";
 
-		File CSV = new File(CSVFilePath);
 		long startTime = System.currentTimeMillis();
+		int j = 0;
 
 		for (String testMethod : testMethods) {
-			String[] row = new String[rowCount];
+			j++;
+			String[] row = new String[colCount];
 			totalNumberOfMutantsForTest = 0;
 			totalNumberOfKilledMutantsForTest = 0;
 			row[0] = testMethod;
@@ -113,41 +145,65 @@ public class MutationController {
 				System.out.println(mutantNames.toString());
 				double result = 0;
 				if (mutantNames.get(i).equals("RAD")) {
-					result = testRAD(testMethod, graph);
+					row2[0] = "RAD";
+					row2[j] = Double.toString(testRAD(testMethod, graph));
 				} else if (mutantNames.get(i).equals("CAD")) {
-					result = testCAD(testMethod, graph);
+					row3[0] = "CAD";
+					row3[j] = Double.toString(testCAD(testMethod, graph));
 				} else if (mutantNames.get(i).equals("CAA")) {
-					result = testCAA(testMethod, graph);
+					row4[0] = "CAA";
+					row4[j] = Double.toString(testCAA(testMethod, graph));
 				} else if (mutantNames.get(i).equals("RAGR")) {
-					result = testRAGR(testMethod, graph);
+					row5[0] = "RAGR";
+					row5[j] = Double.toString(testRAGR(testMethod, graph));
 				} else if (mutantNames.get(i).equals("AAGR")) {
-					result = testAAGR(testMethod, graph);
+					row6[0] = "AAGR";
+					row6[j] = Double.toString(testAAGR(testMethod, graph));
 					System.out.println("HELLO");
 				} else if (mutantNames.get(i).equals("CUAA")) {
-					result = testCUAA(testMethod, graph);
+					row7[0] = "CUAA";
+					row7[j] = Double.toString(testCUAA(testMethod, graph));
 				} else if (mutantNames.get(i).equals("COAA")) {
-					result = testCOAA(testMethod, graph);
+					row8[0] = "COAA";
+					row8[j] = Double.toString(testCOAA(testMethod, graph));
 				} else if (mutantNames.get(i).equals("RARA")) {
-					result = testRARA(testMethod, graph);
+					row9[0] = "RARA";
+					row9[j] = Double.toString(testRARA(testMethod, graph));
 				} else if (mutantNames.get(i).equals("AARA")) {
-					result = testAARA(testMethod, graph);
+					row10[0] = "AARA";
+					row10[j] = Double.toString(testAARA(testMethod, graph));
 				} else if (mutantNames.get(i).equals("RACR")) {
-					result = testRACR(testMethod, graph);
+					row11[0] = "RACR";
+					row11[j] = Double.toString(testRACR(testMethod, graph));
 				} else if (mutantNames.get(i).equals("AACR")) {
-					result = testAACR(testMethod, graph);
+					row12[j] = Double.toString(testAACR(testMethod, graph));
+					row12[0] = "AACR";
 				} else if (mutantNames.get(i).equals("RARAA")) {
-					result = testRARAA(testMethod, graph);
-				}
-
-				row[i+1] = Double.toString(result);
-				
+					row13[0] = "RARAA";
+					row13[j] = Double.toString(testRARAA(testMethod, graph));
+				}				
 			}
-			row[mutantNames.size()+1] = Double.toString(
+			row14[j] = Double.toString(
 					(double) totalNumberOfKilledMutantsForTest / (double) totalNumberOfMutantsForTest * 100);
-			data.add(row);
+		
 		}
+		data.add(row2);
+		data.add(row3);
+		data.add(row4);
+		data.add(row5);
+		data.add(row6);
+		data.add(row7);
+		data.add(row8);
+		data.add(row9);
+		data.add(row10);
+		data.add(row11);
+		data.add(row12);
+		data.add(row13);
+		data.add(row14);
+
+
 		try {
-			saveCSV(data, CSV);
+			saveCSV(data, folder);
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -460,7 +516,9 @@ public class MutationController {
 	}
 
 	private void createHeaderForCSV() {
-		String[] header = new String[rowCount];
+		String[] header = new String[colCount];
+
+
 		header[0] = "TestMethod";
 		header[1] = "RAD";
 		header[2] = "CAD";
@@ -478,15 +536,7 @@ public class MutationController {
 		data.add(header);
 	}
 
-	private void createHeaderForCSV(List<String> mutantNames) {
-		String[] header = new String[rowCount];
-		header[0] = "TestMethod";
-		for(int i=0;i< mutantNames.size(); i++) {
-			header[i+1] =  mutantNames.get(i);
-		}
-		header[mutantNames.size()+1] = "totalMutationScore";
-		data.add(header);
-	}
+	
 
 	public void saveCSV(List<String[]> data, File directoryForTestResults) throws PMException, IOException {
 
@@ -496,7 +546,7 @@ public class MutationController {
 			System.out.println("File already exists.");
 		}
 		BufferedWriter writer = null;
-		writer = new BufferedWriter(new FileWriter(directoryForTestResults));
+		writer = new BufferedWriter(new FileWriter(directoryForTestResults+"/OverallMutationResults.csv"));
 		CSVWriter CSVwriter = new CSVWriter(writer);
 		CSVwriter.writeAll(data);
 		writer.flush();
