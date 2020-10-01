@@ -1,4 +1,4 @@
-package POMA.Verification;
+package POMA.Verification.VerificationWithSets;
 
 public class CVC4PrepTranslation {
 
@@ -6,16 +6,8 @@ public class CVC4PrepTranslation {
 		return "(set-logic ALL_SUPPORTED)";
 	}
 
-	private String setCVC4OptionUnsatCores() {
-		return "(set-option :produce-unsat-cores true)";
-	}
-
 	private String setCVC4OptionModels() {
 		return "(set-option :produce-models true)";
-	}
-
-	private String setCVC4OptionAssignments() {
-		return "(set-option :produce-assignments true)";
 	}
 
 //	private String declareCVC4Containment() {
@@ -36,30 +28,25 @@ public class CVC4PrepTranslation {
 		return "(declare-fun Tclosure () (Set (Tuple String String)))";
 	}
 
-	private String declareCVC4AssociationDatatype() {
-		return "(declare-datatypes ((association 0))" + System.lineSeparator()
-				+ "   (((rec (UA String) (access_rights (Set String)) (AT String)))))";
-	}
-
-//	public String assertTClosures() {
-//		return "(assert (= UA_tclosure (tclosure UA_containment)))" + System.lineSeparator()
-//				+ "(assert (= OA_tclosure (tclosure OA_containment)))";
-//	}
 	public String assertTClosures() {
 		return "(assert (= Tclosure (tclosure Containment)))";
 	}
 
-	public String declareSetAssociation() {
-		return "(define-sort SetAssociation () (Set association)) (declare-const setAssociation SetAssociation)";
+	public String declareAssociation() {
+		return "(declare-fun Associations () (Set (Tuple String String String)))";
+	}
+
+	public String declareReachabilities() {
+		return "(declare-fun UA_U_Reachability () (Set (Tuple String String)))" + System.lineSeparator()
+				+ "(declare-fun AT_Reachability () (Set (Tuple String String)))";
 	}
 
 	@Override
 	public String toString() {
 
-		return setCVC4LogicAllSupported() + System.lineSeparator() + setCVC4OptionUnsatCores() + System.lineSeparator()
-				+ setCVC4OptionModels() + System.lineSeparator() + setCVC4OptionAssignments() + System.lineSeparator()
+		return setCVC4LogicAllSupported() + System.lineSeparator() + setCVC4OptionModels() + System.lineSeparator()
 				+ declareCVC4Containment() + System.lineSeparator() + declareCVC4TClosure() + System.lineSeparator()
-				+ declareCVC4AssociationDatatype() + System.lineSeparator() + declareSetAssociation()+ System.lineSeparator();
+				+ declareAssociation() + System.lineSeparator()+declareReachabilities() + System.lineSeparator();
 	}
 
 }

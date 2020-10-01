@@ -1,4 +1,4 @@
-package POMA.Verification;
+package POMA.Verification.VerificationAllComb;
 
 import java.io.File;
 import java.io.IOException;

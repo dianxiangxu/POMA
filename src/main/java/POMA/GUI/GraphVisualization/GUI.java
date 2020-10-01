@@ -24,25 +24,19 @@ import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxStylesheet;
 
-import POMA.Verification.SimpleTestGraph;
+import POMA.Verification.VerificationAllComb.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.relationships.Relationship;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.awt.GridBagConstraints;
 
-import javax.swing.SwingConstants;
-import java.awt.CardLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import javax.swing.BoxLayout;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
@@ -97,10 +91,12 @@ public class GUI extends JApplet {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+
 
 	}
 	
-	public Component returnPane() {
+	public JApplet returnPane() {
 		return this;
 	}
 	private List<mxICell> getCellsWithTypeInGraph(String type) {

@@ -1,4 +1,4 @@
-package POMA.Verification;
+package POMA.Verification.VerificationAllComb;
 
 import java.util.Iterator;
 
@@ -16,7 +16,15 @@ public class AssociationRelation {
 		this.os = os;
 		name = (UA + "_" + AT).toLowerCase();
 	}
+	public AssociationRelation() {
 
+	}
+	public void setUA(String UA) {
+		this.UA = UA;
+	}
+	public void setAT(String AT) {
+		this.AT = AT;
+	}
 	public String getUA() {
 		return UA;
 	}
@@ -28,7 +36,9 @@ public class AssociationRelation {
 	public OperationSet getOperationSet() {
 		return os;
 	}
-
+	public void addToOperationSet(String accessRight) {
+		os.add(accessRight);
+	}
 	@Override
 	public boolean equals(Object o) {
 

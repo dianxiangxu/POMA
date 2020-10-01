@@ -1,4 +1,4 @@
-package POMA.Verification;
+package POMA.Verification.VerificationAllComb;
 
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;

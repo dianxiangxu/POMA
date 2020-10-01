@@ -1,4 +1,4 @@
-package POMA.Verification;
+package POMA.Verification.VerificationWithSets;
 
 
 public class AssignmentRelation

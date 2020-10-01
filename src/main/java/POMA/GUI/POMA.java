@@ -21,6 +21,8 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JApplet;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -35,6 +37,9 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
+import org.jdesktop.swingx.prompt.PromptSupport;
+import org.jdesktop.swingx.prompt.PromptSupport.FocusBehavior;
+
 import POMA.GUI.GraphVisualization.GUI;
 import POMA.GUI.editor.AbstractPolicyEditor;
 import POMA.GUI.editor.DebugPanel;
@@ -42,8 +47,10 @@ import POMA.GUI.editor.MutationPanel;
 import POMA.GUI.editor.PolicyEditorPanelDemo;
 import POMA.GUI.editor.TestPanel;
 import POMA.TestSuitGeneration.Utils;
-import POMA.Verification.SimpleTestGraph;
+import POMA.Verification.VerificationAllComb.SimpleTestGraph;
+import POMA.Verification.VerificationWithSets.TranslatorMain;
 import gov.nist.csd.pm.exceptions.PMException;
+import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 
 public class POMA extends JFrame implements ItemListener, ActionListener {
@@ -56,8 +63,8 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			generatePNOMutationTestsAction, runTestsAction, evaluateCoverageAction;
 	protected Action openMutantsAction, generateMutantsAction, generateSecondOrderMutantsAction, testMutantsAction;
 	protected Action localizeFaultAction, fixFaultAction;
-	protected Action translatePolicyGraphAction, verifyAccessRightsAction, showAllAccessRightsAction,
-			verifyObligationsAction;
+	protected Action translatePolicyGraphAction, verifyAccessRightsActionForEach, verifyAccessRightsActionForAll,
+			showAllAccessRightsAction, verifyObligationsAction;
 	protected JCheckBoxMenuItem[] items;
 	protected Action saveOracleValuesAction;
 
@@ -111,14 +118,61 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			// editorPanel.openFile();
-			System.out.println("Translate Action Performed");
+			TranslatorMain translator = new TranslatorMain();
+			Graph graph = editorPanel.getGraph();
+			MemGraph graphForPlot = editorPanel.getGraph();
+			String fullOutput = "";
+			try {
+				fullOutput = translator.translateGraphOnly(graph);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			JTextArea t3 = new JTextArea();
+
+			t3.setText(fullOutput);
+			// add(scrollPane, BorderLayout.CENTER);
+
+			// PromptSupport.setPrompt("ENTER ACCESS RIGHTS QUERIES", t3);
+
+			if (mainTabbedPane.indexOfTab("Show Translated Graph") != -1) {
+
+				mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Show Translated Graph"));
+
+			}
+
+			JPanel p3 = new JPanel();
+
+			t3.setEditable(false);
+
+			t3.setFont(t3.getFont().deriveFont(18f));
+
+			JSplitPane jSplitPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+
+			JScrollPane scroll3 = new JScrollPane(t3, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scroll3.setPreferredSize(new Dimension(1000, 1000));
+
+			p3.add(scroll3, BorderLayout.CENTER);
+
+			GUI gui = new GUI(graphForPlot);
+			gui.init();
+			JApplet graphComponent = gui.returnPane();
+
+			jSplitPanel.setRightComponent(graphComponent);
+
+			jSplitPanel.setLeftComponent(p3);
+			jSplitPanel.setResizeWeight(0.7);
+
+			mainTabbedPane.addTab("Show Translated Graph", createNavigationIcon("images/policy.gif"), jSplitPanel);
+			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Show Translated Graph"));
 		}
 
 	}
 
-	public class VerifyAccessRightsAction extends AbstractAction {
-		public VerifyAccessRightsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
+	public class VerifyAccessRightsActionForAll extends AbstractAction {
+		public VerifyAccessRightsActionForAll(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -126,13 +180,127 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			// editorPanel.openFile();
-			System.out.println("Verify Access Rights Action Performed");
+			TranslatorMain translator = new TranslatorMain();
+			Graph graph = editorPanel.getGraph();
+			MemGraph graphForPlot = editorPanel.getGraph();
+			
+			
+
+			JTextArea t1 = new JTextArea();
+			JTextArea t2 = new JTextArea();
+			JTextArea t3 = new JTextArea();
+			JTextArea t4 = new JTextArea();
+			PromptSupport.setPrompt("Output(All Models)", t4);
+			PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, t4);
+			PromptSupport.setPrompt("FULL CVC4 TRANSLATION", t3);
+			PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, t3);
+			PromptSupport.setPrompt("ACCESS RIGHTS", t2);
+			PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, t2);
+
+			PromptSupport.setPrompt("ENTER ACCESS RIGHTS QUERIES"+System.lineSeparator()+"Template:"+System.lineSeparator()+"Subject1, Target1"+System.lineSeparator()+"Subject2 ,Target2"+System.lineSeparator()+"Subject3,Target3", t1);
+
+			if (mainTabbedPane.indexOfTab("Verify All Combination") != -1) {
+
+				mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Verify All Combination"));
+
+			}
+			JPanel p1 = new JPanel();
+			JPanel p2 = new JPanel();
+			JPanel p3 = new JPanel();
+			JPanel p4 = new JPanel();
+
+			t1.setEditable(true);
+			t2.setEditable(false);
+			t3.setEditable(false);
+			t4.setEditable(false);
+
+			t1.setFont(t1.getFont().deriveFont(35f));
+			t2.setFont(t2.getFont().deriveFont(35f));
+
+			t3.setFont(t3.getFont().deriveFont(35f));
+			t4.setFont(t4.getFont().deriveFont(35f));
+
+			JSplitPane jSplitPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+			JSplitPane jSplitPanel2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			JSplitPane jSplitPanel3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+			JSplitPane jSplitPanel4 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+
+			JScrollPane scroll1 = new JScrollPane(t1, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			JScrollPane scroll2 = new JScrollPane(t2, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			JScrollPane scroll3 = new JScrollPane(t3, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			JScrollPane scroll4 = new JScrollPane(t4, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scroll1.setPreferredSize(new Dimension(1050, 450));
+			scroll2.setPreferredSize(new Dimension(500, 500));
+			scroll3.setPreferredSize(new Dimension(500, 500));
+			scroll4.setPreferredSize(new Dimension(850, 500));
+
+			
+			
+			
+
+			
+			p1.add(scroll1, BorderLayout.CENTER);
+			p2.add(scroll2, BorderLayout.CENTER);
+			p3.add(scroll3, BorderLayout.CENTER);
+			p4.add(scroll4, BorderLayout.CENTER);
+
+			jSplitPanel3.setRightComponent(p2);
+			jSplitPanel3.setLeftComponent(p3);
+			jSplitPanel2.setTopComponent(p1);
+			jSplitPanel2.setBottomComponent(jSplitPanel3);
+
+			GUI gui = new GUI(graphForPlot);
+			gui.init();
+			JApplet graphComponent = gui.returnPane();
+			jSplitPanel4.setTopComponent(p4);
+			jSplitPanel4.setBottomComponent(graphComponent);
+			
+			
+			
+			jSplitPanel.setRightComponent(jSplitPanel4);
+
+			jSplitPanel.setLeftComponent(jSplitPanel2);
+			jSplitPanel.setResizeWeight(0.7);
+			jSplitPanel3.setResizeWeight(0.5);
+			jSplitPanel4.setResizeWeight(0.5);
+			jSplitPanel2.setResizeWeight(0.55);
+
+			mainTabbedPane.addTab("Verify All Combination", createNavigationIcon("images/policy.gif"), jSplitPanel);
+			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Verify All Combination"));
+			
+			JButton start=new JButton("Run Queries");  
+			p1.add(start);
+			
+			start.addActionListener(new ActionListener(){  
+				 public void actionPerformed(ActionEvent e){
+					 	String input = t1.getText();
+					 	System.out.println("INPUUUUUT"+input);
+					 	try {
+					 		//translator.setAccessRightsResults();
+							translator.queryAccessRightsAllComb(graph, input);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					 	System.out.println("Translator Output:"+translator.getActualOutput());
+				 			t4.setText(translator.getActualOutput());
+					 		t3.setText(translator.getFullTranslation());
+					 		t2.setText(translator.getAccessRightsResults());
+							t2.setFont(t2.getFont().deriveFont(18f));
+							t4.setFont(t4.getFont().deriveFont(18f));							
+							t3.setFont(t3.getFont().deriveFont(15f));
+				         }  
+				     });  
 		}
 
 	}
 
-	public class ShowAllAccessRightsAction extends AbstractAction {
-		public ShowAllAccessRightsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
+	public class VerifyAccessRightsActionForEach extends AbstractAction {
+		public VerifyAccessRightsActionForEach(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -140,7 +308,208 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			// editorPanel.openFile();
-			System.out.println("Show All Access Rights Action Performed");
+			TranslatorMain translator = new TranslatorMain();
+			Graph graph = editorPanel.getGraph();
+			MemGraph graphForPlot = editorPanel.getGraph();
+			
+			
+
+			JTextArea t1 = new JTextArea();
+			JTextArea t2 = new JTextArea();
+			JTextArea t3 = new JTextArea();
+			JTextArea t4 = new JTextArea();
+			PromptSupport.setPrompt("Output(All Models)", t4);
+			PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, t4);
+			PromptSupport.setPrompt("FULL CVC4 TRANSLATION", t3);
+			PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, t3);
+			PromptSupport.setPrompt("ACCESS RIGHTS", t2);
+			PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, t2);
+
+			PromptSupport.setPrompt("ENTER ACCESS RIGHTS QUERIES"+System.lineSeparator()+"Template:"+System.lineSeparator()+"Subject1, Target1"+System.lineSeparator()+"Subject2 ,Target2"+System.lineSeparator()+"Subject3,Target3", t1);
+
+			if (mainTabbedPane.indexOfTab("Verify Each Combination") != -1) {
+
+				mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Verify Each Combination"));
+
+			}
+			JPanel p1 = new JPanel();
+			JPanel p2 = new JPanel();
+			JPanel p3 = new JPanel();
+			JPanel p4 = new JPanel();
+
+			t1.setEditable(true);
+			t2.setEditable(false);
+			t3.setEditable(false);
+			t4.setEditable(false);
+
+			t1.setFont(t1.getFont().deriveFont(35f));
+			t2.setFont(t2.getFont().deriveFont(35f));
+
+			t3.setFont(t3.getFont().deriveFont(35f));
+			t4.setFont(t4.getFont().deriveFont(35f));
+
+			JSplitPane jSplitPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+			JSplitPane jSplitPanel2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			JSplitPane jSplitPanel3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+			JSplitPane jSplitPanel4 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+
+			JScrollPane scroll1 = new JScrollPane(t1, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			JScrollPane scroll2 = new JScrollPane(t2, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			JScrollPane scroll3 = new JScrollPane(t3, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			JScrollPane scroll4 = new JScrollPane(t4, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scroll1.setPreferredSize(new Dimension(1050, 450));
+			scroll2.setPreferredSize(new Dimension(500, 500));
+			scroll3.setPreferredSize(new Dimension(500, 500));
+			scroll4.setPreferredSize(new Dimension(850, 500));
+
+			
+			
+			
+
+			
+			p1.add(scroll1, BorderLayout.CENTER);
+			p2.add(scroll2, BorderLayout.CENTER);
+			p3.add(scroll3, BorderLayout.CENTER);
+			p4.add(scroll4, BorderLayout.CENTER);
+
+			jSplitPanel3.setRightComponent(p2);
+			jSplitPanel3.setLeftComponent(p3);
+			jSplitPanel2.setTopComponent(p1);
+			jSplitPanel2.setBottomComponent(jSplitPanel3);
+
+			GUI gui = new GUI(graphForPlot);
+			gui.init();
+			JApplet graphComponent = gui.returnPane();
+			jSplitPanel4.setTopComponent(p4);
+			jSplitPanel4.setBottomComponent(graphComponent);
+			
+			
+			
+			jSplitPanel.setRightComponent(jSplitPanel4);
+
+			jSplitPanel.setLeftComponent(jSplitPanel2);
+			jSplitPanel.setResizeWeight(0.7);
+			jSplitPanel3.setResizeWeight(0.5);
+			jSplitPanel4.setResizeWeight(0.5);
+			jSplitPanel2.setResizeWeight(0.55);
+
+			mainTabbedPane.addTab("Verify Each Combination", createNavigationIcon("images/policy.gif"), jSplitPanel);
+			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Verify Each Combination"));
+			
+			JButton start=new JButton("Run Queries");  
+			p1.add(start);
+			
+			start.addActionListener(new ActionListener(){  
+				 public void actionPerformed(ActionEvent e){
+					 	String input = t1.getText();
+					 	System.out.println("INPUUUUUT"+input);
+					 	try {
+					 		//translator.setAccessRightsResults();
+							translator.queryAccessRightsEach(graph, input);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					 	System.out.println("Translator Output:"+translator.getActualOutput());
+				 			t4.setText(translator.getActualOutput());
+					 		t3.setText(translator.getFullTranslation());
+					 		t2.setText(translator.getAccessRightsResults());
+							t2.setFont(t2.getFont().deriveFont(18f));
+							t4.setFont(t4.getFont().deriveFont(18f));							
+							t3.setFont(t3.getFont().deriveFont(15f));
+				         }  
+				     });  
+			
+		}
+
+	}
+
+	public class QueryAccessRightsAction extends AbstractAction {
+		public QueryAccessRightsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
+			super(text, icon);
+			putValue(SHORT_DESCRIPTION, desc);
+			putValue(MNEMONIC_KEY, mnemonic);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			TranslatorMain translator = new TranslatorMain();
+			Graph graph = editorPanel.getGraph();
+			MemGraph graphForPlot = editorPanel.getGraph();
+			String fullOutput = "";
+			try {
+				fullOutput = translator.getAllAccessRights(graph);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			JTextArea t1 = new JTextArea();
+			JTextArea t2 = new JTextArea();
+			JTextArea t3 = new JTextArea();
+			t3.setText(translator.getActualOutput());
+			t2.setText(translator.getAccessRightsResults());
+			t1.setText(translator.getFullTranslation());
+			// add(scrollPane, BorderLayout.CENTER);
+
+			PromptSupport.setPrompt("ENTER ACCESS RIGHTS QUERIES", t3);
+
+			if (mainTabbedPane.indexOfTab("Show All Access Rights") != -1) {
+
+				mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Show All Access Rights"));
+
+			}
+			JPanel p1 = new JPanel();
+			JPanel p2 = new JPanel();
+			JPanel p3 = new JPanel();
+
+			t1.setEditable(false);
+			t2.setEditable(false);
+			t3.setEditable(false);
+			t1.setFont(t1.getFont().deriveFont(18f));
+			t2.setFont(t2.getFont().deriveFont(18f));
+
+			t3.setFont(t3.getFont().deriveFont(18f));
+
+			JSplitPane jSplitPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+			JSplitPane jSplitPanel2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			JSplitPane jSplitPanel3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+
+			JScrollPane scroll1 = new JScrollPane(t1, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			JScrollPane scroll2 = new JScrollPane(t2, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			JScrollPane scroll3 = new JScrollPane(t3, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scroll1.setPreferredSize(new Dimension(1050, 520));
+			scroll2.setPreferredSize(new Dimension(500, 500));
+			scroll3.setPreferredSize(new Dimension(500, 500));
+
+			p1.add(scroll1, BorderLayout.CENTER);
+			p2.add(scroll2, BorderLayout.CENTER);
+			p3.add(scroll3, BorderLayout.CENTER);
+
+			jSplitPanel3.setRightComponent(p2);
+			jSplitPanel3.setLeftComponent(p3);
+			jSplitPanel2.setTopComponent(p1);
+			jSplitPanel2.setBottomComponent(jSplitPanel3);
+
+			GUI gui = new GUI(graphForPlot);
+			gui.init();
+			JApplet graphComponent = gui.returnPane();
+
+			jSplitPanel.setRightComponent(graphComponent);
+
+			jSplitPanel.setLeftComponent(jSplitPanel2);
+			jSplitPanel.setResizeWeight(0.7);
+			jSplitPanel3.setResizeWeight(0.5);
+			jSplitPanel2.setResizeWeight(0.55);
+
+			mainTabbedPane.addTab("Show All Access Rights", createNavigationIcon("images/policy.gif"), jSplitPanel);
+			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Show All Access Rights"));
 		}
 
 	}
@@ -160,13 +529,16 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	private void createActions() {
-		translatePolicyGraphAction = new TranslatePolicyGraphAction("Translate Policy",
+		translatePolicyGraphAction = new TranslatePolicyGraphAction("Show Translated Policy",
 				createNavigationIcon("translate"), "translate policy", new Integer(KeyEvent.VK_O));
 
-		verifyAccessRightsAction = new VerifyAccessRightsAction("Verify Access Rights",
-				createNavigationIcon("verifyAccessRights"), "verify access rights", new Integer(KeyEvent.VK_O));
-
-		showAllAccessRightsAction = new ShowAllAccessRightsAction("Show All Access Rights",
+		verifyAccessRightsActionForAll = new VerifyAccessRightsActionForAll(
+				"Verify Access Rights For All Combinations", createNavigationIcon("verifyAccessRightsForAll"),
+				"verify Access Rights For All Combinations", new Integer(KeyEvent.VK_O));
+		verifyAccessRightsActionForEach  = new VerifyAccessRightsActionForEach(
+				"Verify Access Rights For Each Combination", createNavigationIcon("verifyAccessRightsForEach"),
+				"verify Access Rights For Each Combination", new Integer(KeyEvent.VK_O));
+		showAllAccessRightsAction = new QueryAccessRightsAction("Show All Access Rights",
 				createNavigationIcon("showAllAccessRights"), "show all accesses", new Integer(KeyEvent.VK_O));
 
 		verifyObligationsAction = new VerifyObligationsAction("Verify Obligations",
@@ -318,8 +690,8 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 	protected JMenu createVerifyMenu() {
 		JMenu testMenu = new JMenu("Verify");
-		Action[] actions = { translatePolicyGraphAction, verifyAccessRightsAction, showAllAccessRightsAction,
-				verifyObligationsAction };
+		Action[] actions = { translatePolicyGraphAction, verifyAccessRightsActionForEach,
+				verifyAccessRightsActionForAll, showAllAccessRightsAction, verifyObligationsAction };
 		for (int i = 0; i < actions.length; i++) {
 			JMenuItem menuItem = new JMenuItem(actions[i]);
 			menuItem.setIcon(null); // arbitrarily chose not to use icon
@@ -396,17 +768,18 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 //				catch(NullPointerException e) {
 //					System.out.println("error");
 //				}
-				MemGraph graph = null;
+				// MemGraph graph = null;
 
-				graph = editorPanel.getGraph();
+				// graph = editorPanel.getGraph();
 				// graph = simpleTestGraph.readGPMSGraph();
-				gui = new GUI(graph);
-				gui.init();
-				Component graphComponent = gui.returnPane();
-				mainTabbedPane.addTab("Graph", createNavigationIcon("images/policy.gif"), graphComponent);
+				// gui = new GUI(graph);
+				// gui.init();
+				// Component graphComponent = gui.returnPane();
+				// mainTabbedPane.addTab("Graph", createNavigationIcon("images/policy.gif"),
+				// graphComponent);
 				mainTabbedPane.removeTabAt(1);
-				mainTabbedPane.revalidate();
-				mainTabbedPane.updateUI();
+				// mainTabbedPane.revalidate();
+				// mainTabbedPane.updateUI();
 				// mainTabbedPane.setSelectedComponent(graphComponent);
 
 				// setJMenuBar(createMenuBar());
@@ -560,22 +933,30 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			mutationPanel.generateMutants(editorPanel.getGraph(), editorPanel.getCurrentFile().getParentFile());
 			JTable table = new JTable(new MyModel());
 			// table.setPreferredScrollableViewportSize(new Dimension(700, 70));
-	        table.setFillsViewportHeight(true);
-	        MyModel NewModel = new MyModel();
-	        table.setModel(NewModel);
-	        JScrollPane scrollPane = new JScrollPane(table);
-	      //  add(scrollPane, BorderLayout.CENTER);
+			table.setFillsViewportHeight(true);
+			MyModel NewModel = new MyModel();
+			table.setModel(NewModel);
+			JScrollPane scrollPane = new JScrollPane(table);
+			// add(scrollPane, BorderLayout.CENTER);
 			System.out.println("generate mutants");
-			
-			if (mainTabbedPane.getTabCount() > 2) {
-				mainTabbedPane.removeTabAt(2);
+
+//			if (mainTabbedPane.getTabCount() > 2) {
+//				mainTabbedPane.removeTabAt(2);
+//			}
+
+			if (mainTabbedPane.indexOfTab("Mutation Results") != -1) {
+
+				mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Mutation Results"));
+
 			}
-			JPanel p1 = new JPanel(); 
-			JPanel p2 = new JPanel(); 
-			File file = new File((editorPanel.getCurrentFile().getParentFile().getPath()+"/OverallMutationResults.csv"));
+
+			JPanel p1 = new JPanel();
+			JPanel p2 = new JPanel();
+			File file = new File(
+					(editorPanel.getCurrentFile().getParentFile().getPath() + "/OverallMutationResults.csv"));
 			try {
-		        NewModel.AddCSVData(Utils.loadCSV(file));
-				
+				NewModel.AddCSVData(Utils.loadCSV(file));
+
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -585,25 +966,25 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 			t2.setText(editorPanel.getCurrentFile().toString());
 			JSplitPane jSplitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-			System.out.println("DEVIDER LOCATION1: "+jSplitPane1.getDividerLocation());
+			System.out.println("DEVIDER LOCATION1: " + jSplitPane1.getDividerLocation());
 
-			 JScrollPane scroll2 = new JScrollPane (t2, 
-					   JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-			 scrollPane.setPreferredSize(new Dimension(500, 750));
-			 scroll2.setPreferredSize(new Dimension(700, 750));
-			 int deviderLocation = jSplitPane1.getDividerLocation();
-			p1.add(scrollPane); 
-			p2.add(scroll2); 
+			JScrollPane scroll2 = new JScrollPane(t2, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scrollPane.setPreferredSize(new Dimension(500, 750));
+			scroll2.setPreferredSize(new Dimension(700, 750));
+			int deviderLocation = jSplitPane1.getDividerLocation();
+			p1.add(scrollPane);
+			p2.add(scroll2);
 
 			jSplitPane1.setLeftComponent(p2);
 
 			jSplitPane1.setRightComponent(p1);
-			jSplitPane1.setDividerLocation(deviderLocation-10);
-			System.out.println("DEVIDER LOCATION2: "+jSplitPane1.getDividerLocation());
+			jSplitPane1.setDividerLocation(deviderLocation - 10);
+			System.out.println("DEVIDER LOCATION2: " + jSplitPane1.getDividerLocation());
 
 			System.out.println(mainTabbedPane.getTabCount());
 			mainTabbedPane.addTab("Mutation Results", createNavigationIcon("images/policy.gif"), jSplitPane1);
-			mainTabbedPane.setSelectedIndex(2);
+			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Mutation Results"));
 
 		}
 	}
@@ -689,7 +1070,8 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		mainTabbedPane = new JTabbedPane();
 		mainTabbedPane.setBorder(BorderFactory.createEtchedBorder(0));
 		mainTabbedPane.addTab("Policy", createNavigationIcon("images/policy.gif"), editorPanel);
-		mainTabbedPane.addTab("Graph", createNavigationIcon("images/policy.gif"), null);
+		// mainTabbedPane.addTab("Graph", createNavigationIcon("images/policy.gif"),
+		// null);
 //		mainTabbedPane.addTab("Tests", createNavigationIcon("images/test.gif"),
 //				testPanel);
 //		mainTabbedPane.addTab("Debugging",
@@ -868,35 +1250,37 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 }
+
 class MyModel extends AbstractTableModel {
-    private final String[] columnNames = { "TestMethod", "Pairwise", "AllCombinations"};
-    private List<String[]> Data = new ArrayList<String[]>();
+	private final String[] columnNames = { "TestMethod", "Pairwise", "AllCombinations" };
+	private List<String[]> Data = new ArrayList<String[]>();
 
-    public void AddCSVData(List<String[]> DataIn) {
-        this.Data = DataIn;
-        this.fireTableDataChanged();
-    }
+	public void AddCSVData(List<String[]> DataIn) {
+		this.Data = DataIn;
+		this.fireTableDataChanged();
+	}
 
-    @Override
-    public int getColumnCount() {
-        return columnNames.length;// length;
-    }
+	@Override
+	public int getColumnCount() {
+		return columnNames.length;// length;
+	}
 
-    @Override
-    public int getRowCount() {
-        return Data.size();
-    }
+	@Override
+	public int getRowCount() {
+		return Data.size();
+	}
 
-    @Override
-    public String getColumnName(int col) {
-        return columnNames[col];
-    }
+	@Override
+	public String getColumnName(int col) {
+		return columnNames[col];
+	}
 
-    @Override
-    public Object getValueAt(int row, int col) {
-        return Data.get(row)[col];
-    }
+	@Override
+	public Object getValueAt(int row, int col) {
+		return Data.get(row)[col];
+	}
 }
+
 class MiWindowAdapter extends WindowAdapter {
 	private POMA adaptee;
 

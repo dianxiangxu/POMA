@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
 
 import POMA.GUI.GraphVisualization.GUI;
 import POMA.TestSuitGeneration.Utils;
-import POMA.Verification.SimpleTestGraph;
+import POMA.Verification.VerificationAllComb.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
@@ -374,12 +374,16 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 					 int deviderLocation = jSplitPane1.getDividerLocation();
 					 JScrollPane scroll = new JScrollPane (t1, 
 							   JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-					 scroll.setPreferredSize(new Dimension(500, 750));
+					 scroll.setPreferredSize(new Dimension(1000, 1200));
 
 					p1.add(scroll); 
-					
-					jSplitPane1.setRightComponent(p1);
-					jSplitPane1.setDividerLocation(deviderLocation);
+					GUI gui = new GUI(g);
+					gui.init();
+					JApplet graphComponent = gui.returnPane();
+					jSplitPane1.setRightComponent(graphComponent);			
+					jSplitPane1.setLeftComponent(p1);
+
+					jSplitPane1.setResizeWeight(0.7);
 //					CurrentPath.getInstancia().setCurrdir(
 //							temporal.getParentFile());
 					// JR English
