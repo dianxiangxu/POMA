@@ -73,6 +73,26 @@
  
  "associations":
  [
-
+{
+      "operations": [
+        "*"
+      ],
+      "source": "super_ua1",  
+      "target": "Research Admin"  
+    },
+    {
+      "operations": [
+        "*"
+      ],
+      "source": "super_ua1",  
+      "target": "IRBOfficer"  
+    },
+    {
+      "operations": [
+        "*"
+      ],
+      "source": "super_ua1",  
+      "target": "Research Director"  
+    }
  ] 
 } 

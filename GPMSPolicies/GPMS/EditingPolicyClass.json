@@ -211,13 +211,26 @@
         }
   },
   {
+   "name" : "CoPIAdd",
+   "type" : "UA",
+   "properties": {
+          
+        }
+  },
+  {
    "name" : "SP",
    "type" : "UA",
    "properties": {
           
         }
   },
-
+  {
+   "name" : "SPAdd",
+   "type" : "UA",
+   "properties": {
+          
+        }
+  },
   
   {
    "name" : "Chair",
@@ -253,23 +266,7 @@
    "properties": {
           
         }
-  }     
-  ,
-  {
-   "name" : "IRBOfficer",
-   "type" : "UA",
-   "properties": {
-          
-        }
-  } 
-  ,
-  {
-   "name" : "PDSWhole",
-   "type" : "OA",
-   "properties": {
-          
-        }
-  }             
+  }          
  ],
    
  "assignments":[
@@ -314,14 +311,22 @@
   {                                  
        "source": "Research Director",  
        "target": "EditingPolicyClass"  
-     },                                                                  
+     },                                 
+  {                                  
+       "source": "SPAdd",
+       "target": "SP"   
+     },                                  
   {                                   
        "source": "CoPI",
-       "target": "SP"   
-     },  
+       "target": "SPAdd"   
+     },
+  {                                  
+       "source": "CoPIAdd", 
+       "target": "CoPI"  
+     },    
   {
        "source": "PI", 
-       "target": "CoPI" 
+       "target": "CoPIAdd" 
      },
  
   {

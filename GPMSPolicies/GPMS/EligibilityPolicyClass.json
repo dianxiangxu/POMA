@@ -199,6 +199,11 @@
     },    
 
  {
+      "source": "super_ua1", 
+      "target": "EligibilityPolicyClass"  
+    },
+ 
+ {
       "source": "nazmul", 
       "target": "Research Faculty" 
     },
@@ -221,7 +226,20 @@
  
  "associations":
  [
- 
+ {
+      "operations": [
+        "*"
+      ],
+      "source": "super_ua1",   
+      "target": "PDSWhole" 
+    },
+  {
+      "operations": [
+        "*"
+      ],
+      "source": "super_ua1",
+      "target": "SPEligible" 
+    },
  
     {
       "operations": [

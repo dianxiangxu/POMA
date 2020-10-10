@@ -1,0 +1,123 @@
+package POMA.Mutation.ObligationMutationOperators;
+
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+
+import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
+import POMA.TestSuitGeneration.Utils;
+import gov.nist.csd.pm.exceptions.PMException;
+import gov.nist.csd.pm.pip.graph.Graph;
+import gov.nist.csd.pm.pip.graph.model.nodes.Node;
+import gov.nist.csd.pm.pip.obligations.evr.EVRException;
+import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
+import gov.nist.csd.pm.pip.obligations.model.EventPattern;
+import gov.nist.csd.pm.pip.obligations.model.EvrNode;
+import gov.nist.csd.pm.pip.obligations.model.EvrProcess;
+import gov.nist.csd.pm.pip.obligations.model.Obligation;
+import gov.nist.csd.pm.pip.obligations.model.PolicyClass;
+import gov.nist.csd.pm.pip.obligations.model.Rule;
+import gov.nist.csd.pm.pip.obligations.model.Subject;
+import gov.nist.csd.pm.pip.obligations.model.Target;
+
+//change event policy element
+public class MutatorCEPE extends MutantTester2 {
+//	String testMethod = "P";
+
+	public MutatorCEPE(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, obligation);
+	}
+
+	public void init() throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		String testResults = "CSV/" + testMethod + "/" + testMethod + "testResultsCEPC.csv";
+		String testSuitePath = getTestSuitPathByMethod(testMethod);
+
+		
+		performMutation(testMethod, testSuitePath);
+		saveCSV(data, new File(testResults), testMethod);
+	}
+
+	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		File testSuite = new File(testSuitePath);
+		Graph graph = createCopy();
+		Obligation obligation = createObligationCopy();
+		String ruleLabel;
+		Obligation mutant;
+		String changeToPC;
+		
+		getAllEvrNodes();
+		List<Rule> rules = obligation.getRules();
+		for (Rule rule : rules) {
+			ruleLabel = rule.getLabel();
+			EventPattern eventPattern = rule.getEventPattern();
+			Target target = eventPattern.getTarget();
+//			if (target == null) {
+//				continue;
+//			}
+			List<EvrNode> policyElements = target.getPolicyElements();
+			System.out.println(ruleLabel + "|" + getNumberOfMutants());
+			for (EvrNode originPolicyElement : policyElements) {
+				for (EvrNode changeToPolicyElement : EvrNodes) {
+					if (originPolicyElement.equals(changeToPolicyElement)) {
+						System.out.println("111");
+						continue;
+					}
+					if (policyElements.contains(changeToPolicyElement)) {
+						System.out.println("222");
+						continue;
+					}
+					mutant = createObligationCopy();
+					mutant = changeEventPolicyElement(mutant, ruleLabel, originPolicyElement, changeToPolicyElement);
+					setObligationMutant(mutant);
+
+//					//invoke junit to kill obligation_mutant
+					testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "CEPC");
+					setNumberOfMutants(getNumberOfMutants() + 1);
+				}
+			}
+			
+		}
+//		System.out.println("Total number of mutant is " + getNumberOfMutants());
+	}
+
+	private Obligation changeEventPolicyElement(Obligation obligation, String ruleLabel, EvrNode originPE, EvrNode changeToPE) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		if (ruleLabel == null)
+			return null;
+		List<Rule> rules = obligation.getRules();
+		List<Rule> newRules = new ArrayList<>();
+		
+		for (Rule newRule : rules) {
+			if (newRule.getLabel().equals(ruleLabel)) {
+				EventPattern eventPattern = newRule.getEventPattern();
+				Target target = eventPattern.getTarget();
+				List<EvrNode> policyElements = target.getPolicyElements();
+				List<EvrNode> newPEs = new ArrayList<>();
+				for (EvrNode node : policyElements) {
+					if (node.getName().equals(originPE.getName())) {
+						newPEs.add(changeToPE);
+					} else {
+						newPEs.add(node);
+					}
+				}
+				
+				target.setPolicyElements(newPEs);
+				eventPattern.setTarget(target);;				
+				newRule.setEventPattern(eventPattern);
+			}
+				
+			newRules.add(newRule);
+		}
+
+		obligation.setRules(newRules);
+		return obligation;
+	}
+}
