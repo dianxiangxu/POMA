@@ -1,35 +1,18 @@
 package POMA.Mutation.ObligationMutationOperators;
 
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
-import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
-import gov.nist.csd.pm.pip.graph.model.nodes.Node;
-import gov.nist.csd.pm.pip.obligations.evr.EVRException;
-import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
-import gov.nist.csd.pm.pip.obligations.model.EventPattern;
-import gov.nist.csd.pm.pip.obligations.model.EvrNode;
-import gov.nist.csd.pm.pip.obligations.model.EvrProcess;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.obligations.model.ResponsePattern;
 import gov.nist.csd.pm.pip.obligations.model.Rule;
-import gov.nist.csd.pm.pip.obligations.model.Subject;
-import gov.nist.csd.pm.pip.obligations.model.Target;
 
-//remove conditional action
+//remove conditional action(to be implemented)
 public class MutatorRCA extends MutantTester2 {
 //	String testMethod = "P";
 
@@ -65,7 +48,7 @@ public class MutatorRCA extends MutantTester2 {
 			setObligationMutant(mutant);
 
 //			//invoke junit to kill obligation_mutant
-			testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "CEPC");
+			testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "RCA");
 			setNumberOfMutants(getNumberOfMutants() + 1);
 		}
 //		System.out.println("Total number of mutant is " + getNumberOfMutants());

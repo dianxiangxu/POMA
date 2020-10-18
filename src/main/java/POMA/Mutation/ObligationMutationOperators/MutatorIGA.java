@@ -9,16 +9,19 @@ import java.util.List;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
+import gov.nist.csd.pm.pip.graph.model.nodes.Node;
+import gov.nist.csd.pm.pip.obligations.model.EvrNode;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.obligations.model.ResponsePattern;
 import gov.nist.csd.pm.pip.obligations.model.Rule;
 import gov.nist.csd.pm.pip.obligations.model.actions.Action;
+import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 
-//remove one action
-public class MutatorROA extends MutantTester2 {
+//incorrect grant action
+public class MutatorIGA extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorROA(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException {
+	public MutatorIGA(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph, obligation);
 	}
 
@@ -40,61 +43,67 @@ public class MutatorROA extends MutantTester2 {
 		List<Action> newActions = new ArrayList<>();
 		double before, after;
 		int index = 0;
+		EvrNode subject, target, oldTarget;
 		
+		getAllEvrNodes();
 		List<Rule> rules = obligation.getRules();
 		for (Rule rule : rules) {
-			//choose rules to test, all avoided by default
-//			if (rule.getLabel().equals("create_proposal") || 
-//					rule.getLabel().equals("add_copi") ||
-//					rule.getLabel().equals("submit_proposal")||
-//					rule.getLabel().equals("add_sp")||
-//					rule.getLabel().equals("delete_copi")||
-//					rule.getLabel().equals("delete_sp") ||
-//					rule.getLabel().equals("chair_approve") ||
-//					rule.getLabel().equals("chair_disapprove") ||
-//					rule.getLabel().equals("bm_approve") ||
-//					rule.getLabel().equals("bm_disapprove") ||
-//					rule.getLabel().equals("dean_approve") ||
-//					rule.getLabel().equals("dean_disapprove") ||
-//					rule.getLabel().equals("irb_approve") ||
-//					rule.getLabel().equals("irb_disapprove") ||
-//					rule.getLabel().equals("ra_approve") ||
-//					rule.getLabel().equals("ra_disapprove") ||
-//					rule.getLabel().equals("rd_approve") ||
-//					rule.getLabel().equals("rd_disapprove") ||
-//					rule.getLabel().equals("ra_submit")
-//					) {
-//				continue;
-//			}
 			index = 0;
 			ruleLabel = rule.getLabel();
 			ResponsePattern responsePattern = rule.getResponsePattern();
 			List<Action> actions = responsePattern.getActions();
-			for (Action actionToDelete : actions) {
+			for (Action actionToChange : actions) {
+				if (!(actionToChange instanceof GrantAction)) {
+					index++;
+					continue;
+				}
 				mutant = createObligationCopy();
-				
-				//delete one action from current action list
+				//make a copy of newActions
 				newActions.clear();
 				for (Action action : actions) {
 					newActions.add(action);
 				}
-				newActions.remove(actionToDelete); 
-				mutant = updateActions(mutant, ruleLabel, newActions);
+				newActions.remove(actionToChange);
 				
-				setObligationMutant(mutant);
+				GrantAction newAction = new GrantAction();
+				//Here, only mutate target node to another random existing node
+				//This can be extended to mutate subject and mutate operation set as well
+				subject = ((GrantAction)actionToChange).getSubject();
 
-				before = getNumberOfKilledMutants();
-//				//invoke junit to kill obligation_mutant
-				testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "ROA");
-				after = getNumberOfKilledMutants();
-				if (before == after) {
-					//unkilled mutant caught
-					System.out.println("Unkilled mutant (ROA) " + ruleLabel + "|actionIndex:" + index + "|"
-							+ actions.toString() + "|" + actionToDelete.toString());
-					//just breakpoint for debug
-					System.out.println("");
+				oldTarget = ((GrantAction)actionToChange).getTarget();
+				for (Node newWhere : UAsOAs) {
+					if (newWhere.getName().equals(oldTarget.getName()))
+						continue;
+					if (!newWhere.getType().toString().equals(oldTarget.getType()))
+						continue;
+					target = new EvrNode(newWhere.getName(), newWhere.getType().toString(), newWhere.getProperties());
+					
+					newAction.setSubject(subject);
+					newAction.setOperations(((GrantAction)actionToChange).getOperations());
+					newAction.setTarget(target);
+					
+					//keep conditions identical
+					newAction.setCondition(actionToChange.getCondition());
+					newAction.setNegatedCondition(actionToChange.getNegatedCondition());
+					newActions.add(newAction);
+					
+					mutant = updateActions(mutant, ruleLabel, newActions);
+					
+					setObligationMutant(mutant);
+					before = getNumberOfKilledMutants();
+					//invoke junit to kill obligation_mutant
+					testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "IGA");
+					after = getNumberOfKilledMutants();
+					if (before == after) {
+						//unkilled mutant caught
+						System.out.println("Unkilled mutant (IGA) " + ruleLabel + "|actionIndex:" 
+											+ index +"|" + target.getName());
+						//just breakpoint for debug
+						System.out.println("");
+					}
+					setNumberOfMutants(getNumberOfMutants() + 1);
+					newActions.remove(newAction);
 				}
-				setNumberOfMutants(getNumberOfMutants() + 1);
 				index++;
 			}
 		}
@@ -117,5 +126,17 @@ public class MutatorROA extends MutantTester2 {
 		}
 		obligation.setRules(newRules);
 		return obligation;
+	}
+	
+	//return an OA node as node_where
+	EvrNode getRandomWhere (EvrNode oldWhere) throws PMException {
+		for (EvrNode node : EvrNodes) {
+			if (node.getName().equals(oldWhere.getName()))
+				continue;
+			if (!node.getType().equals(oldWhere.getType()))
+				continue;
+			return node;
+		}
+		return null;
 	}
 }

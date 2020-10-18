@@ -30,7 +30,7 @@ public class ObligationMutationController {
 	List<String[]> data = new ArrayList<String[]>();
 	String[] row;
 	String CSVFilePath = "CSV/OverallMutationResults.csv";
-	static int rowCount = 25;
+	static int rowCount = 30;
 	Graph graph;
 	Obligation obligation;
 
@@ -49,34 +49,50 @@ public class ObligationMutationController {
 			String[] row = new String[rowCount];
 			omc.totalNumberOfMutantsForTest = 0;
 			omc.totalNumberOfKilledMutantsForTest = 0;
-//			double resultROR = omc.testROR(testMethod, omc.graph, omc.obligation);
-//			double resultCEU = omc.testCEU(testMethod, omc.graph, omc.obligation);
-//			double resultREU = omc.testREU(testMethod, omc.graph, omc.obligation);
-//			double resultCEPC = omc.testCEPC(testMethod, omc.graph, omc.obligation);
-//			double resultREPC = omc.testREPC(testMethod, omc.graph, omc.obligation);
-//			double resultCEO = omc.testCEO(testMethod, omc.graph, omc.obligation);
-//			double resultAEO = omc.testAEO(testMethod, omc.graph, omc.obligation);
-//			double resultREO = omc.testREO(testMethod, omc.graph, omc.obligation);
-//			double resultCEPE = omc.testCEPE(testMethod, omc.graph, omc.obligation);
-//			double resultREPE = omc.testREPE(testMethod, omc.graph, omc.obligation);
-			//double resultRCA = omc.testRCA(testMethod, omc.graph, omc.obligation);//not implemented
+			double resultROR = omc.testROR(testMethod, omc.graph, omc.obligation);
+			double resultCEU = omc.testCEU(testMethod, omc.graph, omc.obligation);
+			double resultREU = omc.testREU(testMethod, omc.graph, omc.obligation);
+			double resultCEPC = omc.testCEPC(testMethod, omc.graph, omc.obligation);
+			double resultREPC = omc.testREPC(testMethod, omc.graph, omc.obligation);
+			double resultCEO = omc.testCEO(testMethod, omc.graph, omc.obligation);
+			double resultAEO = omc.testAEO(testMethod, omc.graph, omc.obligation);
+			double resultREO = omc.testREO(testMethod, omc.graph, omc.obligation);
+			double resultCEPE = omc.testCEPE(testMethod, omc.graph, omc.obligation);
+			double resultREPE = omc.testREPE(testMethod, omc.graph, omc.obligation);
+			double resultROC = omc.testROC(testMethod, omc.graph, omc.obligation);
 			double resultROA = omc.testROA(testMethod, omc.graph, omc.obligation);
+			double resultNCD = omc.testNCD(testMethod, omc.graph, omc.obligation);
+			double resultROF = omc.testROF(testMethod, omc.graph, omc.obligation);
+			double resultNOF = omc.testNOF(testMethod, omc.graph, omc.obligation);
+			double resultCAC = omc.testCAC(testMethod, omc.graph, omc.obligation);
+			double resultICA = omc.testICA(testMethod, omc.graph, omc.obligation);
+			double resultIAA = omc.testIAA(testMethod, omc.graph, omc.obligation);
+			double resultIGA = omc.testIGA(testMethod, omc.graph, omc.obligation);
+			double resultINA = omc.testINA(testMethod, omc.graph, omc.obligation);
 			
 
 			row[0] = testMethod;
-//			row[1] = Double.toString(resultROR);
-//			row[2] = Double.toString(resultCEU);
-//			row[3] = Double.toString(resultREU);
-//			row[4] = Double.toString(resultCEPC);
-//			row[5] = Double.toString(resultREPC);
-//			row[6] = Double.toString(resultCEO);
-//			row[7] = Double.toString(resultAEO);
-//			row[8] = Double.toString(resultREO);
-//			row[9] = Double.toString(resultCEPE);
-//			row[10] = Double.toString(resultREPE);
-			//row[11] = Double.toString(resultRCA);
+			row[1] = Double.toString(resultROR);
+			row[2] = Double.toString(resultCEU);
+			row[3] = Double.toString(resultREU);
+			row[4] = Double.toString(resultCEPC);
+			row[5] = Double.toString(resultREPC);
+			row[6] = Double.toString(resultCEO);
+			row[7] = Double.toString(resultAEO);
+			row[8] = Double.toString(resultREO);
+			row[9] = Double.toString(resultCEPE);
+			row[10] = Double.toString(resultREPE);
+			row[11] = Double.toString(resultROC);
 			row[12] = Double.toString(resultROA);
-			row[20] = Double.toString(
+			row[13] = Double.toString(resultNCD);
+			row[14] = Double.toString(resultROF);
+			row[15] = Double.toString(resultNOF);
+			row[16] = Double.toString(resultCAC);
+			row[17] = Double.toString(resultICA);
+			row[18] = Double.toString(resultIAA);
+			row[19] = Double.toString(resultIGA);
+			row[20] = Double.toString(resultINA);
+			row[25] = Double.toString(
 					(double) omc.totalNumberOfKilledMutantsForTest / (double) omc.totalNumberOfMutantsForTest * 100);
 			omc.data.add(row);
 		}
@@ -400,6 +416,30 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 	
+	private double testROC (String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException, CloneNotSupportedException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
+		MutatorROC mutatorROC = new MutatorROC(testMethod, graph, obligation);
+		System.out.println("MutationMethod is ROC");
+
+		try {
+			mutatorROC.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		double mutationScore = mutatorROC.calculateMutationScore(mutatorROC.getNumberOfMutants(),
+				mutatorROC.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorROC.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorROC.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += mutatorROC.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorROC.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
 	private double testRCA(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException, CloneNotSupportedException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
 		MutatorRCA mutatorRCA = new MutatorRCA(testMethod, graph, obligation);
 		System.out.println("MutationMethod is RCA");
@@ -448,6 +488,198 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 	
+	private double testNCD(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException, CloneNotSupportedException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
+		MutatorNCD mutatorNCD = new MutatorNCD(testMethod, graph, obligation);
+		System.out.println("MutationMethod is NCD");
+
+		try {
+			mutatorNCD.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		double mutationScore = mutatorNCD.calculateMutationScore(mutatorNCD.getNumberOfMutants(),
+				mutatorNCD.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorNCD.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorNCD.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += mutatorNCD.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorNCD.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testROF(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException, CloneNotSupportedException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
+		MutatorROF mutatorROF = new MutatorROF(testMethod, graph, obligation);
+		System.out.println("MutationMethod is ROF");
+
+		try {
+			mutatorROF.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		double mutationScore = mutatorROF.calculateMutationScore(mutatorROF.getNumberOfMutants(),
+				mutatorROF.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorROF.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorROF.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += mutatorROF.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorROF.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testNOF(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException, CloneNotSupportedException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
+		MutatorNOF mutatorNOF = new MutatorNOF(testMethod, graph, obligation);
+		System.out.println("MutationMethod is NOF");
+
+		try {
+			mutatorNOF.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		double mutationScore = mutatorNOF.calculateMutationScore(mutatorNOF.getNumberOfMutants(),
+				mutatorNOF.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorNOF.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorNOF.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += mutatorNOF.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorNOF.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testCAC(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException, CloneNotSupportedException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
+		MutatorCAC mutatorCAC = new MutatorCAC(testMethod, graph, obligation);
+		System.out.println("MutationMethod is CAC");
+
+		try {
+			mutatorCAC.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		double mutationScore = mutatorCAC.calculateMutationScore(mutatorCAC.getNumberOfMutants(),
+				mutatorCAC.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorCAC.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorCAC.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += mutatorCAC.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorCAC.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testICA(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException, CloneNotSupportedException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
+		MutatorICA mutatorICA = new MutatorICA(testMethod, graph, obligation);
+		System.out.println("MutationMethod is ICA");
+
+		try {
+			mutatorICA.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		double mutationScore = mutatorICA.calculateMutationScore(mutatorICA.getNumberOfMutants(),
+				mutatorICA.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorICA.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorICA.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += mutatorICA.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorICA.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testIAA(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException, CloneNotSupportedException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
+		MutatorIAA mutatorIAA = new MutatorIAA(testMethod, graph, obligation);
+		System.out.println("MutationMethod is IAA");
+
+		try {
+			mutatorIAA.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		double mutationScore = mutatorIAA.calculateMutationScore(mutatorIAA.getNumberOfMutants(),
+				mutatorIAA.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorIAA.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorIAA.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += mutatorIAA.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorIAA.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testIGA(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException, CloneNotSupportedException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
+		MutatorIGA mutatorIGA = new MutatorIGA(testMethod, graph, obligation);
+		System.out.println("MutationMethod is IGA");
+
+		try {
+			mutatorIGA.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		double mutationScore = mutatorIGA.calculateMutationScore(mutatorIGA.getNumberOfMutants(),
+				mutatorIGA.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorIGA.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorIGA.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += mutatorIGA.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorIGA.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testINA(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException, CloneNotSupportedException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
+		MutatorINA mutatorINA = new MutatorINA(testMethod, graph, obligation);
+		System.out.println("MutationMethod is INA");
+
+		try {
+			mutatorINA.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		double mutationScore = mutatorINA.calculateMutationScore(mutatorINA.getNumberOfMutants(),
+				mutatorINA.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorINA.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorINA.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += mutatorINA.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorINA.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
 	private void createTestMethods() {
 		testMethods = new ArrayList<String>();
 //		testMethods.add("RS");
@@ -470,9 +702,17 @@ public class ObligationMutationController {
 		header[8] = "REO";
 		header[9] = "CEPE";
 		header[10] = "REPE";
-		header[11] = "RCA";
+		header[11] = "ROC";
 		header[12] = "ROA";
-		header[20] = "totalMutationScore";
+		header[13] = "NCD";
+		header[14] = "ROF";
+		header[15] = "NOF";
+		header[16] = "CAC";
+		header[17] = "ICA";
+		header[18] = "IAA";
+		header[19] = "IGA";
+		header[20] = "INA";
+		header[25] = "totalMutationScore";
 		data.add(header);
 	}
 

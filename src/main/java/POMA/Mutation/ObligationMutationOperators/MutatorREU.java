@@ -1,25 +1,14 @@
 package POMA.Mutation.ObligationMutationOperators;
 
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
-import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
-import gov.nist.csd.pm.pip.graph.model.nodes.Node;
-import gov.nist.csd.pm.pip.obligations.evr.EVRException;
-import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.EventPattern;
 import gov.nist.csd.pm.pip.obligations.model.EvrProcess;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
@@ -133,10 +122,7 @@ public class MutatorREU extends MutantTester2 {
 		obligation.setRules(newRules);
 		return obligation;
 	}
-	private Obligation removeEventProcess(Obligation obligation, String ruleLabel, Process process) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		//to be implemented
-		return obligation;
-	}
+
 	public String getRandomUserName() {
 		//0 can be replaced by a random number from 0 to length(Us)
 		String userName = Us.get(0);

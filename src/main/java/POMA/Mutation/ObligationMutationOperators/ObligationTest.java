@@ -135,6 +135,26 @@ public class ObligationTest {
 			
 			//chair approve
 			pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(Constants.CHAIR_APPROVAL)), "ChairCSUser", "process");
+			assertTrue(decider.check("ChairCSUser", "", "PDSWhole", "Approve"));
+			assertTrue(decider.check("ChairCSUser", "", "PDSWhole", "Disapprove"));
+			assertTrue(decider.check("ChairCSUser", "", "ChairApproval", "write"));
+			assertTrue(decider.check("ChairChemUser", "", "PDSWhole", "Approve"));
+			assertTrue(decider.check("ChairChemUser", "", "PDSWhole", "Disapprove"));
+			assertTrue(decider.check("ChairChemUser", "", "ChairApproval", "write"));	
+			
+			assertFalse(decider.check("bmCSUser", "", "PDSSections", "read"));
+			assertFalse(decider.check("bmCSUser", "", "PDSWhole", "Approve"));
+			assertFalse(decider.check("bmCSUser", "", "PDSWhole", "Disapprove"));
+			assertFalse(decider.check("bmCSUser", "", "BMApproval", "write"));
+			assertFalse(decider.check("bmChemUser", "", "PDSSections", "read"));
+			assertFalse(decider.check("bmChemUser", "", "PDSWhole", "Approve"));
+			assertFalse(decider.check("bmChemUser", "", "PDSWhole", "Disapprove"));
+			assertFalse(decider.check("bmChemUser", "", "BMApproval", "write"));
+			
+			assertFalse(decider.check("irbUser", "", "PDSSections", "read"));
+			assertFalse(decider.check("irbUser", "", "PDSWhole", "Approve"));
+			assertFalse(decider.check("irbUser", "", "PDSWhole", "Disapprove"));
+			assertFalse(decider.check("irbUser", "", "IRBApproval", "write"));
 			pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(Constants.CHAIR_APPROVAL)), "ChairChemUser", "process");
 			assertFalse(decider.check("ChairCSUser", "", "PDSWhole", "Approve"));
 			assertFalse(decider.check("ChairCSUser", "", "PDSWhole", "Disapprove"));
@@ -159,6 +179,21 @@ public class ObligationTest {
 
 			//BM approve
 			pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(Constants.BM_APPROVAL)), "bmCSUser", "process");
+			assertTrue(decider.check("bmCSUser", "", "PDSWhole", "Approve"));
+			assertTrue(decider.check("bmCSUser", "", "PDSWhole", "Disapprove"));
+			assertTrue(decider.check("bmCSUser", "", "BMApproval", "write"));
+			assertTrue(decider.check("bmChemUser", "", "PDSWhole", "Approve"));
+			assertTrue(decider.check("bmChemUser", "", "PDSWhole", "Disapprove"));
+			assertTrue(decider.check("bmChemUser", "", "BMApproval", "write"));
+			
+			assertFalse(decider.check("DeanCOEUser", "", "PDSSections", "read"));
+			assertFalse(decider.check("DeanCOEUser", "", "PDSWhole", "Approve"));
+			assertFalse(decider.check("DeanCOEUser", "", "PDSWhole", "Disapprove"));
+			assertFalse(decider.check("DeanCOEUser", "", "DeanApproval", "write"));
+			assertFalse(decider.check("DeanCOASUser", "", "PDSSections", "read"));
+			assertFalse(decider.check("DeanCOASUser", "", "PDSWhole", "Approve"));
+			assertFalse(decider.check("DeanCOASUser", "", "PDSWhole", "Disapprove"));
+			assertFalse(decider.check("DeanCOASUser", "", "DeanApproval", "write"));
 			pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(Constants.BM_APPROVAL)), "bmChemUser", "process");
 			assertFalse(decider.check("bmCSUser", "", "PDSWhole", "Approve"));
 			assertFalse(decider.check("bmCSUser", "", "PDSWhole", "Disapprove"));
@@ -184,6 +219,19 @@ public class ObligationTest {
 			
 			//Dean approve
 			pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(Constants.DEAN_APPROVAL)), "DeanCOEUser", "process");
+			assertFalse(decider.check("raUser", "", "PDSSections", "read"));
+			assertFalse(decider.check("raUser", "", "PDSWhole", "Approve"));
+			assertFalse(decider.check("raUser", "", "PDSWhole", "Disapprove"));
+			assertFalse(decider.check("raUser", "", "PDSWhole", "Withdraw"));
+			assertFalse(decider.check("raUser", "", "RAApproval", "write"));
+			assertFalse(decider.check("raUser", "", "OSPInfo", "write"));
+			//NEW
+			assertTrue(decider.check("DeanCOEUser", "", "PDSWhole", "Approve"));
+			assertTrue(decider.check("DeanCOEUser", "", "PDSWhole", "Disapprove"));
+			assertTrue(decider.check("DeanCOEUser", "", "DeanApproval", "write"));
+			assertTrue(decider.check("DeanCOASUser", "", "PDSWhole", "Approve"));
+			assertTrue(decider.check("DeanCOASUser", "", "PDSWhole", "Disapprove"));
+			assertTrue(decider.check("DeanCOASUser", "", "DeanApproval", "write"));
 			pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(Constants.DEAN_APPROVAL)), "DeanCOASUser", "process");
 			assertTrue(decider.check("raUser", "", "PDSSections", "read"));
 			assertTrue(decider.check("raUser", "", "PDSWhole", "Approve"));
@@ -192,11 +240,9 @@ public class ObligationTest {
 			assertTrue(decider.check("raUser", "", "RAApproval", "write"));
 			assertTrue(decider.check("raUser", "", "OSPInfo", "write"));
 			//NEW
-//			assertFalse(decider.check("DeanCOEUser", "", "PDSSections", "read"));
 			assertFalse(decider.check("DeanCOEUser", "", "PDSWhole", "Approve"));
 			assertFalse(decider.check("DeanCOEUser", "", "PDSWhole", "Disapprove"));
 			assertFalse(decider.check("DeanCOEUser", "", "DeanApproval", "write"));
-//			assertFalse(decider.check("DeanCOASUser", "", "PDSSections", "read"));
 			assertFalse(decider.check("DeanCOASUser", "", "PDSWhole", "Approve"));
 			assertFalse(decider.check("DeanCOASUser", "", "PDSWhole", "Disapprove"));
 			assertFalse(decider.check("DeanCOASUser", "", "DeanApproval", "write"));
@@ -269,7 +315,7 @@ public class ObligationTest {
 			pdp.getEPP().processEvent(new AddCoPIEvent(target_copi, copiToAdd), "nazmul", "process");	
 			assertTrue(decider.check("tomtom", "", "CoPIInfo", "read"));
 			assertTrue(graph.getChildren("CoPI").contains("tomtom"));
-			assertTrue(graph.getChildren("Chair").contains("ChairChemUser"));//asser error
+			assertTrue(graph.getChildren("Chair").contains("ChairChemUser"));//assert error
 			assertTrue(graph.getChildren("Business Manager").contains("bmChemUser"));
 			assertTrue(graph.getChildren("Dean").contains("DeanCOASUser"));
 			assertTrue(decider.check("tomtom", "", "CoPIEditable", "read"));
@@ -671,6 +717,7 @@ public class ObligationTest {
 		}
 	}
 
+	
 	public static File getFileFromResources(String fileName) {
 		File resource = new File(fileName);
 		return resource;

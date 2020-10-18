@@ -12,12 +12,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.lang.reflect.Field;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +28,10 @@ import POMA.Exceptions.NoTypeProvidedException;
 import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
-import gov.nist.csd.pm.pdp.decider.PReviewDecider;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
-import gov.nist.csd.pm.pip.obligations.MemObligations;
 import gov.nist.csd.pm.pip.obligations.evr.EVRException;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.EventPattern;
@@ -45,7 +40,6 @@ import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.obligations.model.Rule;
 import gov.nist.csd.pm.pip.obligations.model.Target;
 
-import org.junit.Test;
 import org.junit.internal.TextListener;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -117,6 +111,7 @@ public class MutantTester2 {
 		obligation.setSource(obligationMutant.getSource());
 		return obligation;
 	}
+	//graph and obligation are redundant here
 	public void testMutant(Graph graph, Obligation obligation, File testSuiteCSV, String testMethod, int mutantNumber, String mutationMethod)
 			throws PMException, IOException {
 		//invoke junit here
@@ -334,7 +329,7 @@ public class MutantTester2 {
 
 			for (int i = 0; i < list.size(); i++) {
 				String objectID = list.get(i);
-				Node obj = graph.getNode(objectID);
+//				Node obj = graph.getNode(objectID);
 
 				if (!operations.contains(associations.get(objectID))) {
 					operations.add(associations.get(objectID));

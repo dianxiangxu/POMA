@@ -1,32 +1,18 @@
 package POMA.Mutation.ObligationMutationOperators;
 
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
-import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
-import gov.nist.csd.pm.pip.graph.model.nodes.Node;
-import gov.nist.csd.pm.pip.obligations.evr.EVRException;
-import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.EventPattern;
-import gov.nist.csd.pm.pip.obligations.model.EvrProcess;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
-import gov.nist.csd.pm.pip.obligations.model.PolicyClass;
 import gov.nist.csd.pm.pip.obligations.model.Rule;
-import gov.nist.csd.pm.pip.obligations.model.Subject;
 
 //add event operation
 public class MutatorAEO extends MutantTester2 {
@@ -51,7 +37,6 @@ public class MutatorAEO extends MutantTester2 {
 		Obligation obligation = createObligationCopy();
 		String ruleLabel;
 		Obligation mutant;
-		String changeToUser;
 		double before, after;
 		
 		getAllOperationsInObligation();	
@@ -76,7 +61,7 @@ public class MutatorAEO extends MutantTester2 {
 				setObligationMutant(mutant);
 				before = getNumberOfKilledMutants();
 				//invoke junit to kill obligation_mutant
-				testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "CEU");
+				testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "AEO");
 				after = getNumberOfKilledMutants();
 				if (before == after) {
 					//unkilled mutant caught
