@@ -14,8 +14,8 @@ import gov.nist.csd.pm.pip.obligations.model.Rule;
 public class MutatorROR extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorROR(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph, obligation);
+	public MutatorROR(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph);
 	}
 
 	public void init() throws PMException, IOException {
@@ -52,7 +52,7 @@ public class MutatorROR extends MutantTester2 {
 		System.out.println("Total number of mutant is " + getNumberOfMutants());
 	}
 
-	private Obligation removeOneRule(Obligation obligation, String ruleLabel) throws PMException, IOException {
+	private Obligation removeOneRule(Obligation obligation, String ruleLabel) {
 		if (ruleLabel == null)
 			return null;
 		List<Rule> rules = obligation.getRules();

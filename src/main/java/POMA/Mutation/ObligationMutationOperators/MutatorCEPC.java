@@ -17,11 +17,11 @@ import gov.nist.csd.pm.pip.obligations.model.Rule;
 public class MutatorCEPC extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorCEPC(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph, obligation);
+	public MutatorCEPC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph);
 	}
 
-	public void init() throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public void init() throws PMException, IOException {
 		String testResults = "CSV/" + testMethod + "/" + testMethod + "testResultsCEPC.csv";
 		String testSuitePath = getTestSuitPathByMethod(testMethod);
 
@@ -30,7 +30,7 @@ public class MutatorCEPC extends MutantTester2 {
 		saveCSV(data, new File(testResults), testMethod);
 	}
 
-	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException {
 		File testSuite = new File(testSuitePath);
 		Graph graph = createCopy();
 		Obligation obligation = createObligationCopy();
@@ -63,7 +63,7 @@ public class MutatorCEPC extends MutantTester2 {
 //		System.out.println("Total number of mutant is " + getNumberOfMutants());
 	}
 
-	private Obligation changePC(Obligation obligation, String ruleLabel, String changeToPCName) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private Obligation changePC(Obligation obligation, String ruleLabel, String changeToPCName) {
 		if (ruleLabel == null)
 			return null;
 		List<Rule> rules = obligation.getRules();

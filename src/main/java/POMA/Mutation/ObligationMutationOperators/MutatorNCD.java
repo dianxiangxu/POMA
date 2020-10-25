@@ -21,11 +21,11 @@ import gov.nist.csd.pm.pip.obligations.model.functions.Function;
 public class MutatorNCD extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorNCD(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph, obligation);
+	public MutatorNCD(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph);
 	}
 
-	public void init() throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public void init() throws PMException, IOException {
 		String testResults = "CSV/" + testMethod + "/" + testMethod + "testResultsCEPC.csv";
 		String testSuitePath = getTestSuitPathByMethod(testMethod);
 
@@ -34,7 +34,7 @@ public class MutatorNCD extends MutantTester2 {
 		saveCSV(data, new File(testResults), testMethod);
 	}
 
-	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException {
 		File testSuite = new File(testSuitePath);
 		Graph graph = createCopy();
 		Obligation obligation = createObligationCopy();
@@ -106,7 +106,7 @@ public class MutatorNCD extends MutantTester2 {
 		}
 	}
 	
-	private Obligation negateCondition(Obligation obligation, String ruleLabel) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private Obligation negateCondition(Obligation obligation, String ruleLabel) throws PMException, IOException {
 		List<Rule> rules = obligation.getRules();
 		
 		for (Rule newRule : rules) {
@@ -156,7 +156,7 @@ public class MutatorNCD extends MutantTester2 {
 	}
 	
 
-	private Action negateDeepCondition(Action action) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private Action negateDeepCondition(Action action){
 //		Action newAction
 		Condition condition = action.getCondition();
 		NegatedCondition negatedCondition = action.getNegatedCondition();
@@ -194,7 +194,7 @@ public class MutatorNCD extends MutantTester2 {
 		}
 		return action;
 	}
-	private Obligation updateActions(Obligation obligation, String ruleLabel, List<Action> newActions) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private Obligation updateActions(Obligation obligation, String ruleLabel, List<Action> newActions) {
 		if (ruleLabel == null)
 			return null;
 		List<Rule> rules = obligation.getRules();

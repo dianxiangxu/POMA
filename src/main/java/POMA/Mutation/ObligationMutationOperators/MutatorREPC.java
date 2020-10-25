@@ -18,11 +18,11 @@ import gov.nist.csd.pm.pip.obligations.model.Subject;
 public class MutatorREPC extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorREPC(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph, obligation);
+	public MutatorREPC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph);
 	}
 
-	public void init() throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public void init() throws PMException, IOException {
 		String testResults = "CSV/" + testMethod + "/" + testMethod + "testResultsREU.csv";
 		String testSuitePath = getTestSuitPathByMethod(testMethod);
 
@@ -31,7 +31,7 @@ public class MutatorREPC extends MutantTester2 {
 		saveCSV(data, new File(testResults), testMethod);
 	}
 
-	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException {
 		File testSuite = new File(testSuitePath);
 		Graph graph = createCopy();
 		Obligation obligation = createObligationCopy();
@@ -80,7 +80,7 @@ public class MutatorREPC extends MutantTester2 {
 //		System.out.println("Total number of mutant is " + getNumberOfMutants());
 	}
 
-	private Obligation clearEventUser(Obligation obligation, String ruleLabel) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private Obligation clearEventUser(Obligation obligation, String ruleLabel) {
 		if (ruleLabel == null)
 			return null;
 		List<Rule> rules = obligation.getRules();
@@ -89,8 +89,9 @@ public class MutatorREPC extends MutantTester2 {
 		for (Rule newRule : rules) {
 			if (newRule.getLabel().equals(ruleLabel)) {
 				EventPattern eventPattern = newRule.getEventPattern();
-				//change newUser to ""
-				Subject subject = Subject.class.getConstructor(String.class).newInstance(null);
+				//change newUser to null/""
+				Subject subject = new Subject("");
+//				Subject subject = Subject.class.getConstructor(String.class).newInstance(null);
 				eventPattern.setSubject(subject);
 				newRule.setEventPattern(eventPattern);
 			}
@@ -101,7 +102,7 @@ public class MutatorREPC extends MutantTester2 {
 		obligation.setRules(newRules);
 		return obligation;
 	}
-	private Obligation removeEventAnyUser(Obligation obligation, String ruleLabel) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private Obligation removeEventAnyUser(Obligation obligation, String ruleLabel) {
 		if (ruleLabel == null)
 			return null;
 		List<Rule> rules = obligation.getRules();
@@ -113,7 +114,8 @@ public class MutatorREPC extends MutantTester2 {
 				List<String> anyUser = eventPattern.getSubject().getAnyUser();
 				anyUser.clear();
 				//change anyUser to empty array
-				Subject subject = Subject.class.getConstructor(String.class).newInstance(anyUser);
+				Subject subject = new Subject(anyUser);
+//				Subject subject = Subject.class.getConstructor(String.class).newInstance(anyUser);
 				eventPattern.setSubject(subject);
 				newRule.setEventPattern(eventPattern);
 			}

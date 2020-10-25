@@ -21,11 +21,11 @@ import gov.nist.csd.pm.pip.obligations.model.functions.Function;
 public class MutatorROC extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorROC(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph, obligation);
+	public MutatorROC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph);
 	}
 
-	public void init() throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public void init() throws PMException, IOException {
 		String testResults = "CSV/" + testMethod + "/" + testMethod + "testResultsCEPC.csv";
 		String testSuitePath = getTestSuitPathByMethod(testMethod);
 
@@ -34,7 +34,7 @@ public class MutatorROC extends MutantTester2 {
 		saveCSV(data, new File(testResults), testMethod);
 	}
 
-	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {		
+	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException {		
 		File testSuite = new File(testSuitePath);
 		Graph graph = createCopy();
 		Obligation obligation = createObligationCopy();
@@ -105,7 +105,7 @@ public class MutatorROC extends MutantTester2 {
 		
 	}
 	
-	private boolean isAbleToMutate(Rule r) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private boolean isAbleToMutate(Rule r) {
 		ResponsePattern responsePattern = r.getResponsePattern();
 		if ((responsePattern.getCondition() == null) && (responsePattern.getNegatedCondition() == null)) 
 			return false;
@@ -113,7 +113,7 @@ public class MutatorROC extends MutantTester2 {
 	}
 	
 	
-	private boolean isAbleToMutate(Action action) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private boolean isAbleToMutate(Action action) {
 		Condition condition = action.getCondition();
 		NegatedCondition negatedCondition = action.getNegatedCondition();
 		if (condition == null)

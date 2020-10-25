@@ -18,11 +18,11 @@ import gov.nist.csd.pm.pip.obligations.model.Subject;
 public class MutatorCEU extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorCEU(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph, obligation);
+	public MutatorCEU(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph);
 	}
 
-	public void init() throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public void init() throws PMException, IOException {
 		String testResults = "CSV/" + testMethod + "/" + testMethod + "testResultsCEU.csv";
 		String testSuitePath = getTestSuitPathByMethod(testMethod);
 
@@ -31,7 +31,7 @@ public class MutatorCEU extends MutantTester2 {
 		saveCSV(data, new File(testResults), testMethod);
 	}
 
-	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException {
 		File testSuite = new File(testSuitePath);
 		Graph graph = createCopy();
 		Obligation obligation = createObligationCopy();
@@ -87,7 +87,7 @@ public class MutatorCEU extends MutantTester2 {
 //		System.out.println("Total number of mutant is " + getNumberOfMutants());
 	}
 
-	private Obligation changeEventUser(Obligation obligation, String ruleLabel, String changeToUserName) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private Obligation changeEventUser(Obligation obligation, String ruleLabel, String changeToUserName) {
 		if (ruleLabel == null)
 			return null;
 		List<Rule> rules = obligation.getRules();
@@ -97,7 +97,8 @@ public class MutatorCEU extends MutantTester2 {
 			if (newRule.getLabel().equals(ruleLabel)) {
 				EventPattern eventPattern = newRule.getEventPattern();
 				//change newUser to ""
-				Subject subject = Subject.class.getConstructor(String.class).newInstance(changeToUserName);
+				Subject subject = new Subject(changeToUserName);
+//				Subject subject = Subject.class.getConstructor(String.class).newInstance(changeToUserName);
 				eventPattern.setSubject(subject);
 				
 				newRule.setEventPattern(eventPattern);
@@ -109,7 +110,7 @@ public class MutatorCEU extends MutantTester2 {
 		obligation.setRules(newRules);
 		return obligation;
 	}
-	private Obligation changeEventAnyUser(Obligation obligation, String ruleLabel, List<String> newAnyUser) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private Obligation changeEventAnyUser(Obligation obligation, String ruleLabel, List<String> newAnyUser) {
 		if (ruleLabel == null)
 			return null;
 		List<Rule> rules = obligation.getRules();
@@ -119,7 +120,8 @@ public class MutatorCEU extends MutantTester2 {
 			if (newRule.getLabel().equals(ruleLabel)) {
 				EventPattern eventPattern = newRule.getEventPattern();
 				//change newUser to ""
-				Subject subject = Subject.class.getConstructor(String.class).newInstance(newAnyUser);
+				Subject subject = new Subject(newAnyUser);
+//				Subject subject = Subject.class.getConstructor(String.class).newInstance(newAnyUser);
 				eventPattern.setSubject(subject);
 				
 				newRule.setEventPattern(eventPattern);
@@ -131,7 +133,7 @@ public class MutatorCEU extends MutantTester2 {
 		obligation.setRules(newRules);
 		return obligation;
 	}
-	private Obligation changeEventProcess(Obligation obligation, String ruleLabel, Process process) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private Obligation changeEventProcess(Obligation obligation, String ruleLabel, Process process) {
 		//to be implemented
 		return obligation;
 	}

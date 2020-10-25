@@ -40,6 +40,7 @@ import javax.swing.table.AbstractTableModel;
 import org.jdesktop.swingx.prompt.PromptSupport;
 import org.jdesktop.swingx.prompt.PromptSupport.FocusBehavior;
 
+import POMA.Exceptions.NoTypeProvidedException;
 import POMA.GUI.GraphVisualization.GUI;
 import POMA.GUI.editor.AbstractPolicyEditor;
 import POMA.GUI.editor.DebugPanel;
@@ -575,7 +576,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		openMutantsAction = new OpenMutantsAction("Open Mutants...", createNavigationIcon("openmutants"), "OpenMutants",
 				new Integer(KeyEvent.VK_P));
 
-		generateMutantsAction = new GenerateMutantsAction("Generate/Test Mutants...",
+		generateMutantsAction = new GenerateMutantsAction("Generate/Run Mutants...",
 				createNavigationIcon("generatemutants"), "GenerateMutants", new Integer(KeyEvent.VK_T));
 
 		generateSecondOrderMutantsAction = new GenerateSecondOrderMutantsAction("Generate Second-Order Mutants...",
@@ -930,7 +931,17 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			mutationPanel.generateMutants(editorPanel.getGraph(), editorPanel.getCurrentFile().getParentFile());
+			try {
+				mutationPanel.generateMutants(editorPanel.getGraph(), editorPanel.getCurrentFile().getParentFile());
+			} catch (InstantiationException e2) {
+				// TODO Auto-generated catch block
+				// InstantiationException
+				e2.printStackTrace();
+			} catch (NoTypeProvidedException e2) {
+				// TODO Auto-generated catch block
+				// NoTypeProvidedException
+				e2.printStackTrace();
+			}
 			JTable table = new JTable(new MyModel());
 			// table.setPreferredScrollableViewportSize(new Dimension(700, 70));
 			table.setFillsViewportHeight(true);

@@ -18,20 +18,19 @@ import gov.nist.csd.pm.pip.obligations.model.Rule;
 public class MutatorAEO extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorAEO(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph, obligation);
+	public MutatorAEO(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph);
 	}
 
-	public void init() throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
+	public void init() throws PMException, IOException, NoTypeProvidedException {
 		String testResults = "CSV/" + testMethod + "/" + testMethod + "testResultsCEU.csv";
 		String testSuitePath = getTestSuitPathByMethod(testMethod);
-
 		
 		performMutation(testMethod, testSuitePath);
 		saveCSV(data, new File(testResults), testMethod);
 	}
 
-	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, NoTypeProvidedException {
+	private void performMutation(String testMethod, String testSuitePath) throws PMException, IOException, NoTypeProvidedException {
 		File testSuite = new File(testSuitePath);
 		Graph graph = createCopy();
 		Obligation obligation = createObligationCopy();
@@ -79,7 +78,7 @@ public class MutatorAEO extends MutantTester2 {
 	}
 	
 	//change operationset (in label: ruleLabel) to changeToOperationSet
-	private Obligation updateOperationSet(Obligation obligation, String ruleLabel, List<String> changeToOperationSet) throws PMException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private Obligation updateOperationSet(Obligation obligation, String ruleLabel, List<String> changeToOperationSet) throws PMException, IOException {
 		if (ruleLabel == null)
 			return null;
 		List<Rule> rules = obligation.getRules();

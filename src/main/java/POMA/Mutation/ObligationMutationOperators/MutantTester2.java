@@ -70,10 +70,9 @@ public class MutantTester2 {
 	static List<EvrNode> EvrNodes;
 	
 
-	public MutantTester2(String testMethod, Graph graph, Obligation obligation) throws GraphDoesNotMatchTestSuitException {
+	public MutantTester2(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		this.testMethod = testMethod;
 		this.graph = graph;
-		this.originObligation = obligation;
 		try {
 			//graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
 //			if (!Utils.verifyTestSuitIsForGraph(graph, getTestSuitPathByMethod(testMethod))) {
@@ -434,7 +433,7 @@ public class MutantTester2 {
 //			System.out.println(pc);
 	}
 	
-	public void getAllOperationsInObligation() throws PMException, NoTypeProvidedException {
+	public void getAllOperationsInObligation() throws PMException, NoTypeProvidedException{
 		OPs = Utils.getAllAccessRights(graph);
 		for (String op : OPs)
 			System.out.println(op);
