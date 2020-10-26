@@ -386,17 +386,17 @@ public class MutationPanel extends JPanelPB {
 								JOptionPane.WARNING_MESSAGE);
 					}
 		    		
-//		    		ObligationMutationController omc = new ObligationMutationController();
-//		    		try {
-//						omc.createMutants(mutPanel.getObligationMutationOperatorList(false),graph, folder);
-//					} catch (GraphDoesNotMatchTestSuitException e) {
-//						e.printStackTrace();
-//						this.stopProgressStatus();
-//						JOptionPane.showMessageDialog(this,
-//								"(Obligation)Policy and Testing Suits do not match.",
-//								"Error of Selection",
-//								JOptionPane.WARNING_MESSAGE);
-//					}
+		    		ObligationMutationController omc = new ObligationMutationController();
+		    		try {
+						omc.createMutants(mutPanel.getObligationMutationOperatorList(false),graph, folder);
+					} catch (GraphDoesNotMatchTestSuitException e) {
+						e.printStackTrace();
+						this.stopProgressStatus();
+						JOptionPane.showMessageDialog(this,
+								"(Obligation)Policy and Testing Suits do not match.",
+								"Error of Selection",
+								JOptionPane.WARNING_MESSAGE);
+					}
 			       // List<Mutant> muts = mutator.generateSelectedMutantsAndSave(methods,mutantsFolder.toString());
 			        
 //			        for(Mutant mutant: muts){
