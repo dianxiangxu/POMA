@@ -1,0 +1,9 @@
+(set-logic UFDTLIRA)
+(declare-fun M (Int) Int)
+(declare-fun k () Int)
+(assert (= (M 0) 1))
+(assert (= (M 1) 1000))
+(assert (= k 1))
+(assert (or (= (M 1) (+ (M (- 1 1)) 1)) (= (M 1) (* (M (- 1 1)) 2))))
+
+(check-sat)

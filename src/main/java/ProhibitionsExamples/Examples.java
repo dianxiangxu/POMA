@@ -12,6 +12,8 @@ import gov.nist.csd.pm.pip.prohibitions.model.Prohibition;
 
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.*;
 
+import java.util.Map;
+
 public class Examples {
 
 	public static void main(String[] argv) throws PMException {
@@ -34,6 +36,7 @@ public class Examples {
 		Prohibitions prohibitions = new MemProhibitions();
 		Prohibition prohibition = new Prohibition.Builder("prohibition1", "UA_test1", new OperationSet("test"))
 				.addContainer("Container1", false).build();
+		
 		prohibitions.add(prohibition);
 
 		PReviewDecider decider = new PReviewDecider(g, prohibitions);
@@ -41,7 +44,8 @@ public class Examples {
 		System.out.println("UA_test1, UA2_2, test"+": "+decider.check("UA_test1", "", "UA2_2", "test"));
 
 		System.out.println("UA_test1, UA3_1_2, test"+": "+decider.check("UA_test1", "", "UA3_1_2", "test"));
-		
+		System.out.println("UA_test1, Container1, test"+": "+decider.check("UA_test1", "", "Container1", "test"));
+		System.out.println("UA_test1, Container2, test"+": "+decider.check("UA_test1", "", "Container2", "test"));
 		
 		System.out.println();		
 		System.out.println("PROHIBITION#2(COMPLEMENT=TRUE) UA_test1 test Container1 ");
@@ -53,8 +57,9 @@ public class Examples {
 		PReviewDecider decider2 = new PReviewDecider(g, prohibitions2);
 		System.out.println("UA_test1, UA1_1, test"+": "+decider2.check("UA_test1", "", "UA1_1", "test"));
 		System.out.println("UA_test1, UA2_2, test"+": "+decider2.check("UA_test1", "", "UA2_2", "test"));
-
 		System.out.println("UA_test1, UA3_1_2, test"+": "+decider2.check("UA_test1", "", "UA3_1_2", "test"));
+		System.out.println("UA_test1, Container1, test"+": "+decider2.check("UA_test1", "", "Container1", "test"));
+		System.out.println("UA_test1, Container2, test"+": "+decider2.check("UA_test1", "", "Container2", "test"));
 		
 		
 		
@@ -71,7 +76,8 @@ public class Examples {
 		System.out.println("UA_test1, UA2_2, test"+": "+decider3.check("UA_test1", "", "UA2_2", "test"));
 
 		System.out.println("UA_test1, UA3_1_2, test"+": "+decider3.check("UA_test1", "", "UA3_1_2", "test"));
-		
+		System.out.println("UA_test1, Container1, test"+": "+decider3.check("UA_test1", "", "Container1", "test"));
+		System.out.println("UA_test1, Container2, test"+": "+decider3.check("UA_test1", "", "Container2", "test"));
 		
 		
 		System.out.println();		
@@ -85,8 +91,9 @@ public class Examples {
 		System.out.println("UA_test1, UA2_2, test"+": "+decider4.check("UA_test1", "", "UA2_2", "test"));
 
 		System.out.println("UA_test1, UA3_1_2, test"+": "+decider4.check("UA_test1", "", "UA3_1_2", "test"));
-		
-		
+		System.out.println("UA_test1, Container1, test"+": "+decider4.check("UA_test1", "", "Container1", "test"));
+		System.out.println("UA_test1, Container2, test"+": "+decider4.check("UA_test1", "", "Container2", "test"));
+
 		
 		System.out.println();		
 		System.out.println("PROHIBITION#5(COMPLEMENT=TRUE) UA_test1 test Container1 Container2 (INTERSECTION=false)");
@@ -100,7 +107,8 @@ public class Examples {
 		System.out.println("UA_test1, UA2_2, test"+": "+decider5.check("UA_test1", "", "UA2_2", "test"));
 
 		System.out.println("UA_test1, UA3_1_2, test"+": "+decider5.check("UA_test1", "", "UA3_1_2", "test"));
-		
+		System.out.println("UA_test1, Container1, test"+": "+decider5.check("UA_test1", "", "Container1", "test"));
+		System.out.println("UA_test1, Container2, test"+": "+decider5.check("UA_test1", "", "Container2", "test"));
 		
 		System.out.println();		
 		System.out.println("PROHIBITION#6(COMPLEMENT=TRUE) UA_test1 test Container1 Container2 (INTERSECTION=true)");
@@ -114,7 +122,8 @@ public class Examples {
 		System.out.println("UA_test1, UA2_2, test"+": "+decider6.check("UA_test1", "", "UA2_2", "test"));
 
 		System.out.println("UA_test1, UA3_1_2, test"+": "+decider6.check("UA_test1", "", "UA3_1_2", "test"));
-		
+		System.out.println("UA_test1, Container1, test"+": "+decider6.check("UA_test1", "", "Container1", "test"));
+		System.out.println("UA_test1, Container2, test"+": "+decider6.check("UA_test1", "", "Container2", "test"));
 		
 		System.out.println();		
 		System.out.println("PROHIBITION#7(COMPLEMENT CONTAINER1=TRUE) UA_test1 test Container1 Container2 (INTERSECTION=true)");
@@ -128,7 +137,8 @@ public class Examples {
 		System.out.println("UA_test1, UA2_2, test"+": "+decider7.check("UA_test1", "", "UA2_2", "test"));
 
 		System.out.println("UA_test1, UA3_1_2, test"+": "+decider7.check("UA_test1", "", "UA3_1_2", "test"));
-		
+		System.out.println("UA_test1, Container1, test"+": "+decider7.check("UA_test1", "", "Container1", "test"));
+		System.out.println("UA_test1, Container2, test"+": "+decider7.check("UA_test1", "", "Container2", "test"));
 		
 		System.out.println();		
 		System.out.println("PROHIBITION#8(COMPLEMENT CONTAINER2=TRUE) UA_test1 test Container1 Container2 (INTERSECTION=true)");
@@ -142,7 +152,14 @@ public class Examples {
 		System.out.println("UA_test1, UA2_2, test"+": "+decider8.check("UA_test1", "", "UA2_2", "test"));
 
 		System.out.println("UA_test1, UA3_1_2, test"+": "+decider8.check("UA_test1", "", "UA3_1_2", "test"));
-		
+		System.out.println("UA_test1, Container1, test"+": "+decider8.check("UA_test1", "", "Container1", "test"));
+		System.out.println("UA_test1, Container2, test"+": "+decider8.check("UA_test1", "", "Container2", "test"));
+		for(Prohibition p :prohibitions8.getAll()) {
+        	System.out.println("SUBJECT:" + p.getSubject()+":INTERSECTION: "+p.isIntersection());
+	        for (Map.Entry<String,Boolean> entry : p.getContainers().entrySet())  {
+	        	System.out.println(entry.getKey()+":"+entry.getValue());		        		        	
+	        }			
+		}
 	}
 
 }
