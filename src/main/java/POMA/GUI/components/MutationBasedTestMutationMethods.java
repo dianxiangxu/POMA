@@ -421,18 +421,18 @@ public class MutationBasedTestMutationMethods {
 
 
 	public MutationBasedTestMutationMethods(){
-		boxAACR = new JCheckBox("Add Association Relation With One Access Right");
-		boxAAGR = new JCheckBox("Add An Assignment Relation");
-		boxAARA = new JCheckBox("Add One Access Right To Association");
-		boxCAA = new JCheckBox("Change Assignment Ascendent");
-		boxCAD = new JCheckBox("Change Assignment Direction");
-		boxCOAA = new JCheckBox("Change Object Attribute of Association");
-		boxCUAA = new JCheckBox("Change User Attribute of Association");
-		boxRACR = new JCheckBox("Remove An Association Relation");
-		boxRAD = new JCheckBox("Reverse Assignment Direction");
-		boxRAGR = new JCheckBox("Remove An Assignment Relation");
-		boxRARA = new JCheckBox("Remove One Access Right From Association");
-		boxRARAA = new JCheckBox("Remove An Access Right From All Associations");
+		boxAACR = new JCheckBox("Add Association Relation With One Access Right(AACR)");
+		boxAAGR = new JCheckBox("Add An Assignment Relation(AAGR)");
+		boxAARA = new JCheckBox("Add One Access Right To Association(AARA)");
+		boxCAA = new JCheckBox("Change Assignment Ascendent(CAA)");
+		boxCAD = new JCheckBox("Change Assignment Direction(CAD)");
+		boxCOAA = new JCheckBox("Change Object Attribute of Association(COAA)");
+		boxCUAA = new JCheckBox("Change User Attribute of Association(CUAA)");
+		boxRACR = new JCheckBox("Remove An Association Relation(RACR)");
+		boxRAD = new JCheckBox("Reverse Assignment Direction(RAD)");
+		boxRAGR = new JCheckBox("Remove An Assignment Relation(RAGR)");
+		boxRARA = new JCheckBox("Remove One Access Right From Association(RARA)");
+		boxRARAA = new JCheckBox("Remove An Access Right From All Associations(RARAA)");
 		//boxRNF = new JCheckBox("Remove Not Function (RNF)");
 		boxSelectAllG = new JCheckBox("Select All Graph Operators");
 		//boxSelectM8 = new JCheckBox("Select Eight(M8)");
@@ -457,27 +457,27 @@ public class MutationBasedTestMutationMethods {
 //			}
 //        });
 		
-		boxAEO = new JCheckBox("Add Event Operation");
-		boxCAC = new JCheckBox("Change Action");
-		boxCEO = new JCheckBox("Change Event Operation");
-		boxCEPC = new JCheckBox("Change Event Policy Class");
-		boxCEPE = new JCheckBox("Change Event Policy Element");
-		boxCEU = new JCheckBox("Change Event User");
-		boxIAA = new JCheckBox("Incorrect Assign Action");
-		boxICA = new JCheckBox("Incorrect Create Action");
-		boxIGA = new JCheckBox("Incorrect Grant Action");
-		boxINA = new JCheckBox("Incorrect Deny Action");
-		boxNCD = new JCheckBox("Negate Condition");
-		boxNOF = new JCheckBox("Negate One Factor");
-		boxRCA = new JCheckBox("Remove Conditional Action");
-		boxREO = new JCheckBox("Remove Event Operation");
-		boxREPC = new JCheckBox("Remove Event Policy Class");
-		boxREPE = new JCheckBox("Remove Event Policy Element");
-		boxREU = new JCheckBox("Remove Event User");
-		boxROA = new JCheckBox("Remove One Action");
-		boxROC = new JCheckBox("Remove One Condition");
-		boxROF = new JCheckBox("Remove One Factor");
-		boxROR = new JCheckBox("Remove One Rule");
+		boxAEO = new JCheckBox("Add Event Operation(AEO)");
+		boxCAC = new JCheckBox("Change Action(CAC)");
+		boxCEO = new JCheckBox("Change Event Operation(CEO)");
+		boxCEPC = new JCheckBox("Change Event Policy Class(CEPC)");
+		boxCEPE = new JCheckBox("Change Event Policy Element(CEPE)");
+		boxCEU = new JCheckBox("Change Event User(CEU)");
+		boxIAA = new JCheckBox("Incorrect Assign Action(IAA)");
+		boxICA = new JCheckBox("Incorrect Create Action(ICA)");
+		boxIGA = new JCheckBox("Incorrect Grant Action(IGA)");
+		boxINA = new JCheckBox("Incorrect Deny Action(INA)");
+		boxNCD = new JCheckBox("Negate Condition(NCD)");
+		boxNOF = new JCheckBox("Negate One Factor(NOF)");
+		boxRCA = new JCheckBox("Remove Conditional Action(RCA)");
+		boxREO = new JCheckBox("Remove Event Operation(REO)");
+		boxREPC = new JCheckBox("Remove Event Policy Class(REPC)");
+		boxREPE = new JCheckBox("Remove Event Policy Element(REPE)");
+		boxREU = new JCheckBox("Remove Event User(REU)");
+		boxROA = new JCheckBox("Remove One Action(ROA)");
+		boxROC = new JCheckBox("Remove One Condition(ROC)");
+		boxROF = new JCheckBox("Remove One Factor(ROF)");
+		boxROR = new JCheckBox("Remove One Rule(ROR)");
 		boxSelectAllO = new JCheckBox("Select All Obligation Operators");
 		boxSelectAllO.addActionListener(new ActionListener() {		 
 			@Override
