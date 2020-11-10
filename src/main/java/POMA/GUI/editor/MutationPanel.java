@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,10 +33,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.apache.commons.io.FileUtils;
 
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
+import POMA.Exceptions.NoTypeProvidedException;
 import POMA.GUI.*;
 import POMA.GUI.components.JPanelPB;
 import POMA.GUI.components.MutationBasedTestMutationMethods;
 import POMA.Mutation.MutationAnalysis.MutationController;
+import POMA.Mutation.MutationAnalysis.ObligationMutationController;
 import gov.nist.csd.pm.pip.graph.Graph;
 
 
@@ -323,7 +326,7 @@ public class MutationPanel extends JPanelPB {
 		}
 	}
 
-	public void generateMutants(Graph graph, File folder) {
+	public void generateMutants(Graph graph, File folder) throws InstantiationException, NoTypeProvidedException  {
 //		if (!poma.hasWorkingPolicy()) {
 //			JOptionPane.showMessageDialog(poma, "There is no policy.");
 //			return;
@@ -378,7 +381,19 @@ public class MutationPanel extends JPanelPB {
 						e.printStackTrace();
 						this.stopProgressStatus();
 						JOptionPane.showMessageDialog(this,
-								"Policy and Testing Suits do not match.",
+								"(Graph)Policy and Testing Suits do not match.",
+								"Error of Selection",
+								JOptionPane.WARNING_MESSAGE);
+					}
+		    		
+		    		ObligationMutationController omc = new ObligationMutationController();
+		    		try {
+						omc.createMutants(mutPanel.getObligationMutationOperatorList(false),graph, folder);
+					} catch (GraphDoesNotMatchTestSuitException e) {
+						e.printStackTrace();
+						this.stopProgressStatus();
+						JOptionPane.showMessageDialog(this,
+								"(Obligation)Policy and Testing Suits do not match.",
 								"Error of Selection",
 								JOptionPane.WARNING_MESSAGE);
 					}
