@@ -1,0 +1,161 @@
+label: GPMS Obligations
+rules:
+  - label: create_proposal
+    event:
+      subject:
+        anyUser:
+      policyClass: 
+        policyClass: EligibilityPolicyClass
+      operations:
+        - test1
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:
+      actions:
+        - assign:
+            - what:
+                name: UA2_2
+                type: UA                   
+              where:
+                name: UA_test1
+                type: UA 
+     
+  - label: create_proposal2
+    event:
+      subject:
+        anyUser:
+      policyClass: 
+        policyClass: EligibilityPolicyClass
+      operations:
+        - test2
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:
+      actions:
+        - grant:
+            subject:
+              name: UA_test1
+              type: UA
+            operations:
+              - test1
+            target:
+              name: Container1
+              type: OA    
+     
+                     
+  - label: create_proposal4
+    event:
+      subject:
+        anyUser:
+      policyClass: 
+        policyClass: EligibilityPolicyClass
+      operations:
+        - test3
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:
+      actions:
+        - assign:
+            - what:
+                name: UA1_1
+                type: UA                   
+              where:
+                name: UA_test1
+                type: UA     
+                                                        
+  - label: create_proposal2
+    event:
+      subject:
+        anyUser:
+      policyClass: 
+        policyClass: EligibilityPolicyClass
+      operations:
+        - test2
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:
+      actions:
+        - assign:
+            - what:
+                name: UA2_2
+                type: UA                   
+              where:
+                name: UA_test1
+                type: UA
+                
+              
+      
+  - label: create_proposal3
+    event:
+      subject:
+        anyUser:
+      policyClass: 
+        policyClass: EligibilityPolicyClass
+      operations:
+        - test3
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:
+      actions:
+        - assign:
+            - what:
+                name: UA3_1_2
+                type: UA                   
+              where:
+                name: UA_test1
+                type: UA
+                
+  - label: create_proposal
+    event:
+      subject:
+        anyUser:
+      policyClass: 
+        policyClass: EligibilityPolicyClass
+      operations:
+        - test1
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:
+      actions:
+        - assign:
+            - what:
+                name: UA2_2
+                type: UA                   
+              where:
+                name: UA_test1
+                type: UA   
+                                                              
+  - label: create_proposal4
+    event:
+      subject:
+        anyUser:
+      policyClass: 
+        policyClass: EligibilityPolicyClass
+      operations:
+        - test3
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:
+      actions:
+        - assign:
+            - what:
+                name: UA1_1
+                type: UA                   
+              where:
+                name: UA_test1
+                type: UA                  
+                        
