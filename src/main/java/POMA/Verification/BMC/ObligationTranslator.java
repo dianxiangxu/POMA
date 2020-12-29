@@ -20,9 +20,8 @@ import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction.Assignment;
 import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 
 public class ObligationTranslator {
-	int k  = 1;
 
-	String pathToObligations = "POMA/Verification/BMC/obligation.yml";
+	String pathToObligations = "POMA/Verification/BMC/obligation2.yml";
 	List<String> processedObligations = new ArrayList<String>();
 	List<String> processedObligationsEvents = new ArrayList<String>();
 
@@ -81,7 +80,6 @@ public class ObligationTranslator {
 		}	
 		//System.out.println(processGrantAction(grantActions));
 		processedObligations.add(processAssignAction(assignActions) + System.lineSeparator() + processGrantAction(grantActions));
-		k++;
 	}
 	
 	private String processAssignAction(List<AssignAction> actions) {
@@ -89,21 +87,21 @@ public class ObligationTranslator {
 		if(actions.size() == 1) {
 			String what = actions.get(0).getAssignments().get(0).getWhat().getName().toString();
 			String where = actions.get(0).getAssignments().get(0).getWhere().getName().toString();
-			return "(assert (= (AssignmentAdded "+k+") (singleton(mkTuple \""+what+"\" \""+where+"\"))))";
+			return "1(singleton(mkTuple \""+what+"\" \""+where+"\"))";
 		}
 		ListIterator<AssignAction> iterator =actions.listIterator();		
 		StringBuilder sb = new StringBuilder();
 		sb.append("\r\n");
-		sb.append("(assert (= (AssignmentAdded "+k+") (insert ");
+		sb.append("(insert ");
 		while(iterator.hasNext()) {
 			Assignment assignment = iterator.next().getAssignments().get(0);
 			String what = assignment.getWhat().getName().toString();
 			String where = assignment.getWhere().getName().toString();
 			if(!iterator.hasNext()) {
-				sb.append("(singleton(mkTuple \""+what+"\" \""+where+"\")))))");
+				sb.append("(singleton(mkTuple \""+what+"\" \""+where+"\"))))");
 				break;
 			}
-			sb.append(" (mkTuple \""+what+"\" \""+where+"\") ");		
+			sb.append("1(mkTuple \""+what+"\" \""+where+"\")");		
 			
 		}
 		return sb.toString();		
@@ -116,12 +114,11 @@ public class ObligationTranslator {
 			String where = actions.get(0).getTarget().getName().toString();
 			String op = actions.get(0).getOperations().get(0);
 
-			return "(assert (= (AssociationAdded "+k+") (singleton(mkTuple \""+what+"\" \""+ op +"\" \""+where+"\"))))";
+			return "2(singleton(mkTuple \""+what+"\" \""+ op +"\" \""+where+"\")))";
 		}
 		ListIterator<GrantAction> iterator =actions.listIterator();		
 		StringBuilder sb = new StringBuilder();
 		sb.append("\r\n");
-		sb.append("(assert (= (AssociationAdded "+k+") (insert ");
 		while(iterator.hasNext()) {
 			GrantAction association = iterator.next();
 			String what = association.getSubject().getName().toString();
@@ -129,10 +126,10 @@ public class ObligationTranslator {
 			String op = association.getOperations().get(0);
 
 			if(!iterator.hasNext()) {
-				sb.append("(singleton(mkTuple \""+what+"\" \""+ op +"\" \""+where+"\")))))");
+				sb.append("(singleton(mkTuple \""+what+"\" \""+ op +"\" \""+where+"\")))");
 				break;
 			}
-			sb.append(" (mkTuple \""+what+"\" \""+op+"\" \""+where+"\") ");		
+			sb.append("2(mkTuple \""+what+"\" \""+op+"\" \""+where+"\") ");		
 			
 		}
 		return sb.toString();		

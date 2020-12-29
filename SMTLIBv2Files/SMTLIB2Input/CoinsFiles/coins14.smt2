@@ -1,0 +1,130 @@
+(set-logic ALL_SUPPORTED)
+(set-option :produce-models true)
+(declare-fun Associations (Int) (Set (Tuple String String String)))
+(declare-fun SetToCheckUA () (Set (Tuple String String)))
+(declare-fun SetToCheckAT () (Set (Tuple String String)))
+(assert (= SetToCheckUA (insert (mkTuple "UA_test1" "UA_test1") (mkTuple "UA1_1" "UA1_1") (mkTuple "UA2_2" "UA2_2") (singleton (mkTuple "UA3_1_2" "UA3_1_2")))))
+(assert (= SetToCheckAT (insert (mkTuple "Container1" "Container1")  (singleton (mkTuple "Container2" "Container2")))))
+(declare-fun Containment (Int) (Set (Tuple String String)))
+(declare-fun Tclosure(Int) (Set (Tuple String String)))
+(declare-fun AssociationsForUA (Int) (Set (Tuple String String String)))
+(declare-fun UA_U_Reachability (Int) (Set (Tuple String String)))
+(declare-fun AT_Reachability (Int) (Set (Tuple String String)))
+(declare-fun FinalJoin(Int) (Set (Tuple String String String)))
+(assert (member (mkTuple "UA1_1" "test" "Container1") (FinalJoin 14)))
+(assert (= (Tclosure 1) (tclosure (Containment 1))))(assert (= (Associations 1) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 1) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 1) (join SetToCheckUA (Tclosure 1))))
+(assert (= (AT_Reachability 1) (join SetToCheckAT (Tclosure 1))))
+(assert (= (AssociationsForUA 1) (join (UA_U_Reachability 1) (Associations 1)) ))
+(assert (= (FinalJoin 1) (join (AssociationsForUA 1) (transpose (AT_Reachability 1))) ))
+(assert (= (Tclosure 2) (tclosure (Containment 2))))
+
+(assert (= (Containment 2) (union AssignmentAdded (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1"))))))
+
+
+(assert (= (UA_U_Reachability 2) (join SetToCheckUA (Tclosure 2))))
+(assert (= (AT_Reachability 2) (join SetToCheckAT (Tclosure 2))))
+(assert (= (AssociationsForUA 2) (join (UA_U_Reachability 2) (Associations 2)) ))
+(assert (= (FinalJoin 2) (join (AssociationsForUA 2) (transpose (AT_Reachability 2))) ))
+(assert (= (Tclosure 3) (tclosure (Containment 3))))(assert (= (Associations 3) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 3) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 3) (join SetToCheckUA (Tclosure 3))))
+(assert (= (AT_Reachability 3) (join SetToCheckAT (Tclosure 3))))
+(assert (= (AssociationsForUA 3) (join (UA_U_Reachability 3) (Associations 3)) ))
+(assert (= (FinalJoin 3) (join (AssociationsForUA 3) (transpose (AT_Reachability 3))) ))
+(assert (= (Tclosure 4) (tclosure (Containment 4))))(assert (= (Associations 4) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 4) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 4) (join SetToCheckUA (Tclosure 4))))
+(assert (= (AT_Reachability 4) (join SetToCheckAT (Tclosure 4))))
+(assert (= (AssociationsForUA 4) (join (UA_U_Reachability 4) (Associations 4)) ))
+(assert (= (FinalJoin 4) (join (AssociationsForUA 4) (transpose (AT_Reachability 4))) ))
+(assert (= (Tclosure 5) (tclosure (Containment 5))))(assert (= (Associations 5) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 5) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 5) (join SetToCheckUA (Tclosure 5))))
+(assert (= (AT_Reachability 5) (join SetToCheckAT (Tclosure 5))))
+(assert (= (AssociationsForUA 5) (join (UA_U_Reachability 5) (Associations 5)) ))
+(assert (= (FinalJoin 5) (join (AssociationsForUA 5) (transpose (AT_Reachability 5))) ))
+(assert (= (Tclosure 6) (tclosure (Containment 6))))(assert (= (Associations 6) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 6) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 6) (join SetToCheckUA (Tclosure 6))))
+(assert (= (AT_Reachability 6) (join SetToCheckAT (Tclosure 6))))
+(assert (= (AssociationsForUA 6) (join (UA_U_Reachability 6) (Associations 6)) ))
+(assert (= (FinalJoin 6) (join (AssociationsForUA 6) (transpose (AT_Reachability 6))) ))
+(assert (= (Tclosure 7) (tclosure (Containment 7))))(assert (= (Associations 7) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 7) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 7) (join SetToCheckUA (Tclosure 7))))
+(assert (= (AT_Reachability 7) (join SetToCheckAT (Tclosure 7))))
+(assert (= (AssociationsForUA 7) (join (UA_U_Reachability 7) (Associations 7)) ))
+(assert (= (FinalJoin 7) (join (AssociationsForUA 7) (transpose (AT_Reachability 7))) ))
+(assert (= (Tclosure 8) (tclosure (Containment 8))))(assert (= (Associations 8) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 8) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 8) (join SetToCheckUA (Tclosure 8))))
+(assert (= (AT_Reachability 8) (join SetToCheckAT (Tclosure 8))))
+(assert (= (AssociationsForUA 8) (join (UA_U_Reachability 8) (Associations 8)) ))
+(assert (= (FinalJoin 8) (join (AssociationsForUA 8) (transpose (AT_Reachability 8))) ))
+(assert (= (Tclosure 9) (tclosure (Containment 9))))(assert (= (Associations 9) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 9) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 9) (join SetToCheckUA (Tclosure 9))))
+(assert (= (AT_Reachability 9) (join SetToCheckAT (Tclosure 9))))
+(assert (= (AssociationsForUA 9) (join (UA_U_Reachability 9) (Associations 9)) ))
+(assert (= (FinalJoin 9) (join (AssociationsForUA 9) (transpose (AT_Reachability 9))) ))
+(assert (= (Tclosure 10) (tclosure (Containment 10))))(assert (= (Associations 10) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 10) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 10) (join SetToCheckUA (Tclosure 10))))
+(assert (= (AT_Reachability 10) (join SetToCheckAT (Tclosure 10))))
+(assert (= (AssociationsForUA 10) (join (UA_U_Reachability 10) (Associations 10)) ))
+(assert (= (FinalJoin 10) (join (AssociationsForUA 10) (transpose (AT_Reachability 10))) ))
+(assert (= (Tclosure 11) (tclosure (Containment 11))))(assert (= (Associations 11) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 11) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 11) (join SetToCheckUA (Tclosure 11))))
+(assert (= (AT_Reachability 11) (join SetToCheckAT (Tclosure 11))))
+(assert (= (AssociationsForUA 11) (join (UA_U_Reachability 11) (Associations 11)) ))
+(assert (= (FinalJoin 11) (join (AssociationsForUA 11) (transpose (AT_Reachability 11))) ))
+(assert (= (Tclosure 12) (tclosure (Containment 12))))(assert (= (Associations 12) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 12) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 12) (join SetToCheckUA (Tclosure 12))))
+(assert (= (AT_Reachability 12) (join SetToCheckAT (Tclosure 12))))
+(assert (= (AssociationsForUA 12) (join (UA_U_Reachability 12) (Associations 12)) ))
+(assert (= (FinalJoin 12) (join (AssociationsForUA 12) (transpose (AT_Reachability 12))) ))
+(assert (= (Tclosure 13) (tclosure (Containment 13))))(assert (= (Associations 13) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 13) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 13) (join SetToCheckUA (Tclosure 13))))
+(assert (= (AT_Reachability 13) (join SetToCheckAT (Tclosure 13))))
+(assert (= (AssociationsForUA 13) (join (UA_U_Reachability 13) (Associations 13)) ))
+(assert (= (FinalJoin 13) (join (AssociationsForUA 13) (transpose (AT_Reachability 13))) ))
+(assert (= (Tclosure 14) (tclosure (Containment 14))))(assert (= (Associations 14) (insert (mkTuple "UA_test1" "test" "Container1") (singleton (mkTuple "UA_test1" "test" "Container2")))))
+
+(assert (= (Containment 14) (insert (mkTuple "UA1_1" "UA1_1") (mkTuple "UA_test1" "UA_test1")(mkTuple "UA1_1" "Container1") (mkTuple "Container1" "Container1") (mkTuple "Container1" "PC1") (mkTuple "UA_test1" "PC1")(mkTuple "Container2" "Container2") (mkTuple "UA2_2" "Container2") (mkTuple "UA2_2" "UA2_2") (mkTuple "UA3_1_2" "Container2") (mkTuple "UA3_1_2" "UA3_1_2") (mkTuple "UA3_1_2" "Container1") (mkTuple "Container1" "PC1") (singleton (mkTuple "Container2" "PC1")))))
+
+(assert (= (UA_U_Reachability 14) (join SetToCheckUA (Tclosure 14))))
+(assert (= (AT_Reachability 14) (join SetToCheckAT (Tclosure 14))))
+(assert (= (AssociationsForUA 14) (join (UA_U_Reachability 14) (Associations 14)) ))
+(assert (= (FinalJoin 14) (join (AssociationsForUA 14) (transpose (AT_Reachability 14))) ))
+
+(check-sat)
+(get-model)

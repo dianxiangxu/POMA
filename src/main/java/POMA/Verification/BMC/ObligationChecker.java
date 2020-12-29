@@ -77,8 +77,8 @@ public class ObligationChecker extends BMC {
 		smtlibv2Code += System.lineSeparator();
 		smtlibv2Code += "(assert (= (Tclosure "+0+") (tclosure (Containment "+0+"))))";
 		smtlibv2Code += System.lineSeparator();
-		//smtlibv2Code += "(assert (= (Associations "+0+") (insert (mkTuple \"UA_test1\" \"test1\" \"Container1\") (mkTuple \"UA_test1\" \"test3\" \"Container1\") (singleton (mkTuple \"UA_test1\" \"test2\" \"Container2\")))))";
-		smtlibv2Code += "(assert (= (Associations "+0+") (insert (mkTuple \"UA_test1\" \"test3\" \"Container1\") (singleton (mkTuple \"UA_test1\" \"test2\" \"Container2\")))))";
+		smtlibv2Code += "(assert (= (Associations "+0+") (insert (mkTuple \"UA_test1\" \"test1\" \"Container1\") (mkTuple \"UA_test1\" \"test3\" \"Container1\") (singleton (mkTuple \"UA_test1\" \"test2\" \"Container2\")))))";
+		//smtlibv2Code += "(assert (= (Associations "+0+") (insert (mkTuple \"UA_test1\" \"test3\" \"Container1\") (singleton (mkTuple \"UA_test1\" \"test2\" \"Container2\")))))";
 		smtlibv2Code += System.lineSeparator();
 		smtlibv2Code += "(assert (= (Containment "+0+") (insert (mkTuple \"UA1_1\" \"UA1_1\") (mkTuple \"UA_test1\" \"UA_test1\")(mkTuple \"UA1_1\" \"Container1\") (mkTuple \"Container1\" \"Container1\") (mkTuple \"Container1\" \"PC1\") (mkTuple \"UA_test1\" \"PC1\")(mkTuple \"Container2\" \"Container2\") (mkTuple \"UA2_2\" \"Container2\") (mkTuple \"UA2_2\" \"UA2_2\") (mkTuple \"UA3_1_2\" \"Container2\") (mkTuple \"UA3_1_2\" \"UA3_1_2\") (mkTuple \"UA3_1_2\" \"Container1\") (mkTuple \"Container1\" \"PC1\") (singleton (mkTuple \"Container2\" \"PC1\")))))\n";
 		smtlibv2Code += System.lineSeparator();
@@ -98,7 +98,7 @@ public class ObligationChecker extends BMC {
 	public String generateAssertKCode(int k, int randomNum) {		
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code +="(assert (member (mkTuple \"UA1_1\" \"test1\" \"Container1\") (FinalJoin "+k+")))";
-		smtlibv2Code +="(assert (member (mkTuple \"0\" \""+obligationsEvents.get(k)+"\" \"0\") (FinalJoinOnlyAR "+(k-1)+")))";
+		//smtlibv2Code +="(assert (member (mkTuple \"0\" \""+obligationsEvents.get(k)+"\" \"0\") (FinalJoinOnlyAR "+(k-1)+")))";
 		smtlibv2Code += System.lineSeparator();
 		return smtlibv2Code;
 	}
@@ -106,32 +106,21 @@ public class ObligationChecker extends BMC {
 	public String generateIterationCode(int k, int randomNum) {
 
 		String smtlibv2Code = "(assert (= (Tclosure "+k+") (tclosure (Containment "+k+"))))";
+		smtlibv2Code += System.lineSeparator();
+		smtlibv2Code += "(assert (or";
+		for(int i = 1; i < obligationsResponse.size(); i++)
+		{
+			String obligation = obligationsResponse.get(i);
+		if(obligation.charAt(0) == '1') {
+			smtlibv2Code += "(and (= (Containment "+k+") (union" + obligation.substring(1)+ "(Containment "+(k-1)+"))) (= (Associations "+k+") (Associations "+(k-1)+")))";
+		}		
+		else if(obligation.charAt(0) == '2')  {
+			smtlibv2Code += "(and (= (Containment "+k+") (Containment "+(k-1)+")) (= (Associations "+k+") (union " + obligation.substring(1) + " (Associations "+(k-1)+")))";
 
-		if(obligationsResponse.get(randomNum).contains("AssignmentAdded")) {
-
-			System.out.println(obligationsResponse.get(randomNum));
-			smtlibv2Code += obligationsResponse.get(randomNum);
-			smtlibv2Code += System.lineSeparator();
-			smtlibv2Code += "(assert (= (Containment "+k+") (union (AssignmentAdded "+ k +") (insert (mkTuple \"UA1_1\" \"UA1_1\") (mkTuple \"UA_test1\" \"UA_test1\")(mkTuple \"UA1_1\" \"Container1\") (mkTuple \"Container1\" \"Container1\") (mkTuple \"Container1\" \"PC1\") (mkTuple \"UA_test1\" \"PC1\")(mkTuple \"Container2\" \"Container2\") (mkTuple \"UA2_2\" \"Container2\") (mkTuple \"UA2_2\" \"UA2_2\") (mkTuple \"UA3_1_2\" \"Container2\") (mkTuple \"UA3_1_2\" \"UA3_1_2\") (mkTuple \"UA3_1_2\" \"Container1\") (mkTuple \"Container1\" \"PC1\") (singleton (mkTuple \"Container2\" \"PC1\"))))))\n";
-			smtlibv2Code += System.lineSeparator();
-		}
+		}			
 		
-		else {
-			smtlibv2Code += System.lineSeparator();
-			smtlibv2Code += "(assert (= (Containment "+k+") (insert (mkTuple \"UA1_1\" \"UA1_1\") (mkTuple \"UA_test1\" \"UA_test1\")(mkTuple \"UA1_1\" \"Container1\") (mkTuple \"Container1\" \"Container1\") (mkTuple \"Container1\" \"PC1\") (mkTuple \"UA_test1\" \"PC1\")(mkTuple \"Container2\" \"Container2\") (mkTuple \"UA2_2\" \"Container2\") (mkTuple \"UA2_2\" \"UA2_2\") (mkTuple \"UA3_1_2\" \"Container2\") (mkTuple \"UA3_1_2\" \"UA3_1_2\") (mkTuple \"UA3_1_2\" \"Container1\") (mkTuple \"Container1\" \"PC1\") (singleton (mkTuple \"Container2\" \"PC1\")))))\n";
-		}	
-		if(obligationsResponse.get(randomNum).contains("AssociationAdded")) {
-			System.out.println(obligationsResponse.get(randomNum));
-			smtlibv2Code += obligationsResponse.get(randomNum);
-			smtlibv2Code += System.lineSeparator();
-			smtlibv2Code += "(assert (= (Associations "+k+") (union (AssociationAdded "+ k +") (insert (mkTuple \"UA_test1\" \"test1\" \"Container1\") (mkTuple \"UA_test1\" \"test3\" \"Container1\") (singleton (mkTuple \"UA_test1\" \"test2\" \"Container2\"))))))";
-			smtlibv2Code += System.lineSeparator();
 		}
-		else {
-			smtlibv2Code += System.lineSeparator();
-			//smtlibv2Code += "(assert (= (Associations "+k+") (insert (mkTuple \"UA_test1\" \"test1\" \"Container1\") (mkTuple \"UA_test1\" \"test3\" \"Container1\") (singleton (mkTuple \"UA_test1\" \"test2\" \"Container2\")))))";
-			smtlibv2Code += "(assert (= (Associations "+k+") (insert (mkTuple \"UA_test1\" \"test3\" \"Container1\") (singleton (mkTuple \"UA_test1\" \"test2\" \"Container2\")))))";
-		}
+		smtlibv2Code +="))\n";
 		smtlibv2Code += System.lineSeparator();
 		smtlibv2Code += "(assert (= (UA_U_Reachability "+k+") (join SetToCheckUA (Tclosure "+k+"))))";
 		smtlibv2Code += System.lineSeparator();

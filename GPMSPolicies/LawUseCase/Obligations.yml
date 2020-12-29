@@ -1,0 +1,109 @@
+label: LawUseCase Obligations
+rules:
+  - label: accept_case_LA
+    event:
+      subject:
+        anyUser: 
+          - "LeadAttorneys"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:      
+      actions:
+        - deny:
+            label: Prohibition1
+            subject: 
+              name: LeadAttorneys
+              type: UA
+            operations:
+              - "accept"
+            target:
+              containers:
+                - name: Case3
+                  type: OA                        
+       
+  - label: accept_case_A
+    event:
+      subject:
+        anyUser: 
+          - "Attorneys"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:      
+      actions:            
+        - grant:
+             subject:
+               name: LeadAttorneys
+               type: UA
+             operations:
+               - accept
+             target:
+               name: Case3
+               type: OA    
+        - delete:
+            associations:
+              - subject:
+                  name: Attorneys
+                  type: UA
+                target:
+                  name: Case3
+                  type: OA                 
+
+  - label: accept_case_Final
+    event:
+      subject:
+        process: finalAccept      
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:      
+      actions:            
+        - grant:
+             subject:
+               name: C-Suit
+               type: UA
+             operations:
+               - approve
+               - withdraw
+             target:
+               name: Case3
+               type: OA   
+
+  - label: approve_case
+    event:
+      subject:
+        anyUser: 
+          - "C-Suit"   
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:      
+      actions:            
+        - delete:
+            associations:
+              - subject:
+                  name: C-Suit
+                  type: UA
+                target:
+                  name: Case3
+                  type: OA   
+        - assign:
+            - what:
+                name: Case3
+                type: OA
+              where:
+                name: GeneralInfo
+                type: OA                                                 

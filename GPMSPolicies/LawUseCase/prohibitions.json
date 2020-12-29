@@ -1,0 +1,63 @@
+{
+  "prohibitions": [
+    {
+      "name": "prohibition4",
+      "subject": "C-Suit",
+      "ops": [
+        "hire",
+        "fire"
+      ],
+      "intersection": false,
+      "containers": {
+        "MainOffice": false
+      }
+    },
+    {
+      "name": "prohibition3",
+      "subject": "HR",
+      "ops": [
+        "hire",
+        "fire"
+      ],
+      "intersection": false,
+      "containers": {
+        "MainOffice": false
+      }
+    },
+    {
+      "name": "prohibition5",
+      "subject": "LeadAttorneys",
+      "ops": [
+        "hire",
+        "fire"
+      ],
+      "intersection": false,
+      "containers": {
+        "MainOffice": false
+      }
+    },
+    {
+      "name": "prohibition1",
+      "subject": "Interns",
+      "ops": [
+        "access"
+      ],
+      "intersection": false,
+      "containers": {
+        "GeneralInfo": false
+      }
+    },
+    {
+      "name": "prohibition2",
+      "subject": "Interns",
+      "ops": [
+        "addcase",
+        "deletecase"
+      ],
+      "intersection": false,
+      "containers": {
+        "Cases": false
+      }
+    }
+  ]
+}

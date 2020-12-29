@@ -1,4 +1,5 @@
 (set-logic UFDTLIRA)
+(set-option :produce-models true)
 (declare-fun M (Int) Int)
 (declare-fun k () Int)
 (assert (= (M 0) 1))
@@ -6,4 +7,4 @@
 (assert (= k 1))
 (assert (or (= (M 1) (+ (M (- 1 1)) 1)) (= (M 1) (* (M (- 1 1)) 2))))
 
-(check-sat)
+(check-sat)(get-model)

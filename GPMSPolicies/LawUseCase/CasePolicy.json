@@ -1,0 +1,128 @@
+{
+  "nodes": [
+    {
+      "name": "C-Suit",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Google",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "Case3Info",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "Attorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "LeadAttorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "C1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "A1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Parties",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "Apple",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "CasePolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "LA1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Case3",
+      "type": "OA",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "Case3Info",
+      "target": "Case3"
+    },
+    {
+      "source": "C-Suit",
+      "target": "LeadAttorneys"
+    },
+    {
+      "source": "Parties",
+      "target": "Case3"
+    },
+    {
+      "source": "Apple",
+      "target": "Parties"
+    },
+    {
+      "source": "LeadAttorneys",
+      "target": "Attorneys"
+    },
+    {
+      "source": "A1",
+      "target": "Attorneys"
+    },
+    {
+      "source": "Case3",
+      "target": "CasePolicy"
+    },
+    {
+      "source": "LA1",
+      "target": "LeadAttorneys"
+    },
+    {
+      "source": "Google",
+      "target": "Parties"
+    },
+    {
+      "source": "C1",
+      "target": "C-Suit"
+    },
+    {
+      "source": "Attorneys",
+      "target": "CasePolicy"
+    }
+  ],
+  "associations": [
+    {
+      "source": "LeadAttorneys",
+      "target": "Case3",
+      "operations": [
+        "disapprove",
+        "withdraw"
+      ]
+    },
+    {
+      "source": "Attorneys",
+      "target": "Case3",
+      "operations": [
+        "refuse",
+        "accept"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "nodes": [
+    {
+      "name": "C-Suit",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "HR",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "LeadAttorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Attorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Interns",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "GeneralInfo",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "Mike",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "Bob",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "JD1",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "State",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "LawFirmPolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "JD2",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Alica",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "Office1",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Case1",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "Cases",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "MainOffice",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Case2",
+      "type": "OA",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "C-Suit",
+      "target": "MainOffice"
+    },
+    {
+      "source": "Mike",
+      "target": "Case2"
+    },
+    {
+      "source": "State",
+      "target": "Case1"
+    },
+    {
+      "source": "MainOffice",
+      "target": "Office1"
+    },
+    {
+      "source": "HR",
+      "target": "MainOffice"
+    },
+    {
+      "source": "Alica",
+      "target": "Case2"
+    },
+    {
+      "source": "Interns",
+      "target": "Attorneys"
+    },
+    {
+      "source": "Bob",
+      "target": "Case1"
+    },
+    {
+      "source": "Attorneys",
+      "target": "Office1"
+    },
+    {
+      "source": "Office1",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "Cases",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "Case2",
+      "target": "GeneralInfo"
+    },
+    {
+      "source": "LeadAttorneys",
+      "target": "MainOffice"
+    },
+    {
+      "source": "JD1",
+      "target": "Attorneys"
+    },
+    {
+      "source": "Case1",
+      "target": "GeneralInfo"
+    },
+    {
+      "source": "GeneralInfo",
+      "target": "Cases"
+    },
+    {
+      "source": "JD2",
+      "target": "Attorneys"
+    }
+  ],
+  "associations": [
+    {
+      "source": "Office1",
+      "target": "Cases",
+      "operations": [
+        "access"
+      ]
+    },
+    {
+      "source": "Office1",
+      "target": "GeneralInfo",
+      "operations": [
+        "addcase",
+        "deletecase"
+      ]
+    },
+    {
+      "source": "MainOffice",
+      "target": "Office1",
+      "operations": [
+        "hire",
+        "fire"
+      ]
+    }
+  ]
+}

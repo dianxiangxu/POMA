@@ -29,7 +29,7 @@ public class Examples {
 		g.createNode("Container2", UA, null, "PC1");
 		g.createNode("UA1_1", UA, null, "Container1");
 		g.createNode("UA2_2", UA, null, "Container2");
-		g.createNode("UA3_1_2", UA, null, "Container1", "Container2");
+		g.createNode("UA3_1_2", U, null, "Container1", "Container2");
 
 		g.createNode("UA_test1", UA, null, "PC1");
 		g.associate("UA_test1", "Container1", new OperationSet("test"));

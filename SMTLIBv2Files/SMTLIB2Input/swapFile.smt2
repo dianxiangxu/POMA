@@ -17,6 +17,10 @@
 (mkTuple "CoPI" "add-sp" "SP") 
 (singleton (mkTuple "SP" "read" "PDSSections")))))
 
+
+
+
+
 (assert (= Containment (insert (mkTuple "PI" "CoPI") 
 (mkTuple "CoPI" "CoPI") 
 (mkTuple "Collaboration Info" "CoPIEditable") 
