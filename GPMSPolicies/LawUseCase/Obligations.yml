@@ -1,5 +1,68 @@
 label: LawUseCase Obligations
 rules:
+  - label: withdraw_case_info
+    event:
+      subject:
+        anyUser: 
+          - "LeadAttorneys"
+      operations:
+        - disapprove
+      target:
+        policyElements:
+          - name: Case3
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: Attorneys
+               type: UA
+             operations:
+               - accept
+               - refuse
+             target:
+               name: Case3
+               type: OA
+        - delete:
+            prohibitions:
+              - CreatedProhibition1                
+  - label: withdraw_case
+    event:
+      subject:
+        anyUser: 
+          - "LeadAttorneys"
+      operations:
+        - withdraw
+      target:
+        policyElements:
+          - name: Case3
+            type: OA
+    response:      
+      actions:
+        - delete:
+            nodes:
+              - name: Case3
+                type: OA              
+  - label: create_case_info
+    event:
+      subject:
+        anyUser: 
+          - "Attorneys"
+      operations:
+        - create
+      target:
+        policyElements:
+          - name: Case3
+            type: OA
+    response:      
+      actions:
+        - create:
+            - what:
+                name: Case3Info
+                type: OA
+              where:
+                name: Case3
+                type: OA
   - label: accept_case_LA
     event:
       subject:
@@ -14,7 +77,7 @@ rules:
     response:      
       actions:
         - deny:
-            label: Prohibition1
+            label: CreatedProhibition1
             subject: 
               name: LeadAttorneys
               type: UA

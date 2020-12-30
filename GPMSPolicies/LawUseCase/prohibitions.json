@@ -4,12 +4,12 @@
       "name": "prohibition4",
       "subject": "C-Suit",
       "ops": [
-        "hire",
-        "fire"
+        "disapprove",
+        "accept"
       ],
       "intersection": false,
       "containers": {
-        "MainOffice": false
+        "Case3": false
       }
     },
     {
@@ -28,12 +28,11 @@
       "name": "prohibition5",
       "subject": "LeadAttorneys",
       "ops": [
-        "hire",
-        "fire"
+        "refuse"
       ],
       "intersection": false,
       "containers": {
-        "MainOffice": false
+        "Case3": false
       }
     },
     {

@@ -1,43 +1,23 @@
 {
   "nodes": [
     {
-      "name": "C-Suit",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "Google",
-      "type": "O",
-      "properties": {}
-    },
-    {
-      "name": "Case3Info",
-      "type": "OA",
-      "properties": {}
-    },
-    {
-      "name": "Attorneys",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "LeadAttorneys",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "C1",
-      "type": "U",
-      "properties": {}
-    },
-    {
       "name": "A1",
       "type": "U",
       "properties": {}
     },
     {
+      "name": "C-Suit",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "Parties",
       "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "Google",
+      "type": "O",
       "properties": {}
     },
     {
@@ -51,7 +31,22 @@
       "properties": {}
     },
     {
+      "name": "Attorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "LeadAttorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "LA1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "C1",
       "type": "U",
       "properties": {}
     },
@@ -62,10 +57,6 @@
     }
   ],
   "assignments": [
-    {
-      "source": "Case3Info",
-      "target": "Case3"
-    },
     {
       "source": "C-Suit",
       "target": "LeadAttorneys"

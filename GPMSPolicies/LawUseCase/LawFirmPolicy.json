@@ -6,6 +6,16 @@
       "properties": {}
     },
     {
+      "name": "HR1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "I1",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "HR",
       "type": "UA",
       "properties": {}
@@ -109,6 +119,10 @@
       "target": "Office1"
     },
     {
+      "source": "HR1",
+      "target": "HR"
+    },
+    {
       "source": "HR",
       "target": "MainOffice"
     },
@@ -127,6 +141,10 @@
     {
       "source": "Attorneys",
       "target": "Office1"
+    },
+    {
+      "source": "I1",
+      "target": "Interns"
     },
     {
       "source": "Office1",

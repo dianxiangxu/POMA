@@ -36,6 +36,7 @@ import java.io.File;
 			lawfirmpolicy.createNode("JD1", UA, null, "Attorneys");
 			lawfirmpolicy.createNode("JD2", UA, null, "Attorneys");
 			lawfirmpolicy.createNode("Interns", UA, null, "Attorneys");
+			lawfirmpolicy.createNode("I1", UA, null, "Interns");
 
 			lawfirmpolicy.createNode("Cases", OA, null, "LawFirmPolicy");
 			lawfirmpolicy.createNode("GeneralInfo", OA, null, "Cases");
@@ -45,6 +46,7 @@ import java.io.File;
 			lawfirmpolicy.createNode("State", O, null, "Case1");
 			lawfirmpolicy.createNode("Alica", O, null, "Case2");
 			lawfirmpolicy.createNode("Mike", O, null, "Case2");
+			lawfirmpolicy.createNode("HR1", U, null, "HR");
 
 			lawfirmpolicy.associate("MainOffice", "Office1", new OperationSet("hire", "fire"));
 			lawfirmpolicy.associate("Office1", "Cases", new OperationSet("access"));
@@ -71,7 +73,7 @@ import java.io.File;
 			casePolicy.createNode("C1", U, null, "C-Suit");
 
 			casePolicy.createNode("Case3", OA, null, "CasePolicy");
-			casePolicy.createNode("Case3Info", OA, null, "Case3");
+			//casePolicy.createNode("Case3Info", OA, null, "Case3");
 			casePolicy.createNode("Parties", OA, null, "Case3");
 			casePolicy.createNode("Apple", O, null, "Parties");
 			casePolicy.createNode("Google", O, null, "Parties");
@@ -103,10 +105,10 @@ import java.io.File;
 					.addContainer("Cases", false).build();
 			Prohibition prohibition3 = new Prohibition.Builder("prohibition3", "HR", new OperationSet("hire", "fire"))
 					.addContainer("MainOffice", false).build();
-			Prohibition prohibition4 = new Prohibition.Builder("prohibition4", "C-Suit", new OperationSet("hire", "fire"))
-					.addContainer("MainOffice", false).build();
-			Prohibition prohibition5 = new Prohibition.Builder("prohibition5", "LeadAttorneys", new OperationSet("hire", "fire"))
-					.addContainer("MainOffice", false).build();
+			Prohibition prohibition4 = new Prohibition.Builder("prohibition4", "C-Suit", new OperationSet("accept", "disapprove"))
+					.addContainer("Case3", false).build();
+			Prohibition prohibition5 = new Prohibition.Builder("prohibition5", "LeadAttorneys", new OperationSet("refuse"))
+					.addContainer("Case3", false).build();
 			prohibitions.add(prohibition1);
 			prohibitions.add(prohibition2);
 			prohibitions.add(prohibition3);
