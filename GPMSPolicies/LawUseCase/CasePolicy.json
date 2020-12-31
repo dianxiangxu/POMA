@@ -11,17 +11,17 @@
       "properties": {}
     },
     {
-      "name": "Parties",
-      "type": "OA",
-      "properties": {}
-    },
-    {
       "name": "Google",
       "type": "O",
       "properties": {}
     },
     {
       "name": "Apple",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "Alice",
       "type": "O",
       "properties": {}
     },
@@ -62,12 +62,8 @@
       "target": "LeadAttorneys"
     },
     {
-      "source": "Parties",
+      "source": "Google",
       "target": "Case3"
-    },
-    {
-      "source": "Apple",
-      "target": "Parties"
     },
     {
       "source": "LeadAttorneys",
@@ -82,12 +78,16 @@
       "target": "CasePolicy"
     },
     {
+      "source": "Alice",
+      "target": "Case3"
+    },
+    {
       "source": "LA1",
       "target": "LeadAttorneys"
     },
     {
-      "source": "Google",
-      "target": "Parties"
+      "source": "Apple",
+      "target": "Case3"
     },
     {
       "source": "C1",

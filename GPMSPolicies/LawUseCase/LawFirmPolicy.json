@@ -6,6 +6,11 @@
       "properties": {}
     },
     {
+      "name": "Alice",
+      "type": "O",
+      "properties": {}
+    },
+    {
       "name": "HR1",
       "type": "U",
       "properties": {}
@@ -71,11 +76,6 @@
       "properties": {}
     },
     {
-      "name": "Alica",
-      "type": "O",
-      "properties": {}
-    },
-    {
       "name": "Office1",
       "type": "UA",
       "properties": {}
@@ -127,12 +127,12 @@
       "target": "MainOffice"
     },
     {
-      "source": "Alica",
-      "target": "Case2"
-    },
-    {
       "source": "Interns",
       "target": "Attorneys"
+    },
+    {
+      "source": "Alice",
+      "target": "Case2"
     },
     {
       "source": "Bob",
@@ -182,13 +182,6 @@
   "associations": [
     {
       "source": "Office1",
-      "target": "Cases",
-      "operations": [
-        "access"
-      ]
-    },
-    {
-      "source": "Office1",
       "target": "GeneralInfo",
       "operations": [
         "addcase",
@@ -201,6 +194,27 @@
       "operations": [
         "hire",
         "fire"
+      ]
+    },
+    {
+      "source": "Office1",
+      "target": "Cases",
+      "operations": [
+        "access"
+      ]
+    },
+    {
+      "source": "JD1",
+      "target": "Case1",
+      "operations": [
+        "appointed"
+      ]
+    },
+    {
+      "source": "JD1",
+      "target": "Case2",
+      "operations": [
+        "appointed"
       ]
     }
   ]
