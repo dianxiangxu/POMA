@@ -1,4 +1,4 @@
-package POMA.Verification.TCPExample;
+package POMA.Verification.BMCExamples.CoinsExample;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public abstract class BMC {
 
-	private Solver solver = Solver.CVC4;
+	private Solver solver = Solver.Z3;
 	private int bound = 15;
 	private String smtCodeFilePath=""; 
 	

@@ -13,3 +13,4 @@ buildNumber.properties
 /bin/
 /mutants/
 /CSV/
+*.class

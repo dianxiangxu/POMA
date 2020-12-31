@@ -48,7 +48,6 @@ import POMA.GUI.editor.MutationPanel;
 import POMA.GUI.editor.PolicyEditorPanelDemo;
 import POMA.GUI.editor.TestPanel;
 import POMA.TestSuitGeneration.Utils;
-import POMA.Verification.VerificationAllComb.SimpleTestGraph;
 import POMA.Verification.VerificationWithSets.TranslatorMain;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;

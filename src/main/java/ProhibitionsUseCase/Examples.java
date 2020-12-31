@@ -1,4 +1,4 @@
-package ProhibitionsExamples;
+package ProhibitionsUseCase;
 
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;

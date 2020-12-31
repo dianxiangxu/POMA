@@ -1,4 +1,4 @@
-package POMA.Verification.TCPExample;
+package POMA.Verification.BMCExamples.CoinsExample;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 public class Solver {
 	
 	public static final Solver Z3 = new Solver("Z3", "/usr/local/bin/z3");
-	public static final Solver CVC4 = new Solver("CVC4", "CVC4/cvc4.exe");
+	public static final Solver CVC4 = new Solver("CVC4", "/usr/local/bin/cvc4");
 	
 	private String name;
 	private String executable;

@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
 
 import POMA.GUI.GraphVisualization.GUI;
 import POMA.TestSuitGeneration.Utils;
-import POMA.Verification.VerificationAllComb.SimpleTestGraph;
+import POMA.Verification.VerificationWithSets.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;

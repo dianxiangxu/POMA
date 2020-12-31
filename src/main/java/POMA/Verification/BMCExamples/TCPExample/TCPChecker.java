@@ -1,4 +1,4 @@
-package POMA.Verification.TCPExample;
+package POMA.Verification.BMCExamples.TCPExample;
 
 public class TCPChecker extends BMC {
 	
