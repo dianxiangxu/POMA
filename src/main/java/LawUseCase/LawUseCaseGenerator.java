@@ -44,17 +44,18 @@ import java.io.File;
 			lawfirmpolicy.createNode("Case2", OA, null, "GeneralInfo");
 			lawfirmpolicy.createNode("Bob", O, null, "Case1");
 			lawfirmpolicy.createNode("State", O, null, "Case1");
-			lawfirmpolicy.createNode("Alica", O, null, "Case2");
+			lawfirmpolicy.createNode("Alice", O, null, "Case2");
 			lawfirmpolicy.createNode("Mike", O, null, "Case2");
-			lawfirmpolicy.createNode("HR1", U, null, "HR");
-
+			lawfirmpolicy.createNode("HR1", U, null, "HR");			
+			
 			lawfirmpolicy.associate("MainOffice", "Office1", new OperationSet("hire", "fire"));
 			lawfirmpolicy.associate("Office1", "Cases", new OperationSet("access"));
 			lawfirmpolicy.associate("Office1", "GeneralInfo", new OperationSet("addcase","deletecase"));
-			PReviewDecider decider = new PReviewDecider(lawfirmpolicy);
-			System.out.println(decider.check("HR", "", "HR", "fire"));
-			System.out.println(decider.check("C-Suit", "", "C-Suit", "fire"));
-			System.out.println(decider.check("LeadAttorneys", "", "LeadAttorneys", "fire"));
+			
+			lawfirmpolicy.associate("JD1", "Case1", new OperationSet("appointed"));
+			lawfirmpolicy.associate("JD1", "Case2", new OperationSet("appointed"));
+			//lawfirmpolicy.associate("JD1", "Case2", new OperationSet("appointed"));
+
 			saveDataToFile(GraphSerializer.toJson(lawfirmpolicy), "GPMSPolicies/LawUseCase/LawFirmPolicy.json");	
 		//	System.out.println("PROHIBITION#1(COMPLEMENT=FALSE) UA_test1 test Container1 ");
 		//	Prohibitions prohibitions1 = new MemProhibitions();
@@ -73,10 +74,9 @@ import java.io.File;
 			casePolicy.createNode("C1", U, null, "C-Suit");
 
 			casePolicy.createNode("Case3", OA, null, "CasePolicy");
-			//casePolicy.createNode("Case3Info", OA, null, "Case3");
-			casePolicy.createNode("Parties", OA, null, "Case3");
-			casePolicy.createNode("Apple", O, null, "Parties");
-			casePolicy.createNode("Google", O, null, "Parties");
+			casePolicy.createNode("Apple", O, null, "Case3");
+			casePolicy.createNode("Google", O, null, "Case3");
+			casePolicy.createNode("Alice", O, null, "Case3");
 
 			casePolicy.associate("Attorneys", "Case3", new OperationSet("accept", "refuse"));
 			casePolicy.associate("LeadAttorneys", "Case3", new OperationSet("disapprove", "withdraw"));
@@ -95,6 +95,7 @@ import java.io.File;
 			valueTypePolicy.createNode("lessequal5000", OA, null, "Value");
 			valueTypePolicy.createNode("more5000", OA, null, "Value");
 			saveDataToFile(GraphSerializer.toJson(valueTypePolicy), "GPMSPolicies/LawUseCase/ValueTypePolicy.json");	
+
 
 			
 			
