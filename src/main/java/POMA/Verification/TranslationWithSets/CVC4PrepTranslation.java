@@ -1,4 +1,4 @@
-package POMA.Verification.VerificationWithSets;
+package POMA.Verification.TranslationWithSets;
 
 public class CVC4PrepTranslation {
 

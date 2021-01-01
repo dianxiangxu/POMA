@@ -1,4 +1,4 @@
-package POMA.Verification.VerificationWithSets;
+package POMA.Verification.TranslationWithSets;
 
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
@@ -72,17 +72,17 @@ public class SimpleTestGraph {
 		return ngacGraph;
 	}
 
-	public MemGraph readAnyGraph(String path) throws PMException, IOException {
-		File graphFile = new File(path);
-
-		String graphJSON = new String(Files.readAllBytes(Paths.get(graphFile.getAbsolutePath())));
-
-		ngacGraph = new MemGraph();
-
-		GraphSerializer.fromJson(ngacGraph, graphJSON);
-
-		return ngacGraph;
-	}
+//	public MemGraph readAnyGraph(String path) throws PMException, IOException {
+//		File graphFile = new File(path);
+//
+//		String graphJSON = new String(Files.readAllBytes(Paths.get(graphFile.getAbsolutePath())));
+//
+//		ngacGraph = new MemGraph();
+//
+//		GraphSerializer.fromJson(ngacGraph, graphJSON);
+//
+//		return ngacGraph;
+//	}
 
 	public MemGraph readGPMSGraph() throws PMException, IOException {
 		File file_eligibility_policy = new File("GPMSPolicies/EligibilityPolicyClass.json");

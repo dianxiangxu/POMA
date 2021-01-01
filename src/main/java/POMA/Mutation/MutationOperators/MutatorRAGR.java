@@ -3,8 +3,8 @@ package POMA.Mutation.MutationOperators;
 import java.io.File;
 import java.io.IOException;
 
+import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
-import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;

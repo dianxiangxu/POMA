@@ -8,7 +8,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import POMA.TestSuitGeneration.Utils;
+import POMA.Utils;
 import gov.nist.csd.pm.epp.EPPOptions;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;

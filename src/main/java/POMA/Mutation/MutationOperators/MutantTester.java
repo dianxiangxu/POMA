@@ -21,9 +21,9 @@ import java.util.Set;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
-import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pdp.decider.PReviewDecider;
 import gov.nist.csd.pm.pip.graph.Graph;

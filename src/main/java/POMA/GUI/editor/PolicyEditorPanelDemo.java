@@ -20,14 +20,17 @@
  */
 package POMA.GUI.editor;
 
+import org.apache.commons.io.FilenameUtils;
 import org.xml.sax.SAXException;
 
+import POMA.Utils;
 import POMA.GUI.GraphVisualization.GUI;
-import POMA.TestSuitGeneration.Utils;
-import POMA.Verification.VerificationWithSets.SimpleTestGraph;
+import POMA.Verification.TranslationWithSets.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
+import gov.nist.csd.pm.pip.prohibitions.ProhibitionsSerializer;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -46,49 +49,50 @@ import java.util.Hashtable;
 
 /**
  * 
- * This makes the PrincipalPolitica JFrame a JPanel so it can be embedded in ArchEdit/Archipelego
+ * This makes the PrincipalPolitica JFrame a JPanel so it can be embedded in
+ * ArchEdit/Archipelego
  * 
  * @author Jie Ren
  */
 public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	// Store the policy for editing
-	protected 	String 		policy;
+	protected String policy;
 	MemGraph g;
-	// The expected usage is: 
-	//		PanelPolicy pp = new PanelPolicy(); 
-	//		pp.setPolicy(oldPolicy);
-	//		if (pp.isPolicyChanged())
-	//			newPolicy = pp.getPolicy();
-    File temporal;
+	// The expected usage is:
+	// PanelPolicy pp = new PanelPolicy();
+	// pp.setPolicy(oldPolicy);
+	// if (pp.isPolicyChanged())
+	// newPolicy = pp.getPolicy();
+	File temporal;
+	JTextArea policyText = new JTextArea();
+
 	public MemGraph getGraph() {
 		return g;
 	}
+
 	public File getCurrentFile() {
 		return temporal;
 	}
+
 	public void setPolicy(String policy) {
 		this.policy = policy;
 
-		//AnalizadorSAX asax = new AnalizadorSAX();
+		// AnalizadorSAX asax = new AnalizadorSAX();
 //		try {
-			/*
-			if (!temporal.toString().endsWith(".xml")) {
-				JOptionPane.showMessageDialog(this,
-						"The open File is not a Policy *.xml",
-						"Error of Selection",
-						JOptionPane.WARNING_MESSAGE);
-			} else {
-
-				CurrentPath.getInstancia().setCurrdir(
-						temporal.getParentFile());
-			*/
-				// JR English
-				//vm.getPrintStream().println("Analizando fichero:" +
-				//                            temporal.getAbsolutePath());
-				//vm.getPrintStream().println(
-				//		"Analyze file: " + temporal.getAbsolutePath());
-				//miDTM = (DefaultTreeModel) asax.analizar(temporal
-				//		.getAbsolutePath());
+		/*
+		 * if (!temporal.toString().endsWith(".xml")) {
+		 * JOptionPane.showMessageDialog(this, "The open File is not a Policy *.xml",
+		 * "Error of Selection", JOptionPane.WARNING_MESSAGE); } else {
+		 * 
+		 * CurrentPath.getInstancia().setCurrdir( temporal.getParentFile());
+		 */
+		// JR English
+		// vm.getPrintStream().println("Analizando fichero:" +
+		// temporal.getAbsolutePath());
+		// vm.getPrintStream().println(
+		// "Analyze file: " + temporal.getAbsolutePath());
+		// miDTM = (DefaultTreeModel) asax.analizar(temporal
+		// .getAbsolutePath());
 //				miDTM = (DefaultTreeModel) asax.analizarFromString(policy);
 //				if (!asax.getErrorHandler().equalsIgnoreCase("")) {
 //					JOptionPane.showMessageDialog(this, asax
@@ -104,7 +108,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 //				arbolPoliticas.setModel(miDTM);
 //				// JR
 //				mcm = new ModelChangeMonitor(miDTM);
-			//}
+		// }
 //		} catch (SAXException exc) {
 //			(new JOptionPane()).showMessageDialog(this, exc.toString());
 ////			vm.getPrintStream().println(exc.toString());
@@ -113,25 +117,25 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 ////			vm.getPrintStream().println(exc.toString());
 //		}
 	}
-	
+
 	public String getPolicy() {
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
 //		AnalizadorSAX asax = new AnalizadorSAX();
 //        asax.procesaValidar( (DefaultMutableTreeNode) miDTM.getRoot(), os);
-        policy = os.toString();
+		policy = os.toString();
 		return policy;
 	}
-	
+
 	public boolean isPolicyChanged() {
 //		return mcm.isChanged();
 		return true;
 	}
-	
+
 	// Changes to JFrame
-	//		1)No window/menu/title (commented by ///)
-	//		2)ContentPane should be the new Panel itself (commented by ////)
-	
-	////JPanel contentPane;
+	// 1)No window/menu/title (commented by ///)
+	// 2)ContentPane should be the new Panel itself (commented by ////)
+
+	//// JPanel contentPane;
 
 	JTree arbolPoliticas;
 
@@ -176,7 +180,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 
 	public PolicyEditorPanelDemo(String f) throws SAXException, IOException {
 		try {
-			///setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			/// setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			jbInit();
 //			AnalizadorSAX asax = new AnalizadorSAX();
 			if (new File(f).exists()) {
@@ -191,7 +195,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 				actionPerformed(new ActionEvent(mnuItNuevo, 0, "mnuFiles_New"));
 			}
 			archivoActual = new File(f);
-			///setTitle("UMU-XACML-Editor - " + inputFile.getName());
+			/// setTitle("UMU-XACML-Editor - " + inputFile.getName());
 		} catch (SAXException exc) {
 			(new JOptionPane()).showMessageDialog(this, exc.toString());
 			throw exc;
@@ -205,7 +209,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 
 	public PolicyEditorPanelDemo() {
 		try {
-			///setDefaultCloseOperation(EXIT_ON_CLOSE);
+			/// setDefaultCloseOperation(EXIT_ON_CLOSE);
 			jbInit();
 			actionPerformed(new ActionEvent(mnuItNuevo, 0, "mnuFiles_New"));
 		} catch (Exception exception) {
@@ -221,38 +225,34 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	private void jbInit() throws Exception {
 		// JR Set fonts similar to ArchStudio
 		/*
-	    java.util.Enumeration keys = UIManager.getDefaults().keys();
-	    while (keys.hasMoreElements()) {
-	      Object key = keys.nextElement();
-	      Object value = UIManager.get (key);
-	      if (value instanceof javax.swing.plaf.FontUIResource)
-	        UIManager.put (key, new Font("SansSerif", Font.BOLD, 12));
-	    }
-	    */
-	    // JREND
-	    
-		///this.addWindowListener(new MiWindowAdapter(this));
+		 * java.util.Enumeration keys = UIManager.getDefaults().keys(); while
+		 * (keys.hasMoreElements()) { Object key = keys.nextElement(); Object value =
+		 * UIManager.get (key); if (value instanceof javax.swing.plaf.FontUIResource)
+		 * UIManager.put (key, new Font("SansSerif", Font.BOLD, 12)); }
+		 */
+		// JREND
+
+		/// this.addWindowListener(new MiWindowAdapter(this));
 		arbolPoliticas = new JTree(miDTM);
 //		arbolPoliticas.setCellRenderer(new MiRenderer());
-		////contentPane = (JPanel) getContentPane();
+		//// contentPane = (JPanel) getContentPane();
 		// JR: I know this was generated by JBuilder, but adding contentPane allows
-		// the JDK 1.4 targeted class files (generated by a JDK 1.5 compiler so 
+		// the JDK 1.4 targeted class files (generated by a JDK 1.5 compiler so
 		// String.replace is usable) to run on JDK 1.4
-		////contentPane.setLayout(borderLayout1);
+		//// contentPane.setLayout(borderLayout1);
 		setLayout(borderLayout1);
 		setSize(new Dimension(800, 600));
-		//setSize(new Dimension(400, 300));
+		// setSize(new Dimension(400, 300));
 		if (archivoActual != null) {
-			///setTitle("UMU-XACML-Editor - " + inputFile.getName());
+			/// setTitle("UMU-XACML-Editor - " + inputFile.getName());
 		} else {
 			// JR English
-			//setTitle("UMU-XACML-Editor - Sin nombre");
-			///setTitle("UMU-XACML-Editor - New Document");
+			// setTitle("UMU-XACML-Editor - Sin nombre");
+			/// setTitle("UMU-XACML-Editor - New Document");
 		}
 		arbolPoliticas.setToolTipText("");
 		arbolPoliticas.addMouseListener(new MiMouseAdapter(this));
-		arbolPoliticas
-				.addTreeSelectionListener(new MiTreeSelectionAdapter(this));
+		arbolPoliticas.addTreeSelectionListener(new MiTreeSelectionAdapter(this));
 		jScrollPane1 = new JScrollPane(arbolPoliticas);
 		jSplitPane1.setLeftComponent(jScrollPane1);
 		jSplitPane1.setRightComponent(new JPanel());
@@ -275,13 +275,13 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		mnuItAbout.setText("Credits...");
 		mnuItAbout.addActionListener(new MiActionAdapter(this));
 
-		////contentPane.add(jSplitPane1, borderLayout1.CENTER);
+		//// contentPane.add(jSplitPane1, borderLayout1.CENTER);
 		add(jSplitPane1, borderLayout1.CENTER);
 //		JScrollPane jsp = new JScrollPane(vm);
 //		jsp.setPreferredSize(new Dimension(this.getWidth(), (int) (this
 //				.getHeight() * 0.25)));
-		////contentPane.add(jsp, borderLayout1.SOUTH);
-		//add(jsp, borderLayout1.SOUTH);
+		//// contentPane.add(jsp, borderLayout1.SOUTH);
+		// add(jsp, borderLayout1.SOUTH);
 		mnuArchivo.add(mnuItNuevo);
 		mnuArchivo.add(mnuItAbrir);
 		mnuArchivo.add(mnuItGuardar);
@@ -293,18 +293,16 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		barra.add(mnuArchivo);
 		barra.add(mnuValidador);
 		barra.add(mnuAbout);
-		///this.setJMenuBar(menuBar);
+		/// this.setJMenuBar(menuBar);
 	}
-
 
 	public File getWorkingPolicyFile() {
-		return archivoActual;
+		return temporal;
 	}
-	
-	public void newFile(){
+
+	public void newFile() {
 		saveChanged();
-		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode(
-				new String("Policy Document"));
+		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode(new String("Policy Document"));
 		DefaultTreeModel auxdtm = new DefaultTreeModel(raiz);
 		miDTM = auxdtm;
 		// JR
@@ -313,82 +311,149 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		archivoActual = null;
 		// JR English
 		// setTitle("UMU-XACML-Editor - Sin nombre");
-		///setTitle("UMU-XACML-Editor - New Document");
+		/// setTitle("UMU-XACML-Editor - New Document");
 	}
-	
-	public void openFile(){
+
+	public DefaultMutableTreeNode ListFiles(String path) {
+		// DefaultMutableTreeNode treenode = new
+		// DefaultMutableTreeNode(path.substring(path.lastIndexOf("\\")+1));
+		DefaultMutableTreeNode treenode = new DefaultMutableTreeNode(path);
+
+		File root = new File(path);
+		File[] files = root.listFiles();
+		for (File f : files) {
+			if (f.isDirectory()) {
+
+				treenode.add(ListFiles(f.getAbsolutePath()));
+			} else {
+				// treenode.add(new
+				// DefaultMutableTreeNode(f.getAbsolutePath().substring(f.getAbsolutePath().lastIndexOf("\\")+1)));
+				treenode.add(new DefaultMutableTreeNode(f.getAbsolutePath()));
+			}
+
+		}
+		return treenode;
+	}
+
+	public void jTreeValueChanged(TreeSelectionEvent tse) {
+		Utils utils = new Utils();
+		String node = tse.getNewLeadSelectionPath().getLastPathComponent().toString();
+		System.out.println("VALUE CHANGED: " + node);
+		File f = new File(node);
+		if (f.isDirectory())
+			return;
+		String ext = FilenameUtils.getExtension(node);
+		if (ext.equalsIgnoreCase("yml")) {
+			policyText.setText(utils.readTextFile(node));
+			return;
+		}
+		try {
+			MemGraph graph = utils.readAnyMemGraph(node);
+			policyText.setText(GraphSerializer.toJson(graph));
+		} catch (Exception e) {
+			//e.printStackTrace();
+			policyText.setText(utils.readTextFile(node));
+		}
+	}
+
+	public void openFile() {
+		boolean isProhibition = false;
 		saveChanged();
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setMultiSelectionEnabled(false);
 		fileChooser.setCurrentDirectory(getCurrentDirectory());
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-//		fileChooser.setFileFilter(new XMLFileFilter("xml"));
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			 temporal = fileChooser.getSelectedFile();
-			
-			
-//			AnalizadorSAX asax = new AnalizadorSAX();
-//			try {
-			 g = null;
-			SimpleTestGraph simpleTestGraph = new SimpleTestGraph();
-			
-				if (!temporal.toString().endsWith(".json") && !temporal.isDirectory()) {
-					System.out.println(temporal.toString());
-					JOptionPane.showMessageDialog(this,
-							"The open File is not a Policy *.json",
-							"Error of Selection",
-							JOptionPane.WARNING_MESSAGE);
-					return;
-				} 
-				else if(temporal.isDirectory()) {
-					System.out.println("Is directory");
-					g = Utils.readAllFilesInFolderToGraph(temporal);
+			temporal = fileChooser.getSelectedFile();
+			JTree tree;
+			if (temporal.isDirectory()) {
+				tree = new JTree(new DefaultTreeModel(ListFiles(temporal.getPath())));
+			} else {
+				tree = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode(temporal.getName())));
+			}
+			tree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+				public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+					jTreeValueChanged(evt);
 				}
-				else {
-				 try {
-					g = simpleTestGraph.readAnyGraph(temporal.getPath());
+			});
+			g = null;
+			Utils utils = new Utils();
+			Prohibitions prohibition = null;
+			if (!temporal.toString().endsWith(".json") && !temporal.isDirectory()) {
+				System.out.println(temporal.toString());
+				JOptionPane.showMessageDialog(this, "The open File is not a Policy *.json", "Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			} else if (temporal.isDirectory()) {
+				System.out.println("Is directory");
+				g = utils.readAllFilesInFolderToGraph(temporal);
+			} else {
+				try {
+					g = utils.readAnyMemGraph(temporal.getPath());
 				} catch (PMException e) {
-					JOptionPane.showMessageDialog(this,
-							"Graph cannot be built, some nodes do not exsist",
-							"Error of Selection",
-							JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(this, "Graph cannot be built, some nodes do not exsist",
+							"Error of Selection", JOptionPane.WARNING_MESSAGE);
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(this,
-							"File cannot be opened",
-							"Error of Selection",
+					JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
 							JOptionPane.WARNING_MESSAGE);
-				}
+				} catch (Exception e) {
+					// e.printStackTrace();
+					try {
+						prohibition = utils.readProhibitions(temporal.getPath());
+						isProhibition = true;
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
+								JOptionPane.WARNING_MESSAGE);
+					}
 
 				}
-					JPanel p1 = new JPanel(); 
-					
-					JTextArea t1 = new JTextArea(); 
-					t1.setEditable(false);
-					 try {
-						t1.setText(GraphSerializer.toJson(g));
-					} catch (PMException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} 
-					 int deviderLocation = jSplitPane1.getDividerLocation();
-					 JScrollPane scroll = new JScrollPane (t1, 
-							   JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-					 scroll.setPreferredSize(new Dimension(1000, 1200));
 
-					p1.add(scroll); 
-					GUI gui = new GUI(g);
-					gui.init();
-					JApplet graphComponent = gui.returnPane();
-					jSplitPane1.setRightComponent(graphComponent);			
-					jSplitPane1.setLeftComponent(p1);
+			}
+			JSplitPane jsplitpanevertical = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			JPanel p1 = new JPanel();
+			// JTextArea t1 = new JTextArea();
 
-					jSplitPane1.setResizeWeight(0.7);
+			policyText.setEditable(false);
+			try {
+
+				if (!isProhibition)
+					policyText.setText(GraphSerializer.toJson(g));
+				else {
+					policyText.setText(ProhibitionsSerializer.toJson(prohibition));
+					JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+							JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+					scroll.setPreferredSize(new Dimension(1000, 600));
+					jSplitPane1.setLeftComponent(tree);
+					jSplitPane1.setRightComponent(scroll);
+					jSplitPane1.setResizeWeight(0.4);
+					return;
+				}
+			} catch (PMException e) {
+				e.printStackTrace();
+			}
+			JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scroll.setPreferredSize(new Dimension(1000, 600));
+
+			p1.add(scroll);
+
+			GUI gui = new GUI(g);
+			gui.init();
+			JApplet graphComponent = gui.returnPane();
+			jsplitpanevertical.setBottomComponent(graphComponent);
+			jsplitpanevertical.setTopComponent(scroll);
+			jsplitpanevertical.setResizeWeight(0.5);
+
+			jSplitPane1.setRightComponent(jsplitpanevertical);
+			jSplitPane1.setLeftComponent(tree);
+
+			jSplitPane1.setResizeWeight(0.4);
 //					CurrentPath.getInstancia().setCurrdir(
 //							temporal.getParentFile());
-					// JR English
-					//vm.getPrintStream().println("Analizando fichero:" +
-					//                            temporal.getAbsolutePath());
+			// JR English
+			// vm.getPrintStream().println("Analizando fichero:" +
+			// temporal.getAbsolutePath());
 //					vm.getPrintStream().println(
 //							"Analyze file: " + temporal.getAbsolutePath());
 //					miDTM = (DefaultTreeModel) asax.analizeFile(temporal
@@ -400,14 +465,14 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 //								JOptionPane.WARNING_MESSAGE);
 //						vm.getPrintStream().println(asax.getErrorHandler());
 //					}
-					archivoActual = temporal;
-					///setTitle("UMU-XACML-Editor - "
-					///		+ inputFile.getName());
+			archivoActual = temporal;
+			/// setTitle("UMU-XACML-Editor - "
+			/// + inputFile.getName());
 
-					arbolPoliticas.setModel(miDTM);
-					// JR
+			// arbolPoliticas.setModel(miDTM);
+			// JR
 //					mcm = new ModelChangeMonitor(miDTM);
-				}
+		}
 //			} catch (SAXException exc) {
 //				(new JOptionPane()).showMessageDialog(this, exc.toString());
 ////				vm.getPrintStream().println(exc.toString());
@@ -415,17 +480,16 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 //				(new JOptionPane()).showMessageDialog(this, exc.toString());
 ////				vm.getPrintStream().println(exc.toString());
 //			}
-		}
-	
-	
-	public void openFile(String file){
-	/*	saveChanged();
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setMultiSelectionEnabled(false);
-		fileChooser.setCurrentDirectory(getCurrentDirectory());
-		fileChooser.setFileFilter(new XMLFileFilter("xml"));
-		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-//		*/
+	}
+
+	public void openFile(String file) {
+		/*
+		 * saveChanged(); JFileChooser fileChooser = new JFileChooser();
+		 * fileChooser.setMultiSelectionEnabled(false);
+		 * fileChooser.setCurrentDirectory(getCurrentDirectory());
+		 * fileChooser.setFileFilter(new XMLFileFilter("xml")); if
+		 * (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { //
+		 */
 //		if (file != null) {
 //			File temporal = new File(file);
 ////			AnalizadorSAX asax = new AnalizadorSAX();
@@ -470,8 +534,8 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 ////			}
 ////		}
 	}
-	
-	public void saveFile(){
+
+	public void saveFile() {
 //		AnalizadorSAX asax = new AnalizadorSAX();
 		if (archivoActual == null) {
 //			actionPerformed(new ActionEvent(mnuItGuardarC, 0, "mnuFiles_SaveAs"));
@@ -483,8 +547,8 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 //					archivoActual.getAbsolutePath());
 		}
 	}
-	
-	public void saveAsFile(){
+
+	public void saveAsFile() {
 		JFileChooser cuadroGuardar = new JFileChooser();
 //		cuadroGuardar.setCurrentDirectory(CurrentPath.getInstancia()
 //				.getCurrdir());
@@ -535,7 +599,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 //		}
 
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mnuItNuevo) {
 			newFile();
@@ -547,23 +611,24 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 			saveAsFile();
 		} else if (e.getSource() == mnuItSalir) {
 			saveChanged();
-			///this.dispose();
+			/// this.dispose();
 		} else if (e.getActionCommand().equalsIgnoreCase("copy")) {
-			DefaultMutableTreeNode copia = (DefaultMutableTreeNode) arbolPoliticas
-					.getLastSelectedPathComponent();
+			DefaultMutableTreeNode copia = (DefaultMutableTreeNode) arbolPoliticas.getLastSelectedPathComponent();
 			if (copia != null && !copia.isRoot()) {
 //				CurrentCopia.getInstancia().setCurrNode(copiarNodos(copia));
 			}
 		} else if (e.getActionCommand().equalsIgnoreCase("paste")) {
-			DefaultMutableTreeNode selecto = (DefaultMutableTreeNode) arbolPoliticas
-					.getLastSelectedPathComponent();
+			DefaultMutableTreeNode selecto = (DefaultMutableTreeNode) arbolPoliticas.getLastSelectedPathComponent();
 			if (selecto != null) {
 //				ElementoXACML eaux = (ElementoXACML) CurrentCopia
 //						.getInstancia().getCurrNode().getUserObject();
 //				DefaultMutableTreeNode clon = copiarNodos(CurrentCopia
 //						.getInstancia().getCurrNode());
 
-				Object sUserObj = selecto.getUserObject();}}}
+				Object sUserObj = selecto.getUserObject();
+			}
+		}
+	}
 //				if (sUserObj instanceof ElementoXACML) {
 //					ElementoXACML sUO = (ElementoXACML) sUserObj;
 //					if (sUO.getMaxNumChild(eaux) == 1) {
@@ -687,8 +752,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	private void eliminarNodos(DefaultMutableTreeNode node) {
-		DefaultMutableTreeNode padre = (DefaultMutableTreeNode) node
-				.getParent();
+		DefaultMutableTreeNode padre = (DefaultMutableTreeNode) node.getParent();
 		miDTM.removeNodeFromParent(node);
 //		if (padre.getChildCount() == 0) {
 //			if (padre.getUserObject() instanceof ElementoXACML) {
@@ -758,8 +822,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 
 	public void valueChanged(TreeSelectionEvent e) {
 		int original = jSplitPane1.getDividerLocation();
-		DefaultMutableTreeNode selecto = (DefaultMutableTreeNode) arbolPoliticas
-				.getLastSelectedPathComponent();
+		DefaultMutableTreeNode selecto = (DefaultMutableTreeNode) arbolPoliticas.getLastSelectedPathComponent();
 		if (selecto != null) {
 //			ElementPanel aux = XACMLPanelFactoryImpl.getInstance()
 //					.obtenerPanel(selecto);
@@ -824,7 +887,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 //				actionPerformed(new ActionEvent(mnuItGuardar, 0, "mnuFiles_Save"));
 //			}
 //		}
-		///this.dispose();
+		/// this.dispose();
 	}
 
 	private static class MiActionAdapter implements ActionListener {
@@ -839,8 +902,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		}
 	}
 
-	private static class MiTreeSelectionAdapter implements
-			TreeSelectionListener {
+	private static class MiTreeSelectionAdapter implements TreeSelectionListener {
 		private PolicyEditorPanelDemo adaptee;
 
 		MiTreeSelectionAdapter(PolicyEditorPanelDemo adaptee) {
@@ -876,15 +938,14 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		}
 	}
 
-	public static void main(String[] args) throws PMException, IOException {				
-		
+	public static void main(String[] args) throws PMException, IOException {
+
 		JFrame frame = new JFrame();
 		PolicyEditorPanelDemo panel = new PolicyEditorPanelDemo();
 		frame.getContentPane().add(panel);
-		
+
 		frame.pack();
 		frame.setVisible(true);
 	}
-
 
 }

@@ -21,7 +21,7 @@ import POMA.Mutation.MutationOperators.MutatorRAD;
 import POMA.Mutation.MutationOperators.MutatorRAGR;
 import POMA.Mutation.MutationOperators.MutatorRARA;
 import POMA.Mutation.MutationOperators.MutatorRARAA;
-import POMA.TestSuitGeneration.Utils;
+import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Mutation.MutationOperators.*;
 import gov.nist.csd.pm.exceptions.PMException;

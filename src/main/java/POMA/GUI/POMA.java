@@ -28,6 +28,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -40,6 +41,7 @@ import javax.swing.table.AbstractTableModel;
 import org.jdesktop.swingx.prompt.PromptSupport;
 import org.jdesktop.swingx.prompt.PromptSupport.FocusBehavior;
 
+import POMA.Utils;
 import POMA.Exceptions.NoTypeProvidedException;
 import POMA.GUI.GraphVisualization.GUI;
 import POMA.GUI.editor.AbstractPolicyEditor;
@@ -47,8 +49,7 @@ import POMA.GUI.editor.DebugPanel;
 import POMA.GUI.editor.MutationPanel;
 import POMA.GUI.editor.PolicyEditorPanelDemo;
 import POMA.GUI.editor.TestPanel;
-import POMA.TestSuitGeneration.Utils;
-import POMA.Verification.VerificationWithSets.TranslatorMain;
+import POMA.Verification.TranslationWithSets.TranslatorMain;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.MemGraph;
@@ -125,8 +126,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			try {
 				fullOutput = translator.translateGraphOnly(graph);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(editorPanel, "No file selected", "Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+				return;
 			}
 
 			JTextArea t3 = new JTextArea();
@@ -183,8 +185,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			TranslatorMain translator = new TranslatorMain();
 			Graph graph = editorPanel.getGraph();
 			MemGraph graphForPlot = editorPanel.getGraph();
-			
-			
 
 			JTextArea t1 = new JTextArea();
 			JTextArea t2 = new JTextArea();
@@ -197,7 +197,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			PromptSupport.setPrompt("ACCESS RIGHTS", t2);
 			PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, t2);
 
-			PromptSupport.setPrompt("ENTER ACCESS RIGHTS QUERIES"+System.lineSeparator()+"Template:"+System.lineSeparator()+"Subject1, Target1"+System.lineSeparator()+"Subject2 ,Target2"+System.lineSeparator()+"Subject3,Target3", t1);
+			PromptSupport.setPrompt("ENTER ACCESS RIGHTS QUERIES" + System.lineSeparator() + "Template:"
+					+ System.lineSeparator() + "Subject1, Target1" + System.lineSeparator() + "Subject2 ,Target2"
+					+ System.lineSeparator() + "Subject3,Target3", t1);
 
 			if (mainTabbedPane.indexOfTab("Verify All Combination") != -1) {
 
@@ -238,11 +240,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			scroll3.setPreferredSize(new Dimension(500, 500));
 			scroll4.setPreferredSize(new Dimension(850, 500));
 
-			
-			
-			
-
-			
 			p1.add(scroll1, BorderLayout.CENTER);
 			p2.add(scroll2, BorderLayout.CENTER);
 			p3.add(scroll3, BorderLayout.CENTER);
@@ -252,15 +249,19 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			jSplitPanel3.setLeftComponent(p3);
 			jSplitPanel2.setTopComponent(p1);
 			jSplitPanel2.setBottomComponent(jSplitPanel3);
-
-			GUI gui = new GUI(graphForPlot);
+			GUI gui;
+			try {
+				gui = new GUI(graphForPlot);
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(editorPanel, "No file selected", "Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
 			gui.init();
 			JApplet graphComponent = gui.returnPane();
 			jSplitPanel4.setTopComponent(p4);
 			jSplitPanel4.setBottomComponent(graphComponent);
-			
-			
-			
+
 			jSplitPanel.setRightComponent(jSplitPanel4);
 
 			jSplitPanel.setLeftComponent(jSplitPanel2);
@@ -271,30 +272,30 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 			mainTabbedPane.addTab("Verify All Combination", createNavigationIcon("images/policy.gif"), jSplitPanel);
 			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Verify All Combination"));
-			
-			JButton start=new JButton("Run Queries");  
+
+			JButton start = new JButton("Run Queries");
 			p1.add(start);
-			
-			start.addActionListener(new ActionListener(){  
-				 public void actionPerformed(ActionEvent e){
-					 	String input = t1.getText();
-					 	System.out.println("INPUUUUUT"+input);
-					 	try {
-					 		//translator.setAccessRightsResults();
-							translator.queryAccessRightsAllComb(graph, input);
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					 	System.out.println("Translator Output:"+translator.getActualOutput());
-				 			t4.setText(translator.getActualOutput());
-					 		t3.setText(translator.getFullTranslation());
-					 		t2.setText(translator.getAccessRightsResults());
-							t2.setFont(t2.getFont().deriveFont(18f));
-							t4.setFont(t4.getFont().deriveFont(18f));							
-							t3.setFont(t3.getFont().deriveFont(15f));
-				         }  
-				     });  
+
+			start.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String input = t1.getText();
+					System.out.println("INPUUUUUT" + input);
+					try {
+						// translator.setAccessRightsResults();
+						translator.queryAccessRightsAllComb(graph, input);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					System.out.println("Translator Output:" + translator.getActualOutput());
+					t4.setText(translator.getActualOutput());
+					t3.setText(translator.getFullTranslation());
+					t2.setText(translator.getAccessRightsResults());
+					t2.setFont(t2.getFont().deriveFont(18f));
+					t4.setFont(t4.getFont().deriveFont(18f));
+					t3.setFont(t3.getFont().deriveFont(15f));
+				}
+			});
 		}
 
 	}
@@ -311,8 +312,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			TranslatorMain translator = new TranslatorMain();
 			Graph graph = editorPanel.getGraph();
 			MemGraph graphForPlot = editorPanel.getGraph();
-			
-			
 
 			JTextArea t1 = new JTextArea();
 			JTextArea t2 = new JTextArea();
@@ -325,7 +324,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			PromptSupport.setPrompt("ACCESS RIGHTS", t2);
 			PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, t2);
 
-			PromptSupport.setPrompt("ENTER ACCESS RIGHTS QUERIES"+System.lineSeparator()+"Template:"+System.lineSeparator()+"Subject1, Target1"+System.lineSeparator()+"Subject2 ,Target2"+System.lineSeparator()+"Subject3,Target3", t1);
+			PromptSupport.setPrompt("ENTER ACCESS RIGHTS QUERIES" + System.lineSeparator() + "Template:"
+					+ System.lineSeparator() + "Subject1, Target1" + System.lineSeparator() + "Subject2 ,Target2"
+					+ System.lineSeparator() + "Subject3,Target3", t1);
 
 			if (mainTabbedPane.indexOfTab("Verify Each Combination") != -1) {
 
@@ -366,11 +367,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			scroll3.setPreferredSize(new Dimension(500, 500));
 			scroll4.setPreferredSize(new Dimension(850, 500));
 
-			
-			
-			
-
-			
 			p1.add(scroll1, BorderLayout.CENTER);
 			p2.add(scroll2, BorderLayout.CENTER);
 			p3.add(scroll3, BorderLayout.CENTER);
@@ -380,15 +376,19 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			jSplitPanel3.setLeftComponent(p3);
 			jSplitPanel2.setTopComponent(p1);
 			jSplitPanel2.setBottomComponent(jSplitPanel3);
-
-			GUI gui = new GUI(graphForPlot);
+			GUI gui;
+			try {
+				gui = new GUI(graphForPlot);
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(editorPanel, "No file selected", "Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
 			gui.init();
 			JApplet graphComponent = gui.returnPane();
 			jSplitPanel4.setTopComponent(p4);
 			jSplitPanel4.setBottomComponent(graphComponent);
-			
-			
-			
+
 			jSplitPanel.setRightComponent(jSplitPanel4);
 
 			jSplitPanel.setLeftComponent(jSplitPanel2);
@@ -399,31 +399,31 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 			mainTabbedPane.addTab("Verify Each Combination", createNavigationIcon("images/policy.gif"), jSplitPanel);
 			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Verify Each Combination"));
-			
-			JButton start=new JButton("Run Queries");  
+
+			JButton start = new JButton("Run Queries");
 			p1.add(start);
-			
-			start.addActionListener(new ActionListener(){  
-				 public void actionPerformed(ActionEvent e){
-					 	String input = t1.getText();
-					 	System.out.println("INPUUUUUT"+input);
-					 	try {
-					 		//translator.setAccessRightsResults();
-							translator.queryAccessRightsEach(graph, input);
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					 	System.out.println("Translator Output:"+translator.getActualOutput());
-				 			t4.setText(translator.getActualOutput());
-					 		t3.setText(translator.getFullTranslation());
-					 		t2.setText(translator.getAccessRightsResults());
-							t2.setFont(t2.getFont().deriveFont(18f));
-							t4.setFont(t4.getFont().deriveFont(18f));							
-							t3.setFont(t3.getFont().deriveFont(15f));
-				         }  
-				     });  
-			
+
+			start.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String input = t1.getText();
+					System.out.println("INPUUUUUT" + input);
+					try {
+						// translator.setAccessRightsResults();
+						translator.queryAccessRightsEach(graph, input);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					System.out.println("Translator Output:" + translator.getActualOutput());
+					t4.setText(translator.getActualOutput());
+					t3.setText(translator.getFullTranslation());
+					t2.setText(translator.getAccessRightsResults());
+					t2.setFont(t2.getFont().deriveFont(18f));
+					t4.setFont(t4.getFont().deriveFont(18f));
+					t3.setFont(t3.getFont().deriveFont(15f));
+				}
+			});
+
 		}
 
 	}
@@ -443,8 +443,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			try {
 				fullOutput = translator.getAllAccessRights(graph);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(editorPanel, "No file selected", "Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+				return;
 			}
 
 			JTextArea t1 = new JTextArea();
@@ -532,10 +533,10 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		translatePolicyGraphAction = new TranslatePolicyGraphAction("Show Translated Policy",
 				createNavigationIcon("translate"), "translate policy", new Integer(KeyEvent.VK_O));
 
-		verifyAccessRightsActionForAll = new VerifyAccessRightsActionForAll(
-				"Verify Access Rights For All Combinations", createNavigationIcon("verifyAccessRightsForAll"),
-				"verify Access Rights For All Combinations", new Integer(KeyEvent.VK_O));
-		verifyAccessRightsActionForEach  = new VerifyAccessRightsActionForEach(
+		verifyAccessRightsActionForAll = new VerifyAccessRightsActionForAll("Verify Access Rights For All Combinations",
+				createNavigationIcon("verifyAccessRightsForAll"), "verify Access Rights For All Combinations",
+				new Integer(KeyEvent.VK_O));
+		verifyAccessRightsActionForEach = new VerifyAccessRightsActionForEach(
 				"Verify Access Rights For Each Combination", createNavigationIcon("verifyAccessRightsForEach"),
 				"verify Access Rights For Each Combination", new Integer(KeyEvent.VK_O));
 		showAllAccessRightsAction = new QueryAccessRightsAction("Show All Access Rights",
@@ -759,44 +760,20 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			editorPanel.openFile();
-
-			switch (mainTabbedPane.getTabCount()) {
-			case 2:
-//				try {
-//				System.out.println(getWorkingPolicyFile().getPath());}
-//				catch(NullPointerException e) {
-//					System.out.println("error");
-//				}
-				// MemGraph graph = null;
-
-				// graph = editorPanel.getGraph();
-				// graph = simpleTestGraph.readGPMSGraph();
-				// gui = new GUI(graph);
-				// gui.init();
-				// Component graphComponent = gui.returnPane();
-				// mainTabbedPane.addTab("Graph", createNavigationIcon("images/policy.gif"),
-				// graphComponent);
-				mainTabbedPane.removeTabAt(1);
-				// mainTabbedPane.revalidate();
-				// mainTabbedPane.updateUI();
-				// mainTabbedPane.setSelectedComponent(graphComponent);
-
-				// setJMenuBar(createMenuBar());
-
-				break;
-			case 3:
-				mainTabbedPane.removeTabAt(2);
-				mainTabbedPane.removeTabAt(1);
-				break;
-			case 4:
-				mainTabbedPane.removeTabAt(3);
-				mainTabbedPane.removeTabAt(2);
-				mainTabbedPane.removeTabAt(1);
-				break;
-
+			try {
+				editorPanel.openFile();
+			} catch (Exception ex) {
+				return;
 			}
-
+			if (getWorkingPolicyFile() != null) {
+				setTitle("NGAC Policy Machine Analyzer - " + getWorkingPolicyFile().getName());
+			} else {
+				setTitle("NGAC Policy Machine Analyzer - Unnamed");
+			}
+			int tabCount = mainTabbedPane.getTabCount();
+			for (int i = tabCount - 1; i > 0; i--) {
+				mainTabbedPane.removeTabAt(i);
+			}
 		}
 	}
 
@@ -1133,9 +1110,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 		createToolBar();
 		if (getWorkingPolicyFile() != null) {
-			setTitle("XACML Policy Analyzer - " + getWorkingPolicyFile().getName());
+			setTitle("NGAC Policy Machine Analyzer - " + getWorkingPolicyFile().getName());
 		} else {
-			setTitle("XACML Policy Analyzer - Unnamed");
+			setTitle("NGAC Policy Machine Analyzer - Unnamed");
 		}
 	}
 

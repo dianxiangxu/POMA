@@ -1,4 +1,4 @@
-package POMA.Verification.VerificationWithSets;
+package POMA.Verification.TranslationWithSets;
 
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
@@ -36,8 +36,8 @@ import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxStylesheet;
 
+import POMA.Utils;
 import POMA.Exceptions.NoTypeProvidedException;
-import POMA.TestSuitGeneration.Utils;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -149,11 +149,11 @@ public class TranslatorMain {
 		
 		translatedGraph += CVC4Translator.getAllAccessRightsCheckInSetOfUAandATAllComb(inputArray);
 		setFullTranslation(translatedGraph);
-		saveDataToFile(translatedGraph, "SMTLIBv2Files/SMTLIB2Input/swapFile.smt2");
+		saveDataToFile(translatedGraph, "VerificationFiles/SMTLIB2Input/swapFile.smt2");
 
 		CVC4Runner runner = new CVC4Runner();
 		
-		List<String> output = runner.runFromSMTLIB2SetsTheory("SMTLIBv2Files/SMTLIB2Input/swapFile.smt2");
+		List<String> output = runner.runFromSMTLIB2SetsTheory("VerificationFiles/SMTLIB2Input/swapFile.smt2");
 		setAccessRightsResults(processOutput(output, graph));
 		String result = "";
 		for(String s : output) {
@@ -245,9 +245,8 @@ public class TranslatorMain {
 		String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
 //		 
 //		String translatedGraphResultPath = "SMTLIBv2Files/SMTLIB2Input/tclosureTranslatedGraph.smt2";
-		SimpleTestGraph simpleTestGraph = new SimpleTestGraph();
 		TranslatorMain applet = new TranslatorMain();
-		Graph graph = simpleTestGraph.readAnyGraph(simpleGraphPath);
+		Graph graph = Utils.readAnyGraph(simpleGraphPath);
 
 		applet.getAllAccessRights(graph);
 		// applet.graph = simpleTestGraph.readAnyGraph("Graphs/NGACExample1.json");

@@ -1,4 +1,4 @@
-package POMA.TestSuitGeneration;
+package POMA;
 
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.OA;
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.O;
@@ -8,6 +8,7 @@ import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.U;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -36,6 +38,9 @@ import gov.nist.csd.pm.pip.graph.dag.searcher.DepthFirstSearcher;
 import gov.nist.csd.pm.pip.graph.dag.searcher.Direction;
 import gov.nist.csd.pm.pip.graph.dag.visitor.Visitor;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
+import gov.nist.csd.pm.pip.prohibitions.MemProhibitions;
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
+import gov.nist.csd.pm.pip.prohibitions.ProhibitionsSerializer;
 
 public class Utils {
 
@@ -141,6 +146,7 @@ public class Utils {
 		return PCs;
 	}
 
+	
 	private static void saveDataToFile(String data, String path) throws PMException, IOException {
 		File file = new File(path);
 		FileWriter myWriter = new FileWriter(file);
@@ -149,6 +155,21 @@ public class Utils {
 
 	}
 
+	public String readTextFile(String path) {
+		StringBuilder sb = new StringBuilder();
+		try {
+		      File myObj = new File(path);
+		      Scanner myReader = new Scanner(myObj);
+		      while (myReader.hasNextLine()) {
+		    	  sb.append(myReader.nextLine());
+		    	  sb.append(System.lineSeparator());
+		      }
+		      myReader.close();
+		    } catch (FileNotFoundException e) {
+		      e.printStackTrace();
+		    }
+		return sb.toString();
+	}
 	public static Graph readAnyGraph(String path) throws PMException, IOException {
 		File graphFile = new File(path);
 
@@ -161,6 +182,31 @@ public class Utils {
 		return ngacGraph;
 	}
 
+	public Prohibitions readProhibitions(String path) throws PMException, IOException {
+		File prohibitionsFile = new File(path);
+
+		String prohibitionsJSON = new String(Files.readAllBytes(Paths.get(prohibitionsFile.getAbsolutePath())));
+
+		Prohibitions prohibitions = new MemProhibitions();
+
+		ProhibitionsSerializer.fromJson(prohibitions, prohibitionsJSON);
+		
+
+		return prohibitions;
+	}
+	
+	
+	public MemGraph readAnyMemGraph(String path) throws PMException, IOException {
+		File graphFile = new File(path);
+
+		String graphJSON = new String(Files.readAllBytes(Paths.get(graphFile.getAbsolutePath())));
+
+		MemGraph ngacGraph = new MemGraph();
+
+		GraphSerializer.fromJson(ngacGraph, graphJSON);
+
+		return ngacGraph;
+	}
 	public static Graph readGPMSGraph() throws PMException, IOException {
 		File file_eligibility_policy = new File("GPMSPolicies/EligibilityPolicyClass.json");
 		File file_org = new File("GPMSPolicies/AcademicUnitsPolicyClass.json");
@@ -288,19 +334,20 @@ public class Utils {
 
 	}
 
-	public static MemGraph readAllFilesInFolderToGraph(final File folder) {
+	public MemGraph readAllFilesInFolderToGraph(final File folder) {
 		MemGraph graph = new MemGraph();
 		for (final File fileEntry : folder.listFiles()) {
 			if (!fileEntry.toString().endsWith(".json")) {
 				continue;
 			}
+			try {
+				 Prohibitions prohibition = readProhibitions(fileEntry.getPath());
+				 continue;
+			}
+			catch(Exception ex) {
+			}
 			System.out.println(fileEntry.getAbsolutePath());
 			addJSONToGraph(graph, fileEntry.getAbsolutePath());
-		}
-		try {
-			System.out.println(GraphSerializer.toJson(graph));
-		} catch (PMException e) {
-			e.printStackTrace();
 		}
 		return graph;
 

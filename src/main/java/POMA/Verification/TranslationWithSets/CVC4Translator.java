@@ -1,4 +1,4 @@
-package POMA.Verification.VerificationWithSets;
+package POMA.Verification.TranslationWithSets;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import POMA.Utils;
 import POMA.Exceptions.NoTypeProvidedException;
 import POMA.Exceptions.NodeIsNotContainedByPolicyClassException;
-import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -31,7 +31,7 @@ public class CVC4Translator {
 	private Graph ngacGraph;
 	private List<AssociationRelation> listOfAssociations = new ArrayList<AssociationRelation>();;
 	private String pathToGraph;
-	private List<String> nodesWithoutContainment = new ArrayList<String>();
+	private Set<String> nodesWithoutContainment = new HashSet<String>();
 
 	public CVC4Translator(String pathToGraph) {
 		this.pathToGraph = pathToGraph;
@@ -56,7 +56,7 @@ public class CVC4Translator {
 			System.out.println("The graph was not loaded correctly");
 		} catch (NodeIsNotContainedByPolicyClassException e) {
 			System.out.println(e);
-			System.exit(0);
+			//System.exit(0);
 			;
 		}
 
@@ -316,7 +316,7 @@ public class CVC4Translator {
 		}
 		for (Iterator<AssociationRelation> iterator = listOfAssociations.iterator(); iterator.hasNext();) {
 			AssociationRelation tuple = iterator.next();
-			System.out.println("!!!!!!!!!!!!!!!!!" + tuple);
+		//	System.out.println("!!!!!!!!!!!!!!!!!" + tuple);
 			String ua = tuple.getUA();
 			String at = tuple.getAT();
 			Iterator<String> iteratorAR = tuple.getOperationSet().iterator();
@@ -404,9 +404,8 @@ public class CVC4Translator {
 	}
 
 	private void isContainedByAnyPC(String child) throws PMException {
-		System.out.println("CHILD: " + child);
+		//System.out.println("CHILD: " + child);
 		for (String pc : ngacGraph.getPolicyClasses()) {
-
 			DepthFirstSearcher dfs = new DepthFirstSearcher(ngacGraph);
 			Set<String> nodes = new HashSet<>();
 			Visitor visitor = node -> {
@@ -428,6 +427,7 @@ public class CVC4Translator {
 	}
 
 	private void checkGraph() throws PMException, NodeIsNotContainedByPolicyClassException {
+		//System.out.println(GraphSerializer.toJson(ngacGraph));
 		for (Node node : ngacGraph.getNodes()) {
 			if (!node.getType().toString().equals("PC")) {
 				isContainedByAnyPC(node.getName());

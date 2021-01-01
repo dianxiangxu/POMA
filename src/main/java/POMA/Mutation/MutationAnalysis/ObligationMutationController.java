@@ -12,7 +12,7 @@ import java.util.List;
 
 import com.opencsv.CSVWriter;
 
-import POMA.TestSuitGeneration.Utils;
+import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
 import POMA.Mutation.ObligationMutationOperators.*;

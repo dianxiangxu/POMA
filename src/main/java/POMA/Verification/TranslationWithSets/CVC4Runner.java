@@ -1,4 +1,4 @@
-package POMA.Verification.VerificationWithSets;
+package POMA.Verification.TranslationWithSets;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,7 @@ public class CVC4Runner {
 	private String fullOutput = "";
 	public List<String> runFromSMTLIB2SetsTheory(String pathToFile) throws IOException {
 		Runtime rt = Runtime.getRuntime();
-		String[] commands = { "CVC4/cvc4.exe", "--incremental", pathToFile };
+		String[] commands = { "VerificationFiles/CVC4/cvc4.exe", "--incremental", pathToFile };
 		Process proc = rt.exec(commands);
 
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -33,7 +33,7 @@ public class CVC4Runner {
 				fullOutputList.add(s);
 				fullOutputList.add(System.lineSeparator());
 			}
-			System.out.println("OUTPUT"+s);
+		//	System.out.println("OUTPUT"+s);
 		}
 		setFullOutput(fullOutputList.toString());
 		return outputList;
@@ -62,7 +62,7 @@ public class CVC4Runner {
 				fullOutputList.add(s);
 				fullOutputList.add(System.lineSeparator());
 			}
-			System.out.println("OUTPUT"+s);
+			//System.out.println("OUTPUT"+s);
 		}
 		setFullOutput(fullOutputList.toString());
 		return outputList;

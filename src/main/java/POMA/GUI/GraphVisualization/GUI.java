@@ -24,7 +24,8 @@ import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxStylesheet;
 
-import POMA.Verification.VerificationWithSets.SimpleTestGraph;
+import POMA.Utils;
+import POMA.Verification.TranslationWithSets.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.relationships.Relationship;
@@ -51,9 +52,9 @@ public class GUI extends JApplet {
 
 	public static void main(String[] args) throws PMException, IOException {
 		String simpleGraphPath = "Graphs/simpleGraph.json";
-		SimpleTestGraph simpleTestGraph = new SimpleTestGraph();
+		Utils utils = new Utils();
 
-		MemGraph graph = simpleTestGraph.readAnyGraph("Graphs/NGACExample1.json");
+		MemGraph graph = utils.readAnyMemGraph("Graphs/NGACExample1.json");
 		GUI gui = new GUI(graph);
 		gui.init();
 		gui.buildJFrame();

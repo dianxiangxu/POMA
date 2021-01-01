@@ -26,7 +26,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class AllTestsSuitsGenerator {
+public class Main {
 
 	public static void main(String[] args) throws Exception {
 
@@ -35,7 +35,7 @@ public class AllTestsSuitsGenerator {
 		// loader.setPolicy(gt.getGraph());
 		// loader.savePolicy(gt.getGraph(),"C:/data/ngac_config_Vlad.json");
 
-		AllTestsSuitsGenerator graphTester = new AllTestsSuitsGenerator();
+		Main graphTester = new Main();
 
 		/*
 		 * File file = new File("C:/Users/dubro/git/GPMS-NGAC/mutants/REMNODE"); for
