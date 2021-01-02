@@ -909,15 +909,11 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				mutationPanel.generateMutants(editorPanel.getGraph(), editorPanel.getCurrentFile().getParentFile());
-			} catch (InstantiationException e2) {
-				// TODO Auto-generated catch block
-				// InstantiationException
-				e2.printStackTrace();
-			} catch (NoTypeProvidedException e2) {
-				// TODO Auto-generated catch block
-				// NoTypeProvidedException
-				e2.printStackTrace();
-			}
+			} catch (Exception e2) {
+				JOptionPane.showMessageDialog(editorPanel, "No file selected", "Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			} 
 			JTable table = new JTable(new MyModel());
 			// table.setPreferredScrollableViewportSize(new Dimension(700, 70));
 			table.setFillsViewportHeight(true);

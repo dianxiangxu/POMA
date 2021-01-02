@@ -370,7 +370,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 			if (temporal.isDirectory()) {
 				tree = new JTree(new DefaultTreeModel(ListFiles(temporal.getPath())));
 			} else {
-				tree = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode(temporal.getName())));
+				tree = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode(temporal.getPath())));
 			}
 			tree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
 				public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
