@@ -976,11 +976,11 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 				if (!globalFile.isDirectory()) {
 					//mutationSuccesfull = mutationPanel.generateMutants(editorPanel.getGraph(), editorPanel.getCurrentFile().getParentFile());
 					mutationSuccesfull = mutationPanel.generateMutants(editorPanel.getGraph(), globalFile.getParentFile());
-					editorPanel.updateFileTree();
+					//editorPanel.updateFileTree();
 				} else {
 					//mutationSuccesfull = mutationPanel.generateMutants(editorPanel.getGraph(), editorPanel.getCurrentFile());
 					mutationSuccesfull = mutationPanel.generateMutants(editorPanel.getGraph(), globalFile);
-					editorPanel.updateFileTree();
+					//editorPanel.updateFileTree();
 				}
 				if(!mutationSuccesfull) return;
 			} catch (Exception e2) {
