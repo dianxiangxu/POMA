@@ -18,7 +18,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
-public class Examples {
+public class SimpleExample {
 
 	public static void main(String[] argv) throws PMException, IOException {
 		Graph g = new MemGraph(); 	  
@@ -35,14 +35,14 @@ public class Examples {
 		g.associate("UA_test1", "Container1", new OperationSet("test"));
 		g.associate("UA_test1", "Container2", new OperationSet("test"));
 
-		saveDataToFile(GraphSerializer.toJson(g), "GPMSPolicies/ProhibitionExample/graph.json");	
+		saveDataToFile(GraphSerializer.toJson(g), "Policies/ProhibitionExample/ProhibitionsInitialExample/graph.json");	
 		System.out.println("PROHIBITION#1(COMPLEMENT=FALSE) UA_test1 test Container1 ");
 		Prohibitions prohibitions1 = new MemProhibitions();
 		Prohibition prohibition = new Prohibition.Builder("prohibition1", "UA_test1", new OperationSet("test"))
 				.addContainer("Container1", false).build();
 		
 		prohibitions1.add(prohibition);
-		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions1), "GPMSPolicies/ProhibitionExample/prohibitions1.json");	
+		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions1), "Policies/ProhibitionExample/ProhibitionsInitialExample/prohibitionsx1.json");	
 
 		PReviewDecider decider = new PReviewDecider(g, prohibitions1);
 		System.out.println("UA_test1, UA1_1, test"+": "+decider.check("UA_test1", "", "UA1_1", "test"));
@@ -58,7 +58,7 @@ public class Examples {
 		Prohibition prohibition2 = new Prohibition.Builder("prohibition1", "UA_test1", new OperationSet("test"))
 				.addContainer("Container1", true).build();
 		prohibitions2.add(prohibition2);
-		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions2), "GPMSPolicies/ProhibitionExample/prohibitions2.json");	
+		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions2), "Policies/ProhibitionExample/ProhibitionsInitialExample/prohibitions2.json");	
 
 		PReviewDecider decider2 = new PReviewDecider(g, prohibitions2);
 		System.out.println("UA_test1, UA1_1, test"+": "+decider2.check("UA_test1", "", "UA1_1", "test"));
@@ -76,7 +76,7 @@ public class Examples {
 		Prohibition prohibition3 = new Prohibition.Builder("prohibition1", "UA_test1", new OperationSet("test"))
 				.addContainer("Container1", false).addContainer("Container2", false).setIntersection(true).build();
 		prohibitions3.add(prohibition3);
-		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions3), "GPMSPolicies/ProhibitionExample/prohibitions3.json");	
+		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions3), "Policies/ProhibitionExample/ProhibitionsInitialExample/prohibitions3.json");	
 
 		PReviewDecider decider3 = new PReviewDecider(g, prohibitions3);
 		System.out.println("UA_test1, UA1_1, test"+": "+decider3.check("UA_test1", "", "UA1_1", "test"));
@@ -93,7 +93,7 @@ public class Examples {
 		Prohibition prohibition4 = new Prohibition.Builder("prohibition1", "UA_test1", new OperationSet("test"))
 				.addContainer("Container1", false).addContainer("Container2", false).setIntersection(false).build();
 		prohibitions4.add(prohibition4);
-		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions4), "GPMSPolicies/ProhibitionExample/prohibitions4.json");	
+		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions4), "Policies/ProhibitionExample/ProhibitionsInitialExample/prohibitions4.json");	
 
 		PReviewDecider decider4 = new PReviewDecider(g, prohibitions4);
 		System.out.println("UA_test1, UA1_1, test"+": "+decider4.check("UA_test1", "", "UA1_1", "test"));
@@ -110,7 +110,7 @@ public class Examples {
 		Prohibition prohibition5 = new Prohibition.Builder("prohibition1", "UA_test1", new OperationSet("test"))
 				.addContainer("Container1", true).addContainer("Container2", true).setIntersection(false).build();
 		prohibitions5.add(prohibition5);
-		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions5), "GPMSPolicies/ProhibitionExample/prohibitions5.json");	
+		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions5), "Policies/ProhibitionExample/ProhibitionsInitialExample/prohibitions5.json");	
 
 		PReviewDecider decider5 = new PReviewDecider(g, prohibitions5);
 		System.out.println("UA_test1, UA1_1, test"+": "+decider5.check("UA_test1", "", "UA1_1", "test"));
@@ -126,7 +126,7 @@ public class Examples {
 		Prohibition prohibition6 = new Prohibition.Builder("prohibition1", "UA_test1", new OperationSet("test"))
 				.addContainer("Container1", true).addContainer("Container2", true).setIntersection(true).build();
 		prohibitions6.add(prohibition6);
-		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions6), "GPMSPolicies/ProhibitionExample/prohibitions6.json");	
+		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions6), "Policies/ProhibitionExample/ProhibitionsInitialExample/prohibitions6.json");	
 
 		PReviewDecider decider6 = new PReviewDecider(g, prohibitions6);
 		System.out.println("UA_test1, UA1_1, test"+": "+decider6.check("UA_test1", "", "UA1_1", "test"));
@@ -142,7 +142,7 @@ public class Examples {
 		Prohibition prohibition7 = new Prohibition.Builder("prohibition1", "UA_test1", new OperationSet("test"))
 				.addContainer("Container1", true).addContainer("Container2", false).setIntersection(true).build();
 		prohibitions7.add(prohibition7);
-		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions7), "GPMSPolicies/ProhibitionExample/prohibitions7.json");	
+		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions7), "Policies/ProhibitionExample/ProhibitionsInitialExample/prohibitions7.json");	
 
 		PReviewDecider decider7 = new PReviewDecider(g, prohibitions7);
 		System.out.println("UA_test1, UA1_1, test"+": "+decider7.check("UA_test1", "", "UA1_1", "test"));
@@ -158,7 +158,7 @@ public class Examples {
 		Prohibition prohibition8 = new Prohibition.Builder("prohibition1", "UA_test1", new OperationSet("test"))
 				.addContainer("Container1", false).addContainer("Container2", true).setIntersection(true).build();
 		prohibitions8.add(prohibition8);
-		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions8), "GPMSPolicies/ProhibitionExample/prohibitions8.json");	
+		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions8), "Policies/ProhibitionExample/ProhibitionsInitialExample/prohibitions8.json");	
 
 		PReviewDecider decider8 = new PReviewDecider(g, prohibitions8);
 		System.out.println("UA_test1, UA1_1, test"+": "+decider8.check("UA_test1", "", "UA1_1", "test"));
