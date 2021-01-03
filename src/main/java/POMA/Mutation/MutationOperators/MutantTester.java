@@ -89,7 +89,6 @@ public class MutantTester {
 		int counter = 1;
 
 		for (String[] sArray : testSuite) {
-			System.out.println("9.");
 
 			String UAname = sArray[1];
 			String OAname = sArray[2];
@@ -98,24 +97,17 @@ public class MutantTester {
 				counter++;
 				continue;
 			}
-			System.out.println("10.");
 
 			String[] AR = { sArray[3] };
-			System.out.println("10.1");
 
 			Boolean result = Boolean.parseBoolean(sArray[4]);
-			System.out.println("10.2");
-			System.out.println(UAname+" "+OAname);
 			if (decider.check(UAname, "", OAname, AR) != result) {
-				System.out.println("10.3");
 
 				mutantTest[counter] = "Fail";
 			} else {
-				System.out.println("10.4");
 
 				mutantTest[counter] = "Pass";
 			}
-			System.out.println("11.");
 
 			counter++;
 		}

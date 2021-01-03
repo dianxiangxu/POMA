@@ -216,7 +216,7 @@ public class ObligationTest {
 		try {
 			sourceAssociations = graph.getSourceAssociations(attorneyName);
 
-			System.out.println(sourceAssociations);
+			//System.out.println(sourceAssociations);
 			for (String caseName : sourceAssociations.keySet()) {
 				if (!Collections.disjoint(graph.getChildren(caseName), graph.getChildren(newCase))) {
 					return true;

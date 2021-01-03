@@ -65,8 +65,8 @@ public class GraphVisualizer extends JApplet {
 		try {
 			this.ngacGraph = simpleTestGraph.buildSimpleGraph();
 		} catch (PMException e) {
-			e.printStackTrace();
-			System.out.println("Cannot load the graph");
+			//e.printStackTrace();
+			//System.out.println("Cannot load the graph");
 		}
 		graphToPlot = ngacGraph.graph;
 
@@ -110,8 +110,8 @@ public class GraphVisualizer extends JApplet {
 						List.add(entry.getValue());
 					}
 				} catch (PMException e) {
-					e.printStackTrace();
-					System.out.println("Error retrieving nodes from the graph");
+					//e.printStackTrace();
+					//System.out.println("Error retrieving nodes from the graph");
 				}
 			}
 		}

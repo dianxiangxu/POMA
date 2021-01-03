@@ -333,8 +333,9 @@ public class Utils {
 		}
 		try {
 			GraphSerializer.fromJson(graph, JSON);
-		} catch (PMException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			//System.out.println(e);
+			//e.printStackTrace();
 		}
 
 	}
@@ -351,7 +352,6 @@ public class Utils {
 			}
 			catch(Exception ex) {
 			}
-			System.out.println(fileEntry.getAbsolutePath());
 			addJSONToGraph(graph, fileEntry.getAbsolutePath());
 		}
 		return graph;

@@ -48,8 +48,11 @@ import java.awt.event.*;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -73,6 +76,10 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	JSplitPane jsplitpanevertical;
 	Utils utils = new Utils();
 	JTree fileTree;
+
+	public JTree getFileTree() {
+		return this.fileTree;
+	}
 
 	public MemGraph getGraph() {
 		return g;
@@ -154,7 +161,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	// JR need to monitor when a loaded model has changed by the user
 //	ModelChangeMonitor mcm = new ModelChangeMonitor(miDTM);
 
-	JSplitPane jSplitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+	JSplitPane policyjSplitPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
 	JScrollPane jScrollPane1;
 
@@ -262,9 +269,9 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		arbolPoliticas.addMouseListener(new MiMouseAdapter(this));
 		arbolPoliticas.addTreeSelectionListener(new MiTreeSelectionAdapter(this));
 		jScrollPane1 = new JScrollPane(arbolPoliticas);
-		jSplitPane1.setLeftComponent(jScrollPane1);
-		jSplitPane1.setRightComponent(new JPanel());
-		jSplitPane1.setResizeWeight(0.4);
+		policyjSplitPanel.setLeftComponent(jScrollPane1);
+		policyjSplitPanel.setRightComponent(new JPanel());
+		policyjSplitPanel.setResizeWeight(0.4);
 		mnuArchivo.setText("File");
 		mnuValidador.setText("Schema Validator");
 		mnuAbout.setText("About");
@@ -284,7 +291,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		mnuItAbout.addActionListener(new MiActionAdapter(this));
 
 		//// contentPane.add(jSplitPane1, borderLayout1.CENTER);
-		add(jSplitPane1, borderLayout1.CENTER);
+		add(policyjSplitPanel, borderLayout1.CENTER);
 //		JScrollPane jsp = new JScrollPane(vm);
 //		jsp.setPreferredSize(new Dimension(this.getWidth(), (int) (this
 //				.getHeight() * 0.25)));
@@ -322,6 +329,32 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		/// setTitle("UMU-XACML-Editor - New Document");
 	}
 
+	public boolean openDefaultFile() {
+		temporal = new File("Policies");
+		if (!temporal.exists()) {
+			return false;
+		}
+		GlobalVariables.initialPath = temporal.getAbsolutePath();
+
+		policyText.setEditable(false);
+		
+		JScrollPane scroll = new JScrollPane(createFileTree(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll.setPreferredSize(new Dimension(1000, 600));
+		policyjSplitPanel.setLeftComponent(scroll);
+		
+		//policyjSplitPanel.setLeftComponent(new JPanel().add(createFileTree()));
+		handlePolicyLoading();
+		archivoActual = temporal;
+		return true;
+
+		// policyjSplitPanel.setDividerLocation(5);
+		// policyjSplitPanel.setResizeWeight(0.4);
+		// System.out.println("Default Devider 2:
+		// "+policyjSplitPanel.getDividerLocation());
+
+	}
+
 	public void openFile() {
 		saveChanged();
 		JFileChooser fileChooser = new JFileChooser();
@@ -332,184 +365,22 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 			GlobalVariables.initialPath = fileChooser.getSelectedFile().getAbsolutePath();
 			temporal = fileChooser.getSelectedFile();
 			policyText.setEditable(false);
-			jSplitPane1.setLeftComponent(createFileTree());
+			JScrollPane scroll = new JScrollPane(createFileTree(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scroll.setPreferredSize(new Dimension(1000, 600));
+			policyjSplitPanel.setLeftComponent(scroll);
 			if (handlePolicyLoading())
 				return;
 			archivoActual = temporal;
 		}
 	}
-	
-	private DefaultMutableTreeNode ListFiles(String path) {
-		DefaultMutableTreeNode treenode = new DefaultMutableTreeNode(path);
-		File root = new File(path);
-		File[] files = root.listFiles();
-		for (File f : files) {
-			if (f.isDirectory()) {
-				treenode.add(ListFiles(f.getAbsolutePath()));
-			} else {
-				treenode.add(new DefaultMutableTreeNode(f.getAbsolutePath()));
-			}
-		}
-		return treenode;
+
+	public JSplitPane getPolicyjSplitPanel() {
+		return policyjSplitPanel;
 	}
 
 	private void emptyGraphComponent() {
-		g = null;
-		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scroll.setPreferredSize(new Dimension(1000, 600));
-		jSplitPane1.setRightComponent(scroll);
-		jSplitPane1.setResizeWeight(0.4);
-	}
-
-	private JTree createFileTree() {
-		
-		File initialFile = new File(GlobalVariables.initialPath);
-		if (initialFile.isDirectory()) {
-			fileTree = new JTree(new DefaultTreeModel(ListFiles(initialFile.getPath())));
-		} else {
-			fileTree = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode(initialFile.getPath())));
-		}
-		fileTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-			public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-				jTreeValueChanged(evt);
-			}
-		});
-		return fileTree;
-	}
-	
-	private void jTreeValueChanged(TreeSelectionEvent tse) {
-		if(tse.getNewLeadSelectionPath() == null) return;
-		String node = tse.getNewLeadSelectionPath().getLastPathComponent().toString();
-		System.out.println("VALUE CHANGED: " + node);
-		GlobalVariables.currentPath = node;
-		temporal = new File(node);
-		System.out.println("TEMPORAL: "+temporal.getAbsolutePath());
-		String ext = FilenameUtils.getExtension(node);
-		if (ext.equalsIgnoreCase("yml")) {
-			emptyGraphComponent();
-			policyText.setText(utils.readTextFile(node));
-			return;
-		}
-		try {
-			g = utils.readAnyMemGraph(node);
-			if (g.getNodes().isEmpty()) {
-				policyText.setText("No JSON/YML/TXT file found");
-			} else {
-				policyText.setText(GraphSerializer.toJson(g));
-			}
-			updateGraphComonent();
-			jsplitpanevertical.setBottomComponent(graphComponent);
-		} catch (Exception e) {
-		//	e.printStackTrace();
-			emptyGraphComponent();
-			policyText.setText(utils.readTextFile(node));
-		}
-	}
-	private boolean nodeExists(DefaultMutableTreeNode root, String s) {
-	    @SuppressWarnings("unchecked")
-	    Enumeration<DefaultMutableTreeNode> e = root.depthFirstEnumeration();
-	    while (e.hasMoreElements()) {
-	        DefaultMutableTreeNode node = e.nextElement();
-	        if (node.toString().equalsIgnoreCase(s)) {
-	            return true;
-	        }
-	    }
-	    return false;
-	}
-	
-	public void updateFileTree() {	
-		TreePath treePath = fileTree.getSelectionPath();
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
-
-			File root = new File(node.toString());
-			if(!root.isDirectory())
-			{
-				node = new DefaultMutableTreeNode(root.getParent());
-			}
-			DefaultMutableTreeNode child = new DefaultMutableTreeNode(node.toString()+"\\CSV");
-			DefaultMutableTreeNode child2 = new DefaultMutableTreeNode(child.toString()+"\\testSuits");
-			//if(!nodeExists(node, node.toString()+"\\CSV\\testSuits\\OverallMutationResults.csv")) {
-			if(!nodeExists(node, node.toString()+"\\CSV")) {
-			((DefaultTreeModel) fileTree.getModel()).insertNodeInto(child, node, node.getChildCount());
-			}
-			
-			
-			if(!nodeExists(node, node.toString()+"\\CSV\\testSuits")) {
-			((DefaultTreeModel) fileTree.getModel()).insertNodeInto(child2, child, child.getChildCount());
-			}
-			
-			File fileTestSuits = new File(child2.toString());
-			if(!fileTestSuits.isDirectory()) {
-				fileTestSuits = fileTestSuits.getParentFile();
-			}	
-			File[] files = fileTestSuits.listFiles();
-			for(File newFile : files) {
-				((DefaultTreeModel) fileTree.getModel()).insertNodeInto(new DefaultMutableTreeNode(newFile.getAbsolutePath()), child2, child2.getChildCount());
-			}
-	}
-	
-	
-
-	private boolean handlePolicyLoading() {
-		g = null;
-		String ext = FilenameUtils.getExtension(temporal.getPath());
-		if (ext.equalsIgnoreCase("yml")) {
-			updateObligationTextComonent();
-			return true;
-		}
-		try {			
-			updateGraphComonent();
-			return false;
-		} catch (PMException e) {
-			JOptionPane.showMessageDialog(this, "Graph cannot be built, some nodes do not exsist", "Error of Selection",
-					JOptionPane.WARNING_MESSAGE);
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
-					JOptionPane.WARNING_MESSAGE);
-		} catch (Exception e) {
-			//e.printStackTrace();
-			try {
-				updateProhibitionsTextComonent();
-				return true;
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
-						JOptionPane.WARNING_MESSAGE);
-			}
-
-		}
-		return false;
-	}
-	
-	private void updateObligationTextComonent() {
-		policyText.setText(utils.readTextFile(temporal.getPath()));
-		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scroll.setPreferredSize(new Dimension(1000, 600));
-		jSplitPane1.setRightComponent(scroll);
-		jSplitPane1.setResizeWeight(0.4);
-
-	}
-	
-	private void updateProhibitionsTextComonent() throws PMException, IOException {
-		Prohibitions prohibition = null;
-		prohibition = utils.readProhibitions(temporal.getPath());
-		policyText.setText(ProhibitionsSerializer.toJson(prohibition));
-		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scroll.setPreferredSize(new Dimension(1000, 600));
-		jSplitPane1.setRightComponent(scroll);
-		jSplitPane1.setResizeWeight(0.4);
-
-	}
-	
-	private void updateGraphComonent() throws PMException, IOException {
-		g = utils.readAnyMemGraph(temporal.getPath());
-		if (g.getNodes().isEmpty()) {
-			policyText.setText("No JSON/YML/TXT file found");
-		} else {
-			policyText.setText(GraphSerializer.toJson(g));
-		}
+		g = new MemGraph();
 		GraphVisualizer gui = new GraphVisualizer(g);
 		gui.init();
 		graphComponent = gui.returnPane();
@@ -521,10 +392,204 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		scroll.setPreferredSize(new Dimension(1000, 600));
 		p1.add(scroll);
 		jsplitpanevertical.setBottomComponent(graphComponent);
-		jsplitpanevertical.setTopComponent(scroll);
+		jsplitpanevertical.setTopComponent(p1);
 		jsplitpanevertical.setResizeWeight(0.5);
-		jSplitPane1.setRightComponent(jsplitpanevertical);
-		jSplitPane1.setResizeWeight(0.4);
+		policyjSplitPanel.setRightComponent(jsplitpanevertical);
+		policyjSplitPanel.setResizeWeight(0.4);
+		scroll.setPreferredSize(new Dimension(1000, 600));
+		policyjSplitPanel.setRightComponent(scroll);
+		policyjSplitPanel.setResizeWeight(0.4);
+		
+	}
+
+	private void jTreeValueChanged(TreeSelectionEvent tse) {
+		if (tse.getNewLeadSelectionPath() == null)
+			return;
+		String node = ((FileTreeNode) tse.getNewLeadSelectionPath().getLastPathComponent()).getFilePath();
+		GlobalVariables.currentPath = node;
+		temporal = new File(GlobalVariables.currentPath);
+		String ext = FilenameUtils.getExtension(node);
+		if (ext.equalsIgnoreCase("yml")) {
+			emptyGraphComponent();
+			policyText.setText(utils.readTextFile(node));
+			return;
+		}
+		try {
+			updateGraphComonent();
+			jsplitpanevertical.setBottomComponent(graphComponent);
+		} catch (Exception e) {
+			// e.printStackTrace();
+			 emptyGraphComponent();
+			if (!temporal.isDirectory()) {
+				policyText.setText(utils.readTextFile(node));
+			} else {		
+				//jsplitpanevertical.setBottomComponent(graphComponent);
+				policyText.setText("No JSON file found in this folder");
+			}
+		}
+	}
+
+	private JTree createFileTree() {
+
+		File initialFile = new File(GlobalVariables.initialPath);
+		if (initialFile.isDirectory()) {
+			fileTree = new JTree(new DefaultTreeModel(ListFiles(initialFile)));
+		} else {
+			DefaultMutableTreeNode fileTreeNode = new FileTreeNode(initialFile.getName(), initialFile.getPath());
+			fileTree = new JTree(new DefaultTreeModel(fileTreeNode));
+		}
+		fileTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+			public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+				jTreeValueChanged(evt);
+			}
+		});		
+		return fileTree;
+	}
+
+	private DefaultMutableTreeNode ListFiles(File root) {
+		DefaultMutableTreeNode treenode = new FileTreeNode(root.getName(), root.getPath());
+		File[] files = root.listFiles();
+		for (File f : files) {
+			if (f.isDirectory()) {
+				treenode.add(ListFiles(f));
+			} else {
+				DefaultMutableTreeNode fileTreeNode = new FileTreeNode(f.getName(), f.getPath());
+				treenode.add(fileTreeNode);
+			}
+		}
+		return treenode;
+	}
+
+	public void updateFileTree() {
+		TreePath treePath = fileTree.getSelectionPath();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+		File currentRootFile = new File(((FileTreeNode) node).getFilePath());
+		if (!currentRootFile.isDirectory()) {
+			currentRootFile = currentRootFile.getParentFile();
+			node = (DefaultMutableTreeNode) node.getParent();
+		}
+
+		DefaultTreeModel model = ((DefaultTreeModel) fileTree.getModel());
+		updateTreeModel(model, node);
+
+	}
+
+	private int getChildIndex(DefaultTreeModel model, DefaultMutableTreeNode root, String child) {
+		int result = -1;
+		int childCount = model.getChildCount(root);
+		for (int i = 0; i < childCount; i++) {
+			DefaultMutableTreeNode currentChild = (DefaultMutableTreeNode) model.getChild(root, i);
+			if (child.equals(currentChild.toString())) {
+				result = i;
+			}
+		}
+		return result;
+	}
+
+	private void updateTreeModel(DefaultTreeModel model, DefaultMutableTreeNode root) {
+		File currentRootFile = new File(((FileTreeNode) root).getFilePath());
+		File[] files = currentRootFile.listFiles();
+		for (File f : files) {
+			String fileName = f.getAbsolutePath();
+			int index = getChildIndex(model, root, f.getName());
+			if (index == -1) {
+
+				DefaultMutableTreeNode newChild = new FileTreeNode(f.getName(), f.getPath());
+				model.insertNodeInto(newChild, root, root.getChildCount());
+				if (f.isDirectory()) {
+					updateTreeModel(model, newChild);
+				}
+				//System.out.println("CHILD ADDED: " + fileName);
+			} else {
+				DefaultMutableTreeNode newChild = (DefaultMutableTreeNode) model.getChild(root, index);
+				if (f.isDirectory()) {
+					updateTreeModel(model, newChild);
+				}
+				//System.out.println("CHILD EXISTED: " + fileName);
+			}
+		}
+
+	}
+
+	private boolean handlePolicyLoading() {
+		g = null;
+		String ext = FilenameUtils.getExtension(temporal.getPath());
+		if (ext.equalsIgnoreCase("yml")) {
+			updateObligationTextComonent();
+			return true;
+		}
+		try {
+			updateGraphComonent();
+			return false;
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
+					JOptionPane.WARNING_MESSAGE);
+		} catch (Exception e) {
+			// e.printStackTrace();
+			try {
+				updateProhibitionsTextComonent();
+				return true;
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+			}
+
+		}
+		return false;
+	}
+
+	private void updateObligationTextComonent() {
+		policyText.setText(utils.readTextFile(temporal.getPath()));
+		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll.setPreferredSize(new Dimension(1000, 600));
+		policyjSplitPanel.setRightComponent(scroll);
+		policyjSplitPanel.setResizeWeight(0.4);
+
+	}
+
+	private void updateProhibitionsTextComonent() throws PMException, IOException {
+		Prohibitions prohibition = null;
+		prohibition = utils.readProhibitions(temporal.getPath());
+		policyText.setText(ProhibitionsSerializer.toJson(prohibition));
+		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll.setPreferredSize(new Dimension(1000, 600));
+		policyjSplitPanel.setRightComponent(scroll);
+		policyjSplitPanel.setResizeWeight(0.4);
+
+	}
+
+	private void updateGraphComonent() throws IOException {
+		try {
+			g = utils.readAnyMemGraph(temporal.getPath());
+
+			policyText.setText(GraphSerializer.toJson(g));
+
+			GraphVisualizer gui = new GraphVisualizer(g);
+			gui.init();
+			graphComponent = gui.returnPane();
+			jsplitpanevertical = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			JPanel p1 = new JPanel();
+
+			JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scroll.setPreferredSize(new Dimension(1000, 600));
+			p1.add(scroll);
+			jsplitpanevertical.setBottomComponent(graphComponent);
+			jsplitpanevertical.setTopComponent(scroll);
+			jsplitpanevertical.setResizeWeight(0.5);
+			policyjSplitPanel.setRightComponent(jsplitpanevertical);
+			policyjSplitPanel.setResizeWeight(0.4);
+			if (g.getNodes().size() == 0) {
+				policyText.setText("No JSON file found in this folder");
+			} else {
+				policyText.setText(GraphSerializer.toJson(g));
+			}
+		} catch (PMException e) {
+			// TODO Auto-generated catch block
+		//	e.printStackTrace();
+		}
 	}
 
 	public void saveFile() {
@@ -813,7 +878,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	public void valueChanged(TreeSelectionEvent e) {
-		int original = jSplitPane1.getDividerLocation();
+		int original = policyjSplitPanel.getDividerLocation();
 		DefaultMutableTreeNode selecto = (DefaultMutableTreeNode) arbolPoliticas.getLastSelectedPathComponent();
 		if (selecto != null) {
 //			ElementPanel aux = XACMLPanelFactoryImpl.getInstance()
@@ -835,9 +900,9 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 //				aux.setTreeModel(this.miDTM);
 //			}
 		} else {
-			jSplitPane1.setRightComponent(new JPanel());
+			policyjSplitPanel.setRightComponent(new JPanel());
 		}
-		jSplitPane1.setDividerLocation(original);
+		policyjSplitPanel.setDividerLocation(original);
 	}
 
 	public void mouseReleased(MouseEvent e) {
@@ -927,6 +992,19 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 
 		public void windowClosing(WindowEvent e) {
 			adaptee.windowClosing(e);
+		}
+	}
+
+	private class FileTreeNode extends DefaultMutableTreeNode {
+		public String filePath;
+
+		public String getFilePath() {
+			return this.filePath;
+		}
+
+		public FileTreeNode(String fileName, String filePath) {
+			super(fileName);
+			this.filePath = filePath;
 		}
 	}
 

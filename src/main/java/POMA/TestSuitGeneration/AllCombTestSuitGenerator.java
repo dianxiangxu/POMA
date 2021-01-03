@@ -64,9 +64,6 @@ public class AllCombTestSuitGenerator {
 			graph = utils.readAllFilesInFolderToGraph(file);
 		}		populateLists(graph);
 
-		for (String s : Utils.getNodesByTypes(graph, "U", "UA", "PC", "OA")) {
-			System.out.println(graph.getNode(s).toString());
-		}
 	}
 
 	public AllCombTestSuitGenerator() throws PMException, InterruptedException, IOException, NoTypeProvidedException {
@@ -108,7 +105,6 @@ public class AllCombTestSuitGenerator {
 				}
 
 			}
-			System.out.println("True: " + numberOfTrue + " False: " + numberOfFalse);
 		}
 
 		return data;

@@ -38,6 +38,9 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
 
 import org.jdesktop.swingx.prompt.PromptSupport;
@@ -71,10 +74,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			showAllAccessRightsAction, verifyObligationsAction;
 	protected JCheckBoxMenuItem[] items;
 	protected Action saveOracleValuesAction;
-
 	// VentanaMensajes vm = new VentanaMensajes();
 	boolean showVersionWarning = true;
-
+	JSplitPane jSplitPanelMutationResult;
 	protected JTabbedPane mainTabbedPane;
 	protected AbstractPolicyEditor editorPanel;
 
@@ -83,6 +85,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	protected DebugPanel debugPanel;
 
 	public POMA() {
+
 		try {
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			init();
@@ -282,7 +285,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			start.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String input = t1.getText();
-					System.out.println("INPUUUUUT" + input);
 					try {
 						// translator.setAccessRightsResults();
 						translator.queryAccessRightsAllComb(graph, input);
@@ -290,7 +292,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					System.out.println("Translator Output:" + translator.getActualOutput());
 					t4.setText(translator.getActualOutput());
 					t3.setText(translator.getFullTranslation());
 					t2.setText(translator.getAccessRightsResults());
@@ -409,7 +410,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			start.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String input = t1.getText();
-					System.out.println("INPUUUUUT" + input);
 					try {
 						// translator.setAccessRightsResults();
 						translator.queryAccessRightsEach(graph, input);
@@ -417,7 +417,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					System.out.println("Translator Output:" + translator.getActualOutput());
 					t4.setText(translator.getActualOutput());
 					t3.setText(translator.getFullTranslation());
 					t2.setText(translator.getAccessRightsResults());
@@ -529,7 +528,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			// editorPanel.openFile();
 			System.out.println("Verify Obligations");
 		}
-
 	}
 
 	private void createVerifyActions() {
@@ -631,7 +629,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		if (button.getIcon() != null) {
 			button.setText(""); // an icon-only button
 		}
-		toolBar.add(button);
+		// toolBar.add(button);
 
 		// save button
 		button = new JButton(saveAction);
@@ -855,21 +853,18 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				testPanel.generateAllTestSuits();
-				editorPanel.updateFileTree();
-
+				((PolicyEditorPanelDemo) editorPanel).updateFileTree();
 				JOptionPane.showMessageDialog(editorPanel, "Test Suits Generated", "Success",
 						JOptionPane.INFORMATION_MESSAGE);
-			} 
-			catch(IllegalArgumentException iae) {
-				JOptionPane.showMessageDialog(editorPanel, "No file selected or policy has no associations", "Error of Selection",
-						JOptionPane.WARNING_MESSAGE);
-				//iae.printStackTrace();
+			} catch (IllegalArgumentException iae) {
+				JOptionPane.showMessageDialog(editorPanel, "No file selected or policy has no associations",
+						"Error of Selection", JOptionPane.WARNING_MESSAGE);
+				// iae.printStackTrace();
 				return;
-			}			
-			catch (Exception e1) {
+			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(editorPanel, "No file selected", "Error of Selection",
 						JOptionPane.WARNING_MESSAGE);
-				 e1.printStackTrace();
+				e1.printStackTrace();
 				return;
 			}
 		}
@@ -959,30 +954,35 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			boolean mutationSuccesfull = false;
 			try {
-				if(GlobalVariables.currentPath.equals("")) {
-				GlobalVariables.currentPath = editorPanel.getCurrentFile().getPath();
+				if (GlobalVariables.currentPath.equals("")) {
+					GlobalVariables.currentPath = editorPanel.getCurrentFile().getPath();
 				}
 			} catch (Exception e2) {
 				JOptionPane.showMessageDialog(editorPanel, "No file selected", "Error of Selection",
 						JOptionPane.WARNING_MESSAGE);
-				if(mutationPanel.timerTask!=null) {
-				mutationPanel.stopProgressStatus();
+				if (mutationPanel.timerTask != null) {
+					mutationPanel.stopProgressStatus();
 				}
 				return;
 			}
 			File globalFile = new File(GlobalVariables.currentPath);
-			System.out.println("Mutant folder before call: " + globalFile.getAbsolutePath());
 			try {
 				if (!globalFile.isDirectory()) {
-					//mutationSuccesfull = mutationPanel.generateMutants(editorPanel.getGraph(), editorPanel.getCurrentFile().getParentFile());
-					mutationSuccesfull = mutationPanel.generateMutants(editorPanel.getGraph(), globalFile.getParentFile());
-					//editorPanel.updateFileTree();
+					// mutationSuccesfull = mutationPanel.generateMutants(editorPanel.getGraph(),
+					// editorPanel.getCurrentFile().getParentFile());
+					mutationSuccesfull = mutationPanel.generateMutants(editorPanel.getGraph(),
+							globalFile.getParentFile());
+					((PolicyEditorPanelDemo) editorPanel).updateFileTree();
+					// editorPanel.updateFileTree();
 				} else {
-					//mutationSuccesfull = mutationPanel.generateMutants(editorPanel.getGraph(), editorPanel.getCurrentFile());
+					// mutationSuccesfull = mutationPanel.generateMutants(editorPanel.getGraph(),
+					// editorPanel.getCurrentFile());
 					mutationSuccesfull = mutationPanel.generateMutants(editorPanel.getGraph(), globalFile);
-					//editorPanel.updateFileTree();
+					((PolicyEditorPanelDemo) editorPanel).updateFileTree();
+					// editorPanel.updateFileTree();
 				}
-				if(!mutationSuccesfull) return;
+				if (!mutationSuccesfull)
+					return;
 			} catch (Exception e2) {
 				JOptionPane.showMessageDialog(editorPanel, "Selected folder does not contain the testing suit",
 						"Error of Selection", JOptionPane.WARNING_MESSAGE);
@@ -994,7 +994,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			MyModel NewModel = new MyModel();
 			table.setModel(NewModel);
 			JScrollPane scrollPane = new JScrollPane(table);
-			System.out.println("generate mutants");
 
 			if (mainTabbedPane.indexOfTab("Mutation Results") != -1) {
 				mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Mutation Results"));
@@ -1014,29 +1013,30 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			try {
 				NewModel.AddCSVData(Utils.loadCSV(file));
 			} catch (IOException e1) {
-				//e1.printStackTrace();
+				// e1.printStackTrace();
 			}
-			JTextArea t2 = new JTextArea();
-			t2.setEditable(false);
+			// JTextArea t2 = new JTextArea();
+			// t2.setEditable(false);
 
-			t2.setText(globalFile.toString());
-			JSplitPane jSplitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-			System.out.println("DEVIDER LOCATION1: " + jSplitPane1.getDividerLocation());
+			// t2.setText(globalFile.toString());
+			jSplitPanelMutationResult = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-			JScrollPane scroll2 = new JScrollPane(t2, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			JScrollPane scrollMutationResults = new JScrollPane(((PolicyEditorPanelDemo) editorPanel).getFileTree(),
+					JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scrollMutationResults.setPreferredSize(new Dimension(700, 750));
 			scrollPane.setPreferredSize(new Dimension(500, 750));
-			scroll2.setPreferredSize(new Dimension(700, 750));
-			int deviderLocation = jSplitPane1.getDividerLocation();
+
+			int deviderLocation = jSplitPanelMutationResult.getDividerLocation();
 			p1.add(scrollPane);
-			p2.add(scroll2);
+			p2.add(scrollMutationResults);
 
-			jSplitPane1.setLeftComponent(p2);
+			jSplitPanelMutationResult.setLeftComponent(p2);
 
-			jSplitPane1.setRightComponent(p1);
-			jSplitPane1.setDividerLocation(deviderLocation - 10);
+			jSplitPanelMutationResult.setRightComponent(p1);
+			jSplitPanelMutationResult.setDividerLocation(deviderLocation - 10);
 
-			mainTabbedPane.addTab("Mutation Results", createNavigationIcon("images/policy.gif"), jSplitPane1);
+			mainTabbedPane.addTab("Mutation Results", createNavigationIcon("images/policy.gif"),
+					jSplitPanelMutationResult);
 			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Mutation Results"));
 
 		}
@@ -1130,6 +1130,24 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 //		mainTabbedPane.addTab("Debugging",
 //				createNavigationIcon("images/mutation.gif"), debugPanel);
 
+		mainTabbedPane.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int index = mainTabbedPane.getSelectedIndex();
+				if (index == 0) {
+					JScrollPane scrollTreePane = new JScrollPane(((PolicyEditorPanelDemo) editorPanel).getFileTree(),
+							JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+					scrollTreePane.setPreferredSize(new Dimension(400, 600));
+					((PolicyEditorPanelDemo) editorPanel).getPolicyjSplitPanel().setLeftComponent(scrollTreePane);
+				} else if (mainTabbedPane.getTitleAt(index).equals("Mutation Results")) {
+					JScrollPane scrollMutationResults = new JScrollPane(
+							((PolicyEditorPanelDemo) editorPanel).getFileTree(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+							JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+					scrollMutationResults.setPreferredSize(new Dimension(617, 600));
+					jSplitPanelMutationResult.setLeftComponent(scrollMutationResults);
+				}
+
+			}
+		});
 		mainTabbedPane.setSelectedComponent(editorPanel);
 	}
 
@@ -1175,11 +1193,32 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		setJMenuBar(createMenuBar());
 
 		createToolBar();
+		try {
+			if (!((PolicyEditorPanelDemo) editorPanel).openDefaultFile()) {
+				JOptionPane.showMessageDialog(this, "Default file does not exist", "Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+			}
+		} catch (Exception ex) {
+			return;
+		}
 		if (getWorkingPolicyFile() != null) {
 			setTitle("NGAC Policy Machine Analyzer - " + getWorkingPolicyFile().getName());
 		} else {
 			setTitle("NGAC Policy Machine Analyzer - Unnamed");
 		}
+		try {
+			GlobalVariables.currentPath = getWorkingPolicyFile().getAbsolutePath();
+		} catch (Exception ex1) {
+			JOptionPane.showMessageDialog(editorPanel, "No file was selected, action aborted", "Error of Selection",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		if (getWorkingPolicyFile() != null) {
+			setTitle("NGAC Policy Machine Analyzer - " + getWorkingPolicyFile().getName());
+		} else {
+			setTitle("NGAC Policy Machine Analyzer - Unnamed");
+		}
+		((PolicyEditorPanelDemo) editorPanel).getPolicyjSplitPanel().setResizeWeight(0.4);
 	}
 
 	protected void exit() {
@@ -1284,8 +1323,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 						// UIManager.put("swing.boldMetal", Boolean.FALSE);
 
 						// re-install the Metal Look and Feel
-						// UIManager.setLookAndFeel(new
-						// javax.swing.plaf.metal.MetalLookAndFeel());
+						// UIManager.setLookAndFeel(new javax.swing.plaf.metal.MetalLookAndFeel());
 					} catch (Exception exception) {
 						exception.printStackTrace();
 					}

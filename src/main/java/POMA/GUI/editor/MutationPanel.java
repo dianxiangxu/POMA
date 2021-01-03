@@ -328,7 +328,7 @@ public class MutationPanel extends JPanelPB {
 
 	public boolean generateMutants(Graph graph, File folder) throws InstantiationException, NoTypeProvidedException  {
 		MutationBasedTestMutationMethods mutPanel = new MutationBasedTestMutationMethods();
-		System.out.println("Mutant folder: " + folder.getAbsolutePath());
+		//System.out.println("Mutant folder: " + folder.getAbsolutePath());
 		int result = JOptionPane.showConfirmDialog(poma, mutPanel.createPanel(),"Please Select Mutation Methods",JOptionPane.OK_CANCEL_OPTION);
 		Map<String,String> mutantOperators = new HashMap<String,String>();
 		if(result == JOptionPane.CANCEL_OPTION) return false;

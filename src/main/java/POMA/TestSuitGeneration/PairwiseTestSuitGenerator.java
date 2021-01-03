@@ -74,9 +74,6 @@ public class PairwiseTestSuitGenerator {
 		graph = Utils.readGPMSGraph();
 		populateLists(graph);
 
-		for (String s : Utils.getNodesByTypes(graph, "U", "UA", "PC")) {
-			System.out.println(graph.getNode(s).toString());
-		}
 
 	}
 
@@ -122,7 +119,6 @@ public class PairwiseTestSuitGenerator {
 		// int[] choices = { UsUAs.size(), operationSet.size(), UAsOAsUsOs.size(),
 		// PCs.size() };
 		int[] choices = { UsUAs.size(), operationSet.size(), UAsOAsUsOs.size() };
-		System.out.println(UsUAs.size() + " " + operationSet.size() + " " + " " + UAsOAsUsOs.size());
 		boolean noShuffle = true;
 		int maxGoes = 100;
 		long seed = 42;

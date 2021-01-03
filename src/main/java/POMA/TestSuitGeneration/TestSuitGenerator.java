@@ -151,13 +151,9 @@ public class TestSuitGenerator {
 		if (!file.isDirectory()) {
 			// globalPath = file.getParent() + "\\";
 			globalPath = file.getAbsolutePath();
-			System.out.println();
-			System.out.println("GLOBAL PATH File: " + globalPath);
 			handleFileAllTests(globalPath);			
 		} else {
 			globalPath = GlobalVariables.currentPath + "\\";
-			System.out.println();
-			System.out.println("GLOBAL PATH Folder: " + globalPath);
 			handleFolderAllTests(globalPath);
 		}
 	}
@@ -198,7 +194,6 @@ public class TestSuitGenerator {
 
 			System.out.println("File already exists.");
 		}
-		System.out.println("FILE TO SAVE CSV TEST SUIT: " + file.getAbsolutePath());
 		BufferedWriter writer = null;
 		writer = new BufferedWriter(new FileWriter(file));
 		CSVWriter CSVwriter = new CSVWriter(writer);
