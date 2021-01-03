@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import POMA.GUI.*;
 import POMA.GUI.components.JPanelPB;
 import POMA.GUI.components.MutationBasedTestMutationMethods;
+import POMA.TestSuitGeneration.TestSuitGenerator;
 
 //import org.seal.xacml.coverage.CoverageHelper;
 //import org.seal.xacml.coverage.DecisionCoverage;
@@ -181,6 +182,12 @@ public class TestPanel extends JPanelPB {
 		return myPanel;
 	}
 
+	public void generateAllTestSuits() throws Exception {
+		TestSuitGenerator graphTester = new TestSuitGenerator();
+		graphTester.runAllTestGeneration();
+	}
+	
+	
 	public void generateCoverageBasedTests() {
 //		if (!poma.hasWorkingPolicy()) {
 //			JOptionPane.showMessageDialog(poma, "There is no policy!");

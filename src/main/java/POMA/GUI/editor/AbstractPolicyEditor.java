@@ -43,4 +43,7 @@ public abstract class AbstractPolicyEditor extends JPanel{
 		return resultFile;
 	}
 
+	public abstract void updateFileTree();
+
+
 }

@@ -16,6 +16,8 @@ public class MutatorRAD extends MutantTester {
 	}
 
 	public void init() throws PMException, IOException {
+		System.out.println("1.");
+
 		this.mutationMethod = "RAD";
 		String testResults = "CSV/" + testMethod + "/" + testMethod + "testResultsRAD.csv";
 		String testSuitePath = getTestSuitPathByMethod(testMethod);
@@ -28,10 +30,14 @@ public class MutatorRAD extends MutantTester {
 		Node nodeB, nodePc;
 
 		for (Node nodeA : UAsOAs) {
+			System.out.println("2.");
+
 			for (String obName : graph.getParents(nodeA.getName())) {
+				System.out.println("3.");
+
 				nodeB = graph.getNode(obName);
 				if (nodeB.getType().toString().equals("PC")) {
-//					System.out.println("cannot reverse assignment of PC.");
+					System.out.println("cannot reverse assignment of PC.");
 //					System.out.println("a is "+ua.toString()+"| b is "+ub.toString());
 					continue;
 				}
@@ -58,20 +64,25 @@ public class MutatorRAD extends MutantTester {
 			throws PMException, IOException {
 		File testSuite = new File(testSuitePath);
 		double before, after;
+		System.out.println("4.");
 
 			Graph mutant = createCopy();
 
 			mutant = reverseAssignment(mutant, nodeA, nodeB);
+			System.out.println("5.");
 
 			// add function to check node connected to PC or not
 			if (GraphUtils.isContained(nodeA, nodePc) != true) {
+				System.out.println("6.");
 				// add assignment if node a is not PC-connected
 				mutant.assign(nodeA.getName(), nodePc.getName());
 			}
+			System.out.println("7.");
 
 			before = getNumberOfKilledMutants();
 			testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
 			after = getNumberOfKilledMutants();
+			System.out.println("8.");
 
 			if (before == after)
 				System.out.println("Unkilled mutant:" + "RAD:" 

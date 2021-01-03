@@ -42,7 +42,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 
-public class GUI extends JApplet {
+public class GraphVisualizer extends JApplet {
 	private static final long serialVersionUID = 1L;
 	MemGraph ngacGraph;
 	private static final Dimension DEFAULT_SIZE = new Dimension(1800, 1000);
@@ -55,12 +55,12 @@ public class GUI extends JApplet {
 		Utils utils = new Utils();
 
 		MemGraph graph = utils.readAnyMemGraph("Graphs/NGACExample1.json");
-		GUI gui = new GUI(graph);
+		GraphVisualizer gui = new GraphVisualizer(graph);
 		gui.init();
 		gui.buildJFrame();
 	}
 
-	public GUI() {
+	public GraphVisualizer() {
 		SimpleTestGraph simpleTestGraph = new SimpleTestGraph();
 		try {
 			this.ngacGraph = simpleTestGraph.buildSimpleGraph();
@@ -72,7 +72,7 @@ public class GUI extends JApplet {
 
 	}
 
-	public GUI(MemGraph ngacGraph) {
+	public GraphVisualizer(MemGraph ngacGraph) {
 		this.ngacGraph = ngacGraph;
 		graphToPlot = ngacGraph.graph;
 	}

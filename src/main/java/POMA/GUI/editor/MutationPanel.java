@@ -326,116 +326,46 @@ public class MutationPanel extends JPanelPB {
 		}
 	}
 
-	public void generateMutants(Graph graph, File folder) throws InstantiationException, NoTypeProvidedException  {
-//		if (!poma.hasWorkingPolicy()) {
-//			JOptionPane.showMessageDialog(poma, "There is no policy.");
-//			return;
-//		}
+	public boolean generateMutants(Graph graph, File folder) throws InstantiationException, NoTypeProvidedException  {
 		MutationBasedTestMutationMethods mutPanel = new MutationBasedTestMutationMethods();
-		
+		System.out.println("Mutant folder: " + folder.getAbsolutePath());
 		int result = JOptionPane.showConfirmDialog(poma, mutPanel.createPanel(),"Please Select Mutation Methods",JOptionPane.OK_CANCEL_OPTION);
 		Map<String,String> mutantOperators = new HashMap<String,String>();
+		if(result == JOptionPane.CANCEL_OPTION) return false;
 		if (result == JOptionPane.OK_OPTION) {
 			this.startProgressStatus();
-
-//				File policyFile = poma.getWorkingPolicyFile();
-//				AbstractPolicy policy = PolicyLoader.loadPolicy(policyFile);
-//				List<Mutant> mutants = new ArrayList<Mutant>();
-//		        Mutator mutator = new Mutator(new Mutant(policy, XACMLElementUtil.getPolicyName(policyFile)));
-//		        File mutantsFolder = new File(MutantUtil.getMutantsFolderForPolicyFile(policyFile).toString());
-//		        if(mutantsFolder.exists()){
-//		        	FileUtils.cleanDirectory(mutantsFolder);
-//		        } else{
-//		        	mutantsFolder.mkdir();
-//		        }
-		      //  MutationBasedTestGenerator testGenerator = new MutationBasedTestGenerator(xpa.getWorkingPolicyFilePath());
-//				MutationBasedTestMutationMethods mbtMethods = new MutationBasedTestMutationMethods();
-//				String policyFilePath = poma.getWorkingPolicyFilePath();
-//				List<String> mutationMethods = new ArrayList<String>();
-//				mutationMethods.add("createCombiningAlgorithmMutants");
-				//mutationMethods.add("createRuleConditionTrueMutants");
-//				int rulesCount = XACMLElementUtil.getRuleFromPolicy(policy).size();
-//				if(rulesCount<1000) { // if number of rules is larger than 1000, then checking equivalent mutants of type RTT is costly, so to reduce mutants generation time, automatic removal is disabled and instead do manually or remove this if condition
-//					mutationMethods.add("createRuleTargetTrueMutants"); 
-//					
-//				}
-//				boolean disableEquivalentMutantFilterFlag = false;
-//				if(rulesCount<50) { // if number of rules is larger, then checking equivalent mutants of type RPTE is costly, so to reduce mutants generation time, automatic removal is disabled and instead do manually or remove this if condition
-//					mutationMethods.add("createRemoveParallelTargetElementMutants"); 
-//					
-//				}
-//				
-//				// did not test with every mutation operator to reduce mutation generation time
-//				// if there exists other equivalent mutant from other mutation operators, needs to add it here to remove equivalent mutant
-////				List<TaggedRequest> taggedRequests = testGenerator.generateRequests(mutationMethods);
-////				AbstractPolicy p = PolicyLoader.loadPolicy(xpa.getWorkingPolicyFile());
-////				List<Mutant> tR = new ArrayList<Mutant>();
-//		        
-		      //  for(String method:mutPanel.getMutationOperatorList(false)) {
-		        //	List<String> methods = new ArrayList<String>();
-		        //	methods.add(method);
 		    		MutationController mc = new MutationController();
 		    		try {
+		    			if(!folder.isDirectory()) {
+		    				folder = folder.getParentFile();
+		    			}
 						mc.createMutants(mutPanel.getMutationOperatorList(false),graph, folder);
 					} catch (GraphDoesNotMatchTestSuitException e) {
-						e.printStackTrace();
+						//e.printStackTrace();
 						this.stopProgressStatus();
 						JOptionPane.showMessageDialog(this,
-								"(Graph)Policy and Testing Suits do not match.",
+								"Graph and Testing Suits do not match.",
 								"Error of Selection",
 								JOptionPane.WARNING_MESSAGE);
+						this.stopProgressStatus();
+						return false;
 					}
 		    		
 		    		ObligationMutationController omc = new ObligationMutationController();
 		    		try {
 						omc.createMutants(mutPanel.getObligationMutationOperatorList(false),graph, folder);
 					} catch (GraphDoesNotMatchTestSuitException e) {
-						e.printStackTrace();
+						//e.printStackTrace();
 						this.stopProgressStatus();
 						JOptionPane.showMessageDialog(this,
 								"(Obligation)Policy and Testing Suits do not match.",
 								"Error of Selection",
 								JOptionPane.WARNING_MESSAGE);
 					}
-			       // List<Mutant> muts = mutator.generateSelectedMutantsAndSave(methods,mutantsFolder.toString());
-			        
-//			        for(Mutant mutant: muts){
-//			        	if(methods.get(0).equals("createCombiningAlgorithmMutants")||(methods.get(0).equals("createRuleTargetTrueMutants") && !disableEquivalentMutantFilterFlag &&  rulesCount<1000)|| (methods.get(0).equals("createRemoveParallelTargetElementMutants") && rulesCount<50)) {
-//			        		boolean live = true;
-//			        		for(TaggedRequest t:taggedRequests) {
-//			        			
-//			        			int rp = PolicyRunner.evaluate(p, t.getBody());
-//			        			int rm = PolicyRunner.evaluate(mutant.getPolicy(), t.getBody());
-//			        			if (rp!=rm) {
-//			        				live = false;
-//			        				break;
-//			        			}
-//			        			
-//			        		}
-//			        		if(live) {
-//			        			tR.add(mutant);
-//			        			System.out.println("-->" + mutant.getName());
-//			        			continue;
-//			        		}
-//			        		
-//			        	}
-//					}
-//			        
-//			        for(Mutant m:tR) {
-//			        System.out.println("Equivalent mutant -----> " + m.getName());
-//			        }
-//			        muts.removeAll(tR);
-//			        mutants.addAll(muts);
-//		        }
-//				mutantSuite = new PolicySpreadSheetMutantSuite(mutantsFolder.toString(),mutants,XACMLElementUtil.getPolicyName(policyFile)); // write to spreadsheet		
-//				mutantSuite.writePolicyMutantsSpreadSheet(mutants,XACMLElementUtil.getPolicyName(policyFile) + "_mutants.xls");
-//				setUpMutantPanel(mutants, PropertiesLoader.getProperties("config").getProperty("mutantsFolderName"));
-		        
-			
-			//}
-		
+	
 			this.stopProgressStatus();
 		}
+		return true;
 		
 	}
 	

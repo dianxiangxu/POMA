@@ -21,6 +21,7 @@ import java.util.Set;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import POMA.GlobalVariables;
 import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
@@ -88,6 +89,7 @@ public class MutantTester {
 		int counter = 1;
 
 		for (String[] sArray : testSuite) {
+			System.out.println("9.");
 
 			String UAname = sArray[1];
 			String OAname = sArray[2];
@@ -96,13 +98,25 @@ public class MutantTester {
 				counter++;
 				continue;
 			}
+			System.out.println("10.");
+
 			String[] AR = { sArray[3] };
+			System.out.println("10.1");
+
 			Boolean result = Boolean.parseBoolean(sArray[4]);
+			System.out.println("10.2");
+			System.out.println(UAname+" "+OAname);
 			if (decider.check(UAname, "", OAname, AR) != result) {
+				System.out.println("10.3");
+
 				mutantTest[counter] = "Fail";
 			} else {
+				System.out.println("10.4");
+
 				mutantTest[counter] = "Pass";
 			}
+			System.out.println("11.");
+
 			counter++;
 		}
 		String mutantKilled = "";
@@ -388,6 +402,10 @@ public class MutantTester {
 	}
 
 	public String getTestSuitPathByMethod(String testMethod) {
-		return "CSV/testSuits/" + testMethod + "testSuite.csv";
+		File file = new File(GlobalVariables.currentPath);
+		if(!file.isDirectory()) {
+			file = file.getParentFile();
+		}
+		return file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv";
 	}
 }

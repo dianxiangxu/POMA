@@ -18,6 +18,8 @@ import org.apache.commons.io.FileUtils;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import POMA.GlobalVariables;
+import POMA.Exceptions.NoTypeProvidedException;
 import POMA.LegacyTestingProject.GraphTester.GraphTesterReachability;
 import POMA.LegacyTestingProject.GraphTester.GraphTesterReachabilitySneakpath;
 
@@ -26,7 +28,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class Main {
+public class TestSuitGenerator {
 
 	public static void main(String[] args) throws Exception {
 
@@ -35,7 +37,7 @@ public class Main {
 		// loader.setPolicy(gt.getGraph());
 		// loader.savePolicy(gt.getGraph(),"C:/data/ngac_config_Vlad.json");
 
-		Main graphTester = new Main();
+		TestSuitGenerator graphTester = new TestSuitGenerator();
 
 		/*
 		 * File file = new File("C:/Users/dubro/git/GPMS-NGAC/mutants/REMNODE"); for
@@ -60,14 +62,14 @@ public class Main {
 //		List<String[]> data2 = gt2.testGraphPC();
 //		graphTester.saveCSV(data2, "R");
 
-		String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
+		String simpleGraphPath = "Policies/simpleGraphToSMT.json";
 		// String simpleGraphPath = "GPMSPolicies/bank_policy_config.json";
 		PairwiseTestSuitGenerator pairwiseGenerator = new PairwiseTestSuitGenerator(simpleGraphPath);
 		List<String[]> data1 = pairwiseGenerator.generatPairwiseTests();
-		graphTester.saveCSV("GPMSPolicies/SimpleGraph/", data1, "Pairwise");
+		graphTester.saveCSV("Policies/SimpleGraph/", data1, "Pairwise");
 		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(simpleGraphPath);
 		List<String[]> data2 = allCombinationsGenerator.generateAllCombinationsTests();
-		graphTester.saveCSV("GPMSPolicies/SimpleGraph/", data2, "AllCombinations");
+		graphTester.saveCSV("Policies/SimpleGraph/", data2, "AllCombinations");
 
 		// savePolicy(gt1.getGraph(),"GPMSPolicies/gpms_testing_config.json");
 		/*
@@ -123,32 +125,80 @@ public class Main {
 		 */
 	}
 
+	private void handleFileAllTests(String filePath) throws Exception{
+		File folder = new File(new File(filePath).getParent());
+		PairwiseTestSuitGenerator pairwiseGenerator = new PairwiseTestSuitGenerator(filePath);
+		List<String[]> data1 = pairwiseGenerator.generatPairwiseTests();
+		saveCSV(folder.getAbsolutePath()+"//", data1, "Pairwise");
+		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(filePath);
+		List<String[]> data2 = allCombinationsGenerator.generateAllCombinationsTests();
+		saveCSV(folder.getAbsolutePath()+"//", data2, "AllCombinations");
+	}
+
+	private void handleFolderAllTests(String folderPath) throws Exception {
+		PairwiseTestSuitGenerator pairwiseGenerator = new PairwiseTestSuitGenerator(folderPath);
+		List<String[]> data1 = pairwiseGenerator.generatPairwiseTests();
+		saveCSV(folderPath, data1, "Pairwise");
+		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(folderPath);
+		List<String[]> data2 = allCombinationsGenerator.generateAllCombinationsTests();
+		saveCSV(folderPath, data2, "AllCombinations");
+	}
+
+	public void runAllTestGeneration() throws Exception {
+		// String graphPath = "Policies/simpleGraphToSMT.json";
+		String globalPath = "";
+		File file = new File(GlobalVariables.currentPath);
+		if (!file.isDirectory()) {
+			// globalPath = file.getParent() + "\\";
+			globalPath = file.getAbsolutePath();
+			System.out.println();
+			System.out.println("GLOBAL PATH File: " + globalPath);
+			handleFileAllTests(globalPath);			
+		} else {
+			globalPath = GlobalVariables.currentPath + "\\";
+			System.out.println();
+			System.out.println("GLOBAL PATH Folder: " + globalPath);
+			handleFolderAllTests(globalPath);
+		}
+	}
+
+	// TODO
+	public void runPairwiseTestSuitGeneration() throws Exception {
+
+	}
+
+	// TODO
+	public void runAllCombinationsTestSuitGeneration() throws Exception {
+
+	}
+
 	private void saveCSV(String folderPath, List<String[]> data, String testMethod) throws PMException, IOException {
 		boolean bool = true;
-		String folderCSV = folderPath+"CSV";
+		String folderCSV = folderPath + "CSV";
 		File file = new File(folderCSV);
 		if (!file.exists()) {
 			bool = file.mkdir();
 		}
-		String folderTestSuits = folderPath+"CSV/testSuits";
+		String folderTestSuits = folderPath + "CSV/testSuits";
 		File file2 = new File(folderTestSuits);
 		if (!file2.exists() && bool) {
 			bool = file2.mkdir();
 		}
 		if (bool) {
-			// System.out.println("The directory was created or was already there");
+			System.out.println("The directory was created or was already there");
 		} else {
-			// System.out.println("Failure with creating the directory");
+			System.out.println("Failure with creating the directory");
 			return;
 		}
-		String testSuiteFile = folderPath+"CSV/testSuits/" + testMethod + "testSuite.csv";
+		String testSuiteFile = folderPath + "CSV/testSuits/" + testMethod + "testSuite.csv";
 		file = new File(testSuiteFile);
 		if (file.createNewFile()) {
-			// System.out.println("File has been created.");
+			System.out.println("File has been created.");
 		} else {
 
-			// System.out.println("File already exists.");
+			System.out.println("File already exists.");
 		}
+		System.out.println("FILE TO SAVE CSV TEST SUIT: " + file.getAbsolutePath());
 		BufferedWriter writer = null;
 		writer = new BufferedWriter(new FileWriter(file));
 		CSVWriter CSVwriter = new CSVWriter(writer);

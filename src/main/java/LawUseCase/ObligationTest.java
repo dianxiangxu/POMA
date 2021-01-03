@@ -47,21 +47,21 @@ public class ObligationTest {
 
 	@Before
 	public void setUp() throws Exception {
-		File lawfirmpolicyfile = new File("GPMSPolicies/LawUseCase/LawFirmPolicy.json");
-		File casepolicyfile = new File("GPMSPolicies/LawUseCase/CasePolicy.json");
-		File valuetypepolicyfile = new File("GPMSPolicies/LawUseCase/ValueTypePolicy.json");
-		File prohibitionsfile = new File("GPMSPolicies/LawUseCase/prohibitions.json");
+		File lawfirmpolicyfile = new File("Policies/LawUseCase/LawFirmPolicy.json");
+		File casepolicyfile = new File("Policies/LawUseCase/CasePolicy.json");
+		//File valuetypepolicyfile = new File("GPMSPolicies/LawUseCase/ValueTypePolicy.json");
+		File prohibitionsfile = new File("Policies/LawUseCase/prohibitions.json");
 
 		String lawfirmpolicy = new String(Files.readAllBytes(Paths.get(lawfirmpolicyfile.getAbsolutePath())));
 		String casepolicy = new String(Files.readAllBytes(Paths.get(casepolicyfile.getAbsolutePath())));
-		String valuetypepolicy = new String(Files.readAllBytes(Paths.get(valuetypepolicyfile.getAbsolutePath())));
+		//String valuetypepolicy = new String(Files.readAllBytes(Paths.get(valuetypepolicyfile.getAbsolutePath())));
 		String prohibitionsJSON = new String(Files.readAllBytes(Paths.get(prohibitionsfile.getAbsolutePath())));
 
 		GraphSerializer.fromJson(ngacGraph, lawfirmpolicy);
 		GraphSerializer.fromJson(ngacGraph, casepolicy);
-		GraphSerializer.fromJson(ngacGraph, valuetypepolicy);
+		//GraphSerializer.fromJson(ngacGraph, valuetypepolicy);
 		ProhibitionsSerializer.fromJson(prohibitions, prohibitionsJSON);
-		File obligationFile = new File("GPMSPolicies/LawUseCase/Obligations.yml");
+		File obligationFile = new File("Policies/LawUseCase/Obligations.yml");
 		InputStream is = new FileInputStream(obligationFile);
 		obligation = EVRParser.parse(is);
 

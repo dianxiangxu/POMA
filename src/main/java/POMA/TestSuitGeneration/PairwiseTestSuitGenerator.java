@@ -11,6 +11,7 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,12 +56,18 @@ public class PairwiseTestSuitGenerator {
 
 	public PairwiseTestSuitGenerator(String path)
 			throws PMException, InterruptedException, IOException, NoTypeProvidedException {
-		graph = Utils.readAnyGraph(path);
+		File file = new File(path);
+		if (!file.isDirectory()) {
+			graph = Utils.readAnyGraph(path);
+		} else {
+			Utils utils = new Utils();
+			graph = utils.readAllFilesInFolderToGraph(file);
+		}
 		populateLists(graph);
 
-		for (String s : Utils.getNodesByTypes(graph, "U", "UA", "PC", "OA")) {
-			System.out.println(graph.getNode(s).toString());
-		}
+//		for (String s : Utils.getNodesByTypes(graph, "U", "UA", "PC", "OA")) {
+//			System.out.println(graph.getNode(s).toString());
+//		}
 	}
 
 	public PairwiseTestSuitGenerator() throws PMException, InterruptedException, IOException, NoTypeProvidedException {
@@ -92,8 +99,6 @@ public class PairwiseTestSuitGenerator {
 		int numberOfTrue = 0;
 		int numberOfFalse = 0;
 
-		
-		
 		for (int[] pair : getListOfPairs()) {
 			String subject = UsUAs.get(pair[0]);
 			String ar = allAccessRights[pair[1]];
@@ -109,7 +114,7 @@ public class PairwiseTestSuitGenerator {
 			}
 
 		}
-		System.out.println("True: " + numberOfTrue + " False: " + numberOfFalse);
+		//System.out.println("True: " + numberOfTrue + " False: " + numberOfFalse);
 		return data;
 	}
 

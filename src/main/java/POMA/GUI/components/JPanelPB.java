@@ -10,7 +10,7 @@ public class JPanelPB extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	protected Timer timer;
-	protected ProgressBarTask timerTask;
+	public ProgressBarTask timerTask;
 	
 	public void startProgressStatus() {
 		timer = new Timer();

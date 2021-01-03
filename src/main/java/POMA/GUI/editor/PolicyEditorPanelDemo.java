@@ -23,8 +23,11 @@ package POMA.GUI.editor;
 import org.apache.commons.io.FilenameUtils;
 import org.xml.sax.SAXException;
 
+import com.jgraph.algebra.JGraphFibonacciHeap.Node;
+
+import POMA.GlobalVariables;
 import POMA.Utils;
-import POMA.GUI.GraphVisualization.GUI;
+import POMA.GUI.GraphVisualization.GraphVisualizer;
 import POMA.Verification.TranslationWithSets.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
@@ -37,6 +40,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import java.awt.*;
@@ -65,6 +69,10 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	// newPolicy = pp.getPolicy();
 	File temporal;
 	JTextArea policyText = new JTextArea();
+	JApplet graphComponent;
+	JSplitPane jsplitpanevertical;
+	Utils utils = new Utils();
+	JTree fileTree;
 
 	public MemGraph getGraph() {
 		return g;
@@ -314,225 +322,209 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		/// setTitle("UMU-XACML-Editor - New Document");
 	}
 
-	public DefaultMutableTreeNode ListFiles(String path) {
-		// DefaultMutableTreeNode treenode = new
-		// DefaultMutableTreeNode(path.substring(path.lastIndexOf("\\")+1));
-		DefaultMutableTreeNode treenode = new DefaultMutableTreeNode(path);
-
-		File root = new File(path);
-		File[] files = root.listFiles();
-		for (File f : files) {
-			if (f.isDirectory()) {
-
-				treenode.add(ListFiles(f.getAbsolutePath()));
-			} else {
-				// treenode.add(new
-				// DefaultMutableTreeNode(f.getAbsolutePath().substring(f.getAbsolutePath().lastIndexOf("\\")+1)));
-				treenode.add(new DefaultMutableTreeNode(f.getAbsolutePath()));
-			}
-
-		}
-		return treenode;
-	}
-
-	public void jTreeValueChanged(TreeSelectionEvent tse) {
-		Utils utils = new Utils();
-		String node = tse.getNewLeadSelectionPath().getLastPathComponent().toString();
-		System.out.println("VALUE CHANGED: " + node);
-		File f = new File(node);
-		if (f.isDirectory())
-			return;
-		String ext = FilenameUtils.getExtension(node);
-		if (ext.equalsIgnoreCase("yml")) {
-			policyText.setText(utils.readTextFile(node));
-			return;
-		}
-		try {
-			MemGraph graph = utils.readAnyMemGraph(node);
-			policyText.setText(GraphSerializer.toJson(graph));
-		} catch (Exception e) {
-			//e.printStackTrace();
-			policyText.setText(utils.readTextFile(node));
-		}
-	}
-
 	public void openFile() {
-		boolean isProhibition = false;
 		saveChanged();
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setMultiSelectionEnabled(false);
 		fileChooser.setCurrentDirectory(getCurrentDirectory());
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			GlobalVariables.initialPath = fileChooser.getSelectedFile().getAbsolutePath();
 			temporal = fileChooser.getSelectedFile();
-			JTree tree;
-			if (temporal.isDirectory()) {
-				tree = new JTree(new DefaultTreeModel(ListFiles(temporal.getPath())));
-			} else {
-				tree = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode(temporal.getPath())));
-			}
-			tree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-				public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-					jTreeValueChanged(evt);
-				}
-			});
-			g = null;
-			Utils utils = new Utils();
-			Prohibitions prohibition = null;
-			if (!temporal.toString().endsWith(".json") && !temporal.isDirectory()) {
-				System.out.println(temporal.toString());
-				JOptionPane.showMessageDialog(this, "The open File is not a Policy *.json", "Error of Selection",
-						JOptionPane.WARNING_MESSAGE);
-				return;
-			} else if (temporal.isDirectory()) {
-				System.out.println("Is directory");
-				g = utils.readAllFilesInFolderToGraph(temporal);
-			} else {
-				try {
-					g = utils.readAnyMemGraph(temporal.getPath());
-				} catch (PMException e) {
-					JOptionPane.showMessageDialog(this, "Graph cannot be built, some nodes do not exsist",
-							"Error of Selection", JOptionPane.WARNING_MESSAGE);
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
-							JOptionPane.WARNING_MESSAGE);
-				} catch (Exception e) {
-					// e.printStackTrace();
-					try {
-						prohibition = utils.readProhibitions(temporal.getPath());
-						isProhibition = true;
-					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
-								JOptionPane.WARNING_MESSAGE);
-					}
-
-				}
-
-			}
-			JSplitPane jsplitpanevertical = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-			JPanel p1 = new JPanel();
-			// JTextArea t1 = new JTextArea();
-
 			policyText.setEditable(false);
-			try {
-
-				if (!isProhibition)
-					policyText.setText(GraphSerializer.toJson(g));
-				else {
-					policyText.setText(ProhibitionsSerializer.toJson(prohibition));
-					JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-							JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-					scroll.setPreferredSize(new Dimension(1000, 600));
-					jSplitPane1.setLeftComponent(tree);
-					jSplitPane1.setRightComponent(scroll);
-					jSplitPane1.setResizeWeight(0.4);
-					return;
-				}
-			} catch (PMException e) {
-				e.printStackTrace();
-			}
-			JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-			scroll.setPreferredSize(new Dimension(1000, 600));
-
-			p1.add(scroll);
-
-			GUI gui = new GUI(g);
-			gui.init();
-			JApplet graphComponent = gui.returnPane();
-			jsplitpanevertical.setBottomComponent(graphComponent);
-			jsplitpanevertical.setTopComponent(scroll);
-			jsplitpanevertical.setResizeWeight(0.5);
-
-			jSplitPane1.setRightComponent(jsplitpanevertical);
-			jSplitPane1.setLeftComponent(tree);
-
-			jSplitPane1.setResizeWeight(0.4);
-//					CurrentPath.getInstancia().setCurrdir(
-//							temporal.getParentFile());
-			// JR English
-			// vm.getPrintStream().println("Analizando fichero:" +
-			// temporal.getAbsolutePath());
-//					vm.getPrintStream().println(
-//							"Analyze file: " + temporal.getAbsolutePath());
-//					miDTM = (DefaultTreeModel) asax.analizeFile(temporal
-//							.getAbsolutePath());
-//					if (!asax.getErrorHandler().equalsIgnoreCase("")) {
-//						JOptionPane.showMessageDialog(this, asax
-//								.getErrorHandler(),
-//								"Errors produced in the parser",
-//								JOptionPane.WARNING_MESSAGE);
-//						vm.getPrintStream().println(asax.getErrorHandler());
-//					}
+			jSplitPane1.setLeftComponent(createFileTree());
+			if (handlePolicyLoading())
+				return;
 			archivoActual = temporal;
-			/// setTitle("UMU-XACML-Editor - "
-			/// + inputFile.getName());
-
-			// arbolPoliticas.setModel(miDTM);
-			// JR
-//					mcm = new ModelChangeMonitor(miDTM);
 		}
-//			} catch (SAXException exc) {
-//				(new JOptionPane()).showMessageDialog(this, exc.toString());
-////				vm.getPrintStream().println(exc.toString());
-//			} catch (IOException exc) {
-//				(new JOptionPane()).showMessageDialog(this, exc.toString());
-////				vm.getPrintStream().println(exc.toString());
-//			}
+	}
+	
+	private DefaultMutableTreeNode ListFiles(String path) {
+		DefaultMutableTreeNode treenode = new DefaultMutableTreeNode(path);
+		File root = new File(path);
+		File[] files = root.listFiles();
+		for (File f : files) {
+			if (f.isDirectory()) {
+				treenode.add(ListFiles(f.getAbsolutePath()));
+			} else {
+				treenode.add(new DefaultMutableTreeNode(f.getAbsolutePath()));
+			}
+		}
+		return treenode;
 	}
 
-	public void openFile(String file) {
-		/*
-		 * saveChanged(); JFileChooser fileChooser = new JFileChooser();
-		 * fileChooser.setMultiSelectionEnabled(false);
-		 * fileChooser.setCurrentDirectory(getCurrentDirectory());
-		 * fileChooser.setFileFilter(new XMLFileFilter("xml")); if
-		 * (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { //
-		 */
-//		if (file != null) {
-//			File temporal = new File(file);
-////			AnalizadorSAX asax = new AnalizadorSAX();
-////			try {
-//				if (!temporal.toString().endsWith(".xml")) {
-//					JOptionPane.showMessageDialog(this,
-//							"The open File is not a Policy *.xml",
-//							"Error of Selection",
-//							JOptionPane.WARNING_MESSAGE);
-//				} else {
-//
-////					CurrentPath.getInstancia().setCurrdir(
-////							temporal.getParentFile());
-////					// JR English
-////					//vm.getPrintStream().println("Analizando fichero:" +
-////					//                            temporal.getAbsolutePath());
-////					vm.getPrintStream().println(
-////							"Analyze file: " + temporal.getAbsolutePath());
-////					miDTM = (DefaultTreeModel) asax.analizeFile(temporal
-////							.getAbsolutePath());
-////					if (!asax.getErrorHandler().equalsIgnoreCase("")) {
-////						JOptionPane.showMessageDialog(this, asax
-////								.getErrorHandler(),
-////								"Errors produced in the parser",
-////								JOptionPane.WARNING_MESSAGE);
-////						vm.getPrintStream().println(asax.getErrorHandler());
-////					}
-//					archivoActual = temporal;
-//					///setTitle("UMU-XACML-Editor - "
-//					///		+ inputFile.getName());
-//
-//					arbolPoliticas.setModel(miDTM);
-//					// JR
-////					mcm = new ModelChangeMonitor(miDTM);
-////				}
-////			} catch (SAXException exc) {
-////				(new JOptionPane()).showMessageDialog(this, exc.toString());
-//////				vm.getPrintStream().println(exc.toString());
-////			} catch (IOException exc) {
-////				(new JOptionPane()).showMessageDialog(this, exc.toString());
-//////				vm.getPrintStream().println(exc.toString());
-////			}
-////		}
+	private void emptyGraphComponent() {
+		g = null;
+		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll.setPreferredSize(new Dimension(1000, 600));
+		jSplitPane1.setRightComponent(scroll);
+		jSplitPane1.setResizeWeight(0.4);
+	}
+
+	private JTree createFileTree() {
+		
+		File initialFile = new File(GlobalVariables.initialPath);
+		if (initialFile.isDirectory()) {
+			fileTree = new JTree(new DefaultTreeModel(ListFiles(initialFile.getPath())));
+		} else {
+			fileTree = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode(initialFile.getPath())));
+		}
+		fileTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+			public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+				jTreeValueChanged(evt);
+			}
+		});
+		return fileTree;
+	}
+	
+	private void jTreeValueChanged(TreeSelectionEvent tse) {
+		if(tse.getNewLeadSelectionPath() == null) return;
+		String node = tse.getNewLeadSelectionPath().getLastPathComponent().toString();
+		System.out.println("VALUE CHANGED: " + node);
+		GlobalVariables.currentPath = node;
+		temporal = new File(node);
+		System.out.println("TEMPORAL: "+temporal.getAbsolutePath());
+		String ext = FilenameUtils.getExtension(node);
+		if (ext.equalsIgnoreCase("yml")) {
+			emptyGraphComponent();
+			policyText.setText(utils.readTextFile(node));
+			return;
+		}
+		try {
+			g = utils.readAnyMemGraph(node);
+			if (g.getNodes().isEmpty()) {
+				policyText.setText("No JSON/YML/TXT file found");
+			} else {
+				policyText.setText(GraphSerializer.toJson(g));
+			}
+			updateGraphComonent();
+			jsplitpanevertical.setBottomComponent(graphComponent);
+		} catch (Exception e) {
+		//	e.printStackTrace();
+			emptyGraphComponent();
+			policyText.setText(utils.readTextFile(node));
+		}
+	}
+	private boolean nodeExists(DefaultMutableTreeNode root, String s) {
+	    @SuppressWarnings("unchecked")
+	    Enumeration<DefaultMutableTreeNode> e = root.depthFirstEnumeration();
+	    while (e.hasMoreElements()) {
+	        DefaultMutableTreeNode node = e.nextElement();
+	        if (node.toString().equalsIgnoreCase(s)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	
+	public void updateFileTree() {	
+		TreePath treePath = fileTree.getSelectionPath();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+
+			File root = new File(node.toString());
+			if(!root.isDirectory())
+			{
+				node = new DefaultMutableTreeNode(root.getParent());
+			}
+			DefaultMutableTreeNode child = new DefaultMutableTreeNode(node.toString()+"\\CSV");
+			DefaultMutableTreeNode child2 = new DefaultMutableTreeNode(child.toString()+"\\testSuits");
+			//if(!nodeExists(node, node.toString()+"\\CSV\\testSuits\\OverallMutationResults.csv")) {
+			if(!nodeExists(node, node.toString()+"\\CSV")) {
+			((DefaultTreeModel) fileTree.getModel()).insertNodeInto(child, node, node.getChildCount());
+			}
+			
+			
+			if(!nodeExists(node, node.toString()+"\\CSV\\testSuits")) {
+			((DefaultTreeModel) fileTree.getModel()).insertNodeInto(child2, child, child.getChildCount());
+			}
+			
+			File fileTestSuits = new File(child2.toString());
+			if(!fileTestSuits.isDirectory()) {
+				fileTestSuits = fileTestSuits.getParentFile();
+			}	
+			File[] files = fileTestSuits.listFiles();
+			for(File newFile : files) {
+				((DefaultTreeModel) fileTree.getModel()).insertNodeInto(new DefaultMutableTreeNode(newFile.getAbsolutePath()), child2, child2.getChildCount());
+			}
+	}
+	
+	
+
+	private boolean handlePolicyLoading() {
+		g = null;
+		String ext = FilenameUtils.getExtension(temporal.getPath());
+		if (ext.equalsIgnoreCase("yml")) {
+			updateObligationTextComonent();
+			return true;
+		}
+		try {			
+			updateGraphComonent();
+			return false;
+		} catch (PMException e) {
+			JOptionPane.showMessageDialog(this, "Graph cannot be built, some nodes do not exsist", "Error of Selection",
+					JOptionPane.WARNING_MESSAGE);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
+					JOptionPane.WARNING_MESSAGE);
+		} catch (Exception e) {
+			//e.printStackTrace();
+			try {
+				updateProhibitionsTextComonent();
+				return true;
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+			}
+
+		}
+		return false;
+	}
+	
+	private void updateObligationTextComonent() {
+		policyText.setText(utils.readTextFile(temporal.getPath()));
+		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll.setPreferredSize(new Dimension(1000, 600));
+		jSplitPane1.setRightComponent(scroll);
+		jSplitPane1.setResizeWeight(0.4);
+
+	}
+	
+	private void updateProhibitionsTextComonent() throws PMException, IOException {
+		Prohibitions prohibition = null;
+		prohibition = utils.readProhibitions(temporal.getPath());
+		policyText.setText(ProhibitionsSerializer.toJson(prohibition));
+		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll.setPreferredSize(new Dimension(1000, 600));
+		jSplitPane1.setRightComponent(scroll);
+		jSplitPane1.setResizeWeight(0.4);
+
+	}
+	
+	private void updateGraphComonent() throws PMException, IOException {
+		g = utils.readAnyMemGraph(temporal.getPath());
+		if (g.getNodes().isEmpty()) {
+			policyText.setText("No JSON/YML/TXT file found");
+		} else {
+			policyText.setText(GraphSerializer.toJson(g));
+		}
+		GraphVisualizer gui = new GraphVisualizer(g);
+		gui.init();
+		graphComponent = gui.returnPane();
+		jsplitpanevertical = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		JPanel p1 = new JPanel();
+
+		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll.setPreferredSize(new Dimension(1000, 600));
+		p1.add(scroll);
+		jsplitpanevertical.setBottomComponent(graphComponent);
+		jsplitpanevertical.setTopComponent(scroll);
+		jsplitpanevertical.setResizeWeight(0.5);
+		jSplitPane1.setRightComponent(jsplitpanevertical);
+		jSplitPane1.setResizeWeight(0.4);
 	}
 
 	public void saveFile() {

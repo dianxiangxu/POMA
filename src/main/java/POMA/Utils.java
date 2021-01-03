@@ -166,10 +166,11 @@ public class Utils {
 		      }
 		      myReader.close();
 		    } catch (FileNotFoundException e) {
-		      e.printStackTrace();
+		    //  e.printStackTrace();
 		    }
 		return sb.toString();
 	}
+	
 	public static Graph readAnyGraph(String path) throws PMException, IOException {
 		File graphFile = new File(path);
 
@@ -198,7 +199,10 @@ public class Utils {
 	
 	public MemGraph readAnyMemGraph(String path) throws PMException, IOException {
 		File graphFile = new File(path);
-
+		if(graphFile.isDirectory()) {
+			MemGraph ngacGraph = readAllFilesInFolderToGraph(graphFile);
+			return ngacGraph;
+		}
 		String graphJSON = new String(Files.readAllBytes(Paths.get(graphFile.getAbsolutePath())));
 
 		MemGraph ngacGraph = new MemGraph();
@@ -207,6 +211,7 @@ public class Utils {
 
 		return ngacGraph;
 	}
+	
 	public static Graph readGPMSGraph() throws PMException, IOException {
 		File file_eligibility_policy = new File("GPMSPolicies/EligibilityPolicyClass.json");
 		File file_org = new File("GPMSPolicies/AcademicUnitsPolicyClass.json");

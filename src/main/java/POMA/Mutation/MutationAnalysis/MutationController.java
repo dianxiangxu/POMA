@@ -546,7 +546,7 @@ public class MutationController {
 			System.out.println("File already exists.");
 		}
 		BufferedWriter writer = null;
-		writer = new BufferedWriter(new FileWriter(directoryForTestResults+"/OverallMutationResults.csv"));
+		writer = new BufferedWriter(new FileWriter(directoryForTestResults+"/CSV/OverallMutationResults.csv"));
 		CSVWriter CSVwriter = new CSVWriter(writer);
 		CSVwriter.writeAll(data);
 		writer.flush();
