@@ -20,8 +20,7 @@ import com.opencsv.CSVWriter;
 
 import POMA.GlobalVariables;
 import POMA.Exceptions.NoTypeProvidedException;
-import POMA.LegacyTestingProject.GraphTester.GraphTesterReachability;
-import POMA.LegacyTestingProject.GraphTester.GraphTesterReachabilitySneakpath;
+
 
 import java.io.*;
 import java.net.URL;
