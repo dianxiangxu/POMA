@@ -1136,14 +1136,14 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 				if (index == 0) {
 					JScrollPane scrollTreePane = new JScrollPane(((PolicyEditorPanelDemo) editorPanel).getFileTree(),
 							JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-					scrollTreePane.setPreferredSize(new Dimension(400, 600));
+					scrollTreePane.setPreferredSize(new Dimension(617, 600));
 					((PolicyEditorPanelDemo) editorPanel).getPolicyjSplitPanel().setLeftComponent(scrollTreePane);
 				} else if (mainTabbedPane.getTitleAt(index).equals("Mutation Results")) {
-					JScrollPane scrollMutationResults = new JScrollPane(
+					JScrollPane scrollMutationResultsTree = new JScrollPane(
 							((PolicyEditorPanelDemo) editorPanel).getFileTree(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 							JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-					scrollMutationResults.setPreferredSize(new Dimension(617, 600));
-					jSplitPanelMutationResult.setLeftComponent(scrollMutationResults);
+					scrollMutationResultsTree.setPreferredSize(new Dimension(617, 600));
+					jSplitPanelMutationResult.setLeftComponent(scrollMutationResultsTree);
 				}
 
 			}

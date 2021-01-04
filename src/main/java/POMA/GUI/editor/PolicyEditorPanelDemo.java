@@ -337,13 +337,13 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		GlobalVariables.initialPath = temporal.getAbsolutePath();
 
 		policyText.setEditable(false);
-		
+
 		JScrollPane scroll = new JScrollPane(createFileTree(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scroll.setPreferredSize(new Dimension(1000, 600));
+		scroll.setPreferredSize(new Dimension(617, 600));
 		policyjSplitPanel.setLeftComponent(scroll);
-		
-		//policyjSplitPanel.setLeftComponent(new JPanel().add(createFileTree()));
+
+		// policyjSplitPanel.setLeftComponent(new JPanel().add(createFileTree()));
 		handlePolicyLoading();
 		archivoActual = temporal;
 		return true;
@@ -364,10 +364,10 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			GlobalVariables.initialPath = fileChooser.getSelectedFile().getAbsolutePath();
 			temporal = fileChooser.getSelectedFile();
-			policyText.setEditable(false);
+			policyText.setEditable(true);
 			JScrollPane scroll = new JScrollPane(createFileTree(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-			scroll.setPreferredSize(new Dimension(1000, 600));
+			scroll.setPreferredSize(new Dimension(617, 600));
 			policyjSplitPanel.setLeftComponent(scroll);
 			if (handlePolicyLoading())
 				return;
@@ -389,17 +389,17 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 
 		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scroll.setPreferredSize(new Dimension(1000, 600));
+		scroll.setPreferredSize(new Dimension(617, 600));
 		p1.add(scroll);
 		jsplitpanevertical.setBottomComponent(graphComponent);
 		jsplitpanevertical.setTopComponent(p1);
 		jsplitpanevertical.setResizeWeight(0.5);
 		policyjSplitPanel.setRightComponent(jsplitpanevertical);
 		policyjSplitPanel.setResizeWeight(0.4);
-		scroll.setPreferredSize(new Dimension(1000, 600));
+		scroll.setPreferredSize(new Dimension(617, 600));
 		policyjSplitPanel.setRightComponent(scroll);
 		policyjSplitPanel.setResizeWeight(0.4);
-		
+
 	}
 
 	private void jTreeValueChanged(TreeSelectionEvent tse) {
@@ -412,20 +412,32 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		if (ext.equalsIgnoreCase("yml")) {
 			emptyGraphComponent();
 			policyText.setText(utils.readTextFile(node));
+			policyjSplitPanel.setResizeWeight(0);
+			policyText.setEditable(true);
 			return;
 		}
 		try {
 			updateGraphComonent();
 			jsplitpanevertical.setBottomComponent(graphComponent);
+			policyjSplitPanel.setResizeWeight(0.4);
+
 		} catch (Exception e) {
 			// e.printStackTrace();
-			 emptyGraphComponent();
+			emptyGraphComponent();
 			if (!temporal.isDirectory()) {
 				policyText.setText(utils.readTextFile(node));
-			} else {		
-				//jsplitpanevertical.setBottomComponent(graphComponent);
+				policyText.setEditable(true);
+				policyjSplitPanel.setResizeWeight(0);
+			} else {
+				// jsplitpanevertical.setBottomComponent(graphComponent);
 				policyText.setText("No JSON file found in this folder");
+				policyText.setEditable(false);
+				policyjSplitPanel.setResizeWeight(0.4);
+
 			}
+		}
+		if (temporal.isDirectory()) {
+			policyText.setEditable(false);
 		}
 	}
 
@@ -442,7 +454,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 			public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
 				jTreeValueChanged(evt);
 			}
-		});		
+		});
 		return fileTree;
 	}
 
@@ -499,13 +511,13 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 				if (f.isDirectory()) {
 					updateTreeModel(model, newChild);
 				}
-				//System.out.println("CHILD ADDED: " + fileName);
+				// System.out.println("CHILD ADDED: " + fileName);
 			} else {
 				DefaultMutableTreeNode newChild = (DefaultMutableTreeNode) model.getChild(root, index);
 				if (f.isDirectory()) {
 					updateTreeModel(model, newChild);
 				}
-				//System.out.println("CHILD EXISTED: " + fileName);
+				// System.out.println("CHILD EXISTED: " + fileName);
 			}
 		}
 
@@ -516,6 +528,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		String ext = FilenameUtils.getExtension(temporal.getPath());
 		if (ext.equalsIgnoreCase("yml")) {
 			updateObligationTextComonent();
+			policyText.setEditable(true);
 			return true;
 		}
 		try {
@@ -527,7 +540,8 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		} catch (Exception e) {
 			// e.printStackTrace();
 			try {
-				updateProhibitionsTextComonent();
+				updateProhibitionsTextComponent();
+				policyText.setEditable(true);
 				return true;
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
@@ -542,19 +556,19 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		policyText.setText(utils.readTextFile(temporal.getPath()));
 		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scroll.setPreferredSize(new Dimension(1000, 600));
+		scroll.setPreferredSize(new Dimension(617, 600));
 		policyjSplitPanel.setRightComponent(scroll);
 		policyjSplitPanel.setResizeWeight(0.4);
 
 	}
 
-	private void updateProhibitionsTextComonent() throws PMException, IOException {
+	private void updateProhibitionsTextComponent() throws PMException, IOException {
 		Prohibitions prohibition = null;
 		prohibition = utils.readProhibitions(temporal.getPath());
 		policyText.setText(ProhibitionsSerializer.toJson(prohibition));
 		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scroll.setPreferredSize(new Dimension(1000, 600));
+		scroll.setPreferredSize(new Dimension(617, 600));
 		policyjSplitPanel.setRightComponent(scroll);
 		policyjSplitPanel.setResizeWeight(0.4);
 
@@ -574,7 +588,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 
 			JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-			scroll.setPreferredSize(new Dimension(1000, 600));
+			scroll.setPreferredSize(new Dimension(617, 600));
 			p1.add(scroll);
 			jsplitpanevertical.setBottomComponent(graphComponent);
 			jsplitpanevertical.setTopComponent(scroll);
@@ -584,11 +598,19 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 			if (g.getNodes().size() == 0) {
 				policyText.setText("No JSON file found in this folder");
 			} else {
+				if (!temporal.isDirectory())
+				{
+					policyText.setEditable(true);
+				}
+				else {
+					policyText.setEditable(false);
+				}
 				policyText.setText(GraphSerializer.toJson(g));
 			}
 		} catch (PMException e) {
+			policyText.setEditable(false);
 			// TODO Auto-generated catch block
-		//	e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
