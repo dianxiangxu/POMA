@@ -52,56 +52,23 @@ public class MutationController {
 	
 	public static void main(String[] args) throws PMException, IOException, GraphDoesNotMatchTestSuitException {
 		MutationController mc = new MutationController();
-		File CSV = new File(mc.CSVFilePath);
-		long startTime = System.currentTimeMillis();
-		mc.createHeaderForCSV();
-		 String initialGraphConfig = "GPMSPolicies/simpleGraphToSMT.json";
-
+		List<String> mutantNames = new ArrayList<String>();
+		String initialGraphConfig = "Policies/SimpleGraph/simpleGraphToSMT.json";
+		File folder = new File(initialGraphConfig).getParentFile();
+		mutantNames.add("RAD");
+		mutantNames.add("CAD");
+		mutantNames.add("CAA");
+		mutantNames.add("RAGR");
+		mutantNames.add("AAGR");
+		mutantNames.add("CUAA");
+		mutantNames.add("COAA");
+		mutantNames.add("RARA");
+		mutantNames.add("AARA");
+		mutantNames.add("RACR");
+		mutantNames.add("AACR");
+		mutantNames.add("RARAA");
 		mc.graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
-		for (String testMethod : mc.testMethods) {
-
-			String[] row = new String[colCount];
-			mc.totalNumberOfMutantsForTest = 0;
-			mc.totalNumberOfKilledMutantsForTest = 0;
-			double resultRAD = mc.testRAD(testMethod, mc.graph);
-			double resultCAD = mc.testCAD(testMethod, mc.graph);
-			double resultCAA = mc.testCAA(testMethod, mc.graph);
-			double resultRAGR = mc.testRAGR(testMethod, mc.graph);
-			double resultAAGR = mc.testAAGR(testMethod, mc.graph);
-			double resultCUAA = mc.testCUAA(testMethod, mc.graph);
-			double resultCOAA = mc.testCOAA(testMethod, mc.graph);
-			double resultRARA = mc.testRARA(testMethod, mc.graph);
-			double resultAARA = mc.testAARA(testMethod, mc.graph);
-			double resultRACR = mc.testRACR(testMethod, mc.graph);
-			double resultAACR = mc.testAACR(testMethod, mc.graph);
-			double resultRARAA = mc.testRARAA(testMethod, mc.graph);
-
-			row[0] = testMethod;
-			row[1] = Double.toString(resultRAD);
-			row[2] = Double.toString(resultCAD);
-			row[3] = Double.toString(resultCAA);
-			row[4] = Double.toString(resultRAGR);
-			row[5] = Double.toString(resultAAGR);
-			row[6] = Double.toString(resultCUAA);
-			row[7] = Double.toString(resultCOAA);
-			row[8] = Double.toString(resultRARA);
-			row[9] = Double.toString(resultAARA);
-			row[10] = Double.toString(resultRACR);
-			row[11] = Double.toString(resultAACR);
-			row[12] = Double.toString(resultRARAA);
-			row[13] = Double.toString(
-					(double) mc.totalNumberOfKilledMutantsForTest / (double) mc.totalNumberOfMutantsForTest * 100);
-			mc.data.add(row);
-		}
-		mc.saveCSV(mc.data, CSV);
-
-		long endTime = System.currentTimeMillis();
-		long timeElapsed = endTime - startTime;
-		long minutes = (timeElapsed / 1000) / 60;
-		int seconds = (int) ((timeElapsed / 1000) % 60);
-		System.out.println("Execution time in milliseconds: " + timeElapsed);
-		System.out.println("Execution time in min and sec: " + minutes + ":" + seconds);
-
+		mc.createMutants( mutantNames,  mc.graph,  folder);
 	}
 
 	public MutationController() {
@@ -140,6 +107,8 @@ public class MutationController {
 			totalNumberOfMutantsForTest = 0;
 			totalNumberOfKilledMutantsForTest = 0;
 			row[0] = testMethod;
+			
+
 
 			for (int i = 0; i < mutantNames.size(); i++) {
 				System.out.println(mutantNames.toString());

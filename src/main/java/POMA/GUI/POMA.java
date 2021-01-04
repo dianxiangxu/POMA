@@ -487,7 +487,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 			JScrollPane scroll3 = new JScrollPane(t3, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-			scroll1.setPreferredSize(new Dimension(1050, 520));
+			scroll1.setPreferredSize(new Dimension(1050, 500));
 			scroll2.setPreferredSize(new Dimension(500, 500));
 			scroll3.setPreferredSize(new Dimension(500, 500));
 
@@ -509,7 +509,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			jSplitPanel.setLeftComponent(jSplitPanel2);
 			jSplitPanel.setResizeWeight(0.7);
 			jSplitPanel3.setResizeWeight(0.5);
-			jSplitPanel2.setResizeWeight(0.55);
+			jSplitPanel2.setResizeWeight(0.5);
 
 			mainTabbedPane.addTab("Show All Access Rights", createNavigationIcon("images/policy.gif"), jSplitPanel);
 			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Show All Access Rights"));

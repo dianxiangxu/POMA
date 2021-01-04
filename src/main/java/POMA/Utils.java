@@ -213,11 +213,11 @@ public class Utils {
 	}
 	
 	public static Graph readGPMSGraph() throws PMException, IOException {
-		File file_eligibility_policy = new File("GPMSPolicies/EligibilityPolicyClass.json");
-		File file_org = new File("GPMSPolicies/AcademicUnitsPolicyClass.json");
-		File file_adm = new File("GPMSPolicies/AdministrationUnitsPolicyClass.json");
+		File file_eligibility_policy = new File("Policies/GPMS/EligibilityPolicyClass.json");
+		File file_org = new File("Policies/GPMS/AcademicUnitsPolicyClass.json");
+		File file_adm = new File("Policies/GPMS/AdministrationUnitsPolicyClass.json");
 
-		File editingFile = new File("GPMSPolicies/EditingPolicyClass.json");
+		File editingFile = new File("Policies/GPMS/EditingPolicyClass.json");
 
 		String eligibility_policy = new String(
 				Files.readAllBytes(Paths.get(file_eligibility_policy.getAbsolutePath())));
