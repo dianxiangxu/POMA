@@ -629,7 +629,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		if (button.getIcon() != null) {
 			button.setText(""); // an icon-only button
 		}
-		// toolBar.add(button);
+		 toolBar.add(button);
 
 		// save button
 		button = new JButton(saveAction);

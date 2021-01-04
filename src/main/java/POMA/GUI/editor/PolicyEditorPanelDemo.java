@@ -330,7 +330,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	public boolean openDefaultFile() {
-		temporal = new File("Policies");
+		temporal = new File(GlobalVariables.defaultPolicies);
 		if (!temporal.exists()) {
 			return false;
 		}
