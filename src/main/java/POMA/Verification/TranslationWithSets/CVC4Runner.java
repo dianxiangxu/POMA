@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import POMA.GlobalVariables;
+
 public class CVC4Runner {
 	private String fullOutput = "";
 	public List<String> runFromSMTLIB2SetsTheory(String pathToFile) throws IOException {
 		Runtime rt = Runtime.getRuntime();
-		String[] commands = { "VerificationFiles/CVC4/cvc4.exe", "--incremental", pathToFile };
+		String[] commands = { GlobalVariables.cvc4path, "--incremental", pathToFile };
 		Process proc = rt.exec(commands);
 
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -40,7 +42,7 @@ public class CVC4Runner {
 	}
 	public List<String> runFromSMTLIB2SetsTheoryIncremental(String pathToFile) throws IOException {
 		Runtime rt = Runtime.getRuntime();
-		String[] commands = { "CVC4/cvc4.exe", "--incremental", pathToFile };
+		String[] commands = { GlobalVariables.cvc4path, "--incremental", pathToFile };
 		Process proc = rt.exec(commands);
 
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));

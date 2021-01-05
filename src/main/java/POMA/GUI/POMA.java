@@ -155,7 +155,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 			JScrollPane scroll3 = new JScrollPane(t3, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-			scroll3.setPreferredSize(new Dimension(1000, 1000));
+			scroll3.setPreferredSize(new Dimension(900, 1000));
 
 			p3.add(scroll3, BorderLayout.CENTER);
 
@@ -166,7 +166,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			jSplitPanel.setRightComponent(graphComponent);
 
 			jSplitPanel.setLeftComponent(p3);
-			jSplitPanel.setResizeWeight(0.7);
+			jSplitPanel.setResizeWeight(0.5);
 
 			mainTabbedPane.addTab("Show Translated Graph", createNavigationIcon("images/policy.gif"), jSplitPanel);
 			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Show Translated Graph"));
@@ -266,10 +266,11 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			jSplitPanel.setRightComponent(jSplitPanel4);
 
 			jSplitPanel.setLeftComponent(jSplitPanel2);
-			jSplitPanel.setResizeWeight(0.7);
-			jSplitPanel3.setResizeWeight(0.5);
-			jSplitPanel4.setResizeWeight(0.5);
-			jSplitPanel2.setResizeWeight(0.55);
+			jSplitPanel.setResizeWeight(0.55);
+			jSplitPanel3.setResizeWeight(0.55);
+			jSplitPanel4.setResizeWeight(0.51);
+			jSplitPanel2.setResizeWeight(0.6);
+
 
 			mainTabbedPane.addTab("Verify All Combination", createNavigationIcon("images/policy.gif"), jSplitPanel);
 			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Verify All Combination"));
@@ -391,10 +392,10 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			jSplitPanel.setRightComponent(jSplitPanel4);
 
 			jSplitPanel.setLeftComponent(jSplitPanel2);
-			jSplitPanel.setResizeWeight(0.7);
-			jSplitPanel3.setResizeWeight(0.5);
-			jSplitPanel4.setResizeWeight(0.5);
-			jSplitPanel2.setResizeWeight(0.55);
+			jSplitPanel.setResizeWeight(0.55);
+			jSplitPanel3.setResizeWeight(0.55);
+			jSplitPanel4.setResizeWeight(0.51);
+			jSplitPanel2.setResizeWeight(0.6);
 
 			mainTabbedPane.addTab("Verify Each Combination", createNavigationIcon("images/policy.gif"), jSplitPanel);
 			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Verify Each Combination"));
@@ -1190,7 +1191,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		createToolBar();
 		try {
 			if (!((PolicyEditorPanelDemo) editorPanel).openDefaultFile()) {
-				JOptionPane.showMessageDialog(this, "Default file does not exist", "Error of Selection",
+				JOptionPane.showMessageDialog(this, "Default file does not exist, please open another file/folder", "Error of Selection",
 						JOptionPane.WARNING_MESSAGE);
 			}
 		} catch (Exception ex) {

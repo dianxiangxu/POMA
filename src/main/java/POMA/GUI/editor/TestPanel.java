@@ -183,8 +183,12 @@ public class TestPanel extends JPanelPB {
 	}
 
 	public void generateAllTestSuits() throws Exception {
+		this.startProgressStatus();
+
 		TestSuitGenerator graphTester = new TestSuitGenerator();
 		graphTester.runAllTestGeneration();
+		this.stopProgressStatus();;
+
 	}
 	
 	

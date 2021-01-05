@@ -41,6 +41,7 @@ import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 public class GraphVisualizer extends JApplet {
 	private static final long serialVersionUID = 1L;
@@ -200,24 +201,7 @@ public class GraphVisualizer extends JApplet {
 		panel.setLayout(new BorderLayout(0, 0));
 		JPanel controls = new JPanel();
 		panel.add(controls, BorderLayout.SOUTH);
-		controls.setLayout(new GridLayout(0,6));
-		
-//		textField = new JTextField();
-//		controls.add(textField);
-//		textField.setColumns(20);
-		
-		//JButton loadFromFile = new JButton("Load JSON");
-		//controls.add(loadFromFile);
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
-		textArea.setEnabled(false);
-		controls.add(textArea);
-		
-		JTextArea textArea_1 = new JTextArea();
-		textArea_1.setEditable(false);
-		textArea_1.setEnabled(false);
-		controls.add(textArea_1);
+		controls.setLayout(new GridLayout(0,2));
 		
 		JButton zoomOut = new JButton("Zoom Out");
 		zoomOut.addMouseListener(new MouseAdapter() {

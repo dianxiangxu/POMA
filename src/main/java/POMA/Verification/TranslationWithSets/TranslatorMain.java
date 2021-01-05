@@ -36,6 +36,7 @@ import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxStylesheet;
 
+import POMA.GlobalVariables;
 import POMA.Utils;
 import POMA.Exceptions.NoTypeProvidedException;
 
@@ -55,7 +56,6 @@ public class TranslatorMain {
 	private String actualOutput=""; 
 	private List<String> accessRightsResults;
 	private String fullTranslation=""; 
-
 	public String translateGraphOnly(Graph graph) throws Exception{
 		CVC4Translator translator = new CVC4Translator(graph);
 		translator.initTranslation();
@@ -72,11 +72,11 @@ public class TranslatorMain {
 		translatedGraph += System.lineSeparator();
 
 		translatedGraph += CVC4Translator.getAllAccessRightsCheckBetweenUAandAT(splittedQuery[0], splittedQuery[1]);
-		saveDataToFile(translatedGraph, "SMTLIBv2Files/SMTLIB2Input/swapFile.smt2");
+		saveDataToFile(translatedGraph, GlobalVariables.swapFile);
 
 		CVC4Runner runner = new CVC4Runner();
 
-		List<String> output = runner.runFromSMTLIB2SetsTheory("SMTLIBv2Files/SMTLIB2Input/swapFile.smt2");
+		List<String> output = runner.runFromSMTLIB2SetsTheory(GlobalVariables.swapFile);
 		System.out.println(processOutput(output, graph));
 
 		return output.toString();
@@ -96,9 +96,9 @@ public class TranslatorMain {
 		translatedGraph += CVC4Translator.getAllAccessRightsCheckInSetOfUAandAT(inputArray);
 		setFullTranslation(translatedGraph);
 
-		saveDataToFile(translatedGraph, "SMTLIBv2Files/SMTLIB2Input/swapFile.smt2");
+		saveDataToFile(translatedGraph, GlobalVariables.swapFile);
 		CVC4Runner runner = new CVC4Runner();
-		List<String> output = runner.runFromSMTLIB2SetsTheoryIncremental("SMTLIBv2Files/SMTLIB2Input/swapFile.smt2");
+		List<String> output = runner.runFromSMTLIB2SetsTheoryIncremental(GlobalVariables.swapFile);
 		setAccessRightsResults(processOutput(output, graph));
 		setActualOutput(runner.getFullOutput());
 		return runner.getFullOutput();
@@ -120,11 +120,11 @@ public class TranslatorMain {
 		translatedGraph += CVC4Translator.getAllAccessRightsCheckInSetOfUAandATAllComb(inputArray);
 		setFullTranslation(translatedGraph);
 
-		saveDataToFile(translatedGraph, "SMTLIBv2Files/SMTLIB2Input/swapFile.smt2");
+		saveDataToFile(translatedGraph, GlobalVariables.swapFile);
 
 		CVC4Runner runner = new CVC4Runner();
 
-		List<String> output = runner.runFromSMTLIB2SetsTheory("SMTLIBv2Files/SMTLIB2Input/swapFile.smt2");
+		List<String> output = runner.runFromSMTLIB2SetsTheory(GlobalVariables.swapFile);
 		setAccessRightsResults(processOutput(output, graph));
 		setActualOutput(runner.getFullOutput());
 
@@ -149,11 +149,11 @@ public class TranslatorMain {
 		
 		translatedGraph += CVC4Translator.getAllAccessRightsCheckInSetOfUAandATAllComb(inputArray);
 		setFullTranslation(translatedGraph);
-		saveDataToFile(translatedGraph, "VerificationFiles/SMTLIB2Input/swapFile.smt2");
+		saveDataToFile(translatedGraph, GlobalVariables.swapFile);
 
 		CVC4Runner runner = new CVC4Runner();
 		
-		List<String> output = runner.runFromSMTLIB2SetsTheory("VerificationFiles/SMTLIB2Input/swapFile.smt2");
+		List<String> output = runner.runFromSMTLIB2SetsTheory(GlobalVariables.swapFile);
 		setAccessRightsResults(processOutput(output, graph));
 		String result = "";
 		for(String s : output) {
