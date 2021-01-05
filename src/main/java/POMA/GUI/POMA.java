@@ -57,6 +57,7 @@ import gov.nist.csd.pm.pip.graph.MemGraph;
 
 public class POMA extends JFrame implements ItemListener, ActionListener {
 
+	private static final long serialVersionUID = 1L;
 	public int totalWidth;
 	public int totalheight;
 	GraphVisualizer gui;
@@ -113,6 +114,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class TranslatePolicyGraphAction extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+
 		public TranslatePolicyGraphAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -175,6 +179,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class VerifyAccessRightsActionForAll extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+
 		public VerifyAccessRightsActionForAll(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -293,7 +300,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 					t2.setText(translator.getAccessRightsResults());
 					t2.setFont(t2.getFont().deriveFont(18f));
 					t4.setFont(t4.getFont().deriveFont(18f));
-					t3.setFont(t3.getFont().deriveFont(15f));
+					t3.setFont(t3.getFont().deriveFont(18f));
 				}
 			});
 		}
@@ -301,6 +308,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class VerifyAccessRightsActionForEach extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+
 		public VerifyAccessRightsActionForEach(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -418,7 +428,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 					t2.setText(translator.getAccessRightsResults());
 					t2.setFont(t2.getFont().deriveFont(18f));
 					t4.setFont(t4.getFont().deriveFont(18f));
-					t3.setFont(t3.getFont().deriveFont(15f));
+					t3.setFont(t3.getFont().deriveFont(18f));
 				}
 			});
 
@@ -427,6 +437,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class QueryAccessRightsAction extends AbstractAction {
+	
+		private static final long serialVersionUID = 1L;
+
 		public QueryAccessRightsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -437,9 +450,8 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			TranslatorMain translator = new TranslatorMain();
 			Graph graph = editorPanel.getGraph();
 			MemGraph graphForPlot = editorPanel.getGraph();
-			String fullOutput = "";
 			try {
-				fullOutput = translator.getAllAccessRights(graph);
+				translator.getAllAccessRights(graph);
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(editorPanel, "No file selected", "Error of Selection",
 						JOptionPane.WARNING_MESSAGE);
@@ -452,7 +464,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			t3.setText(translator.getActualOutput());
 			t2.setText(translator.getAccessRightsResults());
 			t1.setText(translator.getFullTranslation());
-			// add(scrollPane, BorderLayout.CENTER);
 
 			PromptSupport.setPrompt("ENTER ACCESS RIGHTS QUERIES", t3);
 
@@ -514,6 +525,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class VerifyObligationsAction extends AbstractAction {
+		
+		private static final long serialVersionUID = 1L;
+
 		public VerifyObligationsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -747,6 +761,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class NewAction extends AbstractAction {
+	
+		private static final long serialVersionUID = 1L;
+
 		public NewAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -760,6 +777,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class OpenAction extends AbstractAction {
+	
+		private static final long serialVersionUID = 1L;
+
 		public OpenAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -792,6 +812,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class SaveAction extends AbstractAction {
+	
+		private static final long serialVersionUID = 1L;
+
 		public SaveAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -804,6 +827,11 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class SaveAsAction extends AbstractAction {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public SaveAsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -816,6 +844,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class CheckSchemaAction extends AbstractAction {
+	
+		private static final long serialVersionUID = 1L;
+
 		public CheckSchemaAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -828,6 +859,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}//
 
 	public class OpenTestsAction extends AbstractAction {
+	
+		private static final long serialVersionUID = 1L;
+
 		public OpenTestsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -840,6 +874,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class GenerateAllTestsAction extends AbstractAction {
+	
+		private static final long serialVersionUID = 1L;
+
 		public GenerateAllTestsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -867,6 +904,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class GenerateCoverageBasedTestsAction extends AbstractAction {
+	
+		private static final long serialVersionUID = 1L;
+
 		public GenerateCoverageBasedTestsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -878,8 +918,10 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		}
 	}
 
-	//
 	public class GenerateMutationBasedTestsAction extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+
 		public GenerateMutationBasedTestsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -893,6 +935,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class GeneratePNOMutationBasedTestsAction extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+
 		public GeneratePNOMutationBasedTestsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -905,6 +950,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class RunTestsAction extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+
 		public RunTestsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -917,6 +965,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class EvaluateCoverageAction extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+
 		public EvaluateCoverageAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -929,6 +980,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class OpenMutantsAction extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+
 		public OpenMutantsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -941,6 +995,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class GenerateMutantsAction extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+
 		public GenerateMutantsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -1039,6 +1096,11 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class GenerateSecondOrderMutantsAction extends AbstractAction {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public GenerateSecondOrderMutantsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -1051,6 +1113,11 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class RunMutantsAction extends AbstractAction {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public RunMutantsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {//
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -1063,6 +1130,11 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class SaveOraclesAction extends AbstractAction {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public SaveOraclesAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -1075,6 +1147,11 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class LocalizeFaultAction extends AbstractAction {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public LocalizeFaultAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -1087,6 +1164,11 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	public class FixFaultAction extends AbstractAction {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public FixFaultAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
@@ -1339,6 +1421,10 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 }
 
 class MyModel extends AbstractTableModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final String[] columnNames = { "TestMethod", "Pairwise", "AllCombinations" };
 	private List<String[]> Data = new ArrayList<String[]>();
 
