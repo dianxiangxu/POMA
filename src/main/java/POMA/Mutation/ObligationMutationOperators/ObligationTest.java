@@ -8,9 +8,9 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import CaseStudies.gpms.policy.Constants;
-import CaseStudies.gpms.policy.customEvents.*;
-import CaseStudies.gpms.policy.customFunctions.*;
+import CaseStudies.gpms.Constants;
+import CaseStudies.gpms.customEvents.*;
+import CaseStudies.gpms.customFunctions.*;
 import POMA.Utils;
 import gov.nist.csd.pm.epp.EPPOptions;
 import gov.nist.csd.pm.exceptions.PMException;
