@@ -44,7 +44,7 @@ public class ObligationMutationController {
 		File CSV = new File(omc.CSVFilePath);
 		long startTime = System.currentTimeMillis();
 		omc.createHeaderForCSV();
-		String initialGraphConfig = "GPMSPolicies/simpleGraphToSMT.json";
+		//String initialGraphConfig = "Policies/simpleGraphToSMT.json";
 
 //		omc.graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
 		omc.graph = Utils.readGPMSGraph();
@@ -55,47 +55,47 @@ public class ObligationMutationController {
 			omc.totalNumberOfMutantsForTest = 0;
 			omc.totalNumberOfKilledMutantsForTest = 0;
 			double resultROR = omc.testROR(testMethod, omc.graph);
-			double resultCEU = omc.testCEU(testMethod, omc.graph);
-			double resultREU = omc.testREU(testMethod, omc.graph);
-			double resultCEPC = omc.testCEPC(testMethod, omc.graph);
-			double resultREPC = omc.testREPC(testMethod, omc.graph);
-			double resultCEO = omc.testCEO(testMethod, omc.graph);
-			double resultAEO = omc.testAEO(testMethod, omc.graph);
-			double resultREO = omc.testREO(testMethod, omc.graph);
-			double resultCEPE = omc.testCEPE(testMethod, omc.graph);
-			double resultREPE = omc.testREPE(testMethod, omc.graph);
-			double resultROC = omc.testROC(testMethod, omc.graph);
-			double resultROA = omc.testROA(testMethod, omc.graph);
-			double resultNCD = omc.testNCD(testMethod, omc.graph);
-			double resultROF = omc.testROF(testMethod, omc.graph);
-			double resultNOF = omc.testNOF(testMethod, omc.graph);
-			double resultCAC = omc.testCAC(testMethod, omc.graph);
-			double resultICA = omc.testICA(testMethod, omc.graph);
-			double resultIAA = omc.testIAA(testMethod, omc.graph);
-			double resultIGA = omc.testIGA(testMethod, omc.graph);
-			double resultINA = omc.testINA(testMethod, omc.graph);
+//			double resultCEU = omc.testCEU(testMethod, omc.graph);
+//			double resultREU = omc.testREU(testMethod, omc.graph);
+//			double resultCEPC = omc.testCEPC(testMethod, omc.graph);
+//			double resultREPC = omc.testREPC(testMethod, omc.graph);
+//			double resultCEO = omc.testCEO(testMethod, omc.graph);
+//			double resultAEO = omc.testAEO(testMethod, omc.graph);
+//			double resultREO = omc.testREO(testMethod, omc.graph);
+//			double resultCEPE = omc.testCEPE(testMethod, omc.graph);
+//			double resultREPE = omc.testREPE(testMethod, omc.graph);
+//			double resultROC = omc.testROC(testMethod, omc.graph);
+//			double resultROA = omc.testROA(testMethod, omc.graph);
+//			double resultNCD = omc.testNCD(testMethod, omc.graph);
+//			double resultROF = omc.testROF(testMethod, omc.graph);
+//			double resultNOF = omc.testNOF(testMethod, omc.graph);
+//			double resultCAC = omc.testCAC(testMethod, omc.graph);
+//			double resultICA = omc.testICA(testMethod, omc.graph);
+//			double resultIAA = omc.testIAA(testMethod, omc.graph);
+//			double resultIGA = omc.testIGA(testMethod, omc.graph);
+//			double resultINA = omc.testINA(testMethod, omc.graph);
 
 			row[0] = testMethod;
 			row[1] = Double.toString(resultROR);
-			row[2] = Double.toString(resultCEU);
-			row[3] = Double.toString(resultREU);
-			row[4] = Double.toString(resultCEPC);
-			row[5] = Double.toString(resultREPC);
-			row[6] = Double.toString(resultCEO);
-			row[7] = Double.toString(resultAEO);
-			row[8] = Double.toString(resultREO);
-			row[9] = Double.toString(resultCEPE);
-			row[10] = Double.toString(resultREPE);
-			row[11] = Double.toString(resultROC);
-			row[12] = Double.toString(resultROA);
-			row[13] = Double.toString(resultNCD);
-			row[14] = Double.toString(resultROF);
-			row[15] = Double.toString(resultNOF);
-			row[16] = Double.toString(resultCAC);
-			row[17] = Double.toString(resultICA);
-			row[18] = Double.toString(resultIAA);
-			row[19] = Double.toString(resultIGA);
-			row[20] = Double.toString(resultINA);
+//			row[2] = Double.toString(resultCEU);
+//			row[3] = Double.toString(resultREU);
+//			row[4] = Double.toString(resultCEPC);
+//			row[5] = Double.toString(resultREPC);
+//			row[6] = Double.toString(resultCEO);
+//			row[7] = Double.toString(resultAEO);
+//			row[8] = Double.toString(resultREO);
+//			row[9] = Double.toString(resultCEPE);
+//			row[10] = Double.toString(resultREPE);
+//			row[11] = Double.toString(resultROC);
+//			row[12] = Double.toString(resultROA);
+//			row[13] = Double.toString(resultNCD);
+//			row[14] = Double.toString(resultROF);
+//			row[15] = Double.toString(resultNOF);
+//			row[16] = Double.toString(resultCAC);
+//			row[17] = Double.toString(resultICA);
+//			row[18] = Double.toString(resultIAA);
+//			row[19] = Double.toString(resultIGA);
+//			row[20] = Double.toString(resultINA);
 			row[25] = Double.toString(
 					(double) omc.totalNumberOfKilledMutantsForTest / (double) omc.totalNumberOfMutantsForTest * 100);
 			omc.data.add(row);
@@ -825,7 +825,10 @@ public class ObligationMutationController {
 
 	public void saveCSV(List<String[]> data, File directoryForTestResults) throws PMException, IOException {
 		File globalFile = new File(GlobalVariables.currentPath);
-		if (!globalFile.isDirectory()) {
+		if(!globalFile.exists()) {
+			globalFile = new File("CSV/OverallMutationResultsObligations.csv");
+		}
+		else if (!globalFile.isDirectory()) {
 			globalFile = new File(globalFile.getParent() + "/CSV/OverallMutationResultsObligations.csv");
 		} else {
 			globalFile = new File(GlobalVariables.currentPath + "/CSV/OverallMutationResultsObligations.csv");
