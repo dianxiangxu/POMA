@@ -3,8 +3,8 @@ package POMA.Mutation.MutationOperators;
 import java.io.File;
 import java.io.IOException;
 
+import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
-import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
@@ -16,6 +16,7 @@ public class MutatorRAD extends MutantTester {
 	}
 
 	public void init() throws PMException, IOException {
+
 		this.mutationMethod = "RAD";
 		String testResults = "CSV/" + testMethod + "/" + testMethod + "testResultsRAD.csv";
 		String testSuitePath = getTestSuitPathByMethod(testMethod);
@@ -28,10 +29,12 @@ public class MutatorRAD extends MutantTester {
 		Node nodeB, nodePc;
 
 		for (Node nodeA : UAsOAs) {
+
 			for (String obName : graph.getParents(nodeA.getName())) {
+
 				nodeB = graph.getNode(obName);
 				if (nodeB.getType().toString().equals("PC")) {
-//					System.out.println("cannot reverse assignment of PC.");
+					System.out.println("cannot reverse assignment of PC.");
 //					System.out.println("a is "+ua.toString()+"| b is "+ub.toString());
 					continue;
 				}

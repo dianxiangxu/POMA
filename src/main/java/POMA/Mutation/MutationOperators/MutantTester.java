@@ -21,9 +21,10 @@ import java.util.Set;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import POMA.GlobalVariables;
+import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
-import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pdp.decider.PReviewDecider;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -42,7 +43,7 @@ public class MutantTester {
 	public static Graph graph;
 	String testMethod;
 	// public String initialGraphConfig = "GPMSPolicies/SimpleGraphToSMT.json";
-	public String initialGraphConfig = "GPMSPolicies/simpleGraphToSMT.json";
+	public String initialGraphConfig = "Policies/SimpleGraph";
 
 	static List<Node> UAs;
 	static List<Node> UAsOAs;
@@ -96,13 +97,18 @@ public class MutantTester {
 				counter++;
 				continue;
 			}
+
 			String[] AR = { sArray[3] };
+
 			Boolean result = Boolean.parseBoolean(sArray[4]);
 			if (decider.check(UAname, "", OAname, AR) != result) {
+
 				mutantTest[counter] = "Fail";
 			} else {
+
 				mutantTest[counter] = "Pass";
 			}
+
 			counter++;
 		}
 		String mutantKilled = "";
@@ -342,11 +348,11 @@ public class MutantTester {
 	}
 
 	public void readGPMSGraph() throws PMException, IOException {
-		File file_eligibility_policy = new File("GPMSPolicies/EligibilityPolicyClass.json");
-		File file_org = new File("GPMSPolicies/AcademicUnitsPolicyClass.json");
-		File file_adm = new File("GPMSPolicies/AdministrationUnitsPolicyClass.json");
+		File file_eligibility_policy = new File("Policies/GPMS/EligibilityPolicyClass.json");
+		File file_org = new File("Policies/GPMS/AcademicUnitsPolicyClass.json");
+		File file_adm = new File("Policies/GPMS/AdministrationUnitsPolicyClass.json");
 
-		File editingFile = new File("GPMSPolicies/EditingPolicyClass.json");
+		File editingFile = new File("Policies/GPMS/EditingPolicyClass.json");
 
 		String eligibility_policy = new String(
 				Files.readAllBytes(Paths.get(file_eligibility_policy.getAbsolutePath())));
@@ -388,6 +394,22 @@ public class MutantTester {
 	}
 
 	public String getTestSuitPathByMethod(String testMethod) {
-		return "CSV/testSuits/" + testMethod + "testSuite.csv";
+		File file = new File(GlobalVariables.currentPath);
+		if(!file.isDirectory()) {
+			file = file.getParentFile();
+		}
+		if(file==null) {
+			return this.initialGraphConfig + "/CSV/testSuits/" + testMethod + "testSuite.csv";
+		}
+		return file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv";
+	}
+	public String getTestSuitPathByMethod(String testMethod, String path) {
+		File file = new File(path);
+		if(!file.isDirectory()) {
+			file = file.getParentFile();
+		}
+		System.out.println(file.getAbsolutePath());
+		System.out.println(file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv");
+		return file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv";
 	}
 }

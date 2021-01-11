@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import POMA.GUI.*;
 import POMA.GUI.components.JPanelPB;
 import POMA.GUI.components.MutationBasedTestMutationMethods;
+import POMA.TestSuitGeneration.TestSuitGenerator;
 
 //import org.seal.xacml.coverage.CoverageHelper;
 //import org.seal.xacml.coverage.DecisionCoverage;
@@ -62,16 +63,7 @@ public class TestPanel extends JPanelPB {
 	public POMA getDemo() {
 		return this.poma;
 	}
-	
-
-//	public PolicyTestSuite getPolicySpreadSheetTestSuite() {
-//		return testSuite;
-//	}
-//	
-//	public void setTestSuite(PolicyTestSuite p)
-//	{
-//		this.testSuite = p;
-//	}
+		
 	
 	public void setWorkingTestSuiteFileName(String filename)
 	{
@@ -181,6 +173,16 @@ public class TestPanel extends JPanelPB {
 		return myPanel;
 	}
 
+	public void generateAllTestSuits() throws Exception {
+		this.startProgressStatus();
+
+		TestSuitGenerator graphTester = new TestSuitGenerator();
+		graphTester.runAllTestGeneration();
+		this.stopProgressStatus();;
+
+	}
+	
+	
 	public void generateCoverageBasedTests() {
 //		if (!poma.hasWorkingPolicy()) {
 //			JOptionPane.showMessageDialog(poma, "There is no policy!");

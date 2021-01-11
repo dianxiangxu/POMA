@@ -12,7 +12,8 @@ import java.util.List;
 
 import com.opencsv.CSVWriter;
 
-import POMA.TestSuitGeneration.Utils;
+import POMA.GlobalVariables;
+import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
 import POMA.Mutation.ObligationMutationOperators.*;
@@ -29,13 +30,16 @@ public class ObligationMutationController {
 	int totalNumberOfKilledMutantsForTest = 0;
 	List<String[]> data = new ArrayList<String[]>();
 	String[] row;
-	String CSVFilePath = "CSV/OverallMutationResults.csv";
+	String CSVFilePath = "CSV/OverallMutationResultsObligations.csv";
 	static int rowCount = 30;
 	static int colCount = 3;
 	Graph graph;
 	Obligation obligation;
 
-	public static void main(String[] args) throws PMException, IOException, InstantiationException, IllegalAccessException, GraphDoesNotMatchTestSuitException, CloneNotSupportedException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
+	public static void main(String[] args)
+			throws PMException, IOException, InstantiationException, IllegalAccessException,
+			GraphDoesNotMatchTestSuitException, CloneNotSupportedException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
 		ObligationMutationController omc = new ObligationMutationController();
 		File CSV = new File(omc.CSVFilePath);
 		long startTime = System.currentTimeMillis();
@@ -70,7 +74,6 @@ public class ObligationMutationController {
 			double resultIAA = omc.testIAA(testMethod, omc.graph);
 			double resultIGA = omc.testIGA(testMethod, omc.graph);
 			double resultINA = omc.testINA(testMethod, omc.graph);
-			
 
 			row[0] = testMethod;
 			row[1] = Double.toString(resultROR);
@@ -112,13 +115,13 @@ public class ObligationMutationController {
 		createTestMethods();
 	}
 
-public void createMutants(List<String> mutantNames, Graph graph, File folder) throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException, InstantiationException {
-		
-		//createHeaderForCSV(mutantNames);
+	public void createMutants(List<String> mutantNames, Graph graph, File folder)
+			throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException, InstantiationException {
+
+		// createHeaderForCSV(mutantNames);
 		List<String[]> outputList = new ArrayList<String[]>();
-		
-		
-		String[] row1 = new String[]{"TestMethod", "Pairwise", "AllCombination"};
+
+		String[] row1 = new String[] { "TestMethod", "Pairwise", "AllCombination" };
 		data.add(row1);
 		String[] row2 = new String[colCount];
 		String[] row3 = new String[colCount];
@@ -172,7 +175,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 				} else if (mutantNames.get(i).equals("CEPE")) {
 					row6[0] = "CEPE";
 					row6[j] = Double.toString(testCEPE(testMethod, graph));
-					System.out.println("HELLO");
+			//		System.out.println("HELLO");
 				} else if (mutantNames.get(i).equals("CEU")) {
 					row7[0] = "CEU";
 					row7[j] = Double.toString(testCEU(testMethod, graph));
@@ -221,12 +224,12 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 				} else if (mutantNames.get(i).equals("ROR")) {
 					row22[0] = "ROR";
 					row22[j] = Double.toString(testROR(testMethod, graph));
-				}									
-				
+				}
+
 			}
-			row14[j] = Double.toString(
-					(double) totalNumberOfKilledMutantsForTest / (double) totalNumberOfMutantsForTest * 100);
-		
+			row14[j] = Double
+					.toString((double) totalNumberOfKilledMutantsForTest / (double) totalNumberOfMutantsForTest * 100);
+
 		}
 		data.add(row2);
 		data.add(row3);
@@ -250,7 +253,6 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		data.add(row21);
 		data.add(row22);
 		data.add(row23);
-
 
 		try {
 			saveCSV(data, folder);
@@ -291,7 +293,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorROR.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testCEU(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorCEU mutatorCEU = new MutatorCEU(testMethod, graph);
 		System.out.println("MutationMethod is CEU");
@@ -315,7 +317,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorCEU.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testREU(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorREU mutatorREU = new MutatorREU(testMethod, graph);
 		System.out.println("MutationMethod is REU");
@@ -339,7 +341,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorREU.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testCEPC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorCEPC mutatorCEPC = new MutatorCEPC(testMethod, graph);
 		System.out.println("MutationMethod is CEPC");
@@ -363,7 +365,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorCEPC.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testREPC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorREPC mutatorREPC = new MutatorREPC(testMethod, graph);
 		System.out.println("MutationMethod is REPC");
@@ -388,7 +390,8 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		return mutationScore;
 	}
 
-	private double testCEO(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException {
+	private double testCEO(String testMethod, Graph graph)
+			throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException {
 		MutatorCEO mutatorCEO = new MutatorCEO(testMethod, graph);
 		System.out.println("MutationMethod is CEO");
 
@@ -411,8 +414,9 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorCEO.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
-	private double testAEO(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException {
+
+	private double testAEO(String testMethod, Graph graph)
+			throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException {
 		MutatorAEO mutatorAEO = new MutatorAEO(testMethod, graph);
 		System.out.println("MutationMethod is AEO");
 
@@ -435,8 +439,9 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorAEO.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
-	private double testREO(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException {
+
+	private double testREO(String testMethod, Graph graph)
+			throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException {
 		MutatorREO mutatorREO = new MutatorREO(testMethod, graph);
 		System.out.println("MutationMethod is REO");
 
@@ -459,7 +464,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorREO.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testCEPE(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorCEPE mutatorCEPE = new MutatorCEPE(testMethod, graph);
 		System.out.println("MutationMethod is CEPE");
@@ -483,7 +488,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorCEPE.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testREPE(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorREPE mutatorREPE = new MutatorREPE(testMethod, graph);
 		System.out.println("MutationMethod is REPE");
@@ -507,8 +512,8 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorREPE.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
-	private double testROC (String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
+
+	private double testROC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorROC mutatorROC = new MutatorROC(testMethod, graph);
 		System.out.println("MutationMethod is ROC");
 
@@ -531,7 +536,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorROC.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testRCA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorRCA mutatorRCA = new MutatorRCA(testMethod, graph);
 		System.out.println("MutationMethod is RCA");
@@ -555,7 +560,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorRCA.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testROA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorROA mutatorROA = new MutatorROA(testMethod, graph);
 		System.out.println("MutationMethod is ROA");
@@ -579,7 +584,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorROA.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testNCD(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorNCD mutatorNCD = new MutatorNCD(testMethod, graph);
 		System.out.println("MutationMethod is NCD");
@@ -603,7 +608,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorNCD.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testROF(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorROF mutatorROF = new MutatorROF(testMethod, graph);
 		System.out.println("MutationMethod is ROF");
@@ -627,7 +632,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorROF.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testNOF(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorNOF mutatorNOF = new MutatorNOF(testMethod, graph);
 		System.out.println("MutationMethod is NOF");
@@ -651,7 +656,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorNOF.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testCAC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorCAC mutatorCAC = new MutatorCAC(testMethod, graph);
 		System.out.println("MutationMethod is CAC");
@@ -675,7 +680,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorCAC.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testICA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorICA mutatorICA = new MutatorICA(testMethod, graph);
 		System.out.println("MutationMethod is ICA");
@@ -699,7 +704,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorICA.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testIAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorIAA mutatorIAA = new MutatorIAA(testMethod, graph);
 		System.out.println("MutationMethod is IAA");
@@ -723,7 +728,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorIAA.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testIGA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorIGA mutatorIGA = new MutatorIGA(testMethod, graph);
 		System.out.println("MutationMethod is IGA");
@@ -747,7 +752,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorIGA.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private double testINA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
 		MutatorINA mutatorINA = new MutatorINA(testMethod, graph);
 		System.out.println("MutationMethod is INA");
@@ -771,7 +776,7 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		totalNumberOfKilledMutantsForTest += mutatorINA.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-	
+
 	private void createTestMethods() {
 		testMethods = new ArrayList<String>();
 //		testMethods.add("RS");
@@ -811,22 +816,28 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 	private void createHeaderForCSV(List<String> mutantNames) {
 		String[] header = new String[rowCount];
 		header[0] = "TestMethod";
-		for(int i=0;i< mutantNames.size(); i++) {
-			header[i+1] =  mutantNames.get(i);
+		for (int i = 0; i < mutantNames.size(); i++) {
+			header[i + 1] = mutantNames.get(i);
 		}
-		header[mutantNames.size()+1] = "totalMutationScore";
+		header[mutantNames.size() + 1] = "totalMutationScore";
 		data.add(header);
 	}
 
 	public void saveCSV(List<String[]> data, File directoryForTestResults) throws PMException, IOException {
+		File globalFile = new File(GlobalVariables.currentPath);
+		if (!globalFile.isDirectory()) {
+			globalFile = new File(globalFile.getParent() + "/CSV/OverallMutationResultsObligations.csv");
+		} else {
+			globalFile = new File(GlobalVariables.currentPath + "/CSV/OverallMutationResultsObligations.csv");
 
-		if (directoryForTestResults.createNewFile()) {
+		}
+		if (globalFile.createNewFile()) {
 			System.out.println("File has been created.");
 		} else {
 			System.out.println("File already exists.");
 		}
 		BufferedWriter writer = null;
-		writer = new BufferedWriter(new FileWriter(directoryForTestResults));
+		writer = new BufferedWriter(new FileWriter(globalFile));
 		CSVWriter CSVwriter = new CSVWriter(writer);
 		CSVwriter.writeAll(data);
 		writer.flush();
@@ -835,14 +846,14 @@ public void createMutants(List<String> mutantNames, Graph graph, File folder) th
 		if (writer != null)
 			writer.close();
 	}
-	
+
 	public static Obligation readGPMSObligation() throws PMException, IOException {
-		File obligationFile = getFileFromResources("GPMSPolicies/GPMS/Obligations.yml");
+		File obligationFile = getFileFromResources("Policies/GPMS/Obligations.yml");
 		InputStream inputStream = new FileInputStream(obligationFile);
 		Obligation obligation = EVRParser.parse(inputStream);
 		return obligation;
 	}
-	
+
 	public static File getFileFromResources(String fileName) {
 		File resource = new File(fileName);
 		return resource;

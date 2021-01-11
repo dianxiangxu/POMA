@@ -23,9 +23,9 @@ import java.util.Set;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
-import POMA.TestSuitGeneration.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -57,7 +57,7 @@ public class MutantTester2 {
    final public static Obligation obligationMutant = new Obligation();
 	String testMethod;
 	// public String initialGraphConfig = "GPMSPolicies/SimpleGraphToSMT.json";
-	public String initialGraphConfig = "GPMSPolicies/simpleGraphToSMT.json";
+	public String initialGraphConfig = "Policies/simpleGraphToSMT.json";
 
 	static List<Node> UAs;
 	static List<Node> UAsOAs;
@@ -360,11 +360,11 @@ public class MutantTester2 {
 	}
 	
 	public void readGPMSGraph() throws PMException, IOException {
-		File file_eligibility_policy = new File("GPMSPolicies/EligibilityPolicyClass.json");
-		File file_org = new File("GPMSPolicies/AcademicUnitsPolicyClass.json");
-		File file_adm = new File("GPMSPolicies/AdministrationUnitsPolicyClass.json");
+		File file_eligibility_policy = new File("Policies/GPMS/EligibilityPolicyClass.json");
+		File file_org = new File("Policies/GPMS/AcademicUnitsPolicyClass.json");
+		File file_adm = new File("GPolicies/GPMS/AdministrationUnitsPolicyClass.json");
 
-		File editingFile = new File("GPMSPolicies/EditingPolicyClass.json");
+		File editingFile = new File("Policies/GPMS/EditingPolicyClass.json");
 
 		String eligibility_policy = new String(
 				Files.readAllBytes(Paths.get(file_eligibility_policy.getAbsolutePath())));
@@ -410,7 +410,7 @@ public class MutantTester2 {
 	}
 	
 	public static Obligation readGPMSObligation() throws FileNotFoundException, EVRException {
-		File obligationFile = getFileFromResources("GPMSPolicies/GPMS/Obligations.yml");
+		File obligationFile = getFileFromResources("Policies/GPMS/Obligations.yml");
 		InputStream inputStream = new FileInputStream(obligationFile);
 		Obligation obligation = EVRParser.parse(inputStream);
 
@@ -418,7 +418,7 @@ public class MutantTester2 {
 	}
 	
 	public void getObligationLoaded() throws FileNotFoundException, EVRException{
-		File obligationFile = getFileFromResources("GPMSPolicies/GPMS/Obligations.yml");
+		File obligationFile = getFileFromResources("Policies/GPMS/Obligations.yml");
 		InputStream inputStream = new FileInputStream(obligationFile);
 		originObligation = EVRParser.parse(inputStream);
 	}

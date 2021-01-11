@@ -11,6 +11,7 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import POMA.Utils;
 import POMA.Exceptions.NoTypeProvidedException;
 
 public class AllCombTestSuitGenerator {
@@ -54,12 +56,14 @@ public class AllCombTestSuitGenerator {
 
 	public AllCombTestSuitGenerator(String path)
 			throws PMException, InterruptedException, IOException, NoTypeProvidedException {
-		graph = Utils.readAnyGraph(path);
-		populateLists(graph);
+		File file = new File(path);
+		if (!file.isDirectory()) {
+			graph = Utils.readAnyGraph(path);
+		} else {
+			Utils utils = new Utils();
+			graph = utils.readAllFilesInFolderToGraph(file);
+		}		populateLists(graph);
 
-		for (String s : Utils.getNodesByTypes(graph, "U", "UA", "PC", "OA")) {
-			System.out.println(graph.getNode(s).toString());
-		}
 	}
 
 	public AllCombTestSuitGenerator() throws PMException, InterruptedException, IOException, NoTypeProvidedException {
@@ -101,7 +105,6 @@ public class AllCombTestSuitGenerator {
 				}
 
 			}
-			System.out.println("True: " + numberOfTrue + " False: " + numberOfFalse);
 		}
 
 		return data;

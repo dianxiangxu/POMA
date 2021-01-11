@@ -8,7 +8,10 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import POMA.TestSuitGeneration.Utils;
+import CaseStudies.gpms.Constants;
+import CaseStudies.gpms.customEvents.*;
+import CaseStudies.gpms.customFunctions.*;
+import POMA.Utils;
 import gov.nist.csd.pm.epp.EPPOptions;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
@@ -22,9 +25,6 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.obligations.MemObligations;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.prohibitions.MemProhibitions;
-import gpms.policy.Constants;
-import gpms.policy.customEvents.*;
-import gpms.policy.customFunctions.*;
 
 public class ObligationTest {
 	Graph graph = new MemGraph();

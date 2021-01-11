@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,13 +26,17 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.commons.io.FileUtils;
 
+import POMA.GlobalVariables;
+import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
 import POMA.GUI.*;
@@ -326,116 +331,46 @@ public class MutationPanel extends JPanelPB {
 		}
 	}
 
-	public void generateMutants(Graph graph, File folder) throws InstantiationException, NoTypeProvidedException  {
-//		if (!poma.hasWorkingPolicy()) {
-//			JOptionPane.showMessageDialog(poma, "There is no policy.");
-//			return;
-//		}
+	public boolean generateMutants(Graph graph, File folder) throws InstantiationException, NoTypeProvidedException  {
 		MutationBasedTestMutationMethods mutPanel = new MutationBasedTestMutationMethods();
-		
+		//System.out.println("Mutant folder: " + folder.getAbsolutePath());
 		int result = JOptionPane.showConfirmDialog(poma, mutPanel.createPanel(),"Please Select Mutation Methods",JOptionPane.OK_CANCEL_OPTION);
 		Map<String,String> mutantOperators = new HashMap<String,String>();
+		if(result == JOptionPane.CANCEL_OPTION) return false;
 		if (result == JOptionPane.OK_OPTION) {
 			this.startProgressStatus();
-
-//				File policyFile = poma.getWorkingPolicyFile();
-//				AbstractPolicy policy = PolicyLoader.loadPolicy(policyFile);
-//				List<Mutant> mutants = new ArrayList<Mutant>();
-//		        Mutator mutator = new Mutator(new Mutant(policy, XACMLElementUtil.getPolicyName(policyFile)));
-//		        File mutantsFolder = new File(MutantUtil.getMutantsFolderForPolicyFile(policyFile).toString());
-//		        if(mutantsFolder.exists()){
-//		        	FileUtils.cleanDirectory(mutantsFolder);
-//		        } else{
-//		        	mutantsFolder.mkdir();
-//		        }
-		      //  MutationBasedTestGenerator testGenerator = new MutationBasedTestGenerator(xpa.getWorkingPolicyFilePath());
-//				MutationBasedTestMutationMethods mbtMethods = new MutationBasedTestMutationMethods();
-//				String policyFilePath = poma.getWorkingPolicyFilePath();
-//				List<String> mutationMethods = new ArrayList<String>();
-//				mutationMethods.add("createCombiningAlgorithmMutants");
-				//mutationMethods.add("createRuleConditionTrueMutants");
-//				int rulesCount = XACMLElementUtil.getRuleFromPolicy(policy).size();
-//				if(rulesCount<1000) { // if number of rules is larger than 1000, then checking equivalent mutants of type RTT is costly, so to reduce mutants generation time, automatic removal is disabled and instead do manually or remove this if condition
-//					mutationMethods.add("createRuleTargetTrueMutants"); 
-//					
-//				}
-//				boolean disableEquivalentMutantFilterFlag = false;
-//				if(rulesCount<50) { // if number of rules is larger, then checking equivalent mutants of type RPTE is costly, so to reduce mutants generation time, automatic removal is disabled and instead do manually or remove this if condition
-//					mutationMethods.add("createRemoveParallelTargetElementMutants"); 
-//					
-//				}
-//				
-//				// did not test with every mutation operator to reduce mutation generation time
-//				// if there exists other equivalent mutant from other mutation operators, needs to add it here to remove equivalent mutant
-////				List<TaggedRequest> taggedRequests = testGenerator.generateRequests(mutationMethods);
-////				AbstractPolicy p = PolicyLoader.loadPolicy(xpa.getWorkingPolicyFile());
-////				List<Mutant> tR = new ArrayList<Mutant>();
-//		        
-		      //  for(String method:mutPanel.getMutationOperatorList(false)) {
-		        //	List<String> methods = new ArrayList<String>();
-		        //	methods.add(method);
 		    		MutationController mc = new MutationController();
 		    		try {
+		    			if(!folder.isDirectory()) {
+		    				folder = folder.getParentFile();
+		    			}
 						mc.createMutants(mutPanel.getMutationOperatorList(false),graph, folder);
 					} catch (GraphDoesNotMatchTestSuitException e) {
-						e.printStackTrace();
+						//e.printStackTrace();
 						this.stopProgressStatus();
 						JOptionPane.showMessageDialog(this,
-								"(Graph)Policy and Testing Suits do not match.",
+								"Graph and Testing Suits do not match.",
 								"Error of Selection",
 								JOptionPane.WARNING_MESSAGE);
+						this.stopProgressStatus();
+						return false;
 					}
 		    		
 		    		ObligationMutationController omc = new ObligationMutationController();
 		    		try {
 						omc.createMutants(mutPanel.getObligationMutationOperatorList(false),graph, folder);
 					} catch (GraphDoesNotMatchTestSuitException e) {
-						e.printStackTrace();
+						//e.printStackTrace();
 						this.stopProgressStatus();
 						JOptionPane.showMessageDialog(this,
 								"(Obligation)Policy and Testing Suits do not match.",
 								"Error of Selection",
 								JOptionPane.WARNING_MESSAGE);
 					}
-			       // List<Mutant> muts = mutator.generateSelectedMutantsAndSave(methods,mutantsFolder.toString());
-			        
-//			        for(Mutant mutant: muts){
-//			        	if(methods.get(0).equals("createCombiningAlgorithmMutants")||(methods.get(0).equals("createRuleTargetTrueMutants") && !disableEquivalentMutantFilterFlag &&  rulesCount<1000)|| (methods.get(0).equals("createRemoveParallelTargetElementMutants") && rulesCount<50)) {
-//			        		boolean live = true;
-//			        		for(TaggedRequest t:taggedRequests) {
-//			        			
-//			        			int rp = PolicyRunner.evaluate(p, t.getBody());
-//			        			int rm = PolicyRunner.evaluate(mutant.getPolicy(), t.getBody());
-//			        			if (rp!=rm) {
-//			        				live = false;
-//			        				break;
-//			        			}
-//			        			
-//			        		}
-//			        		if(live) {
-//			        			tR.add(mutant);
-//			        			System.out.println("-->" + mutant.getName());
-//			        			continue;
-//			        		}
-//			        		
-//			        	}
-//					}
-//			        
-//			        for(Mutant m:tR) {
-//			        System.out.println("Equivalent mutant -----> " + m.getName());
-//			        }
-//			        muts.removeAll(tR);
-//			        mutants.addAll(muts);
-//		        }
-//				mutantSuite = new PolicySpreadSheetMutantSuite(mutantsFolder.toString(),mutants,XACMLElementUtil.getPolicyName(policyFile)); // write to spreadsheet		
-//				mutantSuite.writePolicyMutantsSpreadSheet(mutants,XACMLElementUtil.getPolicyName(policyFile) + "_mutants.xls");
-//				setUpMutantPanel(mutants, PropertiesLoader.getProperties("config").getProperty("mutantsFolderName"));
-		        
-			
-			//}
-		
+	
 			this.stopProgressStatus();
 		}
+		return true;
 		
 	}
 	
@@ -521,7 +456,69 @@ public class MutationPanel extends JPanelPB {
 //		this.stopProgressStatus();
 	}
 	
+	private boolean handleGenerationFromFileOrFolder(File globalFile, AbstractPolicyEditor editorPanel) {
+		boolean mutationSuccesfull = false;
+
+		try {
+			if (!globalFile.isDirectory()) {
+				mutationSuccesfull = generateMutants(editorPanel.getGraph(),
+						globalFile.getParentFile());
+				((PolicyEditorPanelDemo) editorPanel).updateFileTree();
+			} else {
+				mutationSuccesfull = generateMutants(editorPanel.getGraph(), globalFile);
+				((PolicyEditorPanelDemo) editorPanel).updateFileTree();
+			}
+		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(editorPanel, "Selected folder does not contain the testing suit",
+					"Error of Selection", JOptionPane.WARNING_MESSAGE);
+			stopProgressStatus();
+			return false;
+		}
+		return mutationSuccesfull;
+	}
 	
+	private JPanel createMutationTablePanel(File globalFile) {
+		JPanel mutationTablePanel = new JPanel();
+		JTable table = new JTable(new MyModel());
+		table.setFillsViewportHeight(true);
+		MyModel csvTableModel = new MyModel();
+		table.setModel(csvTableModel);
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setPreferredSize(new Dimension(500, 750));
+		mutationTablePanel.add(scrollPane);
+		File file = null;
+		if (!globalFile.isDirectory()) {
+			file = new File((globalFile.getParent() + "/CSV/OverallMutationResults.csv"));
+		} else {
+			file = new File((globalFile.getPath() + "/CSV/OverallMutationResults.csv"));
+		}
+		try {
+			csvTableModel.AddCSVData(Utils.loadCSV(file));
+		} catch (IOException e1) {
+		}
+		return mutationTablePanel;
+	}
+	
+	private JPanel createFileTreePanel(AbstractPolicyEditor editorPanel) {
+		JPanel fileTreePanel = new JPanel();
+		JScrollPane scrollMutationResultsFileTree = new JScrollPane(((PolicyEditorPanelDemo) editorPanel).getFileTree(),
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollMutationResultsFileTree.setPreferredSize(new Dimension(700, 750));
+		fileTreePanel.add(scrollMutationResultsFileTree);
+		return fileTreePanel;
+	}
+	
+	public JSplitPane generateMutants(AbstractPolicyEditor editorPanel) {
+		File globalFile = new File(GlobalVariables.currentPath);		
+		if(!handleGenerationFromFileOrFolder(globalFile, editorPanel))
+		{
+			return null;
+		}								
+		JSplitPane jSplitPanelMutationResult = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);		
+		jSplitPanelMutationResult.setLeftComponent(createFileTreePanel(editorPanel));
+		jSplitPanelMutationResult.setRightComponent(createMutationTablePanel(globalFile));
+		return jSplitPanelMutationResult;
+	}
 	
 	
 	
@@ -583,6 +580,36 @@ public class MutationPanel extends JPanelPB {
 				c.setForeground(Color.blue);
 			}
 			return c;
+		}
+	}
+	class MyModel extends AbstractTableModel {
+		private static final long serialVersionUID = 1L;
+		private final String[] columnNames = { "TestMethod", "Pairwise", "AllCombinations" };
+		private List<String[]> Data = new ArrayList<String[]>();
+
+		public void AddCSVData(List<String[]> DataIn) {
+			this.Data = DataIn;
+			this.fireTableDataChanged();
+		}
+
+		@Override
+		public int getColumnCount() {
+			return columnNames.length;
+		}
+
+		@Override
+		public int getRowCount() {
+			return Data.size();
+		}
+
+		@Override
+		public String getColumnName(int col) {
+			return columnNames[col];
+		}
+
+		@Override
+		public Object getValueAt(int row, int col) {
+			return Data.get(row)[col];
 		}
 	}
 }
