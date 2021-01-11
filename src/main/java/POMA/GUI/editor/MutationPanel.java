@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,13 +26,17 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.commons.io.FileUtils;
 
+import POMA.GlobalVariables;
+import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
 import POMA.GUI.*;
@@ -451,7 +456,69 @@ public class MutationPanel extends JPanelPB {
 //		this.stopProgressStatus();
 	}
 	
+	private boolean handleGenerationFromFileOrFolder(File globalFile, AbstractPolicyEditor editorPanel) {
+		boolean mutationSuccesfull = false;
+
+		try {
+			if (!globalFile.isDirectory()) {
+				mutationSuccesfull = generateMutants(editorPanel.getGraph(),
+						globalFile.getParentFile());
+				((PolicyEditorPanelDemo) editorPanel).updateFileTree();
+			} else {
+				mutationSuccesfull = generateMutants(editorPanel.getGraph(), globalFile);
+				((PolicyEditorPanelDemo) editorPanel).updateFileTree();
+			}
+		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(editorPanel, "Selected folder does not contain the testing suit",
+					"Error of Selection", JOptionPane.WARNING_MESSAGE);
+			stopProgressStatus();
+			return false;
+		}
+		return mutationSuccesfull;
+	}
 	
+	private JPanel createMutationTablePanel(File globalFile) {
+		JPanel mutationTablePanel = new JPanel();
+		JTable table = new JTable(new MyModel());
+		table.setFillsViewportHeight(true);
+		MyModel csvTableModel = new MyModel();
+		table.setModel(csvTableModel);
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setPreferredSize(new Dimension(500, 750));
+		mutationTablePanel.add(scrollPane);
+		File file = null;
+		if (!globalFile.isDirectory()) {
+			file = new File((globalFile.getParent() + "/CSV/OverallMutationResults.csv"));
+		} else {
+			file = new File((globalFile.getPath() + "/CSV/OverallMutationResults.csv"));
+		}
+		try {
+			csvTableModel.AddCSVData(Utils.loadCSV(file));
+		} catch (IOException e1) {
+		}
+		return mutationTablePanel;
+	}
+	
+	private JPanel createFileTreePanel(AbstractPolicyEditor editorPanel) {
+		JPanel fileTreePanel = new JPanel();
+		JScrollPane scrollMutationResultsFileTree = new JScrollPane(((PolicyEditorPanelDemo) editorPanel).getFileTree(),
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollMutationResultsFileTree.setPreferredSize(new Dimension(700, 750));
+		fileTreePanel.add(scrollMutationResultsFileTree);
+		return fileTreePanel;
+	}
+	
+	public JSplitPane generateMutants(AbstractPolicyEditor editorPanel) {
+		File globalFile = new File(GlobalVariables.currentPath);		
+		if(!handleGenerationFromFileOrFolder(globalFile, editorPanel))
+		{
+			return null;
+		}								
+		JSplitPane jSplitPanelMutationResult = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);		
+		jSplitPanelMutationResult.setLeftComponent(createFileTreePanel(editorPanel));
+		jSplitPanelMutationResult.setRightComponent(createMutationTablePanel(globalFile));
+		return jSplitPanelMutationResult;
+	}
 	
 	
 	
@@ -513,6 +580,36 @@ public class MutationPanel extends JPanelPB {
 				c.setForeground(Color.blue);
 			}
 			return c;
+		}
+	}
+	class MyModel extends AbstractTableModel {
+		private static final long serialVersionUID = 1L;
+		private final String[] columnNames = { "TestMethod", "Pairwise", "AllCombinations" };
+		private List<String[]> Data = new ArrayList<String[]>();
+
+		public void AddCSVData(List<String[]> DataIn) {
+			this.Data = DataIn;
+			this.fireTableDataChanged();
+		}
+
+		@Override
+		public int getColumnCount() {
+			return columnNames.length;
+		}
+
+		@Override
+		public int getRowCount() {
+			return Data.size();
+		}
+
+		@Override
+		public String getColumnName(int col) {
+			return columnNames[col];
+		}
+
+		@Override
+		public Object getValueAt(int row, int col) {
+			return Data.get(row)[col];
 		}
 	}
 }

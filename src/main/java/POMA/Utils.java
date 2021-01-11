@@ -25,10 +25,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.swing.JApplet;
+
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 import POMA.Exceptions.NoTypeProvidedException;
+import POMA.GUI.GraphVisualization.GraphVisualizer;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -355,6 +358,11 @@ public class Utils {
 			addJSONToGraph(graph, fileEntry.getAbsolutePath());
 		}
 		return graph;
-
+	}
+	
+	public static JApplet getGraphVisualization(MemGraph graph) {
+		GraphVisualizer gui = new GraphVisualizer(graph);
+		gui.init();
+		return gui.returnPane();	
 	}
 }

@@ -128,7 +128,7 @@ public class MutationController {
 				} else if (mutantNames.get(i).equals("AAGR")) {
 					row6[0] = "AAGR";
 					row6[j] = Double.toString(testAAGR(testMethod, graph));
-					System.out.println("HELLO");
+				//	System.out.println("HELLO");
 				} else if (mutantNames.get(i).equals("CUAA")) {
 					row7[0] = "CUAA";
 					row7[j] = Double.toString(testCUAA(testMethod, graph));

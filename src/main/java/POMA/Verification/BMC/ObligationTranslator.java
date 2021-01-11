@@ -74,7 +74,7 @@ public class ObligationTranslator {
 				assignActions.add((AssignAction)action);
 			}
 			else if(action instanceof GrantAction) {
-				System.out.println("HELLO");
+				//System.out.println("HELLO");
 				grantActions.add((GrantAction)action);
 			}
 		}	

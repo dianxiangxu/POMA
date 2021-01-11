@@ -63,16 +63,7 @@ public class TestPanel extends JPanelPB {
 	public POMA getDemo() {
 		return this.poma;
 	}
-	
-
-//	public PolicyTestSuite getPolicySpreadSheetTestSuite() {
-//		return testSuite;
-//	}
-//	
-//	public void setTestSuite(PolicyTestSuite p)
-//	{
-//		this.testSuite = p;
-//	}
+		
 	
 	public void setWorkingTestSuiteFileName(String filename)
 	{

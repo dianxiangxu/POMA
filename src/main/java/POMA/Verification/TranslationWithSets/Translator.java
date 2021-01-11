@@ -51,7 +51,7 @@ import org.jgrapht.graph.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class TranslatorMain {
+public class Translator {
 	private List<AssociationRelation> listOfAssociations = new ArrayList<AssociationRelation>();
 	private String actualOutput=""; 
 	private List<String> accessRightsResults;
@@ -105,7 +105,6 @@ public class TranslatorMain {
 	}
 
 	public String queryAccessRightsAllComb(Graph graph, String queries) throws Exception {
-
 		CVC4Translator translator = new CVC4Translator(graph);
 		translator.initTranslation();
 		String translatedGraph = translator.getTranslatedGraph();
@@ -245,7 +244,7 @@ public class TranslatorMain {
 		String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
 //		 
 //		String translatedGraphResultPath = "SMTLIBv2Files/SMTLIB2Input/tclosureTranslatedGraph.smt2";
-		TranslatorMain applet = new TranslatorMain();
+		Translator applet = new Translator();
 		Graph graph = Utils.readAnyGraph(simpleGraphPath);
 
 		applet.getAllAccessRights(graph);

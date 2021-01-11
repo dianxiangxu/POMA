@@ -175,7 +175,7 @@ public class ObligationMutationController {
 				} else if (mutantNames.get(i).equals("CEPE")) {
 					row6[0] = "CEPE";
 					row6[j] = Double.toString(testCEPE(testMethod, graph));
-					System.out.println("HELLO");
+			//		System.out.println("HELLO");
 				} else if (mutantNames.get(i).equals("CEU")) {
 					row7[0] = "CEU";
 					row7[j] = Double.toString(testCEU(testMethod, graph));
