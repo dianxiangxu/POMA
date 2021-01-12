@@ -67,7 +67,7 @@ public class CoinsChecker extends BMC {
 	
 	public static void main(String[] args) throws Exception {
 		CoinsChecker checker = new CoinsChecker(115);
-		checker.setSMTCodePath("SMTLIBv2Files/SMTLIB2Input/CoinsFiles/coins");
+		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/CoinsFiles/coins");
 		checker.check();
 	}
 
