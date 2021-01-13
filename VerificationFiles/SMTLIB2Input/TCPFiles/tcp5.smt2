@@ -23,7 +23,7 @@
 (and
 (= (waitForAck 1) 1) 
 (= (msgBuffer 1) 1) 
-(= (readyToSend 1) 1) 
+(= (readyToSend 1) 0) 
 (= (messageReceived 1) (messageReceived (- 1 1))) 
 (= (ackSent 1) (ackSent (- 1 1))) 
 (= (ackBuffer 1) (ackBuffer (- 1 1))) 
@@ -32,8 +32,8 @@
 )
  (ite (and (= (msgBuffer (- 1 1)) 1)  (= (readyToReceive (- 1 1)) 1)) 
 (and
-(= (msgBuffer 1) 1) 
-(= (readyToReceive 1) 1) 
+(= (msgBuffer 1) 0) 
+(= (readyToReceive 1) 0) 
 (= (messageReceived 1) 1) 
 (= (waitForAck 1) (waitForAck (- 1 1))) 
 (= (ackSent 1) (ackSent (- 1 1))) 
@@ -43,7 +43,7 @@
 )
  (ite (= (messageReceived (- 1 1)) 1) 
 (and
-(= (messageReceived 1) 1) 
+(= (messageReceived 1) 0) 
 (= (ackSent 1) 1) 
 (= (ackBuffer 1) 1) 
 (= (waitForAck 1) (waitForAck (- 1 1))) 
@@ -54,8 +54,8 @@
 )
  (ite (and (= (waitForAck (- 1 1)) 1)  (= (ackBuffer (- 1 1)) 1)) 
 (and
-(= (waitForAck 1) 1) 
-(= (ackBuffer 1) 1) 
+(= (waitForAck 1) 0) 
+(= (ackBuffer 1) 0) 
 (= (ackReceived 1) 1) 
 (= (messageReceived 1) (messageReceived (- 1 1))) 
 (= (msgBuffer 1) (msgBuffer (- 1 1))) 
@@ -65,7 +65,7 @@
 )
  (ite (= (ackSent (- 1 1)) 1) 
 (and
-(= (ackSent 1) 1) 
+(= (ackSent 1) 0) 
 (= (readyToReceive 1) 1) 
 (= (waitForAck 1) (waitForAck (- 1 1))) 
 (= (messageReceived 1) (messageReceived (- 1 1))) 
@@ -76,7 +76,7 @@
 )
  (ite (= (ackReceived (- 1 1)) 1) 
 (and
-(= (ackReceived 1) 1) 
+(= (ackReceived 1) 0) 
 (= (readyToSend 1) 1) 
 (= (waitForAck 1) (waitForAck (- 1 1))) 
 (= (messageReceived 1) (messageReceived (- 1 1))) 
@@ -90,7 +90,7 @@
 (and
 (= (waitForAck 2) 1) 
 (= (msgBuffer 2) 1) 
-(= (readyToSend 2) 1) 
+(= (readyToSend 2) 0) 
 (= (messageReceived 2) (messageReceived (- 2 1))) 
 (= (ackSent 2) (ackSent (- 2 1))) 
 (= (ackBuffer 2) (ackBuffer (- 2 1))) 
@@ -99,8 +99,8 @@
 )
  (ite (and (= (msgBuffer (- 2 1)) 1)  (= (readyToReceive (- 2 1)) 1)) 
 (and
-(= (msgBuffer 2) 1) 
-(= (readyToReceive 2) 1) 
+(= (msgBuffer 2) 0) 
+(= (readyToReceive 2) 0) 
 (= (messageReceived 2) 1) 
 (= (waitForAck 2) (waitForAck (- 2 1))) 
 (= (ackSent 2) (ackSent (- 2 1))) 
@@ -110,7 +110,7 @@
 )
  (ite (= (messageReceived (- 2 1)) 1) 
 (and
-(= (messageReceived 2) 1) 
+(= (messageReceived 2) 0) 
 (= (ackSent 2) 1) 
 (= (ackBuffer 2) 1) 
 (= (waitForAck 2) (waitForAck (- 2 1))) 
@@ -121,8 +121,8 @@
 )
  (ite (and (= (waitForAck (- 2 1)) 1)  (= (ackBuffer (- 2 1)) 1)) 
 (and
-(= (waitForAck 2) 1) 
-(= (ackBuffer 2) 1) 
+(= (waitForAck 2) 0) 
+(= (ackBuffer 2) 0) 
 (= (ackReceived 2) 1) 
 (= (messageReceived 2) (messageReceived (- 2 1))) 
 (= (msgBuffer 2) (msgBuffer (- 2 1))) 
@@ -132,7 +132,7 @@
 )
  (ite (= (ackSent (- 2 1)) 1) 
 (and
-(= (ackSent 2) 1) 
+(= (ackSent 2) 0) 
 (= (readyToReceive 2) 1) 
 (= (waitForAck 2) (waitForAck (- 2 1))) 
 (= (messageReceived 2) (messageReceived (- 2 1))) 
@@ -143,7 +143,7 @@
 )
  (ite (= (ackReceived (- 2 1)) 1) 
 (and
-(= (ackReceived 2) 1) 
+(= (ackReceived 2) 0) 
 (= (readyToSend 2) 1) 
 (= (waitForAck 2) (waitForAck (- 2 1))) 
 (= (messageReceived 2) (messageReceived (- 2 1))) 
@@ -157,7 +157,7 @@
 (and
 (= (waitForAck 3) 1) 
 (= (msgBuffer 3) 1) 
-(= (readyToSend 3) 1) 
+(= (readyToSend 3) 0) 
 (= (messageReceived 3) (messageReceived (- 3 1))) 
 (= (ackSent 3) (ackSent (- 3 1))) 
 (= (ackBuffer 3) (ackBuffer (- 3 1))) 
@@ -166,8 +166,8 @@
 )
  (ite (and (= (msgBuffer (- 3 1)) 1)  (= (readyToReceive (- 3 1)) 1)) 
 (and
-(= (msgBuffer 3) 1) 
-(= (readyToReceive 3) 1) 
+(= (msgBuffer 3) 0) 
+(= (readyToReceive 3) 0) 
 (= (messageReceived 3) 1) 
 (= (waitForAck 3) (waitForAck (- 3 1))) 
 (= (ackSent 3) (ackSent (- 3 1))) 
@@ -177,7 +177,7 @@
 )
  (ite (= (messageReceived (- 3 1)) 1) 
 (and
-(= (messageReceived 3) 1) 
+(= (messageReceived 3) 0) 
 (= (ackSent 3) 1) 
 (= (ackBuffer 3) 1) 
 (= (waitForAck 3) (waitForAck (- 3 1))) 
@@ -188,8 +188,8 @@
 )
  (ite (and (= (waitForAck (- 3 1)) 1)  (= (ackBuffer (- 3 1)) 1)) 
 (and
-(= (waitForAck 3) 1) 
-(= (ackBuffer 3) 1) 
+(= (waitForAck 3) 0) 
+(= (ackBuffer 3) 0) 
 (= (ackReceived 3) 1) 
 (= (messageReceived 3) (messageReceived (- 3 1))) 
 (= (msgBuffer 3) (msgBuffer (- 3 1))) 
@@ -199,7 +199,7 @@
 )
  (ite (= (ackSent (- 3 1)) 1) 
 (and
-(= (ackSent 3) 1) 
+(= (ackSent 3) 0) 
 (= (readyToReceive 3) 1) 
 (= (waitForAck 3) (waitForAck (- 3 1))) 
 (= (messageReceived 3) (messageReceived (- 3 1))) 
@@ -210,7 +210,7 @@
 )
  (ite (= (ackReceived (- 3 1)) 1) 
 (and
-(= (ackReceived 3) 1) 
+(= (ackReceived 3) 0) 
 (= (readyToSend 3) 1) 
 (= (waitForAck 3) (waitForAck (- 3 1))) 
 (= (messageReceived 3) (messageReceived (- 3 1))) 
@@ -224,7 +224,7 @@
 (and
 (= (waitForAck 4) 1) 
 (= (msgBuffer 4) 1) 
-(= (readyToSend 4) 1) 
+(= (readyToSend 4) 0) 
 (= (messageReceived 4) (messageReceived (- 4 1))) 
 (= (ackSent 4) (ackSent (- 4 1))) 
 (= (ackBuffer 4) (ackBuffer (- 4 1))) 
@@ -233,8 +233,8 @@
 )
  (ite (and (= (msgBuffer (- 4 1)) 1)  (= (readyToReceive (- 4 1)) 1)) 
 (and
-(= (msgBuffer 4) 1) 
-(= (readyToReceive 4) 1) 
+(= (msgBuffer 4) 0) 
+(= (readyToReceive 4) 0) 
 (= (messageReceived 4) 1) 
 (= (waitForAck 4) (waitForAck (- 4 1))) 
 (= (ackSent 4) (ackSent (- 4 1))) 
@@ -244,7 +244,7 @@
 )
  (ite (= (messageReceived (- 4 1)) 1) 
 (and
-(= (messageReceived 4) 1) 
+(= (messageReceived 4) 0) 
 (= (ackSent 4) 1) 
 (= (ackBuffer 4) 1) 
 (= (waitForAck 4) (waitForAck (- 4 1))) 
@@ -255,8 +255,8 @@
 )
  (ite (and (= (waitForAck (- 4 1)) 1)  (= (ackBuffer (- 4 1)) 1)) 
 (and
-(= (waitForAck 4) 1) 
-(= (ackBuffer 4) 1) 
+(= (waitForAck 4) 0) 
+(= (ackBuffer 4) 0) 
 (= (ackReceived 4) 1) 
 (= (messageReceived 4) (messageReceived (- 4 1))) 
 (= (msgBuffer 4) (msgBuffer (- 4 1))) 
@@ -266,7 +266,7 @@
 )
  (ite (= (ackSent (- 4 1)) 1) 
 (and
-(= (ackSent 4) 1) 
+(= (ackSent 4) 0) 
 (= (readyToReceive 4) 1) 
 (= (waitForAck 4) (waitForAck (- 4 1))) 
 (= (messageReceived 4) (messageReceived (- 4 1))) 
@@ -277,7 +277,7 @@
 )
  (ite (= (ackReceived (- 4 1)) 1) 
 (and
-(= (ackReceived 4) 1) 
+(= (ackReceived 4) 0) 
 (= (readyToSend 4) 1) 
 (= (waitForAck 4) (waitForAck (- 4 1))) 
 (= (messageReceived 4) (messageReceived (- 4 1))) 
@@ -291,7 +291,7 @@
 (and
 (= (waitForAck 5) 1) 
 (= (msgBuffer 5) 1) 
-(= (readyToSend 5) 1) 
+(= (readyToSend 5) 0) 
 (= (messageReceived 5) (messageReceived (- 5 1))) 
 (= (ackSent 5) (ackSent (- 5 1))) 
 (= (ackBuffer 5) (ackBuffer (- 5 1))) 
@@ -300,8 +300,8 @@
 )
  (ite (and (= (msgBuffer (- 5 1)) 1)  (= (readyToReceive (- 5 1)) 1)) 
 (and
-(= (msgBuffer 5) 1) 
-(= (readyToReceive 5) 1) 
+(= (msgBuffer 5) 0) 
+(= (readyToReceive 5) 0) 
 (= (messageReceived 5) 1) 
 (= (waitForAck 5) (waitForAck (- 5 1))) 
 (= (ackSent 5) (ackSent (- 5 1))) 
@@ -311,7 +311,7 @@
 )
  (ite (= (messageReceived (- 5 1)) 1) 
 (and
-(= (messageReceived 5) 1) 
+(= (messageReceived 5) 0) 
 (= (ackSent 5) 1) 
 (= (ackBuffer 5) 1) 
 (= (waitForAck 5) (waitForAck (- 5 1))) 
@@ -322,8 +322,8 @@
 )
  (ite (and (= (waitForAck (- 5 1)) 1)  (= (ackBuffer (- 5 1)) 1)) 
 (and
-(= (waitForAck 5) 1) 
-(= (ackBuffer 5) 1) 
+(= (waitForAck 5) 0) 
+(= (ackBuffer 5) 0) 
 (= (ackReceived 5) 1) 
 (= (messageReceived 5) (messageReceived (- 5 1))) 
 (= (msgBuffer 5) (msgBuffer (- 5 1))) 
@@ -333,7 +333,7 @@
 )
  (ite (= (ackSent (- 5 1)) 1) 
 (and
-(= (ackSent 5) 1) 
+(= (ackSent 5) 0) 
 (= (readyToReceive 5) 1) 
 (= (waitForAck 5) (waitForAck (- 5 1))) 
 (= (messageReceived 5) (messageReceived (- 5 1))) 
@@ -344,7 +344,7 @@
 )
  (ite (= (ackReceived (- 5 1)) 1) 
 (and
-(= (ackReceived 5) 1) 
+(= (ackReceived 5) 0) 
 (= (readyToSend 5) 1) 
 (= (waitForAck 5) (waitForAck (- 5 1))) 
 (= (messageReceived 5) (messageReceived (- 5 1))) 
