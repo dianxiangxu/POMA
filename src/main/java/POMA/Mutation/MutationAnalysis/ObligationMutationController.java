@@ -47,36 +47,40 @@ public class ObligationMutationController {
 		//String initialGraphConfig = "Policies/simpleGraphToSMT.json";
 
 //		omc.graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
-		omc.graph = Utils.readGPMSGraph();
-		omc.obligation = readGPMSObligation();
+		String initialGraphConfig = "Policies/LawUseCase/Graph.json";
+		String initialObligationConfig = "Policies/LawUseCase/Obligations.yml";
+		omc.graph = Utils.readAnyGraph(initialGraphConfig);
+		//omc.graph = Utils.readGPMSGraph();
+		//omc.obligation = readGPMSObligation();
 		for (String testMethod : omc.testMethods) {
 
 			String[] row = new String[rowCount];
 			omc.totalNumberOfMutantsForTest = 0;
 			omc.totalNumberOfKilledMutantsForTest = 0;
-			double resultROR = omc.testROR(testMethod, omc.graph);
-//			double resultCEU = omc.testCEU(testMethod, omc.graph);
-//			double resultREU = omc.testREU(testMethod, omc.graph);
-//			double resultCEPC = omc.testCEPC(testMethod, omc.graph);
-//			double resultREPC = omc.testREPC(testMethod, omc.graph);
-//			double resultCEO = omc.testCEO(testMethod, omc.graph);
-//			double resultAEO = omc.testAEO(testMethod, omc.graph);
-//			double resultREO = omc.testREO(testMethod, omc.graph);
-//			double resultCEPE = omc.testCEPE(testMethod, omc.graph);
-//			double resultREPE = omc.testREPE(testMethod, omc.graph);
-//			double resultROC = omc.testROC(testMethod, omc.graph);
-//			double resultROA = omc.testROA(testMethod, omc.graph);
-//			double resultNCD = omc.testNCD(testMethod, omc.graph);
-//			double resultROF = omc.testROF(testMethod, omc.graph);
-//			double resultNOF = omc.testNOF(testMethod, omc.graph);
-//			double resultCAC = omc.testCAC(testMethod, omc.graph);
-//			double resultICA = omc.testICA(testMethod, omc.graph);
-//			double resultIAA = omc.testIAA(testMethod, omc.graph);
-//			double resultIGA = omc.testIGA(testMethod, omc.graph);
-//			double resultINA = omc.testINA(testMethod, omc.graph);
+//			double resultROR = omc.testROR(testMethod, omc.graph, initialObligationConfig);
+//			double resultCEU = omc.testCEU(testMethod, omc.graph, initialObligationConfig);//no mutant
+//			double resultREU = omc.testREU(testMethod, omc.graph, initialObligationConfig);//no mutant
+//			double resultCEPC = omc.testCEPC(testMethod, omc.graph, initialObligationConfig);//no mutant
+//			double resultREPC = omc.testREPC(testMethod, omc.graph, initialObligationConfig);//no mutant
+//			double resultCEO = omc.testCEO(testMethod, omc.graph, initialObligationConfig);
+//			double resultAEO = omc.testAEO(testMethod, omc.graph, initialObligationConfig);
+//			double resultREO = omc.testREO(testMethod, omc.graph, initialObligationConfig);
+//			double resultCEPE = omc.testCEPE(testMethod, omc.graph, initialObligationConfig);
+//			double resultREPE = omc.testREPE(testMethod, omc.graph, initialObligationConfig);
+//			double resultROC = omc.testROC(testMethod, omc.graph, initialObligationConfig);
+//			double resultROA = omc.testROA(testMethod, omc.graph, initialObligationConfig);
+//			double resultNCD = omc.testNCD(testMethod, omc.graph, initialObligationConfig);
+//			double resultROF = omc.testROF(testMethod, omc.graph, initialObligationConfig);
+//			double resultNOF = omc.testNOF(testMethod, omc.graph, initialObligationConfig);
+//			double resultCAC = omc.testCAC(testMethod, omc.graph, initialObligationConfig);
+//			double resultICA = omc.testICA(testMethod, omc.graph, initialObligationConfig);//no mutant
+//			double resultIAA = omc.testIAA(testMethod, omc.graph, initialObligationConfig);
+//			double resultIGA = omc.testIGA(testMethod, omc.graph, initialObligationConfig);
+			double resultINA = omc.testINA(testMethod, omc.graph, initialObligationConfig);//no mutant
+			
 
 			row[0] = testMethod;
-			row[1] = Double.toString(resultROR);
+//			row[1] = Double.toString(resultROR);
 //			row[2] = Double.toString(resultCEU);
 //			row[3] = Double.toString(resultREU);
 //			row[4] = Double.toString(resultCEPC);
@@ -115,7 +119,7 @@ public class ObligationMutationController {
 		createTestMethods();
 	}
 
-	public void createMutants(List<String> mutantNames, Graph graph, File folder)
+	public void createMutants(List<String> mutantNames, Graph graph, String obligationPath, File folder)
 			throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException, InstantiationException {
 
 		// createHeaderForCSV(mutantNames);
@@ -162,68 +166,68 @@ public class ObligationMutationController {
 				double result = 0;
 				if (mutantNames.get(i).equals("AEO")) {
 					row2[0] = "AEO";
-					row2[j] = Double.toString(testAEO(testMethod, graph));
+					row2[j] = Double.toString(testAEO(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("CAC")) {
 					row3[0] = "CAC";
-					row3[j] = Double.toString(testCAC(testMethod, graph));
+					row3[j] = Double.toString(testCAC(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("CEO")) {
 					row4[0] = "CEO";
-					row4[j] = Double.toString(testCEO(testMethod, graph));
+					row4[j] = Double.toString(testCEO(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("CEPC")) {
 					row5[0] = "CEPC";
-					row5[j] = Double.toString(testCEPC(testMethod, graph));
+					row5[j] = Double.toString(testCEPC(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("CEPE")) {
 					row6[0] = "CEPE";
-					row6[j] = Double.toString(testCEPE(testMethod, graph));
+					row6[j] = Double.toString(testCEPE(testMethod, graph, obligationPath));
 			//		System.out.println("HELLO");
 				} else if (mutantNames.get(i).equals("CEU")) {
 					row7[0] = "CEU";
-					row7[j] = Double.toString(testCEU(testMethod, graph));
+					row7[j] = Double.toString(testCEU(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("IAA")) {
 					row8[0] = "IAA";
-					row8[j] = Double.toString(testIAA(testMethod, graph));
+					row8[j] = Double.toString(testIAA(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("ICA")) {
 					row9[0] = "ICA";
-					row9[j] = Double.toString(testICA(testMethod, graph));
+					row9[j] = Double.toString(testICA(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("IGA")) {
 					row10[0] = "IGA";
-					row10[j] = Double.toString(testIGA(testMethod, graph));
+					row10[j] = Double.toString(testIGA(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("INA")) {
 					row11[0] = "INA";
-					row11[j] = Double.toString(testINA(testMethod, graph));
+					row11[j] = Double.toString(testINA(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("NCD")) {
 					row12[0] = "NCD";
-					row12[j] = Double.toString(testNCD(testMethod, graph));
+					row12[j] = Double.toString(testNCD(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("NOF")) {
 					row13[0] = "NOF";
-					row13[j] = Double.toString(testNOF(testMethod, graph));
+					row13[j] = Double.toString(testNOF(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("RCA")) {
 					row14[0] = "RCA";
-					row14[j] = Double.toString(testRCA(testMethod, graph));
+					row14[j] = Double.toString(testRCA(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("REO")) {
 					row15[0] = "REO";
-					row15[j] = Double.toString(testREO(testMethod, graph));
+					row15[j] = Double.toString(testREO(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("REPC")) {
 					row16[0] = "REPC";
-					row16[j] = Double.toString(testREPC(testMethod, graph));
+					row16[j] = Double.toString(testREPC(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("REPE")) {
 					row17[0] = "REPE";
-					row17[j] = Double.toString(testREPE(testMethod, graph));
+					row17[j] = Double.toString(testREPE(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("REU")) {
 					row18[0] = "REU";
-					row18[j] = Double.toString(testREU(testMethod, graph));
+					row18[j] = Double.toString(testREU(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("ROA")) {
 					row19[0] = "ROA";
-					row19[j] = Double.toString(testROA(testMethod, graph));
+					row19[j] = Double.toString(testROA(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("ROC")) {
 					row20[0] = "ROC";
-					row20[j] = Double.toString(testROC(testMethod, graph));
+					row20[j] = Double.toString(testROC(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("ROF")) {
 					row21[0] = "ROF";
-					row21[j] = Double.toString(testROF(testMethod, graph));
+					row21[j] = Double.toString(testROF(testMethod, graph, obligationPath));
 				} else if (mutantNames.get(i).equals("ROR")) {
 					row22[0] = "ROR";
-					row22[j] = Double.toString(testROR(testMethod, graph));
+					row22[j] = Double.toString(testROR(testMethod, graph, obligationPath));
 				}
 
 			}
@@ -270,8 +274,8 @@ public class ObligationMutationController {
 		System.out.println("Execution time in min and sec: " + minutes + ":" + seconds);
 	}
 
-	private double testROR(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorROR mutatorROR = new MutatorROR(testMethod, graph);
+	private double testROR(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorROR mutatorROR = new MutatorROR(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is ROR");
 
 		try {
@@ -294,8 +298,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testCEU(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorCEU mutatorCEU = new MutatorCEU(testMethod, graph);
+	private double testCEU(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorCEU mutatorCEU = new MutatorCEU(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is CEU");
 
 		try {
@@ -318,8 +322,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testREU(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorREU mutatorREU = new MutatorREU(testMethod, graph);
+	private double testREU(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorREU mutatorREU = new MutatorREU(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is REU");
 
 		try {
@@ -342,8 +346,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testCEPC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorCEPC mutatorCEPC = new MutatorCEPC(testMethod, graph);
+	private double testCEPC(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorCEPC mutatorCEPC = new MutatorCEPC(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is CEPC");
 
 		try {
@@ -366,8 +370,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testREPC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorREPC mutatorREPC = new MutatorREPC(testMethod, graph);
+	private double testREPC(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorREPC mutatorREPC = new MutatorREPC(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is REPC");
 
 		try {
@@ -390,9 +394,9 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testCEO(String testMethod, Graph graph)
+	private double testCEO(String testMethod, Graph graph, String obligationPath)
 			throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException {
-		MutatorCEO mutatorCEO = new MutatorCEO(testMethod, graph);
+		MutatorCEO mutatorCEO = new MutatorCEO(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is CEO");
 
 		try {
@@ -415,9 +419,9 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testAEO(String testMethod, Graph graph)
+	private double testAEO(String testMethod, Graph graph, String obligationPath)
 			throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException {
-		MutatorAEO mutatorAEO = new MutatorAEO(testMethod, graph);
+		MutatorAEO mutatorAEO = new MutatorAEO(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is AEO");
 
 		try {
@@ -440,9 +444,9 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testREO(String testMethod, Graph graph)
+	private double testREO(String testMethod, Graph graph, String obligationPath)
 			throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException {
-		MutatorREO mutatorREO = new MutatorREO(testMethod, graph);
+		MutatorREO mutatorREO = new MutatorREO(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is REO");
 
 		try {
@@ -465,8 +469,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testCEPE(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorCEPE mutatorCEPE = new MutatorCEPE(testMethod, graph);
+	private double testCEPE(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorCEPE mutatorCEPE = new MutatorCEPE(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is CEPE");
 
 		try {
@@ -489,8 +493,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testREPE(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorREPE mutatorREPE = new MutatorREPE(testMethod, graph);
+	private double testREPE(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorREPE mutatorREPE = new MutatorREPE(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is REPE");
 
 		try {
@@ -513,8 +517,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testROC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorROC mutatorROC = new MutatorROC(testMethod, graph);
+	private double testROC(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorROC mutatorROC = new MutatorROC(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is ROC");
 
 		try {
@@ -537,8 +541,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testRCA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorRCA mutatorRCA = new MutatorRCA(testMethod, graph);
+	private double testRCA(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorRCA mutatorRCA = new MutatorRCA(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is RCA");
 
 		try {
@@ -561,8 +565,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testROA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorROA mutatorROA = new MutatorROA(testMethod, graph);
+	private double testROA(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorROA mutatorROA = new MutatorROA(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is ROA");
 
 		try {
@@ -585,8 +589,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testNCD(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorNCD mutatorNCD = new MutatorNCD(testMethod, graph);
+	private double testNCD(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorNCD mutatorNCD = new MutatorNCD(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is NCD");
 
 		try {
@@ -609,8 +613,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testROF(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorROF mutatorROF = new MutatorROF(testMethod, graph);
+	private double testROF(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorROF mutatorROF = new MutatorROF(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is ROF");
 
 		try {
@@ -633,8 +637,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testNOF(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorNOF mutatorNOF = new MutatorNOF(testMethod, graph);
+	private double testNOF(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorNOF mutatorNOF = new MutatorNOF(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is NOF");
 
 		try {
@@ -657,8 +661,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testCAC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorCAC mutatorCAC = new MutatorCAC(testMethod, graph);
+	private double testCAC(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorCAC mutatorCAC = new MutatorCAC(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is CAC");
 
 		try {
@@ -681,8 +685,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testICA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorICA mutatorICA = new MutatorICA(testMethod, graph);
+	private double testICA(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorICA mutatorICA = new MutatorICA(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is ICA");
 
 		try {
@@ -705,8 +709,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testIAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorIAA mutatorIAA = new MutatorIAA(testMethod, graph);
+	private double testIAA(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorIAA mutatorIAA = new MutatorIAA(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is IAA");
 
 		try {
@@ -729,8 +733,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testIGA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorIGA mutatorIGA = new MutatorIGA(testMethod, graph);
+	private double testIGA(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorIGA mutatorIGA = new MutatorIGA(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is IGA");
 
 		try {
@@ -753,8 +757,8 @@ public class ObligationMutationController {
 		return mutationScore;
 	}
 
-	private double testINA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorINA mutatorINA = new MutatorINA(testMethod, graph);
+	private double testINA(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorINA mutatorINA = new MutatorINA(testMethod, graph, obligationPath);
 		System.out.println("MutationMethod is INA");
 
 		try {

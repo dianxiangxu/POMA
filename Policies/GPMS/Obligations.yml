@@ -414,17 +414,7 @@ rules:
               - function:
                   name: to_props
                   args:
-                    - required=true
-        - grant:
-            subject:
-              name: Chair
-              type: UA
-            operations:
-              - Approve
-              - Disapprove
-            target:
-              name: PDSWhole
-              type: OA               
+                    - required=true 
         - condition!:
             - function:
                 name: irb_approval_required    
@@ -1818,7 +1808,7 @@ rules:
               - write
             target:
               name: RAApproval
-              type: OA  
+              type: OA
         - condition:
             - function:
                 name: all_children_have_properties
@@ -1960,7 +1950,7 @@ rules:
               - read
             target:
               name: PDSSections
-              type: OA                             
+              type: OA                        
   - label: dean_disapprove
     event:
       subject:
@@ -2254,6 +2244,28 @@ rules:
               - write
             target:
               name: RAApproval
+              type: OA 
+        - condition:
+            - function:
+                name: all_children_have_properties
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - Dean
+                        - UA
+                  - function:
+                      name: to_props
+                      args:
+                        - approved=true 
+          grant:
+            subject:
+              name: Research Admin
+              type: UA
+            operations:
+              - read
+            target:
+              name: PDSSections
               type: OA 
   - label: irb_disapprove
     event:
@@ -2936,14 +2948,6 @@ rules:
                 target:
                   name: RAApproval
                   type: OA                  
-        - delete:
-            associations:
-              - subject:
-                  name: Research Admin
-                  type: UA
-                target:
-                  name: OSPInfo
-                  type: OA
         - grant:
             subject:
               name: Research Director

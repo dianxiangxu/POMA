@@ -18,8 +18,8 @@ import gov.nist.csd.pm.pip.obligations.model.actions.Action;
 public class MutatorROA extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorROA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorROA(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, obligationPath);
 	}
 
 	public void init() throws PMException, IOException {
@@ -44,7 +44,8 @@ public class MutatorROA extends MutantTester2 {
 		List<Rule> rules = obligation.getRules();
 		for (Rule rule : rules) {
 			//choose rules to test, all avoided by default
-//			if (rule.getLabel().equals("create_proposal") || 
+//			if (
+//					rule.getLabel().equals("create_proposal") || 
 //					rule.getLabel().equals("add_copi") ||
 //					rule.getLabel().equals("submit_proposal")||
 //					rule.getLabel().equals("add_sp")||
@@ -62,7 +63,7 @@ public class MutatorROA extends MutantTester2 {
 //					rule.getLabel().equals("ra_disapprove") ||
 //					rule.getLabel().equals("rd_approve") ||
 //					rule.getLabel().equals("rd_disapprove") ||
-//					rule.getLabel().equals("ra_submit")
+////					rule.getLabel().equals("ra_submit")
 //					) {
 //				continue;
 //			}

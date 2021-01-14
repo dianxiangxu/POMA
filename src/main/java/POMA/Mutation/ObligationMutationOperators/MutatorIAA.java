@@ -22,8 +22,8 @@ import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction.Assignment;
 public class MutatorIAA extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorIAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorIAA(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, obligationPath);
 	}
 
 	public void init() throws PMException, IOException {

@@ -18,8 +18,8 @@ import gov.nist.csd.pm.pip.obligations.model.Subject;
 public class MutatorCEU extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorCEU(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorCEU(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, obligationPath);
 	}
 
 	public void init() throws PMException, IOException {
@@ -73,7 +73,7 @@ public class MutatorCEU extends MutantTester2 {
 					mutant = changeEventAnyUser(mutant, ruleLabel, anyUser);
 				}
 			} else {
-				System.out.println("User" + user);
+				System.out.println("UserToBeChanged:" + user);
 				changeToUser = getRandomUserName();
 				mutant = changeEventUser(mutant, ruleLabel, changeToUser);
 			}
@@ -140,7 +140,7 @@ public class MutatorCEU extends MutantTester2 {
 	public String getRandomUserName() {
 		//0 can be replaced by a random number from 0 to length(Us)
 		String userName = Us.get(0);
-		System.out.println(userName);
+		System.out.println("changeToUser:" + userName);
 		return userName;
 	}
 }

@@ -12,14 +12,15 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.model.EventPattern;
 import gov.nist.csd.pm.pip.obligations.model.EvrProcess;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
+import gov.nist.csd.pm.pip.obligations.model.PolicyClass;
 import gov.nist.csd.pm.pip.obligations.model.Rule;
 import gov.nist.csd.pm.pip.obligations.model.Subject;
 
 public class MutatorREPC extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorREPC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorREPC(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, obligationPath);
 	}
 
 	public void init() throws PMException, IOException {
@@ -44,31 +45,24 @@ public class MutatorREPC extends MutantTester2 {
 		for (Rule rule : rules) {
 			ruleLabel = rule.getLabel();
 			EventPattern eventPattern = rule.getEventPattern();
-			Subject subject = eventPattern.getSubject();
+			PolicyClass policyClass = eventPattern.getPolicyClass();
+			if (policyClass == null)
+				continue;
 			
 			mutant = createObligationCopy();
-			String user = subject.getUser();
-			if (user == null) {
-				List<String> anyUser = subject.getAnyUser();
-				if (anyUser == null || anyUser.isEmpty()) {
-					EvrProcess process = subject.getProcess();
-					if (process == null) {
-//						//have to do some default mutation if all all null
-//						mutant = clearEventUser(mutant, ruleLabel);
-						continue;
-					} else {
-						//not sure how to change process yet
-//						mutant = changeEventProcess(mutant, ruleLabel, changeToUser);
-						//continue if user/anyuser/process are all null
-						continue;
-					}
+			List<String> eachPC = policyClass.getEachOf();
+			if (eachPC == null || eachPC.isEmpty()) {
+				List<String> anyPC = policyClass.getAnyOf();
+				if (anyPC == null || anyPC.isEmpty()) {
+					continue;
 				} else {
-					System.out.println("AnyUser" + anyUser);
-					mutant = removeEventAnyUser(mutant, ruleLabel);
+					System.out.println("AnyPC:" + anyPC);
+					mutant = removeEventAnyPC(mutant, ruleLabel);
 				}
 			} else {
-				System.out.println("User" + user);
-				mutant = clearEventUser(mutant, ruleLabel);
+				System.out.println(ruleLabel);
+				System.out.println("EachPC:" + eachPC);
+				mutant = removeEventEachPC(mutant, ruleLabel);
 			}
 			setObligationMutant(mutant);
 
@@ -80,7 +74,7 @@ public class MutatorREPC extends MutantTester2 {
 //		System.out.println("Total number of mutant is " + getNumberOfMutants());
 	}
 
-	private Obligation clearEventUser(Obligation obligation, String ruleLabel) {
+	private Obligation removeEventEachPC(Obligation obligation, String ruleLabel) {
 		if (ruleLabel == null)
 			return null;
 		List<Rule> rules = obligation.getRules();
@@ -89,10 +83,13 @@ public class MutatorREPC extends MutantTester2 {
 		for (Rule newRule : rules) {
 			if (newRule.getLabel().equals(ruleLabel)) {
 				EventPattern eventPattern = newRule.getEventPattern();
+				List<String> eachPC = eventPattern.getPolicyClass().getEachOf();
 				//change newUser to null/""
-				Subject subject = new Subject("");
+				eachPC.clear();
+				PolicyClass policyClass = new PolicyClass();
+				policyClass.setEachOf(eachPC);
 //				Subject subject = Subject.class.getConstructor(String.class).newInstance(null);
-				eventPattern.setSubject(subject);
+				eventPattern.setPolicyClass(policyClass);;
 				newRule.setEventPattern(eventPattern);
 			}
 				
@@ -102,7 +99,7 @@ public class MutatorREPC extends MutantTester2 {
 		obligation.setRules(newRules);
 		return obligation;
 	}
-	private Obligation removeEventAnyUser(Obligation obligation, String ruleLabel) {
+	private Obligation removeEventAnyPC(Obligation obligation, String ruleLabel) {
 		if (ruleLabel == null)
 			return null;
 		List<Rule> rules = obligation.getRules();
@@ -111,12 +108,13 @@ public class MutatorREPC extends MutantTester2 {
 		for (Rule newRule : rules) {
 			if (newRule.getLabel().equals(ruleLabel)) {
 				EventPattern eventPattern = newRule.getEventPattern();
-				List<String> anyUser = eventPattern.getSubject().getAnyUser();
-				anyUser.clear();
-				//change anyUser to empty array
-				Subject subject = new Subject(anyUser);
-//				Subject subject = Subject.class.getConstructor(String.class).newInstance(anyUser);
-				eventPattern.setSubject(subject);
+				List<String> anyPC = eventPattern.getPolicyClass().getAnyOf();
+				//change newUser to null/""
+				anyPC.clear();
+				PolicyClass policyClass = new PolicyClass();
+				policyClass.setAnyOf(anyPC);
+//				Subject subject = Subject.class.getConstructor(String.class).newInstance(null);
+				eventPattern.setPolicyClass(policyClass);;
 				newRule.setEventPattern(eventPattern);
 			}
 				

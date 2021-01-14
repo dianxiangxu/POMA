@@ -18,8 +18,8 @@ import gov.nist.csd.pm.pip.obligations.model.Subject;
 public class MutatorREU extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorREU(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorREU(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, obligationPath);
 	}
 
 	public void init() throws PMException, IOException {
@@ -65,7 +65,7 @@ public class MutatorREU extends MutantTester2 {
 					mutant = removeEventAnyUser(mutant, ruleLabel);
 				}
 			} else {
-				System.out.println("User" + user);
+				System.out.println("UserToBeChanged:" + user);
 				mutant = clearEventUser(mutant, ruleLabel);
 			}
 			setObligationMutant(mutant);

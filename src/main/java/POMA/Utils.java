@@ -174,6 +174,21 @@ public class Utils {
 		return sb.toString();
 	}
 	
+public static Graph combineGraphs() throws PMException, IOException {
+    File file1 = new File("GPMSPolicies/LawUseCase/CasePolicy.json");
+    File file2 = new File("GPMSPolicies/LawUseCase/LawFirmPolicy.json");
+    File file3 = new File("GPMSPolicies/LawUseCase/ValueTypePolicy.json");
+    String policy1 = new String(Files.readAllBytes(Paths.get(file1.getAbsolutePath())));
+    String policy2 = new String(Files.readAllBytes(Paths.get(file2.getAbsolutePath())));
+    String policy3 = new String(Files.readAllBytes(Paths.get(file3.getAbsolutePath())));
+    Graph ngacGraph = new MemGraph();
+    GraphSerializer.fromJson(ngacGraph, policy1);
+    GraphSerializer.fromJson(ngacGraph, policy2);
+    GraphSerializer.fromJson(ngacGraph, policy3);
+    System.out.println(GraphSerializer.toJson(ngacGraph));
+    return ngacGraph;
+}
+	
 	public static Graph readAnyGraph(String path) throws PMException, IOException {
 		File graphFile = new File(path);
 

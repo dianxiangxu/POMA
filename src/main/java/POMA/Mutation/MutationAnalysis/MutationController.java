@@ -36,7 +36,7 @@ public class MutationController {
 	List<String[]> data = new ArrayList<String[]>();
 	String[] row;
 	String CSVFilePath = "CSV/OverallMutationResults.csv";
-	static int colCount = 3;
+	static int colCount = 15;
 	Graph graph;
 
 	
@@ -53,7 +53,10 @@ public class MutationController {
 	public static void main(String[] args) throws PMException, IOException, GraphDoesNotMatchTestSuitException {
 		MutationController mc = new MutationController();
 		List<String> mutantNames = new ArrayList<String>();
-		String initialGraphConfig = "Policies/SimpleGraph/simpleGraphToSMT.json";
+//        String initialGraphConfig = "Policies/SimpleGraph/simpleGraphToSMT.json";
+//        String initialGraphConfig = "Policies/GPMS/Graph.json";
+        String initialGraphConfig = "Policies/LawUseCase/Graph.json";
+
 		File folder = new File(initialGraphConfig).getParentFile();
 		mutantNames.add("RAD");
 		mutantNames.add("CAD");
