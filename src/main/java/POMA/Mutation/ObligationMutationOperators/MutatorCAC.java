@@ -29,8 +29,8 @@ import gov.nist.csd.pm.pip.obligations.model.actions.CreateAction.CreateNode;
 public class MutatorCAC extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorCAC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorCAC(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, obligationPath);
 	}
 
 	public void init() throws PMException, IOException {

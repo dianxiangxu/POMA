@@ -57,7 +57,9 @@ public class MutantTester2 {
    final public static Obligation obligationMutant = new Obligation();
 	String testMethod;
 	// public String initialGraphConfig = "GPMSPolicies/SimpleGraphToSMT.json";
-	public String initialGraphConfig = "Policies/simpleGraphToSMT.json";
+//	public String initialGraphConfig = "Policies/simpleGraphToSMT.json";
+	public static String obligationFilePath = "";
+	public static String obligationTestFilePath = "";
 
 	static List<Node> UAs;
 	static List<Node> UAsOAs;
@@ -70,9 +72,18 @@ public class MutantTester2 {
 	static List<EvrNode> EvrNodes;
 	
 
-	public MutantTester2(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
+	public MutantTester2(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
 		this.testMethod = testMethod;
 		this.graph = graph;
+        this.obligationFilePath = obligationPath;
+        this.obligationTestFilePath = "";
+
+        String[] tmpString = obligationPath.split("/");
+        for (int i = 0; i < tmpString.length - 1; i++) {
+        	System.out.print(tmpString[i]);
+            this.obligationTestFilePath += (tmpString[i] + "/");
+        }
+
 		try {
 			//graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
 //			if (!Utils.verifyTestSuitIsForGraph(graph, getTestSuitPathByMethod(testMethod))) {
@@ -410,7 +421,7 @@ public class MutantTester2 {
 	}
 	
 	public static Obligation readGPMSObligation() throws FileNotFoundException, EVRException {
-		File obligationFile = getFileFromResources("Policies/GPMS/Obligations.yml");
+		File obligationFile = getFileFromResources(obligationFilePath);
 		InputStream inputStream = new FileInputStream(obligationFile);
 		Obligation obligation = EVRParser.parse(inputStream);
 
@@ -418,7 +429,7 @@ public class MutantTester2 {
 	}
 	
 	public void getObligationLoaded() throws FileNotFoundException, EVRException{
-		File obligationFile = getFileFromResources("Policies/GPMS/Obligations.yml");
+		File obligationFile = getFileFromResources(obligationFilePath);
 		InputStream inputStream = new FileInputStream(obligationFile);
 		originObligation = EVRParser.parse(inputStream);
 	}

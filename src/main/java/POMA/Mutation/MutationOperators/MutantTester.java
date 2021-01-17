@@ -55,9 +55,9 @@ public class MutantTester {
 		this.graph = graph;
 		try {
 			//graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
-			if (!Utils.verifyTestSuitIsForGraph(graph, getTestSuitPathByMethod(testMethod))) {
-				throw new GraphDoesNotMatchTestSuitException("Please verify that the testing suit is for this graph");
-			}
+//			if (!Utils.verifyTestSuitIsForGraph(graph, getTestSuitPathByMethod(testMethod))) {
+//				throw new GraphDoesNotMatchTestSuitException("Please verify that the testing suit is for this graph");
+//			}
 			getGraphLoaded();
 
 		} catch (PMException | IOException e) {

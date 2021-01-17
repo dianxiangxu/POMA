@@ -21,8 +21,8 @@ import gov.nist.csd.pm.pip.obligations.model.functions.Function;
 public class MutatorROF extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorROF(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorROF(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, obligationPath);
 	}
 
 	public void init() throws PMException, IOException {
@@ -70,13 +70,26 @@ public class MutatorROF extends MutantTester2 {
 							i++;
 						}
 					}
+				}
+			}
+			
+			mutant = createObligationCopy();
+			newRules = mutant.getRules();
+			for (Rule r : newRules) {
+				if (r.getLabel().equals(ruleLabel)) {
+					ResponsePattern responsePattern = r.getResponsePattern();
+					Condition condition = responsePattern.getCondition();
+					NegatedCondition negatedCondition = responsePattern.getNegatedCondition();
+					List<Function> newConditions = new ArrayList<>();
+					List<Function> newNegatedConditions = new ArrayList<>();
+					List<Function> functions = new ArrayList<>();
 					if (negatedCondition != null && negatedCondition.getCondition().size() >= 2) {
 						int i = 0;
 						functions = negatedCondition.getCondition();
 						for (Function f : functions) {
 							newNegatedConditions = addAllExcept(functions, f);
 							negatedCondition.setCondition(newNegatedConditions);
-							System.out.println("Running (ROF) " + ruleLabel + "|factorIndex:" + i);
+							System.out.println("Running (ROF negated) " + ruleLabel + "|factorIndex:" + i);
 							runMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "ROF", ruleLabel);
 							i++;
 						}
@@ -128,13 +141,33 @@ public class MutatorROF extends MutantTester2 {
 								i++;
 							}
 						}
+					}
+				}
+				
+				mutant = createObligationCopy();
+				newRules = mutant.getRules();
+				for (Rule r : newRules) {
+					if (r.getLabel().equals(ruleLabel)) {
+						ResponsePattern newResponsePattern = r.getResponsePattern();
+						List<Action> newActions = newResponsePattern.getActions();
+						Action newAction = getAction(newActions, index);
+						if (newAction == null) {
+							System.out.println("this is a bug");
+							break;
+						}
+								
+						Condition condition = newAction.getCondition();
+						NegatedCondition negatedCondition = newAction.getNegatedCondition();
+						List<Function> newConditions = new ArrayList<>();
+						List<Function> newNegatedConditions = new ArrayList<>();
+						List<Function> functions = new ArrayList<>();
 						if (negatedCondition != null && negatedCondition.getCondition().size() >= 2) {
 							int i = 0;
 							functions = negatedCondition.getCondition();
 							for (Function f : functions) {
 								newNegatedConditions = addAllExcept(functions, f);
 								negatedCondition.setCondition(newNegatedConditions);
-								System.out.println("Running (ROF) " + ruleLabel + "|actionIndex:" + index + "|factorIndex:" + i);
+								System.out.println("Running (ROF negated) " + ruleLabel + "|actionIndex:" + index + "|factorIndex:" + i);
 								runMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "ROF", ruleLabel);
 								i++;
 							}

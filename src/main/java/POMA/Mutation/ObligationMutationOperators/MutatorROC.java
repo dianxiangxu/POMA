@@ -21,8 +21,8 @@ import gov.nist.csd.pm.pip.obligations.model.functions.Function;
 public class MutatorROC extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorROC(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorROC(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, obligationPath);
 	}
 
 	public void init() throws PMException, IOException {

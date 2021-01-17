@@ -16,8 +16,8 @@ import gov.nist.csd.pm.pip.obligations.model.Rule;
 public class MutatorRCA extends MutantTester2 {
 //	String testMethod = "P";
 
-	public MutatorRCA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorRCA(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, obligationPath);
 	}
 
 	public void init() throws PMException, IOException {
