@@ -32,9 +32,23 @@ public class MedicalExampleOA {
 		g.createNode("Patient3", OA, null, "MaximumCarePatients", "ModerateCarePatients");
 
 		g.createNode("RegisteredNurse", UA, null, "ClassificationPolicyClass");
+		g.createNode("Doctor", UA, null, "ClassificationPolicyClass");
+		g.createNode("LicensedPracticalNurse", UA, null, "ClassificationPolicyClass");
+		g.createNode("CertifiedNurseAssistant", UA, null, "ClassificationPolicyClass");
+
 		g.associate("RegisteredNurse", "MaximumCarePatients", new OperationSet("access"));
 		g.associate("RegisteredNurse", "ModerateCarePatients", new OperationSet("access"));
 
+		g.associate("Doctor", "MaximumCarePatients", new OperationSet("write", "access"));
+		g.associate("Doctor", "ModerateCarePatients", new OperationSet("write", "access"));
+
+		g.associate("LicensedPracticalNurse", "MaximumCarePatients", new OperationSet("access"));
+		g.associate("LicensedPracticalNurse", "ModerateCarePatients", new OperationSet("access"));
+
+		g.associate("CertifiedNurseAssistant", "MaximumCarePatients", new OperationSet("access"));
+		g.associate("CertifiedNurseAssistant", "ModerateCarePatients", new OperationSet("access"));
+
+		
 		saveDataToFile(GraphSerializer.toJson(g), "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/graph.json");	
 		System.out.println("PROHIBITION#1(COMPLEMENT=FALSE) RegisteredNurse access MaximumCarePatients ");
 		Prohibitions prohibitions1 = new MemProhibitions();
