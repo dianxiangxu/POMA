@@ -7,6 +7,7 @@ import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 import gov.nist.csd.pm.pip.prohibitions.ProhibitionsSerializer;
 import gov.nist.csd.pm.pip.prohibitions.model.Prohibition;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,21 +18,17 @@ import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 
 //Add one container
 public class MutatorAOC extends ProhibitionMutation {
-	public MutatorAOC(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+
+	public MutatorAOC(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
 		super(testMethod, graph, prohibitions);
 		// TODO Auto-generated constructor stub
 	}
 
-	public void main(Graph graph) throws PMException, IOException {
-		//use default graph if no graph
-		if (graph == null)
-			getDefaultGraphLoaded();
-		//getProhibitionLoaded(graph);
-
-		
-//		getProhibitionLoaded("src/main/java/POMA/Mutation/ProhibitionMutationOperators/prohibitions1.json");
-
-		calculateOriginTestResults();
+	public void main(Graph graph, Prohibitions prohibitions, String testMethod) throws PMException, IOException {
+		String testSuitePath = getTestSuitPathByMethod(testMethod);
+		File testSuite = new File(testSuitePath);
+		String mutationMethod = "AOC";
+		double before, after;
 		
 		//get all available containers/nodes
 		Node[] nodes = getNodesInGraph();
@@ -40,7 +37,7 @@ public class MutatorAOC extends ProhibitionMutation {
 		List<Prohibition> prohibitionList = getProhibitionList();
 		for (Prohibition p : prohibitionList) {
 			String name = p.getName();
-			Prohibitions mutant = createCopy();
+			Prohibitions mutant = createProhibitionsCopy();
 			Prohibition prohibitionMutant = mutant.get(name);
 			Map<String, Boolean> containers = prohibitionMutant.getContainers();
 			Set<String> containersKeySet = containers.keySet();
@@ -50,27 +47,29 @@ public class MutatorAOC extends ProhibitionMutation {
 				//do not add duplicate node/container
 				if (containersKeySet.contains(containerToAdd.getName()))
 					continue;
+				//exclude senseless container
+				if (graph.getChildren(containerToAdd.getName()).isEmpty())
+					continue;
 				
-				containers.put(containerToAdd.getName(), true);
-				
+				//default complement is true
+				prohibitionMutant.addContainer(containerToAdd.getName(), true);
 				//update prohibition
 				mutant.update(name, prohibitionMutant);
 				
 				//try kill mutant
-				ArrayList<Boolean> results = getMutantTestResults(mutant);
-				if (compareTestResults(getOriginTestResults(), results)) {
-					System.out.println("Mutant is not killed! Added container is " + containerToAdd.getName());
-					System.out.println("Origin tests results:" + getOriginTestResults());
-					System.out.println("Mutant tests results:" + results);
-				} else {
-					setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
+				before = getNumberOfKilledMutants();
+				testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
+				after = getNumberOfKilledMutants();
+				if (before == after) {
+					System.out.println("Mutant is not killed! Prohibition name:" + name +  " Added container is " + containerToAdd.getName());
 				}
 				setNumberOfMutants(getNumberOfMutants() + 1);
 //				System.out.println(node.getName());
 				
-				saveDataToFile(ProhibitionsSerializer.toJson(mutant), "src/main/java/POMA/Mutation/ProhibitionMutationOperators/mutant.json");
+//				saveDataToFile(ProhibitionsSerializer.toJson(mutant), "src/main/java/POMA/Mutation/ProhibitionMutationOperators/mutant.json");
 				//restore containers conditions
-				containers.remove(containerToAdd.getName());
+				prohibitionMutant.removeContainerCondition(containerToAdd.getName());
+				mutant.update(name, prohibitionMutant);
 			}
 			
 			//mutant: default complement is false
@@ -79,20 +78,21 @@ public class MutatorAOC extends ProhibitionMutation {
 				//do not add duplicate node/container
 				if (containersKeySet.contains(containerToAdd.getName()))
 					continue;
+				//exclude senseless container
+				if (graph.getChildren(containerToAdd.getName()).isEmpty())
+					continue;
 				//default complement is false
-				containers.put(containerToAdd.getName(), false);
+				prohibitionMutant.addContainer(containerToAdd.getName(), false);
 				
 				//update prohibition
 				mutant.update(name, prohibitionMutant);
 				
 				//try kill mutant
-				ArrayList<Boolean> results = getMutantTestResults(mutant);
-				if (compareTestResults(getOriginTestResults(), results)) {
-					System.out.println("Mutant is not killed! Added container is " + containerToAdd.getName());
-					System.out.println("Origin tests results:" + getOriginTestResults());
-					System.out.println("Mutant tests results:" + results);
-				} else {
-					setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
+				before = getNumberOfKilledMutants();
+				testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
+				after = getNumberOfKilledMutants();
+				if (before == after) {
+					System.out.println("Mutant is not killed! Prohibition name:" + name +  " Added container is " + containerToAdd.getName());
 				}
 				setNumberOfMutants(getNumberOfMutants() + 1);
 //				System.out.println(node.getName());
@@ -101,7 +101,8 @@ public class MutatorAOC extends ProhibitionMutation {
 //				if (containerToAdd.getName().equals("UA2_2"))
 //					break;
 				//restore containers conditions
-				containers.remove(containerToAdd.getName());
+				prohibitionMutant.removeContainerCondition(containerToAdd.getName());
+				mutant.update(name, prohibitionMutant);
 			}
 			
 		}

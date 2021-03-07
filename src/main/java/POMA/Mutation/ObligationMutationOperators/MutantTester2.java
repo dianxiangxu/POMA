@@ -130,7 +130,8 @@ public class MutantTester2 {
 		junit.addListener(new TextListener(System.out));
 		Result result = null;
 		
-		result = junit.run(ObligationTest.class);
+		result = junit.run(ObligationTestMutation.class);
+//		result = junit.run(ObligationTestMutationConcise.class);
 		if (result.getFailureCount() != 0) {
 			//there exist error, killed mutant + 1
 			setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);

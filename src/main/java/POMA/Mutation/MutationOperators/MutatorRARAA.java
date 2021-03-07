@@ -12,11 +12,12 @@ import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
-
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
+//remove an access right from all accociations
 public class MutatorRARAA extends MutantTester {
 	OperationSet allAccessRightSet;
-	public MutatorRARAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorRARAA(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, prohibitions);
 	}
 	public void init() throws PMException, IOException {
 		this.mutationMethod = "RARAA";
@@ -83,7 +84,7 @@ public class MutatorRARAA extends MutantTester {
 		tmpAccessRights.addAll(accessRights);
 		tmpAccessRights.remove(accessRight);
 		mutant.dissociate(SourceName, targetName);
-		mutant.associate(SourceName, targetName, accessRights);
+		mutant.associate(SourceName, targetName, tmpAccessRights);
 		return mutant;
 	}
 }

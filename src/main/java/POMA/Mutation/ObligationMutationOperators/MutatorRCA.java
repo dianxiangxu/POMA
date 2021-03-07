@@ -48,7 +48,7 @@ public class MutatorRCA extends MutantTester2 {
 			setObligationMutant(mutant);
 
 //			//invoke junit to kill obligation_mutant
-			testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "RCA");
+			testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "RCA");
 			setNumberOfMutants(getNumberOfMutants() + 1);
 		}
 //		System.out.println("Total number of mutant is " + getNumberOfMutants());

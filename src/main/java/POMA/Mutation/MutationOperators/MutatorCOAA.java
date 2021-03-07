@@ -13,10 +13,11 @@ import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.graph.model.nodes.NodeType;
-
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
+//change object attribute
 public class MutatorCOAA extends MutantTester {
-	public MutatorCOAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorCOAA(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, prohibitions);
 	}
 	public void init() throws PMException, IOException {
 		this.mutationMethod = "COAA";

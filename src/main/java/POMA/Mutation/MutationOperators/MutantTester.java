@@ -31,6 +31,7 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public class MutantTester {
 	String mutationMethod = "";
@@ -41,18 +42,24 @@ public class MutantTester {
 	List<String[]> data = new ArrayList<String[]>();
 	List<Node> OAs;
 	public static Graph graph;
+	public static Prohibitions prohibitions;
 	String testMethod;
 	// public String initialGraphConfig = "GPMSPolicies/SimpleGraphToSMT.json";
-	public String initialGraphConfig = "Policies/SimpleGraph";
+//	public String initialGraphConfig = "Policies/GPMS";
+//	public String initialGraphConfig = "Policies/LawUseCase";
+//	public String initialGraphConfig = "Policies/BankPolicy/Complex";
+	public String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA";
+//	public String initialGraphConfig = "";
 
 	static List<Node> UAs;
 	static List<Node> UAsOAs;
 	static List<Node> UAsPCs;
 	static List<Node> UAsPCsOAs;
 
-	public MutantTester(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
+	public MutantTester(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
 		this.testMethod = testMethod;
 		this.graph = graph;
+		this.prohibitions = prohibitions;
 		try {
 			//graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
 //			if (!Utils.verifyTestSuitIsForGraph(graph, getTestSuitPathByMethod(testMethod))) {
@@ -82,7 +89,7 @@ public class MutantTester {
 			data.add(header);
 		}
 
-		PReviewDecider decider = new PReviewDecider(mutant);
+		PReviewDecider decider = new PReviewDecider(mutant, this.prohibitions);
 
 		String[] mutantTest = new String[testSuite.size() + 2];
 		mutantTest[0] = mutationMethod + (mutantNumber + 1);
@@ -260,7 +267,6 @@ public class MutantTester {
 				UAs.add(node);
 			}
 		}
-
 	}
 
 	private void getUAsOAsInGraph() throws PMException {

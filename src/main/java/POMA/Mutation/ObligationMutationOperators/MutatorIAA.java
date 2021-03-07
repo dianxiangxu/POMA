@@ -109,7 +109,7 @@ public class MutatorIAA extends MutantTester2 {
 
 						before = getNumberOfKilledMutants();
 //						//invoke junit to kill obligation_mutant
-						testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "IAA");
+						testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "IAA");
 						after = getNumberOfKilledMutants();
 						if (before == after) {
 							//unkilled mutant caught

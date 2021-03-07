@@ -2,100 +2,81 @@ package POMA.Mutation.MutationAnalysis;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.opencsv.CSVWriter;
 
+import POMA.Mutation.ProhibitionMutationOperators.*;
+import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
-import POMA.Mutation.ProhibitionMutationOperators.*;
+import POMA.Mutation.MutationOperators.*;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.*;
-import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
-import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public class ProhibitionMutationController {
 	List<String> testMethods;
 	int totalNumberOfMutants = 0;
 	int totalNumberOfKilledMutants = 0;
-	static int totalNumberOfMutantsForTest = 0;
-	static int totalNumberOfKilledMutantsForTest = 0;
+	int totalNumberOfMutantsForTest = 0;
+	int totalNumberOfKilledMutantsForTest = 0;
 	List<String[]> data = new ArrayList<String[]>();
 	String[] row;
-	String CSVFilePath = "CSV/ProhibitionMutationResults.csv";
-	static int rowCount = 30;
-	static int colCount = 3;
+	String CSVFilePath = "CSV/OverallMutationResults.csv";
+	static int colCount = 15;
 	Graph graph;
 	Prohibitions prohibitions;
 
-	public static void main(String[] args) throws PMException, IOException, InstantiationException, IllegalAccessException, GraphDoesNotMatchTestSuitException, CloneNotSupportedException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoTypeProvidedException {
-		ProhibitionMutationController pmc = new ProhibitionMutationController();
-		File CSV = new File(pmc.CSVFilePath);
-		long startTime = System.currentTimeMillis();
-		pmc.createHeaderForCSV();
-//		String initialGraphConfig = "GPMSPolicies/simpleGraphToSMT.json";
-
-		pmc.graph = ProhibitionMutation.readGraph("GPMSPolices/Demo/graph.json");
-		pmc.prohibitions = ProhibitionMutation.readProhibition("src/main/java/POMA/Mutation/ProhibitionMutationOperators/prohibitions1.json");
-		for (String testMethod : pmc.testMethods) {
-
-			String[] row = new String[rowCount];
-			pmc.totalNumberOfMutantsForTest = 0;
-			pmc.totalNumberOfKilledMutantsForTest = 0;
-			double resultAOC = pmc.testAOC(testMethod, pmc.graph, pmc.prohibitions);
-			double resultAOO = pmc.testAOO(testMethod, pmc.graph, pmc.prohibitions);
-			double resultCOC = pmc.testCOC(testMethod, pmc.graph, pmc.prohibitions);
-			double resultCOO = pmc.testCOO(testMethod, pmc.graph, pmc.prohibitions);
-			double resultCUS = pmc.testCUS(testMethod, pmc.graph, pmc.prohibitions);
-			double resultRCT = pmc.testRCT(testMethod, pmc.graph, pmc.prohibitions);
-			double resultRIS = pmc.testRIS(testMethod, pmc.graph, pmc.prohibitions);
-			double resultROCT = pmc.testROCT(testMethod, pmc.graph, pmc.prohibitions);
-			double resultROO = pmc.testROO(testMethod, pmc.graph, pmc.prohibitions);
-			
-			
-
-			row[0] = testMethod;
-			row[1] = Double.toString(resultAOC);
-			row[2] = Double.toString(resultAOO);
-			row[3] = Double.toString(resultCOC);
-			row[4] = Double.toString(resultCOO);
-			row[5] = Double.toString(resultCUS);
-			row[6] = Double.toString(resultRCT);
-			row[7] = Double.toString(resultRIS);
-			row[8] = Double.toString(resultROCT);
-			row[9] = Double.toString(resultROO);
-			row[10] = Double.toString(
-					(double) pmc.totalNumberOfKilledMutantsForTest / (double) pmc.totalNumberOfMutantsForTest * 100);
-			pmc.data.add(row);
+	
+	private void createHeaderForCSV(List<String> mutantNames) {
+		String[] header = new String[colCount];
+		header[0]= "TestMethod";
+		for(int i=0;i< mutantNames.size(); i++) {
+			header[i+1] =  mutantNames.get(i);
 		}
-		pmc.saveCSV(pmc.data, CSV);
+		header[mutantNames.size()+1] = "totalMutationScore";
+		data.add(header);
+	}
+	
+	public static void main(String[] args) throws PMException, IOException, GraphDoesNotMatchTestSuitException, InstantiationException, NoTypeProvidedException {
+		ProhibitionMutationController pmc = new ProhibitionMutationController();
+		List<String> mutantNames = new ArrayList<String>();
+//        String initialGraphConfig = "Policies/SimpleGraph/simpleGraphToSMT.json";
+//        String initialGraphConfig = "Policies/GPMS/Graph.json";
+        String initialGraphConfig = "Policies/LawUseCase/Graph.json";
+      String initialProhibitionConfig = "Policies/LawUseCase/prohibitions.json";
+//        String initialGraphConfig = "Policies/BankPolicy/Complex/bank_policy_config.json";
+
+//		String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/graph.json";
+//		String initialProhibitionConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/prohibitionsx1.json";
 		
-		System.out.println("Number of mutations: " + totalNumberOfMutantsForTest);
-		System.out.println("Number of killed mutants: " + totalNumberOfKilledMutantsForTest);
+		File folder = new File(initialGraphConfig).getParentFile();
+		mutantNames.add("AOC");
+		mutantNames.add("AOAR");
+		mutantNames.add("COC");
+		mutantNames.add("COAR");
+		mutantNames.add("CSS");
+		mutantNames.add("RCT");
+		mutantNames.add("RIS");
+		mutantNames.add("ROCT");
+		mutantNames.add("ROAR");
+		mutantNames.add("ROP");
 
-		System.out.println("Mutation Score: " + totalNumberOfKilledMutantsForTest*100/totalNumberOfMutantsForTest + "%");
 
-		long endTime = System.currentTimeMillis();
-		long timeElapsed = endTime - startTime;
-		long minutes = (timeElapsed / 1000) / 60;
-		int seconds = (int) ((timeElapsed / 1000) % 60);
-		System.out.println("Execution time in milliseconds: " + timeElapsed);
-		System.out.println("Execution time in min and sec: " + minutes + ":" + seconds);
-
+		pmc.graph = Utils.readAnyGraph(initialGraphConfig);
+		pmc.prohibitions = ProhibitionMutation.readProhibition(initialProhibitionConfig);
+		pmc.createMutants2( mutantNames, pmc.graph, pmc.prohibitions, folder);
 	}
 
 	public ProhibitionMutationController() {
 		createTestMethods();
 	}
 
-public void createMutants(List<String> mutantNames, Graph graph, Prohibitions prohibitions, File folder) throws GraphDoesNotMatchTestSuitException, NoTypeProvidedException, InstantiationException {
+	public void createMutants2(List<String> mutantNames, Graph graph, Prohibitions prohibitions, File folder) throws GraphDoesNotMatchTestSuitException, PMException {
 		
 		//createHeaderForCSV(mutantNames);
 		List<String[]> outputList = new ArrayList<String[]>();
@@ -113,7 +94,9 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		String[] row9 = new String[colCount];
 		String[] row10 = new String[colCount];
 		String[] row11 = new String[colCount];
-		row11[0] = "totalMutationScore";
+		String[] row12 = new String[colCount];
+
+		row12[0] = "totalMutationScore";
 
 		long startTime = System.currentTimeMillis();
 		int j = 0;
@@ -124,6 +107,8 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 			totalNumberOfMutantsForTest = 0;
 			totalNumberOfKilledMutantsForTest = 0;
 			row[0] = testMethod;
+			
+
 
 			for (int i = 0; i < mutantNames.size(); i++) {
 				System.out.println(mutantNames.toString());
@@ -131,34 +116,42 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 				if (mutantNames.get(i).equals("AOC")) {
 					row2[0] = "AOC";
 					row2[j] = Double.toString(testAOC(testMethod, graph, prohibitions));
-				} else if (mutantNames.get(i).equals("AOO")) {
-					row3[0] = "AOO";
-					row3[j] = Double.toString(testAOO(testMethod, graph, prohibitions));
+				} else if (mutantNames.get(i).equals("AOAR")) {
+					row3[0] = "AOAR";
+					row3[j] = Double.toString(testAOAR(testMethod, graph, prohibitions));
 				} else if (mutantNames.get(i).equals("COC")) {
 					row4[0] = "COC";
 					row4[j] = Double.toString(testCOC(testMethod, graph, prohibitions));
-				} else if (mutantNames.get(i).equals("COO")) {
-					row5[0] = "COO";
-					row5[j] = Double.toString(testCOO(testMethod, graph, prohibitions));
-				} else if (mutantNames.get(i).equals("CUS")) {
-					row6[0] = "CUS";
-					row6[j] = Double.toString(testCUS(testMethod, graph, prohibitions));
-				} else if (mutantNames.get(i).equals("RCT")) {
+				} else if (mutantNames.get(i).equals("COAR")) {
+					row5[0] = "COAR";
+					row5[j] = Double.toString(testCOAR(testMethod, graph, prohibitions));
+				}
+				else if (mutantNames.get(i).equals("CSS")) {
+					row6[0] = "CSS";
+					row6[j] = Double.toString(testCSS(testMethod, graph, prohibitions));
+				}
+				else if (mutantNames.get(i).equals("RCT")) {
 					row7[0] = "RCT";
 					row7[j] = Double.toString(testRCT(testMethod, graph, prohibitions));
-				} else if (mutantNames.get(i).equals("RIS")) {
+				}
+				else if (mutantNames.get(i).equals("RIS")) {
 					row8[0] = "RIS";
 					row8[j] = Double.toString(testRIS(testMethod, graph, prohibitions));
-				} else if (mutantNames.get(i).equals("ROCT")) {
+				}
+				else if (mutantNames.get(i).equals("ROCT")) {
 					row9[0] = "ROCT";
 					row9[j] = Double.toString(testROCT(testMethod, graph, prohibitions));
-				} else if (mutantNames.get(i).equals("ROO")) {
-					row10[0] = "ROO";
-					row10[j] = Double.toString(testROO(testMethod, graph, prohibitions));
+				}
+				else if (mutantNames.get(i).equals("ROAR")) {
+					row10[0] = "ROAR";
+					row10[j] = Double.toString(testROAR(testMethod, graph, prohibitions));
+				}else if (mutantNames.get(i).equals("ROP")) {
+					row11[0] = "ROP";
+					row11[j] = Double.toString(testROP(testMethod, graph, prohibitions));
 				}
 				
 			}
-			row11[j] = Double.toString(
+			row12[j] = Double.toString(
 					(double) totalNumberOfKilledMutantsForTest / (double) totalNumberOfMutantsForTest * 100);
 		
 		}
@@ -172,6 +165,7 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		data.add(row9);
 		data.add(row10);
 		data.add(row11);
+		data.add(row12);
 
 		try {
 			saveCSV(data, folder);
@@ -189,12 +183,12 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		System.out.println("Execution time in min and sec: " + minutes + ":" + seconds);
 	}
 
-	private double testAOC(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+	private double testAOC(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
 		MutatorAOC mutatorAOC = new MutatorAOC(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is AOC");
 
 		try {
-			mutatorAOC.main(graph);
+			mutatorAOC.main(graph, prohibitions, testMethod);
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -202,7 +196,7 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		}
 		double mutationScore = mutatorAOC.calculateMutationScore(mutatorAOC.getNumberOfMutants(),
 				mutatorAOC.getNumberOfKilledMutants());
-//		System.out.println("TestMethod is " + testMethod);
+		System.out.println("TestMethod is " + testMethod);
 		System.out.println("Number of mutations: " + mutatorAOC.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorAOC.getNumberOfKilledMutants());
 
@@ -213,36 +207,36 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		return mutationScore;
 	}
 	
-	private double testAOO(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
-		MutatorAOO mutatorAOO = new MutatorAOO(testMethod, graph, prohibitions);
-		System.out.println("MutationMethod is AOO");
+	private double testAOAR(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
+		MutatorAOAR mutatorAOAR = new MutatorAOAR(testMethod, graph, prohibitions);
+		System.out.println("MutationMethod is AOAR");
 
 		try {
-			mutatorAOO.main(graph);
+			mutatorAOAR.main(graph, prohibitions, testMethod);
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		double mutationScore = mutatorAOO.calculateMutationScore(mutatorAOO.getNumberOfMutants(),
-				mutatorAOO.getNumberOfKilledMutants());
-//		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + mutatorAOO.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + mutatorAOO.getNumberOfKilledMutants());
+		double mutationScore = mutatorAOAR.calculateMutationScore(mutatorAOAR.getNumberOfMutants(),
+				mutatorAOAR.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorAOAR.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorAOAR.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += mutatorAOO.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += mutatorAOO.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += mutatorAOAR.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorAOAR.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-
-	private double testCOC(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+	
+	private double testCOC(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
 		MutatorCOC mutatorCOC = new MutatorCOC(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is COC");
 
 		try {
-			mutatorCOC.main(graph);
+			mutatorCOC.main(graph, prohibitions, testMethod);
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -250,7 +244,7 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		}
 		double mutationScore = mutatorCOC.calculateMutationScore(mutatorCOC.getNumberOfMutants(),
 				mutatorCOC.getNumberOfKilledMutants());
-//		System.out.println("TestMethod is " + testMethod);
+		System.out.println("TestMethod is " + testMethod);
 		System.out.println("Number of mutations: " + mutatorCOC.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorCOC.getNumberOfKilledMutants());
 
@@ -260,61 +254,61 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		totalNumberOfKilledMutantsForTest += mutatorCOC.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-
-	private double testCOO(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
-		MutatorCOO mutatorCOO = new MutatorCOO(testMethod, graph, prohibitions);
-		System.out.println("MutationMethod is COO");
+	
+	private double testCOAR(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
+		MutatorCOAR mutatorCOAR = new MutatorCOAR(testMethod, graph, prohibitions);
+		System.out.println("MutationMethod is COAR");
 
 		try {
-			mutatorCOO.main(graph);
+			mutatorCOAR.main(graph, prohibitions, testMethod);
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		double mutationScore = mutatorCOO.calculateMutationScore(mutatorCOO.getNumberOfMutants(),
-				mutatorCOO.getNumberOfKilledMutants());
-//		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + mutatorCOO.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + mutatorCOO.getNumberOfKilledMutants());
+		double mutationScore = mutatorCOAR.calculateMutationScore(mutatorCOAR.getNumberOfMutants(),
+				mutatorCOAR.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorCOAR.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorCOAR.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += mutatorCOO.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += mutatorCOO.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += mutatorCOAR.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorCOAR.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-
-	private double testCUS(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
-		MutatorCUS mutatorCUS = new MutatorCUS(testMethod, graph, prohibitions);
-		System.out.println("MutationMethod is CUS");
+	
+	private double testCSS(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
+		MutatorCSS mutatorCSS = new MutatorCSS(testMethod, graph, prohibitions);
+		System.out.println("MutationMethod is CSS");
 
 		try {
-			mutatorCUS.main(graph);
+			mutatorCSS.main(graph, prohibitions, testMethod);
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		double mutationScore = mutatorCUS.calculateMutationScore(mutatorCUS.getNumberOfMutants(),
-				mutatorCUS.getNumberOfKilledMutants());
-//		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + mutatorCUS.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + mutatorCUS.getNumberOfKilledMutants());
+		double mutationScore = mutatorCSS.calculateMutationScore(mutatorCSS.getNumberOfMutants(),
+				mutatorCSS.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorCSS.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorCSS.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += mutatorCUS.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += mutatorCUS.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += mutatorCSS.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorCSS.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-
-	private double testRCT(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+	
+	private double testRCT(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
 		MutatorRCT mutatorRCT = new MutatorRCT(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is RCT");
 
 		try {
-			mutatorRCT.main(graph);
+			mutatorRCT.main(graph, prohibitions, testMethod);
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -322,7 +316,7 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		}
 		double mutationScore = mutatorRCT.calculateMutationScore(mutatorRCT.getNumberOfMutants(),
 				mutatorRCT.getNumberOfKilledMutants());
-//		System.out.println("TestMethod is " + testMethod);
+		System.out.println("TestMethod is " + testMethod);
 		System.out.println("Number of mutations: " + mutatorRCT.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorRCT.getNumberOfKilledMutants());
 
@@ -333,12 +327,12 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		return mutationScore;
 	}
 
-	private double testRIS(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+	private double testRIS(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
 		MutatorRIS mutatorRIS = new MutatorRIS(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is RIS");
 
 		try {
-			mutatorRIS.main(graph);
+			mutatorRIS.main(graph, prohibitions, testMethod);
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -346,7 +340,7 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		}
 		double mutationScore = mutatorRIS.calculateMutationScore(mutatorRIS.getNumberOfMutants(),
 				mutatorRIS.getNumberOfKilledMutants());
-//		System.out.println("TestMethod is " + testMethod);
+		System.out.println("TestMethod is " + testMethod);
 		System.out.println("Number of mutations: " + mutatorRIS.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorRIS.getNumberOfKilledMutants());
 
@@ -356,13 +350,13 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		totalNumberOfKilledMutantsForTest += mutatorRIS.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-
-	private double testROCT(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+	
+	private double testROCT(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
 		MutatorROCT mutatorROCT = new MutatorROCT(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is ROCT");
 
 		try {
-			mutatorROCT.main(graph);
+			mutatorROCT.main(graph, prohibitions, testMethod);
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -370,7 +364,7 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		}
 		double mutationScore = mutatorROCT.calculateMutationScore(mutatorROCT.getNumberOfMutants(),
 				mutatorROCT.getNumberOfKilledMutants());
-//		System.out.println("TestMethod is " + testMethod);
+		System.out.println("TestMethod is " + testMethod);
 		System.out.println("Number of mutations: " + mutatorROCT.getNumberOfMutants());
 		System.out.println("Number of killed mutants: " + mutatorROCT.getNumberOfKilledMutants());
 
@@ -380,28 +374,52 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 		totalNumberOfKilledMutantsForTest += mutatorROCT.getNumberOfKilledMutants();
 		return mutationScore;
 	}
-
-	private double testROO(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
-		MutatorROO mutatorROO = new MutatorROO(testMethod, graph, prohibitions);
-		System.out.println("MutationMethod is ROO");
+	
+	private double testROAR(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
+		MutatorROAR mutatorROAR = new MutatorROAR(testMethod, graph, prohibitions);
+		System.out.println("MutationMethod is ROAR");
 
 		try {
-			mutatorROO.main(graph);
+			mutatorROAR.main(graph, prohibitions, testMethod);
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		double mutationScore = mutatorROO.calculateMutationScore(mutatorROO.getNumberOfMutants(),
-				mutatorROO.getNumberOfKilledMutants());
-//		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + mutatorROO.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + mutatorROO.getNumberOfKilledMutants());
+		double mutationScore = mutatorROAR.calculateMutationScore(mutatorROAR.getNumberOfMutants(),
+				mutatorROAR.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorROAR.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorROAR.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += mutatorROO.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += mutatorROO.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += mutatorROAR.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorROAR.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testROP(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
+		MutatorROP mutatorROP = new MutatorROP(testMethod, graph, prohibitions);
+		System.out.println("MutationMethod is ROP");
+
+		try {
+			mutatorROP.main(graph, prohibitions, testMethod);
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		double mutationScore = mutatorROP.calculateMutationScore(mutatorROP.getNumberOfMutants(),
+				mutatorROP.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + mutatorROP.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorROP.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += mutatorROP.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorROP.getNumberOfKilledMutants();
 		return mutationScore;
 	}
 	
@@ -410,36 +428,31 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 //		testMethods.add("RS");
 //		testMethods.add("R");
 		testMethods.add("Pairwise");
-//		testMethods.add("AllCombinations");
+		testMethods.add("AllCombinations");
 
 	}
 
 	private void createHeaderForCSV() {
-		String[] header = new String[rowCount];
+		String[] header = new String[colCount];
+
+
 		header[0] = "TestMethod";
 		header[1] = "AOC";
-		header[2] = "AOO";
+		header[2] = "AOAR";
 		header[3] = "COC";
-		header[4] = "COO";
-		header[5] = "CUS";
+		header[4] = "COAR";
+		header[5] = "CSS";
 		header[6] = "RCT";
 		header[7] = "RIS";
 		header[8] = "ROCT";
-		header[9] = "ROO";
+		header[9] = "ROAR";
+		header[10] = "ROP";
 		
-		header[10] = "totalMutationScore";
+		header[11] = "totalMutationScore";
 		data.add(header);
 	}
 
-	private void createHeaderForCSV(List<String> mutantNames) {
-		String[] header = new String[rowCount];
-		header[0] = "TestMethod";
-		for(int i=0;i< mutantNames.size(); i++) {
-			header[i+1] =  mutantNames.get(i);
-		}
-		header[mutantNames.size()+1] = "totalMutationScore";
-		data.add(header);
-	}
+	
 
 	public void saveCSV(List<String[]> data, File directoryForTestResults) throws PMException, IOException {
 
@@ -449,7 +462,7 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 			System.out.println("File already exists.");
 		}
 		BufferedWriter writer = null;
-		writer = new BufferedWriter(new FileWriter(directoryForTestResults));
+		writer = new BufferedWriter(new FileWriter(directoryForTestResults+"/CSV/OverallMutationResults.csv"));
 		CSVWriter CSVwriter = new CSVWriter(writer);
 		CSVwriter.writeAll(data);
 		writer.flush();
@@ -457,17 +470,5 @@ public void createMutants(List<String> mutantNames, Graph graph, Prohibitions pr
 
 		if (writer != null)
 			writer.close();
-	}
-	
-	public static Obligation readGPMSObligation() throws PMException, IOException {
-		File obligationFile = getFileFromResources("GPMSPolicies/GPMS/Obligations.yml");
-		InputStream inputStream = new FileInputStream(obligationFile);
-		Obligation obligation = EVRParser.parse(inputStream);
-		return obligation;
-	}
-	
-	public static File getFileFromResources(String fileName) {
-		File resource = new File(fileName);
-		return resource;
 	}
 }

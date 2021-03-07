@@ -12,10 +12,11 @@ import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
-
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
+//remove an access right from association
 public class MutatorRARA extends MutantTester {
-	public MutatorRARA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorRARA(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, prohibitions);
 	}
 
 	public void init() throws PMException, IOException {
@@ -53,6 +54,8 @@ public class MutatorRARA extends MutantTester {
 		for (String targetNode : targetNodes) {
 			Set<String> operateSet = sources.get(targetNode);
 			OperationSet accessRights = new OperationSet(operateSet);
+			if (accessRights.size() <= 1)
+				continue;
 			for (String accessRight : accessRights) {
 				Graph mutant = createCopy();
 				removeAccessRightFromAssociate(mutant, sourceNode.getName(), targetNode, accessRights, accessRight);
@@ -82,7 +85,7 @@ public class MutatorRARA extends MutantTester {
 		tmpAccessRights.addAll(accessRights);
 		tmpAccessRights.remove(accessRight);
 		mutant.dissociate(SourceName, targetName);
-		mutant.associate(SourceName, targetName, accessRights);
+		mutant.associate(SourceName, targetName, tmpAccessRights);
 		return mutant;
 	}
 }

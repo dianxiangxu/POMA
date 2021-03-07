@@ -63,7 +63,7 @@ public class MutatorCEO extends MutantTester2 {
 
 					before = getNumberOfKilledMutants();
 					//invoke junit to kill obligation_mutant
-					testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "CEO");
+					testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "CEO");
 					after = getNumberOfKilledMutants();
 					if (before == after) {
 						//unkilled mutant caught

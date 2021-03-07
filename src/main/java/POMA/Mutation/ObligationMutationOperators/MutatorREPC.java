@@ -67,7 +67,7 @@ public class MutatorREPC extends MutantTester2 {
 			setObligationMutant(mutant);
 
 //			//invoke junit to kill obligation_mutant
-			testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "REPC");
+			testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "REPC");
 			setNumberOfMutants(getNumberOfMutants() + 1);
 			
 		}

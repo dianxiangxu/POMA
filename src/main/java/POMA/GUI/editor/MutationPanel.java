@@ -339,22 +339,22 @@ public class MutationPanel extends JPanelPB {
 		if(result == JOptionPane.CANCEL_OPTION) return false;
 		if (result == JOptionPane.OK_OPTION) {
 			this.startProgressStatus();
-		    		MutationController mc = new MutationController();
-		    		try {
-		    			if(!folder.isDirectory()) {
-		    				folder = folder.getParentFile();
-		    			}
-						mc.createMutants(mutPanel.getMutationOperatorList(false),graph, folder);
-					} catch (GraphDoesNotMatchTestSuitException e) {
-						//e.printStackTrace();
-						this.stopProgressStatus();
-						JOptionPane.showMessageDialog(this,
-								"Graph and Testing Suits do not match.",
-								"Error of Selection",
-								JOptionPane.WARNING_MESSAGE);
-						this.stopProgressStatus();
-						return false;
-					}
+//		    		MutationController mc = new MutationController();
+//		    		try {
+//		    			if(!folder.isDirectory()) {
+//		    				folder = folder.getParentFile();
+//		    			}
+//						mc.createMutants(mutPanel.getMutationOperatorList(false),graph, folder);
+//					} catch (GraphDoesNotMatchTestSuitException e) {
+//						//e.printStackTrace();
+//						this.stopProgressStatus();
+//						JOptionPane.showMessageDialog(this,
+//								"Graph and Testing Suits do not match.",
+//								"Error of Selection",
+//								JOptionPane.WARNING_MESSAGE);
+//						this.stopProgressStatus();
+//						return false;
+//					}
 		    		
 //		    		ObligationMutationController omc = new ObligationMutationController();
 //		    		try {
@@ -364,6 +364,18 @@ public class MutationPanel extends JPanelPB {
 //						this.stopProgressStatus();
 //						JOptionPane.showMessageDialog(this,
 //								"(Obligation)Policy and Testing Suits do not match.",
+//								"Error of Selection",
+//								JOptionPane.WARNING_MESSAGE);
+//					}
+//		    		
+//		    		ProhibitionMutationController pmc = new ProhibitionMutationController();
+//		    		try {
+//						pmc.createMutants(mutPanel.getProhibitionMutationOperatorList(false),graph, folder);
+//					} catch (GraphDoesNotMatchTestSuitException e) {
+//						//e.printStackTrace();
+//						this.stopProgressStatus();
+//						JOptionPane.showMessageDialog(this,
+//								"(Prohibition)Policy and Testing Suits do not match.",
 //								"Error of Selection",
 //								JOptionPane.WARNING_MESSAGE);
 //					}

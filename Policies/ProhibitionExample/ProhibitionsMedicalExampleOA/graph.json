@@ -6,6 +6,11 @@
       "properties": {}
     },
     {
+      "name": "LicensedPracticalNurse",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "ModerateCarePatients",
       "type": "OA",
       "properties": {}
@@ -17,6 +22,16 @@
     },
     {
       "name": "RegisteredNurse",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Doctor",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "CertifiedNurseAssistant",
       "type": "UA",
       "properties": {}
     },
@@ -50,6 +65,14 @@
       "target": "ClassificationPolicyClass"
     },
     {
+      "source": "LicensedPracticalNurse",
+      "target": "ClassificationPolicyClass"
+    },
+    {
+      "source": "Doctor",
+      "target": "ClassificationPolicyClass"
+    },
+    {
       "source": "Patient1",
       "target": "MaximumCarePatients"
     },
@@ -64,6 +87,10 @@
     {
       "source": "Patient2",
       "target": "ModerateCarePatients"
+    },
+    {
+      "source": "CertifiedNurseAssistant",
+      "target": "ClassificationPolicyClass"
     }
   ],
   "associations": [
@@ -75,10 +102,54 @@
       ]
     },
     {
+      "source": "Doctor",
+      "target": "ModerateCarePatients",
+      "operations": [
+        "access",
+        "write"
+      ]
+    },
+    {
+      "source": "LicensedPracticalNurse",
+      "target": "ModerateCarePatients",
+      "operations": [
+        "access"
+      ]
+    },
+    {
+      "source": "CertifiedNurseAssistant",
+      "target": "ModerateCarePatients",
+      "operations": [
+        "access"
+      ]
+    },
+    {
       "source": "RegisteredNurse",
       "target": "ModerateCarePatients",
       "operations": [
         "access"
+      ]
+    },
+    {
+      "source": "LicensedPracticalNurse",
+      "target": "MaximumCarePatients",
+      "operations": [
+        "access"
+      ]
+    },
+    {
+      "source": "CertifiedNurseAssistant",
+      "target": "MaximumCarePatients",
+      "operations": [
+        "access"
+      ]
+    },
+    {
+      "source": "Doctor",
+      "target": "MaximumCarePatients",
+      "operations": [
+        "access",
+        "write"
       ]
     }
   ]

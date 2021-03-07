@@ -56,7 +56,7 @@ public class MutatorNCD extends MutantTester2 {
 			setObligationMutant(mutant);
 			before = getNumberOfKilledMutants();
 			//invoke junit to kill obligation_mutant
-			testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "NCD");
+			testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "NCD");
 			after = getNumberOfKilledMutants();
 			if (before == after) {
 				//unkilled mutant caught
@@ -92,7 +92,7 @@ public class MutatorNCD extends MutantTester2 {
 				setObligationMutant(mutant);
 				before = getNumberOfKilledMutants();
 				//invoke junit to kill obligation_mutant
-				testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "NCD");
+				testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "NCD");
 				after = getNumberOfKilledMutants();
 				if (before == after) {
 					//unkilled mutant caught

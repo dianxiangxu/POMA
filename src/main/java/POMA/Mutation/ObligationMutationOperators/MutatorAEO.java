@@ -60,7 +60,7 @@ public class MutatorAEO extends MutantTester2 {
 				setObligationMutant(mutant);
 				before = getNumberOfKilledMutants();
 				//invoke junit to kill obligation_mutant
-				testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "AEO");
+				testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "AEO");
 				after = getNumberOfKilledMutants();
 				if (before == after) {
 					//unkilled mutant caught

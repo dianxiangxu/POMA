@@ -86,7 +86,7 @@ public class MutatorROA extends MutantTester2 {
 
 				before = getNumberOfKilledMutants();
 //				//invoke junit to kill obligation_mutant
-				testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "ROA");
+				testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "ROA");
 				after = getNumberOfKilledMutants();
 				if (before == after) {
 					//unkilled mutant caught

@@ -6,6 +6,7 @@ import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 import gov.nist.csd.pm.pip.prohibitions.ProhibitionsSerializer;
 import gov.nist.csd.pm.pip.prohibitions.model.Prohibition;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,26 +15,22 @@ import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 
 //Reverse Intersection
 public class MutatorRIS extends ProhibitionMutation {
-	public MutatorRIS(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+	public MutatorRIS(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
 		super(testMethod, graph, prohibitions);
 		// TODO Auto-generated constructor stub
 	}
 
-	public void main(Graph graph) throws PMException, IOException {
-		//use default graph now
-//		getGraphLoaded();
-		//getProhibitionLoaded($PATH);
-
-//		getProhibitionLoaded("src/main/java/POMA/Mutation/ProhibitionMutationOperators/prohibitions7.json");
-//		System.out.println(getProhibitionList().get(0).isIntersection());
-//		System.out.println(getProhibitionList().get(0).getContainers());
-		calculateOriginTestResults();
+	public void main(Graph graph, Prohibitions prohibitions, String testMethod) throws PMException, IOException {
+		String testSuitePath = getTestSuitPathByMethod(testMethod);
+		File testSuite = new File(testSuitePath);
+		String mutationMethod = "RIS";
+		double before, after;
 		
 		//change subject in prohibition1, save mutant to mutant.json//only for testing
 		List<Prohibition> prohibitionList = getProhibitionList();
 		for (Prohibition p : prohibitionList) {
 			String name = p.getName();
-			Prohibitions mutant = createCopy();
+			Prohibitions mutant = createProhibitionsCopy();
 			Prohibition prohibitionMutant = mutant.get(name);
 			
 			prohibitionMutant.setIntersection(!prohibitionMutant.isIntersection());
@@ -42,13 +39,11 @@ public class MutatorRIS extends ProhibitionMutation {
 			mutant.update(name, prohibitionMutant);
 			
 			//try kill mutant
-			ArrayList<Boolean> results = getMutantTestResults(mutant);
-			if (compareTestResults(getOriginTestResults(), results)) {
-				System.out.println("Mutant is not killed!");
-				System.out.println("Origin tests results:" + getOriginTestResults());
-				System.out.println("Mutant tests results:" + results);
-			} else {
-				setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
+			before = getNumberOfKilledMutants();
+			testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
+			after = getNumberOfKilledMutants();
+			if (before == after) {
+				System.out.println("Mutant is not killed! Prohibition name:" + name +  " Reversed intersection is " + prohibitionMutant.isIntersection());
 			}
 			setNumberOfMutants(getNumberOfMutants() + 1);
 			

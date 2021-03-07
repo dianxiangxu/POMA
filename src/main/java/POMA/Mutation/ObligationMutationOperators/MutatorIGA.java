@@ -92,7 +92,7 @@ public class MutatorIGA extends MutantTester2 {
 					setObligationMutant(mutant);
 					before = getNumberOfKilledMutants();
 					//invoke junit to kill obligation_mutant
-					testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "IGA");
+					testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "IGA");
 					after = getNumberOfKilledMutants();
 					if (before == after) {
 						//unkilled mutant caught

@@ -16,15 +16,15 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class MutationBasedTestMutationMethods {
-	private JCheckBox boxAACR;
-	private JCheckBox boxAAGR;
+	private JCheckBox boxAAC;
+	private JCheckBox boxAAG;
 	private JCheckBox boxCAA;
 	private JCheckBox boxRAD;
 	private JCheckBox boxCAD;
 	private JCheckBox boxCOAA;
 	private JCheckBox boxCUAA;
-	private JCheckBox boxRACR;
-	private JCheckBox boxRAGR;
+	private JCheckBox boxRAC;
+	private JCheckBox boxRAG;
 	private JCheckBox boxRARA;
 	private JCheckBox boxRARAA;
 	private JCheckBox boxRNF;
@@ -35,7 +35,7 @@ public class MutationBasedTestMutationMethods {
 	private JCheckBox boxSelectM8;
 	private JCheckBox boxSelectAllG;
 	private JCheckBox boxAEO;
-	private JCheckBox boxCAC;
+	private JCheckBox boxCOA;
 	private JCheckBox boxCEO;
 	private JCheckBox boxCEPC;
 	private JCheckBox boxCEPE;
@@ -43,8 +43,8 @@ public class MutationBasedTestMutationMethods {
 	private JCheckBox boxIAA;
 	private JCheckBox boxICA;
 	private JCheckBox boxIGA;
-	private JCheckBox boxINA;
-	private JCheckBox boxNCD;
+	private JCheckBox boxIDA;
+	private JCheckBox boxNOC;
 	private JCheckBox boxNOF;
 	private JCheckBox boxRCA;
 	private JCheckBox boxREO;
@@ -54,27 +54,39 @@ public class MutationBasedTestMutationMethods {
 	private JCheckBox boxROA;
 	private JCheckBox boxROC;
 	private JCheckBox boxROF;
-	private JCheckBox boxROR;
+	private JCheckBox boxROB;
 	private JCheckBox boxSelectAllO;
+	
+	private JCheckBox boxCUS;
+	private JCheckBox boxAOAR;
+	private JCheckBox boxCOAR;
+	private JCheckBox boxROAR;
+	private JCheckBox boxROP;
+	private JCheckBox boxRIS;
+	private JCheckBox boxAOC;
+	private JCheckBox boxCOC;
+	private JCheckBox boxROCT;
+	private JCheckBox boxRCT;
+	private JCheckBox boxSelectAllP;
 
 	
 	public JCheckBox getBoxPTT() {
-		return boxAACR;
+		return boxAAC;
 	}
 
 
 	public void setBoxPTT(JCheckBox boxPTT) {
-		this.boxAACR = boxPTT;
+		this.boxAAC = boxPTT;
 	}
 
 
 	public JCheckBox getBoxPTF() {
-		return boxAAGR;
+		return boxAAG;
 	}
 
 
 	public void setBoxPTF(JCheckBox boxPTF) {
-		this.boxAAGR = boxPTF;
+		this.boxAAG = boxPTF;
 	}
 
 	public JCheckBox getBoxCRE() {
@@ -117,33 +129,33 @@ public class MutationBasedTestMutationMethods {
 	}
 
 
-	public JCheckBox getBoxRCT() {
+	public JCheckBox getBoxCUAA() {
 		return boxCUAA;
 	}
 
 
-	public void setBoxRCT(JCheckBox boxRCT) {
-		this.boxCUAA = boxRCT;
+	public void setBoxCUAA(JCheckBox boxCUAA) {
+		this.boxCUAA = boxCUAA;
 	}
 
 
 	public JCheckBox getBoxRCF() {
-		return boxRACR;
+		return boxRAC;
 	}
 
 
 	public void setBoxRCF(JCheckBox boxRCF) {
-		this.boxRACR = boxRCF;
+		this.boxRAC = boxRCF;
 	}
 
 
 	public JCheckBox getBoxFPR() {
-		return boxRAGR;
+		return boxRAG;
 	}
 
 
 	public void setBoxFPR(JCheckBox boxFPR) {
-		this.boxRAGR = boxFPR;
+		this.boxRAG = boxFPR;
 	}
 
 
@@ -228,12 +240,12 @@ public class MutationBasedTestMutationMethods {
 		this.boxAEO = boxAEO;
 	}
 	
-	public JCheckBox getBoxCAC() {
-		return boxCAC;
+	public JCheckBox getBoxCOA() {
+		return boxCOA;
 	}
 
-	public void setBoxCAC(JCheckBox boxCAC) {
-		this.boxCAC = boxCAC;
+	public void setBoxCOA(JCheckBox boxCOA) {
+		this.boxCOA = boxCOA;
 	}
 	
 	public JCheckBox getBoxCEO() {
@@ -292,20 +304,20 @@ public class MutationBasedTestMutationMethods {
 		this.boxIGA = boxIGA;
 	}
 	
-	public JCheckBox getBoxINA() {
-		return boxINA;
+	public JCheckBox getBoxIDA() {
+		return boxIDA;
 	}
 
-	public void setBoxINA(JCheckBox boxINA) {
-		this.boxINA = boxINA;
+	public void setBoxIDA(JCheckBox boxIDA) {
+		this.boxIDA = boxIDA;
 	}
 	
-	public JCheckBox getBoxNCD() {
-		return boxNCD;
+	public JCheckBox getBoxNOC() {
+		return boxNOC;
 	}
 
-	public void setBoxNCD(JCheckBox boxNCD) {
-		this.boxNCD = boxNCD;
+	public void setBoxNOC(JCheckBox boxNOC) {
+		this.boxNOC = boxNOC;
 	}
 	public JCheckBox getBoxNOF() {
 		return boxNOF;
@@ -379,12 +391,12 @@ public class MutationBasedTestMutationMethods {
 		this.boxROF = boxROF;
 	}
 	
-	public JCheckBox getBoxROR() {
-		return boxROR;
+	public JCheckBox getBoxROB() {
+		return boxROB;
 	}
 
-	public void setBoxROR(JCheckBox boxROR) {
-		this.boxROR = boxROR;
+	public void setBoxROB(JCheckBox boxROB) {
+		this.boxROB = boxROB;
 	}
 	
 	public JCheckBox getboxSelectAllO() {
@@ -395,19 +407,107 @@ public class MutationBasedTestMutationMethods {
 		this.boxSelectAllO = boxSelectAllO;
 	}
 	
+	public JCheckBox getBoxCUS() {
+		return boxCUS;
+	}
+
+	public void setBoxCUS(JCheckBox boxCUS) {
+		this.boxCUS = boxCUS;
+	}
+	
+	public JCheckBox getBoxAOAR() {
+		return boxAOAR;
+	}
+
+	public void setBoxAOAR(JCheckBox boxAOAR) {
+		this.boxAOAR = boxAOAR;
+	}
+	
+	public JCheckBox getBoxCOAR() {
+		return boxCOAR;
+	}
+
+	public void setBoxCOAR(JCheckBox boxCOAR) {
+		this.boxCOAR = boxCOAR;
+	}
+	
+	public JCheckBox getBoxROAR() {
+		return boxROAR;
+	}
+
+	public void setBoxROAR(JCheckBox boxROAR) {
+		this.boxROAR = boxROAR;
+	}
+	
+	public JCheckBox getBoxROP() {
+		return boxROP;
+	}
+
+	public void setBoxROP(JCheckBox boxROP) {
+		this.boxROP = boxROP;
+	}
+	
+	public JCheckBox getBoxRIS() {
+		return boxRIS;
+	}
+
+	public void setBoxRIS(JCheckBox boxRIS) {
+		this.boxRIS = boxRIS;
+	}
+	
+	public JCheckBox getBoxAOC() {
+		return boxAOC;
+	}
+
+	public void setBoxAOC(JCheckBox boxAOC) {
+		this.boxAOC = boxAOC;
+	}
+	
+	public JCheckBox getBoxCOC() {
+		return boxCOC;
+	}
+
+	public void setBoxCOC(JCheckBox boxCOC) {
+		this.boxCOC = boxCOC;
+	}
+	
+	public JCheckBox getBoxROCT() {
+		return boxROCT;
+	}
+
+	public void setBoxROCT(JCheckBox boxROCT) {
+		this.boxROCT = boxROCT;
+	}
+	
+	public JCheckBox getBoxRCT() {
+		return boxRCT;
+	}
+
+	public void setBoxRCT(JCheckBox boxRCT) {
+		this.boxRCT = boxRCT;
+	}
+	
+	public JCheckBox getboxSelectAllP() {
+		return boxSelectAllP;
+	}
+
+	public void setboxSelectAllP(JCheckBox boxSelectAllP) {
+		this.boxSelectAllP = boxSelectAllP;
+	}
+	
 	//debug
 //	public List<JCheckBox> getAllBoxes() {
 //		List<JCheckBox> boxes = new ArrayList<JCheckBox>();
-//		boxes.add(boxAACR);
-//		boxes.add(boxAAGR);
+//		boxes.add(boxAAC);
+//		boxes.add(boxAAG);
 //		boxes.add(boxAARA);
 //		boxes.add(boxCAA);
 //		boxes.add(boxCAD);
 //		boxes.add(boxCOAA);
 //		boxes.add(boxCUAA);
-//		boxes.add(boxRACR);
+//		boxes.add(boxRAC);
 //		boxes.add(boxRAD);
-//		boxes.add(boxRAGR);
+//		boxes.add(boxRAG);
 //		boxes.add(boxRARA);
 //		boxes.add(boxRARAA);
 //		//boxes.add(boxRNF);
@@ -421,16 +521,16 @@ public class MutationBasedTestMutationMethods {
 
 
 	public MutationBasedTestMutationMethods(){
-		boxAACR = new JCheckBox("Add Association Relation With One Access Right(AACR)");
-		boxAAGR = new JCheckBox("Add An Assignment Relation(AAGR)");
+		boxAAC = new JCheckBox("Add Association With One Access Right(AAC)");
+		boxAAG = new JCheckBox("Add An Assignment(AAG)");
 		boxAARA = new JCheckBox("Add One Access Right To Association(AARA)");
 		boxCAA = new JCheckBox("Change Assignment Ascendent(CAA)");
 		boxCAD = new JCheckBox("Change Assignment Direction(CAD)");
 		boxCOAA = new JCheckBox("Change Object Attribute of Association(COAA)");
 		boxCUAA = new JCheckBox("Change User Attribute of Association(CUAA)");
-		boxRACR = new JCheckBox("Remove An Association Relation(RACR)");
+		boxRAC = new JCheckBox("Remove An Association(RAC)");
 		boxRAD = new JCheckBox("Reverse Assignment Direction(RAD)");
-		boxRAGR = new JCheckBox("Remove An Assignment Relation(RAGR)");
+		boxRAG = new JCheckBox("Remove An Assignment(RAG)");
 		boxRARA = new JCheckBox("Remove One Access Right From Association(RARA)");
 		boxRARAA = new JCheckBox("Remove An Access Right From All Associations(RARAA)");
 		//boxRNF = new JCheckBox("Remove Not Function (RNF)");
@@ -458,7 +558,7 @@ public class MutationBasedTestMutationMethods {
 //        });
 		
 		boxAEO = new JCheckBox("Add Event Operation(AEO)");
-		boxCAC = new JCheckBox("Change Action(CAC)");
+		boxCOA = new JCheckBox("Change One Action(COA)");
 		boxCEO = new JCheckBox("Change Event Operation(CEO)");
 		boxCEPC = new JCheckBox("Change Event Policy Class(CEPC)");
 		boxCEPE = new JCheckBox("Change Event Policy Element(CEPE)");
@@ -466,8 +566,8 @@ public class MutationBasedTestMutationMethods {
 		boxIAA = new JCheckBox("Incorrect Assign Action(IAA)");
 		boxICA = new JCheckBox("Incorrect Create Action(ICA)");
 		boxIGA = new JCheckBox("Incorrect Grant Action(IGA)");
-		boxINA = new JCheckBox("Incorrect Deny Action(INA)");
-		boxNCD = new JCheckBox("Negate Condition(NCD)");
+		boxIDA = new JCheckBox("Incorrect Deny Action(IDA)");
+		boxNOC = new JCheckBox("Negate One Condition(NOC)");
 		boxNOF = new JCheckBox("Negate One Factor(NOF)");
 		boxRCA = new JCheckBox("Remove Conditional Action(RCA)");
 		boxREO = new JCheckBox("Remove Event Operation(REO)");
@@ -477,7 +577,7 @@ public class MutationBasedTestMutationMethods {
 		boxROA = new JCheckBox("Remove One Action(ROA)");
 		boxROC = new JCheckBox("Remove One Condition(ROC)");
 		boxROF = new JCheckBox("Remove One Factor(ROF)");
-		boxROR = new JCheckBox("Remove One Rule(ROR)");
+		boxROB = new JCheckBox("Remove one OBligation(ROB)");
 		boxSelectAllO = new JCheckBox("Select All Obligation Operators");
 		boxSelectAllO.addActionListener(new ActionListener() {		 
 			@Override
@@ -486,6 +586,27 @@ public class MutationBasedTestMutationMethods {
 		        	setAllIndividualBoxesO(true);
 		        else
 		        	setAllIndividualBoxesO(false);			
+			}
+        });
+		
+		boxCUS = new JCheckBox("Change User Spec(CUS)");
+		boxAOAR = new JCheckBox("Add One Access Right(AOAR)");
+		boxCOAR = new JCheckBox("Change One Access Right(COAR)");
+		boxROAR = new JCheckBox("Remove One Access Right(ROAR)");
+		boxROP = new JCheckBox("Remove One Prohibition(ROP)");
+		boxRIS = new JCheckBox("Reverse Intersection(RIS)");
+		boxAOC = new JCheckBox("Add One Container(AOC)");
+		boxCOC = new JCheckBox("Change One Container(COC)");
+		boxROCT = new JCheckBox("Remove One Container(ROCT)");
+		boxRCT = new JCheckBox("Reverse Complement(RCT)");
+		boxSelectAllP = new JCheckBox("Select All Prohibition Operators");
+		boxSelectAllP.addActionListener(new ActionListener() {		 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (boxSelectAllP.isSelected())
+		        	setAllIndividualBoxesP(true);
+		        else
+		        	setAllIndividualBoxesP(false);			
 			}
         });
 	}
@@ -523,15 +644,15 @@ public class MutationBasedTestMutationMethods {
 		if (boxCUAA.isSelected()) {
 			lst.add("CUAA");
 		}
-		if (boxRACR.isSelected()) {
+		if (boxRAC.isSelected()) {
 			if(!filter||!flag)
 				
-			lst.add("RACR");
+			lst.add("RAC");
 			flag = true;
 
 		}
-		if (boxRAGR.isSelected()) {
-			lst.add("RAGR");
+		if (boxRAG.isSelected()) {
+			lst.add("RAG");
 		}
 		if (boxRARA.isSelected()) {
 			lst.add("RARA");
@@ -558,11 +679,11 @@ public class MutationBasedTestMutationMethods {
 //			lst.add("createPolicyTargetChangeComparisonFunctionMutants");
 //		}
 		
-		if (boxAACR.isSelected()) {
-			lst.add("AACR");
+		if (boxAAC.isSelected()) {
+			lst.add("AAC");
 		}
-		if (boxAAGR.isSelected()) {
-			lst.add("AAGR");
+		if (boxAAG.isSelected()) {
+			lst.add("AAG");
 		}
 		
 		return lst;
@@ -580,8 +701,8 @@ public class MutationBasedTestMutationMethods {
 		if (boxAEO.isSelected()) {
 			lst.add("AEO");
 		}
-		if (boxCAC.isSelected()) {
-			lst.add("CAC");
+		if (boxCOA.isSelected()) {
+			lst.add("COA");
 		}
 		if (boxCEO.isSelected()) {
 			lst.add("CEO");
@@ -604,11 +725,11 @@ public class MutationBasedTestMutationMethods {
 		if (boxIGA.isSelected()) {
 			lst.add("IGA");
 		}
-		if (boxINA.isSelected()) {
-			lst.add("INA");
+		if (boxIDA.isSelected()) {
+			lst.add("IDA");
 		}
-		if (boxNCD.isSelected()) {
-			lst.add("NCD");
+		if (boxNOC.isSelected()) {
+			lst.add("NOC");
 		}
 		if (boxNOF.isSelected()) {
 			lst.add("NOF");
@@ -637,25 +758,68 @@ public class MutationBasedTestMutationMethods {
 		if (boxROF.isSelected()) {
 			lst.add("ROF");
 		}
-		if (boxROR.isSelected()) {
-			lst.add("ROR");
+		if (boxROB.isSelected()) {
+			lst.add("ROB");
+		}
+		
+		return lst;
+	}
+	
+	public List<String> getProhibitionMutationOperatorList(boolean filter){
+		boolean flag = false;
+		List<String> lst = new ArrayList<String>();
+//		if (boxCAA.isSelected()) {
+//			if(!filter||!flag)
+//			lst.add("CAA");
+//			flag = true;
+//		}
+
+		if (boxCUS.isSelected()) {
+			lst.add("CUS");
+		}
+		if (boxAOAR.isSelected()) {
+			lst.add("AOAR");
+		}
+		if (boxCOAR.isSelected()) {
+			lst.add("COAR");
+		}
+		if (boxROAR.isSelected()) {
+			lst.add("ROAR");
+		}
+		if (boxROP.isSelected()) {
+			lst.add("ROP");
+		}
+		if (boxRIS.isSelected()) {
+			lst.add("RIS");
+		}
+		if (boxAOC.isSelected()) {
+			lst.add("AOC");
+		}
+		if (boxCOC.isSelected()) {
+			lst.add("COC");
+		}
+		if (boxROCT.isSelected()) {
+			lst.add("ROCT");
+		}
+		if (boxRCT.isSelected()) {
+			lst.add("RCT");
 		}
 		
 		return lst;
 	}
 	
 	public void setAllIndividualBoxes(boolean selected) {
-		boxAACR.setSelected(selected);
-		boxAAGR.setSelected(selected);
+		boxAAC.setSelected(selected);
+		boxAAG.setSelected(selected);
 		boxAARA.setSelected(selected);
 		boxCAA.setSelected(selected);
 		boxCAD.setSelected(selected);
 		boxCOAA.setSelected(selected);
 		boxCUAA.setSelected(selected);
-		boxRACR.setSelected(selected);
+		boxRAC.setSelected(selected);
 		boxRAD.setSelected(selected);
 		
-		boxRAGR.setSelected(selected);
+		boxRAG.setSelected(selected);
 		boxRARA.setSelected(selected);
 		boxRARAA.setSelected(selected);
 		//boxRNF.setSelected(selected);
@@ -668,7 +832,7 @@ public class MutationBasedTestMutationMethods {
 	
 	public void setAllIndividualBoxesO(boolean selected) {
 		boxAEO.setSelected(selected);
-		boxCAC.setSelected(selected);
+		boxCOA.setSelected(selected);
 		boxCEO.setSelected(selected);
 		boxCEPC.setSelected(selected);
 		boxCEPE.setSelected(selected);
@@ -676,8 +840,8 @@ public class MutationBasedTestMutationMethods {
 		boxIAA.setSelected(selected);
 		boxICA.setSelected(selected);
 		boxIGA.setSelected(selected);
-		boxINA.setSelected(selected);
-		boxNCD.setSelected(selected);
+		boxIDA.setSelected(selected);
+		boxNOC.setSelected(selected);
 		boxNOF.setSelected(selected);
 		boxRCA.setSelected(selected);
 		boxREO.setSelected(selected);
@@ -687,21 +851,36 @@ public class MutationBasedTestMutationMethods {
 		boxROA.setSelected(selected);
 		boxROC.setSelected(selected);
 		boxROF.setSelected(selected);
-		boxROR.setSelected(selected);
+		boxROB.setSelected(selected);
 
 		boxSelectAllO.setSelected(selected);
 	}
 	
+	public void setAllIndividualBoxesP(boolean selected) {
+		boxCUS.setSelected(selected);
+		boxAOAR.setSelected(selected);
+		boxCOAR.setSelected(selected);
+		boxROAR.setSelected(selected);
+		boxROP.setSelected(selected);
+		boxRIS.setSelected(selected);
+		boxAOC.setSelected(selected);
+		boxCOC.setSelected(selected);
+		boxROCT.setSelected(selected);
+		boxRCT.setSelected(selected);
+
+		boxSelectAllP.setSelected(selected);
+	}
+	
 //	public void setM8Boxes(boolean selected) {
 //		setAllIndividualBoxes(false);
-//		boxAACR.setSelected(selected);
-//		boxAAGR.setSelected(selected);
+//		boxAAC.setSelected(selected);
+//		boxAAG.setSelected(selected);
 //		boxAARA.setSelected(selected);
 //		boxCAA.setSelected(selected);
 //		boxCAD.setSelected(selected);
 //		boxCOAA.setSelected(selected);
 //		boxCUAA.setSelected(selected);
-//		boxRACR.setSelected(selected);
+//		boxRAC.setSelected(selected);
 //		
 //		
 //	}
@@ -717,24 +896,39 @@ public class MutationBasedTestMutationMethods {
 		JPanel graphMutationPanel = new JPanel();
 		//graphMutationPanel.setLayout(new GridLayout(13, 4));
 		graphMutationPanel.add(new JTextArea("Graph Operators"));
-		graphMutationPanel.add(boxAACR);
-		graphMutationPanel.add(boxAAGR);
+		graphMutationPanel.add(boxAAC);
+		graphMutationPanel.add(boxAAG);
 		graphMutationPanel.add(boxAARA);
 		graphMutationPanel.add(boxCAA);
 		graphMutationPanel.add(boxRAD);
 		graphMutationPanel.add(boxCAD);
 		graphMutationPanel.add(boxCOAA);
 		graphMutationPanel.add(boxCUAA);
-		graphMutationPanel.add(boxRACR);
-		graphMutationPanel.add(boxRAGR);
+		graphMutationPanel.add(boxRAC);
+		graphMutationPanel.add(boxRAG);
 		graphMutationPanel.add(boxRARA);
 		graphMutationPanel.add(boxRARAA);
 		graphMutationPanel.add(boxSelectAllG);
-		//JPanel graphMutationPanel = new JPanel();
+
+		JPanel prohibitionMutationPanel = new JPanel();
+		prohibitionMutationPanel.add(new JTextArea("Prohibition Operators"));
+		prohibitionMutationPanel.add(boxCUS);
+		prohibitionMutationPanel.add(boxAOAR);
+		prohibitionMutationPanel.add(boxCOAR);
+		prohibitionMutationPanel.add(boxROAR);
+		prohibitionMutationPanel.add(boxROP);
+		prohibitionMutationPanel.add(boxRIS);
+		prohibitionMutationPanel.add(boxAOC);
+		prohibitionMutationPanel.add(boxCOC);
+		prohibitionMutationPanel.add(boxROCT);
+		prohibitionMutationPanel.add(boxRCT);
+		prohibitionMutationPanel.add(boxSelectAllP);
+		
 		JPanel obligationMutationPanel = new JPanel();
 		obligationMutationPanel.add(new JTextArea("Obligation Operators"));
+		obligationMutationPanel.add(new JTextArea(""));
 		obligationMutationPanel.add(boxAEO);
-		obligationMutationPanel.add(boxCAC);
+		obligationMutationPanel.add(boxCOA);
 		obligationMutationPanel.add(boxCEO);
 		obligationMutationPanel.add(boxCEPC);
 		obligationMutationPanel.add(boxCEPE);
@@ -742,8 +936,8 @@ public class MutationBasedTestMutationMethods {
 		obligationMutationPanel.add(boxIAA);
 		obligationMutationPanel.add(boxICA);
 		obligationMutationPanel.add(boxIGA);
-		obligationMutationPanel.add(boxINA);
-		obligationMutationPanel.add(boxNCD);
+		obligationMutationPanel.add(boxIDA);
+		obligationMutationPanel.add(boxNOC);
 		obligationMutationPanel.add(boxNOF);
 		obligationMutationPanel.add(boxRCA);
 		obligationMutationPanel.add(boxREO);
@@ -753,16 +947,18 @@ public class MutationBasedTestMutationMethods {
 		obligationMutationPanel.add(boxROA);
 		obligationMutationPanel.add(boxROC);
 		obligationMutationPanel.add(boxROF);
-		obligationMutationPanel.add(boxROR);
+		obligationMutationPanel.add(boxROB);
 		obligationMutationPanel.add(boxSelectAllO);
 
 		JPanel mutationPanel = new JPanel();
 		
 		graphMutationPanel.setLayout(new GridLayout(14, 1));
-		obligationMutationPanel.setLayout(new GridLayout(12, 1));
+		prohibitionMutationPanel.setLayout(new GridLayout(14, 1));
+		obligationMutationPanel.setLayout(new GridLayout(14, 2));
 
-		mutationPanel.setLayout(new GridLayout(1, 4));
+		mutationPanel.setLayout(new GridLayout(1, 3));
 		mutationPanel.add(graphMutationPanel);
+		mutationPanel.add(prohibitionMutationPanel);
 		mutationPanel.add(obligationMutationPanel);
 		mutationPanel.setBorder(new TitledBorder(new EtchedBorder(), ""));
 		return mutationPanel;

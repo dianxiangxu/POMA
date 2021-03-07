@@ -8,11 +8,12 @@ import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
-
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
+//reverse assignment direction
 public class MutatorRAD extends MutantTester {
 
-	public MutatorRAD(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorRAD(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, prohibitions);
 	}
 
 	public void init() throws PMException, IOException {

@@ -30,7 +30,8 @@ import java.nio.file.Paths;
 public class TestSuitGenerator {
 
 	public static void main(String[] args) throws Exception {
-
+		String initialGraphPath = "";
+		String initialProhibitionConfig = "";
 		// loader.init();
 
 		// loader.setPolicy(gt.getGraph());
@@ -61,14 +62,19 @@ public class TestSuitGenerator {
 //		List<String[]> data2 = gt2.testGraphPC();
 //		graphTester.saveCSV(data2, "R");
 
-		String simpleGraphPath = "Policies/simpleGraphToSMT.json";
-		// String simpleGraphPath = "GPMSPolicies/bank_policy_config.json";
-		PairwiseTestSuitGenerator pairwiseGenerator = new PairwiseTestSuitGenerator(simpleGraphPath);
+//		initialGraphPath = "Policies/simpleGraphToSMT.json";
+//		initialGraphPath = "Policies/GPMS/Graph.json";
+//		initialGraphPath = "Policies/LawUseCase/Graph.json";
+//		initialProhibitionConfig = "Policies/LawUseCase/prohibitions.json";
+//		initialGraphPath = "Policies/BankPolicy/Complex/bank_policy_config.json";
+		initialGraphPath = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/graph.json";
+//		initialProhibitionConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/prohibitionsx1.json";
+		PairwiseTestSuitGenerator pairwiseGenerator = new PairwiseTestSuitGenerator(initialGraphPath, initialProhibitionConfig);
 		List<String[]> data1 = pairwiseGenerator.generatPairwiseTests();
-		graphTester.saveCSV("Policies/SimpleGraph/", data1, "Pairwise");
-		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(simpleGraphPath);
+		graphTester.saveCSV("", data1, "Pairwise");
+		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(initialGraphPath, initialProhibitionConfig);
 		List<String[]> data2 = allCombinationsGenerator.generateAllCombinationsTests();
-		graphTester.saveCSV("Policies/SimpleGraph/", data2, "AllCombinations");
+		graphTester.saveCSV("", data2, "AllCombinations");
 
 		// savePolicy(gt1.getGraph(),"GPMSPolicies/gpms_testing_config.json");
 		/*
@@ -124,37 +130,37 @@ public class TestSuitGenerator {
 		 */
 	}
 
-	private void handleFileAllTests(String filePath) throws Exception{
-		File folder = new File(new File(filePath).getParent());
-		PairwiseTestSuitGenerator pairwiseGenerator = new PairwiseTestSuitGenerator(filePath);
-		List<String[]> data1 = pairwiseGenerator.generatPairwiseTests();
-		saveCSV(folder.getAbsolutePath()+"//", data1, "Pairwise");
-		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(filePath);
-		List<String[]> data2 = allCombinationsGenerator.generateAllCombinationsTests();
-		saveCSV(folder.getAbsolutePath()+"//", data2, "AllCombinations");
-	}
-
-	private void handleFolderAllTests(String folderPath) throws Exception {
-		PairwiseTestSuitGenerator pairwiseGenerator = new PairwiseTestSuitGenerator(folderPath);
-		List<String[]> data1 = pairwiseGenerator.generatPairwiseTests();
-		saveCSV(folderPath, data1, "Pairwise");
-		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(folderPath);
-		List<String[]> data2 = allCombinationsGenerator.generateAllCombinationsTests();
-		saveCSV(folderPath, data2, "AllCombinations");
-	}
+//	private void handleFileAllTests(String filePath) throws Exception{
+//		File folder = new File(new File(filePath).getParent());
+//		PairwiseTestSuitGenerator pairwiseGenerator = new PairwiseTestSuitGenerator(filePath);
+//		List<String[]> data1 = pairwiseGenerator.generatPairwiseTests();
+//		saveCSV(folder.getAbsolutePath()+"//", data1, "Pairwise");
+////		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(filePath);
+////		List<String[]> data2 = allCombinationsGenerator.generateAllCombinationsTests();
+////		saveCSV(folder.getAbsolutePath()+"//", data2, "AllCombinations");
+//	}
+//
+//	private void handleFolderAllTests(String folderPath) throws Exception {
+//		PairwiseTestSuitGenerator pairwiseGenerator = new PairwiseTestSuitGenerator(folderPath);
+//		List<String[]> data1 = pairwiseGenerator.generatPairwiseTests();
+//		saveCSV(folderPath, data1, "Pairwise");
+////		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(folderPath);
+////		List<String[]> data2 = allCombinationsGenerator.generateAllCombinationsTests();
+////		saveCSV(folderPath, data2, "AllCombinations");
+//	}
 
 	public void runAllTestGeneration() throws Exception {
 		// String graphPath = "Policies/simpleGraphToSMT.json";
 		String globalPath = "";
 		File file = new File(GlobalVariables.currentPath);
-		if (!file.isDirectory()) {
-			// globalPath = file.getParent() + "\\";
-			globalPath = file.getAbsolutePath();
-			handleFileAllTests(globalPath);			
-		} else {
-			globalPath = GlobalVariables.currentPath + "\\";
-			handleFolderAllTests(globalPath);
-		}
+//		if (!file.isDirectory()) {
+//			// globalPath = file.getParent() + "\\";
+//			globalPath = file.getAbsolutePath();
+//			handleFileAllTests(globalPath);			
+//		} else {
+//			globalPath = GlobalVariables.currentPath + "\\";
+//			handleFolderAllTests(globalPath);
+//		}
 	}
 
 	// TODO
