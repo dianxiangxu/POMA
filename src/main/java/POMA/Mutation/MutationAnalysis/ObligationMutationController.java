@@ -44,12 +44,13 @@ public class ObligationMutationController {
 		File CSV = new File(omc.CSVFilePath);
 		long startTime = System.currentTimeMillis();
 		omc.createHeaderForCSV();
-		//String initialGraphConfig = "Policies/simpleGraphToSMT.json";
 
-//		omc.graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
-		String initialGraphConfig = "Policies/LawUseCase/Graph.json";
-		String initialObligationConfig = "Policies/LawUseCase/Obligations.yml";
+		String initialGraphConfig = "Policies/GPMS/Graph.json";
+		String initialObligationConfig = "Policies/GPMS/Obligations.yml";
+//		String initialGraphConfig = "Policies/LawUseCase/Graph.json";
+//		String initialObligationConfig = "Policies/LawUseCase/Obligations.yml";
 		omc.graph = Utils.readAnyGraph(initialGraphConfig);
+//		Utils.combineGraphs();
 		//omc.graph = Utils.readGPMSGraph();
 		//omc.obligation = readGPMSObligation();
 		for (String testMethod : omc.testMethods) {
@@ -57,11 +58,11 @@ public class ObligationMutationController {
 			String[] row = new String[rowCount];
 			omc.totalNumberOfMutantsForTest = 0;
 			omc.totalNumberOfKilledMutantsForTest = 0;
-//			double resultROR = omc.testROR(testMethod, omc.graph, initialObligationConfig);
-//			double resultCEU = omc.testCEU(testMethod, omc.graph, initialObligationConfig);//no mutant
-//			double resultREU = omc.testREU(testMethod, omc.graph, initialObligationConfig);//no mutant
-//			double resultCEPC = omc.testCEPC(testMethod, omc.graph, initialObligationConfig);//no mutant
-//			double resultREPC = omc.testREPC(testMethod, omc.graph, initialObligationConfig);//no mutant
+//			double resultROB = omc.testROB(testMethod, omc.graph, initialObligationConfig);
+//			double resultCEU = omc.testCEU(testMethod, omc.graph, initialObligationConfig);
+//			double resultREU = omc.testREU(testMethod, omc.graph, initialObligationConfig);
+//			double resultCEPC = omc.testCEPC(testMethod, omc.graph, initialObligationConfig);
+//			double resultREPC = omc.testREPC(testMethod, omc.graph, initialObligationConfig);
 //			double resultCEO = omc.testCEO(testMethod, omc.graph, initialObligationConfig);
 //			double resultAEO = omc.testAEO(testMethod, omc.graph, initialObligationConfig);
 //			double resultREO = omc.testREO(testMethod, omc.graph, initialObligationConfig);
@@ -70,17 +71,17 @@ public class ObligationMutationController {
 //			double resultROC = omc.testROC(testMethod, omc.graph, initialObligationConfig);
 //			double resultROA = omc.testROA(testMethod, omc.graph, initialObligationConfig);
 //			double resultNCD = omc.testNCD(testMethod, omc.graph, initialObligationConfig);
-//			double resultROF = omc.testROF(testMethod, omc.graph, initialObligationConfig);
-//			double resultNOF = omc.testNOF(testMethod, omc.graph, initialObligationConfig);
+			double resultROF = omc.testROF(testMethod, omc.graph, initialObligationConfig);
+			double resultNOF = omc.testNOF(testMethod, omc.graph, initialObligationConfig);
 //			double resultCAC = omc.testCAC(testMethod, omc.graph, initialObligationConfig);
-//			double resultICA = omc.testICA(testMethod, omc.graph, initialObligationConfig);//no mutant
+//			double resultICA = omc.testICA(testMethod, omc.graph, initialObligationConfig);
 //			double resultIAA = omc.testIAA(testMethod, omc.graph, initialObligationConfig);
-//			double resultIGA = omc.testIGA(testMethod, omc.graph, initialObligationConfig);
-			double resultINA = omc.testINA(testMethod, omc.graph, initialObligationConfig);//no mutant
+			double resultIGA = omc.testIGA(testMethod, omc.graph, initialObligationConfig);
+//			double resultINA = omc.testINA(testMethod, omc.graph, initialObligationConfig);
 			
 
 			row[0] = testMethod;
-//			row[1] = Double.toString(resultROR);
+//			row[1] = Double.toString(resultROB);
 //			row[2] = Double.toString(resultCEU);
 //			row[3] = Double.toString(resultREU);
 //			row[4] = Double.toString(resultCEPC);
@@ -225,9 +226,9 @@ public class ObligationMutationController {
 				} else if (mutantNames.get(i).equals("ROF")) {
 					row21[0] = "ROF";
 					row21[j] = Double.toString(testROF(testMethod, graph, obligationPath));
-				} else if (mutantNames.get(i).equals("ROR")) {
-					row22[0] = "ROR";
-					row22[j] = Double.toString(testROR(testMethod, graph, obligationPath));
+				} else if (mutantNames.get(i).equals("ROB")) {
+					row22[0] = "ROB";
+					row22[j] = Double.toString(testROB(testMethod, graph, obligationPath));
 				}
 
 			}
@@ -274,27 +275,27 @@ public class ObligationMutationController {
 		System.out.println("Execution time in min and sec: " + minutes + ":" + seconds);
 	}
 
-	private double testROR(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
-		MutatorROR mutatorROR = new MutatorROR(testMethod, graph, obligationPath);
-		System.out.println("MutationMethod is ROR");
+	private double testROB(String testMethod, Graph graph, String obligationPath) throws GraphDoesNotMatchTestSuitException {
+		MutatorROB mutatorROB = new MutatorROB(testMethod, graph, obligationPath);
+		System.out.println("MutationMethod is ROB");
 
 		try {
-			mutatorROR.init();
+			mutatorROB.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		double mutationScore = mutatorROR.calculateMutationScore(mutatorROR.getNumberOfMutants(),
-				mutatorROR.getNumberOfKilledMutants());
+		double mutationScore = mutatorROB.calculateMutationScore(mutatorROB.getNumberOfMutants(),
+				mutatorROB.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + mutatorROR.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + mutatorROR.getNumberOfKilledMutants());
+		System.out.println("Number of mutations: " + mutatorROB.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorROB.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += mutatorROR.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += mutatorROR.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += mutatorROB.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorROB.getNumberOfKilledMutants();
 		return mutationScore;
 	}
 
@@ -793,7 +794,7 @@ public class ObligationMutationController {
 	private void createHeaderForCSV() {
 		String[] header = new String[rowCount];
 		header[0] = "TestMethod";
-		header[1] = "ROR";
+		header[1] = "ROB";
 		header[2] = "CEU";
 		header[3] = "REU";
 		header[4] = "CEPC";

@@ -131,8 +131,8 @@ public class MutatorCAC extends MutantTester2 {
 					EvrNode node = new EvrNode(container.getName(), container.getType(), container.getProperties());
 					
 					GrantAction newAction = new GrantAction();
-					newAction.setSubject(((GrantAction)actionToChange).getSubject());
-					newAction.setOperations(((GrantAction)actionToChange).getOperations());
+					newAction.setSubject(((DenyAction)actionToChange).getSubject());
+					newAction.setOperations(((DenyAction)actionToChange).getOperations());
 					newAction.setTarget(node);
 					newAction.setCondition(actionToChange.getCondition());
 					newAction.setNegatedCondition(actionToChange.getNegatedCondition());
@@ -145,7 +145,7 @@ public class MutatorCAC extends MutantTester2 {
 
 				before = getNumberOfKilledMutants();
 //				//invoke junit to kill obligation_mutant
-				testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "CAC");
+				testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "CAC");
 				after = getNumberOfKilledMutants();
 				if (before == after) {
 					//unkilled mutant caught

@@ -61,7 +61,7 @@ public class MutatorREO extends MutantTester2 {
 				setObligationMutant(mutant);
 				before = getNumberOfKilledMutants();
 				//invoke junit to kill obligation_mutant
-				testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "REO");
+				testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "REO");
 				after = getNumberOfKilledMutants();
 				if (before == after) {
 					//unkilled mutant caught

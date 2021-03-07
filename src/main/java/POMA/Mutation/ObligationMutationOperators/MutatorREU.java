@@ -37,6 +37,7 @@ public class MutatorREU extends MutantTester2 {
 		Obligation obligation = createObligationCopy();
 		String ruleLabel;
 		Obligation mutant;
+		double before, after;
 		
 		getAllUserNames();
 		
@@ -61,19 +62,26 @@ public class MutatorREU extends MutantTester2 {
 //						mutant = changeEventProcess(mutant, ruleLabel, changeToUser);
 					}
 				} else {
-					System.out.println("AnyUser" + anyUser);
+					System.out.println("AnyUserToBeCleared" + anyUser);
 					mutant = removeEventAnyUser(mutant, ruleLabel);
 				}
 			} else {
-				System.out.println("UserToBeChanged:" + user);
+				System.out.println("UserToBeCleared:" + user);
 				mutant = clearEventUser(mutant, ruleLabel);
 			}
 			setObligationMutant(mutant);
 
 //			//invoke junit to kill obligation_mutant
-			testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "REU");
+			before = getNumberOfKilledMutants();
+			testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "REU");
+			after = getNumberOfKilledMutants();
+			if (before == after) {
+				//unkilled mutant caught
+				System.out.println("Unkilled mutant (REU) " + ruleLabel);
+				//just breakpoint for debug
+				System.out.println("");
+			}
 			setNumberOfMutants(getNumberOfMutants() + 1);
-			
 		}
 //		System.out.println("Total number of mutant is " + getNumberOfMutants());
 	}

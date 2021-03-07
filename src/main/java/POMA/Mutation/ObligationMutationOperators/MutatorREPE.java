@@ -55,7 +55,7 @@ public class MutatorREPE extends MutantTester2 {
 				setObligationMutant(mutant);
 
 //				//invoke junit to kill obligation_mutant
-				testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "REPE");
+				testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "REPE");
 				setNumberOfMutants(getNumberOfMutants() + 1);
 			}
 		}

@@ -9,16 +9,16 @@ import java.util.List;
 
 import com.opencsv.CSVWriter;
 
-import POMA.Mutation.MutationOperators.MutatorAACR;
-import POMA.Mutation.MutationOperators.MutatorAAGR;
+import POMA.Mutation.MutationOperators.MutatorAAC;
+import POMA.Mutation.MutationOperators.MutatorAAG;
 import POMA.Mutation.MutationOperators.MutatorAARA;
 import POMA.Mutation.MutationOperators.MutatorCAA;
 import POMA.Mutation.MutationOperators.MutatorCAD;
 import POMA.Mutation.MutationOperators.MutatorCOAA;
 import POMA.Mutation.MutationOperators.MutatorCUAA;
-import POMA.Mutation.MutationOperators.MutatorRACR;
+import POMA.Mutation.MutationOperators.MutatorRAC;
 import POMA.Mutation.MutationOperators.MutatorRAD;
-import POMA.Mutation.MutationOperators.MutatorRAGR;
+import POMA.Mutation.MutationOperators.MutatorRAG;
 import POMA.Mutation.MutationOperators.MutatorRARA;
 import POMA.Mutation.MutationOperators.MutatorRARAA;
 import POMA.Utils;
@@ -26,6 +26,7 @@ import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Mutation.MutationOperators.*;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.*;
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public class MutationController {
 	List<String> testMethods;
@@ -38,6 +39,7 @@ public class MutationController {
 	String CSVFilePath = "CSV/OverallMutationResults.csv";
 	static int colCount = 15;
 	Graph graph;
+	public Prohibitions prohibitions;
 
 	
 	private void createHeaderForCSV(List<String> mutantNames) {
@@ -55,30 +57,38 @@ public class MutationController {
 		List<String> mutantNames = new ArrayList<String>();
 //        String initialGraphConfig = "Policies/SimpleGraph/simpleGraphToSMT.json";
 //        String initialGraphConfig = "Policies/GPMS/Graph.json";
-        String initialGraphConfig = "Policies/LawUseCase/Graph.json";
+//        String initialGraphConfig = "Policies/LawUseCase/Graph.json";
+//		String initialProhibitionConfig = "Policies/LawUseCase/prohibitions.json";
+//        String initialGraphConfig = "Policies/BankPolicy/Complex/bank_policy_config.json";
+        String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/graph.json";
+        String initialProhibitionConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/prohibitionsx1.json";
 
+        
+        
 		File folder = new File(initialGraphConfig).getParentFile();
 		mutantNames.add("RAD");
 		mutantNames.add("CAD");
 		mutantNames.add("CAA");
-		mutantNames.add("RAGR");
-		mutantNames.add("AAGR");
+		mutantNames.add("RAG");
+		mutantNames.add("AAG");
 		mutantNames.add("CUAA");
 		mutantNames.add("COAA");
 		mutantNames.add("RARA");
 		mutantNames.add("AARA");
-		mutantNames.add("RACR");
-		mutantNames.add("AACR");
+		mutantNames.add("RAC");
+		mutantNames.add("AAC");
 		mutantNames.add("RARAA");
 		mc.graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
-		mc.createMutants( mutantNames,  mc.graph,  folder);
+		if (initialProhibitionConfig != "")
+		    mc.prohibitions = Utils.readProhibitions(initialProhibitionConfig);
+		mc.createMutants( mutantNames,  mc.graph, mc.prohibitions, folder);
 	}
 
 	public MutationController() {
 		createTestMethods();
 	}
 
-	public void createMutants(List<String> mutantNames, Graph graph, File folder) throws GraphDoesNotMatchTestSuitException {
+	public void createMutants(List<String> mutantNames, Graph graph, Prohibitions prohibitions, File folder) throws GraphDoesNotMatchTestSuitException {
 		
 		//createHeaderForCSV(mutantNames);
 		List<String[]> outputList = new ArrayList<String[]>();
@@ -118,41 +128,41 @@ public class MutationController {
 				double result = 0;
 				if (mutantNames.get(i).equals("RAD")) {
 					row2[0] = "RAD";
-					row2[j] = Double.toString(testRAD(testMethod, graph));
+//					row2[j] = Double.toString(testRAD(testMethod, graph, prohibitions));
 				} else if (mutantNames.get(i).equals("CAD")) {
 					row3[0] = "CAD";
-					row3[j] = Double.toString(testCAD(testMethod, graph));
+					row3[j] = Double.toString(testCAD(testMethod, graph, prohibitions));
 				} else if (mutantNames.get(i).equals("CAA")) {
 					row4[0] = "CAA";
-					row4[j] = Double.toString(testCAA(testMethod, graph));
-				} else if (mutantNames.get(i).equals("RAGR")) {
-					row5[0] = "RAGR";
-					row5[j] = Double.toString(testRAGR(testMethod, graph));
-				} else if (mutantNames.get(i).equals("AAGR")) {
-					row6[0] = "AAGR";
-					row6[j] = Double.toString(testAAGR(testMethod, graph));
+					row4[j] = Double.toString(testCAA(testMethod, graph, prohibitions));
+				} else if (mutantNames.get(i).equals("RAG")) {
+					row5[0] = "RAG";
+					row5[j] = Double.toString(testRAG(testMethod, graph, prohibitions));
+				} else if (mutantNames.get(i).equals("AAG")) {
+					row6[0] = "AAG";
+					row6[j] = Double.toString(testAAG(testMethod, graph, prohibitions));
 				//	System.out.println("HELLO");
 				} else if (mutantNames.get(i).equals("CUAA")) {
 					row7[0] = "CUAA";
-					row7[j] = Double.toString(testCUAA(testMethod, graph));
+					row7[j] = Double.toString(testCUAA(testMethod, graph, prohibitions));
 				} else if (mutantNames.get(i).equals("COAA")) {
 					row8[0] = "COAA";
-					row8[j] = Double.toString(testCOAA(testMethod, graph));
+					row8[j] = Double.toString(testCOAA(testMethod, graph, prohibitions));
 				} else if (mutantNames.get(i).equals("RARA")) {
 					row9[0] = "RARA";
-					row9[j] = Double.toString(testRARA(testMethod, graph));
+					row9[j] = Double.toString(testRARA(testMethod, graph, prohibitions));
 				} else if (mutantNames.get(i).equals("AARA")) {
 					row10[0] = "AARA";
-					row10[j] = Double.toString(testAARA(testMethod, graph));
-				} else if (mutantNames.get(i).equals("RACR")) {
-					row11[0] = "RACR";
-					row11[j] = Double.toString(testRACR(testMethod, graph));
-				} else if (mutantNames.get(i).equals("AACR")) {
-					row12[j] = Double.toString(testAACR(testMethod, graph));
-					row12[0] = "AACR";
+					row10[j] = Double.toString(testAARA(testMethod, graph, prohibitions));
+				} else if (mutantNames.get(i).equals("RAC")) {
+					row11[0] = "RAC";
+					row11[j] = Double.toString(testRAC(testMethod, graph, prohibitions));
+				} else if (mutantNames.get(i).equals("AAC")) {
+					row12[j] = Double.toString(testAAC(testMethod, graph, prohibitions));
+					row12[0] = "AAC";
 				} else if (mutantNames.get(i).equals("RARAA")) {
 					row13[0] = "RARAA";
-					row13[j] = Double.toString(testRARAA(testMethod, graph));
+					row13[j] = Double.toString(testRARAA(testMethod, graph, prohibitions));
 				}				
 			}
 			row14[j] = Double.toString(
@@ -190,8 +200,8 @@ public class MutationController {
 		System.out.println("Execution time in min and sec: " + minutes + ":" + seconds);
 	}
 
-	private double testRAD(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorRAD mutatorRAD = new MutatorRAD(testMethod, graph);
+	private double testRAD(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		MutatorRAD mutatorRAD = new MutatorRAD(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is RAD");
 
 		try {
@@ -214,8 +224,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testCAD(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorCAD mutatorCAD = new MutatorCAD(testMethod, graph);
+	private double testCAD(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		MutatorCAD mutatorCAD = new MutatorCAD(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is CAD");
 
 		try {
@@ -238,8 +248,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testCAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorCAA mutatorCAA = new MutatorCAA(testMethod, graph);
+	private double testCAA(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		MutatorCAA mutatorCAA = new MutatorCAA(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is CAA");
 
 		try {
@@ -262,56 +272,56 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testRAGR(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorRAGR mutatorRAGR = new MutatorRAGR(testMethod, graph);
-		System.out.println("MutationMethod is RAGR");
+	private double testRAG(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		MutatorRAG mutatorRAG = new MutatorRAG(testMethod, graph, prohibitions);
+		System.out.println("MutationMethod is RAG");
 
 		try {
-			mutatorRAGR.init();
+			mutatorRAG.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		double mutationScore = mutatorRAGR.calculateMutationScore(mutatorRAGR.getNumberOfMutants(),
-				mutatorRAGR.getNumberOfKilledMutants());
+		double mutationScore = mutatorRAG.calculateMutationScore(mutatorRAG.getNumberOfMutants(),
+				mutatorRAG.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + mutatorRAGR.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + mutatorRAGR.getNumberOfKilledMutants());
+		System.out.println("Number of mutations: " + mutatorRAG.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorRAG.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += mutatorRAGR.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += mutatorRAGR.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += mutatorRAG.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorRAG.getNumberOfKilledMutants();
 		return mutationScore;
 	}
 
-	private double testAAGR(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorAAGR mutatorAAGR = new MutatorAAGR(testMethod, graph);
-		System.out.println("MutationMethod is AAGR");
+	private double testAAG(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		MutatorAAG mutatorAAG = new MutatorAAG(testMethod, graph, prohibitions);
+		System.out.println("MutationMethod is AAG");
 
 		try {
-			mutatorAAGR.init();
+			mutatorAAG.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		double mutationScore = mutatorAAGR.calculateMutationScore(mutatorAAGR.getNumberOfMutants(),
-				mutatorAAGR.getNumberOfKilledMutants());
+		double mutationScore = mutatorAAG.calculateMutationScore(mutatorAAG.getNumberOfMutants(),
+				mutatorAAG.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + mutatorAAGR.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + mutatorAAGR.getNumberOfKilledMutants());
+		System.out.println("Number of mutations: " + mutatorAAG.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorAAG.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += mutatorAAGR.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += mutatorAAGR.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += mutatorAAG.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorAAG.getNumberOfKilledMutants();
 		return mutationScore;
 	}
 
-	private double testCUAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorCUAA mutatorCUAA = new MutatorCUAA(testMethod, graph);
+	private double testCUAA(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		MutatorCUAA mutatorCUAA = new MutatorCUAA(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is CUAA");
 
 		try {
@@ -334,8 +344,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testCOAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorCOAA mutatorCOAA = new MutatorCOAA(testMethod, graph);
+	private double testCOAA(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		MutatorCOAA mutatorCOAA = new MutatorCOAA(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is COAA");
 
 		try {
@@ -358,8 +368,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testRARA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorRARA mutatorRARA = new MutatorRARA(testMethod, graph);
+	private double testRARA(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		MutatorRARA mutatorRARA = new MutatorRARA(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is RARA" + mutatorRARA.getMutationMethod());
 
 		try {
@@ -382,8 +392,8 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testAARA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorAARA mutatorAARA = new MutatorAARA(testMethod, graph);
+	private double testAARA(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		MutatorAARA mutatorAARA = new MutatorAARA(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is AARA");
 
 		try {
@@ -406,56 +416,56 @@ public class MutationController {
 		return mutationScore;
 	}
 
-	private double testRACR(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorRACR mutatorRACR = new MutatorRACR(testMethod, graph);
-		System.out.println("MutationMethod is RACR");
+	private double testRAC(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		MutatorRAC mutatorRAC = new MutatorRAC(testMethod, graph, prohibitions);
+		System.out.println("MutationMethod is RAC");
 
 		try {
-			mutatorRACR.init();
+			mutatorRAC.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		double mutationScore = mutatorRACR.calculateMutationScore(mutatorRACR.getNumberOfMutants(),
-				mutatorRACR.getNumberOfKilledMutants());
+		double mutationScore = mutatorRAC.calculateMutationScore(mutatorRAC.getNumberOfMutants(),
+				mutatorRAC.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + mutatorRACR.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + mutatorRACR.getNumberOfKilledMutants());
+		System.out.println("Number of mutations: " + mutatorRAC.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorRAC.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += mutatorRACR.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += mutatorRACR.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += mutatorRAC.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorRAC.getNumberOfKilledMutants();
 		return mutationScore;
 	}
 
-	private double testAACR(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorAACR mutatorAACR = new MutatorAACR(testMethod, graph);
-		System.out.println("MutationMethod is AACR");
+	private double testAAC(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		MutatorAAC mutatorAAC = new MutatorAAC(testMethod, graph, prohibitions);
+		System.out.println("MutationMethod is AAC");
 
 		try {
-			mutatorAACR.init();
+			mutatorAAC.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		double mutationScore = mutatorAACR.calculateMutationScore(mutatorAACR.getNumberOfMutants(),
-				mutatorAACR.getNumberOfKilledMutants());
+		double mutationScore = mutatorAAC.calculateMutationScore(mutatorAAC.getNumberOfMutants(),
+				mutatorAAC.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + mutatorAACR.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + mutatorAACR.getNumberOfKilledMutants());
+		System.out.println("Number of mutations: " + mutatorAAC.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + mutatorAAC.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += mutatorAACR.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += mutatorAACR.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += mutatorAAC.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += mutatorAAC.getNumberOfKilledMutants();
 		return mutationScore;
 	}
 
-	private double testRARAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		MutatorRARAA mutatorRARAA = new MutatorRARAA(testMethod, graph);
+	private double testRARAA(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		MutatorRARAA mutatorRARAA = new MutatorRARAA(testMethod, graph, prohibitions);
 		System.out.println("MutationMethod is RARAA");
 
 		try {
@@ -495,14 +505,14 @@ public class MutationController {
 		header[1] = "RAD";
 		header[2] = "CAD";
 		header[3] = "CAA";
-		header[4] = "RAGR";
-		header[5] = "AAGR";
+		header[4] = "RAG";
+		header[5] = "AAG";
 		header[6] = "CUAA";
 		header[7] = "COAA";
 		header[8] = "RARA";
 		header[9] = "AARA";
-		header[10] = "RACR";
-		header[11] = "AACR";
+		header[10] = "RAC";
+		header[11] = "AAC";
 		header[12] = "RARAA";
 		header[13] = "totalMutationScore";
 		data.add(header);

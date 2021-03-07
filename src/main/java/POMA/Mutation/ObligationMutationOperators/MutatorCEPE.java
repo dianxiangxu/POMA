@@ -38,6 +38,7 @@ public class MutatorCEPE extends MutantTester2 {
 		Obligation obligation = createObligationCopy();
 		String ruleLabel;
 		Obligation mutant;
+		double before, after;
 		
 		getAllEvrNodes();
 		List<Rule> rules = obligation.getRules();
@@ -53,11 +54,9 @@ public class MutatorCEPE extends MutantTester2 {
 			for (EvrNode originPolicyElement : policyElements) {
 				for (EvrNode changeToPolicyElement : EvrNodes) {
 					if (originPolicyElement.equals(changeToPolicyElement)) {
-						System.out.println("111");
 						continue;
 					}
 					if (policyElements.contains(changeToPolicyElement)) {
-						System.out.println("222");
 						continue;
 					}
 					mutant = createObligationCopy();
@@ -65,7 +64,17 @@ public class MutatorCEPE extends MutantTester2 {
 					setObligationMutant(mutant);
 
 //					//invoke junit to kill obligation_mutant
-					testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "CEPE");
+					before = getNumberOfKilledMutants();
+					testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "CEPE");
+					after = getNumberOfKilledMutants();
+					if (before == after) {
+						//unkilled mutant caught
+						System.out.println("Unkilled mutant (CEPE) " + ruleLabel 
+								+ "|originPE:" + originPolicyElement.getName()
+								+ "|changeToPE:" + changeToPolicyElement.getName());
+						//just breakpoint for debug
+						System.out.println("");
+					}
 					setNumberOfMutants(getNumberOfMutants() + 1);
 				}
 			}

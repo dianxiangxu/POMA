@@ -175,16 +175,31 @@ public class Utils {
 	}
 	
 public static Graph combineGraphs() throws PMException, IOException {
-    File file1 = new File("GPMSPolicies/LawUseCase/CasePolicy.json");
-    File file2 = new File("GPMSPolicies/LawUseCase/LawFirmPolicy.json");
-    File file3 = new File("GPMSPolicies/LawUseCase/ValueTypePolicy.json");
+    File file1 = new File("Policies/GPMS/AcademicUnitsPolicyClass.json");
+    File file2 = new File("Policies/GPMS/AdministrationUnitsPolicyClass.json");
+    File file3 = new File("Policies/GPMS/EditingPolicyClass.json");
+    File file4 = new File("Policies/GPMS/EligibilityPolicyClass.json");
     String policy1 = new String(Files.readAllBytes(Paths.get(file1.getAbsolutePath())));
     String policy2 = new String(Files.readAllBytes(Paths.get(file2.getAbsolutePath())));
     String policy3 = new String(Files.readAllBytes(Paths.get(file3.getAbsolutePath())));
+    String policy4 = new String(Files.readAllBytes(Paths.get(file4.getAbsolutePath())));
     Graph ngacGraph = new MemGraph();
     GraphSerializer.fromJson(ngacGraph, policy1);
     GraphSerializer.fromJson(ngacGraph, policy2);
     GraphSerializer.fromJson(ngacGraph, policy3);
+    GraphSerializer.fromJson(ngacGraph, policy4);
+    
+//    File file1 = new File("Policies/LawUseCase/CasePolicy.json");
+//    File file2 = new File("Policies/LawUseCase/LawFirmPolicy.json");
+//    File file3 = new File("Policies/LawUseCase/ValueTypePolicy.json");
+//    String policy1 = new String(Files.readAllBytes(Paths.get(file1.getAbsolutePath())));
+//    String policy2 = new String(Files.readAllBytes(Paths.get(file2.getAbsolutePath())));
+//    String policy3 = new String(Files.readAllBytes(Paths.get(file3.getAbsolutePath())));
+//    Graph ngacGraph = new MemGraph();
+//    GraphSerializer.fromJson(ngacGraph, policy1);
+//    GraphSerializer.fromJson(ngacGraph, policy2);
+//    GraphSerializer.fromJson(ngacGraph, policy3);
+    
     System.out.println(GraphSerializer.toJson(ngacGraph));
     return ngacGraph;
 }
@@ -201,7 +216,7 @@ public static Graph combineGraphs() throws PMException, IOException {
 		return ngacGraph;
 	}
 
-	public Prohibitions readProhibitions(String path) throws PMException, IOException {
+	public static Prohibitions readProhibitions(String path) throws PMException, IOException {
 		File prohibitionsFile = new File(path);
 
 		String prohibitionsJSON = new String(Files.readAllBytes(Paths.get(prohibitionsFile.getAbsolutePath())));

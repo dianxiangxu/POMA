@@ -8,10 +8,11 @@ import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
-
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
+//change assignment ascendent
 public class MutatorCAA extends MutantTester {
-	public MutatorCAA(String testMethod, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testMethod, graph);
+	public MutatorCAA(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		super(testMethod, graph, prohibitions);
 	}
 
 	public void init() throws PMException, IOException {
@@ -30,7 +31,6 @@ public class MutatorCAA extends MutantTester {
 			for (String obName : graph.getParents(nodeA.getName())) {
 				nodeB = graph.getNode(obName);
 				if (nodeB.getType().toString().equals("PC")) {
-//					System.out.println("cannot reverse assignment of PC.");
 //					System.out.println("a is "+ua.toString()+"| b is "+ub.toString());
 					continue;
 				}

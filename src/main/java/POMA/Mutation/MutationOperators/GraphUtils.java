@@ -17,11 +17,12 @@ import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public class GraphUtils extends MutantTester {
 
-	public GraphUtils(String testSuit, Graph graph) throws GraphDoesNotMatchTestSuitException {
-		super(testSuit, graph);
+	public GraphUtils(String testSuit, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+		super(testSuit, graph, prohibitions);
 	}
 
 	// decide whether a is contained by b or not

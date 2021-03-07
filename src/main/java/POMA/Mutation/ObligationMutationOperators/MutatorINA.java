@@ -109,7 +109,7 @@ public class MutatorINA extends MutantTester2 {
 						setObligationMutant(mutant);
 						before = getNumberOfKilledMutants();
 						//invoke junit to kill obligation_mutant
-						testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "INA");
+						testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "INA");
 						after = getNumberOfKilledMutants();
 						if (before == after) {
 							//unkilled mutant caught

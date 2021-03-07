@@ -105,7 +105,7 @@ public class MutatorICA extends MutantTester2 {
 
 						before = getNumberOfKilledMutants();
 //						//invoke junit to kill obligation_mutant
-						testMutant(graph, obligation, testSuite, testMethod, getNumberOfMutants(), "ICA");
+						testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "ICA");
 						after = getNumberOfKilledMutants();
 						if (before == after) {
 							//unkilled mutant caught

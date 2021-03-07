@@ -7,6 +7,7 @@ import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 import gov.nist.csd.pm.pip.prohibitions.ProhibitionsSerializer;
 import gov.nist.csd.pm.pip.prohibitions.model.Prohibition;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,20 +18,17 @@ import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 
 //Change one container
 public class MutatorCOC extends ProhibitionMutation {
-	public MutatorCOC(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+	public MutatorCOC(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException, PMException {
 		super(testMethod, graph, prohibitions);
 		// TODO Auto-generated constructor stub
 	}
 
-	public void main(Graph graph) throws PMException, IOException {
-		//use default graph now
-//		getGraphLoaded();
-		//getProhibitionLoaded($PATH);
+	public void main(Graph graph, Prohibitions prohibitions, String testMethod) throws PMException, IOException {
+		String testSuitePath = getTestSuitPathByMethod(testMethod);
+		File testSuite = new File(testSuitePath);
+		String mutationMethod = "COC";
+		double before, after;
 
-//		getProhibitionLoaded("src/main/java/POMA/Mutation/ProhibitionMutationOperators/prohibitions1.json");
-
-		calculateOriginTestResults();
-		
 		//get all available containers/nodes
 		Node[] nodes = getNodesInGraph();
 		
@@ -38,7 +36,7 @@ public class MutatorCOC extends ProhibitionMutation {
 		List<Prohibition> prohibitionList = getProhibitionList();
 		for (Prohibition p : prohibitionList) {
 			String name = p.getName();
-			Prohibitions mutant = createCopy();
+			Prohibitions mutant = createProhibitionsCopy();
 			Prohibition prohibitionMutant = mutant.get(name);
 			Map<String, Boolean> containers = prohibitionMutant.getContainers();
 			Set<String> containersKeySet = containers.keySet();
@@ -58,28 +56,24 @@ public class MutatorCOC extends ProhibitionMutation {
 					mutant.update(name, prohibitionMutant);
 					
 					//try kill mutant
-					ArrayList<Boolean> results = getMutantTestResults(mutant);
-					if (compareTestResults(getOriginTestResults(), results)) {
-						System.out.println("Mutant is not killed! Added container is " + newContainer.getName());
-						System.out.println("Origin tests results:" + getOriginTestResults());
-						System.out.println("Mutant tests results:" + results);
-					} else {
-						setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
+					before = getNumberOfKilledMutants();
+					testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
+					
+					after = getNumberOfKilledMutants();
+					if (before == after) {
+						System.out.println("Mutant is not killed! Prohibition name:" + name +  " Changed container is " + newContainer.getName());
 					}
+					
 					setNumberOfMutants(getNumberOfMutants() + 1);
 //					System.out.println(node.getName());
 					
-					saveDataToFile(ProhibitionsSerializer.toJson(mutant), "src/main/java/POMA/Mutation/ProhibitionMutationOperators/mutant.json");
+//					saveDataToFile(ProhibitionsSerializer.toJson(mutant), "src/main/java/POMA/Mutation/ProhibitionMutationOperators/mutant.json");
 					//restore containers conditions
 					containers.remove(newContainer.getName());
 					containers.put(containerToChange, complement);
+					mutant.update(name, prohibitionMutant);
 				}
-				
-				
-			
 			}
-			
-			
 		}
 		if (getNumberOfMutants() == 0) {
 			System.out.println("No mutant generated!");
@@ -89,7 +83,4 @@ public class MutatorCOC extends ProhibitionMutation {
 					"    MS=" + getNumberOfKilledMutants()*100/getNumberOfMutants() + "%");
 		}
 	}
-		
-	
-	
 }

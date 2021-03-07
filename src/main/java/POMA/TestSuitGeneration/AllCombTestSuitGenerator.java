@@ -10,6 +10,7 @@ import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,9 +28,11 @@ import java.util.stream.Stream;
 
 import POMA.Utils;
 import POMA.Exceptions.NoTypeProvidedException;
+import POMA.Mutation.ProhibitionMutationOperators.ProhibitionMutation;
 
 public class AllCombTestSuitGenerator {
 	Graph graph;
+	Prohibitions prohibitions;
 	List<String> UAs;
 	List<String> OAs;
 	List<String> Us;
@@ -44,24 +47,29 @@ public class AllCombTestSuitGenerator {
 
 	public static void main(String[] args) throws PMException, InterruptedException, IOException {
 		String simpleGraphPath = "GPMSPolicies/simpleGraphToSMT.json";
+		String ProhibitionPath = "";
 
 		PairwiseTestSuitGenerator gt;
 		try {
-			gt = new PairwiseTestSuitGenerator(simpleGraphPath);
+			gt = new PairwiseTestSuitGenerator(simpleGraphPath, ProhibitionPath);
 			List<String[]> testSuit = gt.generatPairwiseTests();
 		} catch (NoTypeProvidedException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public AllCombTestSuitGenerator(String path)
+	public AllCombTestSuitGenerator(String path, String pathProhibitions)
 			throws PMException, InterruptedException, IOException, NoTypeProvidedException {
 		File file = new File(path);
 		if (!file.isDirectory()) {
 			graph = Utils.readAnyGraph(path);
+			if (!pathProhibitions.equals(""))
+				prohibitions = ProhibitionMutation.readProhibition(pathProhibitions);
 		} else {
 			Utils utils = new Utils();
 			graph = utils.readAllFilesInFolderToGraph(file);
+			if (!pathProhibitions.equals(""))
+				prohibitions = ProhibitionMutation.readProhibition(pathProhibitions);
 		}		populateLists(graph);
 
 	}
@@ -84,7 +92,7 @@ public class AllCombTestSuitGenerator {
 
 		List<String[]> data = new ArrayList<String[]>();
 
-		PReviewDecider decider = new PReviewDecider(graph);
+		PReviewDecider decider = new PReviewDecider(graph, prohibitions);
 
 		int i = 1;
 

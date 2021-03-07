@@ -3,6 +3,10 @@ package POMA.Mutation.ObligationMutationOperators;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import org.junit.Before;
@@ -23,6 +27,7 @@ import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.obligations.MemObligations;
+import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.prohibitions.MemProhibitions;
 
@@ -33,9 +38,16 @@ public class ObligationTest {
 	
 	@Before
 	public void runBeforeEach() throws Exception {
-		graph = MutantTester2.createCopy();
-		obligation = MutantTester2.getObligationMutantCopy();
-//		MuationFile = getFileFromResources("GPMSPolicies/GPMS/Obligations.yml"); InputStream is = new FileInputStream(obligationFile);obligation = EVRParser.parse(is);
+		String pathGraph = "Policies/GPMS/Graph.yml";
+		String pathObligation = "Policies/GPMS/Obligations.yml";
+		
+		File graphFile = getFileFromResources(pathGraph);
+		String graphJSON = new String(Files.readAllBytes(Paths.get(graphFile.getAbsolutePath())));
+		GraphSerializer.fromJson(graph, graphJSON);
+		
+		File obligationFile = getFileFromResources(pathObligation);
+		InputStream inputStream = new FileInputStream(obligationFile);
+		obligation = EVRParser.parse(inputStream);
 	}
 	
 	@Test
