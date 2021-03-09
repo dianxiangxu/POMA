@@ -150,7 +150,7 @@ public class Utils {
 	}
 
 	
-	private static void saveDataToFile(String data, String path) throws PMException, IOException {
+	public static void saveDataToFile(String data, String path) throws PMException, IOException {
 		File file = new File(path);
 		FileWriter myWriter = new FileWriter(file);
 		myWriter.write(data);
