@@ -33,7 +33,7 @@ import CaseStudies.gpms.customEvents.*;
 import CaseStudies.gpms.customFunctions.*;
 
 
-public class ObligationTest {
+public class ObligationTestForGeneratedGraphs {
 	// Graph
 	Graph graph = new MemGraph();
 	// Obligations
