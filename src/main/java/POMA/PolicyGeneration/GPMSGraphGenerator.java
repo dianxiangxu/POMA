@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
+
 import com.github.javafaker.Faker;
 
 import POMA.Utils;
+import POMA.Exceptions.NoTypeProvidedException;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
@@ -21,7 +24,7 @@ public class GPMSGraphGenerator {
 
 	final int numberOfColleges = 10;
 	final int numberOfDepartments = 2;
-	final int numberOfUsers = 1;
+	final int numberOfUsers = 4;
 
 	List<String> existentCollegeList = new ArrayList<String>();
 
@@ -36,8 +39,8 @@ public class GPMSGraphGenerator {
 	Graph eligibilityPolicyClassGraph = new MemGraph();
 
 	String folderName = "Policies/GPMS" + numberOfColleges;
-	
-	public static void main(String[] args) throws PMException, IOException {
+
+	public static void main(String[] args) throws Exception {
 		final long startTime = System.currentTimeMillis();
 
 		GPMSGraphGenerator gg = new GPMSGraphGenerator();
@@ -55,27 +58,83 @@ public class GPMSGraphGenerator {
 		gg.generateRandomCollegeLetters();
 
 		gg.generateNewGraph(gg.academicUnitsPolicyClassGraph);
-		
+
 		gg.checkOrCreateFolder();
-		
+
 		Utils.saveDataToFile(GraphSerializer.toJson(gg.academicGeneratedGraph),
-				gg.folderName+"/AcademicUnitsPolicyClass.json");
+				gg.folderName + "/AcademicUnitsPolicyClass.json");
 		Utils.saveDataToFile(GraphSerializer.toJson(gg.eligibilityGeneratedGraph),
-				gg.folderName+"/EligibilityPolicyClass.json");
+				gg.folderName + "/EligibilityPolicyClass.json");
 		// System.out.println(gg.existentCollegeList);
 		// System.out.println(gg.collegeLettersList);
 		final long endTime = System.currentTimeMillis();
-		System.out.println("TOTAL NODES: "+ gg.eligibilityGeneratedGraph.getNodes().size() + gg.academicUnitsPolicyClassGraph.getNodes().size());
+
 		System.out.println("Total execution time: " + (endTime - startTime));
+
+		gg.copyDefaultPolicies();
+		Utils.saveDataToFile(gg.getCompleteInfo(), gg.folderName + "/info.txt");
+
 	}
-	
+
+	private void copyDefaultPolicies() throws Exception {
+		File originalEditing = new File("policies/GPMS/EditingPolicyClass.json");
+		File originalAdministration = new File("policies/GPMS/AdministrationUnitsPolicyClass.json");
+		File copyEditing = new File(folderName + "/EditingPolicyClass.json");
+		File copyAdministration = new File(folderName + "/AdministrationUnitsPolicyClass.json");
+		FileUtils.copyFile(originalEditing, copyEditing);
+		FileUtils.copyFile(originalAdministration, copyAdministration);
+	}
+
+	private String getCompleteInfo() throws Exception {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Eligibility Policy Class:");
+		sb.append(System.lineSeparator());
+		sb.append(getGraphInfo(eligibilityGeneratedGraph));
+		sb.append("Academic Policy Class:");
+		sb.append(System.lineSeparator());
+		sb.append(getGraphInfo(academicGeneratedGraph));
+
+		// default policies
+		Graph editingGraph = Utils.readAnyGraph("Policies/GPMS/EditingPolicyClass.json");
+		Graph administrationGraph = Utils.readAnyGraph("Policies/GPMS/AdministrationUnitsPolicyClass.json");
+
+		sb.append("Editing Policy Class:");
+		sb.append(System.lineSeparator());
+		sb.append(getGraphInfo(editingGraph));
+		sb.append("Administration Policy Class:");
+		sb.append(System.lineSeparator());
+		sb.append(getGraphInfo(administrationGraph));
+		int totalSize = eligibilityGeneratedGraph.getNodes().size()
+				+ academicGeneratedGraph.getNodes().size() + editingGraph.getNodes().size()
+				+ administrationGraph.getNodes().size();
+		sb.append("TOTAL NODES: " + totalSize);
+		return sb.toString();
+	}
+
+	private String getGraphInfo(Graph graph) throws Exception {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("     UA : " + Integer.toString(Utils.getNodesByTypes(graph, "UA").size()));
+		sb.append(System.lineSeparator());
+		sb.append("     U: " + Integer.toString(Utils.getNodesByTypes(graph, "U").size()));
+		sb.append(System.lineSeparator());
+		sb.append("     OA: " + Integer.toString(Utils.getNodesByTypes(graph, "OA").size()));
+		sb.append(System.lineSeparator());
+		sb.append("     O: " + Integer.toString(Utils.getNodesByTypes(graph, "O").size()));
+		sb.append(System.lineSeparator());
+		sb.append("     PC: " + Integer.toString(Utils.getNodesByTypes(graph, "PC").size()));
+		sb.append(System.lineSeparator());
+
+		return sb.toString();
+	}
+
 	private void checkOrCreateFolder() {
 		File theDir = new File(folderName);
-		if (!theDir.exists()){
-		    theDir.mkdirs();
+		if (!theDir.exists()) {
+			theDir.mkdirs();
 		}
 	}
-	
+
 	private void getExistentCollegeLetters(Set<String> currentColleges) {
 		for (String s : currentColleges) {
 			String[] splitted = s.split(" ");
@@ -149,7 +208,8 @@ public class GPMSGraphGenerator {
 		while (userNames.size() < numberOfUsers) {
 			Faker faker = new Faker();
 			String firstName = faker.name().firstName();
-			if (academicGeneratedGraph.exists(firstName)||eligibilityGeneratedGraph.exists(firstName)||userNames.contains(firstName)) {
+			if (academicGeneratedGraph.exists(firstName) || eligibilityGeneratedGraph.exists(firstName)
+					|| userNames.contains(firstName)) {
 				continue;
 			}
 			userNames.add(firstName);
