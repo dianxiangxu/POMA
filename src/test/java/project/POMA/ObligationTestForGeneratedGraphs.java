@@ -44,13 +44,13 @@ public class ObligationTestForGeneratedGraphs {
 		// File for super policy
 		File file_super = new File("Policies/GPMS/super_config.json");
 		// File for eligibility policy
-		File file_eligibility_policy = new File("Policies/GPMS/EligibilityPolicyClass.json");
+		File file_eligibility_policy = new File("Policies/GPMS_Realistic2/EligibilityPolicyClass.json");
 		// File for organization policy
-		File file_organization_policy = new File("Policies/GPMS/AcademicUnitsPolicyClass.json");
+		File file_organization_policy = new File("Policies/GPMS_Realistic2/AcademicUnitsPolicyClass.json");
 		// File for editing policy
-		File file_editing_policy = new File("Policies/GPMS/EditingPolicyClass.json");
+		File file_editing_policy = new File("Policies/GPMS_Realistic2/EditingPolicyClass.json");
 		// File for administration policy
-		File file_administration_policy = new File("Policies/GPMS/AdministrationUnitsPolicyClass.json");
+		File file_administration_policy = new File("Policies/GPMS_Realistic2/AdministrationUnitsPolicyClass.json");
 		// File for obligation policy
 		File obligationFile = new File("Policies/GPMS/ObligationsEdited.yml");
 		// JSON string super policy
