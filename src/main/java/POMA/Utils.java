@@ -390,6 +390,28 @@ public static Graph combineGraphs() throws PMException, IOException {
 		return graph;
 	}
 	
+	
+	public static ConfigTuple readAllFilesInFolderToConfig(final File folder) {
+		
+		MemGraph graph = new MemGraph();
+		ConfigTuple ct = new ConfigTuple();
+		for (final File fileEntry : folder.listFiles()) {
+			if (!fileEntry.toString().endsWith(".json")) {
+				continue;
+			}
+			try {
+				 Prohibitions prohibitions = readProhibitions(fileEntry.getPath());
+				 ct.setProhibitions(prohibitions);
+				 continue;
+			}
+			catch(Exception ex) {
+			}
+			addJSONToGraph(graph, fileEntry.getAbsolutePath());
+		}
+		ct.setGraph(graph);
+		return ct;
+	}
+	
 	public static JApplet getGraphVisualization(MemGraph graph) {
 		GraphVisualizer gui = new GraphVisualizer(graph);
 		gui.init();

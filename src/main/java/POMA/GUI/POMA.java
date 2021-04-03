@@ -46,7 +46,9 @@ import POMA.GUI.editor.PolicyEditorPanelDemo;
 import POMA.GUI.editor.TestPanel;
 import POMA.GUI.editor.VerificationPanel;
 import POMA.GUI.editor.VerificationPanel.ACTION;
+import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 
 public class POMA extends JFrame implements ItemListener, ActionListener {
@@ -114,6 +116,12 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			Graph graph = editorPanel.getGraph();
+			try {
+				System.out.println("GRAPH SIZE: "+graph.getNodes().size());
+			} catch (PMException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			JSplitPane translationSplitPanel =  verificationPanel.createTranslationSplitPanel(graph, editorPanel);
 			if(translationSplitPanel == null) {
 				JOptionPane.showMessageDialog(editorPanel, "No policy found in selection", "Error of Selection",
@@ -139,7 +147,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			Graph graph = editorPanel.getGraph();
-			JSplitPane splitPanel = verificationPanel.createSplitPanelForAction(graph, editorPanel, ACTION.AllCombinations);
+			Prohibitions prohibitions = editorPanel.getProhibitions();
+
+			JSplitPane splitPanel = verificationPanel.createSplitPanelForAction(graph, editorPanel, ACTION.AllCombinations, prohibitions);
 			if(splitPanel == null) {
 				JOptionPane.showMessageDialog(editorPanel, "No policy found in selection", "Error of Selection",
 						JOptionPane.WARNING_MESSAGE);	
@@ -163,7 +173,10 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			Graph graph = editorPanel.getGraph();
-			JSplitPane splitPanel = verificationPanel.createSplitPanelForAction(graph, editorPanel, ACTION.EachCombination);
+			Prohibitions prohibitions = editorPanel.getProhibitions();
+			System.out.println("Prohibitions: "+prohibitions);
+
+			JSplitPane splitPanel = verificationPanel.createSplitPanelForAction(graph, editorPanel, ACTION.EachCombination, prohibitions);
 			if(splitPanel == null) {
 				JOptionPane.showMessageDialog(editorPanel, "No policy found in selection", "Error of Selection",
 						JOptionPane.WARNING_MESSAGE);	
@@ -188,7 +201,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			Graph graph = editorPanel.getGraph();
-			JSplitPane splitPanel = verificationPanel.createSplitPanelForAction(graph, editorPanel, ACTION.AllAccessRights);
+			Prohibitions prohibitions = editorPanel.getProhibitions();
+			System.out.println("Prohibitions: "+prohibitions);
+			JSplitPane splitPanel = verificationPanel.createSplitPanelForAction(graph, editorPanel, ACTION.AllAccessRights, prohibitions);
 			if(splitPanel == null) {
 				JOptionPane.showMessageDialog(editorPanel, "No policy found in selection", "Error of Selection",
 						JOptionPane.WARNING_MESSAGE);	

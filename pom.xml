@@ -38,10 +38,10 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
-		<dependency>
+		  <dependency>
 			<groupId>vladi7groupid</groupId>
 			<artifactId>policy-machine-core</artifactId>
-			<version>1.8.9</version>
+			<version>1.9.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.javafaker</groupId>

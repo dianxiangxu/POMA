@@ -151,7 +151,6 @@ public class GPMSGraphGeneratorRealistic {
 		collegeLettersList.add("MNGT");
 		collegeLettersList.add("LAW");
 		ArrayList<String> COE = new ArrayList<String>();
-		COE.add("CIV");
 		COE.add("MEC");
 		COE.add("INFO");
 		ArrayList<String> COAS = new ArrayList<String>();
@@ -248,4 +247,6 @@ public class GPMSGraphGeneratorRealistic {
 			eligibilityGeneratedGraph.createNode(name, U, null, facultyTypes[random_index]);
 		}
 	}
+	
+	
 }

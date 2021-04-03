@@ -14,6 +14,7 @@ import gov.nist.csd.pm.pip.graph.dag.searcher.Direction;
 import gov.nist.csd.pm.pip.graph.dag.visitor.Visitor;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.graph.model.relationships.Relationship;
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.UA;
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.O;
@@ -52,37 +53,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Translator {
-	private List<AssociationRelation> listOfAssociations = new ArrayList<AssociationRelation>();
-	private String actualOutput=""; 
-	private List<String> accessRightsResults;
-	private String fullTranslation=""; 
-	public String translateGraphOnly(Graph graph) throws Exception{
+	private ArrayList<AssociationRelation> listOfPriveleges = new ArrayList<AssociationRelation>();
+	private String actualOutput = "";
+	private ArrayList<String> accessRightsResults;
+	private String fullTranslation = "";
+
+	public String translateGraphOnly(Graph graph) throws Exception {
 		CVC4Translator translator = new CVC4Translator(graph);
 		translator.initTranslation();
 		String translatedGraph = translator.getTranslatedGraph();
 		translatedGraph += System.lineSeparator();
 		return translatedGraph;
 	}
-	
-	public String queryAccessRight(Graph graph, String query) throws Exception {
-		String[] splittedQuery = query.split("\\s+");
-		CVC4Translator translator = new CVC4Translator(graph);
-		translator.initTranslation();
-		String translatedGraph = translator.getTranslatedGraph();
-		translatedGraph += System.lineSeparator();
 
-		translatedGraph += CVC4Translator.getAllAccessRightsCheckBetweenUAandAT(splittedQuery[0], splittedQuery[1]);
-		saveDataToFile(translatedGraph, GlobalVariables.swapFile);
-
-		CVC4Runner runner = new CVC4Runner();
-
-		List<String> output = runner.runFromSMTLIB2SetsTheory(GlobalVariables.swapFile);
-		System.out.println(processOutput(output, graph));
-
-		return output.toString();
-	}
-
-	public String queryAccessRightsEach(Graph graph, String queries) throws Exception {
+	public String queryAccessRightsEach(Graph graph, String queries, Prohibitions prohibitions) throws Exception {
 		CVC4Translator translator = new CVC4Translator(graph);
 		translator.initTranslation();
 		String translatedGraph = translator.getTranslatedGraph();
@@ -104,7 +88,7 @@ public class Translator {
 		return runner.getFullOutput();
 	}
 
-	public String queryAccessRightsAllComb(Graph graph, String queries) throws Exception {
+	public String queryAccessRightsAllComb(Graph graph, String queries, Prohibitions prohibitions) throws Exception {
 		CVC4Translator translator = new CVC4Translator(graph);
 		translator.initTranslation();
 		String translatedGraph = translator.getTranslatedGraph();
@@ -115,7 +99,7 @@ public class Translator {
 		for (String line : lines) {
 			inputArray.add(line.split("\\s*,\\s*"));
 		}
-		
+
 		translatedGraph += CVC4Translator.getAllAccessRightsCheckInSetOfUAandATAllComb(inputArray);
 		setFullTranslation(translatedGraph);
 
@@ -129,8 +113,8 @@ public class Translator {
 
 		return output.toString();
 	}
-	
-	public String getAllAccessRights(Graph graph) throws Exception {
+
+	public String getAllAccessRights(Graph graph, Prohibitions prohibitions) throws Exception {
 		List<String> UA_U = Utils.getNodesByTypes(graph, "UA", "U");
 		List<String> U_UA_O_OA = Utils.getNodesByTypes(graph, "OA", "O", "U", "UA");
 
@@ -141,77 +125,89 @@ public class Translator {
 
 		List<String[]> inputArray = new ArrayList<String[]>();
 		for (String ua_u : UA_U) {
-			for(String oa_o:U_UA_O_OA) {
-				inputArray.add(new String[] {ua_u, oa_o});
+			for (String oa_o : U_UA_O_OA) {
+				inputArray.add(new String[] { ua_u, oa_o });
 			}
 		}
-		
+
 		translatedGraph += CVC4Translator.getAllAccessRightsCheckInSetOfUAandATAllComb(inputArray);
+		translatedGraph += System.lineSeparator();
+		translatedGraph += translator.translateAssociationsNoUA();
+		translatedGraph += System.lineSeparator();
+
+		translatedGraph += System.lineSeparator();
+		translatedGraph += CVC4Translator.getFinalCheck(prohibitions);
+
 		setFullTranslation(translatedGraph);
 		saveDataToFile(translatedGraph, GlobalVariables.swapFile);
 
 		CVC4Runner runner = new CVC4Runner();
-		
+
 		List<String> output = runner.runFromSMTLIB2SetsTheory(GlobalVariables.swapFile);
 		setAccessRightsResults(processOutput(output, graph));
+		AccessRightsVerifier.testAccessRights(listOfPriveleges);
 		String result = "";
-		for(String s : output) {
-			result+=s;
-			result+=System.lineSeparator();
+		for (String s : output) {
+			result += s;
+			result += System.lineSeparator();
 		}
 		setActualOutput(runner.getFullOutput());
 		return result;
 	}
-	
+
 	public String getActualOutput() {
 		return actualOutput.replace(",", "");
 	}
+
 	private void setActualOutput(String actualOutput) {
 		this.actualOutput = actualOutput;
 	}
-	private List<String> processOutput(List<String> output, Graph graph) throws PMException {
+
+	private ArrayList<String> processOutput(List<String> output, Graph graph) throws PMException {
 		int i = 1;
-		actualOutput="";
-	 listOfAssociations = new ArrayList<AssociationRelation>();
+		actualOutput = "";
+		listOfPriveleges = new ArrayList<AssociationRelation>();
 
 		PReviewDecider decider = new PReviewDecider(graph);
-		//System.out.println("IMPORTANT ACCESS RIGHT CHECK!: "+decider.list("UA1", "", "UA1"));
+		// System.out.println("IMPORTANT ACCESS RIGHT CHECK!: "+decider.list("UA1", "",
+		// "UA1"));
 		AssociationRelation ar = null;
 		for (String s : output) {
 			if (!s.contains("sat") && !s.contains("error")) {
-			for (String st : s.split("\"")) {
-				if (st.contains("(") || st.contains(")") || st.trim().isEmpty()) {
-					continue;
+				for (String st : s.split("\"")) {
+					if (st.contains("(") || st.contains(")") || st.trim().isEmpty()) {
+						continue;
+					}
+					if (i == 1) {
+						ar = new AssociationRelation();
+						ar.setUA(st);
+					}
+					if (i == 2)
+						ar.addToOperationSet(st);
+					if (i == 3) {
+						ar.setAT(st);
+						// if(ar.getUA().equals(ar.getAT())) {
+						// i=1;
+						// //||graph.getParents(ar.getUA()).contains(ar.getAT())||graph.getParents(ar.getAT()).contains(ar.getUA())
+						// continue;
+						// }
+						updateAssociationRelations(ar);
+						i = 1;
+						continue;
+					}
+					i++;
 				}
-				if (i == 1) {
-					ar = new AssociationRelation();
-					ar.setUA(st);
-				}
-				if (i == 2)
-					ar.addToOperationSet(st);
-				if (i == 3) {
-					ar.setAT(st);
-				//	if(ar.getUA().equals(ar.getAT())) {						
-					//	i=1; //||graph.getParents(ar.getUA()).contains(ar.getAT())||graph.getParents(ar.getAT()).contains(ar.getUA())
-					//	continue;
-				//	}
-					updateAssociationRelations(ar);
-					i = 1;
-					continue;
-				}
-				i++;
-			}}
-			else {
+			} else {
 				actualOutput += s;
 				actualOutput += System.lineSeparator();
 			}
 		}
 		// System.out.println(listOfAssociations);
-		return convertAssociationsToString(listOfAssociations);
+		return convertAssociationsToString(listOfPriveleges);
 	}
 
-	private List<String> convertAssociationsToString(List<AssociationRelation> listOfAssociations) {
-		List<String> list = new ArrayList<String>();
+	private ArrayList<String> convertAssociationsToString(ArrayList<AssociationRelation> listOfAssociations) {
+		ArrayList<String> list = new ArrayList<String>();
 		for (AssociationRelation ar : listOfAssociations) {
 			list.add(ar.toStringOutput());
 		}
@@ -219,18 +215,18 @@ public class Translator {
 	}
 
 	private void updateAssociationRelations(AssociationRelation associationRelation) {
-		if (listOfAssociations.isEmpty()) {
-			listOfAssociations.add(associationRelation);
+		if (listOfPriveleges.isEmpty()) {
+			listOfPriveleges.add(associationRelation);
 			return;
 		}
-		for (int i = 0; i < listOfAssociations.size(); i++) {
-			AssociationRelation ar = listOfAssociations.get(i);
+		for (int i = 0; i < listOfPriveleges.size(); i++) {
+			AssociationRelation ar = listOfPriveleges.get(i);
 			if (ar.getUA().equals(associationRelation.getUA()) && ar.getAT().equals(associationRelation.getAT())) {
 				ar.addToOperationSet(associationRelation.getOperationSet());
 				return;
 			}
 		}
-		listOfAssociations.add(associationRelation);
+		listOfPriveleges.add(associationRelation);
 
 	}
 
@@ -247,7 +243,7 @@ public class Translator {
 		Translator applet = new Translator();
 		Graph graph = Utils.readAnyGraph(simpleGraphPath);
 
-		applet.getAllAccessRights(graph);
+		// applet.getAllAccessRights(graph);
 		// applet.graph = simpleTestGraph.readAnyGraph("Graphs/NGACExample1.json");
 //		//applet.graph = simpleTestGraph.buildSimpleGraph();
 //		applet.graph = simpleTestGraph.readAnyGraph(simpleGraphPath);
@@ -462,14 +458,14 @@ public class Translator {
 
 	public String getAccessRightsResults() {
 		String output = "";
-		for(String s : accessRightsResults) {
-			output+=s;
-			output+=System.lineSeparator();
+		for (String s : accessRightsResults) {
+			output += s;
+			output += System.lineSeparator();
 		}
 		return output;
 	}
 
-	public void setAccessRightsResults(List<String> accessRightsResults) {
+	public void setAccessRightsResults(ArrayList<String> accessRightsResults) {
 		this.accessRightsResults = accessRightsResults;
 	}
 

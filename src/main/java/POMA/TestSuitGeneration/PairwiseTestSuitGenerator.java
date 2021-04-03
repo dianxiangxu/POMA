@@ -26,6 +26,7 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import POMA.ConfigTuple;
 import POMA.Utils;
 import POMA.Exceptions.NoTypeProvidedException;
 import POMA.Mutation.ProhibitionMutationOperators.ProhibitionMutation;
@@ -67,7 +68,7 @@ public class PairwiseTestSuitGenerator {
 				prohibitions = ProhibitionMutation.readProhibition(pathProhibitions);
 		} else {
 			Utils utils = new Utils();
-			graph = utils.readAllFilesInFolderToGraph(file);
+			//graph = utils.readAllFilesInFolderToGraph(file);
 			if (!pathProhibitions.equals(""))
 				prohibitions = ProhibitionMutation.readProhibition(pathProhibitions);
 		}
@@ -78,6 +79,27 @@ public class PairwiseTestSuitGenerator {
 //		}
 	}
 
+	public PairwiseTestSuitGenerator(String path)
+			throws PMException, InterruptedException, IOException, NoTypeProvidedException {
+		File file = new File(path);
+		if (!file.isDirectory()) {
+			graph = Utils.readAnyGraph(path);
+		} else {//is folder
+			ConfigTuple ct =  Utils.readAllFilesInFolderToConfig(file);
+			graph = ct.getGraph();
+			
+			if (ct.getProhibitions()!=null) {
+				prohibitions = ct.getProhibitions();
+			}
+		}
+		populateLists(graph);
+
+//		for (String s : Utils.getNodesByTypes(graph, "U", "UA", "PC", "OA")) {
+//			System.out.println(graph.getNode(s).toString());
+//		}
+	}
+	
+	
 	public PairwiseTestSuitGenerator() throws PMException, InterruptedException, IOException, NoTypeProvidedException {
 		graph = Utils.readGPMSGraph();
 		populateLists(graph);

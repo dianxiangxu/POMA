@@ -18,6 +18,7 @@ import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public class VerificationPanel {
 
@@ -26,6 +27,7 @@ public class VerificationPanel {
 	}
 
 	Graph graph;
+	Prohibitions prohibitions;
 	AbstractPolicyEditor editorPanel;
 	JSplitPane allAccessRights;
 	JSplitPane accessRightsForEach;
@@ -61,6 +63,7 @@ public class VerificationPanel {
 			}
 			fullOutput = translator.translateGraphOnly(graph);
 		} catch (Exception e1) {
+			System.out.println("2");
 			return null;
 		}
 		JSplitPane translationSplitPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -73,7 +76,8 @@ public class VerificationPanel {
 		return translationSplitPanel;
 	}
 
-	public JSplitPane createSplitPanelForAction(Graph graph, AbstractPolicyEditor editorPanel, ACTION action) {
+	public JSplitPane createSplitPanelForAction(Graph graph, AbstractPolicyEditor editorPanel, ACTION action, Prohibitions prohibitions) {
+		this.prohibitions = prohibitions;
 		this.graph = graph;
 		try {
 			if (graph.getNodes().size() == 0) {
@@ -126,7 +130,7 @@ public class VerificationPanel {
 
 	private void allAccessRights() throws PMException {
 		try {
-			translator.getAllAccessRights(graph);
+			translator.getAllAccessRights(graph, prohibitions);
 		} catch (Exception e) {
 			handleError();
 			return;
@@ -148,7 +152,7 @@ public class VerificationPanel {
 			return;
 		}
 		try {
-			translator.queryAccessRightsAllComb(graph, input);
+			translator.queryAccessRightsAllComb(graph, input, prohibitions);
 		} catch (Exception e) {
 			handleError();
 			return;
@@ -168,7 +172,7 @@ public class VerificationPanel {
 			return;
 		}
 		try {
-			translator.queryAccessRightsEach(graph, input);
+			translator.queryAccessRightsEach(graph, input, prohibitions);
 		} catch (Exception e) {
 			handleError();
 			return;

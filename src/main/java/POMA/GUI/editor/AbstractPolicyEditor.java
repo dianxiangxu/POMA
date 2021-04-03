@@ -6,10 +6,12 @@ import java.io.IOException;
 import javax.swing.JPanel;
 
 import gov.nist.csd.pm.pip.graph.MemGraph;
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public abstract class AbstractPolicyEditor extends JPanel{
 	MemGraph g;
     File temporal;
+    Prohibitions prohibitions;
 
 	abstract public File getWorkingPolicyFile();	
 		
@@ -28,6 +30,9 @@ public abstract class AbstractPolicyEditor extends JPanel{
 	}
 	public MemGraph getGraph() {
 		return g;
+	}
+	public Prohibitions getProhibitions() {
+		return prohibitions;
 	}
 	public File getCurrentFile() {
 		return temporal;

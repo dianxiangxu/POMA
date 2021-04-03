@@ -32,141 +32,141 @@ public class MedicalExampleUA {
 		g.createNode("Patient3", UA, null, "MaximumCarePatients", "ModerateCarePatients");
 
 		g.createNode("RegisteredNurse", UA, null, "ClassificationPolicyClass");
-		g.associate("RegisteredNurse", "MaximumCarePatients", new OperationSet("access"));
-		g.associate("RegisteredNurse", "ModerateCarePatients", new OperationSet("access"));
+		g.associate("RegisteredNurse", "MaximumCarePatients", new OperationSet("write"));
+		g.associate("RegisteredNurse", "ModerateCarePatients", new OperationSet("write","read" ));
 
 		saveDataToFile(GraphSerializer.toJson(g), "Policies/ProhibitionExample/ProhibitionsMedicalExampleUA/graph.json");	
-		System.out.println("PROHIBITION#1(COMPLEMENT=FALSE) RegisteredNurse access MaximumCarePatients ");
+		System.out.println("PROHIBITION#1(COMPLEMENT=FALSE) RegisteredNurse write MaximumCarePatients ");
 		Prohibitions prohibitions1 = new MemProhibitions();
-		Prohibition prohibition = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("access"))
+		Prohibition prohibition = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("write"))
 				.addContainer("MaximumCarePatients", false).build();
 		
 		prohibitions1.add(prohibition);
 		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions1), "Policies/ProhibitionExample/ProhibitionsMedicalExampleUA/prohibitionsx1.json");	
 
 		PReviewDecider decider = new PReviewDecider(g, prohibitions1);
-		System.out.println("RegisteredNurse, Patient1, access"+": "+decider.check("RegisteredNurse", "", "Patient1", "access"));
-		System.out.println("RegisteredNurse, Patient2, access"+": "+decider.check("RegisteredNurse", "", "Patient2", "access"));
+		System.out.println("RegisteredNurse, Patient1, write"+": "+decider.check("RegisteredNurse", "", "Patient1", "write"));
+		System.out.println("RegisteredNurse, Patient2, write"+": "+decider.check("RegisteredNurse", "", "Patient2", "write"));
 
-		System.out.println("RegisteredNurse, Patient3, access"+": "+decider.check("RegisteredNurse", "", "Patient3", "access"));
-		System.out.println("RegisteredNurse, MaximumCarePatients, access"+": "+decider.check("RegisteredNurse", "", "MaximumCarePatients", "access"));
-		System.out.println("RegisteredNurse, ModerateCarePatients, access"+": "+decider.check("RegisteredNurse", "", "ModerateCarePatients", "access"));
+		System.out.println("RegisteredNurse, Patient3, write"+": "+decider.check("RegisteredNurse", "", "Patient3", "write"));
+		System.out.println("RegisteredNurse, MaximumCarePatients, write"+": "+decider.check("RegisteredNurse", "", "MaximumCarePatients", "write"));
+		System.out.println("RegisteredNurse, ModerateCarePatients, write"+": "+decider.check("RegisteredNurse", "", "ModerateCarePatients", "write"));
 		
 		System.out.println();		
-		System.out.println("PROHIBITION#2(COMPLEMENT=TRUE) RegisteredNurse access MaximumCarePatients ");
+		System.out.println("PROHIBITION#2(COMPLEMENT=TRUE) RegisteredNurse write MaximumCarePatients ");
 		Prohibitions prohibitions2 = new MemProhibitions();
-		Prohibition prohibition2 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("access"))
+		Prohibition prohibition2 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("write"))
 				.addContainer("MaximumCarePatients", true).build();
 		prohibitions2.add(prohibition2);
 		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions2), "Policies/ProhibitionExample/ProhibitionsMedicalExampleUA/prohibitions2.json");	
 
 		PReviewDecider decider2 = new PReviewDecider(g, prohibitions2);
-		System.out.println("RegisteredNurse, Patient1, access"+": "+decider2.check("RegisteredNurse", "", "Patient1", "access"));
-		System.out.println("RegisteredNurse, Patient2, access"+": "+decider2.check("RegisteredNurse", "", "Patient2", "access"));
-		System.out.println("RegisteredNurse, Patient3, access"+": "+decider2.check("RegisteredNurse", "", "Patient3", "access"));
-		System.out.println("RegisteredNurse, MaximumCarePatients, access"+": "+decider2.check("RegisteredNurse", "", "MaximumCarePatients", "access"));
-		System.out.println("RegisteredNurse, ModerateCarePatients, access"+": "+decider2.check("RegisteredNurse", "", "ModerateCarePatients", "access"));
+		System.out.println("RegisteredNurse, Patient1, write"+": "+decider2.check("RegisteredNurse", "", "Patient1", "write"));
+		System.out.println("RegisteredNurse, Patient2, write"+": "+decider2.check("RegisteredNurse", "", "Patient2", "write"));
+		System.out.println("RegisteredNurse, Patient3, write"+": "+decider2.check("RegisteredNurse", "", "Patient3", "write"));
+		System.out.println("RegisteredNurse, MaximumCarePatients, write"+": "+decider2.check("RegisteredNurse", "", "MaximumCarePatients", "write"));
+		System.out.println("RegisteredNurse, ModerateCarePatients, write"+": "+decider2.check("RegisteredNurse", "", "ModerateCarePatients", "write"));
 		
 		
 		
 		
 		System.out.println();		
-		System.out.println("PROHIBITION#3(COMPLEMENT=FALSE) RegisteredNurse access MaximumCarePatients ModerateCarePatients (INTERSECTION=TRUE)");
+		System.out.println("PROHIBITION#3(COMPLEMENT=FALSE) RegisteredNurse write MaximumCarePatients ModerateCarePatients (INTERSECTION=TRUE)");
 		Prohibitions prohibitions3 = new MemProhibitions();
-		Prohibition prohibition3 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("access"))
+		Prohibition prohibition3 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("write"))
 				.addContainer("MaximumCarePatients", false).addContainer("ModerateCarePatients", false).setIntersection(true).build();
 		prohibitions3.add(prohibition3);
 		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions3), "Policies/ProhibitionExample/ProhibitionsMedicalExampleUA/prohibitions3.json");	
 
 		PReviewDecider decider3 = new PReviewDecider(g, prohibitions3);
-		System.out.println("RegisteredNurse, Patient1, access"+": "+decider3.check("RegisteredNurse", "", "Patient1", "access"));
-		System.out.println("RegisteredNurse, Patient2, access"+": "+decider3.check("RegisteredNurse", "", "Patient2", "access"));
+		System.out.println("RegisteredNurse, Patient1, write"+": "+decider3.check("RegisteredNurse", "", "Patient1", "write"));
+		System.out.println("RegisteredNurse, Patient2, write"+": "+decider3.check("RegisteredNurse", "", "Patient2", "write"));
 
-		System.out.println("RegisteredNurse, Patient3, access"+": "+decider3.check("RegisteredNurse", "", "Patient3", "access"));
-		System.out.println("RegisteredNurse, MaximumCarePatients, access"+": "+decider3.check("RegisteredNurse", "", "MaximumCarePatients", "access"));
-		System.out.println("RegisteredNurse, ModerateCarePatients, access"+": "+decider3.check("RegisteredNurse", "", "ModerateCarePatients", "access"));
+		System.out.println("RegisteredNurse, Patient3, write"+": "+decider3.check("RegisteredNurse", "", "Patient3", "write"));
+		System.out.println("RegisteredNurse, MaximumCarePatients, write"+": "+decider3.check("RegisteredNurse", "", "MaximumCarePatients", "write"));
+		System.out.println("RegisteredNurse, ModerateCarePatients, write"+": "+decider3.check("RegisteredNurse", "", "ModerateCarePatients", "write"));
 		
 		
 		System.out.println();		
-		System.out.println("PROHIBITION#4(COMPLEMENT=FALSE) RegisteredNurse access MaximumCarePatients ModerateCarePatients (INTERSECTION=false)");
+		System.out.println("PROHIBITION#4(COMPLEMENT=FALSE) RegisteredNurse write MaximumCarePatients ModerateCarePatients (INTERSECTION=false)");
 		Prohibitions prohibitions4 = new MemProhibitions();
-		Prohibition prohibition4 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("access"))
+		Prohibition prohibition4 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("write"))
 				.addContainer("MaximumCarePatients", false).addContainer("ModerateCarePatients", false).setIntersection(false).build();
 		prohibitions4.add(prohibition4);
 		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions4), "Policies/ProhibitionExample/ProhibitionsMedicalExampleUA/prohibitions4.json");	
 
 		PReviewDecider decider4 = new PReviewDecider(g, prohibitions4);
-		System.out.println("RegisteredNurse, Patient1, access"+": "+decider4.check("RegisteredNurse", "", "Patient1", "access"));
-		System.out.println("RegisteredNurse, Patient2, access"+": "+decider4.check("RegisteredNurse", "", "Patient2", "access"));
+		System.out.println("RegisteredNurse, Patient1, write"+": "+decider4.check("RegisteredNurse", "", "Patient1", "write"));
+		System.out.println("RegisteredNurse, Patient2, write"+": "+decider4.check("RegisteredNurse", "", "Patient2", "write"));
 
-		System.out.println("RegisteredNurse, Patient3, access"+": "+decider4.check("RegisteredNurse", "", "Patient3", "access"));
-		System.out.println("RegisteredNurse, MaximumCarePatients, access"+": "+decider4.check("RegisteredNurse", "", "MaximumCarePatients", "access"));
-		System.out.println("RegisteredNurse, ModerateCarePatients, access"+": "+decider4.check("RegisteredNurse", "", "ModerateCarePatients", "access"));
+		System.out.println("RegisteredNurse, Patient3, write"+": "+decider4.check("RegisteredNurse", "", "Patient3", "write"));
+		System.out.println("RegisteredNurse, MaximumCarePatients, write"+": "+decider4.check("RegisteredNurse", "", "MaximumCarePatients", "write"));
+		System.out.println("RegisteredNurse, ModerateCarePatients, write"+": "+decider4.check("RegisteredNurse", "", "ModerateCarePatients", "write"));
 
 		
 		System.out.println();		
-		System.out.println("PROHIBITION#5(COMPLEMENT=TRUE) RegisteredNurse access MaximumCarePatients ModerateCarePatients (INTERSECTION=false)");
+		System.out.println("PROHIBITION#5(COMPLEMENT=TRUE) RegisteredNurse write MaximumCarePatients ModerateCarePatients (INTERSECTION=false)");
 		Prohibitions prohibitions5 = new MemProhibitions();
-		Prohibition prohibition5 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("access"))
+		Prohibition prohibition5 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("write"))
 				.addContainer("MaximumCarePatients", true).addContainer("ModerateCarePatients", true).setIntersection(false).build();
 		prohibitions5.add(prohibition5);
 		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions5), "Policies/ProhibitionExample/ProhibitionsMedicalExampleUA/prohibitions5.json");	
 
 		PReviewDecider decider5 = new PReviewDecider(g, prohibitions5);
-		System.out.println("RegisteredNurse, Patient1, access"+": "+decider5.check("RegisteredNurse", "", "Patient1", "access"));
-		System.out.println("RegisteredNurse, Patient2, access"+": "+decider5.check("RegisteredNurse", "", "Patient2", "access"));
+		System.out.println("RegisteredNurse, Patient1, write"+": "+decider5.check("RegisteredNurse", "", "Patient1", "write"));
+		System.out.println("RegisteredNurse, Patient2, write"+": "+decider5.check("RegisteredNurse", "", "Patient2", "write"));
 
-		System.out.println("RegisteredNurse, Patient3, access"+": "+decider5.check("RegisteredNurse", "", "Patient3", "access"));
-		System.out.println("RegisteredNurse, MaximumCarePatients, access"+": "+decider5.check("RegisteredNurse", "", "MaximumCarePatients", "access"));
-		System.out.println("RegisteredNurse, ModerateCarePatients, access"+": "+decider5.check("RegisteredNurse", "", "ModerateCarePatients", "access"));
+		System.out.println("RegisteredNurse, Patient3, write"+": "+decider5.check("RegisteredNurse", "", "Patient3", "write"));
+		System.out.println("RegisteredNurse, MaximumCarePatients, write"+": "+decider5.check("RegisteredNurse", "", "MaximumCarePatients", "write"));
+		System.out.println("RegisteredNurse, ModerateCarePatients, write"+": "+decider5.check("RegisteredNurse", "", "ModerateCarePatients", "write"));
 		
 		System.out.println();		
-		System.out.println("PROHIBITION#6(COMPLEMENT=TRUE) RegisteredNurse access MaximumCarePatients ModerateCarePatients (INTERSECTION=true)");
+		System.out.println("PROHIBITION#6(COMPLEMENT=TRUE) RegisteredNurse write MaximumCarePatients ModerateCarePatients (INTERSECTION=true)");
 		Prohibitions prohibitions6 = new MemProhibitions();
-		Prohibition prohibition6 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("access"))
+		Prohibition prohibition6 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("write"))
 				.addContainer("MaximumCarePatients", true).addContainer("ModerateCarePatients", true).setIntersection(true).build();
 		prohibitions6.add(prohibition6);
 		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions6), "Policies/ProhibitionExample/ProhibitionsMedicalExampleUA/prohibitions6.json");	
 
 		PReviewDecider decider6 = new PReviewDecider(g, prohibitions6);
-		System.out.println("RegisteredNurse, Patient1, access"+": "+decider6.check("RegisteredNurse", "", "Patient1", "access"));
-		System.out.println("RegisteredNurse, Patient2, access"+": "+decider6.check("RegisteredNurse", "", "Patient2", "access"));
+		System.out.println("RegisteredNurse, Patient1, write"+": "+decider6.check("RegisteredNurse", "", "Patient1", "write"));
+		System.out.println("RegisteredNurse, Patient2, write"+": "+decider6.check("RegisteredNurse", "", "Patient2", "write"));
 
-		System.out.println("RegisteredNurse, Patient3, access"+": "+decider6.check("RegisteredNurse", "", "Patient3", "access"));
-		System.out.println("RegisteredNurse, MaximumCarePatients, access"+": "+decider6.check("RegisteredNurse", "", "MaximumCarePatients", "access"));
-		System.out.println("RegisteredNurse, ModerateCarePatients, access"+": "+decider6.check("RegisteredNurse", "", "ModerateCarePatients", "access"));
+		System.out.println("RegisteredNurse, Patient3, write"+": "+decider6.check("RegisteredNurse", "", "Patient3", "write"));
+		System.out.println("RegisteredNurse, MaximumCarePatients, write"+": "+decider6.check("RegisteredNurse", "", "MaximumCarePatients", "write"));
+		System.out.println("RegisteredNurse, ModerateCarePatients, write"+": "+decider6.check("RegisteredNurse", "", "ModerateCarePatients", "write"));
 		
 		System.out.println();		
-		System.out.println("PROHIBITION#7(COMPLEMENT MaximumCarePatients=TRUE) RegisteredNurse access MaximumCarePatients ModerateCarePatients (INTERSECTION=true)");
+		System.out.println("PROHIBITION#7(COMPLEMENT MaximumCarePatients=TRUE) RegisteredNurse write MaximumCarePatients ModerateCarePatients (INTERSECTION=true)");
 		Prohibitions prohibitions7 = new MemProhibitions();
-		Prohibition prohibition7 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("access"))
+		Prohibition prohibition7 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("write"))
 				.addContainer("MaximumCarePatients", true).addContainer("ModerateCarePatients", false).setIntersection(true).build();
 		prohibitions7.add(prohibition7);
 		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions7), "Policies/ProhibitionExample/ProhibitionsMedicalExampleUA/prohibitions7.json");	
 
 		PReviewDecider decider7 = new PReviewDecider(g, prohibitions7);
-		System.out.println("RegisteredNurse, Patient1, access"+": "+decider7.check("RegisteredNurse", "", "Patient1", "access"));
-		System.out.println("RegisteredNurse, Patient2, access"+": "+decider7.check("RegisteredNurse", "", "Patient2", "access"));
+		System.out.println("RegisteredNurse, Patient1, write"+": "+decider7.check("RegisteredNurse", "", "Patient1", "write"));
+		System.out.println("RegisteredNurse, Patient2, write"+": "+decider7.check("RegisteredNurse", "", "Patient2", "write"));
 
-		System.out.println("RegisteredNurse, Patient3, access"+": "+decider7.check("RegisteredNurse", "", "Patient3", "access"));
-		System.out.println("RegisteredNurse, MaximumCarePatients, access"+": "+decider7.check("RegisteredNurse", "", "MaximumCarePatients", "access"));
-		System.out.println("RegisteredNurse, ModerateCarePatients, access"+": "+decider7.check("RegisteredNurse", "", "ModerateCarePatients", "access"));
+		System.out.println("RegisteredNurse, Patient3, write"+": "+decider7.check("RegisteredNurse", "", "Patient3", "write"));
+		System.out.println("RegisteredNurse, MaximumCarePatients, write"+": "+decider7.check("RegisteredNurse", "", "MaximumCarePatients", "write"));
+		System.out.println("RegisteredNurse, ModerateCarePatients, write"+": "+decider7.check("RegisteredNurse", "", "ModerateCarePatients", "write"));
 		
 		System.out.println();		
-		System.out.println("PROHIBITION#8(COMPLEMENT ModerateCarePatients=TRUE) RegisteredNurse access MaximumCarePatients ModerateCarePatients (INTERSECTION=true)");
+		System.out.println("PROHIBITION#8(COMPLEMENT ModerateCarePatients=TRUE) RegisteredNurse write MaximumCarePatients ModerateCarePatients (INTERSECTION=true)");
 		Prohibitions prohibitions8 = new MemProhibitions();
-		Prohibition prohibition8 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("access"))
+		Prohibition prohibition8 = new Prohibition.Builder("prohibition1", "RegisteredNurse", new OperationSet("write"))
 				.addContainer("MaximumCarePatients", false).addContainer("ModerateCarePatients", true).setIntersection(true).build();
 		prohibitions8.add(prohibition8);
 		saveDataToFile(ProhibitionsSerializer.toJson(prohibitions8), "Policies/ProhibitionExample/ProhibitionsMedicalExampleUA/prohibitions8.json");	
 
 		PReviewDecider decider8 = new PReviewDecider(g, prohibitions8);
-		System.out.println("RegisteredNurse, Patient1, access"+": "+decider8.check("RegisteredNurse", "", "Patient1", "access"));
-		System.out.println("RegisteredNurse, Patient2, access"+": "+decider8.check("RegisteredNurse", "", "Patient2", "access"));
+		System.out.println("RegisteredNurse, Patient1, write"+": "+decider8.check("RegisteredNurse", "", "Patient1", "write"));
+		System.out.println("RegisteredNurse, Patient2, write"+": "+decider8.check("RegisteredNurse", "", "Patient2", "write"));
 
-		System.out.println("RegisteredNurse, Patient3, access"+": "+decider8.check("RegisteredNurse", "", "Patient3", "access"));
-		System.out.println("RegisteredNurse, MaximumCarePatients, access"+": "+decider8.check("RegisteredNurse", "", "MaximumCarePatients", "access"));
-		System.out.println("RegisteredNurse, ModerateCarePatients, access"+": "+decider8.check("RegisteredNurse", "", "ModerateCarePatients", "access"));
+		System.out.println("RegisteredNurse, Patient3, write"+": "+decider8.check("RegisteredNurse", "", "Patient3", "write"));
+		System.out.println("RegisteredNurse, MaximumCarePatients, write"+": "+decider8.check("RegisteredNurse", "", "MaximumCarePatients", "write"));
+		System.out.println("RegisteredNurse, ModerateCarePatients, write"+": "+decider8.check("RegisteredNurse", "", "ModerateCarePatients", "write"));
 		for(Prohibition p :prohibitions8.getAll()) {
         	System.out.println("SUBJECT:" + p.getSubject()+":INTERSECTION: "+p.isIntersection());
 	        for (Map.Entry<String,Boolean> entry : p.getContainers().entrySet())  {

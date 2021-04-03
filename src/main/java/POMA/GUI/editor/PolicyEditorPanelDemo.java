@@ -25,6 +25,7 @@ import org.xml.sax.SAXException;
 
 import com.jgraph.algebra.JGraphFibonacciHeap.Node;
 
+import POMA.ConfigTuple;
 import POMA.GlobalVariables;
 import POMA.Utils;
 import POMA.GUI.GraphVisualization.GraphVisualizer;
@@ -64,7 +65,7 @@ import java.util.stream.Collectors;
 public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	protected String policy;
 	MemGraph g;
-
+	Prohibitions prohibitions;
 	File temporal;
 	JTextArea policyText = new JTextArea();
 	JApplet graphComponent;
@@ -116,6 +117,10 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		return g;
 	}
 
+	public Prohibitions getProhibitions() {
+		return prohibitions;
+	}
+
 	public File getCurrentFile() {
 		return temporal;
 	}
@@ -133,7 +138,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	public boolean isPolicyChanged() {
 		return true;
 	}
-	
+
 	public PolicyEditorPanelDemo(String f) throws SAXException, IOException {
 		try {
 			jbInit();
@@ -303,7 +308,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 			return;
 		}
 		try {
-			updateGraphComonent();
+			updateGraphComponent();
 			jsplitpanevertical.setBottomComponent(graphComponent);
 			policyjSplitPanel.setResizeWeight(0.4);
 
@@ -413,7 +418,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 			return true;
 		}
 		try {
-			updateGraphComonent();
+			updateGraphComponent();
 			return false;
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
@@ -443,9 +448,9 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	private void updateProhibitionsTextComponent() throws PMException, IOException {
-		Prohibitions prohibition = null;
-		prohibition = utils.readProhibitions(temporal.getPath());
-		policyText.setText(ProhibitionsSerializer.toJson(prohibition));
+		prohibitions = null;
+		prohibitions = utils.readProhibitions(temporal.getPath());
+		policyText.setText(ProhibitionsSerializer.toJson(prohibitions));
 		JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scroll.setPreferredSize(new Dimension(617, 600));
@@ -454,9 +459,16 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 
 	}
 
-	private void updateGraphComonent() throws IOException {
+	private void updateGraphComponent() throws IOException {
 		try {
-			g = utils.readAnyMemGraph(temporal.getPath());
+			if (temporal.isDirectory()) {
+				ConfigTuple ct = Utils.readAllFilesInFolderToConfig(temporal);
+				g = ct.getGraph();
+				prohibitions = ct.getProhibitions();
+			} else {
+				g = utils.readAnyMemGraph(temporal.getPath());
+				prohibitions = null;
+			}
 			policyText.setText(GraphSerializer.toJson(g));
 			GraphVisualizer gui = new GraphVisualizer(g);
 			gui.init();
@@ -475,11 +487,9 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 			if (g.getNodes().size() == 0) {
 				policyText.setText("No JSON file found in this folder");
 			} else {
-				if (!temporal.isDirectory())
-				{
+				if (!temporal.isDirectory()) {
 					policyText.setEditable(true);
-				}
-				else {
+				} else {
 					policyText.setEditable(false);
 				}
 				policyText.setText(GraphSerializer.toJson(g));
@@ -522,7 +532,6 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 			DefaultMutableTreeNode selecto = (DefaultMutableTreeNode) arbolPoliticas.getLastSelectedPathComponent();
 		}
 	}
-
 
 	private void saveChanged() {
 		// JR if (miDTM.getChildCount(miDTM.getRoot()) > 0) {
