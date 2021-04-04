@@ -1,0 +1,657 @@
+{
+  "nodes": [
+    {
+      "name": "tomtom",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "TenureTrack Faculty",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Sheila",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "CoPIEligible",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Selina",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Elmo",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Jazmyn",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Emmalee",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Oda",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Aniyah",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Kailey",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Uriah",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Monserrate",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Bennett",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Frederique",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Research Faculty",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Ernestina",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Aisha",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "PIEligible",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Savannah",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "liliana",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Delaney",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Wilfrid",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Ayana",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Hulda",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Adjunct Faculty",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Alvah",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Ansley",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "EligibilityPolicyClass",
+      "type": "PC",
+      "properties": {
+        "default_ua": "HR",
+        "default_oa": "OSP"
+      }
+    },
+    {
+      "name": "Ena",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "PDSWhole",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "Hans",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Sunny",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Clair",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Brennan",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Lyla",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dustin",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Opal",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Kevon",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Hazel",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Cleveland",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Ashton",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Tenured Faculty",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "samer",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Reginald",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Hellen",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Jevon",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "SPEligible",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Rodrick",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Jaclyn",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Caleigh",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "NickC",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Merle",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Barney",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Ryley",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Kory",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Kolby",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "NonTenureTrack Faculty",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Tracy",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Teaching Faculty",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Suzanne",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "vlad",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Nigel",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Daniela",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Giovanna",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Korey",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Clinic Faculty",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "nazmul",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Marisol",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "TenuredTenureTrack Faculty",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Hertha",
+      "type": "U",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "Sunny",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Cleveland",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Kailey",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Hertha",
+      "target": "Adjunct Faculty"
+    },
+    {
+      "source": "Monserrate",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "samer",
+      "target": "Tenured Faculty"
+    },
+    {
+      "source": "Aisha",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "Ashton",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "Tracy",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Ayana",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "Ena",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "vlad",
+      "target": "Adjunct Faculty"
+    },
+    {
+      "source": "Brennan",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Aniyah",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Kolby",
+      "target": "Clinic Faculty"
+    },
+    {
+      "source": "Nigel",
+      "target": "Teaching Faculty"
+    },
+    {
+      "source": "liliana",
+      "target": "Teaching Faculty"
+    },
+    {
+      "source": "Bennett",
+      "target": "Tenured Faculty"
+    },
+    {
+      "source": "SPEligible",
+      "target": "EligibilityPolicyClass"
+    },
+    {
+      "source": "Oda",
+      "target": "Clinic Faculty"
+    },
+    {
+      "source": "Hellen",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Clinic Faculty",
+      "target": "NonTenureTrack Faculty"
+    },
+    {
+      "source": "TenuredTenureTrack Faculty",
+      "target": "PIEligible"
+    },
+    {
+      "source": "Rodrick",
+      "target": "Adjunct Faculty"
+    },
+    {
+      "source": "Research Faculty",
+      "target": "NonTenureTrack Faculty"
+    },
+    {
+      "source": "nazmul",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Jevon",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "Delaney",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Kevon",
+      "target": "Teaching Faculty"
+    },
+    {
+      "source": "Sheila",
+      "target": "Clinic Faculty"
+    },
+    {
+      "source": "Selina",
+      "target": "Teaching Faculty"
+    },
+    {
+      "source": "Caleigh",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Ansley",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "PIEligible",
+      "target": "CoPIEligible"
+    },
+    {
+      "source": "Kory",
+      "target": "Teaching Faculty"
+    },
+    {
+      "source": "Wilfrid",
+      "target": "Tenured Faculty"
+    },
+    {
+      "source": "Ryley",
+      "target": "Tenured Faculty"
+    },
+    {
+      "source": "Jazmyn",
+      "target": "Clinic Faculty"
+    },
+    {
+      "source": "Frederique",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Uriah",
+      "target": "Teaching Faculty"
+    },
+    {
+      "source": "Adjunct Faculty",
+      "target": "SPEligible"
+    },
+    {
+      "source": "Barney",
+      "target": "Tenured Faculty"
+    },
+    {
+      "source": "Marisol",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Hulda",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Alvah",
+      "target": "Tenured Faculty"
+    },
+    {
+      "source": "Lyla",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "Tenured Faculty",
+      "target": "TenuredTenureTrack Faculty"
+    },
+    {
+      "source": "Elmo",
+      "target": "Research Faculty"
+    },
+    {
+      "source": "Emmalee",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "Opal",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "Merle",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "PDSWhole",
+      "target": "EligibilityPolicyClass"
+    },
+    {
+      "source": "Korey",
+      "target": "Tenured Faculty"
+    },
+    {
+      "source": "Giovanna",
+      "target": "Clinic Faculty"
+    },
+    {
+      "source": "Reginald",
+      "target": "Tenured Faculty"
+    },
+    {
+      "source": "Teaching Faculty",
+      "target": "NonTenureTrack Faculty"
+    },
+    {
+      "source": "Research Faculty",
+      "target": "PIEligible"
+    },
+    {
+      "source": "Ernestina",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "Jaclyn",
+      "target": "Teaching Faculty"
+    },
+    {
+      "source": "tomtom",
+      "target": "Clinic Faculty"
+    },
+    {
+      "source": "Dustin",
+      "target": "Tenured Faculty"
+    },
+    {
+      "source": "Savannah",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "Suzanne",
+      "target": "Adjunct Faculty"
+    },
+    {
+      "source": "Clair",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "Hazel",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "NickC",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "TenureTrack Faculty",
+      "target": "TenuredTenureTrack Faculty"
+    },
+    {
+      "source": "Hans",
+      "target": "Tenured Faculty"
+    },
+    {
+      "source": "CoPIEligible",
+      "target": "SPEligible"
+    },
+    {
+      "source": "Daniela",
+      "target": "TenureTrack Faculty"
+    },
+    {
+      "source": "NonTenureTrack Faculty",
+      "target": "CoPIEligible"
+    }
+  ],
+  "associations": [
+    {
+      "source": "PIEligible",
+      "target": "PDSWhole",
+      "operations": [
+        "create"
+      ]
+    }
+  ]
+}

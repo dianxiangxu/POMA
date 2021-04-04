@@ -18,28 +18,24 @@ public class CVC4Runner {
 
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
-		BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-
 		String s = null;
-		StringBuilder sb = new StringBuilder();
 
 		List<String> outputList = new ArrayList<String>();
 		List<String> fullOutputList = new ArrayList<String>();
 
 		while ((s = stdInput.readLine()) != null) {
-			if (!s.contains("sat") && !s.contains("error") && s.contains("((FinalJoin")) {
+			if (!s.contains("sat") && !s.contains("error") && (s.contains("((FinalJoin") || s.contains("((result"))) {
 				outputList.add(s);
-				//System.out.println("OUTPUT!!!!: "+s);
 			}
 			else if(!s.contains("sat") && !s.contains("error")) {
 				fullOutputList.add(s);
 				fullOutputList.add(System.lineSeparator());
 			}
-		//	System.out.println("OUTPUT"+s);
 		}
 		setFullOutput(fullOutputList.toString());
 		return outputList;
 	}
+	
 	public List<String> runFromSMTLIB2SetsTheoryIncremental(String pathToFile) throws IOException {
 		Runtime rt = Runtime.getRuntime();
 		String[] commands = { GlobalVariables.cvc4path, "--incremental", pathToFile };
@@ -47,24 +43,19 @@ public class CVC4Runner {
 
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
-		BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-
 		String s = null;
-		StringBuilder sb = new StringBuilder();
 
 		List<String> outputList = new ArrayList<String>();
 		List<String> fullOutputList = new ArrayList<String>();
 
 		while ((s = stdInput.readLine()) != null) {
-			if (!s.contains("sat") && !s.contains("error") && s.contains("((FinalJoin")) {
+			if (!s.contains("sat") && !s.contains("error") && (s.contains("((FinalJoin") || s.contains("((result"))) {
 				outputList.add(s);
-				//System.out.println("OUTPUT!!!!: "+s);
 			}
 			else if(!s.contains("sat") && !s.contains("error")) {
 				fullOutputList.add(s);
 				fullOutputList.add(System.lineSeparator());
 			}
-			//System.out.println("OUTPUT"+s);
 		}
 		setFullOutput(fullOutputList.toString());
 		return outputList;

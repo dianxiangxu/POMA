@@ -4,7 +4,7 @@
       "name": "prohibition1",
       "subject": "RegisteredNurse",
       "ops": [
-        "access"
+        "write"
       ],
       "intersection": false,
       "containers": {

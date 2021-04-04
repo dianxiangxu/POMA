@@ -38,7 +38,7 @@ public class ObligationTest {
 	
 	@Before
 	public void runBeforeEach() throws Exception {
-		String pathGraph = "Policies/GPMS/Graph.yml";
+		String pathGraph = "Policies/GPMS/Graph.json";
 		String pathObligation = "Policies/GPMS/Obligations.yml";
 		
 		File graphFile = getFileFromResources(pathGraph);

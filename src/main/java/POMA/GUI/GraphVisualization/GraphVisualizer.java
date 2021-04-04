@@ -61,13 +61,14 @@ public class GraphVisualizer extends JApplet {
 		gui.buildJFrame();
 	}
 
+	// constructor for testing
 	public GraphVisualizer() {
 		SimpleTestGraph simpleTestGraph = new SimpleTestGraph();
 		try {
 			this.ngacGraph = simpleTestGraph.buildSimpleGraph();
 		} catch (PMException e) {
-			//e.printStackTrace();
-			//System.out.println("Cannot load the graph");
+			// e.printStackTrace();
+			// System.out.println("Cannot load the graph");
 		}
 		graphToPlot = ngacGraph.graph;
 
@@ -87,32 +88,33 @@ public class GraphVisualizer extends JApplet {
 		frame.setVisible(true);
 
 	}
+
 	public void buildJFrame(JFrame frame) {
 		frame.getContentPane().add(this);
 		frame.setTitle("NGAC Graph Visualization");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
-
+		frame.setLocationRelativeTo(null);
 
 	}
-	
+
 	public JApplet returnPane() {
 		return this;
 	}
+
 	private List<mxICell> getCellsWithTypeInGraph(String type) {
 		List<mxICell> List = new ArrayList<mxICell>();
 		for (Map.Entry<String, mxICell> entry : jgxAdapter.getVertexToCellMap().entrySet()) {
- 
+
 			if (!entry.getKey().toString().equals("")) {
 				try {
 					if (ngacGraph.getNode(entry.getKey().toString()).getType().toString().equals(type)) {
 						List.add(entry.getValue());
 					}
 				} catch (PMException e) {
-					//e.printStackTrace();
-					//System.out.println("Error retrieving nodes from the graph");
+					// e.printStackTrace();
+					// System.out.println("Error retrieving nodes from the graph");
 				}
 			}
 		}
@@ -170,6 +172,7 @@ public class GraphVisualizer extends JApplet {
 			}
 		}
 	}
+
 	private void setCommonStyle() {
 		mxStylesheet stylesheet = jgxAdapter.getStylesheet();
 		Map<String, Object> edgeStyle = stylesheet.getDefaultEdgeStyle();
@@ -181,6 +184,7 @@ public class GraphVisualizer extends JApplet {
 		startStyle.put(mxConstants.STYLE_STROKECOLOR, "#0000F0");
 		stylesheet.putCellStyle("StartStyle", startStyle);
 	}
+
 	private void setLayout() {
 		mxHierarchicalLayout layout = new mxHierarchicalLayout(jgxAdapter);
 		layout.setInterHierarchySpacing(100);
@@ -190,10 +194,9 @@ public class GraphVisualizer extends JApplet {
 		layout.execute(jgxAdapter.getDefaultParent());
 		new mxParallelEdgeLayout(jgxAdapter, 20).execute(jgxAdapter.getDefaultParent());
 	}
-	
+
 	private void setComponent() {
-		
-		
+
 		mxGraphComponent graphComponent = new mxGraphComponent(jgxAdapter);
 
 		JPanel panel = new JPanel();
@@ -201,8 +204,8 @@ public class GraphVisualizer extends JApplet {
 		panel.setLayout(new BorderLayout(0, 0));
 		JPanel controls = new JPanel();
 		panel.add(controls, BorderLayout.SOUTH);
-		controls.setLayout(new GridLayout(0,2));
-		
+		controls.setLayout(new GridLayout(0, 2));
+
 		JButton zoomOut = new JButton("Zoom Out");
 		zoomOut.addMouseListener(new MouseAdapter() {
 			@Override
@@ -211,7 +214,7 @@ public class GraphVisualizer extends JApplet {
 			}
 		});
 		controls.add(zoomOut);
-		
+
 		JButton zoomIn = new JButton("Zoom In");
 		zoomIn.addMouseListener(new MouseAdapter() {
 			@Override
@@ -226,19 +229,20 @@ public class GraphVisualizer extends JApplet {
 		graphComponent.setSize(DEFAULT_SIZE);
 
 	}
+
 	@Override
 	public void init() {
 		jgxAdapter = new JGraphXAdapter<>(this.graphToPlot);
 		setPreferredSize(DEFAULT_SIZE);
 		setNodesStyleInGraph();
 		setEdgesStyleInGraph();
-		setCommonStyle();		
+		setCommonStyle();
 		resize(DEFAULT_SIZE);
 		setComponent();
-			//hello world
+		// hello world
 		jgxAdapter.getModel().setGeometry(jgxAdapter.getDefaultParent(),
 				new mxGeometry((DEFAULT_SIZE.width) / 8, (30), DEFAULT_SIZE.width / 2.0, DEFAULT_SIZE.height / 2.0));
-		setLayout();	
+		setLayout();
 	}
 
 }

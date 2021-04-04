@@ -1,0 +1,3530 @@
+{
+  "nodes": [
+    {
+      "name": "Marjolaine",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDUQKUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Abigayle",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCXPMUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDNNPUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDIWS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDBHF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDJXS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDXLLUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Charlie",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Zachery",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDSJC",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDJUKUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDJWJUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDSJC",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDFPF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMDJXS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Ruth",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Brian",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDJXSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDBHF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDOWD",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDYJJ",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDQQAUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDFPF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Dean CDQX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Brenda",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Josefina",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDEQC",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Magdalen",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDBHFUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmECEUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCOASUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDSKX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDBOFUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptCS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMDJWJ",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDGTX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDIHFUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDQIIUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Khalid",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCDKRUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairPHY",
+      "type": "UA",
+      "properties": {
+        "chair": "DeptPHY"
+      }
+    },
+    {
+      "name": "ChairDMMMUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Arch",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Khalil",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CMCY",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDIHF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeanCQWTUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDLUZUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDPVZ",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDFULUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Delta",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDIWS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMDQCV",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "nazmul",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDBLY",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Nestor",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDFPFUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDFUL",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Dean COE",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Lester",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDJUK",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMDKWE",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Ernest",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDQII",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDUQK",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Dean CYZN",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDKWEUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDIRX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Aditya",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDIZM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDLUF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDXLL",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Guiseppe",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Annette",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDOWDUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDBOF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDQCVUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Lizzie",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCKMUUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Alexys",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDFKH",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDYJJUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Narciso",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Eldon",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Jacynthe",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDLGWUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairPHYUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMECE",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDZNL",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Zoila",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDFKH",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptECE",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Yasmine",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Devan",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Haleigh",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Howard",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Kareem",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Floyd",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCOEUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dexter",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Neil",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDTSX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmCSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDIWSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CQVC",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Era",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Estell",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDIRX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDKWE",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMDTSX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Lorna",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Amara",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Jamaal",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Yasmin",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairChemUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDLUZ",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "NickC",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDBOF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDPSUUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Mustafa",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDPVZUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Betty",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CCXV",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDBLYUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDIWSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "vlad",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Lavinia",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CDZG",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Jadyn",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CSUO",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeanCHFGUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDZNLUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Kyler",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CKDU",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMDFUL",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDLHD",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Assunta",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDFPF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDJXS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Candelario",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDBHF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "liliana",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDBLY",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDSJC",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Annabel",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDLGW",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "April",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDQQA",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Marjory",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Breanna",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDLHDUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDYJJUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDOWDUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Mertie",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDIZM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairCHEM",
+      "type": "UA",
+      "properties": {
+        "chair": "DeptCHEM"
+      }
+    },
+    {
+      "name": "Samanta",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDNNP",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDSKXUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDQII",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Britney",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDEQCUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Lucile",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDJUK",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Javonte",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Hester",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDUQK",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Claudine",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDQQAUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCQXFUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Carleton",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Johnathon",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Kole",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDEQC",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDQCV",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMCS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Jamarcus",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Maude",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Anderson",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDGTX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Teagan",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CKCX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDJWJ",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Bert",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDFKHUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDSKX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Ressie",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Jay",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Ericka",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Eladio",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Albina",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDQII",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeanCKDUUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Aurore",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDUQK",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDIZM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDPSU",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Evelyn",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDUQKUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Pascale",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDFULUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Briana",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Faustino",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCDQXUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDLUZUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDBLY",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDFUL",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDMMM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDGAG",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Bethany",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dawson",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDIWS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Adrienne",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Ona",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCSUOUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDPSU",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDJUKUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDPVZ",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeanCUFXUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDMMM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMDGAG",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Ludwig",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "samer",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dorothy",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Ludie",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dessie",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Tressie",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairECE",
+      "type": "UA",
+      "properties": {
+        "chair": "DeptECE"
+      }
+    },
+    {
+      "name": "Tomasa",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDIHF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMCHEM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDSKX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDGTX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMDNNP",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Noel",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDIHFUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCKTKUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Taya",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDXLLUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDBHFUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDEQC",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Judson",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CKMK",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "tomtom",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Mauricio",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDMMMUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Jakob",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDYJJ",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDOWD",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Yvette",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCQVCUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairCS",
+      "type": "UA",
+      "properties": {
+        "chair": "CS"
+      }
+    },
+    {
+      "name": "bmDTSXUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDLHDUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDTSX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Eusebio",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDGAGUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Treva",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDLHD",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDBOFUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDPVZUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CKMU",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDGTXUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDLGW",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDJWJUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Sylvan",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CQWT",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDLUFUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCKMKUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDZNL",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Karlie",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmPHYUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Mona",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Nathanael",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDQQA",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Dean CHFG",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDIRXUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Lucio",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Brandy",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Neva",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDSJCUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDSKXUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMPHY",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Bruce",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CQXF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDBOF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Bart",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Fay",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CDKR",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeanCYZNUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDLUZ",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDQQA",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDFKHUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDXLL",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "AcademicUnitsPolicyClass",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "Tyrel",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDLUF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Robbie",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Danny",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDLUF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDLGW",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Katelynn",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDIZMUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDXLL",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDEQCUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean COAS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmDLGWUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Kaela",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDIZMUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDLHD",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Dylan",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Tiffany",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCCXVUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Ova",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDBLYUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptPHY",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Shakira",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Burnice",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Fredy",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Tiara",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Jesus",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CXPM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDLUZ",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMDZNL",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairECEUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Alena",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Rene",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Chance",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Kacey",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Braden",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Cornelius",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Nyah",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDZNLUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDGAGUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Jayne",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Robb",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Matilde",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Lavern",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Ila",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDIRXUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDIRX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Candido",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDMMM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptDGAG",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairDKWE",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeanCKCXUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDQIIUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dedric",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDPSUUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Stefanie",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDPSU",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "bmChemUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDYJJ",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMDOWD",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Elda",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDFPFUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCDZGUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDTSXUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDLUFUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDFKH",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Gunner",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Derek",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Gail",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Lenore",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDKWEUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Emie",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Maeve",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDJWJ",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Phyllis",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean CUFX",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairCSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDSJCUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDQCVUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Chet",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDQCV",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Grayson",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "bmDNNPUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDJXSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDPVZ",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Dean CKTK",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeanCMCYUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDGTXUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMDIHF",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Brenden",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairDJUK",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeptCHEM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Fanny",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeptDNNP",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Bryce",
+      "type": "U",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "ChairDJWJUser",
+      "target": "ChairDJWJ"
+    },
+    {
+      "source": "Dean CDKR",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "ChairDFPFUser",
+      "target": "ChairDFPF"
+    },
+    {
+      "source": "DeanCQWTUser",
+      "target": "Dean CQWT"
+    },
+    {
+      "source": "Lavinia",
+      "target": "DeptDPVZ"
+    },
+    {
+      "source": "BMDBLY",
+      "target": "Dean CHFG"
+    },
+    {
+      "source": "bmDLHDUser",
+      "target": "BMDLHD"
+    },
+    {
+      "source": "Jamarcus",
+      "target": "DeptDNNP"
+    },
+    {
+      "source": "Tiara",
+      "target": "DeptDIWS"
+    },
+    {
+      "source": "BMDBOF",
+      "target": "Dean CKCX"
+    },
+    {
+      "source": "Javonte",
+      "target": "DeptDMMM"
+    },
+    {
+      "source": "ChairDPVZ",
+      "target": "BMDPVZ"
+    },
+    {
+      "source": "ChairDQQAUser",
+      "target": "ChairDQQA"
+    },
+    {
+      "source": "Lenore",
+      "target": "DeptDFUL"
+    },
+    {
+      "source": "ChairChemUser",
+      "target": "ChairCHEM"
+    },
+    {
+      "source": "DeanCQVCUser",
+      "target": "Dean CQVC"
+    },
+    {
+      "source": "bmDQCVUser",
+      "target": "BMDQCV"
+    },
+    {
+      "source": "bmDPSUUser",
+      "target": "BMDPSU"
+    },
+    {
+      "source": "Kyler",
+      "target": "DeptDGAG"
+    },
+    {
+      "source": "bmDGAGUser",
+      "target": "BMDGAG"
+    },
+    {
+      "source": "Tyrel",
+      "target": "DeptDMMM"
+    },
+    {
+      "source": "Mauricio",
+      "target": "DeptDLGW"
+    },
+    {
+      "source": "ChairDEQC",
+      "target": "BMDEQC"
+    },
+    {
+      "source": "Arch",
+      "target": "DeptDQII"
+    },
+    {
+      "source": "ChairDIRXUser",
+      "target": "ChairDIRX"
+    },
+    {
+      "source": "BMDQQA",
+      "target": "Dean CDQX"
+    },
+    {
+      "source": "bmDBOFUser",
+      "target": "BMDBOF"
+    },
+    {
+      "source": "BMDIHF",
+      "target": "Dean CMCY"
+    },
+    {
+      "source": "Claudine",
+      "target": "DeptDNNP"
+    },
+    {
+      "source": "Lucile",
+      "target": "DeptDQII"
+    },
+    {
+      "source": "Karlie",
+      "target": "DeptDJXS"
+    },
+    {
+      "source": "Jadyn",
+      "target": "DeptDEQC"
+    },
+    {
+      "source": "Yvette",
+      "target": "DeptDPSU"
+    },
+    {
+      "source": "DeptDPVZ",
+      "target": "ChairDPVZ"
+    },
+    {
+      "source": "Dean CYZN",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "Tressie",
+      "target": "DeptDFKH"
+    },
+    {
+      "source": "Cornelius",
+      "target": "DeptDBHF"
+    },
+    {
+      "source": "Ressie",
+      "target": "DeptDQQA"
+    },
+    {
+      "source": "Eusebio",
+      "target": "DeptDKWE"
+    },
+    {
+      "source": "bmDGTXUser",
+      "target": "BMDGTX"
+    },
+    {
+      "source": "DeptDLUZ",
+      "target": "ChairDLUZ"
+    },
+    {
+      "source": "Marjory",
+      "target": "DeptDFPF"
+    },
+    {
+      "source": "DeptDQII",
+      "target": "ChairDQII"
+    },
+    {
+      "source": "tomtom",
+      "target": "DeptCHEM"
+    },
+    {
+      "source": "ChairDKWE",
+      "target": "BMDKWE"
+    },
+    {
+      "source": "Dean CKTK",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "Chet",
+      "target": "DeptDIZM"
+    },
+    {
+      "source": "ChairDBOF",
+      "target": "BMDBOF"
+    },
+    {
+      "source": "ChairDYJJ",
+      "target": "BMDYJJ"
+    },
+    {
+      "source": "Fay",
+      "target": "DeptDYJJ"
+    },
+    {
+      "source": "Alena",
+      "target": "DeptDLUZ"
+    },
+    {
+      "source": "Ila",
+      "target": "DeptDXLL"
+    },
+    {
+      "source": "ChairDTSX",
+      "target": "BMDTSX"
+    },
+    {
+      "source": "Samanta",
+      "target": "DeptDUQK"
+    },
+    {
+      "source": "Fanny",
+      "target": "DeptDUQK"
+    },
+    {
+      "source": "Josefina",
+      "target": "DeptDIHF"
+    },
+    {
+      "source": "BMDQII",
+      "target": "Dean CKMK"
+    },
+    {
+      "source": "BMDFPF",
+      "target": "Dean CYZN"
+    },
+    {
+      "source": "bmDTSXUser",
+      "target": "BMDTSX"
+    },
+    {
+      "source": "ChairDQIIUser",
+      "target": "ChairDQII"
+    },
+    {
+      "source": "DeptDPSU",
+      "target": "ChairDPSU"
+    },
+    {
+      "source": "Lavern",
+      "target": "DeptDXLL"
+    },
+    {
+      "source": "DeanCKDUUser",
+      "target": "Dean CKDU"
+    },
+    {
+      "source": "ChairDIZMUser",
+      "target": "ChairDIZM"
+    },
+    {
+      "source": "bmDOWDUser",
+      "target": "BMDOWD"
+    },
+    {
+      "source": "ChairDZNL",
+      "target": "BMDZNL"
+    },
+    {
+      "source": "ChairDXLL",
+      "target": "BMDXLL"
+    },
+    {
+      "source": "Narciso",
+      "target": "DeptDFPF"
+    },
+    {
+      "source": "Anderson",
+      "target": "DeptDTSX"
+    },
+    {
+      "source": "DeptDBLY",
+      "target": "ChairDBLY"
+    },
+    {
+      "source": "BMDJUK",
+      "target": "Dean CXPM"
+    },
+    {
+      "source": "DeptDIRX",
+      "target": "ChairDIRX"
+    },
+    {
+      "source": "Dean CDQX",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "Delta",
+      "target": "DeptDNNP"
+    },
+    {
+      "source": "DeptDUQK",
+      "target": "ChairDUQK"
+    },
+    {
+      "source": "Mona",
+      "target": "DeptDLUZ"
+    },
+    {
+      "source": "Grayson",
+      "target": "DeptDXLL"
+    },
+    {
+      "source": "ChairDJXSUser",
+      "target": "ChairDJXS"
+    },
+    {
+      "source": "Derek",
+      "target": "DeptDOWD"
+    },
+    {
+      "source": "ChairDLGWUser",
+      "target": "ChairDLGW"
+    },
+    {
+      "source": "Burnice",
+      "target": "DeptDJUK"
+    },
+    {
+      "source": "bmDSJCUser",
+      "target": "BMDSJC"
+    },
+    {
+      "source": "Candido",
+      "target": "DeptDGAG"
+    },
+    {
+      "source": "BMDEQC",
+      "target": "Dean CKDU"
+    },
+    {
+      "source": "DeanCDZGUser",
+      "target": "Dean CDZG"
+    },
+    {
+      "source": "BMPHY",
+      "target": "Dean COAS"
+    },
+    {
+      "source": "bmDKWEUser",
+      "target": "BMDKWE"
+    },
+    {
+      "source": "Carleton",
+      "target": "DeptDJUK"
+    },
+    {
+      "source": "DeptDNNP",
+      "target": "ChairDNNP"
+    },
+    {
+      "source": "ChairDLUFUser",
+      "target": "ChairDLUF"
+    },
+    {
+      "source": "BMDJXS",
+      "target": "Dean CUFX"
+    },
+    {
+      "source": "Braden",
+      "target": "DeptDOWD"
+    },
+    {
+      "source": "BMDLGW",
+      "target": "Dean CCXV"
+    },
+    {
+      "source": "DeptCHEM",
+      "target": "ChairCHEM"
+    },
+    {
+      "source": "DeptDFUL",
+      "target": "ChairDFUL"
+    },
+    {
+      "source": "DeptDLUF",
+      "target": "ChairDLUF"
+    },
+    {
+      "source": "DeptDJWJ",
+      "target": "ChairDJWJ"
+    },
+    {
+      "source": "April",
+      "target": "DeptDFUL"
+    },
+    {
+      "source": "ChairDMMM",
+      "target": "BMDMMM"
+    },
+    {
+      "source": "BMDIWS",
+      "target": "Dean CQWT"
+    },
+    {
+      "source": "ChairDGAG",
+      "target": "BMDGAG"
+    },
+    {
+      "source": "Eladio",
+      "target": "DeptDFKH"
+    },
+    {
+      "source": "Jesus",
+      "target": "DeptDFPF"
+    },
+    {
+      "source": "Brenden",
+      "target": "DeptDFUL"
+    },
+    {
+      "source": "Howard",
+      "target": "DeptDPVZ"
+    },
+    {
+      "source": "bmDLGWUser",
+      "target": "BMDLGW"
+    },
+    {
+      "source": "Shakira",
+      "target": "DeptDIWS"
+    },
+    {
+      "source": "DeanCOASUser",
+      "target": "Dean COAS"
+    },
+    {
+      "source": "ChairDLHDUser",
+      "target": "ChairDLHD"
+    },
+    {
+      "source": "Tiffany",
+      "target": "DeptDBLY"
+    },
+    {
+      "source": "bmECEUser",
+      "target": "BMECE"
+    },
+    {
+      "source": "Ruth",
+      "target": "DeptDQCV"
+    },
+    {
+      "source": "Dean CCXV",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "Chance",
+      "target": "DeptDMMM"
+    },
+    {
+      "source": "ChairECEUser",
+      "target": "ChairECE"
+    },
+    {
+      "source": "ChairDGTXUser",
+      "target": "ChairDGTX"
+    },
+    {
+      "source": "ChairDSJC",
+      "target": "BMDSJC"
+    },
+    {
+      "source": "Robb",
+      "target": "DeptDJWJ"
+    },
+    {
+      "source": "BMDGTX",
+      "target": "Dean CKDU"
+    },
+    {
+      "source": "bmDIWSUser",
+      "target": "BMDIWS"
+    },
+    {
+      "source": "BMDQCV",
+      "target": "Dean CDZG"
+    },
+    {
+      "source": "ChairDBHFUser",
+      "target": "ChairDBHF"
+    },
+    {
+      "source": "ChairDIRX",
+      "target": "BMDIRX"
+    },
+    {
+      "source": "Stefanie",
+      "target": "DeptDBLY"
+    },
+    {
+      "source": "Ludie",
+      "target": "DeptDIRX"
+    },
+    {
+      "source": "ChairDLUZUser",
+      "target": "ChairDLUZ"
+    },
+    {
+      "source": "ChairDBLY",
+      "target": "BMDBLY"
+    },
+    {
+      "source": "Marjolaine",
+      "target": "DeptDKWE"
+    },
+    {
+      "source": "Neil",
+      "target": "DeptDGAG"
+    },
+    {
+      "source": "ChairDUQK",
+      "target": "BMDUQK"
+    },
+    {
+      "source": "Ludwig",
+      "target": "DeptDBLY"
+    },
+    {
+      "source": "Nestor",
+      "target": "DeptDQQA"
+    },
+    {
+      "source": "Dawson",
+      "target": "DeptDSJC"
+    },
+    {
+      "source": "ChairECE",
+      "target": "BMECE"
+    },
+    {
+      "source": "DeptDFPF",
+      "target": "ChairDFPF"
+    },
+    {
+      "source": "DeptDLGW",
+      "target": "ChairDLGW"
+    },
+    {
+      "source": "Teagan",
+      "target": "DeptDKWE"
+    },
+    {
+      "source": "DeptDIZM",
+      "target": "ChairDIZM"
+    },
+    {
+      "source": "DeptDOWD",
+      "target": "ChairDOWD"
+    },
+    {
+      "source": "Alexys",
+      "target": "DeptDZNL"
+    },
+    {
+      "source": "Dean CKDU",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "Breanna",
+      "target": "DeptDKWE"
+    },
+    {
+      "source": "Maeve",
+      "target": "DeptDIHF"
+    },
+    {
+      "source": "Neva",
+      "target": "DeptDOWD"
+    },
+    {
+      "source": "bmDIZMUser",
+      "target": "BMDIZM"
+    },
+    {
+      "source": "Britney",
+      "target": "DeptDLHD"
+    },
+    {
+      "source": "DeptDBOF",
+      "target": "ChairDBOF"
+    },
+    {
+      "source": "DeptCS",
+      "target": "ChairCS"
+    },
+    {
+      "source": "DeptDKWE",
+      "target": "ChairDKWE"
+    },
+    {
+      "source": "Betty",
+      "target": "DeptDLGW"
+    },
+    {
+      "source": "Annabel",
+      "target": "DeptDIWS"
+    },
+    {
+      "source": "ChairDQII",
+      "target": "BMDQII"
+    },
+    {
+      "source": "ChairDFKHUser",
+      "target": "ChairDFKH"
+    },
+    {
+      "source": "DeptDTSX",
+      "target": "ChairDTSX"
+    },
+    {
+      "source": "DeptDYJJ",
+      "target": "ChairDYJJ"
+    },
+    {
+      "source": "BMECE",
+      "target": "Dean COE"
+    },
+    {
+      "source": "ChairDZNLUser",
+      "target": "ChairDZNL"
+    },
+    {
+      "source": "ChairDLUZ",
+      "target": "BMDLUZ"
+    },
+    {
+      "source": "NickC",
+      "target": "DeptPHY"
+    },
+    {
+      "source": "Ericka",
+      "target": "DeptDSKX"
+    },
+    {
+      "source": "Zachery",
+      "target": "DeptDIZM"
+    },
+    {
+      "source": "DeanCUFXUser",
+      "target": "Dean CUFX"
+    },
+    {
+      "source": "Khalid",
+      "target": "DeptDYJJ"
+    },
+    {
+      "source": "BMDXLL",
+      "target": "Dean CKMU"
+    },
+    {
+      "source": "Briana",
+      "target": "DeptDPSU"
+    },
+    {
+      "source": "ChairDNNP",
+      "target": "BMDNNP"
+    },
+    {
+      "source": "Kole",
+      "target": "DeptDPSU"
+    },
+    {
+      "source": "Bryce",
+      "target": "DeptDBHF"
+    },
+    {
+      "source": "BMDFKH",
+      "target": "Dean CQVC"
+    },
+    {
+      "source": "BMDJWJ",
+      "target": "Dean CKTK"
+    },
+    {
+      "source": "Candelario",
+      "target": "DeptDPVZ"
+    },
+    {
+      "source": "ChairCHEM",
+      "target": "BMCHEM"
+    },
+    {
+      "source": "Kareem",
+      "target": "DeptDZNL"
+    },
+    {
+      "source": "Dean CUFX",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "Ova",
+      "target": "DeptDJXS"
+    },
+    {
+      "source": "ChairDUQKUser",
+      "target": "ChairDUQK"
+    },
+    {
+      "source": "DeptDEQC",
+      "target": "ChairDEQC"
+    },
+    {
+      "source": "liliana",
+      "target": "DeptCS"
+    },
+    {
+      "source": "Pascale",
+      "target": "DeptDIRX"
+    },
+    {
+      "source": "bmDYJJUser",
+      "target": "BMDYJJ"
+    },
+    {
+      "source": "ChairDQCVUser",
+      "target": "ChairDQCV"
+    },
+    {
+      "source": "bmDJWJUser",
+      "target": "BMDJWJ"
+    },
+    {
+      "source": "BMDLUF",
+      "target": "Dean CKMK"
+    },
+    {
+      "source": "bmDBLYUser",
+      "target": "BMDBLY"
+    },
+    {
+      "source": "Jamaal",
+      "target": "DeptDLHD"
+    },
+    {
+      "source": "BMDSJC",
+      "target": "Dean CSUO"
+    },
+    {
+      "source": "BMDLUZ",
+      "target": "Dean CDKR"
+    },
+    {
+      "source": "Dean CQVC",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "Fredy",
+      "target": "DeptDJWJ"
+    },
+    {
+      "source": "Zoila",
+      "target": "DeptDLUZ"
+    },
+    {
+      "source": "BMCS",
+      "target": "Dean COE"
+    },
+    {
+      "source": "ChairDFULUser",
+      "target": "ChairDFUL"
+    },
+    {
+      "source": "ChairDPSU",
+      "target": "BMDPSU"
+    },
+    {
+      "source": "Bart",
+      "target": "DeptDLUF"
+    },
+    {
+      "source": "DeanCYZNUser",
+      "target": "Dean CYZN"
+    },
+    {
+      "source": "DeptDZNL",
+      "target": "ChairDZNL"
+    },
+    {
+      "source": "DeptDXLL",
+      "target": "ChairDXLL"
+    },
+    {
+      "source": "bmCSUser",
+      "target": "BMCS"
+    },
+    {
+      "source": "Lorna",
+      "target": "DeptDTSX"
+    },
+    {
+      "source": "ChairDIHFUser",
+      "target": "ChairDIHF"
+    },
+    {
+      "source": "Estell",
+      "target": "DeptDBOF"
+    },
+    {
+      "source": "Hester",
+      "target": "DeptDIZM"
+    },
+    {
+      "source": "BMDLHD",
+      "target": "Dean CKTK"
+    },
+    {
+      "source": "Dean CQXF",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "DeptDJXS",
+      "target": "ChairDJXS"
+    },
+    {
+      "source": "DeptDIWS",
+      "target": "ChairDIWS"
+    },
+    {
+      "source": "ChairDJXS",
+      "target": "BMDJXS"
+    },
+    {
+      "source": "bmDJXSUser",
+      "target": "BMDJXS"
+    },
+    {
+      "source": "ChairDIWS",
+      "target": "BMDIWS"
+    },
+    {
+      "source": "BMDOWD",
+      "target": "Dean CMCY"
+    },
+    {
+      "source": "BMDBHF",
+      "target": "Dean CDZG"
+    },
+    {
+      "source": "Ona",
+      "target": "DeptDZNL"
+    },
+    {
+      "source": "Dean COE",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "Dexter",
+      "target": "DeptDUQK"
+    },
+    {
+      "source": "bmPHYUser",
+      "target": "BMPHY"
+    },
+    {
+      "source": "DeanCMCYUser",
+      "target": "Dean CMCY"
+    },
+    {
+      "source": "DeanCKTKUser",
+      "target": "Dean CKTK"
+    },
+    {
+      "source": "ChairPHY",
+      "target": "BMPHY"
+    },
+    {
+      "source": "ChairDKWEUser",
+      "target": "ChairDKWE"
+    },
+    {
+      "source": "Ernest",
+      "target": "DeptDJUK"
+    },
+    {
+      "source": "ChairPHYUser",
+      "target": "ChairPHY"
+    },
+    {
+      "source": "ChairDQCV",
+      "target": "BMDQCV"
+    },
+    {
+      "source": "bmDLUFUser",
+      "target": "BMDLUF"
+    },
+    {
+      "source": "ChairDSKXUser",
+      "target": "ChairDSKX"
+    },
+    {
+      "source": "Danny",
+      "target": "DeptDQCV"
+    },
+    {
+      "source": "Noel",
+      "target": "DeptDOWD"
+    },
+    {
+      "source": "ChairDJUKUser",
+      "target": "ChairDJUK"
+    },
+    {
+      "source": "Lester",
+      "target": "DeptDXLL"
+    },
+    {
+      "source": "Amara",
+      "target": "DeptDQCV"
+    },
+    {
+      "source": "bmDPVZUser",
+      "target": "BMDPVZ"
+    },
+    {
+      "source": "DeptDFKH",
+      "target": "ChairDFKH"
+    },
+    {
+      "source": "Aurore",
+      "target": "DeptDBHF"
+    },
+    {
+      "source": "DeptPHY",
+      "target": "ChairPHY"
+    },
+    {
+      "source": "bmDEQCUser",
+      "target": "BMDEQC"
+    },
+    {
+      "source": "ChairDIHF",
+      "target": "BMDIHF"
+    },
+    {
+      "source": "ChairDMMMUser",
+      "target": "ChairDMMM"
+    },
+    {
+      "source": "Jay",
+      "target": "DeptDIHF"
+    },
+    {
+      "source": "Eldon",
+      "target": "DeptDUQK"
+    },
+    {
+      "source": "Annette",
+      "target": "DeptDQQA"
+    },
+    {
+      "source": "DeanCOEUser",
+      "target": "Dean COE"
+    },
+    {
+      "source": "DeptDQCV",
+      "target": "ChairDQCV"
+    },
+    {
+      "source": "ChairDSJCUser",
+      "target": "ChairDSJC"
+    },
+    {
+      "source": "BMDFUL",
+      "target": "Dean CQXF"
+    },
+    {
+      "source": "ChairDOWDUser",
+      "target": "ChairDOWD"
+    },
+    {
+      "source": "ChairDNNPUser",
+      "target": "ChairDNNP"
+    },
+    {
+      "source": "ChairDTSXUser",
+      "target": "ChairDTSX"
+    },
+    {
+      "source": "Jayne",
+      "target": "DeptDBOF"
+    },
+    {
+      "source": "Brian",
+      "target": "DeptDFKH"
+    },
+    {
+      "source": "DeptECE",
+      "target": "ChairECE"
+    },
+    {
+      "source": "Faustino",
+      "target": "DeptDLHD"
+    },
+    {
+      "source": "Adrienne",
+      "target": "DeptDIRX"
+    },
+    {
+      "source": "DeptDQQA",
+      "target": "ChairDQQA"
+    },
+    {
+      "source": "Jacynthe",
+      "target": "DeptDJWJ"
+    },
+    {
+      "source": "Robbie",
+      "target": "DeptDFPF"
+    },
+    {
+      "source": "Albina",
+      "target": "DeptDZNL"
+    },
+    {
+      "source": "BMDPVZ",
+      "target": "Dean CQVC"
+    },
+    {
+      "source": "Dean CXPM",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "nazmul",
+      "target": "DeptCS"
+    },
+    {
+      "source": "ChairDGAGUser",
+      "target": "ChairDGAG"
+    },
+    {
+      "source": "Dean CHFG",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "Yasmin",
+      "target": "DeptDFUL"
+    },
+    {
+      "source": "Lucio",
+      "target": "DeptDLUF"
+    },
+    {
+      "source": "ChairDLHD",
+      "target": "BMDLHD"
+    },
+    {
+      "source": "DeanCQXFUser",
+      "target": "Dean CQXF"
+    },
+    {
+      "source": "Elda",
+      "target": "DeptDGTX"
+    },
+    {
+      "source": "Assunta",
+      "target": "DeptDYJJ"
+    },
+    {
+      "source": "BMDSKX",
+      "target": "Dean CQXF"
+    },
+    {
+      "source": "bmDBHFUser",
+      "target": "BMDBHF"
+    },
+    {
+      "source": "Nyah",
+      "target": "DeptDGAG"
+    },
+    {
+      "source": "BMDKWE",
+      "target": "Dean CKMU"
+    },
+    {
+      "source": "BMDNNP",
+      "target": "Dean CCXV"
+    },
+    {
+      "source": "bmDFPFUser",
+      "target": "BMDFPF"
+    },
+    {
+      "source": "Dean CKMK",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "Gail",
+      "target": "DeptDTSX"
+    },
+    {
+      "source": "bmDXLLUser",
+      "target": "BMDXLL"
+    },
+    {
+      "source": "Mustafa",
+      "target": "DeptDJWJ"
+    },
+    {
+      "source": "ChairDGTX",
+      "target": "BMDGTX"
+    },
+    {
+      "source": "ChairCSUser",
+      "target": "ChairCS"
+    },
+    {
+      "source": "Emie",
+      "target": "DeptDGTX"
+    },
+    {
+      "source": "Floyd",
+      "target": "DeptDIWS"
+    },
+    {
+      "source": "bmDQQAUser",
+      "target": "BMDQQA"
+    },
+    {
+      "source": "Dean CKCX",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "Magdalen",
+      "target": "DeptDSJC"
+    },
+    {
+      "source": "DeptDBHF",
+      "target": "ChairDBHF"
+    },
+    {
+      "source": "DeptDJUK",
+      "target": "ChairDJUK"
+    },
+    {
+      "source": "DeptDSKX",
+      "target": "ChairDSKX"
+    },
+    {
+      "source": "DeanCCXVUser",
+      "target": "Dean CCXV"
+    },
+    {
+      "source": "Kaela",
+      "target": "DeptDIZM"
+    },
+    {
+      "source": "Tomasa",
+      "target": "DeptDEQC"
+    },
+    {
+      "source": "BMDTSX",
+      "target": "Dean CXPM"
+    },
+    {
+      "source": "Brenda",
+      "target": "DeptDJXS"
+    },
+    {
+      "source": "bmChemUser",
+      "target": "BMCHEM"
+    },
+    {
+      "source": "samer",
+      "target": "DeptECE"
+    },
+    {
+      "source": "DeptDGAG",
+      "target": "ChairDGAG"
+    },
+    {
+      "source": "DeptDMMM",
+      "target": "ChairDMMM"
+    },
+    {
+      "source": "Jakob",
+      "target": "DeptDFKH"
+    },
+    {
+      "source": "bmDIRXUser",
+      "target": "BMDIRX"
+    },
+    {
+      "source": "ChairDLUF",
+      "target": "BMDLUF"
+    },
+    {
+      "source": "ChairDJWJ",
+      "target": "BMDJWJ"
+    },
+    {
+      "source": "Khalil",
+      "target": "DeptDSKX"
+    },
+    {
+      "source": "ChairDEQCUser",
+      "target": "ChairDEQC"
+    },
+    {
+      "source": "Nathanael",
+      "target": "DeptDLUF"
+    },
+    {
+      "source": "ChairDFUL",
+      "target": "BMDFUL"
+    },
+    {
+      "source": "ChairDYJJUser",
+      "target": "ChairDYJJ"
+    },
+    {
+      "source": "BMDIRX",
+      "target": "Dean CHFG"
+    },
+    {
+      "source": "Era",
+      "target": "DeptDBLY"
+    },
+    {
+      "source": "ChairDXLLUser",
+      "target": "ChairDXLL"
+    },
+    {
+      "source": "Bethany",
+      "target": "DeptDGTX"
+    },
+    {
+      "source": "Johnathon",
+      "target": "DeptDBOF"
+    },
+    {
+      "source": "BMDZNL",
+      "target": "Dean CDQX"
+    },
+    {
+      "source": "BMDUQK",
+      "target": "Dean CUFX"
+    },
+    {
+      "source": "bmDFULUser",
+      "target": "BMDFUL"
+    },
+    {
+      "source": "DeanCDQXUser",
+      "target": "Dean CDQX"
+    },
+    {
+      "source": "ChairDOWD",
+      "target": "BMDOWD"
+    },
+    {
+      "source": "ChairDLGW",
+      "target": "BMDLGW"
+    },
+    {
+      "source": "ChairDIZM",
+      "target": "BMDIZM"
+    },
+    {
+      "source": "ChairDFPF",
+      "target": "BMDFPF"
+    },
+    {
+      "source": "Abigayle",
+      "target": "DeptDEQC"
+    },
+    {
+      "source": "Lizzie",
+      "target": "DeptDSKX"
+    },
+    {
+      "source": "Katelynn",
+      "target": "DeptDLUF"
+    },
+    {
+      "source": "Dean CDZG",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "DeptDGTX",
+      "target": "ChairDGTX"
+    },
+    {
+      "source": "Phyllis",
+      "target": "DeptDSJC"
+    },
+    {
+      "source": "DeanCHFGUser",
+      "target": "Dean CHFG"
+    },
+    {
+      "source": "Dean CSUO",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "DeanCDKRUser",
+      "target": "Dean CDKR"
+    },
+    {
+      "source": "Rene",
+      "target": "DeptDBHF"
+    },
+    {
+      "source": "bmDQIIUser",
+      "target": "BMDQII"
+    },
+    {
+      "source": "vlad",
+      "target": "DeptCS"
+    },
+    {
+      "source": "DeptDSJC",
+      "target": "ChairDSJC"
+    },
+    {
+      "source": "Dean COAS",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "BMCHEM",
+      "target": "Dean COAS"
+    },
+    {
+      "source": "bmDZNLUser",
+      "target": "BMDZNL"
+    },
+    {
+      "source": "Haleigh",
+      "target": "DeptDQII"
+    },
+    {
+      "source": "ChairDPSUUser",
+      "target": "ChairDPSU"
+    },
+    {
+      "source": "Dessie",
+      "target": "DeptDLHD"
+    },
+    {
+      "source": "bmDUQKUser",
+      "target": "BMDUQK"
+    },
+    {
+      "source": "BMDIZM",
+      "target": "Dean CQWT"
+    },
+    {
+      "source": "DeanCXPMUser",
+      "target": "Dean CXPM"
+    },
+    {
+      "source": "ChairDIWSUser",
+      "target": "ChairDIWS"
+    },
+    {
+      "source": "bmDLUZUser",
+      "target": "BMDLUZ"
+    },
+    {
+      "source": "ChairDQQA",
+      "target": "BMDQQA"
+    },
+    {
+      "source": "DeanCKMKUser",
+      "target": "Dean CKMK"
+    },
+    {
+      "source": "bmDMMMUser",
+      "target": "BMDMMM"
+    },
+    {
+      "source": "Gunner",
+      "target": "DeptDTSX"
+    },
+    {
+      "source": "Mertie",
+      "target": "DeptDJXS"
+    },
+    {
+      "source": "Devan",
+      "target": "DeptDYJJ"
+    },
+    {
+      "source": "BMDMMM",
+      "target": "Dean CSUO"
+    },
+    {
+      "source": "ChairDBLYUser",
+      "target": "ChairDBLY"
+    },
+    {
+      "source": "Bert",
+      "target": "DeptDLUZ"
+    },
+    {
+      "source": "Bruce",
+      "target": "DeptDJUK"
+    },
+    {
+      "source": "ChairDBOFUser",
+      "target": "ChairDBOF"
+    },
+    {
+      "source": "Maude",
+      "target": "DeptDIHF"
+    },
+    {
+      "source": "ChairCS",
+      "target": "BMCS"
+    },
+    {
+      "source": "Yasmine",
+      "target": "DeptDEQC"
+    },
+    {
+      "source": "Kacey",
+      "target": "DeptDQCV"
+    },
+    {
+      "source": "Dorothy",
+      "target": "DeptDLGW"
+    },
+    {
+      "source": "Treva",
+      "target": "DeptDSKX"
+    },
+    {
+      "source": "ChairDJUK",
+      "target": "BMDJUK"
+    },
+    {
+      "source": "ChairDBHF",
+      "target": "BMDBHF"
+    },
+    {
+      "source": "Charlie",
+      "target": "DeptDLGW"
+    },
+    {
+      "source": "bmDNNPUser",
+      "target": "BMDNNP"
+    },
+    {
+      "source": "bmDFKHUser",
+      "target": "BMDFKH"
+    },
+    {
+      "source": "ChairDSKX",
+      "target": "BMDSKX"
+    },
+    {
+      "source": "Evelyn",
+      "target": "DeptDNNP"
+    },
+    {
+      "source": "Judson",
+      "target": "DeptDQQA"
+    },
+    {
+      "source": "Dean CKMU",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "DeanCKMUUser",
+      "target": "Dean CKMU"
+    },
+    {
+      "source": "BMDYJJ",
+      "target": "Dean CDKR"
+    },
+    {
+      "source": "bmDIHFUser",
+      "target": "BMDIHF"
+    },
+    {
+      "source": "Matilde",
+      "target": "DeptDMMM"
+    },
+    {
+      "source": "DeptDIHF",
+      "target": "ChairDIHF"
+    },
+    {
+      "source": "Aditya",
+      "target": "DeptDQII"
+    },
+    {
+      "source": "BMDGAG",
+      "target": "Dean CKCX"
+    },
+    {
+      "source": "Dylan",
+      "target": "DeptDIRX"
+    },
+    {
+      "source": "ChairDFKH",
+      "target": "BMDFKH"
+    },
+    {
+      "source": "Guiseppe",
+      "target": "DeptDGTX"
+    },
+    {
+      "source": "Taya",
+      "target": "DeptDBOF"
+    },
+    {
+      "source": "BMDPSU",
+      "target": "Dean CYZN"
+    },
+    {
+      "source": "DeptDLHD",
+      "target": "ChairDLHD"
+    },
+    {
+      "source": "Dean CMCY",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "bmDSKXUser",
+      "target": "BMDSKX"
+    },
+    {
+      "source": "Dean CQWT",
+      "target": "AcademicUnitsPolicyClass"
+    },
+    {
+      "source": "ChairDPVZUser",
+      "target": "ChairDPVZ"
+    },
+    {
+      "source": "Brandy",
+      "target": "DeptDPVZ"
+    },
+    {
+      "source": "bmDJUKUser",
+      "target": "BMDJUK"
+    },
+    {
+      "source": "Sylvan",
+      "target": "DeptDPSU"
+    },
+    {
+      "source": "DeanCKCXUser",
+      "target": "Dean CKCX"
+    },
+    {
+      "source": "DeanCSUOUser",
+      "target": "Dean CSUO"
+    },
+    {
+      "source": "Dedric",
+      "target": "DeptDSJC"
+    }
+  ],
+  "associations": []
+}

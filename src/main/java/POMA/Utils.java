@@ -200,7 +200,7 @@ public static Graph combineGraphs() throws PMException, IOException {
 //    GraphSerializer.fromJson(ngacGraph, policy2);
 //    GraphSerializer.fromJson(ngacGraph, policy3);
     
-    System.out.println(GraphSerializer.toJson(ngacGraph));
+   // System.out.println(GraphSerializer.toJson(ngacGraph));
     return ngacGraph;
 }
 	
@@ -388,6 +388,28 @@ public static Graph combineGraphs() throws PMException, IOException {
 			addJSONToGraph(graph, fileEntry.getAbsolutePath());
 		}
 		return graph;
+	}
+	
+	
+	public static ConfigTuple readAllFilesInFolderToConfig(final File folder) {
+		
+		MemGraph graph = new MemGraph();
+		ConfigTuple ct = new ConfigTuple();
+		for (final File fileEntry : folder.listFiles()) {
+			if (!fileEntry.toString().endsWith(".json")) {
+				continue;
+			}
+			try {
+				 Prohibitions prohibitions = readProhibitions(fileEntry.getPath());
+				 ct.setProhibitions(prohibitions);
+				 continue;
+			}
+			catch(Exception ex) {
+			}
+			addJSONToGraph(graph, fileEntry.getAbsolutePath());
+		}
+		ct.setGraph(graph);
+		return ct;
 	}
 	
 	public static JApplet getGraphVisualization(MemGraph graph) {

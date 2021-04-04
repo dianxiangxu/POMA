@@ -16,7 +16,7 @@ public class CVC4PrepTranslation {
 //	}
 
 	private String declareCVC4Containment() {
-		return "(declare-fun Containment () (Set (Tuple String String)))";
+		return "(declare-fun Containment () (Set (Tuple String String)))"+System.lineSeparator()+"(declare-fun Containment_Prohibition () (Set (Tuple String String)))";
 	}
 
 //	private String declareCVC4TClosure() {
@@ -25,11 +25,13 @@ public class CVC4PrepTranslation {
 //	}
 
 	private String declareCVC4TClosure() {
-		return "(declare-fun Tclosure () (Set (Tuple String String)))";
+		return "(declare-fun Tclosure () (Set (Tuple String String)))"+System.lineSeparator()+"(declare-fun Tclosure_Prohibition () (Set (Tuple String String)))";
 	}
 
 	public String assertTClosures() {
-		return "(assert (= Tclosure (tclosure Containment)))";
+		
+		
+		return "(assert (= Tclosure (tclosure Containment)))"+ System.lineSeparator()+"(assert (= Tclosure_Prohibition (tclosure Containment_Prohibition)))";
 	}
 
 	public String declareAssociation() {

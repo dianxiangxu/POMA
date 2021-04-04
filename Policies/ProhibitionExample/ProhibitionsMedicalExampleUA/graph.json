@@ -71,14 +71,15 @@
       "source": "RegisteredNurse",
       "target": "MaximumCarePatients",
       "operations": [
-        "access"
+        "write"
       ]
     },
     {
       "source": "RegisteredNurse",
       "target": "ModerateCarePatients",
       "operations": [
-        "access"
+        "read",
+        "write"
       ]
     }
   ]

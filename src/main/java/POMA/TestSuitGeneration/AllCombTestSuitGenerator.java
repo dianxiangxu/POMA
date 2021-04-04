@@ -26,6 +26,7 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import POMA.ConfigTuple;
 import POMA.Utils;
 import POMA.Exceptions.NoTypeProvidedException;
 import POMA.Mutation.ProhibitionMutationOperators.ProhibitionMutation;
@@ -70,7 +71,27 @@ public class AllCombTestSuitGenerator {
 			graph = utils.readAllFilesInFolderToGraph(file);
 			if (!pathProhibitions.equals(""))
 				prohibitions = ProhibitionMutation.readProhibition(pathProhibitions);
-		}		populateLists(graph);
+		}
+		populateLists(graph);
+
+	}
+
+	public AllCombTestSuitGenerator(String path)
+			throws PMException, InterruptedException, IOException, NoTypeProvidedException {
+		File file = new File(path);
+		if (!file.isDirectory()) {
+			graph = Utils.readAnyGraph(path);
+		} else {
+			Utils utils = new Utils();
+			graph = utils.readAllFilesInFolderToGraph(file);
+			ConfigTuple ct = Utils.readAllFilesInFolderToConfig(file);
+			graph = ct.getGraph();
+
+			if (ct.getProhibitions() != null) {
+				prohibitions = ct.getProhibitions();
+			}
+		}
+		populateLists(graph);
 
 	}
 
@@ -87,7 +108,6 @@ public class AllCombTestSuitGenerator {
 		allAccessRights = operationSet.toArray(new String[operationSet.size()]);
 	}
 
-
 	public List<String[]> generateAllCombinationsTests() throws PMException {
 
 		List<String[]> data = new ArrayList<String[]>();
@@ -103,12 +123,34 @@ public class AllCombTestSuitGenerator {
 			for (String target : UAsOAsUsOs) {
 				for (String accessRight : allAccessRights) {
 					boolean result = decider.check(subject, "", target, accessRight);
-					data.add(new String[] { Integer.toString(i), subject, target, accessRight, Boolean.toString(result) });
+					data.add(new String[] { Integer.toString(i), subject, target, accessRight,
+							Boolean.toString(result) });
 					i++;
 					if (result == true) {
 						numberOfTrue++;
 					} else {
 						numberOfFalse++;
+					}
+				}
+
+			}
+		}
+
+		return data;
+	}
+
+	public List<String[]> generateAllCombinationsTestsOnlyTrue() throws PMException {
+
+		List<String[]> data = new ArrayList<String[]>();
+
+		PReviewDecider decider = new PReviewDecider(graph, prohibitions);
+
+		for (String subject : UsUAs) {
+			for (String target : UAsOAsUsOs) {
+				for (String accessRight : allAccessRights) {
+					boolean result = decider.check(subject, "", target, accessRight);
+					if (result) {
+						data.add(new String[] {subject,accessRight, target });
 					}
 				}
 

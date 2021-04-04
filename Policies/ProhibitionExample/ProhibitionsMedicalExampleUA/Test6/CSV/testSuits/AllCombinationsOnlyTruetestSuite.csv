@@ -1,0 +1,8 @@
+"RegisteredNurse","write","MaximumCarePatients"
+"RegisteredNurse","read","ModerateCarePatients"
+"RegisteredNurse","write","ModerateCarePatients"
+"RegisteredNurse","read","Patient3"
+"RegisteredNurse","write","Patient3"
+"RegisteredNurse","read","Patient2"
+"RegisteredNurse","write","Patient2"
+"RegisteredNurse","write","Patient1"
