@@ -182,7 +182,14 @@ public class TestPanel extends JPanelPB {
 
 	}
 	
-	
+	public void generateTestSuitsTrue() throws Exception {
+		this.startProgressStatus();
+
+		TestSuitGenerator graphTester = new TestSuitGenerator();
+		graphTester.runAllTestGenerationTrue();
+		this.stopProgressStatus();;
+
+	}
 	public void generateCoverageBasedTests() {
 //		if (!poma.hasWorkingPolicy()) {
 //			JOptionPane.showMessageDialog(poma, "There is no policy!");

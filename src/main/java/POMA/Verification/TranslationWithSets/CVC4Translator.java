@@ -296,7 +296,7 @@ public class CVC4Translator {
 	public static String handleProhibitions(Prohibition p) {
 		
 		if(p.getContainers().size()==1) {
-			System.out.println(p.getContainers().size());
+			//System.out.println(p.getContainers().size());
 			return translateProhibitionSingleContainer(p, 1);
 		}
 		if(p.getContainers().size()==2) {

@@ -59,7 +59,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	GraphVisualizer gui;
 	protected Action newAction, openAction, saveAction, saveAsAction, checkSchemaAction;
 	protected Action openTestsAction, generateAllTestsAction, generateCoverageTestsAction, generateMutationTestsAction,
-			generatePNOMutationTestsAction, runTestsAction, evaluateCoverageAction;
+			generatePNOMutationTestsAction, runTestsAction, evaluateCoverageAction,generateAllCombPermOnlyTestsAction;
 	protected Action openMutantsAction, generateMutantsAction, generateSecondOrderMutantsAction, testMutantsAction;
 	protected Action localizeFaultAction, fixFaultAction;
 	protected Action translatePolicyGraphAction, verifyAccessRightsActionForEach, verifyAccessRightsActionForAll,
@@ -174,7 +174,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			Graph graph = editorPanel.getGraph();
 			Prohibitions prohibitions = editorPanel.getProhibitions();
-			System.out.println("Prohibitions: "+prohibitions);
 
 			JSplitPane splitPanel = verificationPanel.createSplitPanelForAction(graph, editorPanel, ACTION.EachCombination, prohibitions);
 			if(splitPanel == null) {
@@ -202,7 +201,6 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			Graph graph = editorPanel.getGraph();
 			Prohibitions prohibitions = editorPanel.getProhibitions();
-			System.out.println("Prohibitions: "+prohibitions);
 			JSplitPane splitPanel = verificationPanel.createSplitPanelForAction(graph, editorPanel, ACTION.AllAccessRights, prohibitions);
 			if(splitPanel == null) {
 				JOptionPane.showMessageDialog(editorPanel, "No policy found in selection", "Error of Selection",
@@ -281,6 +279,9 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		generateAllTestsAction = new GenerateAllTestsAction("Generate All Tests...",
 				createNavigationIcon("generatealltests"), "GenerateAllTests", new Integer(KeyEvent.VK_G));
 
+		generateAllCombPermOnlyTestsAction = new GenerateAllCombTrueTestsAction("Generate All Combinations Permissions Only...",
+				createNavigationIcon("generateallcombtests"), "GenerateAllCombTests", new Integer(KeyEvent.VK_G));
+		
 		generateCoverageTestsAction = new GenerateCoverageBasedTestsAction("Generate Coverage-Based Tests...",
 				createNavigationIcon("generatecoveragetests"), "GenerateCoverageBasedTests",
 				new Integer(KeyEvent.VK_G));
@@ -400,7 +401,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 	protected JMenu createTestMenu() {
 		JMenu testMenu = new JMenu("Test");
-		Action[] actions = { openTestsAction, generateAllTestsAction, generateCoverageTestsAction,
+		Action[] actions = { openTestsAction, generateAllTestsAction, generateAllCombPermOnlyTestsAction,generateCoverageTestsAction,
 				generateMutationTestsAction, generatePNOMutationTestsAction, runTestsAction, saveOracleValuesAction,
 				evaluateCoverageAction };
 		for (int i = 0; i < actions.length; i++) {
@@ -599,7 +600,35 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			}
 		}
 	}
+	public class GenerateAllCombTrueTestsAction extends AbstractAction {
 
+		private static final long serialVersionUID = 1L;
+
+		public GenerateAllCombTrueTestsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
+			super(text, icon);
+			putValue(SHORT_DESCRIPTION, desc);
+			putValue(MNEMONIC_KEY, mnemonic);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			try {
+				testPanel.generateTestSuitsTrue();
+				((PolicyEditorPanelDemo) editorPanel).updateFileTree();
+				JOptionPane.showMessageDialog(editorPanel, "Test Suits Generated", "Success",
+						JOptionPane.INFORMATION_MESSAGE);
+			} catch (IllegalArgumentException iae) {
+				JOptionPane.showMessageDialog(editorPanel, "No file selected or policy has no associations",
+						"Error of Selection", JOptionPane.WARNING_MESSAGE);
+				return;
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(editorPanel, "No file selected", "Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+				e1.printStackTrace();
+				return;
+			}
+		}
+	}
+	
 	public class GenerateCoverageBasedTestsAction extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;

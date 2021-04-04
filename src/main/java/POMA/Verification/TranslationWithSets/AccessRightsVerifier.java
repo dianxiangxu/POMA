@@ -17,10 +17,17 @@ public class AccessRightsVerifier {
 	}
 
 	public static void testAccessRights(ArrayList<AssociationRelation> privilegesFromTranslation) {
-		String path = GlobalVariables.currentPath + "\\CSV\\testSuits\\AllCombinationsOnlyTruetestSuite.csv";
+		File currentFile = new File(GlobalVariables.currentPath);
+		String path = "";
+		if(currentFile.isDirectory()) {
+			path = GlobalVariables.currentPath + "\\CSV\\testSuits\\AllCombinationsOnlyTruetestSuite.csv";
+		}
+		else {
+			path = currentFile.getParentFile().getAbsolutePath() + "\\CSV\\testSuits\\AllCombinationsOnlyTruetestSuite.csv";
+		} 
 		List<String[]> testOracleArrays = null;
 		List<String[]> testArrays = new ArrayList<String[]>();
-
+		
 		try {
 			testOracleArrays = Utils.loadCSV(new File(path));
 		} catch (IOException e) {
@@ -39,13 +46,12 @@ public class AccessRightsVerifier {
 				}
 			}
 			checkContains(testOracleArrays,  testArrays);
-		System.out.println(path);
 	}
 
 	private static void checkContains(List<String[]> testOracleArrays,  List<String[]> testArrays) {
 		boolean result = false;
-		for (String[] oracle : testOracleArrays) {
-			for(String[] test : testArrays) {
+		for (String[] test : testOracleArrays) {
+			for(String[] oracle : testArrays) {
 				if(checkEquality(oracle, test)) {
 					result=true;
 					//System.out.println(test[0]+":"+test[1]+":"+ test[2]);
@@ -58,9 +64,8 @@ public class AccessRightsVerifier {
 		{
 			result=false;
 		}
-		assertTrue(result);
-		System.out.println(result);
-		
+		System.out.println("TEST SUITE MATCHING: "+result);
+		assertTrue(result);		
 	}
 
 	public static boolean checkEquality(String[] s1, String[] s2) {

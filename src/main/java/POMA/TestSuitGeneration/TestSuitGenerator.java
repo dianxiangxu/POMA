@@ -151,7 +151,34 @@ public class TestSuitGenerator {
 		saveCSV(folderPath, data3, "AllCombinationsOnlyTrue");
 
 	}
-
+	
+	private void handleFileAllCombTrue(String filePath) throws Exception{
+		File folder = new File(new File(filePath).getParent());
+		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(filePath);
+		List<String[]> data2 = allCombinationsGenerator.generateAllCombinationsTestsOnlyTrue();
+		saveCSV(folder.getAbsolutePath()+"//", data2, "AllCombinationsOnlyTrue");
+	}
+	
+	private void  handleFolderAllCombTrue(String folderPath) throws Exception{
+		AllCombTestSuitGenerator allCombinationsGenerator = new AllCombTestSuitGenerator(folderPath);
+		List<String[]> data3 = allCombinationsGenerator.generateAllCombinationsTestsOnlyTrue();
+		saveCSV(folderPath, data3, "AllCombinationsOnlyTrue");
+	}
+	
+	public void runAllTestGenerationTrue() throws Exception {
+		// String graphPath = "Policies/simpleGraphToSMT.json";
+		String globalPath = "";
+		File file = new File(GlobalVariables.currentPath);
+		if (!file.isDirectory()) {
+			// globalPath = file.getParent() + "\\";
+			globalPath = file.getAbsolutePath();
+			handleFileAllCombTrue(globalPath);			
+		} else {
+			globalPath = GlobalVariables.currentPath + "\\";
+			handleFolderAllCombTrue(globalPath);
+		}
+	}
+	
 	public void runAllTestGeneration() throws Exception {
 		// String graphPath = "Policies/simpleGraphToSMT.json";
 		String globalPath = "";
@@ -166,6 +193,8 @@ public class TestSuitGenerator {
 		}
 	}
 
+	
+	
 	// TODO
 	public void runPairwiseTestSuitGeneration() throws Exception {
 
@@ -189,7 +218,7 @@ public class TestSuitGenerator {
 			bool = file2.mkdir();
 		}
 		if (bool) {
-			System.out.println("The directory was created or was already there");
+			//System.out.println("The directory was created or was already there");
 		} else {
 			System.out.println("Failure with creating the directory");
 			return;
@@ -197,10 +226,10 @@ public class TestSuitGenerator {
 		String testSuiteFile = folderPath + "CSV/testSuits/" + testMethod + "testSuite.csv";
 		file = new File(testSuiteFile);
 		if (file.createNewFile()) {
-			System.out.println("File has been created.");
+			//System.out.println("File has been created.");
 		} else {
 
-			System.out.println("File already exists.");
+			//System.out.println("File already exists.");
 		}
 		BufferedWriter writer = null;
 		writer = new BufferedWriter(new FileWriter(file));
@@ -233,10 +262,10 @@ public class TestSuitGenerator {
 		}
 
 		if (file.createNewFile()) {
-			System.out.println("File has been created.");
+			//System.out.println("File has been created.");
 		} else {
 
-			System.out.println("File already exists.");
+			//System.out.println("File already exists.");
 		}
 
 		BufferedWriter writer = null;

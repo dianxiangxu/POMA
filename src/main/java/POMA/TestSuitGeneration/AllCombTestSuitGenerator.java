@@ -145,24 +145,12 @@ public class AllCombTestSuitGenerator {
 
 		PReviewDecider decider = new PReviewDecider(graph, prohibitions);
 
-		int i = 1;
-
-		int numberOfTrue = 0;
-		int numberOfFalse = 0;
-
 		for (String subject : UsUAs) {
 			for (String target : UAsOAsUsOs) {
 				for (String accessRight : allAccessRights) {
 					boolean result = decider.check(subject, "", target, accessRight);
 					if (result) {
 						data.add(new String[] {subject,accessRight, target });
-						i++;
-					}
-
-					if (result == true) {
-						numberOfTrue++;
-					} else {
-						numberOfFalse++;
 					}
 				}
 

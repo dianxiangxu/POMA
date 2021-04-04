@@ -200,7 +200,7 @@ public static Graph combineGraphs() throws PMException, IOException {
 //    GraphSerializer.fromJson(ngacGraph, policy2);
 //    GraphSerializer.fromJson(ngacGraph, policy3);
     
-    System.out.println(GraphSerializer.toJson(ngacGraph));
+   // System.out.println(GraphSerializer.toJson(ngacGraph));
     return ngacGraph;
 }
 	
