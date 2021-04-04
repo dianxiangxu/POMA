@@ -470,9 +470,17 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 				prohibitions = null;
 			}
 			policyText.setText(GraphSerializer.toJson(g));
-			GraphVisualizer gui = new GraphVisualizer(g);
-			gui.init();
-			graphComponent = gui.returnPane();
+			GraphVisualizer gui;
+			if(g.getNodes().size()<400) {
+				 gui = new GraphVisualizer(g);
+				 gui.init();
+				graphComponent = gui.returnPane();
+			}
+			else {
+				EmptyGraphComponent egc = new EmptyGraphComponent();
+				egc.init();
+				graphComponent = egc;
+			}
 			jsplitpanevertical = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 			JPanel p1 = new JPanel();
 			JScrollPane scroll = new JScrollPane(policyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
