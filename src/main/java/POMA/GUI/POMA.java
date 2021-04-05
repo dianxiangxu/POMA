@@ -62,8 +62,8 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			generatePNOMutationTestsAction, runTestsAction, evaluateCoverageAction,generateAllCombPermOnlyTestsAction;
 	protected Action openMutantsAction, generateMutantsAction, generateSecondOrderMutantsAction, testMutantsAction;
 	protected Action localizeFaultAction, fixFaultAction;
-	protected Action translatePolicyGraphAction, verifyAccessRightsActionForEach, verifyAccessRightsActionForAll,
-			showAllAccessRightsAction, verifyObligationsAction;
+	protected Action verifyAction,
+			showAllAccessRightsAction;
 	protected JCheckBoxMenuItem[] items;
 	protected Action saveOracleValuesAction;
 	boolean showVersionWarning = true;
@@ -116,12 +116,12 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			Graph graph = editorPanel.getGraph();
-			try {
-				System.out.println("GRAPH SIZE: "+graph.getNodes().size());
-			} catch (PMException e1) {
+			//try {
+				//System.out.println("GRAPH SIZE: "+graph.getNodes().size());
+		//	} //catch (PMException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			//	e1.printStackTrace();
+			//}
 			JSplitPane translationSplitPanel =  verificationPanel.createTranslationSplitPanel(graph, editorPanel);
 			if(translationSplitPanel == null) {
 				JOptionPane.showMessageDialog(editorPanel, "No policy found in selection", "Error of Selection",
@@ -135,11 +135,11 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 	}
 
-	public class VerifyAccessRightsActionForAll extends AbstractAction {
+	public class VerifyAction extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
 
-		public VerifyAccessRightsActionForAll(String text, ImageIcon icon, String desc, Integer mnemonic) {
+		public VerifyAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
 			super(text, icon);
 			putValue(SHORT_DESCRIPTION, desc);
 			putValue(MNEMONIC_KEY, mnemonic);
@@ -149,43 +149,20 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			Graph graph = editorPanel.getGraph();
 			Prohibitions prohibitions = editorPanel.getProhibitions();
 
-			JSplitPane splitPanel = verificationPanel.createSplitPanelForAction(graph, editorPanel, ACTION.AllCombinations, prohibitions);
+			JSplitPane splitPanel = verificationPanel.createSplitPanelForAction(graph, editorPanel, ACTION.Verify, prohibitions);
 			if(splitPanel == null) {
 				JOptionPane.showMessageDialog(editorPanel, "No policy found in selection", "Error of Selection",
 						JOptionPane.WARNING_MESSAGE);	
 				return;
 			}
 			cleanUpVerifyTabs();
-			mainTabbedPane.addTab("Verify All Combination", createNavigationIcon("images/policy.gif"), splitPanel);
-			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Verify All Combination"));			
+			mainTabbedPane.addTab("Verify", createNavigationIcon("images/policy.gif"), splitPanel);
+			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Verify"));			
 		}
 
 	}
 
-	public class VerifyAccessRightsActionForEach extends AbstractAction {
-
-		private static final long serialVersionUID = 1L;
-		public VerifyAccessRightsActionForEach(String text, ImageIcon icon, String desc, Integer mnemonic) {
-			super(text, icon);
-			putValue(SHORT_DESCRIPTION, desc);
-			putValue(MNEMONIC_KEY, mnemonic);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			Graph graph = editorPanel.getGraph();
-			Prohibitions prohibitions = editorPanel.getProhibitions();
-
-			JSplitPane splitPanel = verificationPanel.createSplitPanelForAction(graph, editorPanel, ACTION.EachCombination, prohibitions);
-			if(splitPanel == null) {
-				JOptionPane.showMessageDialog(editorPanel, "No policy found in selection", "Error of Selection",
-						JOptionPane.WARNING_MESSAGE);	
-				return;
-			}
-			cleanUpVerifyTabs();
-			mainTabbedPane.addTab("Verify Each Combination", createNavigationIcon("images/policy.gif"), splitPanel);
-			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Verify Each Combination"));
-		}
-	}
+	
 
 	
 	public class QueryAccessRightsAction extends AbstractAction {
@@ -208,55 +185,34 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 				return;
 			}
 			cleanUpVerifyTabs();
-			mainTabbedPane.addTab("Show All Access Rights", createNavigationIcon("images/policy.gif"), splitPanel);
-			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Show All Access Rights"));
+			mainTabbedPane.addTab("Show All Access Rights(Research)", createNavigationIcon("images/policy.gif"), splitPanel);
+			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Show All Access Rights(Research)"));
 		}
 
 	}
 
-	public class VerifyObligationsAction extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		public VerifyObligationsAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
-			super(text, icon);
-			putValue(SHORT_DESCRIPTION, desc);
-			putValue(MNEMONIC_KEY, mnemonic);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			System.out.println("Verify Obligations");
-		}
-	}
 	
 	private void cleanUpVerifyTabs() {
-		if (mainTabbedPane.indexOfTab("Verify Each Combination") != -1) {
-			mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Verify Each Combination"));
-		}
-	    if(mainTabbedPane.indexOfTab("Verify All Combination") != -1) {
-			mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Verify All Combination"));
-		}
+		if (mainTabbedPane.indexOfTab("Verify") != -1) {
+			mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Verify"));
+		}	    
 		if(mainTabbedPane.indexOfTab("Show Translated Graph") != -1) {
 			mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Show Translated Graph"));
 		}
-		if (mainTabbedPane.indexOfTab("Show All Access Rights") != -1) {
-			mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Show All Access Rights"));
+		if (mainTabbedPane.indexOfTab("Show All Access Rights(Research)") != -1) {
+			mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Show All Access Rights(Research)"));
 		}
 	}
 	
 	private void createVerifyActions() {
-		translatePolicyGraphAction = new TranslatePolicyGraphAction("Show Translated Policy",
-				createNavigationIcon("translate"), "translate policy", new Integer(KeyEvent.VK_O));
+		//translatePolicyGraphAction = new TranslatePolicyGraphAction("Show Translated Policy",
+		//		createNavigationIcon("translate"), "translate policy", new Integer(KeyEvent.VK_O));
 
-		verifyAccessRightsActionForAll = new VerifyAccessRightsActionForAll("Verify Access Rights For All Combinations",
-				createNavigationIcon("verifyAccessRightsForAll"), "verify Access Rights For All Combinations",
-				new Integer(KeyEvent.VK_O));
-		verifyAccessRightsActionForEach = new VerifyAccessRightsActionForEach(
-				"Verify Access Rights For Each Combination", createNavigationIcon("verifyAccessRightsForEach"),
-				"verify Access Rights For Each Combination", new Integer(KeyEvent.VK_O));
-		showAllAccessRightsAction = new QueryAccessRightsAction("Show All Access Rights",
-				createNavigationIcon("showAllAccessRights"), "show all accesses", new Integer(KeyEvent.VK_O));
-		verifyObligationsAction = new VerifyObligationsAction("Verify Obligations",
-				createNavigationIcon("verifyObligations"), "verify obligations", new Integer(KeyEvent.VK_O));
+		verifyAction = new VerifyAction("Verify",
+				createNavigationIcon("Verify"), "Verify",
+				new Integer(KeyEvent.VK_O));		
+		showAllAccessRightsAction = new QueryAccessRightsAction("Show All Access Rights(Research)",
+				createNavigationIcon("showAllAccessRights"), "show all access rights", new Integer(KeyEvent.VK_O));
 	}
 
 	private void createFileActions() {
@@ -415,8 +371,8 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 	protected JMenu createVerifyMenu() {
 		JMenu testMenu = new JMenu("Verify");
-		Action[] actions = { translatePolicyGraphAction, verifyAccessRightsActionForEach,
-				verifyAccessRightsActionForAll, showAllAccessRightsAction, verifyObligationsAction };
+		Action[] actions = {
+				verifyAction, showAllAccessRightsAction};
 		for (int i = 0; i < actions.length; i++) {
 			JMenuItem menuItem = new JMenuItem(actions[i]);
 			menuItem.setIcon(null); // arbitrarily chose not to use icon

@@ -88,7 +88,7 @@ public class Translator {
 		return runner.getFullOutput();
 	}
 
-	public String queryAccessRightsAllComb(Graph graph, String queries, Prohibitions prohibitions) throws Exception {
+	public String queryAccessRights(Graph graph, String queries, Prohibitions prohibitions) throws Exception {
 		CVC4Translator translator = new CVC4Translator(graph);
 		translator.initTranslation();
 		String translatedGraph = translator.getTranslatedGraph();
@@ -101,8 +101,16 @@ public class Translator {
 		}
 
 		translatedGraph += CVC4Translator.getAllAccessRightsCheckInSetOfUAandATAllComb(inputArray);
-		setFullTranslation(translatedGraph);
 
+		translatedGraph += System.lineSeparator();
+		translatedGraph += translator.translateAssociationsNoUA();
+		translatedGraph += System.lineSeparator();
+
+		translatedGraph += System.lineSeparator();
+		translatedGraph += CVC4Translator.getFinalCheck(prohibitions);
+
+		setFullTranslation(translatedGraph);
+		
 		saveDataToFile(translatedGraph, GlobalVariables.swapFile);
 
 		CVC4Runner runner = new CVC4Runner();

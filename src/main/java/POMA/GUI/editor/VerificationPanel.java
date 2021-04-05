@@ -23,7 +23,7 @@ import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 public class VerificationPanel {
 
 	public enum ACTION {
-		AllCombinations, EachCombination, AllAccessRights
+		Verify,  AllAccessRights
 	}
 
 	Graph graph;
@@ -41,9 +41,9 @@ public class VerificationPanel {
 	JTextArea inputTextArea;
 	JScrollPane inputScrollPanel;
 	JPanel inputPanel;
-	JTextArea accessRightsOutputTextArea;
-	JScrollPane accessRightsScroll;
-	JPanel accessRightsPanel;
+	JTextArea queryOutputTextArea;
+	JScrollPane queryOutputScroll;
+	JPanel queryOutput;
 	JSplitPane mainSplitPanel;
 	
 	Translator translator = new Translator();;
@@ -86,18 +86,18 @@ public class VerificationPanel {
 		} catch (PMException pme) {
 			return null;
 		}
-		processAction(action);
+		inputPanel.removeAll();
+
 		addScrollsToPanels();
+		processAction(action);
+
 		return mainSplitPanel;
 	}
 		
 	private void chooseAction(ACTION action) {
 		switch (action) {
-		case AllCombinations:
-			forAllCombinationsAction();
-			break;
-		case EachCombination:
-			forEachCombinationsAction();
+		case Verify:
+			verifyAction();
 			break;
 		case AllAccessRights:
 			try {
@@ -110,8 +110,8 @@ public class VerificationPanel {
 	}
 
 	private void addScrollsToPanels() {
-		inputPanel.add(inputScrollPanel, BorderLayout.CENTER);
-		accessRightsPanel.add(accessRightsScroll, BorderLayout.CENTER);
+		inputPanel.add(inputScrollPanel);
+		queryOutput.add(queryOutputScroll, BorderLayout.CENTER);
 		fullTranslationPanel.add(fullTranslationScroll, BorderLayout.CENTER);
 		outputTextPanel.add(scrollOutputText, BorderLayout.CENTER);
 	}
@@ -120,7 +120,7 @@ public class VerificationPanel {
 		inputTextArea.setText("");
 		fullTranslation.setText("");
 		outputText.setText("");
-		accessRightsOutputTextArea.setText("");
+		queryOutputTextArea.setText("");
 	}
 
 	private void handleError() {
@@ -137,30 +137,30 @@ public class VerificationPanel {
 		}
 		outputText.setText(translator.getActualOutput());
 		fullTranslation.setText(translator.getFullTranslation());
-		accessRightsOutputTextArea.setText(translator.getAccessRightsResults());
-		accessRightsOutputTextArea.setFont(accessRightsOutputTextArea.getFont().deriveFont(16f));
+		queryOutputTextArea.setText(translator.getAccessRightsResults());
+		queryOutputTextArea.setFont(queryOutputTextArea.getFont().deriveFont(16f));
 		outputText.setFont(outputText.getFont().deriveFont(16f));
 		inputTextArea.setEditable(false);
 		inputTextArea.setText(GraphSerializer.toJson(graph));
 		inputTextArea.setFont(outputText.getFont().deriveFont(16f));
 	}
 
-	private void forAllCombinationsAction() {
+	private void verifyAction() {
 		String input = inputTextArea.getText();
 		if(input.isEmpty()) {
 			handleError();
 			return;
 		}
 		try {
-			translator.queryAccessRightsAllComb(graph, input, prohibitions);
+			translator.queryAccessRights(graph, input, prohibitions);
 		} catch (Exception e) {
 			handleError();
 			return;
 		}
 		outputText.setText(translator.getActualOutput());
 		fullTranslation.setText(translator.getFullTranslation());
-		accessRightsOutputTextArea.setText(translator.getAccessRightsResults());
-		accessRightsOutputTextArea.setFont(accessRightsOutputTextArea.getFont().deriveFont(16f));
+		queryOutputTextArea.setText(translator.getAccessRightsResults());
+		queryOutputTextArea.setFont(queryOutputTextArea.getFont().deriveFont(16f));
 		outputText.setFont(outputText.getFont().deriveFont(16f));
 		inputTextArea.setEditable(true);
 	}
@@ -179,17 +179,16 @@ public class VerificationPanel {
 		}
 		outputText.setText(translator.getActualOutput());
 		fullTranslation.setText(translator.getFullTranslation());
-		accessRightsOutputTextArea.setText(translator.getAccessRightsResults());
-		accessRightsOutputTextArea.setFont(accessRightsOutputTextArea.getFont().deriveFont(16f));
+		queryOutputTextArea.setText(translator.getAccessRightsResults());
+		queryOutputTextArea.setFont(queryOutputTextArea.getFont().deriveFont(16f));
 		outputText.setFont(outputText.getFont().deriveFont(16f));
 		inputTextArea.setEditable(true);
 	}
 
 	private void processAction(ACTION action) {
-		inputPanel.removeAll();
 		JButton startVerificationTask = new JButton("Run");
 		inputPanel.add(startVerificationTask);
-		fullTranslationScroll.setPreferredSize(new Dimension(350, 350));
+		fullTranslationScroll.setPreferredSize(new Dimension(600, 350));
 		emptyTextFields();
 		setMainSplitPanel();
 		inputTextArea.setEditable(true);
@@ -210,18 +209,15 @@ public class VerificationPanel {
 		JSplitPane jSplitPanelInputARFull = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		JSplitPane jSplitPanelARFull = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		JSplitPane jSplitPanelOutputVisual = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		jSplitPanelARFull.setRightComponent(accessRightsPanel);
-		jSplitPanelARFull.setLeftComponent(fullTranslationPanel);
+		jSplitPanelARFull.setRightComponent(queryOutput);
 		jSplitPanelInputARFull.setTopComponent(inputPanel);
-		jSplitPanelInputARFull.setBottomComponent(jSplitPanelARFull);
-		jSplitPanelOutputVisual.setTopComponent(outputTextPanel);
-		jSplitPanelOutputVisual.setBottomComponent(Utils.getGraphVisualization((MemGraph) graph));
+		jSplitPanelInputARFull.setBottomComponent(Utils.getGraphVisualization((MemGraph) graph));
+		jSplitPanelOutputVisual.setTopComponent(queryOutput);
+		jSplitPanelOutputVisual.setBottomComponent(fullTranslationPanel);
 		mainSplitPanel.setRightComponent(jSplitPanelOutputVisual);
 		mainSplitPanel.setLeftComponent(jSplitPanelInputARFull);
 		mainSplitPanel.setResizeWeight(0.55);
-		jSplitPanelARFull.setResizeWeight(0.55);
-		jSplitPanelOutputVisual.setResizeWeight(0.51);
-		jSplitPanelInputARFull.setResizeWeight(0.6);
+		jSplitPanelInputARFull.setResizeWeight(0.5);
 	}
 	
 	
@@ -236,7 +232,7 @@ public class VerificationPanel {
 		fullTranslationPanel = new JPanel();
 		PromptSupport.setPrompt("FULL CVC4 TRANSLATION", fullTranslation);
 		PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, fullTranslation);
-		fullTranslationScroll.setPreferredSize(new Dimension(350, 350));
+		fullTranslationScroll.setPreferredSize(new Dimension(600, 350));
 	}
 	
 	private void createOutputTextScroll() {
@@ -247,33 +243,32 @@ public class VerificationPanel {
 		PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, outputText);
 		scrollOutputText = new JScrollPane(outputText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollOutputText.setPreferredSize(new Dimension(700, 350));
 		outputTextPanel = new JPanel();
 	}
 	
 	private void createInputTextScroll() {
 		inputTextArea = new JTextArea();
 		inputTextArea.setFont(inputTextArea.getFont().deriveFont(35f));
-		PromptSupport.setPrompt("ENTER ACCESS RIGHTS QUERIES" + System.lineSeparator() + "Template:"
+		PromptSupport.setPrompt("ENTER QUERIES" + System.lineSeparator() + "Supported Formats:"
 				+ System.lineSeparator() + "Subject1, Target1" + System.lineSeparator() + "Subject2 ,Target2"
 				+ System.lineSeparator() + "Subject3,Target3", inputTextArea);
 		inputTextArea.setEditable(true);
 		inputScrollPanel = new JScrollPane(inputTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		inputScrollPanel.setPreferredSize(new Dimension(700, 350));
+		inputScrollPanel.setPreferredSize(new Dimension(800, 350));
 		inputPanel = new JPanel();
 	}
 	
 	private void createAccessRightsTextScroll() {
-		accessRightsOutputTextArea = new JTextArea();
-		PromptSupport.setPrompt("ACCESS RIGHTS", accessRightsOutputTextArea);
-		PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, accessRightsOutputTextArea);
-		accessRightsOutputTextArea.setFont(accessRightsOutputTextArea.getFont().deriveFont(35f));
-		accessRightsOutputTextArea.setEditable(false);
-		accessRightsScroll = new JScrollPane(accessRightsOutputTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		queryOutputTextArea = new JTextArea();
+		PromptSupport.setPrompt("Query Output", queryOutputTextArea);
+		PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, queryOutputTextArea);
+		queryOutputTextArea.setFont(queryOutputTextArea.getFont().deriveFont(35f));
+		queryOutputTextArea.setEditable(false);
+		queryOutputScroll = new JScrollPane(queryOutputTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		accessRightsScroll.setPreferredSize(new Dimension(375, 350));
-		accessRightsPanel = new JPanel();
+		queryOutputScroll.setPreferredSize(new Dimension(600, 350));
+		queryOutput = new JPanel();
 	}
 	
 }
