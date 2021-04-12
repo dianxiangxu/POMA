@@ -1,21 +1,49 @@
 package POMA.Verification.BMC;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.commons.io.IOUtils;
+
+import POMA.Utils;
 import POMA.Verification.BMCExamples.TCPExample.TCPChecker;
+import gov.nist.csd.pm.pip.graph.Graph;
+import gov.nist.csd.pm.pip.obligations.evr.EVRException;
+import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
+import gov.nist.csd.pm.pip.obligations.model.Obligation;
 
 public class TestingThings {
 
-	public static void main(String[] args) {
-		int threads = Runtime.getRuntime().availableProcessors();
-		 ExecutorService service = Executors.newFixedThreadPool(threads);
+	public static void main(String[] args) throws Exception {
+		String yml = "";
+		String pathToYML = "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
+		String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
+		Obligation obligation = null;
+		Graph graph = null;
+		try
+	        {
+			 yml = new String ( Files.readAllBytes( Paths.get(pathToYML) ) );
+			 obligation = EVRParser.parse(yml);
+			 graph = Utils.readAnyGraph(pathToGraph);
+	        } 
+	        catch (Exception e) 
+	        {
+	            e.printStackTrace();
+	        }
+		BMC bmc = new ObligationChecker();
+		bmc.generateHeadCode();
+		
+		//int threads = Runtime.getRuntime().availableProcessors();
+		// ExecutorService service = Executors.newFixedThreadPool(threads);
 		// service.submit();
-		for (int i = 1; i < 6; i++) {
-			CVC4Thread threadguru1 = new CVC4Thread("Thread #" + i, i);
-			threadguru1.start();
-		}
+		//for (int i = 1; i < 6; i++) {
+		//	CVC4Thread threadguru1 = new CVC4Thread("Thread #" + i, i);
+		//	threadguru1.start();
+		//}
 
 //		Runnable thread = new Runnable() {
 //			public void run() {

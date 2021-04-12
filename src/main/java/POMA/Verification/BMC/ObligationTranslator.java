@@ -3,12 +3,15 @@ package POMA.Verification.BMC;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.commons.io.IOUtils;
 
+import POMA.Utils;
 import gov.nist.csd.pm.pip.obligations.Obligations;
 import gov.nist.csd.pm.pip.obligations.evr.EVRException;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
@@ -21,7 +24,7 @@ import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 
 public class ObligationTranslator {
 
-	String pathToObligations = "POMA/Verification/BMC/obligation2.yml";
+	String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
 	List<String> processedObligations = new ArrayList<String>();
 	List<String> processedObligationsEvents = new ArrayList<String>();
 
@@ -54,8 +57,8 @@ public class ObligationTranslator {
 	}
 	
 	private Obligation readObligations() throws EVRException, IOException {
-		InputStream is = getClass().getClassLoader().getResourceAsStream(pathToObligations);
-		String yml = IOUtils.toString(is, StandardCharsets.UTF_8.name());
+		
+		String yml = new String ( Files.readAllBytes( Paths.get(pathToObligations) ) );
 		Obligation obligation = EVRParser.parse(yml);
 		return obligation;
 	}
@@ -101,7 +104,7 @@ public class ObligationTranslator {
 				sb.append("(singleton(mkTuple \""+what+"\" \""+where+"\"))))");
 				break;
 			}
-			sb.append("1(mkTuple \""+what+"\" \""+where+"\")");		
+			sb.append("(mkTuple \""+what+"\" \""+where+"\")");		
 			
 		}
 		return sb.toString();		
@@ -114,7 +117,7 @@ public class ObligationTranslator {
 			String where = actions.get(0).getTarget().getName().toString();
 			String op = actions.get(0).getOperations().get(0);
 
-			return "2(singleton(mkTuple \""+what+"\" \""+ op +"\" \""+where+"\")))";
+			return "(singleton(mkTuple \""+what+"\" \""+ op +"\" \""+where+"\")))";
 		}
 		ListIterator<GrantAction> iterator =actions.listIterator();		
 		StringBuilder sb = new StringBuilder();
@@ -129,7 +132,7 @@ public class ObligationTranslator {
 				sb.append("(singleton(mkTuple \""+what+"\" \""+ op +"\" \""+where+"\")))");
 				break;
 			}
-			sb.append("2(mkTuple \""+what+"\" \""+op+"\" \""+where+"\") ");		
+			sb.append("(mkTuple \""+what+"\" \""+op+"\" \""+where+"\") ");		
 			
 		}
 		return sb.toString();		

@@ -10,9 +10,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class BMC {
 
 	private Solver solver = Solver.CVC4;
-	private int bound = 15;
-	private String smtCodeFilePath=""; 
-	
+	private int bound = 4;
+	private String smtCodeFilePath = "";
+
 	public void setSolver(Solver solver) {
 		this.solver = solver;
 	}
@@ -20,11 +20,11 @@ public abstract class BMC {
 	public void setBound(int bound) {
 		this.bound = bound;
 	}
-	
+
 	public void setSMTCodePath(String path) {
 		this.smtCodeFilePath = path;
 	}
-	
+
 	abstract public String generateHeadCode();
 
 	public String generateTailCode() {
@@ -35,9 +35,9 @@ public abstract class BMC {
 		return smtlibv2Code;
 	}
 
-	abstract public String generateAssertKCode(int k, int randomNum);
-	
-	abstract String generateIterationCode(int k, int randomNum);
+	abstract public String generateAssertKCode(int k);
+
+	abstract String generateIterationCode(int k);
 
 	private void saveCodeToFile(String code, String path) throws IOException {
 		File file = new File(path);
@@ -46,21 +46,21 @@ public abstract class BMC {
 		myWriter.close();
 	}
 
-	
-
 	public void check() throws IOException {
 		boolean solved = false;
 		String headCode = generateHeadCode();
 		String tailCode = generateTailCode();
-		String iterationCode="";
+		String iterationCode = "";
 		for (int k = 1; k <= bound && !solved; k++) {
-			int randomNum = ThreadLocalRandom.current().nextInt(1, 8);
-
-			iterationCode += generateIterationCode(k, randomNum);
-			String smtlibv2Code = headCode + generateAssertKCode(k, randomNum) + iterationCode + tailCode;
+			iterationCode += generateIterationCode(k);
+			System.out.println("=============================================");
+			String smtlibv2Code = headCode + generateAssertKCode(k) + iterationCode + tailCode;
+			if (k == bound) {
+				System.out.println(smtlibv2Code);
+			}
 			String pathToFile = smtCodeFilePath + k + ".smt2";
 			saveCodeToFile(smtlibv2Code, pathToFile);
-			solved = solver.runSolver(pathToFile, k);
+			// solved = solver.runSolver(pathToFile, k);
 		}
 	}
 }

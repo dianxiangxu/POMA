@@ -250,8 +250,8 @@ public class VerificationPanel {
 		inputTextArea = new JTextArea();
 		inputTextArea.setFont(inputTextArea.getFont().deriveFont(35f));
 		PromptSupport.setPrompt("ENTER QUERIES" + System.lineSeparator() + "Supported Formats:"
-				+ System.lineSeparator() + "Subject1, Target1" + System.lineSeparator() + "Subject2 ,Target2"
-				+ System.lineSeparator() + "Subject3,Target3", inputTextArea);
+				+ System.lineSeparator() + "Subject, Target" + System.lineSeparator() + "Subject, Access Right, Target"
+				+ System.lineSeparator() + "Subject, Access Right, Target, BoundK" + System.lineSeparator() + "Subject, Access Right, Target, TimeOut",inputTextArea);
 		inputTextArea.setEditable(true);
 		inputScrollPanel = new JScrollPane(inputTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
