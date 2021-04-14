@@ -1,6 +1,7 @@
 package project.POMA;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,15 +9,40 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import CaseStudies.gpms.Constants;
+import CaseStudies.gpms.customEvents.AddCoPIEvent;
+import CaseStudies.gpms.customEvents.AddSPEvent;
+import CaseStudies.gpms.customEvents.ApproveEvent;
+import CaseStudies.gpms.customEvents.CreateEvent;
+import CaseStudies.gpms.customEvents.DeleteCoPIEvent;
+import CaseStudies.gpms.customEvents.DeleteSPEvent;
+import CaseStudies.gpms.customEvents.DisapproveEvent;
+import CaseStudies.gpms.customEvents.SubmitEvent;
+import CaseStudies.gpms.customEvents.SubmitRAEvent;
+import CaseStudies.gpms.customFunctions.AddPropertiesToNodeExecutor;
+import CaseStudies.gpms.customFunctions.AllChildrenHavePropertiesExecutor;
+import CaseStudies.gpms.customFunctions.CoPIToAddExecutor;
+import CaseStudies.gpms.customFunctions.CoPIToDeleteExecutor;
+import CaseStudies.gpms.customFunctions.CompareNodeNamesExecutor;
+import CaseStudies.gpms.customFunctions.ConcatExecutor;
+import CaseStudies.gpms.customFunctions.CreateNodeExecutor1;
+import CaseStudies.gpms.customFunctions.DeleteNodeExecutor;
+import CaseStudies.gpms.customFunctions.GetAncestorInPCExecutor;
+import CaseStudies.gpms.customFunctions.GetAncestorsInPCExecutor;
+import CaseStudies.gpms.customFunctions.GetChildExecutor;
+import CaseStudies.gpms.customFunctions.GetChildInPCExecutor;
+import CaseStudies.gpms.customFunctions.GetChildrenUsersInPolicyClassExecutor;
+import CaseStudies.gpms.customFunctions.IRBApprovalRequired;
+import CaseStudies.gpms.customFunctions.IsNodeInListExecutor;
+import CaseStudies.gpms.customFunctions.RemovePropertyFromChildrenExecutor;
+import CaseStudies.gpms.customFunctions.SPToAddExecutor;
+import CaseStudies.gpms.customFunctions.SPToDeleteExecutor;
 import gov.nist.csd.pm.epp.EPPOptions;
 import gov.nist.csd.pm.exceptions.PMException;
-import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pap.PAP;
 import gov.nist.csd.pm.pdp.PDP;
 import gov.nist.csd.pm.pdp.decider.PReviewDecider;
@@ -28,9 +54,6 @@ import gov.nist.csd.pm.pip.obligations.MemObligations;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.prohibitions.MemProhibitions;
-import CaseStudies.gpms.Constants;
-import CaseStudies.gpms.customEvents.*;
-import CaseStudies.gpms.customFunctions.*;
 
 
 public class ObligationTestForGeneratedGraphs {

@@ -98,8 +98,7 @@
       "source": "Attorneys",
       "target": "Case3",
       "operations": [
-        "refuse",
-        "accept"
+        "refuse"
       ]
     },
     {

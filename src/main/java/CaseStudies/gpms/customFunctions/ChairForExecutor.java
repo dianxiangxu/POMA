@@ -1,9 +1,6 @@
 package CaseStudies.gpms.customFunctions;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import gov.nist.csd.pm.epp.FunctionEvaluator;
 import gov.nist.csd.pm.epp.events.EventContext;
@@ -13,7 +10,6 @@ import gov.nist.csd.pm.pdp.PDP;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.obligations.model.functions.Arg;
 import gov.nist.csd.pm.pip.obligations.model.functions.Function;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.U;
 
 public class ChairForExecutor implements FunctionExecutor{
 	@Override

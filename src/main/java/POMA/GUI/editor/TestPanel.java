@@ -5,9 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.io.File;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.ButtonGroup;
@@ -22,9 +19,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import POMA.GUI.*;
+import POMA.GUI.POMA;
 import POMA.GUI.components.JPanelPB;
-import POMA.GUI.components.MutationBasedTestMutationMethods;
 import POMA.TestSuitGeneration.TestSuitGenerator;
 
 //import org.seal.xacml.coverage.CoverageHelper;
@@ -46,6 +42,10 @@ import POMA.TestSuitGeneration.TestSuitGenerator;
 //import org.wso2.balana.AbstractPolicy;
 
 public class TestPanel extends JPanelPB {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 2874799038244452091L;
 	private POMA poma;
 	private String workingTestSuiteFileName;
 //	private PolicyTestSuite testSuite;
@@ -498,6 +498,11 @@ public class TestPanel extends JPanelPB {
 	}
 	
 	static class verdictColumnCellRenderer extends DefaultTableCellRenderer {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -8097017048952343260L;
+
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row,int column) {
 			Component c = super.getTableCellRendererComponent(table, value,isSelected, hasFocus, row, column);
 

@@ -13,8 +13,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -30,14 +29,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.table.AbstractTableModel;
+
 import POMA.GlobalVariables;
-import POMA.Utils;
 import POMA.GUI.GraphVisualization.GraphVisualizer;
 import POMA.GUI.editor.AbstractPolicyEditor;
 import POMA.GUI.editor.DebugPanel;
@@ -46,7 +43,6 @@ import POMA.GUI.editor.PolicyEditorPanelDemo;
 import POMA.GUI.editor.TestPanel;
 import POMA.GUI.editor.VerificationPanel;
 import POMA.GUI.editor.VerificationPanel.ACTION;
-import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 

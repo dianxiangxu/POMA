@@ -8,7 +8,6 @@ import java.util.List;
 import POMA.GlobalVariables;
 import POMA.Utils;
 import gov.nist.csd.pm.operations.OperationSet;
-import static org.junit.Assert.assertTrue;
 
 public class AccessRightsVerifier {
 

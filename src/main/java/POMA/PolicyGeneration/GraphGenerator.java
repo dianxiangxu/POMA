@@ -1,12 +1,13 @@
 package POMA.PolicyGeneration;
 
+import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.OA;
+import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.UA;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import POMA.Utils;
 import gov.nist.csd.pm.exceptions.PMException;
@@ -19,10 +20,6 @@ import gov.nist.csd.pm.pip.graph.dag.searcher.Direction;
 import gov.nist.csd.pm.pip.graph.dag.visitor.Visitor;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.graph.model.nodes.NodeType;
-
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.UA;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.OA;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.PC;
 
 public class GraphGenerator {
 

@@ -1,17 +1,12 @@
 package CaseStudies.gpms.customFunctions;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import gov.nist.csd.pm.epp.FunctionEvaluator;
 import gov.nist.csd.pm.epp.events.EventContext;
 import gov.nist.csd.pm.epp.functions.FunctionExecutor;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pdp.PDP;
-import gov.nist.csd.pm.pip.graph.dag.searcher.DepthFirstSearcher;
-import gov.nist.csd.pm.pip.graph.dag.searcher.Direction;
-import gov.nist.csd.pm.pip.graph.dag.visitor.Visitor;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.obligations.model.functions.Arg;
 import gov.nist.csd.pm.pip.obligations.model.functions.Function;

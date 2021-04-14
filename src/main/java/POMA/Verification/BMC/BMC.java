@@ -1,11 +1,8 @@
 package POMA.Verification.BMC;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class BMC {
 
@@ -25,7 +22,7 @@ public abstract class BMC {
 		this.smtCodeFilePath = path;
 	}
 
-	abstract public String generateHeadCode();
+	abstract public String generateHeadCode() throws Exception;
 
 	public String generateTailCode() {
 		String smtlibv2Code = System.lineSeparator();
@@ -46,7 +43,7 @@ public abstract class BMC {
 		myWriter.close();
 	}
 
-	public void check() throws IOException {
+	public void check() throws Exception {
 		boolean solved = false;
 		String headCode = generateHeadCode();
 		String tailCode = generateTailCode();
@@ -54,9 +51,9 @@ public abstract class BMC {
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
 			System.out.println("=============================================");
-			String smtlibv2Code = headCode + generateAssertKCode(k) + iterationCode + tailCode;
+			String smtlibv2Code = headCode  + iterationCode + tailCode + generateAssertKCode(k);
 			if (k == bound) {
-				System.out.println(smtlibv2Code);
+				//System.out.println(smtlibv2Code);
 			}
 			String pathToFile = smtCodeFilePath + k + ".smt2";
 			saveCodeToFile(smtlibv2Code, pathToFile);

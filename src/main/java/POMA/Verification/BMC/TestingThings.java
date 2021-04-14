@@ -1,18 +1,12 @@
 package POMA.Verification.BMC;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import org.apache.commons.io.IOUtils;
 
 import POMA.Utils;
 import POMA.Verification.BMCExamples.TCPExample.TCPChecker;
 import gov.nist.csd.pm.pip.graph.Graph;
-import gov.nist.csd.pm.pip.obligations.evr.EVRException;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
 

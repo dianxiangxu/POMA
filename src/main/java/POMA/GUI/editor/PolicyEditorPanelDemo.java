@@ -20,40 +20,50 @@
  */
 package POMA.GUI.editor;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.Enumeration;
+
+import javax.swing.JApplet;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JTree;
+import javax.swing.SwingUtilities;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+
 import org.apache.commons.io.FilenameUtils;
 import org.xml.sax.SAXException;
-
-import com.jgraph.algebra.JGraphFibonacciHeap.Node;
 
 import POMA.ConfigTuple;
 import POMA.GlobalVariables;
 import POMA.Utils;
 import POMA.GUI.GraphVisualization.GraphVisualizer;
-import POMA.Verification.TranslationWithSets.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 import gov.nist.csd.pm.pip.prohibitions.ProhibitionsSerializer;
-
-import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.stream.Collectors;
 
 /**
  * 
@@ -63,6 +73,10 @@ import java.util.stream.Collectors;
  * @author Jie Ren
  */
 public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 2743420290926563880L;
 	protected String policy;
 	MemGraph g;
 	Prohibitions prohibitions;

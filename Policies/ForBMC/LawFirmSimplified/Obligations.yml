@@ -81,7 +81,7 @@ rules:
             type: OA
     response:      
       actions:
-        - assign:
+        - create:
             - what:
                 name: C-Suit
                 type: UA

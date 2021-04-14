@@ -1,9 +1,7 @@
 package POMA.GUI.editor;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +21,12 @@ import javax.swing.text.StyleContext;
 public class MutationDiffFrame extends JFrame
 {
     
+        /**
+     *
+     */
+    private static final long serialVersionUID = 3091168009341723589L;
+
+
         public MutationDiffFrame(List<DiffItem> originalContent, List<DiffItem> repairedContent){
         JPanel container = new JPanel();
    	    JPanel panelOne = new JPanel();

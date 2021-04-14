@@ -14,3 +14,8 @@ buildNumber.properties
 /mutants/
 /CSV/
 *.class
+.vscode/launch.json
+.settings/org.eclipse.jdt.core.prefs
+.settings/org.eclipse.jdt.apt.core.prefs
+.vscode/settings.json
+.settings/org.eclipse.jdt.core.prefs

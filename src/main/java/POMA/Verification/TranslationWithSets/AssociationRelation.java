@@ -1,7 +1,5 @@
 package POMA.Verification.TranslationWithSets;
 
-import java.util.Iterator;
-
 import gov.nist.csd.pm.operations.OperationSet;
 
 public class AssociationRelation {

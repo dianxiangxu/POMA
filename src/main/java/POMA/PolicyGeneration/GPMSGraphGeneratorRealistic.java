@@ -1,7 +1,9 @@
 package POMA.PolicyGeneration;
 
+import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.U;
+import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.UA;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,18 +12,15 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.commons.io.FileUtils;
-
 import com.github.javafaker.Faker;
 
+import org.apache.commons.io.FileUtils;
+
 import POMA.Utils;
-import POMA.Exceptions.NoTypeProvidedException;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.UA;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.U;
 
 public class GPMSGraphGeneratorRealistic {
 

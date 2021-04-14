@@ -1,6 +1,5 @@
 package CaseStudies.ProhibitionsUseCase;
 
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.U;
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.UA;
 
 import java.io.File;

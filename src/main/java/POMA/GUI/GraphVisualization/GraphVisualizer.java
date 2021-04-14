@@ -1,20 +1,20 @@
 package POMA.GUI.GraphVisualization;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-
-import java.awt.Button;
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.JApplet;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-
-import org.jgrapht.DirectedGraph;
-import org.jgrapht.ext.JGraphXAdapter;
+import javax.swing.JPanel;
 
 import com.mxgraph.layout.mxParallelEdgeLayout;
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
@@ -24,24 +24,14 @@ import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxStylesheet;
 
+import org.jgrapht.DirectedGraph;
+import org.jgrapht.ext.JGraphXAdapter;
+
 import POMA.Utils;
 import POMA.Verification.TranslationWithSets.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.relationships.Relationship;
-
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-
-import java.awt.GridLayout;
-import javax.swing.JPanel;
-
-import javax.swing.BoxLayout;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 
 public class GraphVisualizer extends JApplet {
 	private static final long serialVersionUID = 1L;
@@ -49,10 +39,8 @@ public class GraphVisualizer extends JApplet {
 	private static final Dimension DEFAULT_SIZE = new Dimension(1800, 1000);
 	DirectedGraph<String, Relationship> graphToPlot;
 	JGraphXAdapter<String, Relationship> jgxAdapter;
-	private JTextField textField;
 
 	public static void main(String[] args) throws PMException, IOException {
-		String simpleGraphPath = "Graphs/simpleGraph.json";
 		Utils utils = new Utils();
 
 		MemGraph graph = utils.readAnyMemGraph("Graphs/NGACExample1.json");

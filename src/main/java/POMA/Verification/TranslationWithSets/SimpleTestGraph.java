@@ -1,11 +1,8 @@
 package POMA.Verification.TranslationWithSets;
 
-import gov.nist.csd.pm.exceptions.PMException;
-import gov.nist.csd.pm.operations.OperationSet;
-import gov.nist.csd.pm.pip.graph.Graph;
-import gov.nist.csd.pm.pip.graph.GraphSerializer;
-import gov.nist.csd.pm.pip.graph.MemGraph;
-
+import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.O;
+import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.OA;
+import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.U;
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.UA;
 
 import java.io.File;
@@ -13,9 +10,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.U;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.O;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.OA;
+import gov.nist.csd.pm.exceptions.PMException;
+import gov.nist.csd.pm.operations.OperationSet;
+import gov.nist.csd.pm.pip.graph.GraphSerializer;
+import gov.nist.csd.pm.pip.graph.MemGraph;
 
 public class SimpleTestGraph {
 

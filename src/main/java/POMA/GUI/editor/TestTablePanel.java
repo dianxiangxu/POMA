@@ -8,6 +8,10 @@ import javax.swing.event.ListSelectionEvent;
 
 public class TestTablePanel extends GeneralTablePanel {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 2191042988906059058L;
 	private JPanel requestPanel;
 
 	public TestTablePanel(Vector<Vector<Object>> data, String[] columnNames,

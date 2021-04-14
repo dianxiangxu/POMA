@@ -1,19 +1,12 @@
 package POMA.Verification.TranslationWithSets;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import POMA.ConfigTuple;
 import POMA.Utils;
-import POMA.Exceptions.NoTypeProvidedException;
-import gov.nist.csd.pm.exceptions.PMException;
-import gov.nist.csd.pm.operations.OperationSet;
-import gov.nist.csd.pm.pip.graph.Graph;
-import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 import gov.nist.csd.pm.pip.prohibitions.model.Prohibition;
 
 public class MainTesting {
@@ -44,111 +37,6 @@ public class MainTesting {
 
 
 	}
-	
-	private void translateProhibitionSingleContainer(Prohibition p, int prohibitionsCount, String fullTranslation) {
-		Map.Entry<String, Boolean> container =  p.getContainers().entrySet().iterator().next();
-		StringBuilder sb = new StringBuilder();
-		String containerSMT = "Prohibition"+prohibitionsCount+"Container" + container.getKey();
-		String containerSMTComplement = "ComplementProhibition"+prohibitionsCount+"Container" + container.getKey();
-		String TPSSMT = "TPS"+containerSMT;
-		String subject = "Prohibition"+prohibitionsCount+"Subject" + p.getSubject();
-		
-		String accessRight = p.getOperations().iterator().next();
-		
-		sb.append(fullTranslation);
-		
-		//System.out.println("(assert (= "+containerSMT+" "+container.getValue()+"))");
-	
-		sb.append("(declare-fun UA_U_Reachability_PROHIBITION"+prohibitionsCount+" () (Set (Tuple String String)))");		   //1	
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun AT_Container_Reachability_PROHIBITION"+prohibitionsCount+" () (Set (Tuple String String)))"); //2
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun "+containerSMT+" ()  (Set (Tuple String String)))");           //3
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun " + subject+" () (Set (Tuple String String)))");                                                //4
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= "+containerSMT+" (singleton(mkTuple \""+container.getKey()+"\" \""+container.getKey()+"\")))) "); //5
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= "+subject+" (singleton(mkTuple \""+p.getSubject()+"\" \""+p.getSubject()+"\")))) "); //6
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun "+subject+"_Reachability () (Set (Tuple String String)))"); //7
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= "+subject+"_Reachability (join "+subject+" (transpose Tclosure))))"); //8
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= UA_U_Reachability_PROHIBITION"+prohibitionsCount+" (join "+subject+" Tclosure)))"); //9
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= AT_Container_Reachability_PROHIBITION"+prohibitionsCount+" (join "+containerSMT+" (transpose Tclosure_Prohibition))))"); //10
-		sb.append(System.lineSeparator());
-
-		sb.append("(declare-fun SubjectAndAR"+prohibitionsCount+" () (Set (Tuple String String)))");
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun AffectedARs"+prohibitionsCount+" () (Set (Tuple String String String)))"); //11
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= SubjectAndAR"+prohibitionsCount+" (singleton (mkTuple  \""+p.getSubject()+"\" \""+accessRight+"\"))))"); //11
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= AffectedARs"+prohibitionsCount+" (intersection (join SubjectAndAR"+prohibitionsCount+" AssociationsForProhibitions) FinalJoin)))"); //11
-		sb.append(System.lineSeparator());
-
-		
-		sb.append("(declare-fun "+containerSMTComplement +"() Bool)"); //11
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= "+containerSMTComplement+" "+container.getValue()+"))"); //12
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun "+TPSSMT+"() (Set (Tuple String String)))"); //13
-		sb.append(System.lineSeparator());
-		sb.append("(assert\r\n"
-				+ "	(ite\r\n"
-				+ "	(= "+containerSMTComplement +" true)\r\n"
-				+ "	(= "+TPSSMT+" (setminus (setminus SetToCheckAT \r\n"
-				+ "						(intersection \r\n"
-				+ "						(join \r\n"
-				+ "						(transpose AT_Container_Reachability_PROHIBITION"+prohibitionsCount+")  \r\n"
-				+ "						AT_Container_Reachability_PROHIBITION"+prohibitionsCount+")  SetToCheckAT )) "+containerSMT+")\r\n"
-				+ "	)\r\n"
-				+ "	(= "+TPSSMT+" (intersection \r\n"
-				+ "						(join \r\n"
-				+ "						(transpose AT_Container_Reachability_PROHIBITION"+prohibitionsCount+")  \r\n"
-				+ "						AT_Container_Reachability_PROHIBITION"+prohibitionsCount+" )\r\n"
-				+ "						SetToCheckAT))	\r\n"
-				+ "))"); //14
-		
-		
-		
-		
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun Prohibitions"+prohibitionsCount+"_AT_Reachability () (Set (Tuple String String)))"); //15
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= Prohibitions"+prohibitionsCount+"_AT_Reachability (join "+TPSSMT+" Tclosure )))"); //16
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun ProhibitionsForUA () (Set (Tuple String String String)))"); //17
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun Prohibitions () (Set (Tuple String String String)))");
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= Prohibitions (singleton (mkTuple \""+p.getSubject()+"\" \""+accessRight+"\" \""+container.getKey()+"\"))))");
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= ProhibitionsForUA (join "+subject+"_Reachability AffectedARs"+prohibitionsCount+") ))"); //18
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun FinalProhibitions () (Set (Tuple String String String)))"); //19
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= FinalProhibitions (join ProhibitionsForUA (transpose Prohibitions"+prohibitionsCount+"_AT_Reachability)) ))"); //20
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun result () (Set (Tuple String String String)))"); //21
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= result (setminus FinalJoin FinalProhibitions)))"); //22
-		
-		
-		sb.append(System.lineSeparator());
-		sb.append("(check-sat)"); //22
-		sb.append(System.lineSeparator());
-
-		sb.append("(get-value (FinalProhibitions))");
-
-
-		System.out.println(sb.toString());
-
-		
-	}
-	
 	
 	private void translateProhibitionTwoContainers(Prohibition p, int prohibitionsCount, String fullTranslation) {
 		Iterator<Map.Entry<String,Boolean>> iterator =  p.getContainers().entrySet().iterator();

@@ -1,24 +1,18 @@
 package CaseStudies.LawUseCase;
 
 
-	import gov.nist.csd.pm.exceptions.PMException;
-	import gov.nist.csd.pm.operations.OperationSet;
-	import gov.nist.csd.pm.pdp.decider.PReviewDecider;
-	import gov.nist.csd.pm.pip.graph.Graph;
-	import gov.nist.csd.pm.pip.graph.GraphSerializer;
-	import gov.nist.csd.pm.pip.graph.MemGraph;
-	import gov.nist.csd.pm.pip.prohibitions.MemProhibitions;
-	import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
-	import gov.nist.csd.pm.pip.prohibitions.ProhibitionsSerializer;
-	import gov.nist.csd.pm.pip.prohibitions.model.Prohibition;
-
-	import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.*;
-import static org.junit.Assert.assertTrue;
+	import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.OA;
+import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.UA;
 
 import java.io.File;
-	import java.io.FileWriter;
-	import java.io.IOException;
-	import java.util.Map;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import gov.nist.csd.pm.exceptions.PMException;
+import gov.nist.csd.pm.operations.OperationSet;
+import gov.nist.csd.pm.pip.graph.Graph;
+import gov.nist.csd.pm.pip.graph.GraphSerializer;
+import gov.nist.csd.pm.pip.graph.MemGraph;
 
 	public class SimplifiedLawUseCaseGenerator {
 
@@ -41,7 +35,7 @@ import java.io.File;
 			casePolicy.createNode("LeadAttorneysU", UA, null, "LeadAttorneys");
 
 
-			casePolicy.associate("Attorneys", "Case3", new OperationSet("accept", "refuse"));
+			casePolicy.associate("Attorneys", "Case3", new OperationSet("refuse"));
 			casePolicy.associate("LeadAttorneys", "Case3", new OperationSet("disapprove", "withdraw"));
 			casePolicy.associate("AttorneysMain", "Case3", new OperationSet("accept"));
 

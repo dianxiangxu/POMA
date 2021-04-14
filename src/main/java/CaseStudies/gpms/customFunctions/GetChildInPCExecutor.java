@@ -61,7 +61,6 @@ public class GetChildInPCExecutor implements FunctionExecutor {
 		Function getNode2 = new Function("get_node", listOfArgumentsPC);
 
 
-		String parentVariable="";
 		for (String child : children) {
 			Node childFromParent = pdp.getPAP().getGraphPAP().getNode(child);
 			List<Arg> listOfArgumentsParent = new ArrayList<Arg>();

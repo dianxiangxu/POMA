@@ -1,6 +1,5 @@
 package CaseStudies.gpms.customFunctions;
 
-import CaseStudies.gpms.customEvents.AddCoPIEvent;
 import CaseStudies.gpms.customEvents.DeleteCoPIEvent;
 import gov.nist.csd.pm.epp.FunctionEvaluator;
 import gov.nist.csd.pm.epp.events.EventContext;

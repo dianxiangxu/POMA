@@ -2,10 +2,6 @@ package CaseStudies.gpms.customFunctions;
 
 import CaseStudies.gpms.customEvents.AddCoPIEvent;
 import gov.nist.csd.pm.epp.FunctionEvaluator;
-import gov.nist.csd.pm.epp.events.AssignEvent;
-import gov.nist.csd.pm.epp.events.AssignToEvent;
-import gov.nist.csd.pm.epp.events.DeassignEvent;
-import gov.nist.csd.pm.epp.events.DeassignFromEvent;
 import gov.nist.csd.pm.epp.events.EventContext;
 import gov.nist.csd.pm.epp.functions.FunctionExecutor;
 import gov.nist.csd.pm.exceptions.PMException;

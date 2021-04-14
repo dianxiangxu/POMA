@@ -1,56 +1,17 @@
 package POMA.Verification.TranslationWithSets;
 
-import gov.nist.csd.pm.exceptions.PMException;
-import gov.nist.csd.pm.operations.OperationSet;
-import gov.nist.csd.pm.pdp.audit.Auditor;
-import gov.nist.csd.pm.pdp.audit.PReviewAuditor;
-import gov.nist.csd.pm.pdp.audit.model.Explain;
-import gov.nist.csd.pm.pdp.decider.PReviewDecider;
-import gov.nist.csd.pm.pip.graph.Graph;
-import gov.nist.csd.pm.pip.graph.GraphSerializer;
-import gov.nist.csd.pm.pip.graph.MemGraph;
-import gov.nist.csd.pm.pip.graph.dag.searcher.DepthFirstSearcher;
-import gov.nist.csd.pm.pip.graph.dag.searcher.Direction;
-import gov.nist.csd.pm.pip.graph.dag.visitor.Visitor;
-import gov.nist.csd.pm.pip.graph.model.nodes.Node;
-import gov.nist.csd.pm.pip.graph.model.relationships.Relationship;
-import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
-
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.UA;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.O;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.OA;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.U;
-
-import java.util.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import org.jgrapht.graph.DefaultDirectedGraph;
-
-import com.mxgraph.layout.mxCircleLayout;
-import com.mxgraph.layout.mxParallelEdgeLayout;
-import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
-import com.mxgraph.model.mxGeometry;
-import com.mxgraph.model.mxICell;
-import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.util.mxConstants;
-import com.mxgraph.view.mxStylesheet;
 
 import POMA.GlobalVariables;
 import POMA.Utils;
-import POMA.Exceptions.NoTypeProvidedException;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import org.jgrapht.*;
-import org.jgrapht.ext.*;
-import org.jgrapht.graph.*;
-
-import javax.swing.*;
-import java.awt.*;
+import gov.nist.csd.pm.exceptions.PMException;
+import gov.nist.csd.pm.pdp.decider.PReviewDecider;
+import gov.nist.csd.pm.pip.graph.Graph;
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public class Translator {
 	private ArrayList<AssociationRelation> listOfPriveleges = new ArrayList<AssociationRelation>();

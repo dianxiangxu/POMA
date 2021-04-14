@@ -1,14 +1,5 @@
 package CaseStudies.gpms.customFunctions;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 //import javax.mail.Message;
 //import javax.mail.MessagingException;
 //import javax.mail.NoSuchProviderException;
@@ -30,7 +21,6 @@ import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pdp.PDP;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.obligations.evr.EVRException;
-import gov.nist.csd.pm.pip.obligations.model.functions.Arg;
 import gov.nist.csd.pm.pip.obligations.model.functions.Function;
 
 public class EmailExecutor implements FunctionExecutor{
@@ -70,10 +60,8 @@ public class EmailExecutor implements FunctionExecutor{
 //		        try {
 //					sendSimpleEmail(email,"Obligation Email Test", "Obligation Email Test"  );
 //				} catch (AddressException e) {
-//					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				} catch (MessagingException e) {
-//					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				}
 //		    
@@ -124,7 +112,6 @@ public class EmailExecutor implements FunctionExecutor{
 //				             t.sendMessage(msg, msg.getAllRecipients());
 //				             t.close();
 //					} catch (MessagingException e) {
-//						// TODO Auto-generated catch block
 //						e.printStackTrace();
 //					}
 //		             

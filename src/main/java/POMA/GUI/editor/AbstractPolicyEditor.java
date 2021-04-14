@@ -9,6 +9,10 @@ import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public abstract class AbstractPolicyEditor extends JPanel{
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 5545495537480556212L;
 	MemGraph g;
     File temporal;
     Prohibitions prohibitions;

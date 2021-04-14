@@ -2,7 +2,6 @@ package POMA.GUI.editor;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.table.TableColumnModel;
@@ -51,7 +50,7 @@ public class RequestTable {
 	private static Vector<Vector<Object>> convertRequest(String request) {
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 //		AbstractRequestCtx requestCtx = null;
-		int index = 1;
+	//	int index = 1;
 //		if (request.equals("")) {
 //			Vector<Object> child = new Vector<Object>();
 //			child.add(index);

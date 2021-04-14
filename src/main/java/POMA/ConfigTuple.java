@@ -1,6 +1,5 @@
 package POMA;
 
-import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 

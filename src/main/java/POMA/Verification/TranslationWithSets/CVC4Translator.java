@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import POMA.Utils;
 import POMA.Exceptions.NoTypeProvidedException;
 import POMA.Exceptions.NodeIsNotContainedByPolicyClassException;
 import gov.nist.csd.pm.exceptions.PMException;
@@ -626,7 +625,6 @@ public class CVC4Translator {
 			sb.append(System.lineSeparator()+"(assert (= AssociationsForProhibitions ( ");
 			for (Iterator<AssociationRelation> iterator = listOfAssociations.iterator(); iterator.hasNext();) {
 				AssociationRelation tuple = iterator.next();
-				String ua = tuple.getUA();
 				String at = tuple.getAT();
 				Iterator<String> iteratorAR = tuple.getOperationSet().iterator();
 				while (iteratorAR.hasNext()) {
@@ -646,7 +644,6 @@ public class CVC4Translator {
 		for (Iterator<AssociationRelation> iterator = listOfAssociations.iterator(); iterator.hasNext();) {
 			AssociationRelation tuple = iterator.next();
 		//	System.out.println("!!!!!!!!!!!!!!!!!" + tuple);
-			String ua = tuple.getUA();
 			String at = tuple.getAT();
 			Iterator<String> iteratorAR = tuple.getOperationSet().iterator();
 			while (iteratorAR.hasNext()) {
