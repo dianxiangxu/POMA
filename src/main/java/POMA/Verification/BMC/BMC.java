@@ -28,7 +28,7 @@ public abstract class BMC {
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += "(check-sat)";
 		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += "(get-model)";
+		smtlibv2Code += "(get-value (obligation4 1))";
 		return smtlibv2Code;
 	}
 
@@ -51,13 +51,13 @@ public abstract class BMC {
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
 			System.out.println("=============================================");
-			String smtlibv2Code = headCode  + iterationCode + tailCode + generateAssertKCode(k);
+			String smtlibv2Code = headCode  + iterationCode + generateAssertKCode(k) + tailCode ;
 			if (k == bound) {
 				//System.out.println(smtlibv2Code);
 			}
 			String pathToFile = smtCodeFilePath + k + ".smt2";
 			saveCodeToFile(smtlibv2Code, pathToFile);
-			// solved = solver.runSolver(pathToFile, k);
+		    solved = solver.runSolver(pathToFile, k);
 		}
 	}
 }

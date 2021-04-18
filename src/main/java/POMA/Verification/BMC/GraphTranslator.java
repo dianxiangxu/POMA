@@ -1,6 +1,6 @@
 package POMA.Verification.BMC;
 
-import java.util.AbstractCollection;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,31 +22,37 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
 class GraphTranslator {
 
-	HashMap<Integer, String> mapOfIDs = new HashMap<Integer, String>();
+	HashMap<String, Integer> mapOfIDs = new HashMap<String, Integer>();
 	private Set<String> tuples = new HashSet<String>();
 	private Set<String> tuplesForUACheck = new HashSet<String>();
 	private Set<String> tuplesForOACheck = new HashSet<String>();
 	private List<AssociationRelation> listOfAssociations = new ArrayList<AssociationRelation>();;
-	private List<AssociationRelation> associationsFromObligations = new ArrayList<AssociationRelation>();
-	private List<String> addedNodesFromObligationsUA_U = new ArrayList<String>();
-	private List<String> addedNodesFromObligationsOA_O = new ArrayList<String>();
-	private List<String> obligationLabels = new ArrayList<String>();
+	private List<AssociationRelation> associationsFromObligations;
+	private List<String> addedNodesFromObligationsUA_U;
+	private List<String> addedNodesFromObligationsOA_O;
+	private List<String> obligationLabels;
 
 	Graph graph;
 
-	HashMap<Integer, String> getMapOfIDs() {
+	HashMap<String, Integer> getMapOfIDs() {
 		return mapOfIDs;
 	}
 
-	GraphTranslator(String pathToGraph) throws Exception {
-		graph = Utils.readAnyGraph(pathToGraph);
+	GraphTranslator(String pathToGraph) {
+		try {
+			graph = Utils.readAnyGraph(pathToGraph);
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private String setObligationLabels() {
 		StringBuilder sb = new StringBuilder();
-		for(String label : obligationLabels){
+		for (String label : obligationLabels) {
 			sb.append(System.lineSeparator());
-			sb.append("(declare-fun "+ label+" (Int) Int)");
+			sb.append("(declare-fun " + label + " (Int) Int)");
 		}
 		return sb.toString();
 	}
@@ -67,57 +73,62 @@ class GraphTranslator {
 
 		int index = 1;
 		for (Node node : nodes) {
-			mapOfIDs.put(index, node.getName());
+			mapOfIDs.put(node.getName(), index);
 			index++;
 		}
 		for (String nodeName : addedNodesFromObligationsUA_U) {
-			mapOfIDs.put(index, nodeName);
+			mapOfIDs.put(nodeName, index);
 			index++;
 		}
 		OperationSet os = Utils.getAllAccessRights(graph);
 
 		for (String ar : os) {
-			mapOfIDs.put(index, ar);
+			mapOfIDs.put(ar, index);
 			index++;
 		}
 		for (AssociationRelation association : associationsFromObligations) {
 			Set<String> operationSet = association.getOperationSet();
 			for (String ar : operationSet) {
-				mapOfIDs.put(index, ar);
+				mapOfIDs.put(ar, index);
 				index++;
 			}
 		}
 	}
 
-	private String translateGraphElements() throws Exception {
-		StringBuilder sb = new StringBuilder();
+	//private void translateGraphElements() throws Exception {
+	//	StringBuilder sb = new StringBuilder();
 
-		for (Map.Entry<Integer, String> entry : mapOfIDs.entrySet()) {
-			sb.append("(declare-fun " + entry.getValue() + " () Int)");
-			sb.append(System.lineSeparator());
-			sb.append("(assert (= " + entry.getValue() + " " + entry.getKey() + "))");
-			sb.append(System.lineSeparator());
-		}
-		return sb.toString();
-	}
+	//	for (Map.Entry<String, Integer> entry : mapOfIDs.entrySet()) {
+			// sb.append("(declare-fun " + entry.getValue() + " () Int)");
+			// sb.append(System.lineSeparator());
+			// sb.append("(assert (= " + entry.getValue() + " " + entry.getKey() + "))");
+			// sb.append(System.lineSeparator());
+		//}
+	//	return sb.toString();
+	//}
 
 	private void findTClosureForGraph(String policyClass) throws PMException {
 		DepthFirstSearcher dfs = new DepthFirstSearcher(graph);
 		Visitor visitor = node -> {
 			if ((node.getType().toString().equals("UA") || node.getType().toString().equals("U")
 					|| node.getType().toString().equals("O") || node.getType().toString().equals("OA"))) {
+				int childID = mapOfIDs.get(node.getName());
 				if (node.getType().toString().equals("UA") || node.getType().toString().equals("OA")) {
 					// tuples.add(new AssignmentRelation(node.getName(),
 					// node.getName()).toStringNoQuotes());
 				}
 				if (node.getType().toString().equals("UA") || node.getType().toString().equals("U")) {
-					tuplesForUACheck.add(new AssignmentRelation(node.getName(), node.getName()).toStringNoQuotes());
+					tuplesForUACheck.add(new AssignmentRelation(Integer.toString(childID), 
+							Integer.toString(childID)).toStringNoQuotes());
 				}
 				if (node.getType().toString().equals("OA") || node.getType().toString().equals("O")) {
-					tuplesForOACheck.add(new AssignmentRelation(node.getName(), node.getName()).toStringNoQuotes());
+					tuplesForOACheck.add(new AssignmentRelation(Integer.toString(childID), 
+							Integer.toString(childID)).toStringNoQuotes());
 				}
 				for (String parent : graph.getParents(node.getName())) {
-					tuples.add(new AssignmentRelation(node.getName(), parent).toStringNoQuotes());
+					int parentID = mapOfIDs.get(parent);
+					tuples.add(new AssignmentRelation(Integer.toString(childID), 
+							Integer.toString(parentID)).toStringNoQuotes());
 				}
 			}
 		};
@@ -127,7 +138,9 @@ class GraphTranslator {
 
 	private String translateSetToCheckUA() {
 		for (String UA_U : addedNodesFromObligationsUA_U) {
-			tuplesForUACheck.add(new AssignmentRelation(UA_U, UA_U).toStringNoQuotes());
+			int ua_uID = mapOfIDs.get(UA_U);
+			tuplesForUACheck.add(new AssignmentRelation(Integer.toString(ua_uID), 
+					Integer.toString(ua_uID)).toStringNoQuotes());
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("(declare-fun SetToCheckUA () (Set (Tuple Int Int)))");
@@ -146,7 +159,9 @@ class GraphTranslator {
 
 	private String translateSetToCheckOA() {
 		for (String OA_O : addedNodesFromObligationsOA_O) {
-			tuplesForUACheck.add(new AssignmentRelation(OA_O, OA_O).toStringNoQuotes());
+			int oa_oID = mapOfIDs.get(OA_O);
+			tuplesForUACheck.add(new AssignmentRelation(Integer.toString(oa_oID), 
+					Integer.toString(oa_oID)).toStringNoQuotes());
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("(declare-fun SetToCheckAT () (Set (Tuple Int Int)))");
@@ -217,7 +232,10 @@ class GraphTranslator {
 				String at = triple.getAT();
 				Iterator<String> iteratorAR = triple.getOperationSet().iterator();
 				while (iteratorAR.hasNext()) {
-					String assoc = "(mkTuple " + ua + " " + iteratorAR.next() + " " + at + ")" + System.lineSeparator();
+					int uaID = mapOfIDs.get(ua);
+					int arID=  mapOfIDs.get(iteratorAR.next());
+					int atID = mapOfIDs.get(at);
+					String assoc = "(mkTuple " + uaID + " " + arID + " " + atID + ")" + System.lineSeparator();
 					if (!iterator.hasNext() && !iteratorAR.hasNext()) {
 						sb.append("singleton " + assoc + ")))" + System.lineSeparator());
 					} else {
@@ -234,7 +252,10 @@ class GraphTranslator {
 			String at = triple.getAT();
 			Iterator<String> iteratorAR = triple.getOperationSet().iterator();
 			while (iteratorAR.hasNext()) {
-				String assoc = "(mkTuple " + ua + " " + iteratorAR.next() + " " + at + ")";
+				int uaID = mapOfIDs.get(ua);
+				int arID = mapOfIDs.get(iteratorAR.next());
+				int atID = mapOfIDs.get(at);
+				String assoc = "(mkTuple " + uaID + " " + arID + " " + atID + ")";
 				if (!iterator.hasNext() && !iteratorAR.hasNext()) {
 					sb.append("(singleton " + assoc + "))))" + System.lineSeparator());
 				} else {
@@ -246,8 +267,7 @@ class GraphTranslator {
 		return sb.toString();
 	}
 
-	private String translateInitialARCheck() {
-
+	private String translateBoundedVariablesDefinition() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
 		sb.append("(declare-fun AssociationsForUA (Int) (Set (Tuple Int Int Int)))");
@@ -260,37 +280,44 @@ class GraphTranslator {
 		sb.append(System.lineSeparator());
 		sb.append("(declare-fun AccessRights(Int) (Set (Tuple Int Int Int)))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= (Tclosure " + 0 + ") (tclosure GRAPH0)))");
+		return sb.toString();
+	}
+
+	 String translateARCheck(int k) {
+		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= (UA_U_Reachability " + 0 + ") (join SetToCheckUA (Tclosure " + 0 + "))))");
+		sb.append("(assert (= (Tclosure " + k + ") (tclosure GRAPH"+ k+")))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= (AT_Reachability " + 0 + ") (join SetToCheckAT (Tclosure " + 0 + "))))");
+		sb.append("(assert (= (UA_U_Reachability " + k + ") (join SetToCheckUA (Tclosure " + k + "))))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= (AssociationsForUA " + 0 + ") (join (UA_U_Reachability " + 0 + ") (Associations " + 0
+		sb.append("(assert (= (AT_Reachability " + k + ") (join SetToCheckAT (Tclosure " + k + "))))");
+		sb.append(System.lineSeparator());
+		sb.append("(assert (= (AssociationsForUA " + k + ") (join (UA_U_Reachability " + k + ") (Associations " + k
 				+ "))))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= (AccessRights " + 0 + ") (join (AssociationsForUA " + 0 + ") (transpose (AT_Reachability "
-				+ 0 + ")))))");
+		sb.append("(assert (= (AccessRights " + k + ") (join (AssociationsForUA " + k + ") (transpose (AT_Reachability "
+				+ k + ")))))");
 		sb.append(System.lineSeparator());
 		return sb.toString();
 	}
 
 	String translateHeadCode(List<AssociationRelation> listOfAddedAssociationsFromObligations,
-			List<String> listOfAddedNodesUA_U, List<String> listOfAddedNodesOA_O, List<String> obligationLabels) throws Exception {
+			List<String> listOfAddedNodesUA_U, List<String> listOfAddedNodesOA_O, List<String> obligationLabels)
+			throws Exception {
 		StringBuilder headcode = new StringBuilder();
-		associationsFromObligations.addAll(listOfAddedAssociationsFromObligations);
-		addedNodesFromObligationsUA_U.addAll(listOfAddedNodesUA_U);
-		addedNodesFromObligationsOA_O.addAll(listOfAddedNodesOA_O);
-		this.obligationLabels.addAll(obligationLabels);
+		associationsFromObligations = listOfAddedAssociationsFromObligations;
+		addedNodesFromObligationsUA_U = listOfAddedNodesUA_U;
+		addedNodesFromObligationsOA_O = listOfAddedNodesOA_O;
+		this.obligationLabels = obligationLabels;
 		getGraphElements();
 		populateTuples();
 		headcode.append(setCVC4Options());
-		headcode.append(translateGraphElements());
 		headcode.append(translateSetToCheckUA());
 		headcode.append(translateSetToCheckOA());
 		headcode.append(translateSetGraph());
 		headcode.append(translateAssociations());
-		headcode.append(translateInitialARCheck());
+		headcode.append(translateBoundedVariablesDefinition());
+		headcode.append(translateARCheck(0));
 		headcode.append(setObligationLabels());
 		return headcode.toString();
 	}

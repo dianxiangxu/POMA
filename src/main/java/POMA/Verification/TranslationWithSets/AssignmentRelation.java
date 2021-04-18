@@ -3,13 +3,19 @@ package POMA.Verification.TranslationWithSets;
 public class AssignmentRelation {
 	String child;
 	String parent;
-
+	int childInt;
+	int parentInt;
 	public AssignmentRelation(String child, String parent) {
 		this.child = child;
 		this.parent = parent;
 
 	}
 
+	public AssignmentRelation(int child, int parent) {
+		this.childInt = child;
+		this.parentInt = parent;
+
+	}
 	public String getChild() {
 		return child;
 	}

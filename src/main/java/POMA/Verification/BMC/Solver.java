@@ -7,8 +7,7 @@ import java.io.InputStreamReader;
 public class Solver {
 	
 	public static final Solver Z3 = new Solver("Z3", "/usr/local/bin/z3");
-	public static final Solver CVC4 = new Solver("CVC4", "CVC4/cvc4.exe");
-	
+	public static final Solver CVC4 = new Solver("CVC4", "VerificationFiles/CVC4/cvc4.exe");
 	private String name;
 	private String executable;
 	
