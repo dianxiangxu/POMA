@@ -327,12 +327,8 @@
 
 
 ;PROPERTY
-(assert (member (mkTuple 8 15 1) (AccessRights 4)))
-(assert (member (mkTuple 4 15 1) (AccessRights 4)))
-(assert (member (mkTuple 6 15 1) (AccessRights 4)))
-(assert (member (mkTuple 2 15 1) (AccessRights 4)))
-(assert (member (mkTuple 3 16 1) (AccessRights 4)))
-(assert (member (mkTuple 11 15 1) (AccessRights 4)))
+(assert (= (obligation4 3) 1))
+
 
 (check-sat)
 (get-value (obligation4 1))

@@ -65,22 +65,26 @@ public class ObligationChecker extends BMC {
 		int approveID = mapOfIDs.get("approve");	
 		int Case3InfoID = mapOfIDs.get("Case3Info");
 
-		smtlibv2Code += "(assert (member (mkTuple "+AttorneysID+" "+acceptID+" "+Case3InfoID+") (AccessRights " + k + ")))";
+		smtlibv2Code += "(assert (= (obligation4 "+k+") 1))";
 
 		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += "(assert (member (mkTuple "+Attorneys1ID+" "+acceptID+" "+Case3InfoID+") (AccessRights " + k + ")))";
 
-		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += "(assert (member (mkTuple "+Attorneys2ID+" "+acceptID+" "+Case3InfoID+") (AccessRights " + k + ")))";
+		// smtlibv2Code += "(assert (member (mkTuple "+AttorneysID+" "+acceptID+" "+Case3InfoID+") (AccessRights " + k + ")))";
 
-		 smtlibv2Code += System.lineSeparator();
-		 smtlibv2Code += "(assert (member (mkTuple "+Attorneys3ID+" "+acceptID+" "+Case3InfoID+") (AccessRights " + k + ")))";
+		// smtlibv2Code += System.lineSeparator();
+		// smtlibv2Code += "(assert (member (mkTuple "+Attorneys1ID+" "+acceptID+" "+Case3InfoID+") (AccessRights " + k + ")))";
 
-		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += "(assert (member (mkTuple "+LeadAttorneysUID+" "+approveID+" "+Case3InfoID+") (AccessRights " + k + ")))";
+		// smtlibv2Code += System.lineSeparator();
+		// smtlibv2Code += "(assert (member (mkTuple "+Attorneys2ID+" "+acceptID+" "+Case3InfoID+") (AccessRights " + k + ")))";
 
-		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += "(assert (member (mkTuple "+CSuitID+" "+acceptID+" "+Case3InfoID+") (AccessRights " + k + ")))";
+		//  smtlibv2Code += System.lineSeparator();
+		//  smtlibv2Code += "(assert (member (mkTuple "+Attorneys3ID+" "+acceptID+" "+Case3InfoID+") (AccessRights " + k + ")))";
+
+		// smtlibv2Code += System.lineSeparator();
+		// smtlibv2Code += "(assert (member (mkTuple "+LeadAttorneysUID+" "+approveID+" "+Case3InfoID+") (AccessRights " + k + ")))";
+
+		// smtlibv2Code += System.lineSeparator();
+		// smtlibv2Code += "(assert (member (mkTuple "+CSuitID+" "+acceptID+" "+Case3InfoID+") (AccessRights " + k + ")))";
 
 		smtlibv2Code += System.lineSeparator();
 

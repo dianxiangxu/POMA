@@ -51,7 +51,7 @@ public abstract class BMC {
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
 			System.out.println("=============================================");
-			String smtlibv2Code = headCode  + iterationCode + generateAssertKCode(k) + tailCode ;
+			String smtlibv2Code = headCode  + iterationCode + generateAssertKCode(k-1)  + tailCode  ;
 			if (k == bound) {
 				//System.out.println(smtlibv2Code);
 			}
