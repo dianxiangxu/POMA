@@ -77,7 +77,7 @@
 (declare-fun OldGRAPH1 () (Set (Tuple Int Int)))
 (assert (= OldGRAPH1 (intersection (Tclosure 0) GRAPH0)))
 
-(assert (xor 
+(assert (or 
 
 (and (= (obligation1 0) 1)
 (xor (= GRAPH1 

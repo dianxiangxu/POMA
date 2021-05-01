@@ -59,23 +59,12 @@ public class ObligationTranslator {
 		return processedObligationsEventLabels;
 	}
 
-	public static void main(String[] args) throws Exception {
-		// ObligationTranslator ot = new ObligationTranslator();
-		// ot.processObligations();
-	}
 
 	public String processObligations() throws EVRException, IOException {
 		// obligation = readObligations();
 
 		return null;
 	}
-
-	/*
-	 * "(assert \r\n" + "(xor \r\n" + "(= (obligation1 "+(k-1)+") 0) \r\n" +
-	 * "(and (member (mkTuple "+AttorneysID+" "+acceptID+" "
-	 * +Case3InfoID+") (AccessRights "+(k-1)+")) (= (obligation1 "+(k-1)+") 1))\r\n"
-	 * + ")\r\n" + ")				\r\n"
-	 */
 
 	String translateObligationEvents(int k) {
 		StringBuilder sb = new StringBuilder();
@@ -158,7 +147,7 @@ public class ObligationTranslator {
 		String grantString = "";
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("(assert (xor ");
+		sb.append("(assert (or ");
 		sb.append(System.lineSeparator());
 		for (Rule rule : obligation.getRules()) {
 

@@ -77,7 +77,7 @@
 (declare-fun OldGRAPH1 () (Set (Tuple Int Int)))
 (assert (= OldGRAPH1 (intersection (Tclosure 0) GRAPH0)))
 
-(assert (xor 
+(assert (or 
 
 (and (= (obligation1 0) 1)
 (xor (= GRAPH1 
@@ -147,7 +147,7 @@
 (declare-fun OldGRAPH2 () (Set (Tuple Int Int)))
 (assert (= OldGRAPH2 (intersection (Tclosure 1) GRAPH1)))
 
-(assert (xor 
+(assert (or 
 
 (and (= (obligation1 1) 1)
 (xor (= GRAPH2 
@@ -217,7 +217,7 @@
 (declare-fun OldGRAPH3 () (Set (Tuple Int Int)))
 (assert (= OldGRAPH3 (intersection (Tclosure 2) GRAPH2)))
 
-(assert (xor 
+(assert (or 
 
 (and (= (obligation1 2) 1)
 (xor (= GRAPH3 
