@@ -124,6 +124,41 @@ public class Translator {
 		return result;
 	}
 
+	public ArrayList<AssociationRelation> getAllAccessRightsForMutation(Graph graph, Prohibitions prohibitions) throws Exception {
+		List<String> UA_U = Utils.getNodesByTypes(graph, "UA", "U");
+		List<String> U_UA_O_OA = Utils.getNodesByTypes(graph, "OA", "O", "U", "UA");
+
+		CVC4Translator translator = new CVC4Translator(graph);
+		translator.initTranslation();
+		String translatedGraph = translator.getTranslatedGraph();
+		translatedGraph += System.lineSeparator();
+
+		List<String[]> inputArray = new ArrayList<String[]>();
+		for (String ua_u : UA_U) {
+			for (String oa_o : U_UA_O_OA) {
+				inputArray.add(new String[] { ua_u, oa_o });
+			}
+		}
+
+		translatedGraph += CVC4Translator.getAllAccessRightsCheckInSetOfUAandATAllComb(inputArray);
+		translatedGraph += System.lineSeparator();
+		translatedGraph += translator.translateAssociationsNoUA();
+		translatedGraph += System.lineSeparator();
+
+		translatedGraph += System.lineSeparator();
+		translatedGraph += CVC4Translator.getFinalCheck(prohibitions);
+
+		setFullTranslation(translatedGraph);
+		saveDataToFile(translatedGraph, GlobalVariables.swapFile);
+
+		CVC4Runner runner = new CVC4Runner();
+
+		List<String> output = runner.runFromSMTLIB2SetsTheory(GlobalVariables.swapFile);
+		setAccessRightsResults(processOutput(output, graph));
+		AccessRightsVerifier.testAccessRights(listOfPriveleges);
+		return listOfPriveleges;
+	}
+
 	public String getActualOutput() {
 		return actualOutput.replace(",", "");
 	}

@@ -1,0 +1,94 @@
+label: GPMS Obligations
+rules:
+  - label: obligation1
+    event:
+      subject:
+        anyUser: 
+          - "PI"
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: Chair
+               type: UA
+             operations:
+               - approve
+               - disapprove               
+             target:
+               name: PDSWhole
+               type: OA                                                                                       
+  - label: obligation2
+    event:
+      subject:
+        anyUser: 
+          - "Chair"
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: BM
+               type: UA
+             operations:
+               - approve
+               - disapprove               
+             target:
+               name: PDSWhole
+               type: OA             
+  - label: obligation3
+    event:
+      subject:
+        anyUser: 
+          - "BM"
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: Dean
+               type: UA
+             operations:
+               - approve
+               - disapprove               
+             target:
+               name: PDSWhole
+               type: OA                    
+  - label: obligation4
+    event:
+      subject:
+        anyUser: 
+          - "Dean"
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: RA
+               type: UA
+             operations:
+               - submit               
+             target:
+               name: PDSWhole
+               type: OA                                    
+                                                                         

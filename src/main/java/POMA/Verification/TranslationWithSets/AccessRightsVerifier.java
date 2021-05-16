@@ -15,7 +15,7 @@ public class AccessRightsVerifier {
 
 	}
 
-	public static void testAccessRights(ArrayList<AssociationRelation> privilegesFromTranslation) {
+	public static boolean testAccessRights(ArrayList<AssociationRelation> privilegesFromTranslation) {
 		File currentFile = new File(GlobalVariables.currentPath);
 		String path = "";
 		if(currentFile.isDirectory()) {
@@ -29,13 +29,13 @@ public class AccessRightsVerifier {
 		File file = new File(path);
 		if(!file.exists()) {
 			System.out.println("NO TESTING ORACLE FOUND");
-			return;
+			return false;
 		}
 		try {
 			testOracleArrays = Utils.loadCSV(new File(path));
 		} catch (IOException e) {
 			e.printStackTrace();
-			return;
+			return false;
 		}
 
 			for (AssociationRelation privilege : privilegesFromTranslation) {
@@ -48,10 +48,10 @@ public class AccessRightsVerifier {
 					testArrays.add(test);
 				}
 			}
-			checkContains(testOracleArrays,  testArrays);
+			return checkContains(testOracleArrays,  testArrays);
 	}
 
-	private static void checkContains(List<String[]> testOracleArrays,  List<String[]> testArrays) {
+	private static boolean checkContains(List<String[]> testOracleArrays,  List<String[]> testArrays) {
 		boolean result = false;
 		for (String[] test : testOracleArrays) {
 			for(String[] oracle : testArrays) {
@@ -68,7 +68,8 @@ public class AccessRightsVerifier {
 			result=false;
 		}
 		System.out.println("TEST SUITE MATCHING: "+result);
-		//assertTrue(result);		
+		//assertTrue(result);	
+		return result;	
 	}
 
 	public static boolean checkEquality(String[] s1, String[] s2) {

@@ -28,7 +28,7 @@ public abstract class BMC {
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += "(check-sat)";
 		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += "(get-value (obligation4 1))";
+		smtlibv2Code += "(get-value (AccessRights 0))";
 		return smtlibv2Code;
 	}
 

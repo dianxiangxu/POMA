@@ -134,7 +134,7 @@ public class AllCombTestSuitGenerator {
 				for (String accessRight : allAccessRights) {
 					boolean result = decider.check(subject, "", target, accessRight);
 					if (result) {
-						data.add(new String[] {subject,accessRight, target });
+						data.add(new String[] {subject, accessRight, target });
 					}
 				}
 

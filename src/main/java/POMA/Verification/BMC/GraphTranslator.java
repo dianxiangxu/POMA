@@ -114,8 +114,8 @@ class GraphTranslator {
 					|| node.getType().toString().equals("O") || node.getType().toString().equals("OA"))) {
 				int childID = mapOfIDs.get(node.getName());
 				if (node.getType().toString().equals("UA") || node.getType().toString().equals("OA")) {
-					// tuples.add(new AssignmentRelation(node.getName(),
-					// node.getName()).toStringNoQuotes());
+					 tuples.add(new AssignmentRelation(Integer.toString(childID),
+					 		Integer.toString(childID)).toStringNoQuotes());
 				}
 				if (node.getType().toString().equals("UA") || node.getType().toString().equals("U")) {
 					tuplesForUACheck.add(new AssignmentRelation(Integer.toString(childID), 
