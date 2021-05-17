@@ -144,129 +144,29 @@ public class ObligationTranslator {
 		}
 	}
 
-	// String processActions(int k) {
-	// boolean grantExists = false;
-	// String grantString = "";
-	// StringBuilder sb = new StringBuilder();
-
-	// sb.append("(assert (or ");
-	// sb.append(System.lineSeparator());
-	// for (Rule rule : obligation.getRules()) {
-
-	// List<CreateAction> createActions = new ArrayList<CreateAction>();
-	// List<Action> actions = rule.getResponsePattern().getActions();
-	// boolean flag = false;
-	// if(actions.size()>1)
-	// flag = (actions.get(1) instanceof GrantAction);
-	// if (actions.size() == 1 || flag) {
-	// Action action = actions.get(0);
-	// sb.append(System.lineSeparator());
-	// sb.append("(and (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
-	// sb.append(System.lineSeparator());
-	// sb.append("(xor (= GRAPH" + k + " ");
-	// sb.append(System.lineSeparator());
-	// if(!flag){
-	// sb.append(processSingleAction(action, k) + ")" + System.lineSeparator());
-	// }
-	// else{
-	// sb.append(processSingleAction(action, k) + System.lineSeparator());
-	// GrantAction grantAction = (GrantAction) actions.get(1);
-	// String what = grantAction.getSubject().getName().toString();
-	// String where = grantAction.getTarget().getName().toString();
-	// String op = grantAction.getOperations().get(0);
-	// int whatID = mapOfIDs.get(what);
-	// int arID = mapOfIDs.get(op);
-	// int whereID = mapOfIDs.get(where);
-
-	// grantString = "(assert (xor (and (= (" + rule.getLabel() + " " + (k - 1) + ")
-	// 1) (xor (= (Associations "
-	// + k + ") (union (singleton(mkTuple " + whatID + " " + arID + " " + whereID +
-	// ")) (Associations "
-	// + (k - 1) + "))) (= (Associations " + k + ") (Associations " + (k - 1) +
-	// "))))(= (Associations "
-	// + k + ") (Associations " + (k - 1) + "))))";
-	// grantExists = true;
-	// }
-	// sb.append(System.lineSeparator());
-	// sb.append("(= GRAPH" + k + " OldGRAPH" + k + ")))");
-	// sb.append(System.lineSeparator());
-	// continue;
-	// }
-	// String firstAction = "";
-	// sb.append(System.lineSeparator());
-	// sb.append("(and (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
-	// sb.append(System.lineSeparator());
-	// sb.append("(xor (= GRAPH" + k + " ");
-	// sb.append(System.lineSeparator());
-	// for (Action action : actions) {
-
-	// if (action instanceof AssignAction) {
-
-	// firstAction = processSingleAction(action, k);
-
-	// }
-	// else if (action instanceof DeleteAction) {
-	// DeleteAction deleteAction = (DeleteAction) action;
-	// String what =
-	// deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
-	// String where =
-	// deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
-	// int whatID = mapOfIDs.get(what);
-	// int whereID = mapOfIDs.get(where);
-	// sb.append(" (setminus "+ firstAction + "(singleton(mkTuple "+ whatID + " " +
-	// whereID + "))))");
-	// } else if (action instanceof GrantAction) {
-	// GrantAction grantAction = (GrantAction) action;
-	// String what = grantAction.getSubject().getName().toString();
-	// String where = grantAction.getTarget().getName().toString();
-	// String op = grantAction.getOperations().get(0);
-	// int whatID = mapOfIDs.get(what);
-	// int arID = mapOfIDs.get(op);
-	// int whereID = mapOfIDs.get(where);
-
-	// grantString = "(assert (xor (and (= (" + rule.getLabel() + " " + (k - 1)
-	// + ") 1) (xor (= (Associations " + k + ") (union (singleton(mkTuple " + whatID
-	// + " " + arID
-	// + " " + whereID + ")) (Associations " + (k - 1) + "))) (= (Associations " + k
-	// + ") (Associations " + (k - 1) + "))))(= (Associations " + k + ")
-	// (Associations " + (k - 1)
-	// + "))))";
-	// grantExists = true;
-	// } else if (action instanceof CreateAction) {
-	// createActions.add((CreateAction) action);
-	// }
-
-	// }
-	// sb.append(System.lineSeparator());
-	// sb.append("(= GRAPH" + k + " OldGRAPH" + k + ")))");
-	// sb.append(System.lineSeparator());
-	// }
-
-	// sb.append("(= GRAPH" + k + " OldGRAPH" + k + ")))");
-	// sb.append(System.lineSeparator());
-	// if (!grantExists) {
-	// sb.append("(assert (= (Associations " + k + ") (Associations " + (k - 1) +
-	// ")))");
-	// } else {
-	// sb.append(grantString);
-	// }
-	// return sb.toString();
-	// }
-
 	String processActionsImproving(int k) {
 		boolean grantExists = false;
 		StringBuilder sb = new StringBuilder();
 		HashMap<String, GrantAction> grantActions = new HashMap<String, GrantAction>();
+		HashMap<String, DeleteAction> deleteGrantActions = new HashMap<String, DeleteAction>();
 
 		sb.append("(assert (or ");
 		sb.append(System.lineSeparator());
 		for (Rule rule : obligation.getRules()) {
 
 			List<Action> actions = rule.getResponsePattern().getActions();
-			if (actions.size() == 1) {
+			if (actions.size() == 1
+					|| (actions.get(0) instanceof GrantAction && actions.get(1) instanceof DeleteAction)) {
 				Action action = actions.get(0);
+				Action action2 = actions.get(1);
+
 				if (action instanceof GrantAction) {
 					grantActions.put(rule.getLabel(), (GrantAction) action);
+					grantExists = true;
+				}
+				if (action2 instanceof DeleteAction && ((DeleteAction) action2).getAssociations().size() > 0) {
+					DeleteAction deleteAction = (DeleteAction) action2;
+					deleteGrantActions.put(rule.getLabel(), deleteAction);
 					grantExists = true;
 					continue;
 				}
@@ -289,7 +189,13 @@ public class ObligationTranslator {
 						grantExists = true;
 						continue;
 					}
-					if (!create_or_assign_processed) {
+					if (action instanceof DeleteAction && ((DeleteAction) action).getAssociations().size() > 0) {
+						DeleteAction deleteAction = (DeleteAction) action;
+						deleteGrantActions.put(rule.getLabel(), deleteAction);
+						grantExists = true;
+						continue;
+					}
+					if (!create_or_assign_processed && action instanceof AssignAction) {
 						sb.append(System.lineSeparator());
 						sb.append("(and (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
 						sb.append(System.lineSeparator());
@@ -301,8 +207,9 @@ public class ObligationTranslator {
 
 						firstAction = processSingleAction(action, k, rule.getLabel());
 
-					} else if (action instanceof DeleteAction) {
+					} else if (action instanceof DeleteAction && ((DeleteAction) action).getAssignments() != null) {
 						DeleteAction deleteAction = (DeleteAction) action;
+
 						String what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
 						String where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
 						int whatID = mapOfIDs.get(what);
@@ -311,9 +218,11 @@ public class ObligationTranslator {
 								" (setminus " + firstAction + "(singleton(mkTuple " + whatID + " " + whereID + "))))");
 						firstAction = "";
 						break;
+
 					} else if (action instanceof CreateAction) {
 						firstAction = processSingleAction(action, k, rule.getLabel());
 					}
+
 				}
 				if (!firstAction.equals("")) {
 					sb.append(System.lineSeparator());
@@ -323,9 +232,9 @@ public class ObligationTranslator {
 				sb.append(System.lineSeparator());
 				sb.append("(= GRAPH" + k + " OldGRAPH" + k + ")))");
 				sb.append(System.lineSeparator());
+
 			}
 		}
-
 		sb.append("(= GRAPH" + k + " OldGRAPH" + k + ")))");
 		sb.append(System.lineSeparator());
 		if (!grantExists) {
@@ -333,7 +242,7 @@ public class ObligationTranslator {
 		} else {
 			if (grantActions.size() > 1) {
 				sb.append(System.lineSeparator());
-				sb.append(processMultipleGrants(grantActions, k));
+				sb.append(processMultipleGrants(grantActions, deleteGrantActions, k));
 			} else {
 				for (HashMap.Entry<String, GrantAction> entry : grantActions.entrySet()) {
 					String label = entry.getKey();
@@ -342,26 +251,61 @@ public class ObligationTranslator {
 					sb.append(processSingleAction(action, k, label));
 				}
 			}
+			// if (deleteGrantActions.size() > 1) {
+			// sb.append(System.lineSeparator());
+			// // sb.append(processMultipleDeleteGrants(deleteGrantActions, k));
+			// }
 		}
 		return sb.toString();
 	}
 
-	String processMultipleGrants(HashMap<String, GrantAction> grantActions, int k) {
+	String processMultipleGrants(HashMap<String, GrantAction> grantActions,
+			HashMap<String, DeleteAction> deleteGrantActions, int k) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("(assert ( or");
 		for (HashMap.Entry<String, GrantAction> entry : grantActions.entrySet()) {
 			String label = entry.getKey();
 			GrantAction grantAction = (GrantAction) entry.getValue();
-			;
+			DeleteAction deleteAction = deleteGrantActions.get(label);
 			String what = grantAction.getSubject().getName().toString();
 			String where = grantAction.getTarget().getName().toString();
 			String op = grantAction.getOperations().get(0);
 			int whatID = mapOfIDs.get(what);
 			int arID = mapOfIDs.get(op);
 			int whereID = mapOfIDs.get(where);
+
+			String what2 = deleteAction.getAssociations().get(0).getSubject().getName().toString();
+			String where2 = deleteAction.getAssociations().get(0).getTarget().getName().toString();
+			String op2 = deleteAction.getAssociations().get(0).getOperations().get(0);
+			int whatID2 = mapOfIDs.get(what2);
+			int arID2 = mapOfIDs.get(op2);
+			int whereID2 = mapOfIDs.get(where2);
 			sb.append(System.lineSeparator());
 			sb.append("(and (= (" + label + " " + (k - 1) + ") 1) (xor (= (Associations " + k
-					+ ") (union (singleton(mkTuple " + whatID + " " + arID + " " + whereID + ")) (Associations "
+					+ ") (setminus (union (singleton(mkTuple " + whatID + " " + arID + " " + whereID
+					+ ")) (Associations " + (k - 1) + "))(singleton(mkTuple " + whatID2 + " " + arID2 + " " + whereID2
+					+ ")))) (= (Associations " + k + ") (Associations " + (k - 1) + "))))");
+		}
+		sb.append("(= (Associations " + k + ") (Associations " + (k - 1) + "))))");
+
+		return sb.toString();
+	}
+
+	String processMultipleDeleteGrants(HashMap<String, DeleteAction> deleteGrantActions, int k) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("(assert ( or");
+		for (HashMap.Entry<String, DeleteAction> entry : deleteGrantActions.entrySet()) {
+			String label = entry.getKey();
+			DeleteAction grantAction = (DeleteAction) entry.getValue();
+			String what = grantAction.getAssociations().get(0).getSubject().getName().toString();
+			String where = grantAction.getAssociations().get(0).getTarget().getName().toString();
+			String op = grantAction.getAssociations().get(0).getOperations().get(0);
+			int whatID = mapOfIDs.get(what);
+			int arID = mapOfIDs.get(op);
+			int whereID = mapOfIDs.get(where);
+			sb.append(System.lineSeparator());
+			sb.append("(and (= (" + label + " " + (k - 1) + ") 1) (xor (= (Associations " + k
+					+ ") (setminus (singleton(mkTuple " + whatID + " " + arID + " " + whereID + ")) (Associations "
 					+ (k - 1) + "))) (= (Associations " + k + ") (Associations " + (k - 1) + "))))");
 		}
 		sb.append("(= (Associations " + k + ") (Associations " + (k - 1) + "))))");

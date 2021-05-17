@@ -93,10 +93,10 @@
 (= GRAPH1 OldGRAPH1)))
 
 (assert ( or
-(and (= (obligation3 0) 1) (xor (= (Associations 1) (union (singleton(mkTuple 5 20 11)) (Associations 0))) (= (Associations 1) (Associations 0))))
-(and (= (obligation2 0) 1) (xor (= (Associations 1) (union (singleton(mkTuple 3 20 11)) (Associations 0))) (= (Associations 1) (Associations 0))))
-(and (= (obligation4 0) 1) (xor (= (Associations 1) (union (singleton(mkTuple 6 22 11)) (Associations 0))) (= (Associations 1) (Associations 0))))
-(and (= (obligation1 0) 1) (xor (= (Associations 1) (union (singleton(mkTuple 2 20 11)) (Associations 0))) (= (Associations 1) (Associations 0))))(= (Associations 1) (Associations 0))))
+(and (= (obligation3 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 5 20 11)) (Associations 0))(singleton(mkTuple 3 20 11)))) (= (Associations 1) (Associations 0))))
+(and (= (obligation2 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 3 20 11)) (Associations 0))(singleton(mkTuple 2 20 11)))) (= (Associations 1) (Associations 0))))
+(and (= (obligation4 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 6 22 11)) (Associations 0))(singleton(mkTuple 5 20 11)))) (= (Associations 1) (Associations 0))))
+(and (= (obligation1 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 2 20 11)) (Associations 0))(singleton(mkTuple 10 20 11)))) (= (Associations 1) (Associations 0))))(= (Associations 1) (Associations 0))))
 
 (assert (= (Tclosure 1) (tclosure GRAPH1)))
 (assert (= (UA_U_Reachability 1) (join SetToCheckUA (Tclosure 1))))
@@ -140,10 +140,10 @@
 (= GRAPH2 OldGRAPH2)))
 
 (assert ( or
-(and (= (obligation3 1) 1) (xor (= (Associations 2) (union (singleton(mkTuple 5 20 11)) (Associations 1))) (= (Associations 2) (Associations 1))))
-(and (= (obligation2 1) 1) (xor (= (Associations 2) (union (singleton(mkTuple 3 20 11)) (Associations 1))) (= (Associations 2) (Associations 1))))
-(and (= (obligation4 1) 1) (xor (= (Associations 2) (union (singleton(mkTuple 6 22 11)) (Associations 1))) (= (Associations 2) (Associations 1))))
-(and (= (obligation1 1) 1) (xor (= (Associations 2) (union (singleton(mkTuple 2 20 11)) (Associations 1))) (= (Associations 2) (Associations 1))))(= (Associations 2) (Associations 1))))
+(and (= (obligation3 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 5 20 11)) (Associations 1))(singleton(mkTuple 3 20 11)))) (= (Associations 2) (Associations 1))))
+(and (= (obligation2 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 3 20 11)) (Associations 1))(singleton(mkTuple 2 20 11)))) (= (Associations 2) (Associations 1))))
+(and (= (obligation4 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 6 22 11)) (Associations 1))(singleton(mkTuple 5 20 11)))) (= (Associations 2) (Associations 1))))
+(and (= (obligation1 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 2 20 11)) (Associations 1))(singleton(mkTuple 10 20 11)))) (= (Associations 2) (Associations 1))))(= (Associations 2) (Associations 1))))
 
 (assert (= (Tclosure 2) (tclosure GRAPH2)))
 (assert (= (UA_U_Reachability 2) (join SetToCheckUA (Tclosure 2))))
@@ -187,10 +187,10 @@
 (= GRAPH3 OldGRAPH3)))
 
 (assert ( or
-(and (= (obligation3 2) 1) (xor (= (Associations 3) (union (singleton(mkTuple 5 20 11)) (Associations 2))) (= (Associations 3) (Associations 2))))
-(and (= (obligation2 2) 1) (xor (= (Associations 3) (union (singleton(mkTuple 3 20 11)) (Associations 2))) (= (Associations 3) (Associations 2))))
-(and (= (obligation4 2) 1) (xor (= (Associations 3) (union (singleton(mkTuple 6 22 11)) (Associations 2))) (= (Associations 3) (Associations 2))))
-(and (= (obligation1 2) 1) (xor (= (Associations 3) (union (singleton(mkTuple 2 20 11)) (Associations 2))) (= (Associations 3) (Associations 2))))(= (Associations 3) (Associations 2))))
+(and (= (obligation3 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 5 20 11)) (Associations 2))(singleton(mkTuple 3 20 11)))) (= (Associations 3) (Associations 2))))
+(and (= (obligation2 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 3 20 11)) (Associations 2))(singleton(mkTuple 2 20 11)))) (= (Associations 3) (Associations 2))))
+(and (= (obligation4 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 6 22 11)) (Associations 2))(singleton(mkTuple 5 20 11)))) (= (Associations 3) (Associations 2))))
+(and (= (obligation1 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 2 20 11)) (Associations 2))(singleton(mkTuple 10 20 11)))) (= (Associations 3) (Associations 2))))(= (Associations 3) (Associations 2))))
 
 (assert (= (Tclosure 3) (tclosure GRAPH3)))
 (assert (= (UA_U_Reachability 3) (join SetToCheckUA (Tclosure 3))))

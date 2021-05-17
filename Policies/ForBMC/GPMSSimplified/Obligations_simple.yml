@@ -22,7 +22,18 @@ rules:
                - disapprove               
              target:
                name: PDSWhole
-               type: OA                                                                                       
+               type: OA    
+        - delete:
+            associations:
+              - subject:
+                  name: PI
+                  type: UA
+                operations:
+                  - approve
+                  - disapprove   
+                target:
+                  name: PDSWhole
+                  type: UA                                                                                   
   - label: obligation2
     event:
       subject:
@@ -45,7 +56,18 @@ rules:
                - disapprove               
              target:
                name: PDSWhole
-               type: OA             
+               type: OA  
+        - delete:
+            associations:
+              - subject:
+                  name: Chair
+                  type: UA
+                operations:
+                  - approve
+                  - disapprove                   
+                target:
+                  name: PDSWhole
+                  type: UA             
   - label: obligation3
     event:
       subject:
@@ -68,7 +90,18 @@ rules:
                - disapprove               
              target:
                name: PDSWhole
-               type: OA                    
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: BM
+                  type: UA
+                operations:
+                  - approve
+                  - disapprove                     
+                target:
+                  name: PDSWhole
+                  type: UA                    
   - label: obligation4
     event:
       subject:
@@ -90,5 +123,16 @@ rules:
                - submit               
              target:
                name: PDSWhole
-               type: OA                                    
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: Dean
+                  type: UA
+                operations:
+                  - approve
+                  - disapprove                     
+                target:
+                  name: PDSWhole
+                  type: UA                                    
                                                                          
