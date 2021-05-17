@@ -7,7 +7,7 @@ import java.io.IOException;
 public abstract class BMC {
 
 	private Solver solver = Solver.CVC4;
-	private int bound = 4;
+	private int bound = 11;
 	private String smtCodeFilePath = "";
 
 	public void setSolver(Solver solver) {

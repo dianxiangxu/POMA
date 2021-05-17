@@ -1,12 +1,27 @@
 {
   "nodes": [
     {
+      "name": "UBM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "CoPI",
       "type": "UA",
       "properties": {}
     },
     {
       "name": "Chair",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "URA",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "URD",
       "type": "UA",
       "properties": {}
     },
@@ -18,6 +33,11 @@
     {
       "name": "PDSEditing",
       "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "UDean",
+      "type": "UA",
       "properties": {}
     },
     {
@@ -61,6 +81,11 @@
       "properties": {}
     },
     {
+      "name": "UChair",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "SP",
       "type": "UA",
       "properties": {}
@@ -72,15 +97,15 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "CoPI",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "BM",
+      "source": "UDean",
       "target": "EditingPolicy"
     },
     {
       "source": "Dean",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "UChair",
       "target": "EditingPolicy"
     },
     {
@@ -89,10 +114,6 @@
     },
     {
       "source": "RD",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "SP",
       "target": "EditingPolicy"
     },
     {
@@ -106,6 +127,30 @@
     {
       "source": "Vlad",
       "target": "PI"
+    },
+    {
+      "source": "CoPI",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "BM",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "UBM",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "SP",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "URD",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "URA",
+      "target": "EditingPolicy"
     },
     {
       "source": "Nazmul",

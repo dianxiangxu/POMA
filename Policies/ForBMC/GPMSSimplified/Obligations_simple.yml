@@ -135,4 +135,195 @@ rules:
                 target:
                   name: PDSWhole
                   type: UA                                    
-                                                                         
+  - label: obligation5
+    event:
+      subject:
+        anyUser: 
+          - "RA"
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: RD
+               type: UA
+             operations:
+               - archive               
+             target:
+               name: PDSWhole
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: RA
+                  type: UA
+                operations:
+                  - submit                     
+                target:
+                  name: PDSWhole
+                  type: UA    
+  - label: obligation6
+    event:
+      subject:
+        anyUser: 
+          - "RD"
+      operations:
+        - archive
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: UChair
+               type: UA
+             operations:
+               - approve               
+             target:
+               name: PDSWhole
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: RD
+                  type: UA
+                operations:
+                  - archive                     
+                target:
+                  name: PDSWhole
+                  type: UA     
+  - label: obligation7
+    event:
+      subject:
+        anyUser: 
+          - "UChair"
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: UBM
+               type: UA
+             operations:
+               - approve               
+             target:
+               name: PDSWhole
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: UChair
+                  type: UA
+                operations:
+                  - approve                     
+                target:
+                  name: PDSWhole
+                  type: UA     
+  - label: obligation8
+    event:
+      subject:
+        anyUser: 
+          - "UBM"
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: UDean
+               type: UA
+             operations:
+               - approve               
+             target:
+               name: PDSWhole
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: UBM
+                  type: UA
+                operations:
+                  - approve                     
+                target:
+                  name: PDSWhole
+                  type: UA       
+  - label: obligation9
+    event:
+      subject:
+        anyUser: 
+          - "UDean"
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: URA
+               type: UA
+             operations:
+               - submit               
+             target:
+               name: PDSWhole
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: UDean
+                  type: UA
+                operations:
+                  - approve                     
+                target:
+                  name: PDSWhole
+                  type: UA        
+  - label: obligation10
+    event:
+      subject:
+        anyUser: 
+          - "URA"
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: URD
+               type: UA
+             operations:
+               - archive               
+             target:
+               name: PDSWhole
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: URA
+                  type: UA
+                operations:
+                  - approve                     
+                target:
+                  name: PDSWhole
+                  type: UA                                                             

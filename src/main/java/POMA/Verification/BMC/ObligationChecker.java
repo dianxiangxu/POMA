@@ -56,7 +56,7 @@ public class ObligationChecker extends BMC {
 		//smtlibv2Code +="(assert (member (mkTuple \"0\" \""+obligationsEvents.get(k)+"\" \"0\") (AccessRightsOnlyAR "+(k-1)+")))";
 
 
-		smtlibv2Code += "(assert (= (obligation4 "+k+") 1))";
+		smtlibv2Code += "(assert (= (obligation10 "+k+") 1))";
 
 		smtlibv2Code += System.lineSeparator();
 

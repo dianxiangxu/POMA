@@ -31,6 +31,11 @@ import gov.nist.csd.pm.pip.graph.MemGraph;
 			editingPolicy.createNode("RA", UA, null, "EditingPolicy");
 			editingPolicy.createNode("RD", UA, null, "EditingPolicy");
 
+			editingPolicy.createNode("UChair", UA, null, "EditingPolicy");
+			editingPolicy.createNode("UBM", UA, null, "EditingPolicy");
+			editingPolicy.createNode("UDean", UA, null, "EditingPolicy");
+			editingPolicy.createNode("URA", UA, null, "EditingPolicy");
+			editingPolicy.createNode("URD", UA, null, "EditingPolicy");
 			editingPolicy.createNode("PDSWhole", OA, null, "EditingPolicy");
 			editingPolicy.createNode("PDSEditing", OA, null, "EditingPolicy");
 
