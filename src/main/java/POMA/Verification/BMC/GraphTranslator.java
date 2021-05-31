@@ -80,6 +80,10 @@ class GraphTranslator {
 			mapOfIDs.put(nodeName, index);
 			index++;
 		}
+		for (String nodeName : addedNodesFromObligationsOA_O) {
+			mapOfIDs.put(nodeName, index);
+			index++;
+		}
 		OperationSet os = Utils.getAllAccessRights(graph);
 
 		for (String ar : os) {
@@ -113,10 +117,10 @@ class GraphTranslator {
 			if ((node.getType().toString().equals("UA") || node.getType().toString().equals("U")
 					|| node.getType().toString().equals("O") || node.getType().toString().equals("OA"))) {
 				int childID = mapOfIDs.get(node.getName());
-				if (node.getType().toString().equals("UA") || node.getType().toString().equals("OA")) {
-					 tuples.add(new AssignmentRelation(Integer.toString(childID),
-					 		Integer.toString(childID)).toStringNoQuotes());
-				}
+				// if (node.getType().toString().equals("UA") || node.getType().toString().equals("OA")) {
+				// 	 tuples.add(new AssignmentRelation(Integer.toString(childID),
+				// 	 		Integer.toString(childID)).toStringNoQuotes());
+				// }
 				if (node.getType().toString().equals("UA") || node.getType().toString().equals("U")) {
 					tuplesForUACheck.add(new AssignmentRelation(Integer.toString(childID), 
 							Integer.toString(childID)).toStringNoQuotes());
@@ -160,7 +164,7 @@ class GraphTranslator {
 	private String translateSetToCheckOA() {
 		for (String OA_O : addedNodesFromObligationsOA_O) {
 			int oa_oID = mapOfIDs.get(OA_O);
-			tuplesForUACheck.add(new AssignmentRelation(Integer.toString(oa_oID), 
+			tuplesForOACheck.add(new AssignmentRelation(Integer.toString(oa_oID), 
 					Integer.toString(oa_oID)).toStringNoQuotes());
 		}
 		StringBuilder sb = new StringBuilder();

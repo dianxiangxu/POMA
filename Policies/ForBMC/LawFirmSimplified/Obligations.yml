@@ -19,15 +19,29 @@ rules:
                 type: UA
               where:
                 name: Attorneys
-                type: UA       
+                type: UA     
+        - assign:
+            - what:
+                name: Attorneys2
+                type: UA
+              where:
+                name: Attorneys
+                type: UA                         
         - delete:
             assignments:
               - what:
                   name: Attorneys3
-                  type: OA
+                  type: UA
                 where:
                   name: Attorneys 
-                  type: PC           
+                  type: UA     
+        - create:
+            - what:
+                name: CreatedNode
+                type: OA
+              where:
+                name: Case3Info 
+                type: OA                                 
   - label: obligation2
     event:
       subject:

@@ -326,4 +326,100 @@ rules:
                   - approve                     
                 target:
                   name: PDSWhole
-                  type: UA                                                             
+                  type: UA    
+  - label: obligation11
+    event:
+      subject:
+        anyUser: 
+          - "URD"
+      operations:
+        - archive
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: URD
+               type: UA
+             operations:
+               - delete               
+             target:
+               name: PDSWhole
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: URD
+                  type: UA
+                operations:
+                  - archive                     
+                target:
+                  name: PDSWhole
+                  type: UA       
+  - label: obligation12
+    event:
+      subject:
+        anyUser: 
+          - "URD"
+      operations:
+        - delete
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: URA
+               type: UA
+             operations:
+               - modify               
+             target:
+               name: PDSWhole
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: URD
+                  type: UA
+                operations:
+                  - delete                     
+                target:
+                  name: PDSWhole
+                  type: UA                                                                            
+  - label: obligation13
+    event:
+      subject:
+        anyUser: 
+          - "URA"
+      operations:
+        - modify
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: URD
+               type: UA
+             operations:
+               - modify               
+             target:
+               name: PDSWhole
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: URA
+                  type: UA
+                operations:
+                  - modify                     
+                target:
+                  name: PDSWhole
+                  type: UA 

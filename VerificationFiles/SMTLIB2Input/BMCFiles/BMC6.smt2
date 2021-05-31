@@ -79,6 +79,9 @@
 (declare-fun obligation8 (Int) Int)
 (declare-fun obligation9 (Int) Int)
 (declare-fun obligation10 (Int) Int)
+(declare-fun obligation11 (Int) Int)
+(declare-fun obligation12 (Int) Int)
+(declare-fun obligation13 (Int) Int)
 ;--------------------------------------------------------------------------------------------------------------------
 ;STEP1
 (assert 
@@ -141,6 +144,24 @@
 (and (member (mkTuple 4 32 15) (AccessRights 0)) (= (obligation10 0) 1))
 )
 )				
+(assert 
+(xor 
+(= (obligation11 0) 0) 
+(and (member (mkTuple 5 33 15) (AccessRights 0)) (= (obligation11 0) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation12 0) 0) 
+(and (member (mkTuple 5 34 15) (AccessRights 0)) (= (obligation12 0) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation13 0) 0) 
+(and (member (mkTuple 4 36 15) (AccessRights 0)) (= (obligation13 0) 1))
+)
+)				
 
 (declare-fun GRAPH1 () (Set (Tuple Int Int)))
 (declare-fun OldGRAPH1 () (Set (Tuple Int Int)))
@@ -150,6 +171,7 @@
 (= GRAPH1 OldGRAPH1)))
 
 (assert ( or
+(and (= (obligation13 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 5 36 15)) (Associations 0))(singleton(mkTuple 4 36 15)))) (= (Associations 1) (Associations 0))))
 (and (= (obligation7 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 1 31 15)) (Associations 0))(singleton(mkTuple 17 31 15)))) (= (Associations 1) (Associations 0))))
 (and (= (obligation6 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 17 31 15)) (Associations 0))(singleton(mkTuple 12 33 15)))) (= (Associations 1) (Associations 0))))
 (and (= (obligation9 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 4 32 15)) (Associations 0))(singleton(mkTuple 8 31 15)))) (= (Associations 1) (Associations 0))))
@@ -159,6 +181,8 @@
 (and (= (obligation5 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 12 33 15)) (Associations 0))(singleton(mkTuple 10 32 15)))) (= (Associations 1) (Associations 0))))
 (and (= (obligation4 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 10 32 15)) (Associations 0))(singleton(mkTuple 9 31 15)))) (= (Associations 1) (Associations 0))))
 (and (= (obligation1 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 2 31 15)) (Associations 0))(singleton(mkTuple 14 31 15)))) (= (Associations 1) (Associations 0))))
+(and (= (obligation12 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 4 36 15)) (Associations 0))(singleton(mkTuple 5 34 15)))) (= (Associations 1) (Associations 0))))
+(and (= (obligation11 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 5 34 15)) (Associations 0))(singleton(mkTuple 5 33 15)))) (= (Associations 1) (Associations 0))))
 (and (= (obligation10 0) 1) (xor (= (Associations 1) (setminus (union (singleton(mkTuple 5 33 15)) (Associations 0))(singleton(mkTuple 4 31 15)))) (= (Associations 1) (Associations 0))))(= (Associations 1) (Associations 0))))
 
 (assert (= (Tclosure 1) (tclosure GRAPH1)))
@@ -230,6 +254,24 @@
 (and (member (mkTuple 4 32 15) (AccessRights 1)) (= (obligation10 1) 1))
 )
 )				
+(assert 
+(xor 
+(= (obligation11 1) 0) 
+(and (member (mkTuple 5 33 15) (AccessRights 1)) (= (obligation11 1) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation12 1) 0) 
+(and (member (mkTuple 5 34 15) (AccessRights 1)) (= (obligation12 1) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation13 1) 0) 
+(and (member (mkTuple 4 36 15) (AccessRights 1)) (= (obligation13 1) 1))
+)
+)				
 
 (declare-fun GRAPH2 () (Set (Tuple Int Int)))
 (declare-fun OldGRAPH2 () (Set (Tuple Int Int)))
@@ -239,6 +281,7 @@
 (= GRAPH2 OldGRAPH2)))
 
 (assert ( or
+(and (= (obligation13 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 5 36 15)) (Associations 1))(singleton(mkTuple 4 36 15)))) (= (Associations 2) (Associations 1))))
 (and (= (obligation7 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 1 31 15)) (Associations 1))(singleton(mkTuple 17 31 15)))) (= (Associations 2) (Associations 1))))
 (and (= (obligation6 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 17 31 15)) (Associations 1))(singleton(mkTuple 12 33 15)))) (= (Associations 2) (Associations 1))))
 (and (= (obligation9 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 4 32 15)) (Associations 1))(singleton(mkTuple 8 31 15)))) (= (Associations 2) (Associations 1))))
@@ -248,6 +291,8 @@
 (and (= (obligation5 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 12 33 15)) (Associations 1))(singleton(mkTuple 10 32 15)))) (= (Associations 2) (Associations 1))))
 (and (= (obligation4 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 10 32 15)) (Associations 1))(singleton(mkTuple 9 31 15)))) (= (Associations 2) (Associations 1))))
 (and (= (obligation1 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 2 31 15)) (Associations 1))(singleton(mkTuple 14 31 15)))) (= (Associations 2) (Associations 1))))
+(and (= (obligation12 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 4 36 15)) (Associations 1))(singleton(mkTuple 5 34 15)))) (= (Associations 2) (Associations 1))))
+(and (= (obligation11 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 5 34 15)) (Associations 1))(singleton(mkTuple 5 33 15)))) (= (Associations 2) (Associations 1))))
 (and (= (obligation10 1) 1) (xor (= (Associations 2) (setminus (union (singleton(mkTuple 5 33 15)) (Associations 1))(singleton(mkTuple 4 31 15)))) (= (Associations 2) (Associations 1))))(= (Associations 2) (Associations 1))))
 
 (assert (= (Tclosure 2) (tclosure GRAPH2)))
@@ -319,6 +364,24 @@
 (and (member (mkTuple 4 32 15) (AccessRights 2)) (= (obligation10 2) 1))
 )
 )				
+(assert 
+(xor 
+(= (obligation11 2) 0) 
+(and (member (mkTuple 5 33 15) (AccessRights 2)) (= (obligation11 2) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation12 2) 0) 
+(and (member (mkTuple 5 34 15) (AccessRights 2)) (= (obligation12 2) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation13 2) 0) 
+(and (member (mkTuple 4 36 15) (AccessRights 2)) (= (obligation13 2) 1))
+)
+)				
 
 (declare-fun GRAPH3 () (Set (Tuple Int Int)))
 (declare-fun OldGRAPH3 () (Set (Tuple Int Int)))
@@ -328,6 +391,7 @@
 (= GRAPH3 OldGRAPH3)))
 
 (assert ( or
+(and (= (obligation13 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 5 36 15)) (Associations 2))(singleton(mkTuple 4 36 15)))) (= (Associations 3) (Associations 2))))
 (and (= (obligation7 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 1 31 15)) (Associations 2))(singleton(mkTuple 17 31 15)))) (= (Associations 3) (Associations 2))))
 (and (= (obligation6 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 17 31 15)) (Associations 2))(singleton(mkTuple 12 33 15)))) (= (Associations 3) (Associations 2))))
 (and (= (obligation9 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 4 32 15)) (Associations 2))(singleton(mkTuple 8 31 15)))) (= (Associations 3) (Associations 2))))
@@ -337,6 +401,8 @@
 (and (= (obligation5 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 12 33 15)) (Associations 2))(singleton(mkTuple 10 32 15)))) (= (Associations 3) (Associations 2))))
 (and (= (obligation4 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 10 32 15)) (Associations 2))(singleton(mkTuple 9 31 15)))) (= (Associations 3) (Associations 2))))
 (and (= (obligation1 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 2 31 15)) (Associations 2))(singleton(mkTuple 14 31 15)))) (= (Associations 3) (Associations 2))))
+(and (= (obligation12 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 4 36 15)) (Associations 2))(singleton(mkTuple 5 34 15)))) (= (Associations 3) (Associations 2))))
+(and (= (obligation11 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 5 34 15)) (Associations 2))(singleton(mkTuple 5 33 15)))) (= (Associations 3) (Associations 2))))
 (and (= (obligation10 2) 1) (xor (= (Associations 3) (setminus (union (singleton(mkTuple 5 33 15)) (Associations 2))(singleton(mkTuple 4 31 15)))) (= (Associations 3) (Associations 2))))(= (Associations 3) (Associations 2))))
 
 (assert (= (Tclosure 3) (tclosure GRAPH3)))
@@ -408,6 +474,24 @@
 (and (member (mkTuple 4 32 15) (AccessRights 3)) (= (obligation10 3) 1))
 )
 )				
+(assert 
+(xor 
+(= (obligation11 3) 0) 
+(and (member (mkTuple 5 33 15) (AccessRights 3)) (= (obligation11 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation12 3) 0) 
+(and (member (mkTuple 5 34 15) (AccessRights 3)) (= (obligation12 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation13 3) 0) 
+(and (member (mkTuple 4 36 15) (AccessRights 3)) (= (obligation13 3) 1))
+)
+)				
 
 (declare-fun GRAPH4 () (Set (Tuple Int Int)))
 (declare-fun OldGRAPH4 () (Set (Tuple Int Int)))
@@ -417,6 +501,7 @@
 (= GRAPH4 OldGRAPH4)))
 
 (assert ( or
+(and (= (obligation13 3) 1) (xor (= (Associations 4) (setminus (union (singleton(mkTuple 5 36 15)) (Associations 3))(singleton(mkTuple 4 36 15)))) (= (Associations 4) (Associations 3))))
 (and (= (obligation7 3) 1) (xor (= (Associations 4) (setminus (union (singleton(mkTuple 1 31 15)) (Associations 3))(singleton(mkTuple 17 31 15)))) (= (Associations 4) (Associations 3))))
 (and (= (obligation6 3) 1) (xor (= (Associations 4) (setminus (union (singleton(mkTuple 17 31 15)) (Associations 3))(singleton(mkTuple 12 33 15)))) (= (Associations 4) (Associations 3))))
 (and (= (obligation9 3) 1) (xor (= (Associations 4) (setminus (union (singleton(mkTuple 4 32 15)) (Associations 3))(singleton(mkTuple 8 31 15)))) (= (Associations 4) (Associations 3))))
@@ -426,6 +511,8 @@
 (and (= (obligation5 3) 1) (xor (= (Associations 4) (setminus (union (singleton(mkTuple 12 33 15)) (Associations 3))(singleton(mkTuple 10 32 15)))) (= (Associations 4) (Associations 3))))
 (and (= (obligation4 3) 1) (xor (= (Associations 4) (setminus (union (singleton(mkTuple 10 32 15)) (Associations 3))(singleton(mkTuple 9 31 15)))) (= (Associations 4) (Associations 3))))
 (and (= (obligation1 3) 1) (xor (= (Associations 4) (setminus (union (singleton(mkTuple 2 31 15)) (Associations 3))(singleton(mkTuple 14 31 15)))) (= (Associations 4) (Associations 3))))
+(and (= (obligation12 3) 1) (xor (= (Associations 4) (setminus (union (singleton(mkTuple 4 36 15)) (Associations 3))(singleton(mkTuple 5 34 15)))) (= (Associations 4) (Associations 3))))
+(and (= (obligation11 3) 1) (xor (= (Associations 4) (setminus (union (singleton(mkTuple 5 34 15)) (Associations 3))(singleton(mkTuple 5 33 15)))) (= (Associations 4) (Associations 3))))
 (and (= (obligation10 3) 1) (xor (= (Associations 4) (setminus (union (singleton(mkTuple 5 33 15)) (Associations 3))(singleton(mkTuple 4 31 15)))) (= (Associations 4) (Associations 3))))(= (Associations 4) (Associations 3))))
 
 (assert (= (Tclosure 4) (tclosure GRAPH4)))
@@ -497,6 +584,24 @@
 (and (member (mkTuple 4 32 15) (AccessRights 4)) (= (obligation10 4) 1))
 )
 )				
+(assert 
+(xor 
+(= (obligation11 4) 0) 
+(and (member (mkTuple 5 33 15) (AccessRights 4)) (= (obligation11 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation12 4) 0) 
+(and (member (mkTuple 5 34 15) (AccessRights 4)) (= (obligation12 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation13 4) 0) 
+(and (member (mkTuple 4 36 15) (AccessRights 4)) (= (obligation13 4) 1))
+)
+)				
 
 (declare-fun GRAPH5 () (Set (Tuple Int Int)))
 (declare-fun OldGRAPH5 () (Set (Tuple Int Int)))
@@ -506,6 +611,7 @@
 (= GRAPH5 OldGRAPH5)))
 
 (assert ( or
+(and (= (obligation13 4) 1) (xor (= (Associations 5) (setminus (union (singleton(mkTuple 5 36 15)) (Associations 4))(singleton(mkTuple 4 36 15)))) (= (Associations 5) (Associations 4))))
 (and (= (obligation7 4) 1) (xor (= (Associations 5) (setminus (union (singleton(mkTuple 1 31 15)) (Associations 4))(singleton(mkTuple 17 31 15)))) (= (Associations 5) (Associations 4))))
 (and (= (obligation6 4) 1) (xor (= (Associations 5) (setminus (union (singleton(mkTuple 17 31 15)) (Associations 4))(singleton(mkTuple 12 33 15)))) (= (Associations 5) (Associations 4))))
 (and (= (obligation9 4) 1) (xor (= (Associations 5) (setminus (union (singleton(mkTuple 4 32 15)) (Associations 4))(singleton(mkTuple 8 31 15)))) (= (Associations 5) (Associations 4))))
@@ -515,6 +621,8 @@
 (and (= (obligation5 4) 1) (xor (= (Associations 5) (setminus (union (singleton(mkTuple 12 33 15)) (Associations 4))(singleton(mkTuple 10 32 15)))) (= (Associations 5) (Associations 4))))
 (and (= (obligation4 4) 1) (xor (= (Associations 5) (setminus (union (singleton(mkTuple 10 32 15)) (Associations 4))(singleton(mkTuple 9 31 15)))) (= (Associations 5) (Associations 4))))
 (and (= (obligation1 4) 1) (xor (= (Associations 5) (setminus (union (singleton(mkTuple 2 31 15)) (Associations 4))(singleton(mkTuple 14 31 15)))) (= (Associations 5) (Associations 4))))
+(and (= (obligation12 4) 1) (xor (= (Associations 5) (setminus (union (singleton(mkTuple 4 36 15)) (Associations 4))(singleton(mkTuple 5 34 15)))) (= (Associations 5) (Associations 4))))
+(and (= (obligation11 4) 1) (xor (= (Associations 5) (setminus (union (singleton(mkTuple 5 34 15)) (Associations 4))(singleton(mkTuple 5 33 15)))) (= (Associations 5) (Associations 4))))
 (and (= (obligation10 4) 1) (xor (= (Associations 5) (setminus (union (singleton(mkTuple 5 33 15)) (Associations 4))(singleton(mkTuple 4 31 15)))) (= (Associations 5) (Associations 4))))(= (Associations 5) (Associations 4))))
 
 (assert (= (Tclosure 5) (tclosure GRAPH5)))
@@ -586,6 +694,24 @@
 (and (member (mkTuple 4 32 15) (AccessRights 5)) (= (obligation10 5) 1))
 )
 )				
+(assert 
+(xor 
+(= (obligation11 5) 0) 
+(and (member (mkTuple 5 33 15) (AccessRights 5)) (= (obligation11 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation12 5) 0) 
+(and (member (mkTuple 5 34 15) (AccessRights 5)) (= (obligation12 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation13 5) 0) 
+(and (member (mkTuple 4 36 15) (AccessRights 5)) (= (obligation13 5) 1))
+)
+)				
 
 (declare-fun GRAPH6 () (Set (Tuple Int Int)))
 (declare-fun OldGRAPH6 () (Set (Tuple Int Int)))
@@ -595,6 +721,7 @@
 (= GRAPH6 OldGRAPH6)))
 
 (assert ( or
+(and (= (obligation13 5) 1) (xor (= (Associations 6) (setminus (union (singleton(mkTuple 5 36 15)) (Associations 5))(singleton(mkTuple 4 36 15)))) (= (Associations 6) (Associations 5))))
 (and (= (obligation7 5) 1) (xor (= (Associations 6) (setminus (union (singleton(mkTuple 1 31 15)) (Associations 5))(singleton(mkTuple 17 31 15)))) (= (Associations 6) (Associations 5))))
 (and (= (obligation6 5) 1) (xor (= (Associations 6) (setminus (union (singleton(mkTuple 17 31 15)) (Associations 5))(singleton(mkTuple 12 33 15)))) (= (Associations 6) (Associations 5))))
 (and (= (obligation9 5) 1) (xor (= (Associations 6) (setminus (union (singleton(mkTuple 4 32 15)) (Associations 5))(singleton(mkTuple 8 31 15)))) (= (Associations 6) (Associations 5))))
@@ -604,6 +731,8 @@
 (and (= (obligation5 5) 1) (xor (= (Associations 6) (setminus (union (singleton(mkTuple 12 33 15)) (Associations 5))(singleton(mkTuple 10 32 15)))) (= (Associations 6) (Associations 5))))
 (and (= (obligation4 5) 1) (xor (= (Associations 6) (setminus (union (singleton(mkTuple 10 32 15)) (Associations 5))(singleton(mkTuple 9 31 15)))) (= (Associations 6) (Associations 5))))
 (and (= (obligation1 5) 1) (xor (= (Associations 6) (setminus (union (singleton(mkTuple 2 31 15)) (Associations 5))(singleton(mkTuple 14 31 15)))) (= (Associations 6) (Associations 5))))
+(and (= (obligation12 5) 1) (xor (= (Associations 6) (setminus (union (singleton(mkTuple 4 36 15)) (Associations 5))(singleton(mkTuple 5 34 15)))) (= (Associations 6) (Associations 5))))
+(and (= (obligation11 5) 1) (xor (= (Associations 6) (setminus (union (singleton(mkTuple 5 34 15)) (Associations 5))(singleton(mkTuple 5 33 15)))) (= (Associations 6) (Associations 5))))
 (and (= (obligation10 5) 1) (xor (= (Associations 6) (setminus (union (singleton(mkTuple 5 33 15)) (Associations 5))(singleton(mkTuple 4 31 15)))) (= (Associations 6) (Associations 5))))(= (Associations 6) (Associations 5))))
 
 (assert (= (Tclosure 6) (tclosure GRAPH6)))
@@ -614,7 +743,7 @@
 
 
 ;PROPERTY
-(assert (= (obligation10 5) 1))
+(assert (= (obligation13 5) 1))
 
 
 (check-sat)

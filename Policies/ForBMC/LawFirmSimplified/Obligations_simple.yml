@@ -19,7 +19,23 @@ rules:
                 type: UA
               where:
                 name: Attorneys
-                type: UA                                 
+                type: UA   
+  #      - delete:
+   #         assignments:
+   #           - what:
+  #                name: Attorneys3
+                  # type: UA
+                # where:
+                #   name: Attorneys
+                #   type: UA                        
+        - delete:
+            assignments:
+              - what:
+                  name: Attorneys2
+                  type: UA
+                where:
+                  name: Attorneys
+                  type: UA                                           
   - label: obligation2
     event:
       subject:

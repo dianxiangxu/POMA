@@ -6,14 +6,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 import POMA.Verification.TranslationWithSets.AssociationRelation;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.obligations.evr.EVRException;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
+import gov.nist.csd.pm.pip.obligations.model.EventPattern;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
+import gov.nist.csd.pm.pip.obligations.model.ResponsePattern;
 import gov.nist.csd.pm.pip.obligations.model.Rule;
 import gov.nist.csd.pm.pip.obligations.model.actions.Action;
 import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction;
@@ -24,9 +28,9 @@ import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 
 public class ObligationTranslator {
 
+	String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
 	// String pathToObligations =
-	// "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
-	String pathToObligations = "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
+	// "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml";
@@ -38,6 +42,8 @@ public class ObligationTranslator {
 	private List<String> listOfCreatedNodesOA = new ArrayList<String>();
 	private List<String> ruleLabels = new ArrayList<String>();
 	private String actionsTranslation;
+	private List<Action> grantGroupActions = new ArrayList<Action>();
+	private List<Action> assignGroupActions = new ArrayList<Action>();
 
 	Obligation obligation;
 	HashMap<String, Integer> mapOfIDs;
@@ -108,6 +114,59 @@ public class ObligationTranslator {
 		}
 	}
 
+	private Set<Rule> getRelevantObligationsAlgorithm(Rule targetObligation, int levelOfRelevancy) {
+		Set<Rule> relevantObligations = new HashSet<Rule>();
+		for (Rule r : obligation.getRules()) {
+			if (r.equals(targetObligation)) {
+				return null;
+			}
+			EventPattern ep = targetObligation.getEventPattern();
+			ResponsePattern rp = r.getResponsePattern();
+			for (int i = 0; i < levelOfRelevancy; i++) {
+				if (affects(rp, ep)) {
+					Set<Rule> sr = getRelevantObligationsAlgorithm(targetObligation, i + 1);
+					if (sr != null) {
+						relevantObligations.addAll(sr);
+					}
+				}
+			}
+		}
+		return relevantObligations;
+	}
+
+	private boolean affects(ResponsePattern rp, EventPattern ep) {
+		String eventSubject = ep.getSubject().getAnyUser().get(0);
+		String eventOperation = ep.getOperations().get(0);
+		String eventTarget = ep.getTarget().getPolicyElements().get(0).getName();
+		for (Action action : rp.getActions()) {
+			if (action instanceof GrantAction) {
+				GrantAction association = (GrantAction) action;
+				String what = association.getSubject().getName().toString();
+				String where = association.getTarget().getName().toString();
+				String op = association.getOperations().get(0);
+
+				if (what.equals(eventSubject) || where.equals(eventTarget) || eventOperation.equals(op)) {
+					return true;
+				}
+			} else if (action instanceof CreateAction) {
+				CreateAction createAction = (CreateAction) action;
+				String what = createAction.getCreateNodesList().get(0).getWhat().getName().toString();
+				if (what.equals(eventSubject) || what.equals(eventTarget)) {
+					return true;
+				}
+			} else if (action instanceof AssignAction) {
+				AssignAction assignAction = (AssignAction) action;
+				String what = assignAction.getAssignments().get(0).getWhat().getName().toString();
+				String where = assignAction.getAssignments().get(0).getWhere().getName().toString();
+				if (what.equals(eventSubject) || where.equals(eventTarget) || what.equals(eventTarget)
+						|| where.equals(eventSubject)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	private Obligation readObligations() throws EVRException, IOException {
 
 		String yml = new String(Files.readAllBytes(Paths.get(pathToObligations)));
@@ -142,6 +201,102 @@ public class ObligationTranslator {
 				}
 			}
 		}
+	}
+
+	private void groupActions(List<Action> actions) {
+		grantGroupActions = new ArrayList<Action>();
+		assignGroupActions = new ArrayList<Action>();
+		for (Action action : actions) {
+			if (action instanceof GrantAction) {
+				grantGroupActions.add((GrantAction) action);
+			} else if (action instanceof AssignAction) {
+				assignGroupActions.add((AssignAction) action);
+			} else if (action instanceof DeleteAction) {
+				DeleteAction deleteAction = (DeleteAction) action;
+				if (deleteAction.getAssignments().getAssignments().size() != 0) {
+					assignGroupActions.add(deleteAction);
+				} else if (deleteAction.getAssociations().size() != 0) {
+					grantGroupActions.add(deleteAction);
+				}
+			}
+		}
+	}
+
+	private String processAssignmentRelatedActions(int k, Rule rule) {
+		StringBuilder sb_assignments = new StringBuilder();
+		AssignAction assignAction;
+		DeleteAction deleteAction;
+		CreateAction createAction;
+
+		String what = "";
+		String where = "";
+		String SMTAction = "";
+		for (int i = 0; i < assignGroupActions.size(); i++) {
+			Action action = assignGroupActions.get(i);
+			if (action instanceof AssignAction) {
+				assignAction = (AssignAction) action;
+				what = assignAction.getAssignments().get(0).getWhat().getName().toString();
+				where = assignAction.getAssignments().get(0).getWhere().getName().toString();
+				SMTAction = "union";
+			} else if (action instanceof DeleteAction) {// TODO: add multiple assignments
+				deleteAction = (DeleteAction) action;
+				what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
+				where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
+				SMTAction = "setminus";
+			}
+			else if (action instanceof CreateAction) {// TODO: add multiple nodes
+				createAction = (CreateAction) action;
+				what = createAction.getCreateNodesList().get(0).getWhat().getName();
+				where = createAction.getCreateNodesList().get(0).getWhere().getName();
+				SMTAction = "union";
+			}
+			int whatID = mapOfIDs.get(what);
+			int whereID = mapOfIDs.get(where);
+			if (i == 0) {
+				sb_assignments.append(
+						"(" + SMTAction + "  OldGRAPH" + k + " (singleton(mkTuple " + whatID + " " + whereID + ")))");
+			} else {
+				//sb_assignments.insert(0, "(" + SMTAction + " (singleton(mkTuple " + whatID + " " + whereID + ")) ");
+				sb_assignments.insert(0, "(" + SMTAction+" ");
+				sb_assignments.append(" (singleton(mkTuple " + whatID + " " + whereID + ")))");
+			}
+		}
+		sb_assignments.append(")");
+		sb_assignments.append(System.lineSeparator());
+		sb_assignments.append("(= GRAPH" + k + " OldGRAPH" + k + ")))");
+		sb_assignments.append(System.lineSeparator());
+		return sb_assignments.toString();
+	}
+
+	private String processAssociationRelatedActions(int k, Rule rule) {
+
+		return "";
+	}
+
+	String processActionsRefactoring(int k) {
+		StringBuilder sb_assignments = new StringBuilder();
+		StringBuilder sb_associations = new StringBuilder();
+		sb_assignments.append("(assert (or ");
+		sb_assignments.append(System.lineSeparator());
+		sb_associations.append("(assert (or ");
+		sb_associations.append(System.lineSeparator());
+		for (Rule rule : obligation.getRules()) {
+			this.groupActions(rule.getResponsePattern().getActions());
+			if (grantGroupActions.size() > 0) {
+				this.processAssociationRelatedActions(k, rule);
+			}
+			if (assignGroupActions.size() > 0) {
+				sb_assignments.append("(and (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
+				sb_assignments.append(System.lineSeparator());
+				sb_assignments.append("(xor (= GRAPH" + k + " ");
+				sb_assignments.append(System.lineSeparator());
+				sb_assignments.append(processAssignmentRelatedActions(k, rule));
+				sb_assignments.append(System.lineSeparator());
+			}
+		}
+		sb_assignments.append("(= GRAPH" + k + " OldGRAPH" + k + ")))");
+		sb_associations.append("(= (Associations " + k + ") (Associations " + (k - 1) + "))))");
+		return sb_assignments.toString() + System.lineSeparator() + System.lineSeparator() + sb_associations.toString();
 	}
 
 	String processActionsImproving(int k) {
