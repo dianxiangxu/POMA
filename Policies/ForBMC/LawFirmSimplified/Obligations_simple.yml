@@ -105,4 +105,41 @@ rules:
              target:
                name: Case3
                type: OA                                          
-                                                                         
+  - label: obligation5
+    event:
+      subject:
+        anyUser: 
+          - "Attorneys"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:      
+      actions:                      
+        - delete:
+            assignments:
+              - what:
+                  name: Attorneys2
+                  type: UA
+                where:
+                  name: Attorneys
+                  type: UA 
+  - label: obligation6
+    event:
+      subject:
+        anyUser: 
+          - "Attorneys3"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:      
+      actions:                      
+        - delete:
+            nodes:
+              - name: Attorneys2
+                type: UA                                                                                                     

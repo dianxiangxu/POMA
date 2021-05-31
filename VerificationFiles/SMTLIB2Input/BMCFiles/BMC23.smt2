@@ -46,6 +46,8 @@
 (declare-fun obligation2 (Int) Int)
 (declare-fun obligation3 (Int) Int)
 (declare-fun obligation4 (Int) Int)
+(declare-fun obligation5 (Int) Int)
+(declare-fun obligation6 (Int) Int)
 ;--------------------------------------------------------------------------------------------------------------------
 ;STEP1
 (assert 
@@ -72,6 +74,18 @@
 (and (member (mkTuple 2 15 1) (AccessRights 0)) (= (obligation4 0) 1))
 )
 )				
+(assert 
+(xor 
+(= (obligation5 0) 0) 
+(and (member (mkTuple 8 15 1) (AccessRights 0)) (= (obligation5 0) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation6 0) 0) 
+(and (member (mkTuple 2 15 1) (AccessRights 0)) (= (obligation6 0) 1))
+)
+)				
 
 (declare-fun GRAPH1 () (Set (Tuple Int Int)))
 (declare-fun OldGRAPH1 () (Set (Tuple Int Int)))
@@ -91,6 +105,16 @@
 (and (= (obligation3 0) 1)
 (xor (= GRAPH1 
 (union  OldGRAPH1 (singleton(mkTuple 2 6))))
+(= GRAPH1 OldGRAPH1)))
+
+(and (= (obligation5 0) 1)
+(xor (= GRAPH1 
+(setminus  OldGRAPH1 (singleton(mkTuple 6 8))))
+(= GRAPH1 OldGRAPH1)))
+
+(and (= (obligation6 0) 1)
+(xor (= GRAPH1 
+(setminus  OldGRAPH1 (union (join OldGRAPH1 (singleton (mkTuple 6 6))) (join (singleton (mkTuple 6 6)) OldGRAPH1))))
 (= GRAPH1 OldGRAPH1)))
 
 (= GRAPH1 OldGRAPH1)))
@@ -136,6 +160,18 @@
 (and (member (mkTuple 2 15 1) (AccessRights 1)) (= (obligation4 1) 1))
 )
 )				
+(assert 
+(xor 
+(= (obligation5 1) 0) 
+(and (member (mkTuple 8 15 1) (AccessRights 1)) (= (obligation5 1) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation6 1) 0) 
+(and (member (mkTuple 2 15 1) (AccessRights 1)) (= (obligation6 1) 1))
+)
+)				
 
 (declare-fun GRAPH2 () (Set (Tuple Int Int)))
 (declare-fun OldGRAPH2 () (Set (Tuple Int Int)))
@@ -155,6 +191,16 @@
 (and (= (obligation3 1) 1)
 (xor (= GRAPH2 
 (union  OldGRAPH2 (singleton(mkTuple 2 6))))
+(= GRAPH2 OldGRAPH2)))
+
+(and (= (obligation5 1) 1)
+(xor (= GRAPH2 
+(setminus  OldGRAPH2 (singleton(mkTuple 6 8))))
+(= GRAPH2 OldGRAPH2)))
+
+(and (= (obligation6 1) 1)
+(xor (= GRAPH2 
+(setminus  OldGRAPH2 (union (join OldGRAPH2 (singleton (mkTuple 6 6))) (join (singleton (mkTuple 6 6)) OldGRAPH2))))
 (= GRAPH2 OldGRAPH2)))
 
 (= GRAPH2 OldGRAPH2)))
@@ -200,6 +246,18 @@
 (and (member (mkTuple 2 15 1) (AccessRights 2)) (= (obligation4 2) 1))
 )
 )				
+(assert 
+(xor 
+(= (obligation5 2) 0) 
+(and (member (mkTuple 8 15 1) (AccessRights 2)) (= (obligation5 2) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation6 2) 0) 
+(and (member (mkTuple 2 15 1) (AccessRights 2)) (= (obligation6 2) 1))
+)
+)				
 
 (declare-fun GRAPH3 () (Set (Tuple Int Int)))
 (declare-fun OldGRAPH3 () (Set (Tuple Int Int)))
@@ -219,6 +277,16 @@
 (and (= (obligation3 2) 1)
 (xor (= GRAPH3 
 (union  OldGRAPH3 (singleton(mkTuple 2 6))))
+(= GRAPH3 OldGRAPH3)))
+
+(and (= (obligation5 2) 1)
+(xor (= GRAPH3 
+(setminus  OldGRAPH3 (singleton(mkTuple 6 8))))
+(= GRAPH3 OldGRAPH3)))
+
+(and (= (obligation6 2) 1)
+(xor (= GRAPH3 
+(setminus  OldGRAPH3 (union (join OldGRAPH3 (singleton (mkTuple 6 6))) (join (singleton (mkTuple 6 6)) OldGRAPH3))))
 (= GRAPH3 OldGRAPH3)))
 
 (= GRAPH3 OldGRAPH3)))

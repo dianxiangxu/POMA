@@ -28,12 +28,12 @@ import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 
 public class ObligationTranslator {
 
-	//String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
-	 String pathToObligations =
-	 "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
-
 	// String pathToObligations =
-	// "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml";
+	// "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
+	// String pathToObligations =
+	// "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
+
+	String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml";
 
 	List<String> processedObligations = new ArrayList<String>();
 	List<String> processedObligationsEventLabels = new ArrayList<String>();
@@ -213,9 +213,11 @@ public class ObligationTranslator {
 				assignGroupActions.add((AssignAction) action);
 			} else if (action instanceof DeleteAction) {
 				DeleteAction deleteAction = (DeleteAction) action;
-				if (deleteAction.getAssignments()!=null && deleteAction.getAssignments().getAssignments().size() != 0) {
+				if ((deleteAction.getAssignments() != null
+						&& deleteAction.getAssignments().getAssignments().size() != 0)
+						|| (deleteAction.getNodes() != null && deleteAction.getNodes().size() != 0)) {
 					assignGroupActions.add(deleteAction);
-				} else if (deleteAction.getAssociations().size() != 0) {
+				} else if (deleteAction.getAssociations() != null && deleteAction.getAssociations().size() != 0) {
 					grantGroupActions.add(deleteAction);
 				}
 			}
@@ -231,6 +233,7 @@ public class ObligationTranslator {
 		String what = "";
 		String where = "";
 		String SMTAction = "";
+		boolean deleteNode = false;
 		for (int i = 0; i < assignGroupActions.size(); i++) {
 			Action action = assignGroupActions.get(i);
 			if (action instanceof AssignAction) {
@@ -240,9 +243,15 @@ public class ObligationTranslator {
 				SMTAction = "union";
 			} else if (action instanceof DeleteAction) {// TODO: add multiple assignments
 				deleteAction = (DeleteAction) action;
-				what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
-				where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
-				SMTAction = "setminus";
+				if (deleteAction.getAssignments() != null) {
+					what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
+					where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
+					SMTAction = "setminus";
+				} else {
+					deleteNode = true;
+					what = deleteAction.getNodes().get(0).getName();
+					SMTAction = "setminus";
+				}
 			} else if (action instanceof CreateAction) {// TODO: add multiple nodes
 				createAction = (CreateAction) action;
 				what = createAction.getCreateNodesList().get(0).getWhat().getName();
@@ -250,11 +259,20 @@ public class ObligationTranslator {
 				SMTAction = "union";
 			}
 			int whatID = mapOfIDs.get(what);
-			int whereID = mapOfIDs.get(where);
-			if (i == 0) {
+			int whereID = -1;
+			if (!where.isEmpty())
+				whereID = mapOfIDs.get(where);
+			if (i == 0 && !deleteNode) {
 				sb_assignments.append(
 						"(" + SMTAction + "  OldGRAPH" + k + " (singleton(mkTuple " + whatID + " " + whereID + ")))");
-			} else {
+			} else if (!deleteNode) {
+				sb_assignments.insert(0, "(" + SMTAction + " ");
+				sb_assignments.append(" (singleton(mkTuple " + whatID + " " + whereID + ")))");
+			} else if (i == 0 && deleteNode) {
+				sb_assignments.append("(" + SMTAction + "  OldGRAPH" + k + " (union (join " + "OldGRAPH" + k
+						+ " (singleton (mkTuple " + whatID + " " + whatID + "))) (join (singleton (mkTuple " + whatID
+						+ " " + whatID + ")) OldGRAPH" + k + ")))");
+			} else if (deleteNode) {
 				sb_assignments.insert(0, "(" + SMTAction + " ");
 				sb_assignments.append(" (singleton(mkTuple " + whatID + " " + whereID + ")))");
 			}
@@ -294,8 +312,8 @@ public class ObligationTranslator {
 			int arID = mapOfIDs.get(op);
 
 			if (i == 0) {
-				sb_associations.append("(" + SMTAction + "  (Associations " + (k-1) + ") (singleton(mkTuple " + whatID + " "
-						+ arID + " " + whereID + ")))");
+				sb_associations.append("(" + SMTAction + "  (Associations " + (k - 1) + ") (singleton(mkTuple " + whatID
+						+ " " + arID + " " + whereID + ")))");
 			} else {
 				sb_associations.insert(0, "(" + SMTAction + " ");
 				sb_associations.append(" (singleton(mkTuple " + whatID + " " + arID + " " + whereID + ")))");
