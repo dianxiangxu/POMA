@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import POMA.Verification.TranslationWithSets.AssociationRelation;
@@ -28,10 +29,10 @@ public class ObligationTranslator {
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
-	String pathToObligations =
-	"Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
+	// String pathToObligations =
+	// "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
 
-	// String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml";
+	String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations_simple1.yml";
 
 	List<String> processedObligations = new ArrayList<String>();
 	List<String> processedObligationsEventLabels = new ArrayList<String>();
@@ -42,6 +43,9 @@ public class ObligationTranslator {
 	private String actionsTranslation;
 	private List<Action> grantGroupActions = new ArrayList<Action>();
 	private List<Action> assignGroupActions = new ArrayList<Action>();
+	private Map<String, String> eventMembers = new HashMap<String, String>();
+
+
 
 	Obligation obligation;
 	HashMap<String, Integer> mapOfIDs;
@@ -66,12 +70,6 @@ public class ObligationTranslator {
 		return processedObligationsEventLabels;
 	}
 
-	public String processObligations() throws EVRException, IOException {
-		// obligation = readObligations();
-
-		return null;
-	}
-
 	String translateObligationEvents(int k) {
 		StringBuilder sb = new StringBuilder();
 		for (Rule r : obligation.getRules()) {
@@ -91,6 +89,7 @@ public class ObligationTranslator {
 		return sb.toString();
 	}
 
+
 	String translateGraphIntersection(int k) {
 		return "(declare-fun GRAPH" + k + " () (Set (Tuple Int Int)))" + System.lineSeparator()
 				+ "(declare-fun OldGRAPH" + k + " () (Set (Tuple Int Int)))" + System.lineSeparator()
@@ -101,13 +100,13 @@ public class ObligationTranslator {
 	private void translateObligationRules() {
 		processedObligations.add("");
 		processedObligationsEventLabels.add("");
-
 		for (Rule r : obligation.getRules()) {
-			String subject = r.getEventPattern().getSubject().getAnyUser().get(0);
+			String subject = r.getEventPattern().getSubject().getAnyUser().get(0); // TODO: Add multiple users
 			String ar = r.getEventPattern().getOperations().get(0);
 			String target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
 			System.out.println(subject + " : " + ar + " : " + target);
 			ruleLabels.add(r.getLabel());
+			eventMembers.put(subject, target);
 			processedObligationsEventLabels.addAll(getEvents(r));
 		}
 	}
@@ -291,7 +290,6 @@ public class ObligationTranslator {
 		sb_assignments.append(System.lineSeparator());
 	}
 
-	
 	private String processAssociationRelatedActions(int k) {
 		StringBuilder sb_associations = new StringBuilder();
 		GrantAction grantAction;
@@ -313,6 +311,7 @@ public class ObligationTranslator {
 				deleteAction = (DeleteAction) action;
 				what = deleteAction.getAssociations().get(0).getSubject().getName();
 				where = deleteAction.getAssociations().get(0).getTarget().getName();
+				op = deleteAction.getAssociations().get(0).getOperations().get(0);
 				SMTAction = "setminus";
 			}
 			handleAssociationAction(k, sb_associations, what, where, op, SMTAction, i);
@@ -321,8 +320,8 @@ public class ObligationTranslator {
 		return sb_associations.toString();
 	}
 
-	private void handleAssociationAction(int k, StringBuilder sb_associations, String what, String where, String op, String SMTAction,
-			int i) {
+	private void handleAssociationAction(int k, StringBuilder sb_associations, String what, String where, String op,
+			String SMTAction, int i) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
 		int arID = mapOfIDs.get(op);
@@ -392,5 +391,9 @@ public class ObligationTranslator {
 
 	String getActionsTranslation() {
 		return actionsTranslation;
+	}
+	
+	Map<String, String> getEventMembers() {
+		return eventMembers;
 	}
 }

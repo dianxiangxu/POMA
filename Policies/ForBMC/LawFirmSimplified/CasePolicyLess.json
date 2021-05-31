@@ -1,11 +1,6 @@
 {
   "nodes": [
     {
-      "name": "A1",
-      "type": "U",
-      "properties": {}
-    },
-    {
       "name": "C-Suit",
       "type": "UA",
       "properties": {}
@@ -16,18 +11,13 @@
       "properties": {}
     },
     {
-      "name": "Apple",
+      "name": "Case3Info",
       "type": "O",
       "properties": {}
     },
     {
       "name": "Alice",
       "type": "O",
-      "properties": {}
-    },
-    {
-      "name": "CasePolicy",
-      "type": "PC",
       "properties": {}
     },
     {
@@ -41,12 +31,32 @@
       "properties": {}
     },
     {
-      "name": "LA1",
-      "type": "U",
+      "name": "AttorneysMain",
+      "type": "UA",
       "properties": {}
     },
     {
       "name": "C1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "A1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "LeadAttorneysMain",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "CasePolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "LA1",
       "type": "U",
       "properties": {}
     },
@@ -58,6 +68,18 @@
   ],
   "assignments": [
     {
+      "source": "Attorneys",
+      "target": "AttorneysMain"
+    },
+    {
+      "source": "Case3Info",
+      "target": "Case3"
+    },
+    {
+      "source": "LeadAttorneys",
+      "target": "LeadAttorneysMain"
+    },
+    {
       "source": "C-Suit",
       "target": "LeadAttorneys"
     },
@@ -66,11 +88,11 @@
       "target": "Case3"
     },
     {
-      "source": "LeadAttorneys",
+      "source": "A1",
       "target": "Attorneys"
     },
     {
-      "source": "A1",
+      "source": "LeadAttorneysMain",
       "target": "Attorneys"
     },
     {
@@ -86,29 +108,24 @@
       "target": "LeadAttorneys"
     },
     {
-      "source": "Apple",
-      "target": "Case3"
-    },
-    {
       "source": "C1",
       "target": "C-Suit"
     },
     {
-      "source": "Attorneys",
+      "source": "AttorneysMain",
       "target": "CasePolicy"
     }
   ],
   "associations": [
     {
-      "source": "Attorneys",
+      "source": "AttorneysMain",
       "target": "Case3",
       "operations": [
-        "refuse",
-        "accept"
+        "create"
       ]
     },
     {
-      "source": "LeadAttorneys",
+      "source": "LeadAttorneysMain",
       "target": "Case3",
       "operations": [
         "disapprove",

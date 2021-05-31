@@ -24,21 +24,23 @@ import gov.nist.csd.pm.pip.graph.MemGraph;
 			Graph casePolicy = new MemGraph(); 	  
 			  
 			casePolicy.createPolicyClass("CasePolicy", null);
-
-			casePolicy.createNode("Attorneys", UA, null, "CasePolicy");
-			casePolicy.createNode("LeadAttorneys", UA, null, "Attorneys");
+			casePolicy.createNode("AttorneysMain", UA, null, "CasePolicy");
+			casePolicy.createNode("Attorneys", UA, null, "AttorneysMain");
+			casePolicy.createNode("LeadAttorneysMain", UA, null, "Attorneys");
+			casePolicy.createNode("LeadAttorneys", UA, null, "LeadAttorneysMain");
 			casePolicy.createNode("C-Suit", UA, null, "LeadAttorneys");
 			casePolicy.createNode("LA1", U, null, "LeadAttorneys");
 			casePolicy.createNode("A1", U, null, "Attorneys");
 			casePolicy.createNode("C1", U, null, "C-Suit");
 
 			casePolicy.createNode("Case3", OA, null, "CasePolicy");
-			casePolicy.createNode("Apple", O, null, "Case3");
+			casePolicy.createNode("Case3Info", O, null, "Case3");
 			casePolicy.createNode("Google", O, null, "Case3");
 			casePolicy.createNode("Alice", O, null, "Case3");
 
-			casePolicy.associate("Attorneys", "Case3", new OperationSet("accept", "refuse"));
-			casePolicy.associate("LeadAttorneys", "Case3", new OperationSet("disapprove", "withdraw"));
+			casePolicy.associate("AttorneysMain", "Case3", new OperationSet("accept", "refuse"));
+			casePolicy.associate("LeadAttorneysMain", "Case3", new OperationSet("disapprove", "withdraw"));
+			casePolicy.associate("AttorneysMain", "Case3", new OperationSet("create"));
 
 			saveDataToFile(GraphSerializer.toJson(casePolicy), "Policies/ForBMC/LawFirmSimplified/CasePolicyLess.json");					
 		}

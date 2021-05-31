@@ -31,6 +31,7 @@ class GraphTranslator {
 	private List<String> addedNodesFromObligationsUA_U;
 	private List<String> addedNodesFromObligationsOA_O;
 	private List<String> obligationLabels;
+	private Map<String, String> eventMembers;
 
 	Graph graph;
 
@@ -99,40 +100,29 @@ class GraphTranslator {
 		}
 	}
 
-	//private void translateGraphElements() throws Exception {
-	//	StringBuilder sb = new StringBuilder();
-
-	//	for (Map.Entry<String, Integer> entry : mapOfIDs.entrySet()) {
-			// sb.append("(declare-fun " + entry.getValue() + " () Int)");
-			// sb.append(System.lineSeparator());
-			// sb.append("(assert (= " + entry.getValue() + " " + entry.getKey() + "))");
-			// sb.append(System.lineSeparator());
-		//}
-	//	return sb.toString();
-	//}
-
 	private void findTClosureForGraph(String policyClass) throws PMException {
 		DepthFirstSearcher dfs = new DepthFirstSearcher(graph);
 		Visitor visitor = node -> {
 			if ((node.getType().toString().equals("UA") || node.getType().toString().equals("U")
 					|| node.getType().toString().equals("O") || node.getType().toString().equals("OA"))) {
 				int childID = mapOfIDs.get(node.getName());
-				if (node.getType().toString().equals("UA") || node.getType().toString().equals("OA")) { //comment if needed.
-					 tuples.add(new AssignmentRelation(Integer.toString(childID),
-					 		Integer.toString(childID)).toStringNoQuotes());
-				}
+				// if (node.getType().toString().equals("UA") ||
+				// node.getType().toString().equals("OA")) { //comment if needed.
+				// tuples.add(new AssignmentRelation(Integer.toString(childID),
+				// Integer.toString(childID)).toStringNoQuotes());
+				// }
 				if (node.getType().toString().equals("UA") || node.getType().toString().equals("U")) {
-					tuplesForUACheck.add(new AssignmentRelation(Integer.toString(childID), 
-							Integer.toString(childID)).toStringNoQuotes());
+					tuplesForUACheck.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
+							.toStringNoQuotes());
 				}
 				if (node.getType().toString().equals("OA") || node.getType().toString().equals("O")) {
-					tuplesForOACheck.add(new AssignmentRelation(Integer.toString(childID), 
-							Integer.toString(childID)).toStringNoQuotes());
+					tuplesForOACheck.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
+							.toStringNoQuotes());
 				}
 				for (String parent : graph.getParents(node.getName())) {
 					int parentID = mapOfIDs.get(parent);
-					tuples.add(new AssignmentRelation(Integer.toString(childID), 
-							Integer.toString(parentID)).toStringNoQuotes());
+					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(parentID))
+							.toStringNoQuotes());
 				}
 			}
 		};
@@ -143,8 +133,8 @@ class GraphTranslator {
 	private String translateSetToCheckUA() {
 		for (String UA_U : addedNodesFromObligationsUA_U) {
 			int ua_uID = mapOfIDs.get(UA_U);
-			tuplesForUACheck.add(new AssignmentRelation(Integer.toString(ua_uID), 
-					Integer.toString(ua_uID)).toStringNoQuotes());
+			tuplesForUACheck
+					.add(new AssignmentRelation(Integer.toString(ua_uID), Integer.toString(ua_uID)).toStringNoQuotes());
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("(declare-fun SetToCheckUA () (Set (Tuple Int Int)))");
@@ -164,8 +154,8 @@ class GraphTranslator {
 	private String translateSetToCheckOA() {
 		for (String OA_O : addedNodesFromObligationsOA_O) {
 			int oa_oID = mapOfIDs.get(OA_O);
-			tuplesForOACheck.add(new AssignmentRelation(Integer.toString(oa_oID), 
-					Integer.toString(oa_oID)).toStringNoQuotes());
+			tuplesForOACheck
+					.add(new AssignmentRelation(Integer.toString(oa_oID), Integer.toString(oa_oID)).toStringNoQuotes());
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("(declare-fun SetToCheckAT () (Set (Tuple Int Int)))");
@@ -198,11 +188,17 @@ class GraphTranslator {
 		return sb.toString();
 	}
 
-	private String populateTuples() throws Exception {
+	private void populateTuples() throws Exception {
 		for (String policyClass : graph.getPolicyClasses()) {
 			findTClosureForGraph(policyClass);
 		}
-		return null;
+		for (Map.Entry<String, String> entry : eventMembers.entrySet()) {
+			int userID = mapOfIDs.get(entry.getKey());
+			int targetID = mapOfIDs.get(entry.getValue());
+			tuples.add(new AssignmentRelation(Integer.toString(userID), Integer.toString(userID)).toStringNoQuotes());
+			// tuples.add(new AssignmentRelation(Integer.toString(targetID), Integer.toString(
+			// 		targetID)).toStringNoQuotes());
+		}
 	}
 
 	private void findAssociationsInGraph() throws Exception {
@@ -237,7 +233,7 @@ class GraphTranslator {
 				Iterator<String> iteratorAR = triple.getOperationSet().iterator();
 				while (iteratorAR.hasNext()) {
 					int uaID = mapOfIDs.get(ua);
-					int arID=  mapOfIDs.get(iteratorAR.next());
+					int arID = mapOfIDs.get(iteratorAR.next());
 					int atID = mapOfIDs.get(at);
 					String assoc = "(mkTuple " + uaID + " " + arID + " " + atID + ")" + System.lineSeparator();
 					if (!iterator.hasNext() && !iteratorAR.hasNext()) {
@@ -287,10 +283,10 @@ class GraphTranslator {
 		return sb.toString();
 	}
 
-	 String translateARCheck(int k) {
+	String translateARCheck(int k) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= (Tclosure " + k + ") (tclosure GRAPH"+ k+")))");
+		sb.append("(assert (= (Tclosure " + k + ") (tclosure GRAPH" + k + ")))");
 		sb.append(System.lineSeparator());
 		sb.append("(assert (= (UA_U_Reachability " + k + ") (join SetToCheckUA (Tclosure " + k + "))))");
 		sb.append(System.lineSeparator());
@@ -306,12 +302,13 @@ class GraphTranslator {
 	}
 
 	String translateHeadCode(List<AssociationRelation> listOfAddedAssociationsFromObligations,
-			List<String> listOfAddedNodesUA_U, List<String> listOfAddedNodesOA_O, List<String> obligationLabels)
-			throws Exception {
+			List<String> listOfAddedNodesUA_U, List<String> listOfAddedNodesOA_O, List<String> obligationLabels,
+			Map<String, String> eventMembers) throws Exception {
 		StringBuilder headcode = new StringBuilder();
 		associationsFromObligations = listOfAddedAssociationsFromObligations;
 		addedNodesFromObligationsUA_U = listOfAddedNodesUA_U;
 		addedNodesFromObligationsOA_O = listOfAddedNodesOA_O;
+		this.eventMembers = eventMembers;
 		this.obligationLabels = obligationLabels;
 		getGraphElements();
 		populateTuples();

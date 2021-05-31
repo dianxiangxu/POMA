@@ -3,6 +3,7 @@ package POMA.Verification.BMC;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import POMA.Verification.TranslationWithSets.AssociationRelation;
 
@@ -15,9 +16,12 @@ public class ObligationChecker extends BMC {
 	private List<String> listOfAddedNodesOA_O= new ArrayList<String>();
 	private List<String> obligationLabels = new ArrayList<String>();
 	private HashMap<String, Integer> mapOfIDs;
+	private Map<String, String> eventMembers = new HashMap<String, String>();
 
 	//String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
-	String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy.json";
+	 String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyLess.json";
+
+	//String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy.json";
 	GraphTranslator gt = new GraphTranslator(pathToGraph);
 	ObligationTranslator ot;
 
@@ -25,6 +29,7 @@ public class ObligationChecker extends BMC {
 		mapOfIDs = gt.getMapOfIDs();
 		ot = new ObligationTranslator(mapOfIDs);
 		ot.findAllAbsentElements();
+
 		//ot.processObligations();		
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
 		obligationsResponse.addAll(ot.getProcessedObligations());
@@ -32,6 +37,7 @@ public class ObligationChecker extends BMC {
 		listOfAddedNodesUA_U.addAll(ot.getListOfCreatedNodesUA_U());
 		listOfAddedNodesOA_O.addAll(ot.getListOfCreatedNodesOA_O());
         obligationLabels.addAll(ot.getRuleLabels());
+		eventMembers.putAll(ot.getEventMembers());
 	}
 
 	public ObligationChecker(Solver solver, int bound, int amount) {
@@ -42,7 +48,7 @@ public class ObligationChecker extends BMC {
 	public String generateHeadCode() throws Exception {
 	
 		String headcode = gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, 
-				obligationLabels);
+				obligationLabels, eventMembers);
 		return headcode;
 	
 	}
@@ -56,7 +62,7 @@ public class ObligationChecker extends BMC {
 		//smtlibv2Code +="(assert (member (mkTuple \"0\" \""+obligationsEvents.get(k)+"\" \"0\") (AccessRightsOnlyAR "+(k-1)+")))";
 
 
-		smtlibv2Code += "(assert (= (obligation4 "+k+") 1))";
+		smtlibv2Code += "(assert (= (approve_case "+k+") 1))";
 
 		smtlibv2Code += System.lineSeparator();
 

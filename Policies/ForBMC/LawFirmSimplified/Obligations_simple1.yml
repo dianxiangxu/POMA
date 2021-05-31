@@ -3,69 +3,32 @@ rules:
   - label: withdraw_case_info
     event:
       subject:
-        anyUser: 
-          - "LeadAttorneys"
+        anyUser:
+          - "LeadAttorneysMain"
       operations:
         - disapprove
       target:
         policyElements:
-          - name: Case3
+          - name: Case3Info
             type: OA
-    response:      
+    response:
       actions:
         - grant:
-             subject:
-               name: Attorneys
-               type: UA
-             operations:
-               - accept
-               - refuse
-             target:
-               name: Case3
-               type: OA            
-  - label: withdraw_case
-    event:
-      subject:
-        anyUser: 
-          - "LeadAttorneys"
-      operations:
-        - withdraw
-      target:
-        policyElements:
-          - name: Case3
-            type: OA
-    response:      
-      actions:
-        - delete:
-            nodes:
-              - name: Case3
-                type: OA              
-  - label: create_case_info
-    event:
-      subject:
-        anyUser: 
-          - "Attorneys"
-      operations:
-        - create
-      target:
-        policyElements:
-          - name: Case3
-            type: OA
-    response:      
-      actions:
-        - create:
-            - what:
-                name: Case3Info
-                type: O
-              where:
-                name: Case3
-                type: OA                     
-       
+            subject:
+              name: AttorneysMain
+              type: UA
+            operations:
+              - accept
+              - refuse
+            target:
+              name: Case3
+              type: OA
+
   - label: accept_refuse_case_A
     event:
       subject:
-        anyUser: 
-          - "Attorneys"
+        anyUser:
+          - "AttorneysMain"
       operations:
         - accept
         - refuse
@@ -73,83 +36,73 @@ rules:
         policyElements:
           - name: Case3Info
             type: O
-    response:      
-      actions:            
+    response:
+      actions:
         - grant:
-             subject:
-               name: LeadAttorneys
-               type: UA
-             operations:
-               - accept
-             target:
-               name: Case3
-               type: OA    
+            subject:
+              name: LeadAttorneys
+              type: UA
+            operations:
+              - accept
+            target:
+              name: Case3Info
+              type: OA
         - delete:
             associations:
               - subject:
-                  name: Attorneys
+                  name: AttorneysMain
                   type: UA
+                operations:
+                  - approve
                 target:
                   name: Case3
-                  type: OA                 
+                  type: OA
 
   - label: accept_case_Final
     event:
       subject:
-        process: finalAccept      
+        anyUser:
+          - "AttorneysMain"
+        # process: finalAccept
       operations:
         - accept
       target:
         policyElements:
           - name: Case3Info
             type: O
-    response:      
-      actions:            
+    response:
+      actions:
         - grant:
-             subject:
-               name: C-Suit
-               type: UA
-             operations:
-               - approve
-               - withdraw
-             target:
-               name: Case3
-               type: OA   
+            subject:
+              name: C-Suit
+              type: UA
+            operations:
+              - approve
+              - withdraw
+            target:
+              name: Case3
+              type: OA
 
   - label: approve_case
     event:
       subject:
-        anyUser: 
-          - "C-Suit"   
+        anyUser:
+          - "C-Suit"
       operations:
         - approve
       target:
         policyElements:
           - name: Case3Info
             type: O
-    response:      
-      actions:            
+    response:
+      actions:
         - delete:
             associations:
               - subject:
                   name: C-Suit
                   type: UA
+                operations:
+                  - approve                  
                 target:
                   name: Case3
-                  type: OA         
-        - assign:
-            - what:
-                name: Case3
-                type: OA
-              where:
-                name: GeneralInfo
-                type: OA 
-        - delete:
-            assignment:
-              - what:
-                  name: Case3
                   type: OA
-              - where:
-                  name: CasePolicy 
-                  type: PC
-                                                                      
