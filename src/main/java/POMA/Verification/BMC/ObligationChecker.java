@@ -16,8 +16,8 @@ public class ObligationChecker extends BMC {
 	private List<String> obligationLabels = new ArrayList<String>();
 	private HashMap<String, Integer> mapOfIDs;
 
-	String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
-	//String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy.json";
+	//String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
+	String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy.json";
 	GraphTranslator gt = new GraphTranslator(pathToGraph);
 	ObligationTranslator ot;
 
