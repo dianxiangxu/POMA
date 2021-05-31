@@ -80,7 +80,7 @@
 (assert (or 
 (and (= (obligation1 0) 1)
 (xor (= GRAPH1 
-(setminus (setminus (union (union  OldGRAPH1 (singleton(mkTuple 4 8))) (singleton(mkTuple 6 8))) (singleton(mkTuple 2 8))) (singleton(mkTuple 6 8))))
+(setminus (union  OldGRAPH1 (singleton(mkTuple 4 8))) (singleton(mkTuple 6 8))))
 (= GRAPH1 OldGRAPH1)))
 
 (and (= (obligation2 0) 1)
@@ -96,6 +96,11 @@
 (= GRAPH1 OldGRAPH1)))
 
 (assert (or 
+(and (= (obligation4 0) 1)
+(xor (= (Associations 1) 
+(union  (Associations 0) (singleton(mkTuple 7 16 9))))
+(= (Associations 1) (Associations 0))))
+
 (= (Associations 1) (Associations 0))))
 
 (assert (= (Tclosure 1) (tclosure GRAPH1)))
@@ -139,7 +144,7 @@
 (assert (or 
 (and (= (obligation1 1) 1)
 (xor (= GRAPH2 
-(setminus (setminus (union (union  OldGRAPH2 (singleton(mkTuple 4 8))) (singleton(mkTuple 6 8))) (singleton(mkTuple 2 8))) (singleton(mkTuple 6 8))))
+(setminus (union  OldGRAPH2 (singleton(mkTuple 4 8))) (singleton(mkTuple 6 8))))
 (= GRAPH2 OldGRAPH2)))
 
 (and (= (obligation2 1) 1)
@@ -155,6 +160,11 @@
 (= GRAPH2 OldGRAPH2)))
 
 (assert (or 
+(and (= (obligation4 1) 1)
+(xor (= (Associations 2) 
+(union  (Associations 1) (singleton(mkTuple 7 16 9))))
+(= (Associations 2) (Associations 1))))
+
 (= (Associations 2) (Associations 1))))
 
 (assert (= (Tclosure 2) (tclosure GRAPH2)))
@@ -198,7 +208,7 @@
 (assert (or 
 (and (= (obligation1 2) 1)
 (xor (= GRAPH3 
-(setminus (setminus (union (union  OldGRAPH3 (singleton(mkTuple 4 8))) (singleton(mkTuple 6 8))) (singleton(mkTuple 2 8))) (singleton(mkTuple 6 8))))
+(setminus (union  OldGRAPH3 (singleton(mkTuple 4 8))) (singleton(mkTuple 6 8))))
 (= GRAPH3 OldGRAPH3)))
 
 (and (= (obligation2 2) 1)
@@ -214,6 +224,11 @@
 (= GRAPH3 OldGRAPH3)))
 
 (assert (or 
+(and (= (obligation4 2) 1)
+(xor (= (Associations 3) 
+(union  (Associations 2) (singleton(mkTuple 7 16 9))))
+(= (Associations 3) (Associations 2))))
+
 (= (Associations 3) (Associations 2))))
 
 (assert (= (Tclosure 3) (tclosure GRAPH3)))
@@ -224,7 +239,7 @@
 
 
 ;PROPERTY
-(assert (= (obligation3 2) 1))
+(assert (= (obligation4 2) 1))
 
 
 (check-sat)

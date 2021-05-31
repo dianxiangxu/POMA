@@ -16,8 +16,8 @@ public class ObligationChecker extends BMC {
 	private List<String> obligationLabels = new ArrayList<String>();
 	private HashMap<String, Integer> mapOfIDs;
 
-	String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
-//	String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy.json";
+	//String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
+	String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy.json";
 	GraphTranslator gt = new GraphTranslator(pathToGraph);
 	ObligationTranslator ot;
 
@@ -56,7 +56,7 @@ public class ObligationChecker extends BMC {
 		//smtlibv2Code +="(assert (member (mkTuple \"0\" \""+obligationsEvents.get(k)+"\" \"0\") (AccessRightsOnlyAR "+(k-1)+")))";
 
 
-		smtlibv2Code += "(assert (= (obligation3 "+k+") 1))";
+		smtlibv2Code += "(assert (= (obligation4 "+k+") 1))";
 
 		smtlibv2Code += System.lineSeparator();
 
@@ -110,7 +110,6 @@ public class ObligationChecker extends BMC {
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC2");
 		checker.check();
 		System.out.println(checker.mapOfIDs);
-		//String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
 	}
 
 }
