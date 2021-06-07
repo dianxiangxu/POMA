@@ -19,7 +19,7 @@ public class ObligationChecker extends BMC {
 	private Map<String, String> eventMembers = new HashMap<String, String>();
 
 	//String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
-	 String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyLess.json";
+	String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyLess.json";
 
 	//String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy.json";
 	GraphTranslator gt = new GraphTranslator(pathToGraph);
@@ -63,6 +63,7 @@ public class ObligationChecker extends BMC {
 
 
 		smtlibv2Code += "(assert (= (approve_case "+k+") 1))";
+		//smtlibv2Code += "(assert (= (obligation4 " + k + ") 1))";
 
 		smtlibv2Code += System.lineSeparator();
 
@@ -113,7 +114,7 @@ public class ObligationChecker extends BMC {
 	public static void main(String[] args) throws Exception {
 		ObligationChecker checker = new ObligationChecker();
 		
-		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC2");
+		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		checker.check();
 		System.out.println(checker.mapOfIDs);
 	}

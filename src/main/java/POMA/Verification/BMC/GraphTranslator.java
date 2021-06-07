@@ -1,6 +1,9 @@
 package POMA.Verification.BMC;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,6 +23,7 @@ import gov.nist.csd.pm.pip.graph.dag.searcher.Direction;
 import gov.nist.csd.pm.pip.graph.dag.visitor.Visitor;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 
+
 class GraphTranslator {
 
 	HashMap<String, Integer> mapOfIDs = new HashMap<String, Integer>();
@@ -38,6 +42,8 @@ class GraphTranslator {
 	HashMap<String, Integer> getMapOfIDs() {
 		return mapOfIDs;
 	}
+
+
 
 	GraphTranslator(String pathToGraph) {
 		try {
@@ -284,7 +290,15 @@ class GraphTranslator {
 	}
 
 	String translateARCheck(int k) {
+
 		StringBuilder sb = new StringBuilder();
+
+	   ProhibitionTranslator pt = new ProhibitionTranslator(graph, mapOfIDs);
+
+		if(pt.translateProhibitionSingleContainer(1, k)!=null&&k==0){
+			return pt.translateProhibitionSingleContainer(1,  k);
+			
+		}
 		sb.append(System.lineSeparator());
 		sb.append("(assert (= (Tclosure " + k + ") (tclosure GRAPH" + k + ")))");
 		sb.append(System.lineSeparator());
