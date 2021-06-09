@@ -34,6 +34,9 @@
 
 (assert (= (Associations 0) (insert(mkTuple 7 14 13) 
 (mkTuple 10 15 13) 
+(mkTuple 10 21 13) 
+(mkTuple 7 14 13) 
+(mkTuple 10 15 13) 
 (singleton (mkTuple 10 21 13)))))
 
 (declare-fun AssociationsForUA (Int) (Set (Tuple Int Int Int)))
@@ -48,22 +51,22 @@
 (assert (= (AssociationsForUA 0) (join (UA_U_Reachability 0) (Associations 0))))
 (assert (= (AccessRights 0) (join (AssociationsForUA 0) (transpose (AT_Reachability 0)))))
 
-(declare-fun withdraw_case_info (Int) Int)
 (declare-fun accept_refuse_case_A (Int) Int)
+(declare-fun withdraw_case_info (Int) Int)
 (declare-fun accept_case_Final (Int) Int)
 (declare-fun approve_case (Int) Int)
 ;--------------------------------------------------------------------------------------------------------------------
 ;STEP1
 (assert 
 (xor 
-(= (withdraw_case_info 0) 0) 
-(and (member (mkTuple 10 15 3) (AccessRights 0)) (= (withdraw_case_info 0) 1))
+(= (accept_refuse_case_A 0) 0) 
+(and (member (mkTuple 7 19 3) (AccessRights 0)) (= (accept_refuse_case_A 0) 1))
 )
 )				
 (assert 
 (xor 
-(= (accept_refuse_case_A 0) 0) 
-(and (member (mkTuple 7 19 3) (AccessRights 0)) (= (accept_refuse_case_A 0) 1))
+(= (withdraw_case_info 0) 0) 
+(and (member (mkTuple 10 15 3) (AccessRights 0)) (= (withdraw_case_info 0) 1))
 )
 )				
 (assert 
@@ -87,14 +90,14 @@
 (= GRAPH1 OldGRAPH1)))
 
 (assert (or 
-(and (= (withdraw_case_info 0) 1)
-(xor (= (Associations 1) 
-(union  (Associations 0) (singleton(mkTuple 7 19 13))))
-(= (Associations 1) (Associations 0))))
-
 (and (= (accept_refuse_case_A 0) 1)
 (xor (= (Associations 1) 
 (setminus (union  (Associations 0) (singleton(mkTuple 6 19 3))) (singleton(mkTuple 7 20 13))))
+(= (Associations 1) (Associations 0))))
+
+(and (= (withdraw_case_info 0) 1)
+(xor (= (Associations 1) 
+(union  (Associations 0) (singleton(mkTuple 7 19 13))))
 (= (Associations 1) (Associations 0))))
 
 (and (= (accept_case_Final 0) 1)
@@ -120,14 +123,14 @@
 ;STEP2
 (assert 
 (xor 
-(= (withdraw_case_info 1) 0) 
-(and (member (mkTuple 10 15 3) (AccessRights 1)) (= (withdraw_case_info 1) 1))
+(= (accept_refuse_case_A 1) 0) 
+(and (member (mkTuple 7 19 3) (AccessRights 1)) (= (accept_refuse_case_A 1) 1))
 )
 )				
 (assert 
 (xor 
-(= (accept_refuse_case_A 1) 0) 
-(and (member (mkTuple 7 19 3) (AccessRights 1)) (= (accept_refuse_case_A 1) 1))
+(= (withdraw_case_info 1) 0) 
+(and (member (mkTuple 10 15 3) (AccessRights 1)) (= (withdraw_case_info 1) 1))
 )
 )				
 (assert 
@@ -151,14 +154,14 @@
 (= GRAPH2 OldGRAPH2)))
 
 (assert (or 
-(and (= (withdraw_case_info 1) 1)
-(xor (= (Associations 2) 
-(union  (Associations 1) (singleton(mkTuple 7 19 13))))
-(= (Associations 2) (Associations 1))))
-
 (and (= (accept_refuse_case_A 1) 1)
 (xor (= (Associations 2) 
 (setminus (union  (Associations 1) (singleton(mkTuple 6 19 3))) (singleton(mkTuple 7 20 13))))
+(= (Associations 2) (Associations 1))))
+
+(and (= (withdraw_case_info 1) 1)
+(xor (= (Associations 2) 
+(union  (Associations 1) (singleton(mkTuple 7 19 13))))
 (= (Associations 2) (Associations 1))))
 
 (and (= (accept_case_Final 1) 1)
@@ -184,14 +187,14 @@
 ;STEP3
 (assert 
 (xor 
-(= (withdraw_case_info 2) 0) 
-(and (member (mkTuple 10 15 3) (AccessRights 2)) (= (withdraw_case_info 2) 1))
+(= (accept_refuse_case_A 2) 0) 
+(and (member (mkTuple 7 19 3) (AccessRights 2)) (= (accept_refuse_case_A 2) 1))
 )
 )				
 (assert 
 (xor 
-(= (accept_refuse_case_A 2) 0) 
-(and (member (mkTuple 7 19 3) (AccessRights 2)) (= (accept_refuse_case_A 2) 1))
+(= (withdraw_case_info 2) 0) 
+(and (member (mkTuple 10 15 3) (AccessRights 2)) (= (withdraw_case_info 2) 1))
 )
 )				
 (assert 
@@ -215,14 +218,14 @@
 (= GRAPH3 OldGRAPH3)))
 
 (assert (or 
-(and (= (withdraw_case_info 2) 1)
-(xor (= (Associations 3) 
-(union  (Associations 2) (singleton(mkTuple 7 19 13))))
-(= (Associations 3) (Associations 2))))
-
 (and (= (accept_refuse_case_A 2) 1)
 (xor (= (Associations 3) 
 (setminus (union  (Associations 2) (singleton(mkTuple 6 19 3))) (singleton(mkTuple 7 20 13))))
+(= (Associations 3) (Associations 2))))
+
+(and (= (withdraw_case_info 2) 1)
+(xor (= (Associations 3) 
+(union  (Associations 2) (singleton(mkTuple 7 19 13))))
 (= (Associations 3) (Associations 2))))
 
 (and (= (accept_case_Final 2) 1)
@@ -249,4 +252,7 @@
 
 
 (check-sat)
-(get-value (AccessRights 0))
+(get-value (accept_refuse_case_A))
+(get-value (withdraw_case_info))
+(get-value (accept_case_Final))
+(get-value (approve_case))

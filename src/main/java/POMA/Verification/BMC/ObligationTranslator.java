@@ -29,8 +29,8 @@ public class ObligationTranslator {
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
-	// String pathToObligations =
-	// "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
+	//  String pathToObligations =
+	//  "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
 
 	String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations_simple1.yml";
 

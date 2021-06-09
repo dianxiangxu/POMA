@@ -1,29 +1,5 @@
 label: LawUseCase Obligations
 rules:
-  - label: withdraw_case_info
-    event:
-      subject:
-        anyUser:
-          - "LeadAttorneysMain"
-      operations:
-        - disapprove
-      target:
-        policyElements:
-          - name: Case3Info
-            type: OA
-    response:
-      actions:
-        - grant:
-            subject:
-              name: AttorneysMain
-              type: UA
-            operations:
-              - accept
-              - refuse
-            target:
-              name: Case3
-              type: OA
-
   - label: accept_refuse_case_A
     event:
       subject:
@@ -57,7 +33,29 @@ rules:
                 target:
                   name: Case3
                   type: OA
-
+  - label: withdraw_case_info
+    event:
+      subject:
+        anyUser:
+          - "LeadAttorneysMain"
+      operations:
+        - disapprove
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:
+      actions:
+        - grant:
+            subject:
+              name: AttorneysMain
+              type: UA
+            operations:
+              - accept
+              - refuse
+            target:
+              name: Case3
+              type: OA
   - label: accept_case_Final
     event:
       subject:
