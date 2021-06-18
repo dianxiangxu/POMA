@@ -22,7 +22,10 @@ import gov.nist.csd.pm.pip.graph.dag.searcher.DepthFirstSearcher;
 import gov.nist.csd.pm.pip.graph.dag.searcher.Direction;
 import gov.nist.csd.pm.pip.graph.dag.visitor.Visitor;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
-
+import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.O;
+import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.OA;
+import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.U;
+import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.UA;
 
 class GraphTranslator {
 
@@ -42,8 +45,6 @@ class GraphTranslator {
 	HashMap<String, Integer> getMapOfIDs() {
 		return mapOfIDs;
 	}
-
-
 
 	GraphTranslator(String pathToGraph) {
 		try {
@@ -106,17 +107,70 @@ class GraphTranslator {
 		}
 	}
 
-	private void findTClosureForGraph(String policyClass) throws PMException {
+	private void flattenAssignments() throws PMException {
+		DepthFirstSearcher dfs = new DepthFirstSearcher(graph);
+		Set<String> PCs = graph.getPolicyClasses();
+		//Set<String> flattenedAssignments = new HashSet<String>();
+		for (String policyClass : PCs) {
+			List<String> listUA_U = new ArrayList<String>();
+			List<String> listOA_O = new ArrayList<String>();
+
+			Visitor visitor = node -> {
+				if ((node.getType().toString().equals("UA") || node.getType().toString().equals("U"))
+						&& !listUA_U.contains(node.getName())) {
+					listUA_U.add(node.getName());
+				}
+				if ((node.getType().toString().equals("OA") || node.getType().toString().equals("O"))
+						&& !listOA_O.contains(node.getName())) {
+					listOA_O.add(node.getName());
+				}
+				if (graph.getParents(node.getName()).contains(policyClass)) {
+					listUA_U.add(policyClass);
+					listOA_O.add(policyClass);
+					getTclosureFromList(listUA_U, tuples);
+					getTclosureFromList(listOA_O, tuples);
+					listUA_U.clear();
+					listOA_O.clear();
+				}
+			};
+
+			dfs.traverse(graph.getNode(policyClass), (c, p) -> {
+			}, visitor, Direction.CHILDREN);
+		}
+	}
+
+	private void getTclosureFromList(List<String> containment, Set<String> flattenedAssignments) {
+		List<String> processedNodes = new ArrayList<String>();
+		for (String node : containment) {
+			int nodeID = mapOfIDs.get(node);
+
+			flattenedAssignments.add(new AssignmentRelation(Integer.toString(nodeID), Integer.toString(
+					nodeID))
+					.toStringNoQuotes());
+			//flattenedAssignments.add(new AssignmentRelation(node, node).toString());
+			List<String> tclosureNodes = new ArrayList<String>(containment);
+			processedNodes.add(node);
+			tclosureNodes.removeAll(processedNodes);
+			for (String descendant : tclosureNodes) {
+				int descendantID = mapOfIDs.get(descendant);
+				flattenedAssignments.add(new AssignmentRelation(Integer.toString(nodeID), Integer.toString(descendantID))
+						.toStringNoQuotes());
+				//flattenedAssignments.add(new AssignmentRelation(node, descendant).toString());
+			}
+		}
+	}
+
+	private void findAssignments(String policyClass) throws PMException {
 		DepthFirstSearcher dfs = new DepthFirstSearcher(graph);
 		Visitor visitor = node -> {
 			if ((node.getType().toString().equals("UA") || node.getType().toString().equals("U")
 					|| node.getType().toString().equals("O") || node.getType().toString().equals("OA"))) {
 				int childID = mapOfIDs.get(node.getName());
-				// if (node.getType().toString().equals("UA") ||
-				// node.getType().toString().equals("OA")) { //comment if needed.
-				// tuples.add(new AssignmentRelation(Integer.toString(childID),
-				// Integer.toString(childID)).toStringNoQuotes());
-				// }
+				if (node.getType().toString().equals("UA") || node.getType().toString().equals("OA")) { // comment if
+																										// needed.
+					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
+							.toStringNoQuotes());
+				}
 				if (node.getType().toString().equals("UA") || node.getType().toString().equals("U")) {
 					tuplesForUACheck.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
 							.toStringNoQuotes());
@@ -125,11 +179,11 @@ class GraphTranslator {
 					tuplesForOACheck.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
 							.toStringNoQuotes());
 				}
-				for (String parent : graph.getParents(node.getName())) {
-					int parentID = mapOfIDs.get(parent);
-					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(parentID))
-							.toStringNoQuotes());
-				}
+				// for (String parent : graph.getParents(node.getName())) {
+				// 	int parentID = mapOfIDs.get(parent);
+				// 	tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(parentID)) // comment when needed flatten
+				// 			.toStringNoQuotes());
+				// }
 			}
 		};
 		dfs.traverse(graph.getNode(policyClass), (c, p) -> {
@@ -196,15 +250,18 @@ class GraphTranslator {
 
 	private void populateTuples() throws Exception {
 		for (String policyClass : graph.getPolicyClasses()) {
-			findTClosureForGraph(policyClass);
+			findAssignments(policyClass);
 		}
+		flattenAssignments();
 		for (Map.Entry<String, String> entry : eventMembers.entrySet()) {
 			int userID = mapOfIDs.get(entry.getKey());
 			int targetID = mapOfIDs.get(entry.getValue());
 			tuples.add(new AssignmentRelation(Integer.toString(userID), Integer.toString(userID)).toStringNoQuotes());
-			// tuples.add(new AssignmentRelation(Integer.toString(targetID), Integer.toString(
-			// 		targetID)).toStringNoQuotes());
+			// tuples.add(new AssignmentRelation(Integer.toString(targetID),
+			// Integer.toString(
+			// targetID)).toStringNoQuotes());
 		}
+		System.out.println("ASSIGNMENTS SIZE: "+tuples.size());
 	}
 
 	private void findAssociationsInGraph() throws Exception {
@@ -293,11 +350,11 @@ class GraphTranslator {
 
 		StringBuilder sb = new StringBuilder();
 
-	   ProhibitionTranslator pt = new ProhibitionTranslator(graph, mapOfIDs);
+		ProhibitionTranslator pt = new ProhibitionTranslator(graph, mapOfIDs);
 
-		if(pt.translateProhibitionSingleContainer(1, k)!=null&&k==0){
-			return pt.translateProhibitionSingleContainer(1,  k);
-			
+		if (pt.translateProhibitionSingleContainer(1, k) != null && k == 0) {
+			return pt.translateProhibitionSingleContainer(1, k);
+
 		}
 		sb.append(System.lineSeparator());
 		sb.append("(assert (= (Tclosure " + k + ") (tclosure GRAPH" + k + ")))");
@@ -311,6 +368,46 @@ class GraphTranslator {
 		sb.append(System.lineSeparator());
 		sb.append("(assert (= (AccessRights " + k + ") (join (AssociationsForUA " + k + ") (transpose (AT_Reachability "
 				+ k + ")))))");
+		sb.append(System.lineSeparator());
+		return sb.toString();
+	}
+
+	private String translateBoundedVariablesDefinitionNoAssignments() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(System.lineSeparator());
+		sb.append("(declare-fun AssociationsForUA (Int) (Set (Tuple Int Int Int)))");
+		sb.append(System.lineSeparator());
+		sb.append("(declare-fun UA_U_Reachability (Int) (Set (Tuple Int Int)))");
+		sb.append(System.lineSeparator());
+		sb.append("(declare-fun AT_Reachability (Int) (Set (Tuple Int Int)))");
+		sb.append(System.lineSeparator());
+		sb.append("(declare-fun AccessRights(Int) (Set (Tuple Int Int Int)))");
+		sb.append(System.lineSeparator());
+		return sb.toString();
+	}
+
+	String translateARCheckNoAssignments(int k) {
+
+		StringBuilder sb = new StringBuilder();
+
+		ProhibitionTranslator pt = new ProhibitionTranslator(graph, mapOfIDs);
+
+		if (pt.translateProhibitionSingleContainer(1, k) != null && k == 0) {
+			return pt.translateProhibitionSingleContainer(1, k);
+
+		}
+		if(k==0){
+		sb.append(System.lineSeparator());
+		sb.append("(assert (= (UA_U_Reachability " + k + ") (join SetToCheckUA GRAPH0)))");
+		sb.append(System.lineSeparator());
+		sb.append("(assert (= (AT_Reachability " + k + ") (join SetToCheckAT GRAPH0)))");
+		sb.append(System.lineSeparator());
+		}
+		sb.append("(assert (= (AssociationsForUA " + k + ") (join (UA_U_Reachability " + 0 + ") (Associations " + k
+				+ "))))");
+		sb.append(System.lineSeparator());
+		sb.append("(assert (= (AccessRights " + k + ") (join (AssociationsForUA " + k + ") (transpose (AT_Reachability "
+				+ 0 + ")))))");
 		sb.append(System.lineSeparator());
 		return sb.toString();
 	}
@@ -331,8 +428,10 @@ class GraphTranslator {
 		headcode.append(translateSetToCheckOA());
 		headcode.append(translateSetGraph());
 		headcode.append(translateAssociations());
-		headcode.append(translateBoundedVariablesDefinition());
-		headcode.append(translateARCheck(0));
+		//headcode.append(translateBoundedVariablesDefinition()); //flattening
+		//headcode.append(translateARCheck(0)); //flattening
+		headcode.append(translateBoundedVariablesDefinitionNoAssignments()); //flattening
+	    headcode.append(translateARCheckNoAssignments(0)); //flattening
 		headcode.append(setObligationLabels());
 		return headcode.toString();
 	}

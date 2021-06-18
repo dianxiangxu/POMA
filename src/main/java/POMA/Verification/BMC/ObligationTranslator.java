@@ -29,10 +29,10 @@ public class ObligationTranslator {
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
-	//  String pathToObligations =
-	//  "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
+	 String pathToObligations =
+	 "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
 
-	String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations_simple1.yml";
+	//String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations_simple1.yml";
 
 	List<String> processedObligations = new ArrayList<String>();
 	List<String> processedObligationsEventLabels = new ArrayList<String>();
@@ -342,7 +342,7 @@ public class ObligationTranslator {
 		sb_associations.append(System.lineSeparator());
 	}
 
-	String processActionsRefactoring(int k) {
+	String processActions(int k) {
 		StringBuilder sb_assignments = new StringBuilder();
 		StringBuilder sb_associations = new StringBuilder();
 		sb_assignments.append("(assert (or ");
@@ -370,8 +370,11 @@ public class ObligationTranslator {
 		}
 		sb_assignments.append("(= GRAPH" + k + " OldGRAPH" + k + ")))");
 		sb_associations.append("(= (Associations " + k + ") (Associations " + (k - 1) + "))))");
-		return sb_assignments.toString() + System.lineSeparator() + System.lineSeparator() + sb_associations.toString();
-	}
+	//	return sb_assignments.toString() + System.lineSeparator() + System.lineSeparator() + sb_associations.toString();
+	 return 
+	 System.lineSeparator() + sb_associations.toString();
+	
+}
 
 	List<AssociationRelation> getListOfAddedAssociations() {
 		return listOfAddedAssociations;

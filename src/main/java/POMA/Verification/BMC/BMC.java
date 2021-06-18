@@ -9,7 +9,7 @@ import java.util.List;
 abstract class BMC {
 
 	private Solver solver = Solver.CVC4;
-	private int bound = 5;
+	private int bound = 15;
 	private String smtCodeFilePath = "";
 
 	void setSolver(Solver solver) {
@@ -46,10 +46,10 @@ abstract class BMC {
 		List<String> obligationLabels = getObligationLabels();
 		List<String> confirmedObligations = new ArrayList<String>();
 		int count = 0;
-		for (String label : obligationLabels) {
-			if(confirmedObligations.contains(label)){
-			continue;
-			}
+	//	for (String label : obligationLabels) {
+			// if (confirmedObligations.contains(label)) {
+			// 	continue;
+			// }
 			boolean solved = false;
 			String headCode = generateHeadCode();
 			String tailCode = generateTailCode();
@@ -57,7 +57,7 @@ abstract class BMC {
 			for (int k = 1; k <= bound && !solved; k++) {
 				iterationCode += generateIterationCode(k);
 				System.out.println("=============================================");
-				String smtlibv2Code = headCode + iterationCode + generateAssertKCode(k - 1, label) + tailCode;
+				String smtlibv2Code = headCode + iterationCode + generateAssertKCode(k - 1, "obligation12") + tailCode;
 				if (k == bound) {
 					// System.out.println(smtlibv2Code);
 				}
@@ -65,11 +65,8 @@ abstract class BMC {
 				saveCodeToFile(smtlibv2Code, pathToFile);
 				solved = solver.runSolver(pathToFile, k, confirmedObligations);
 			}
-			System.out.println("CONFIRMED: " + confirmedObligations);
-			System.out.println("+++++++++++++++++++++++++++++++++++++++++++++");
-
 			count++;
-		}
+	//	}
 		System.out.println("Total Runs: " + count);
 	}
 }

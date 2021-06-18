@@ -566,8 +566,467 @@
 (assert (= (AccessRights 3) (join (AssociationsForUA 3) (transpose (AT_Reachability 0)))))
 
 
+;--------------------------------------------------------------------------------------------------------------------
+;STEP4
+(assert 
+(xor 
+(= (obligation1 3) 0) 
+(and (member (mkTuple 18 36 19) (AccessRights 3)) (= (obligation1 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation2 3) 0) 
+(and (member (mkTuple 6 35 19) (AccessRights 3)) (= (obligation2 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation3 3) 0) 
+(and (member (mkTuple 11 35 19) (AccessRights 3)) (= (obligation3 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation4 3) 0) 
+(and (member (mkTuple 13 35 19) (AccessRights 3)) (= (obligation4 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation5 3) 0) 
+(and (member (mkTuple 14 36 19) (AccessRights 3)) (= (obligation5 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation6 3) 0) 
+(and (member (mkTuple 16 37 19) (AccessRights 3)) (= (obligation6 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation7 3) 0) 
+(and (member (mkTuple 21 35 19) (AccessRights 3)) (= (obligation7 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation8 3) 0) 
+(and (member (mkTuple 2 35 19) (AccessRights 3)) (= (obligation8 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation9 3) 0) 
+(and (member (mkTuple 12 35 19) (AccessRights 3)) (= (obligation9 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation10 3) 0) 
+(and (member (mkTuple 8 36 19) (AccessRights 3)) (= (obligation10 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation11 3) 0) 
+(and (member (mkTuple 9 37 19) (AccessRights 3)) (= (obligation11 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation12 3) 0) 
+(and (member (mkTuple 9 38 19) (AccessRights 3)) (= (obligation12 3) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation13 3) 0) 
+(and (member (mkTuple 8 40 19) (AccessRights 3)) (= (obligation13 3) 1))
+)
+)				
+
+
+(assert (or 
+(and (= (obligation1 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 6 35 19))) (singleton(mkTuple 18 35 19))))
+(= (Associations 4) (Associations 3))))
+
+(and (= (obligation2 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 11 35 19))) (singleton(mkTuple 6 35 19))))
+(= (Associations 4) (Associations 3))))
+
+(and (= (obligation3 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 13 35 19))) (singleton(mkTuple 11 35 19))))
+(= (Associations 4) (Associations 3))))
+
+(and (= (obligation4 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 14 36 19))) (singleton(mkTuple 13 35 19))))
+(= (Associations 4) (Associations 3))))
+
+(and (= (obligation5 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 16 37 19))) (singleton(mkTuple 14 36 19))))
+(= (Associations 4) (Associations 3))))
+
+(and (= (obligation6 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 21 35 19))) (singleton(mkTuple 16 37 19))))
+(= (Associations 4) (Associations 3))))
+
+(and (= (obligation7 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 2 35 19))) (singleton(mkTuple 21 35 19))))
+(= (Associations 4) (Associations 3))))
+
+(and (= (obligation8 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 12 35 19))) (singleton(mkTuple 2 35 19))))
+(= (Associations 4) (Associations 3))))
+
+(and (= (obligation9 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 8 36 19))) (singleton(mkTuple 12 35 19))))
+(= (Associations 4) (Associations 3))))
+
+(and (= (obligation10 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 9 37 19))) (singleton(mkTuple 8 35 19))))
+(= (Associations 4) (Associations 3))))
+
+(and (= (obligation11 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 9 38 19))) (singleton(mkTuple 9 37 19))))
+(= (Associations 4) (Associations 3))))
+
+(and (= (obligation12 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 8 40 19))) (singleton(mkTuple 9 38 19))))
+(= (Associations 4) (Associations 3))))
+
+(and (= (obligation13 3) 1)
+(xor (= (Associations 4) 
+(setminus (union  (Associations 3) (singleton(mkTuple 9 40 19))) (singleton(mkTuple 8 40 19))))
+(= (Associations 4) (Associations 3))))
+
+(= (Associations 4) (Associations 3))))
+(assert (= (AssociationsForUA 4) (join (UA_U_Reachability 0) (Associations 4))))
+(assert (= (AccessRights 4) (join (AssociationsForUA 4) (transpose (AT_Reachability 0)))))
+
+
+;--------------------------------------------------------------------------------------------------------------------
+;STEP5
+(assert 
+(xor 
+(= (obligation1 4) 0) 
+(and (member (mkTuple 18 36 19) (AccessRights 4)) (= (obligation1 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation2 4) 0) 
+(and (member (mkTuple 6 35 19) (AccessRights 4)) (= (obligation2 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation3 4) 0) 
+(and (member (mkTuple 11 35 19) (AccessRights 4)) (= (obligation3 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation4 4) 0) 
+(and (member (mkTuple 13 35 19) (AccessRights 4)) (= (obligation4 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation5 4) 0) 
+(and (member (mkTuple 14 36 19) (AccessRights 4)) (= (obligation5 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation6 4) 0) 
+(and (member (mkTuple 16 37 19) (AccessRights 4)) (= (obligation6 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation7 4) 0) 
+(and (member (mkTuple 21 35 19) (AccessRights 4)) (= (obligation7 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation8 4) 0) 
+(and (member (mkTuple 2 35 19) (AccessRights 4)) (= (obligation8 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation9 4) 0) 
+(and (member (mkTuple 12 35 19) (AccessRights 4)) (= (obligation9 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation10 4) 0) 
+(and (member (mkTuple 8 36 19) (AccessRights 4)) (= (obligation10 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation11 4) 0) 
+(and (member (mkTuple 9 37 19) (AccessRights 4)) (= (obligation11 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation12 4) 0) 
+(and (member (mkTuple 9 38 19) (AccessRights 4)) (= (obligation12 4) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation13 4) 0) 
+(and (member (mkTuple 8 40 19) (AccessRights 4)) (= (obligation13 4) 1))
+)
+)				
+
+
+(assert (or 
+(and (= (obligation1 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 6 35 19))) (singleton(mkTuple 18 35 19))))
+(= (Associations 5) (Associations 4))))
+
+(and (= (obligation2 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 11 35 19))) (singleton(mkTuple 6 35 19))))
+(= (Associations 5) (Associations 4))))
+
+(and (= (obligation3 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 13 35 19))) (singleton(mkTuple 11 35 19))))
+(= (Associations 5) (Associations 4))))
+
+(and (= (obligation4 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 14 36 19))) (singleton(mkTuple 13 35 19))))
+(= (Associations 5) (Associations 4))))
+
+(and (= (obligation5 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 16 37 19))) (singleton(mkTuple 14 36 19))))
+(= (Associations 5) (Associations 4))))
+
+(and (= (obligation6 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 21 35 19))) (singleton(mkTuple 16 37 19))))
+(= (Associations 5) (Associations 4))))
+
+(and (= (obligation7 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 2 35 19))) (singleton(mkTuple 21 35 19))))
+(= (Associations 5) (Associations 4))))
+
+(and (= (obligation8 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 12 35 19))) (singleton(mkTuple 2 35 19))))
+(= (Associations 5) (Associations 4))))
+
+(and (= (obligation9 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 8 36 19))) (singleton(mkTuple 12 35 19))))
+(= (Associations 5) (Associations 4))))
+
+(and (= (obligation10 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 9 37 19))) (singleton(mkTuple 8 35 19))))
+(= (Associations 5) (Associations 4))))
+
+(and (= (obligation11 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 9 38 19))) (singleton(mkTuple 9 37 19))))
+(= (Associations 5) (Associations 4))))
+
+(and (= (obligation12 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 8 40 19))) (singleton(mkTuple 9 38 19))))
+(= (Associations 5) (Associations 4))))
+
+(and (= (obligation13 4) 1)
+(xor (= (Associations 5) 
+(setminus (union  (Associations 4) (singleton(mkTuple 9 40 19))) (singleton(mkTuple 8 40 19))))
+(= (Associations 5) (Associations 4))))
+
+(= (Associations 5) (Associations 4))))
+(assert (= (AssociationsForUA 5) (join (UA_U_Reachability 0) (Associations 5))))
+(assert (= (AccessRights 5) (join (AssociationsForUA 5) (transpose (AT_Reachability 0)))))
+
+
+;--------------------------------------------------------------------------------------------------------------------
+;STEP6
+(assert 
+(xor 
+(= (obligation1 5) 0) 
+(and (member (mkTuple 18 36 19) (AccessRights 5)) (= (obligation1 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation2 5) 0) 
+(and (member (mkTuple 6 35 19) (AccessRights 5)) (= (obligation2 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation3 5) 0) 
+(and (member (mkTuple 11 35 19) (AccessRights 5)) (= (obligation3 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation4 5) 0) 
+(and (member (mkTuple 13 35 19) (AccessRights 5)) (= (obligation4 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation5 5) 0) 
+(and (member (mkTuple 14 36 19) (AccessRights 5)) (= (obligation5 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation6 5) 0) 
+(and (member (mkTuple 16 37 19) (AccessRights 5)) (= (obligation6 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation7 5) 0) 
+(and (member (mkTuple 21 35 19) (AccessRights 5)) (= (obligation7 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation8 5) 0) 
+(and (member (mkTuple 2 35 19) (AccessRights 5)) (= (obligation8 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation9 5) 0) 
+(and (member (mkTuple 12 35 19) (AccessRights 5)) (= (obligation9 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation10 5) 0) 
+(and (member (mkTuple 8 36 19) (AccessRights 5)) (= (obligation10 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation11 5) 0) 
+(and (member (mkTuple 9 37 19) (AccessRights 5)) (= (obligation11 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation12 5) 0) 
+(and (member (mkTuple 9 38 19) (AccessRights 5)) (= (obligation12 5) 1))
+)
+)				
+(assert 
+(xor 
+(= (obligation13 5) 0) 
+(and (member (mkTuple 8 40 19) (AccessRights 5)) (= (obligation13 5) 1))
+)
+)				
+
+
+(assert (or 
+(and (= (obligation1 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 6 35 19))) (singleton(mkTuple 18 35 19))))
+(= (Associations 6) (Associations 5))))
+
+(and (= (obligation2 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 11 35 19))) (singleton(mkTuple 6 35 19))))
+(= (Associations 6) (Associations 5))))
+
+(and (= (obligation3 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 13 35 19))) (singleton(mkTuple 11 35 19))))
+(= (Associations 6) (Associations 5))))
+
+(and (= (obligation4 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 14 36 19))) (singleton(mkTuple 13 35 19))))
+(= (Associations 6) (Associations 5))))
+
+(and (= (obligation5 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 16 37 19))) (singleton(mkTuple 14 36 19))))
+(= (Associations 6) (Associations 5))))
+
+(and (= (obligation6 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 21 35 19))) (singleton(mkTuple 16 37 19))))
+(= (Associations 6) (Associations 5))))
+
+(and (= (obligation7 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 2 35 19))) (singleton(mkTuple 21 35 19))))
+(= (Associations 6) (Associations 5))))
+
+(and (= (obligation8 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 12 35 19))) (singleton(mkTuple 2 35 19))))
+(= (Associations 6) (Associations 5))))
+
+(and (= (obligation9 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 8 36 19))) (singleton(mkTuple 12 35 19))))
+(= (Associations 6) (Associations 5))))
+
+(and (= (obligation10 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 9 37 19))) (singleton(mkTuple 8 35 19))))
+(= (Associations 6) (Associations 5))))
+
+(and (= (obligation11 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 9 38 19))) (singleton(mkTuple 9 37 19))))
+(= (Associations 6) (Associations 5))))
+
+(and (= (obligation12 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 8 40 19))) (singleton(mkTuple 9 38 19))))
+(= (Associations 6) (Associations 5))))
+
+(and (= (obligation13 5) 1)
+(xor (= (Associations 6) 
+(setminus (union  (Associations 5) (singleton(mkTuple 9 40 19))) (singleton(mkTuple 8 40 19))))
+(= (Associations 6) (Associations 5))))
+
+(= (Associations 6) (Associations 5))))
+(assert (= (AssociationsForUA 6) (join (UA_U_Reachability 0) (Associations 6))))
+(assert (= (AccessRights 6) (join (AssociationsForUA 6) (transpose (AT_Reachability 0)))))
+
+
 ;PROPERTY
-(assert (= (obligation12 2) 1))
+(assert (= (obligation12 5) 1))
 
 
 (check-sat)

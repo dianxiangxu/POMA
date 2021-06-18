@@ -17,9 +17,14 @@ import gov.nist.csd.pm.pip.graph.MemGraph;
 
 	public class GPMSGenerator {
 
-		public static void main(String[] argv) throws PMException, IOException {
-			Graph editingPolicy = new MemGraph(); 	  
-	  
+		public static void main(String[] argv) throws Exception {
+			//gpms1Generator();
+			gpms2Generator();
+		}
+
+		private static void gpms1Generator() throws Exception{
+			Graph editingPolicy = new MemGraph();
+
 			editingPolicy.createPolicyClass("EditingPolicy", null);
 
 			editingPolicy.createNode("PI", UA, null, "EditingPolicy");
@@ -39,7 +44,7 @@ import gov.nist.csd.pm.pip.graph.MemGraph;
 			editingPolicy.createNode("PDSWhole", OA, null, "EditingPolicy");
 			editingPolicy.createNode("PDSEditing", OA, null, "EditingPolicy");
 
-			editingPolicy.createNode("Vlad", U, null, "PI");			
+			editingPolicy.createNode("Vlad", U, null, "PI");
 			editingPolicy.createNode("Nazmul", U, null, "CoPI");
 
 			editingPolicy.associate("PI", "PDSWhole", new OperationSet("submit"));
@@ -47,8 +52,44 @@ import gov.nist.csd.pm.pip.graph.MemGraph;
 
 			saveDataToFile(GraphSerializer.toJson(editingPolicy), "Policies/ForBMC/GPMSSimplified/EditingPolicy.json");	
 		}
-
 		
+
+		private static void gpms2Generator() throws Exception {
+			Graph editingPolicy = new MemGraph();
+
+			editingPolicy.createPolicyClass("EditingPolicy", null);
+
+			editingPolicy.createNode("PI", UA, null, "EditingPolicy");
+			editingPolicy.createNode("CoPI", UA, null, "EditingPolicy");
+			editingPolicy.createNode("SP", UA, null, "EditingPolicy");
+			editingPolicy.createNode("Chair", UA, null, "EditingPolicy");
+			editingPolicy.createNode("BM", UA, null, "EditingPolicy");
+			editingPolicy.createNode("Dean", UA, null, "EditingPolicy");
+			editingPolicy.createNode("RA", UA, null, "EditingPolicy");
+			editingPolicy.createNode("RD", UA, null, "EditingPolicy");
+			editingPolicy.createNode("RD2", UA, null, "RD");
+			editingPolicy.createNode("RD3", UA, null, "RD2");
+			editingPolicy.createNode("RD4", UA, null, "RD3");
+			editingPolicy.createNode("RD5", UA, null, "RD4");
+
+			editingPolicy.createNode("UChair", UA, null, "EditingPolicy");
+			editingPolicy.createNode("UBM", UA, null, "EditingPolicy");
+			editingPolicy.createNode("UDean", UA, null, "EditingPolicy");
+			editingPolicy.createNode("URA", UA, null, "EditingPolicy");
+			editingPolicy.createNode("URD", UA, null, "EditingPolicy");
+			editingPolicy.createNode("PDSWhole", OA, null, "EditingPolicy");
+			editingPolicy.createNode("PDSEditing", OA, null, "EditingPolicy");
+
+			editingPolicy.createNode("Vlad", U, null, "PI");
+			editingPolicy.createNode("Nazmul", U, null, "CoPI");
+
+			editingPolicy.associate("PI", "PDSWhole", new OperationSet("submit"));
+			editingPolicy.associate("CoPI", "PDSWhole", new OperationSet("edit"));
+
+			saveDataToFile(GraphSerializer.toJson(editingPolicy), "Policies/ForBMC/GPMSSimplified/EditingPolicy2.json");
+		}
+
+
 		private static void saveDataToFile(String code, String path) throws IOException {
 			File file = new File(path);
 			FileWriter myWriter = new FileWriter(file);
