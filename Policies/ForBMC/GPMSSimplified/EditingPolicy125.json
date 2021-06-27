@@ -66,11 +66,6 @@
       "properties": {}
     },
     {
-      "name": "RD20",
-      "type": "UA",
-      "properties": {}
-    },
-    {
       "name": "EditingPolicy",
       "type": "PC",
       "properties": {}
@@ -116,27 +111,7 @@
       "properties": {}
     },
     {
-      "name": "RD15",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "RD16",
-      "type": "UA",
-      "properties": {}
-    },
-    {
       "name": "RD",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "RD13",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "RD14",
       "type": "UA",
       "properties": {}
     },
@@ -169,21 +144,6 @@
       "name": "PDSWhole",
       "type": "OA",
       "properties": {}
-    },
-    {
-      "name": "RD19",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "RD17",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "RD18",
-      "type": "UA",
-      "properties": {}
     }
   ],
   "assignments": [
@@ -212,24 +172,8 @@
       "target": "RD8"
     },
     {
-      "source": "RD15",
-      "target": "RD14"
-    },
-    {
-      "source": "RD13",
-      "target": "RD12"
-    },
-    {
       "source": "RD11",
       "target": "RD10"
-    },
-    {
-      "source": "RD19",
-      "target": "RD18"
-    },
-    {
-      "source": "RD17",
-      "target": "RD16"
     },
     {
       "source": "Chair",
@@ -268,10 +212,6 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "RD20",
-      "target": "RD19"
-    },
-    {
       "source": "UChair",
       "target": "EditingPolicy"
     },
@@ -288,20 +228,8 @@
       "target": "RD7"
     },
     {
-      "source": "RD16",
-      "target": "RD15"
-    },
-    {
-      "source": "RD14",
-      "target": "RD13"
-    },
-    {
       "source": "RD12",
       "target": "RD11"
-    },
-    {
-      "source": "RD18",
-      "target": "RD17"
     },
     {
       "source": "PDSEditing",

@@ -1,4 +1,4 @@
-package POMA.Verification.BMC;
+package POMA.Verification.ReachabilityAnalysisHierarchy;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -57,7 +57,7 @@ abstract class BMC {
 			for (int k = 1; k <= bound && !solved; k++) {
 				iterationCode += generateIterationCode(k);
 				System.out.println("=============================================");
-				String smtlibv2Code = headCode + iterationCode + generateAssertKCode(k - 1, "obligation12") + tailCode;
+				String smtlibv2Code = headCode + iterationCode + generateAssertKCode(k - 1, "obligation3") + tailCode;
 				if (k == bound) {
 					// System.out.println(smtlibv2Code);
 				}

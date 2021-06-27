@@ -1,4 +1,4 @@
-package POMA.Verification.BMC;
+package POMA.Verification.ReachabilityAnalysis;
 
 import java.io.File;
 import java.io.IOException;
@@ -107,10 +107,34 @@ class GraphTranslator {
 		}
 	}
 
-	private void flattenAssignments() throws PMException {
+	//O(V^2)
+	private void flattenAssignmentV2() throws PMException {
+		Set<Node> nodes = graph.getNodes();
+		for (Node node : nodes) {
+			DepthFirstSearcher dfs = new DepthFirstSearcher(graph);
+			int nodeID = mapOfIDs.get(node.getName());
+			Visitor visitor = visitorNode -> {
+				//System.out.println(node.getName()+" : "+visitorNode.getName());
+				int descendantID = mapOfIDs.get(visitorNode.getName());
+				tuples
+						.add(new AssignmentRelation(Integer.toString(nodeID), Integer.toString(
+								nodeID))
+								.toStringNoQuotes());
+				tuples
+						.add(new AssignmentRelation(Integer.toString(
+								nodeID), Integer.toString(descendantID))
+								.toStringNoQuotes());
+			};
+			dfs.traverse(node, (c, p) -> {
+			}, visitor, Direction.PARENTS);
+		}
+	}
+
+	//O(V^4)
+	private void flattenAssignmentsV4() throws PMException {
 		DepthFirstSearcher dfs = new DepthFirstSearcher(graph);
 		Set<String> PCs = graph.getPolicyClasses();
-		//Set<String> flattenedAssignments = new HashSet<String>();
+		// Set<String> flattenedAssignments = new HashSet<String>();
 		for (String policyClass : PCs) {
 			List<String> listUA_U = new ArrayList<String>();
 			List<String> listOA_O = new ArrayList<String>();
@@ -132,8 +156,8 @@ class GraphTranslator {
 					listUA_U.clear();
 					listOA_O.clear();
 				}
+				//System.out.println(node.getName());
 			};
-
 			dfs.traverse(graph.getNode(policyClass), (c, p) -> {
 			}, visitor, Direction.CHILDREN);
 		}
@@ -144,18 +168,19 @@ class GraphTranslator {
 		for (String node : containment) {
 			int nodeID = mapOfIDs.get(node);
 
-			flattenedAssignments.add(new AssignmentRelation(Integer.toString(nodeID), Integer.toString(
-					nodeID))
-					.toStringNoQuotes());
-			//flattenedAssignments.add(new AssignmentRelation(node, node).toString());
+			flattenedAssignments
+					.add(new AssignmentRelation(Integer.toString(nodeID), Integer.toString(nodeID)).toStringNoQuotes());
+			// flattenedAssignments.add(new AssignmentRelation(node, node).toString());
 			List<String> tclosureNodes = new ArrayList<String>(containment);
 			processedNodes.add(node);
 			tclosureNodes.removeAll(processedNodes);
 			for (String descendant : tclosureNodes) {
 				int descendantID = mapOfIDs.get(descendant);
-				flattenedAssignments.add(new AssignmentRelation(Integer.toString(nodeID), Integer.toString(descendantID))
-						.toStringNoQuotes());
-				//flattenedAssignments.add(new AssignmentRelation(node, descendant).toString());
+				flattenedAssignments
+						.add(new AssignmentRelation(Integer.toString(nodeID), Integer.toString(descendantID))
+								.toStringNoQuotes());
+				// flattenedAssignments.add(new AssignmentRelation(node,
+				// descendant).toString());
 			}
 		}
 	}
@@ -180,9 +205,10 @@ class GraphTranslator {
 							.toStringNoQuotes());
 				}
 				// for (String parent : graph.getParents(node.getName())) {
-				// 	int parentID = mapOfIDs.get(parent);
-				// 	tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(parentID)) // comment when needed flatten
-				// 			.toStringNoQuotes());
+				// int parentID = mapOfIDs.get(parent);
+				// tuples.add(new AssignmentRelation(Integer.toString(childID),
+				// Integer.toString(parentID)) // comment when needed flatten
+				// .toStringNoQuotes());
 				// }
 			}
 		};
@@ -252,16 +278,18 @@ class GraphTranslator {
 		for (String policyClass : graph.getPolicyClasses()) {
 			findAssignments(policyClass);
 		}
-		flattenAssignments();
+		//flattenAssignmentsV4();
+		flattenAssignmentV2();
 		for (Map.Entry<String, String> entry : eventMembers.entrySet()) {
 			int userID = mapOfIDs.get(entry.getKey());
-			int targetID = mapOfIDs.get(entry.getValue());
+			//int targetID = mapOfIDs.get(entry.getValue());
 			tuples.add(new AssignmentRelation(Integer.toString(userID), Integer.toString(userID)).toStringNoQuotes());
 			// tuples.add(new AssignmentRelation(Integer.toString(targetID),
 			// Integer.toString(
 			// targetID)).toStringNoQuotes());
 		}
-		System.out.println("ASSIGNMENTS SIZE: "+tuples.size());
+		System.out.println("ASSIGNMENTS SIZE: " + tuples.size());
+		//System.exit(0);
 	}
 
 	private void findAssociationsInGraph() throws Exception {
@@ -396,12 +424,12 @@ class GraphTranslator {
 			return pt.translateProhibitionSingleContainer(1, k);
 
 		}
-		if(k==0){
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= (UA_U_Reachability " + k + ") (join SetToCheckUA GRAPH0)))");
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= (AT_Reachability " + k + ") (join SetToCheckAT GRAPH0)))");
-		sb.append(System.lineSeparator());
+		if (k == 0) {
+			sb.append(System.lineSeparator());
+			sb.append("(assert (= (UA_U_Reachability " + k + ") (join SetToCheckUA GRAPH0)))");
+			sb.append(System.lineSeparator());
+			sb.append("(assert (= (AT_Reachability " + k + ") (join SetToCheckAT GRAPH0)))");
+			sb.append(System.lineSeparator());
 		}
 		sb.append("(assert (= (AssociationsForUA " + k + ") (join (UA_U_Reachability " + 0 + ") (Associations " + k
 				+ "))))");
@@ -428,10 +456,10 @@ class GraphTranslator {
 		headcode.append(translateSetToCheckOA());
 		headcode.append(translateSetGraph());
 		headcode.append(translateAssociations());
-		//headcode.append(translateBoundedVariablesDefinition()); //flattening
-		//headcode.append(translateARCheck(0)); //flattening
-		headcode.append(translateBoundedVariablesDefinitionNoAssignments()); //flattening
-	    headcode.append(translateARCheckNoAssignments(0)); //flattening
+		// headcode.append(translateBoundedVariablesDefinition()); //no flattening
+		// headcode.append(translateARCheck(0)); //no flattening
+		headcode.append(translateBoundedVariablesDefinitionNoAssignments()); // flattening
+		headcode.append(translateARCheckNoAssignments(0)); // flattening
 		headcode.append(setObligationLabels());
 		return headcode.toString();
 	}

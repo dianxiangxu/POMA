@@ -1,4 +1,4 @@
-package POMA.Verification.BMC;
+package POMA.Verification.ReachabilityAnalysis;
 
 import java.io.IOException;
 import java.nio.file.Files;

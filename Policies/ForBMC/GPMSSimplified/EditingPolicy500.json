@@ -61,12 +61,47 @@
       "properties": {}
     },
     {
+      "name": "RD26",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "RD27",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "Vlad",
       "type": "U",
       "properties": {}
     },
     {
+      "name": "RD24",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "RD25",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "RD22",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "RD23",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "RD20",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "RD21",
       "type": "UA",
       "properties": {}
     },
@@ -82,6 +117,16 @@
     },
     {
       "name": "SP",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "RD28",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "RD29",
       "type": "UA",
       "properties": {}
     },
@@ -212,6 +257,22 @@
       "target": "RD8"
     },
     {
+      "source": "RD28",
+      "target": "RD27"
+    },
+    {
+      "source": "RD26",
+      "target": "RD25"
+    },
+    {
+      "source": "RD24",
+      "target": "RD23"
+    },
+    {
+      "source": "RD22",
+      "target": "RD21"
+    },
+    {
       "source": "RD15",
       "target": "RD14"
     },
@@ -286,6 +347,26 @@
     {
       "source": "RD8",
       "target": "RD7"
+    },
+    {
+      "source": "RD29",
+      "target": "RD28"
+    },
+    {
+      "source": "RD27",
+      "target": "RD26"
+    },
+    {
+      "source": "RD25",
+      "target": "RD24"
+    },
+    {
+      "source": "RD23",
+      "target": "RD22"
+    },
+    {
+      "source": "RD21",
+      "target": "RD20"
     },
     {
       "source": "RD16",

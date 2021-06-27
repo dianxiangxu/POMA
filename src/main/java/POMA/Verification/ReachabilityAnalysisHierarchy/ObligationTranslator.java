@@ -1,4 +1,4 @@
-package POMA.Verification.BMC;
+package POMA.Verification.ReachabilityAnalysisHierarchy;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,10 +27,10 @@ import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 
 public class ObligationTranslator {
 
-	// String pathToObligations =
-	// "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
-	 String pathToObligations =
-	 "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
+	String pathToObligations =
+	"Policies/ForBMC/LawFirmSimplified/Obligations.yml";
+	//  String pathToObligations =
+	//  "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
 
 	//String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations_simple1.yml";
 
@@ -370,9 +370,9 @@ public class ObligationTranslator {
 		}
 		sb_assignments.append("(= GRAPH" + k + " OldGRAPH" + k + ")))");
 		sb_associations.append("(= (Associations " + k + ") (Associations " + (k - 1) + "))))");
-	//	return sb_assignments.toString() + System.lineSeparator() + System.lineSeparator() + sb_associations.toString();
-	 return 
-	 System.lineSeparator() + sb_associations.toString();
+		return sb_assignments.toString() + System.lineSeparator() + System.lineSeparator() + sb_associations.toString();
+	//  return 
+	//  System.lineSeparator() + sb_associations.toString();
 	
 }
 

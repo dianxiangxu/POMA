@@ -1,4 +1,4 @@
-package POMA.Verification.BMC;
+package POMA.Verification.ReachabilityAnalysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,10 +21,39 @@ public class ObligationChecker extends BMC {
 	// String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
 	//String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyLess.json";
 
-	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy.json";
-	String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy2.json";
+
+	 String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
+	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy125.json";
+	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy265.json";
+	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy500.json";
+	 //String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy750.json";
+
+
+
 	GraphTranslator gt = new GraphTranslator(pathToGraph);
 	ObligationTranslator ot;
+
+	public static void main(String[] args) throws Exception {
+
+		long start = System.currentTimeMillis();
+		
+
+		ObligationChecker checker = new ObligationChecker();
+
+		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
+		//checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC2/BMC");
+		//checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC3/BMC");
+		//checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC4/BMC");
+		//checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC5/BMC");
+
+		checker.check();
+		System.out.println(checker.mapOfIDs);
+		long end = System.currentTimeMillis();
+
+		float sec = (end - start) / 1000F;
+		System.out.println(sec + " seconds");
+
+	}
 
 	public ObligationChecker() throws Exception {
 		mapOfIDs = gt.getMapOfIDs();
@@ -133,12 +162,6 @@ public class ObligationChecker extends BMC {
 		return sb.toString();
 	}
 
-	public static void main(String[] args) throws Exception {
-		ObligationChecker checker = new ObligationChecker();
 
-		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
-		checker.check();
-		System.out.println(checker.mapOfIDs);
-	}
 
 }
