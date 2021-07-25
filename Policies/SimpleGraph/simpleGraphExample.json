@@ -1,0 +1,82 @@
+{
+    "nodes": [
+        {
+            "name": "D",
+            "type": "OA",
+            "properties": {}
+        },
+        {
+            "name": "C",
+            "type": "OA",
+            "properties": {}
+        },
+        {
+            "name": "O",
+            "type": "O",
+            "properties": {}
+        },
+        {
+            "name": "A",
+            "type": "UA",
+            "properties": {}
+        },
+        {
+            "name": "B",
+            "type": "UA",
+            "properties": {}
+        },
+        {
+            "name": "U",
+            "type": "U",
+            "properties": {}
+        },
+        {
+            "name": "PC",
+            "type": "PC",
+            "properties": {}
+        }
+    ],
+    "assignments": [
+        {
+            "source": "A",
+            "target": "PC"
+        },
+        {
+            "source": "B",
+            "target": "A"
+        },
+        {
+            "source": "U",
+            "target": "B"
+        },
+        {
+            "source": "O",
+            "target": "D"
+        },
+        {
+            "source": "D",
+            "target": "C"
+        },
+        {
+            "source": "C",
+            "target": "PC"
+        }
+    ],
+    "associations": [
+        {
+            "source": "A",
+            "target": "C",
+            "operations": [
+                "r",
+                "w"
+            ]
+        },
+        {
+            "source": "B",
+            "target": "D",
+            "operations": [
+                "x"
+            ]
+        }
+    ]
+}

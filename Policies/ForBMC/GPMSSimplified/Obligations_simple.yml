@@ -33,7 +33,7 @@ rules:
                   - disapprove   
                 target:
                   name: PDSWhole
-                  type: UA                                                                                   
+                  type: UA                                                                                     
   - label: obligation2
     event:
       subject:
@@ -101,7 +101,14 @@ rules:
                   - disapprove                     
                 target:
                   name: PDSWhole
-                  type: UA                    
+                  type: UA 
+        - assign:
+            - what:
+                name: Vlad
+                type: U
+              where:
+                name: CoPI
+                type: UA                                      
   - label: obligation4
     event:
       subject:

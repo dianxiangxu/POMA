@@ -29,10 +29,10 @@ public class ObligationTranslator {
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
-	 String pathToObligations =
-	 "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
+	String pathToObligations = "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
 
-	//String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations_simple1.yml";
+	// String pathToObligations =
+	// "Policies/ForBMC/LawFirmSimplified/Obligations_simple1.yml";
 
 	List<String> processedObligations = new ArrayList<String>();
 	List<String> processedObligationsEventLabels = new ArrayList<String>();
@@ -44,8 +44,6 @@ public class ObligationTranslator {
 	private List<Action> grantGroupActions = new ArrayList<Action>();
 	private List<Action> assignGroupActions = new ArrayList<Action>();
 	private Map<String, String> eventMembers = new HashMap<String, String>();
-
-
 
 	Obligation obligation;
 	HashMap<String, Integer> mapOfIDs;
@@ -82,18 +80,17 @@ public class ObligationTranslator {
 			int targetID = mapOfIDs.get(target);
 
 			sb.append("(assert \r\n" + "(xor \r\n" + "(= (" + obligationLabel + " " + (k - 1) + ") 0) \r\n"
-					+ "(and (member (mkTuple " + subjectID + " " + arID + " " + targetID + ") (AccessRights " + (k - 1)
+					+ "(and (member (mkTuple " + subjectID + " " + arID + " " + targetID + ") (ASSOC* " + (k - 1)
 					+ ")) (= (" + obligationLabel + " " + (k - 1) + ") 1))\r\n" + ")\r\n" + ")				\r\n");
 			ruleLabels.add(r.getLabel());
 		}
 		return sb.toString();
 	}
 
-
 	String translateGraphIntersection(int k) {
-		return "(declare-fun GRAPH" + k + " () (Set (Tuple Int Int)))" + System.lineSeparator()
-				+ "(declare-fun OldGRAPH" + k + " () (Set (Tuple Int Int)))" + System.lineSeparator()
-				+ "(assert (= OldGRAPH" + k + " (intersection (Tclosure " + (k - 1) + ") GRAPH" + (k - 1) + ")))"
+		return "(declare-fun ASSIGN*" + k + " () (Set (Tuple Int Int)))" + System.lineSeparator()
+				+ "(declare-fun OldASSIGN" + k + " () (Set (Tuple Int Int)))" + System.lineSeparator()
+				+ "(assert (= OldASSIGN" + k + " (intersection (Tclosure " + (k - 1) + ") ASSIGN*" + (k - 1) + ")))"
 				+ System.lineSeparator();
 	}
 
@@ -233,32 +230,66 @@ public class ObligationTranslator {
 		boolean deleteNode = false;
 		for (int i = 0; i < assignGroupActions.size(); i++) {
 			Action action = assignGroupActions.get(i);
+
 			if (action instanceof AssignAction) {
 				assignAction = (AssignAction) action;
-				what = assignAction.getAssignments().get(0).getWhat().getName();
-				where = assignAction.getAssignments().get(0).getWhere().getName();
-				SMTAction = "union";
-			} else if (action instanceof DeleteAction) {// TODO: add multiple assignments
-				deleteAction = (DeleteAction) action;
-				if (deleteAction.getAssignments() != null) {
-					what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
-					where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
-					SMTAction = "setminus";
-				} else {
-					deleteNode = true;
-					what = deleteAction.getNodes().get(0).getName();
-					SMTAction = "setminus";
+				if (assignAction.getAssignments().get(0).getWhat().getType().equals("U")) {
+					what = assignAction.getAssignments().get(0).getWhat().getName();
+					where = assignAction.getAssignments().get(0).getWhere().getName();
+					handleAddAssignmentActionUUA(k, sb_assignments, what, where);
 				}
-			} else if (action instanceof CreateAction) {// TODO: add multiple nodes
-				createAction = (CreateAction) action;
-				what = createAction.getCreateNodesList().get(0).getWhat().getName();
-				where = createAction.getCreateNodesList().get(0).getWhere().getName();
-				SMTAction = "union";
 			}
-			handleAssignmentAction(k, sb_assignments, what, where, SMTAction, deleteNode, i);
+			// if (action instanceof AssignAction) {
+			// assignAction = (AssignAction) action;
+			// what = assignAction.getAssignments().get(0).getWhat().getName();
+			// where = assignAction.getAssignments().get(0).getWhere().getName();
+			// SMTAction = "union";
+			// } else if (action instanceof DeleteAction) {
+			// deleteAction = (DeleteAction) action;
+			// if (deleteAction.getAssignments() != null) {
+			// what =
+			// deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
+			// where =
+			// deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
+			// SMTAction = "setminus";
+			// } else {
+			// deleteNode = true;
+			// what = deleteAction.getNodes().get(0).getName();
+			// SMTAction = "setminus";
+			// }
+			// } else if (action instanceof CreateAction) {
+			// createAction = (CreateAction) action;
+			// what = createAction.getCreateNodesList().get(0).getWhat().getName();
+			// where = createAction.getCreateNodesList().get(0).getWhere().getName();
+			// SMTAction = "union";
+			// }
+			// handleAssignmentAction(k, sb_assignments, what, where, SMTAction, deleteNode,
+			// i);
 		}
 		handleAssignmentTrailing(k, sb_assignments);
 		return sb_assignments.toString();
+	}
+
+	private void handleDeleteAssignmentActionUUA(int k, StringBuilder sb_assignments, String what, String where) {
+		int whatID = mapOfIDs.get(what);
+		int whereID = mapOfIDs.get(where);
+		sb_assignments.append("(setminus ASSIGN* (setminus (join (singleton (mkTuple " + whatID + " "
+				+ whereID + ")) ASSIGN*) (join (join (singleton (mkTuple " + whatID + " " + whatID
+				+ ")) (setminus (setminus ASSIGN (singleton (mkTuple " + whatID + " " + whereID
+				+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) ASSIGN*)))");
+		// sb_assignments.append("(union (singleton (mkTuple " + whatID + " " + whereID
+		// + ")) (union (join (singleton (mkTuple " + whatID + " " + whereID + ")) (join
+		// (singleton (mkTuple "
+		// + whereID + " " + whereID + ")) (ASSIGN* " + (k - 1) + "))) (ASSIGN* " + (k -
+		// 1) + ")))");
+	}
+
+	private void handleAddAssignmentActionUUA(int k, StringBuilder sb_assignments, String what, String where) {
+		int whatID = mapOfIDs.get(what);
+		int whereID = mapOfIDs.get(where);
+		sb_assignments.append("(union (singleton (mkTuple " + whatID + " " + whereID
+				+ ")) (union (join (singleton (mkTuple " + whatID + " " + whereID + ")) (join (singleton (mkTuple "
+				+ whereID + " " + whereID + ")) (ASSIGN* " + (k - 1) + "))) (ASSIGN* " + (k - 1) + ")))");
 	}
 
 	private void handleAssignmentAction(int k, StringBuilder sb_assignments, String what, String where,
@@ -269,14 +300,14 @@ public class ObligationTranslator {
 			whereID = mapOfIDs.get(where);
 		if (i == 0 && !deleteNode) {
 			sb_assignments.append(
-					"(" + SMTAction + "  OldGRAPH" + k + " (singleton(mkTuple " + whatID + " " + whereID + ")))");
+					"(" + SMTAction + " (ASSIGN* " + k + ") (singleton(mkTuple " + whatID + " " + whereID + ")))");
 		} else if (!deleteNode) {
 			sb_assignments.insert(0, "(" + SMTAction + " ");
 			sb_assignments.append(" (singleton(mkTuple " + whatID + " " + whereID + ")))");
 		} else if (i == 0 && deleteNode) {
-			sb_assignments.append("(" + SMTAction + "  OldGRAPH" + k + " (union (join " + "OldGRAPH" + k
+			sb_assignments.append("(" + SMTAction + "  OldASSIGN" + k + " (union (join " + "OldASSIGN" + k
 					+ " (singleton (mkTuple " + whatID + " " + whatID + "))) (join (singleton (mkTuple " + whatID + " "
-					+ whatID + ")) OldGRAPH" + k + ")))");
+					+ whatID + ")) OldASSIGN" + k + ")))");
 		} else if (deleteNode) {
 			sb_assignments.insert(0, "(" + SMTAction + " ");
 			sb_assignments.append(" (singleton(mkTuple " + whatID + " " + whereID + ")))");
@@ -286,7 +317,7 @@ public class ObligationTranslator {
 	private void handleAssignmentTrailing(int k, StringBuilder sb_assignments) {
 		sb_assignments.append(")");
 		sb_assignments.append(System.lineSeparator());
-		sb_assignments.append("(= GRAPH" + k + " OldGRAPH" + k + ")))");
+		sb_assignments.append("(= (ASSIGN* " + k + ") (ASSIGN* " + (k - 1) + "))))");
 		sb_assignments.append(System.lineSeparator());
 	}
 
@@ -327,8 +358,8 @@ public class ObligationTranslator {
 		int arID = mapOfIDs.get(op);
 
 		if (i == 0) {
-			sb_associations.append("(" + SMTAction + "  (Associations " + (k - 1) + ") (singleton(mkTuple " + whatID
-					+ " " + arID + " " + whereID + ")))");
+			sb_associations.append("(" + SMTAction + "  (ASSOC " + (k - 1) + ") (singleton(mkTuple " + whatID + " "
+					+ arID + " " + whereID + ")))");
 		} else {
 			sb_associations.insert(0, "(" + SMTAction + " ");
 			sb_associations.append(" (singleton(mkTuple " + whatID + " " + arID + " " + whereID + ")))");
@@ -338,7 +369,7 @@ public class ObligationTranslator {
 	private void handleAssociationTrailing(int k, StringBuilder sb_associations) {
 		sb_associations.append(")");
 		sb_associations.append(System.lineSeparator());
-		sb_associations.append("(= (Associations " + k + ") (Associations " + (k - 1) + "))))");
+		sb_associations.append("(= (ASSOC " + k + ") (ASSOC " + (k - 1) + "))))");
 		sb_associations.append(System.lineSeparator());
 	}
 
@@ -354,7 +385,7 @@ public class ObligationTranslator {
 			if (grantGroupActions.size() > 0) {
 				sb_associations.append("(and (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
 				sb_associations.append(System.lineSeparator());
-				sb_associations.append("(xor (= (Associations " + k + ") ");
+				sb_associations.append("(xor (= (ASSOC " + k + ") ");
 				sb_associations.append(System.lineSeparator());
 				sb_associations.append(this.processAssociationRelatedActions(k));
 				sb_associations.append(System.lineSeparator());
@@ -362,19 +393,18 @@ public class ObligationTranslator {
 			if (assignGroupActions.size() > 0) {
 				sb_assignments.append("(and (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
 				sb_assignments.append(System.lineSeparator());
-				sb_assignments.append("(xor (= GRAPH" + k + " ");
+				sb_assignments.append("(xor (= (ASSIGN* " + k + ") ");
 				sb_assignments.append(System.lineSeparator());
 				sb_assignments.append(this.processAssignmentRelatedActions(k));
 				sb_assignments.append(System.lineSeparator());
 			}
 		}
-		sb_assignments.append("(= GRAPH" + k + " OldGRAPH" + k + ")))");
-		sb_associations.append("(= (Associations " + k + ") (Associations " + (k - 1) + "))))");
-	//	return sb_assignments.toString() + System.lineSeparator() + System.lineSeparator() + sb_associations.toString();
-	 return 
-	 System.lineSeparator() + sb_associations.toString();
-	
-}
+		sb_assignments.append("(= (ASSIGN* " + k + ") (ASSIGN* " + (k - 1) + "))))");
+		sb_associations.append("(= (ASSOC " + k + ") (ASSOC " + (k - 1) + "))))");
+		return sb_assignments.toString() + System.lineSeparator() + sb_associations.toString();
+		// return System.lineSeparator() + sb_associations.toString();
+
+	}
 
 	List<AssociationRelation> getListOfAddedAssociations() {
 		return listOfAddedAssociations;
@@ -395,7 +425,7 @@ public class ObligationTranslator {
 	String getActionsTranslation() {
 		return actionsTranslation;
 	}
-	
+
 	Map<String, String> getEventMembers() {
 		return eventMembers;
 	}

@@ -1,9 +1,6 @@
 package POMA.Verification.ReachabilityAnalysis;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,15 +19,13 @@ import gov.nist.csd.pm.pip.graph.dag.searcher.DepthFirstSearcher;
 import gov.nist.csd.pm.pip.graph.dag.searcher.Direction;
 import gov.nist.csd.pm.pip.graph.dag.visitor.Visitor;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.O;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.OA;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.U;
-import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.UA;
 
 class GraphTranslator {
 
 	HashMap<String, Integer> mapOfIDs = new HashMap<String, Integer>();
+	private Set<String> flattenedTuples = new HashSet<String>();
 	private Set<String> tuples = new HashSet<String>();
+
 	private Set<String> tuplesForUACheck = new HashSet<String>();
 	private Set<String> tuplesForOACheck = new HashSet<String>();
 	private List<AssociationRelation> listOfAssociations = new ArrayList<AssociationRelation>();;
@@ -107,81 +102,22 @@ class GraphTranslator {
 		}
 	}
 
-	//O(V^2)
-	private void flattenAssignmentV2() throws PMException {
+	// O(V^2)
+	private void flattenAssignment() throws PMException {
 		Set<Node> nodes = graph.getNodes();
 		for (Node node : nodes) {
 			DepthFirstSearcher dfs = new DepthFirstSearcher(graph);
 			int nodeID = mapOfIDs.get(node.getName());
 			Visitor visitor = visitorNode -> {
-				//System.out.println(node.getName()+" : "+visitorNode.getName());
+				// System.out.println(node.getName()+" : "+visitorNode.getName());
 				int descendantID = mapOfIDs.get(visitorNode.getName());
-				tuples
-						.add(new AssignmentRelation(Integer.toString(nodeID), Integer.toString(
-								nodeID))
-								.toStringNoQuotes());
-				tuples
-						.add(new AssignmentRelation(Integer.toString(
-								nodeID), Integer.toString(descendantID))
-								.toStringNoQuotes());
+				flattenedTuples.add(
+						new AssignmentRelation(Integer.toString(nodeID), Integer.toString(nodeID)).toStringNoQuotes());
+				flattenedTuples.add(new AssignmentRelation(Integer.toString(nodeID), Integer.toString(descendantID))
+						.toStringNoQuotes());
 			};
 			dfs.traverse(node, (c, p) -> {
 			}, visitor, Direction.PARENTS);
-		}
-	}
-
-	//O(V^4)
-	private void flattenAssignmentsV4() throws PMException {
-		DepthFirstSearcher dfs = new DepthFirstSearcher(graph);
-		Set<String> PCs = graph.getPolicyClasses();
-		// Set<String> flattenedAssignments = new HashSet<String>();
-		for (String policyClass : PCs) {
-			List<String> listUA_U = new ArrayList<String>();
-			List<String> listOA_O = new ArrayList<String>();
-
-			Visitor visitor = node -> {
-				if ((node.getType().toString().equals("UA") || node.getType().toString().equals("U"))
-						&& !listUA_U.contains(node.getName())) {
-					listUA_U.add(node.getName());
-				}
-				if ((node.getType().toString().equals("OA") || node.getType().toString().equals("O"))
-						&& !listOA_O.contains(node.getName())) {
-					listOA_O.add(node.getName());
-				}
-				if (graph.getParents(node.getName()).contains(policyClass)) {
-					listUA_U.add(policyClass);
-					listOA_O.add(policyClass);
-					getTclosureFromList(listUA_U, tuples);
-					getTclosureFromList(listOA_O, tuples);
-					listUA_U.clear();
-					listOA_O.clear();
-				}
-				//System.out.println(node.getName());
-			};
-			dfs.traverse(graph.getNode(policyClass), (c, p) -> {
-			}, visitor, Direction.CHILDREN);
-		}
-	}
-
-	private void getTclosureFromList(List<String> containment, Set<String> flattenedAssignments) {
-		List<String> processedNodes = new ArrayList<String>();
-		for (String node : containment) {
-			int nodeID = mapOfIDs.get(node);
-
-			flattenedAssignments
-					.add(new AssignmentRelation(Integer.toString(nodeID), Integer.toString(nodeID)).toStringNoQuotes());
-			// flattenedAssignments.add(new AssignmentRelation(node, node).toString());
-			List<String> tclosureNodes = new ArrayList<String>(containment);
-			processedNodes.add(node);
-			tclosureNodes.removeAll(processedNodes);
-			for (String descendant : tclosureNodes) {
-				int descendantID = mapOfIDs.get(descendant);
-				flattenedAssignments
-						.add(new AssignmentRelation(Integer.toString(nodeID), Integer.toString(descendantID))
-								.toStringNoQuotes());
-				// flattenedAssignments.add(new AssignmentRelation(node,
-				// descendant).toString());
-			}
 		}
 	}
 
@@ -193,15 +129,21 @@ class GraphTranslator {
 				int childID = mapOfIDs.get(node.getName());
 				if (node.getType().toString().equals("UA") || node.getType().toString().equals("OA")) { // comment if
 																										// needed.
+					flattenedTuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
+							.toStringNoQuotes());
 					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
 							.toStringNoQuotes());
 				}
 				if (node.getType().toString().equals("UA") || node.getType().toString().equals("U")) {
 					tuplesForUACheck.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
 							.toStringNoQuotes());
+					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
+							.toStringNoQuotes());
 				}
 				if (node.getType().toString().equals("OA") || node.getType().toString().equals("O")) {
 					tuplesForOACheck.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
+							.toStringNoQuotes());
+					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
 							.toStringNoQuotes());
 				}
 				// for (String parent : graph.getParents(node.getName())) {
@@ -258,11 +200,27 @@ class GraphTranslator {
 		return sb.toString();
 	}
 
-	private String translateSetGraph() {
+	private String translateSetFlattenedAssign() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("(declare-fun GRAPH0 () (Set (Tuple Int Int)))");
+		sb.append("(declare-fun ASSIGN* (Int) (Set (Tuple Int Int)))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= GRAPH0 (insert ");
+		sb.append("(assert (= (ASSIGN* 0) (insert ");
+		for (Iterator<String> iterator = flattenedTuples.iterator(); iterator.hasNext();) {
+			String tuple = iterator.next();
+			if (!iterator.hasNext()) {
+				sb.append("(singleton " + tuple + "))))" + System.lineSeparator());
+			} else {
+				sb.append(tuple + " " + System.lineSeparator());
+			}
+		}
+		return sb.toString();
+	}
+
+	private String translateSetAssign() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("(declare-fun ASSIGN (Int) (Set (Tuple Int Int)))");
+		sb.append(System.lineSeparator());
+		sb.append("(assert (= (ASSIGN 0) (insert ");
 		for (Iterator<String> iterator = tuples.iterator(); iterator.hasNext();) {
 			String tuple = iterator.next();
 			if (!iterator.hasNext()) {
@@ -278,18 +236,19 @@ class GraphTranslator {
 		for (String policyClass : graph.getPolicyClasses()) {
 			findAssignments(policyClass);
 		}
-		//flattenAssignmentsV4();
-		flattenAssignmentV2();
+		// flattenAssignmentsV4();
+		flattenAssignment();
 		for (Map.Entry<String, String> entry : eventMembers.entrySet()) {
 			int userID = mapOfIDs.get(entry.getKey());
-			//int targetID = mapOfIDs.get(entry.getValue());
-			tuples.add(new AssignmentRelation(Integer.toString(userID), Integer.toString(userID)).toStringNoQuotes());
+			// int targetID = mapOfIDs.get(entry.getValue());
+			flattenedTuples
+					.add(new AssignmentRelation(Integer.toString(userID), Integer.toString(userID)).toStringNoQuotes());
 			// tuples.add(new AssignmentRelation(Integer.toString(targetID),
 			// Integer.toString(
 			// targetID)).toStringNoQuotes());
 		}
-		System.out.println("ASSIGNMENTS SIZE: " + tuples.size());
-		//System.exit(0);
+		System.out.println("ASSIGNMENTS SIZE: " + flattenedTuples.size());
+		// System.exit(0);
 	}
 
 	private void findAssociationsInGraph() throws Exception {
@@ -311,12 +270,12 @@ class GraphTranslator {
 	private String translateAssociations() throws Exception {
 		findAssociationsInGraph();
 		StringBuilder sb = new StringBuilder();
-		sb.append("(declare-fun Associations (Int) (Set (Tuple Int Int Int)))");
+		sb.append("(declare-fun ASSOC (Int) (Set (Tuple Int Int Int)))");
 		sb.append(System.lineSeparator());
 		if (listOfAssociations.size() != 1) {
-			sb.append(System.lineSeparator() + "(assert (= (Associations 0) (insert");
+			sb.append(System.lineSeparator() + "(assert (= (ASSOC 0) (insert");
 		} else {
-			sb.append(System.lineSeparator() + "(assert (= (Associations 0) ( ");
+			sb.append(System.lineSeparator() + "(assert (= (ASSOC 0) ( ");
 			for (Iterator<AssociationRelation> iterator = listOfAssociations.iterator(); iterator.hasNext();) {
 				AssociationRelation triple = iterator.next();
 				String ua = triple.getUA();
@@ -361,15 +320,13 @@ class GraphTranslator {
 	private String translateBoundedVariablesDefinition() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
-		sb.append("(declare-fun AssociationsForUA (Int) (Set (Tuple Int Int Int)))");
+		sb.append("(declare-fun ASSOC*UA (Int) (Set (Tuple Int Int Int)))");
 		sb.append(System.lineSeparator());
-		sb.append("(declare-fun Tclosure(Int) (Set (Tuple Int Int)))");
+		sb.append("(declare-fun ASSIGN*UUA (Int) (Set (Tuple Int Int)))");
 		sb.append(System.lineSeparator());
-		sb.append("(declare-fun UA_U_Reachability (Int) (Set (Tuple Int Int)))");
+		sb.append("(declare-fun ASSIGN*AT (Int) (Set (Tuple Int Int)))");
 		sb.append(System.lineSeparator());
-		sb.append("(declare-fun AT_Reachability (Int) (Set (Tuple Int Int)))");
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun AccessRights(Int) (Set (Tuple Int Int Int)))");
+		sb.append("(declare-fun ASSOC*(Int) (Set (Tuple Int Int Int)))");
 		sb.append(System.lineSeparator());
 		return sb.toString();
 	}
@@ -385,57 +342,14 @@ class GraphTranslator {
 
 		}
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= (Tclosure " + k + ") (tclosure GRAPH" + k + ")))");
+		sb.append("(assert (= (ASSIGN*UUA " + k + ") (join SetToCheckUA (ASSIGN* " + k + "))))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= (UA_U_Reachability " + k + ") (join SetToCheckUA (Tclosure " + k + "))))");
+		sb.append("(assert (= (ASSIGN*AT " + k + ") (join SetToCheckAT (ASSIGN* " + k + "))))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= (AT_Reachability " + k + ") (join SetToCheckAT (Tclosure " + k + "))))");
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= (AssociationsForUA " + k + ") (join (UA_U_Reachability " + k + ") (Associations " + k
-				+ "))))");
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= (AccessRights " + k + ") (join (AssociationsForUA " + k + ") (transpose (AT_Reachability "
-				+ k + ")))))");
-		sb.append(System.lineSeparator());
-		return sb.toString();
-	}
 
-	private String translateBoundedVariablesDefinitionNoAssignments() {
-		StringBuilder sb = new StringBuilder();
+		sb.append("(assert (= (ASSOC*UA " + k + ") (join (ASSIGN*UUA " + k + ") (ASSOC " + k + "))))");
 		sb.append(System.lineSeparator());
-		sb.append("(declare-fun AssociationsForUA (Int) (Set (Tuple Int Int Int)))");
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun UA_U_Reachability (Int) (Set (Tuple Int Int)))");
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun AT_Reachability (Int) (Set (Tuple Int Int)))");
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun AccessRights(Int) (Set (Tuple Int Int Int)))");
-		sb.append(System.lineSeparator());
-		return sb.toString();
-	}
-
-	String translateARCheckNoAssignments(int k) {
-
-		StringBuilder sb = new StringBuilder();
-
-		ProhibitionTranslator pt = new ProhibitionTranslator(graph, mapOfIDs);
-
-		if (pt.translateProhibitionSingleContainer(1, k) != null && k == 0) {
-			return pt.translateProhibitionSingleContainer(1, k);
-
-		}
-		if (k == 0) {
-			sb.append(System.lineSeparator());
-			sb.append("(assert (= (UA_U_Reachability " + k + ") (join SetToCheckUA GRAPH0)))");
-			sb.append(System.lineSeparator());
-			sb.append("(assert (= (AT_Reachability " + k + ") (join SetToCheckAT GRAPH0)))");
-			sb.append(System.lineSeparator());
-		}
-		sb.append("(assert (= (AssociationsForUA " + k + ") (join (UA_U_Reachability " + 0 + ") (Associations " + k
-				+ "))))");
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= (AccessRights " + k + ") (join (AssociationsForUA " + k + ") (transpose (AT_Reachability "
-				+ 0 + ")))))");
+		sb.append("(assert (= (ASSOC* " + k + ") (join (ASSOC*UA " + k + ") (transpose (ASSIGN*AT " + k + ")))))");
 		sb.append(System.lineSeparator());
 		return sb.toString();
 	}
@@ -454,12 +368,11 @@ class GraphTranslator {
 		headcode.append(setCVC4Options());
 		headcode.append(translateSetToCheckUA());
 		headcode.append(translateSetToCheckOA());
-		headcode.append(translateSetGraph());
+		headcode.append(translateSetFlattenedAssign());
+		headcode.append(translateSetAssign());
 		headcode.append(translateAssociations());
-		// headcode.append(translateBoundedVariablesDefinition()); //no flattening
-		// headcode.append(translateARCheck(0)); //no flattening
-		headcode.append(translateBoundedVariablesDefinitionNoAssignments()); // flattening
-		headcode.append(translateARCheckNoAssignments(0)); // flattening
+		headcode.append(translateBoundedVariablesDefinition());
+		headcode.append(translateARCheck(0));
 		headcode.append(setObligationLabels());
 		return headcode.toString();
 	}

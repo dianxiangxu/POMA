@@ -17,11 +17,11 @@ import gov.nist.csd.pm.pip.graph.MemGraph;
 public class GPMSGenerator {
 
 	public static void main(String[] argv) throws Exception {
-		// gpms37Generator();
+		gpms37Generator();
 		// gpms125Generator();
 		// gpms265Generator();
 		// gpms500Generator();
-		 gpms750Generator();
+		// gpms750Generator();
 	}
 
 	private static void gpms37Generator() throws Exception {
@@ -48,6 +48,9 @@ public class GPMSGenerator {
 
 		editingPolicy.createNode("Vlad", U, null, "PI");
 		editingPolicy.createNode("Nazmul", U, null, "CoPI");
+
+		editingPolicy.createNode("CoPI2", UA, null, "EditingPolicy");
+		editingPolicy.assign("CoPI", "CoPI2");
 
 		editingPolicy.associate("PI", "PDSWhole", new OperationSet("submit"));
 		editingPolicy.associate("CoPI", "PDSWhole", new OperationSet("edit"));

@@ -46,6 +46,11 @@
       "properties": {}
     },
     {
+      "name": "CoPI2",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "RA",
       "type": "UA",
       "properties": {}
@@ -117,6 +122,10 @@
       "target": "EditingPolicy"
     },
     {
+      "source": "CoPI",
+      "target": "CoPI2"
+    },
+    {
       "source": "PDSEditing",
       "target": "EditingPolicy"
     },
@@ -138,6 +147,10 @@
     },
     {
       "source": "UBM",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "CoPI2",
       "target": "EditingPolicy"
     },
     {
