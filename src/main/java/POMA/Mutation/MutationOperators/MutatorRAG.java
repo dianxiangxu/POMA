@@ -41,9 +41,8 @@ public class MutatorRAG extends MutantTester {
 					System.out.println("PC not found.");
 					continue;
 				}
-				nodePc = graph.getNode(pcName);
 				try {
-					performMutation(nodeA, nodeB, nodePc, testMethod, testSuitePath);
+					performMutation(nodeA, nodeB, testMethod, testSuitePath);
 				}
 				catch (IllegalArgumentException e) {
 					e.printStackTrace();
@@ -57,16 +56,18 @@ public class MutatorRAG extends MutantTester {
 
 	}
 
-	private void performMutation(Node nodeA, Node nodeB, Node nodePc, String testMethod, String testSuitePath) throws PMException, IOException {
+	private void performMutation(Node nodeA, Node nodeB, String testMethod, String testSuitePath) throws PMException, IOException {
 		File testSuite = new File(testSuitePath);
 		double before, after;
 		
 		try {
 			Graph mutant = createCopy();		
 			mutant = RemoveAssignment(mutant, nodeA, nodeB);
-			if (GraphUtils.isContained(nodeA, nodePc) != true) {
-				//add assignment if node a is not PC-connected
-				mutant.assign(nodeA.getName(), nodePc.getName());
+			for (String pc : GraphUtils.getPcList(nodeB)) {
+				if (GraphUtils.isContained(nodeA.getName(), pc) != true) {
+					//add assignment if node a is not PC-connected
+					mutant.assign(nodeA.getName(), pc);
+				}
 			}
 			
 			before = getNumberOfKilledMutants();
@@ -76,14 +77,13 @@ public class MutatorRAG extends MutantTester {
 			if (before == after)
 				System.out.println("Unkilled mutant:" + "RAGR:" 
 							+ "NodeA:" + nodeA.toString() + " || " 
-							+ "NodeB:" + nodeB.toString() + " || " 
-							+ "PC:" + nodePc.toString());
+							+ "NodeB:" + nodeB.toString());
 			setNumberOfMutants(getNumberOfMutants() + 1);
 		}
 		catch (PMException e) {
 			//throw an error when detecting cycle after reverse assignment
 			e.printStackTrace();
-			System.out.println("RAGR_" + nodeA.toString() + "_" + nodeB.toString() + "_" + nodePc.toString());
+			System.out.println("RAGR_" + nodeA.toString() + "_" + nodeB.toString());
 		}
 	}
 

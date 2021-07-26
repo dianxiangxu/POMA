@@ -62,5 +62,32 @@ public class GraphUtils extends MutantTester {
 		// System.out.println("allAccessRightSet is :" + ARSet);
 		return ARSet;
 	}
+	
+	public static List<String> getPcList(Node node) throws PMException {
+		Node nodePc;
+		List<String> pcList = new ArrayList<String>();
 
+		for (String pc : graph.getPolicyClasses()) {
+			nodePc = graph.getNode(pc);
+			if (isContained(node.getName(), nodePc.getName())) {
+				pcList.add(pc);
+			}
+		}
+		return pcList;
+	}
+
+	public static boolean isContained(String nodeA, String nodeB) throws PMException {
+		if (nodeA.equals(nodeB))
+			return true;
+		for (String parent : graph.getParents(nodeA)) {
+			if (parent.equals(nodeB)) {
+				return true;
+			} else {
+				if (isContained(graph.getNode(parent).getName(), nodeB)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
