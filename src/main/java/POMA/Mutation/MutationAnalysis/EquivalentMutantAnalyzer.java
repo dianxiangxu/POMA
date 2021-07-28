@@ -222,22 +222,6 @@ public class EquivalentMutantAnalyzer {
 		String[] row41 = new String[colCount];
 		String[] row42 = new String[colCount];
 		row42[0] = "totalMutationScore";
-
-		long startTime = System.currentTimeMillis();
-		int j = 0;
-
-		for (String testMethod : testMethods) {
-			j++;
-			String[] row = new String[colCount];
-			totalNumberOfMutantsForTest = 0;
-			totalNumberOfKilledMutantsForTest = 0;
-			row[0] = testMethod;
-			
-
-
-			for (int i = 0; i < mutantNames.size(); i++) {
-				System.out.println(mutantNames.toString());
-				double result = 0;
 				if (mutantNames.get(i).equals("AAG")) {
 					row2[0] = "AAG";
 					row2[j] = Double.toString(testAAG(testMethod, graph, prohibitions, obligationPath));
