@@ -105,7 +105,7 @@ rules:
         - assign:
             - what:
                 name: Vlad
-                type: U
+                type: UA
               where:
                 name: CoPI
                 type: UA                                      
@@ -141,7 +141,15 @@ rules:
                   - disapprove                     
                 target:
                   name: PDSWhole
-                  type: UA                                    
+                  type: UA      
+        - delete:
+            assignments:
+              - what:
+                  name: Vlad
+                  type: UA                          
+                where:
+                  name: CoPI
+                  type: UA                                                      
   - label: obligation5
     event:
       subject:

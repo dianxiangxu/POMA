@@ -102,6 +102,7 @@ class GraphTranslator {
 		}
 	}
 
+
 	// O(V^2)
 	private void flattenAssignment() throws PMException {
 		Set<Node> nodes = graph.getNodes();
@@ -317,6 +318,28 @@ class GraphTranslator {
 		return sb.toString();
 	}
 
+	private String getAllNodesTranslations() throws Exception {
+		Set<Node> nodes = graph.getNodes();
+		StringBuilder sb = new StringBuilder();
+		sb.append(System.lineSeparator());
+		sb.append("(declare-fun NODES () (Set (Tuple Int Int)))");
+		sb.append(System.lineSeparator());
+		sb.append("(assert (= NODES (insert ");
+		for (Iterator<Node> iterator = nodes.iterator(); iterator.hasNext();) {
+			Node node = iterator.next();
+			int nodeID = mapOfIDs.get(node.getName());
+
+			if (!iterator.hasNext()) {
+				sb.append("(singleton " + "(mkTuple "+ nodeID+" "+ nodeID+"))))) " + System.lineSeparator());
+			} else {
+				sb.append("(mkTuple " + nodeID + " " + nodeID + ") " + System.lineSeparator());
+			}
+		}
+		sb.append(System.lineSeparator());
+		return sb.toString();
+	}
+
+
 	private String translateBoundedVariablesDefinition() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
@@ -328,6 +351,7 @@ class GraphTranslator {
 		sb.append(System.lineSeparator());
 		sb.append("(declare-fun ASSOC*(Int) (Set (Tuple Int Int Int)))");
 		sb.append(System.lineSeparator());
+
 		return sb.toString();
 	}
 
@@ -371,6 +395,7 @@ class GraphTranslator {
 		headcode.append(translateSetFlattenedAssign());
 		headcode.append(translateSetAssign());
 		headcode.append(translateAssociations());
+		headcode.append(getAllNodesTranslations());
 		headcode.append(translateBoundedVariablesDefinition());
 		headcode.append(translateARCheck(0));
 		headcode.append(setObligationLabels());

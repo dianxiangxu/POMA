@@ -1,0 +1,105 @@
+{
+  "nodes": [
+    {
+      "name": "A",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "B",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "PC",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "D",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "UA1",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "E",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "F",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "UA2",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "G",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "H",
+      "type": "UA",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "G",
+      "target": "UA2"
+    },
+    {
+      "source": "A",
+      "target": "B"
+    },
+    {
+      "source": "D",
+      "target": "E"
+    },
+    {
+      "source": "B",
+      "target": "UA2"
+    },
+    {
+      "source": "UA2",
+      "target": "H"
+    },
+    {
+      "source": "B",
+      "target": "UA1"
+    },
+    {
+      "source": "UA2",
+      "target": "F"
+    },
+    {
+      "source": "UA1",
+      "target": "D"
+    },
+    {
+      "source": "UA1",
+      "target": "UA2"
+    },
+    {
+      "source": "H",
+      "target": "PC"
+    },
+    {
+      "source": "F",
+      "target": "PC"
+    },
+    {
+      "source": "E",
+      "target": "PC"
+    }
+  ],
+  "associations": []
+}

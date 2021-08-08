@@ -17,12 +17,32 @@ import gov.nist.csd.pm.pip.graph.MemGraph;
 public class GPMSGenerator {
 
 	public static void main(String[] argv) throws Exception {
-		gpms37Generator();
+		//gpms37Generator();
 		// gpms125Generator();
 		// gpms265Generator();
 		// gpms500Generator();
 		// gpms750Generator();
+		testing(); 
 	}
+
+	private static void testing() throws Exception {
+		Graph editingPolicy = new MemGraph();
+
+		editingPolicy.createPolicyClass("PC", null);
+
+		editingPolicy.createNode("E", UA, null, "PC");
+		editingPolicy.createNode("F", UA, null, "PC");
+		editingPolicy.createNode("H", UA, null, "PC");
+		editingPolicy.createNode("UA2", UA, null, "F", "H");
+		editingPolicy.createNode("G", UA, null, "UA2");
+		editingPolicy.createNode("D", UA, null, "E");
+		editingPolicy.createNode("UA1", UA, null, "D", "UA2");
+		editingPolicy.createNode("B", UA, null, "UA1", "UA2");
+		editingPolicy.createNode("A", UA, null, "B");
+
+		saveDataToFile(GraphSerializer.toJson(editingPolicy), "Policies/ForBMC/GPMSSimplified/TEST.json");
+	}
+
 
 	private static void gpms37Generator() throws Exception {
 		Graph editingPolicy = new MemGraph();
@@ -93,13 +113,64 @@ public class GPMSGenerator {
 
 		editingPolicy.createNode("Vlad", U, null, "PI");
 		editingPolicy.createNode("Nazmul", U, null, "CoPI");
-
+		editingPolicy.createNode("CoPI2", UA, null, "EditingPolicy");
+		editingPolicy.assign("CoPI", "CoPI2");
 		editingPolicy.associate("PI", "PDSWhole", new OperationSet("submit"));
 		editingPolicy.associate("CoPI", "PDSWhole", new OperationSet("edit"));
 
 		saveDataToFile(GraphSerializer.toJson(editingPolicy), "Policies/ForBMC/GPMSSimplified/EditingPolicy125.json");
 	}
 
+	private static void gpms265Generator() throws Exception {
+		Graph editingPolicy = new MemGraph();
+
+		editingPolicy.createPolicyClass("EditingPolicy", null);
+
+		editingPolicy.createNode("PI", UA, null, "EditingPolicy");
+		editingPolicy.createNode("CoPI", UA, null, "EditingPolicy");
+		editingPolicy.createNode("SP", UA, null, "EditingPolicy");
+		editingPolicy.createNode("Chair", UA, null, "EditingPolicy");
+		editingPolicy.createNode("BM", UA, null, "EditingPolicy");
+		editingPolicy.createNode("Dean", UA, null, "EditingPolicy");
+		editingPolicy.createNode("RA", UA, null, "EditingPolicy");
+		editingPolicy.createNode("RD", UA, null, "EditingPolicy");
+		editingPolicy.createNode("RD2", UA, null, "RD");
+		editingPolicy.createNode("RD3", UA, null, "RD2");
+		editingPolicy.createNode("RD4", UA, null, "RD3");
+		editingPolicy.createNode("RD5", UA, null, "RD4");
+		editingPolicy.createNode("RD6", UA, null, "RD5");
+		editingPolicy.createNode("RD7", UA, null, "RD6");
+		editingPolicy.createNode("RD8", UA, null, "RD7");
+		editingPolicy.createNode("RD9", UA, null, "RD8");
+		editingPolicy.createNode("RD10", UA, null, "RD9");
+		editingPolicy.createNode("RD11", UA, null, "RD10");
+		editingPolicy.createNode("RD12", UA, null, "RD11");
+		editingPolicy.createNode("RD13", UA, null, "RD12");
+		editingPolicy.createNode("RD14", UA, null, "RD13");
+		editingPolicy.createNode("RD15", UA, null, "RD14");
+		editingPolicy.createNode("RD16", UA, null, "RD15");
+		editingPolicy.createNode("RD17", UA, null, "RD16");
+		editingPolicy.createNode("RD18", UA, null, "RD17");
+		editingPolicy.createNode("RD19", UA, null, "RD18");
+		editingPolicy.createNode("RD20", UA, null, "RD19");
+
+		editingPolicy.createNode("UChair", UA, null, "EditingPolicy");
+		editingPolicy.createNode("UBM", UA, null, "EditingPolicy");
+		editingPolicy.createNode("UDean", UA, null, "EditingPolicy");
+		editingPolicy.createNode("URA", UA, null, "EditingPolicy");
+		editingPolicy.createNode("URD", UA, null, "EditingPolicy");
+		editingPolicy.createNode("PDSWhole", OA, null, "EditingPolicy");
+		editingPolicy.createNode("PDSEditing", OA, null, "EditingPolicy");
+
+		editingPolicy.createNode("Vlad", U, null, "PI");
+		editingPolicy.createNode("Nazmul", U, null, "CoPI");
+		editingPolicy.createNode("CoPI2", UA, null, "EditingPolicy");
+		editingPolicy.assign("CoPI", "CoPI2");
+		editingPolicy.associate("PI", "PDSWhole", new OperationSet("submit"));
+		editingPolicy.associate("CoPI", "PDSWhole", new OperationSet("edit"));
+
+		saveDataToFile(GraphSerializer.toJson(editingPolicy), "Policies/ForBMC/GPMSSimplified/EditingPolicy265.json");
+	}
 	private static void gpms500Generator() throws Exception {
 		Graph editingPolicy = new MemGraph();
 
@@ -153,7 +224,8 @@ public class GPMSGenerator {
 
 		editingPolicy.createNode("Vlad", U, null, "PI");
 		editingPolicy.createNode("Nazmul", U, null, "CoPI");
-
+		editingPolicy.createNode("CoPI2", UA, null, "EditingPolicy");
+		editingPolicy.assign("CoPI", "CoPI2");
 		editingPolicy.associate("PI", "PDSWhole", new OperationSet("submit"));
 		editingPolicy.associate("CoPI", "PDSWhole", new OperationSet("edit"));
 
@@ -224,7 +296,8 @@ public class GPMSGenerator {
 
 		editingPolicy.associate("PI", "PDSWhole", new OperationSet("submit"));
 		editingPolicy.associate("CoPI", "PDSWhole", new OperationSet("edit"));
-
+		editingPolicy.createNode("CoPI2", UA, null, "EditingPolicy");
+		editingPolicy.assign("CoPI", "CoPI2");
 		saveDataToFile(GraphSerializer.toJson(editingPolicy), "Policies/ForBMC/GPMSSimplified/EditingPolicy750.json");
 	}
 

@@ -86,6 +86,28 @@
 (assert (= (ASSOC 0) (insert(mkTuple 3 21 16) 
 (singleton (mkTuple 15 33 16)))))
 
+(declare-fun NODES () (Set (Tuple Int Int)))
+(assert (= NODES (insert (mkTuple 1 1) 
+(mkTuple 2 2) 
+(mkTuple 3 3) 
+(mkTuple 4 4) 
+(mkTuple 5 5) 
+(mkTuple 6 6) 
+(mkTuple 7 7) 
+(mkTuple 8 8) 
+(mkTuple 9 9) 
+(mkTuple 10 10) 
+(mkTuple 11 11) 
+(mkTuple 12 12) 
+(mkTuple 13 13) 
+(mkTuple 14 14) 
+(mkTuple 15 15) 
+(mkTuple 16 16) 
+(mkTuple 17 17) 
+(mkTuple 18 18) 
+(singleton (mkTuple 19 19))))) 
+
+
 (declare-fun ASSOC*UA (Int) (Set (Tuple Int Int Int)))
 (declare-fun ASSIGN*UUA (Int) (Set (Tuple Int Int)))
 (declare-fun ASSIGN*AT (Int) (Set (Tuple Int Int)))
@@ -193,10 +215,27 @@
 (assert (or 
 (and (= (obligation3 0) 1)
 (xor (= (ASSIGN* 1) 
-(union (singleton (mkTuple 12 3)) (union (join (singleton (mkTuple 12 3)) (join (singleton (mkTuple 3 3)) (ASSIGN* 0))) (ASSIGN* 0))))
+(union (join (join (union (singleton (mkTuple 12 12)) (join (ASSIGN* 0) (singleton (mkTuple 12 12)))) (singleton (mkTuple 12 3))) (union (singleton (mkTuple 3 3)) (join (singleton (mkTuple 3 3)) (ASSIGN* 0) ))) (ASSIGN* 0)))
+(= (ASSIGN* 1) (ASSIGN* 0))))
+
+(and (= (obligation4 0) 1)
+(xor (= (ASSIGN* 1) 
+(setminus (ASSIGN* 0) (setminus (setminus (union (singleton (mkTuple 12 3)) (join (singleton (mkTuple 12 3)) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 12 12)) (join (ASSIGN* 0)  (singleton (mkTuple 12 12)))) (transpose (union  (singleton (mkTuple 12 12)) (join (ASSIGN* 0)  (singleton (mkTuple 12 12)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 12 3)))) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 12 12)) (join (ASSIGN* 0)  (singleton (mkTuple 12 12)))) (transpose (union  (singleton (mkTuple 12 12)) (join (ASSIGN* 0)  (singleton (mkTuple 12 12)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 12 3)))) (ASSIGN* 0))))(setminus (ASSIGN* 0) (setminus (join (singleton (mkTuple 12 3)) (ASSIGN* 0)) (join (join (singleton (mkTuple 12 12)) (setminus (setminus (ASSIGN 0) (singleton (mkTuple 12 3))) (singleton (mkTuple 12 12)))) (ASSIGN* 0)))))
 (= (ASSIGN* 1) (ASSIGN* 0))))
 
 (= (ASSIGN* 1) (ASSIGN* 0))))
+(assert (or
+(and (= (obligation3 0) 1)
+(xor (= (ASSIGN 1) 
+(union (ASSIGN 0) (singleton (mkTuple 12 3))))
+(= (ASSIGN 1) (ASSIGN 0))))
+
+(and (= (obligation4 0) 1)
+(xor (= (ASSIGN 1) 
+(setminus (ASSIGN 0) (singleton (mkTuple 12 3))))
+(= (ASSIGN 1) (ASSIGN 0))))
+
+(= (ASSIGN 1) (ASSIGN 0))))
 (assert (or 
 (and (= (obligation1 0) 1)
 (xor (= (ASSOC 1) 
@@ -355,10 +394,27 @@
 (assert (or 
 (and (= (obligation3 1) 1)
 (xor (= (ASSIGN* 2) 
-(union (singleton (mkTuple 12 3)) (union (join (singleton (mkTuple 12 3)) (join (singleton (mkTuple 3 3)) (ASSIGN* 1))) (ASSIGN* 1))))
+(union (join (join (union (singleton (mkTuple 12 12)) (join (ASSIGN* 1) (singleton (mkTuple 12 12)))) (singleton (mkTuple 12 3))) (union (singleton (mkTuple 3 3)) (join (singleton (mkTuple 3 3)) (ASSIGN* 1) ))) (ASSIGN* 1)))
+(= (ASSIGN* 2) (ASSIGN* 1))))
+
+(and (= (obligation4 1) 1)
+(xor (= (ASSIGN* 2) 
+(setminus (ASSIGN* 1) (setminus (setminus (union (singleton (mkTuple 12 3)) (join (singleton (mkTuple 12 3)) (ASSIGN* 1))) (join (join (intersection (join (union  (singleton (mkTuple 12 12)) (join (ASSIGN* 1)  (singleton (mkTuple 12 12)))) (transpose (union  (singleton (mkTuple 12 12)) (join (ASSIGN* 1)  (singleton (mkTuple 12 12)))))) NODES) (setminus (ASSIGN 1) (singleton (mkTuple 12 3)))) (ASSIGN* 1))) (join (join (intersection (join (union  (singleton (mkTuple 12 12)) (join (ASSIGN* 1)  (singleton (mkTuple 12 12)))) (transpose (union  (singleton (mkTuple 12 12)) (join (ASSIGN* 1)  (singleton (mkTuple 12 12)))))) NODES) (setminus (ASSIGN 1) (singleton (mkTuple 12 3)))) (ASSIGN* 1))))(setminus (ASSIGN* 1) (setminus (join (singleton (mkTuple 12 3)) (ASSIGN* 1)) (join (join (singleton (mkTuple 12 12)) (setminus (setminus (ASSIGN 1) (singleton (mkTuple 12 3))) (singleton (mkTuple 12 12)))) (ASSIGN* 1)))))
 (= (ASSIGN* 2) (ASSIGN* 1))))
 
 (= (ASSIGN* 2) (ASSIGN* 1))))
+(assert (or
+(and (= (obligation3 1) 1)
+(xor (= (ASSIGN 2) 
+(union (ASSIGN 1) (singleton (mkTuple 12 3))))
+(= (ASSIGN 2) (ASSIGN 1))))
+
+(and (= (obligation4 1) 1)
+(xor (= (ASSIGN 2) 
+(setminus (ASSIGN 1) (singleton (mkTuple 12 3))))
+(= (ASSIGN 2) (ASSIGN 1))))
+
+(= (ASSIGN 2) (ASSIGN 1))))
 (assert (or 
 (and (= (obligation1 1) 1)
 (xor (= (ASSOC 2) 
@@ -517,10 +573,27 @@
 (assert (or 
 (and (= (obligation3 2) 1)
 (xor (= (ASSIGN* 3) 
-(union (singleton (mkTuple 12 3)) (union (join (singleton (mkTuple 12 3)) (join (singleton (mkTuple 3 3)) (ASSIGN* 2))) (ASSIGN* 2))))
+(union (join (join (union (singleton (mkTuple 12 12)) (join (ASSIGN* 2) (singleton (mkTuple 12 12)))) (singleton (mkTuple 12 3))) (union (singleton (mkTuple 3 3)) (join (singleton (mkTuple 3 3)) (ASSIGN* 2) ))) (ASSIGN* 2)))
+(= (ASSIGN* 3) (ASSIGN* 2))))
+
+(and (= (obligation4 2) 1)
+(xor (= (ASSIGN* 3) 
+(setminus (ASSIGN* 2) (setminus (setminus (union (singleton (mkTuple 12 3)) (join (singleton (mkTuple 12 3)) (ASSIGN* 2))) (join (join (intersection (join (union  (singleton (mkTuple 12 12)) (join (ASSIGN* 2)  (singleton (mkTuple 12 12)))) (transpose (union  (singleton (mkTuple 12 12)) (join (ASSIGN* 2)  (singleton (mkTuple 12 12)))))) NODES) (setminus (ASSIGN 2) (singleton (mkTuple 12 3)))) (ASSIGN* 2))) (join (join (intersection (join (union  (singleton (mkTuple 12 12)) (join (ASSIGN* 2)  (singleton (mkTuple 12 12)))) (transpose (union  (singleton (mkTuple 12 12)) (join (ASSIGN* 2)  (singleton (mkTuple 12 12)))))) NODES) (setminus (ASSIGN 2) (singleton (mkTuple 12 3)))) (ASSIGN* 2))))(setminus (ASSIGN* 2) (setminus (join (singleton (mkTuple 12 3)) (ASSIGN* 2)) (join (join (singleton (mkTuple 12 12)) (setminus (setminus (ASSIGN 2) (singleton (mkTuple 12 3))) (singleton (mkTuple 12 12)))) (ASSIGN* 2)))))
 (= (ASSIGN* 3) (ASSIGN* 2))))
 
 (= (ASSIGN* 3) (ASSIGN* 2))))
+(assert (or
+(and (= (obligation3 2) 1)
+(xor (= (ASSIGN 3) 
+(union (ASSIGN 2) (singleton (mkTuple 12 3))))
+(= (ASSIGN 3) (ASSIGN 2))))
+
+(and (= (obligation4 2) 1)
+(xor (= (ASSIGN 3) 
+(setminus (ASSIGN 2) (singleton (mkTuple 12 3))))
+(= (ASSIGN 3) (ASSIGN 2))))
+
+(= (ASSIGN 3) (ASSIGN 2))))
 (assert (or 
 (and (= (obligation1 2) 1)
 (xor (= (ASSOC 3) 

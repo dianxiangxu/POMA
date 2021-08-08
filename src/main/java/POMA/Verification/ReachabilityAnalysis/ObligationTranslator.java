@@ -68,6 +68,80 @@ public class ObligationTranslator {
 		return processedObligationsEventLabels;
 	}
 
+	// private boolean affects(ResponsePattern rp, EventPattern ep) {
+	// String eventSubject = ep.getSubject().getAnyUser().get(0);
+	// String eventOperation = ep.getOperations().get(0);
+	// String eventTarget = ep.getTarget().getPolicyElements().get(0).getName();
+	// for (Action action : rp.getActions()) {
+	// if (action instanceof GrantAction) {
+	// GrantAction association = (GrantAction) action;
+	// String what = association.getSubject().getName().toString();
+	// String where = association.getTarget().getName().toString();
+	// String op = association.getOperations().get(0);
+
+	// if (what.equals(eventSubject) || where.equals(eventTarget) ||
+	// eventOperation.equals(op)) {
+	// return true;
+	// }
+	// } else if (action instanceof CreateAction) {
+	// CreateAction createAction = (CreateAction) action;
+	// String what =
+	// createAction.getCreateNodesList().get(0).getWhat().getName().toString();
+	// if (what.equals(eventSubject) || what.equals(eventTarget)) {
+	// return true;
+	// }
+	// } else if (action instanceof AssignAction) {
+	// AssignAction assignAction = (AssignAction) action;
+	// String what =
+	// assignAction.getAssignments().get(0).getWhat().getName().toString();
+	// String where =
+	// assignAction.getAssignments().get(0).getWhere().getName().toString();
+	// if (what.equals(eventSubject) || where.equals(eventTarget) ||
+	// what.equals(eventTarget)
+	// || where.equals(eventSubject)) {
+	// return true;
+	// }
+	// }
+	// }
+	// return false;
+	// }
+
+	private Obligation readObligations() throws EVRException, IOException {
+
+		String yml = new String(Files.readAllBytes(Paths.get(pathToObligations)));
+		Obligation obligation = EVRParser.parse(yml);
+		return obligation;
+	}
+
+	private List<String> getEvents(Rule rule) {
+		return rule.getEventPattern().getOperations();
+	}
+
+	void findAllAbsentElements() {
+		for (Rule rule : obligation.getRules()) {
+			List<Action> actions = rule.getResponsePattern().getActions();
+			for (Action action : actions) {
+				if (action instanceof GrantAction) {
+					GrantAction association = (GrantAction) action;
+					String what = association.getSubject().getName().toString();
+					String where = association.getTarget().getName().toString();
+					listOfAddedAssociations.add(new AssociationRelation(what,
+							new OperationSet((Collection<String>) association.getOperations()), where));
+				} else if (action instanceof CreateAction) {
+					CreateAction createAction = (CreateAction) action;
+					String what = createAction.getCreateNodesList().get(0).getWhat().getName().toString();
+					String type = createAction.getCreateNodesList().get(0).getWhat().getType().toString();
+					if (type.equals("U") || type.equals("UA")) {
+						listOfCreatedNodesUA.add(what);
+					}
+					if (type.equals("O") || type.equals("OA")) {
+						listOfCreatedNodesOA.add(what);
+					}
+				}
+			}
+		}
+	}
+
 	String translateObligationEvents(int k) {
 		StringBuilder sb = new StringBuilder();
 		for (Rule r : obligation.getRules()) {
@@ -108,94 +182,26 @@ public class ObligationTranslator {
 		}
 	}
 
-	private Set<Rule> getRelevantObligationsAlgorithm(Rule targetObligation, int levelOfRelevancy) {
-		Set<Rule> relevantObligations = new HashSet<Rule>();
-		for (Rule r : obligation.getRules()) {
-			if (r.equals(targetObligation)) {
-				return null;
-			}
-			EventPattern ep = targetObligation.getEventPattern();
-			ResponsePattern rp = r.getResponsePattern();
-			for (int i = 0; i < levelOfRelevancy; i++) {
-				if (affects(rp, ep)) {
-					Set<Rule> sr = getRelevantObligationsAlgorithm(targetObligation, i + 1);
-					if (sr != null) {
-						relevantObligations.addAll(sr);
-					}
-				}
-			}
-		}
-		return relevantObligations;
-	}
-
-	private boolean affects(ResponsePattern rp, EventPattern ep) {
-		String eventSubject = ep.getSubject().getAnyUser().get(0);
-		String eventOperation = ep.getOperations().get(0);
-		String eventTarget = ep.getTarget().getPolicyElements().get(0).getName();
-		for (Action action : rp.getActions()) {
-			if (action instanceof GrantAction) {
-				GrantAction association = (GrantAction) action;
-				String what = association.getSubject().getName().toString();
-				String where = association.getTarget().getName().toString();
-				String op = association.getOperations().get(0);
-
-				if (what.equals(eventSubject) || where.equals(eventTarget) || eventOperation.equals(op)) {
-					return true;
-				}
-			} else if (action instanceof CreateAction) {
-				CreateAction createAction = (CreateAction) action;
-				String what = createAction.getCreateNodesList().get(0).getWhat().getName().toString();
-				if (what.equals(eventSubject) || what.equals(eventTarget)) {
-					return true;
-				}
-			} else if (action instanceof AssignAction) {
-				AssignAction assignAction = (AssignAction) action;
-				String what = assignAction.getAssignments().get(0).getWhat().getName().toString();
-				String where = assignAction.getAssignments().get(0).getWhere().getName().toString();
-				if (what.equals(eventSubject) || where.equals(eventTarget) || what.equals(eventTarget)
-						|| where.equals(eventSubject)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	private Obligation readObligations() throws EVRException, IOException {
-
-		String yml = new String(Files.readAllBytes(Paths.get(pathToObligations)));
-		Obligation obligation = EVRParser.parse(yml);
-		return obligation;
-	}
-
-	private List<String> getEvents(Rule rule) {
-		return rule.getEventPattern().getOperations();
-	}
-
-	void findAllAbsentElements() {
-		for (Rule rule : obligation.getRules()) {
-			List<Action> actions = rule.getResponsePattern().getActions();
-			for (Action action : actions) {
-				if (action instanceof GrantAction) {
-					GrantAction association = (GrantAction) action;
-					String what = association.getSubject().getName().toString();
-					String where = association.getTarget().getName().toString();
-					listOfAddedAssociations.add(new AssociationRelation(what,
-							new OperationSet((Collection<String>) association.getOperations()), where));
-				} else if (action instanceof CreateAction) {
-					CreateAction createAction = (CreateAction) action;
-					String what = createAction.getCreateNodesList().get(0).getWhat().getName().toString();
-					String type = createAction.getCreateNodesList().get(0).getWhat().getType().toString();
-					if (type.equals("U") || type.equals("UA")) {
-						listOfCreatedNodesUA.add(what);
-					}
-					if (type.equals("O") || type.equals("OA")) {
-						listOfCreatedNodesOA.add(what);
-					}
-				}
-			}
-		}
-	}
+	// private Set<Rule> getRelevantObligationsAlgorithm(Rule targetObligation, int
+	// levelOfRelevancy) {
+	// Set<Rule> relevantObligations = new HashSet<Rule>();
+	// for (Rule r : obligation.getRules()) {
+	// if (r.equals(targetObligation)) {
+	// return null;
+	// }
+	// EventPattern ep = targetObligation.getEventPattern();
+	// ResponsePattern rp = r.getResponsePattern();
+	// for (int i = 0; i < levelOfRelevancy; i++) {
+	// if (affects(rp, ep)) {
+	// Set<Rule> sr = getRelevantObligationsAlgorithm(targetObligation, i + 1);
+	// if (sr != null) {
+	// relevantObligations.addAll(sr);
+	// }
+	// }
+	// }
+	// }
+	// return relevantObligations;
+	// }
 
 	private void groupActions(List<Action> actions) {
 		grantGroupActions = new ArrayList<Action>();
@@ -218,8 +224,10 @@ public class ObligationTranslator {
 		}
 	}
 
-	private String processAssignmentRelatedActions(int k) {
+	private String processAssignmentRelatedActions(int k, boolean isFlatten) {
 		StringBuilder sb_assignments = new StringBuilder();
+		StringBuilder sb_assignments_not_flattened = new StringBuilder();
+
 		AssignAction assignAction;
 		DeleteAction deleteAction;
 		CreateAction createAction;
@@ -233,55 +241,116 @@ public class ObligationTranslator {
 
 			if (action instanceof AssignAction) {
 				assignAction = (AssignAction) action;
-				if (assignAction.getAssignments().get(0).getWhat().getType().equals("U")) {
+				if ((assignAction.getAssignments().get(0).getWhat().getType().equals("U")
+						&& assignAction.getAssignments().get(0).getWhere().getType().equals("UA"))
+						|| (assignAction.getAssignments().get(0).getWhat().getType().equals("O")
+								&& assignAction.getAssignments().get(0).getWhere().getType().equals("OA"))) {
 					what = assignAction.getAssignments().get(0).getWhat().getName();
 					where = assignAction.getAssignments().get(0).getWhere().getName();
-					handleAddAssignmentActionUUA(k, sb_assignments, what, where);
+					if (isFlatten)
+						handleAddAssignmentActionUUA(k, sb_assignments, what, where);
+					else
+						handleAddAssignmentNoFlattenAction(k, sb_assignments_not_flattened, what, where);
+				}
+				else if ((assignAction.getAssignments().get(0).getWhat().getType().equals("UA")
+						&& assignAction.getAssignments().get(0).getWhere().getType().equals("UA"))
+						|| (assignAction.getAssignments().get(0).getWhat().getType().equals("OA")
+								&& assignAction.getAssignments().get(0).getWhere().getType().equals("OA"))) {
+					what = assignAction.getAssignments().get(0).getWhat().getName();
+					where = assignAction.getAssignments().get(0).getWhere().getName();
+					if (isFlatten)
+						handleAddAssignmentActionUAUA(k, sb_assignments, what, where);
+					else
+						handleAddAssignmentNoFlattenAction(k, sb_assignments_not_flattened, what, where);
 				}
 			}
-			// if (action instanceof AssignAction) {
-			// assignAction = (AssignAction) action;
-			// what = assignAction.getAssignments().get(0).getWhat().getName();
-			// where = assignAction.getAssignments().get(0).getWhere().getName();
-			// SMTAction = "union";
-			// } else if (action instanceof DeleteAction) {
-			// deleteAction = (DeleteAction) action;
-			// if (deleteAction.getAssignments() != null) {
-			// what =
-			// deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
-			// where =
-			// deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
-			// SMTAction = "setminus";
-			// } else {
-			// deleteNode = true;
-			// what = deleteAction.getNodes().get(0).getName();
-			// SMTAction = "setminus";
-			// }
-			// } else if (action instanceof CreateAction) {
-			// createAction = (CreateAction) action;
-			// what = createAction.getCreateNodesList().get(0).getWhat().getName();
-			// where = createAction.getCreateNodesList().get(0).getWhere().getName();
-			// SMTAction = "union";
-			// }
-			// handleAssignmentAction(k, sb_assignments, what, where, SMTAction, deleteNode,
-			// i);
+			if (action instanceof DeleteAction) {
+				deleteAction = (DeleteAction) action;
+				if (deleteAction.getAssignments() != null) {
+					if ((deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("U")
+						&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType().equals("UA"))
+						|| (deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("O")
+								&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType().equals("OA"))) {
+					what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
+					where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
+					if (isFlatten)
+						handleDeleteAssignmentActionUUA(k, sb_assignments, what, where);
+					else
+						handleDeleteAssignmentNoFlattenAction(k, sb_assignments_not_flattened, what, where);
+								}
+				}
+				if (deleteAction.getAssignments() != null) {
+					if ((deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("UA")
+							&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType().equals("UA"))
+							|| (deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("OA")
+									&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType()
+											.equals("OA"))) {
+						what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
+						where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
+						if (isFlatten)
+							handleDeleteAssignmentActionUAUA(k, sb_assignments, what, where);
+						else
+							handleDeleteAssignmentNoFlattenAction(k, sb_assignments_not_flattened, what, where);
+					}
+				}
+			}
+
 		}
-		handleAssignmentTrailing(k, sb_assignments);
-		return sb_assignments.toString();
+		if (isFlatten) {
+			handleAssignmentTrailing(k, sb_assignments);
+			return sb_assignments.toString();
+
+		} else {
+			handleAssignmentNoFlattenTrailing(k, sb_assignments_not_flattened);
+			return sb_assignments_not_flattened.toString();
+		}
 	}
 
 	private void handleDeleteAssignmentActionUUA(int k, StringBuilder sb_assignments, String what, String where) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		sb_assignments.append("(setminus ASSIGN* (setminus (join (singleton (mkTuple " + whatID + " "
-				+ whereID + ")) ASSIGN*) (join (join (singleton (mkTuple " + whatID + " " + whatID
-				+ ")) (setminus (setminus ASSIGN (singleton (mkTuple " + whatID + " " + whereID
-				+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) ASSIGN*)))");
-		// sb_assignments.append("(union (singleton (mkTuple " + whatID + " " + whereID
-		// + ")) (union (join (singleton (mkTuple " + whatID + " " + whereID + ")) (join
-		// (singleton (mkTuple "
-		// + whereID + " " + whereID + ")) (ASSIGN* " + (k - 1) + "))) (ASSIGN* " + (k -
-		// 1) + ")))");
+		sb_assignments.append("(setminus (ASSIGN* " + (k - 1) + ") (setminus (join (singleton (mkTuple " + whatID + " "
+				+ whereID + ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
+				+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
+				+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + "))))");
+	}
+
+	private void handleDeleteAssignmentActionUAUA(int k, StringBuilder sb_assignments, String what, String where) {
+		int whatID = mapOfIDs.get(what);
+		int whereID = mapOfIDs.get(where);
+		sb_assignments.append("(setminus (ASSIGN* " + (k - 1)
+				+ ") (setminus (setminus (union (singleton (mkTuple " + whatID
+				+ " " + whereID + ")) (join (singleton (mkTuple " + whatID + " " + whereID
+				+ ")) (ASSIGN* " + (k - 1)
+				+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID
+				+ " " + whatID + ")) (join (ASSIGN* " + (k - 1)
+				+ ")  (singleton (mkTuple " + whatID + " " + whatID
+				+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID
+				+ ")) (join (ASSIGN* " + (k - 1)
+				+ ")  (singleton (mkTuple " + whatID + " " + whatID
+				+ ")))))) NODES) (setminus (ASSIGN " + (k - 1)
+				+ ") (singleton (mkTuple " + whatID + " " + whereID
+				+ ")))) (ASSIGN* " + (k - 1)
+				+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID
+				+ " " + whatID + ")) (join (ASSIGN* " + (k - 1)
+				+ ")  (singleton (mkTuple " + whatID + " " + whatID
+				+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID
+				+ ")) (join (ASSIGN* " + (k - 1)
+				+ ")  (singleton (mkTuple " + whatID + " " + whatID
+				+ ")))))) NODES) (setminus (ASSIGN " + (k - 1)
+				+ ") (singleton (mkTuple " + whatID + " " + whereID
+				+ ")))) (ASSIGN* " + (k - 1) + "))))");
+		sb_assignments.append("(setminus (ASSIGN* " + (k - 1) + ") (setminus (join (singleton (mkTuple " + whatID + " "
+				+ whereID + ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
+				+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
+				+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + "))))");
+	}
+
+	private void handleDeleteAssignmentNoFlattenAction(int k, StringBuilder sb_assignments, String what, String where) {
+		int whatID = mapOfIDs.get(what);
+		int whereID = mapOfIDs.get(where);
+		sb_assignments
+				.append("(setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))");
 	}
 
 	private void handleAddAssignmentActionUUA(int k, StringBuilder sb_assignments, String what, String where) {
@@ -292,32 +361,33 @@ public class ObligationTranslator {
 				+ whereID + " " + whereID + ")) (ASSIGN* " + (k - 1) + "))) (ASSIGN* " + (k - 1) + ")))");
 	}
 
-	private void handleAssignmentAction(int k, StringBuilder sb_assignments, String what, String where,
-			String SMTAction, boolean deleteNode, int i) {
+	private void handleAddAssignmentActionUAUA(int k, StringBuilder sb_assignments, String what, String where) {
 		int whatID = mapOfIDs.get(what);
-		int whereID = -1;
-		if (!where.isEmpty())
-			whereID = mapOfIDs.get(where);
-		if (i == 0 && !deleteNode) {
-			sb_assignments.append(
-					"(" + SMTAction + " (ASSIGN* " + k + ") (singleton(mkTuple " + whatID + " " + whereID + ")))");
-		} else if (!deleteNode) {
-			sb_assignments.insert(0, "(" + SMTAction + " ");
-			sb_assignments.append(" (singleton(mkTuple " + whatID + " " + whereID + ")))");
-		} else if (i == 0 && deleteNode) {
-			sb_assignments.append("(" + SMTAction + "  OldASSIGN" + k + " (union (join " + "OldASSIGN" + k
-					+ " (singleton (mkTuple " + whatID + " " + whatID + "))) (join (singleton (mkTuple " + whatID + " "
-					+ whatID + ")) OldASSIGN" + k + ")))");
-		} else if (deleteNode) {
-			sb_assignments.insert(0, "(" + SMTAction + " ");
-			sb_assignments.append(" (singleton(mkTuple " + whatID + " " + whereID + ")))");
-		}
+		int whereID = mapOfIDs.get(where);
+		sb_assignments.append("(union (join (join (union (singleton (mkTuple " + whatID + " " + whatID
+				+ ")) (join (ASSIGN* " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whatID
+				+ ")))) (singleton (mkTuple " + whatID + " " + whereID + "))) (union (singleton (mkTuple " + whereID
+				+ " " + whereID + ")) (join (singleton (mkTuple " + whereID + " " + whereID + ")) (ASSIGN* " + (k - 1)
+				+ ") ))) (ASSIGN* " + (k - 1) + "))");
+	}
+
+	private void handleAddAssignmentNoFlattenAction(int k, StringBuilder sb_assignments, String what, String where) {
+		int whatID = mapOfIDs.get(what);
+		int whereID = mapOfIDs.get(where);
+		sb_assignments.append("(union (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))");
 	}
 
 	private void handleAssignmentTrailing(int k, StringBuilder sb_assignments) {
 		sb_assignments.append(")");
 		sb_assignments.append(System.lineSeparator());
 		sb_assignments.append("(= (ASSIGN* " + k + ") (ASSIGN* " + (k - 1) + "))))");
+		sb_assignments.append(System.lineSeparator());
+	}
+
+	private void handleAssignmentNoFlattenTrailing(int k, StringBuilder sb_assignments) {
+		sb_assignments.append(")");
+		sb_assignments.append(System.lineSeparator());
+		sb_assignments.append("(= (ASSIGN " + k + ") (ASSIGN " + (k - 1) + "))))");
 		sb_assignments.append(System.lineSeparator());
 	}
 
@@ -374,10 +444,13 @@ public class ObligationTranslator {
 	}
 
 	String processActions(int k) {
-		StringBuilder sb_assignments = new StringBuilder();
+		StringBuilder sb_assignments_flatten = new StringBuilder();
+		StringBuilder sb_assignments_not_flattened = new StringBuilder();
 		StringBuilder sb_associations = new StringBuilder();
-		sb_assignments.append("(assert (or ");
-		sb_assignments.append(System.lineSeparator());
+		sb_assignments_flatten.append("(assert (or ");
+		sb_assignments_flatten.append(System.lineSeparator());
+		sb_assignments_not_flattened.append("(assert (or");
+		sb_assignments_not_flattened.append(System.lineSeparator());
 		sb_associations.append("(assert (or ");
 		sb_associations.append(System.lineSeparator());
 		for (Rule rule : obligation.getRules()) {
@@ -391,17 +464,26 @@ public class ObligationTranslator {
 				sb_associations.append(System.lineSeparator());
 			}
 			if (assignGroupActions.size() > 0) {
-				sb_assignments.append("(and (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
-				sb_assignments.append(System.lineSeparator());
-				sb_assignments.append("(xor (= (ASSIGN* " + k + ") ");
-				sb_assignments.append(System.lineSeparator());
-				sb_assignments.append(this.processAssignmentRelatedActions(k));
-				sb_assignments.append(System.lineSeparator());
+				sb_assignments_flatten.append("(and (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
+				sb_assignments_flatten.append(System.lineSeparator());
+				sb_assignments_flatten.append("(xor (= (ASSIGN* " + k + ") ");
+				sb_assignments_flatten.append(System.lineSeparator());
+				sb_assignments_flatten.append(this.processAssignmentRelatedActions(k, true));
+				sb_assignments_flatten.append(System.lineSeparator());
+
+				sb_assignments_not_flattened.append("(and (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
+				sb_assignments_not_flattened.append(System.lineSeparator());
+				sb_assignments_not_flattened.append("(xor (= (ASSIGN " + k + ") ");
+				sb_assignments_not_flattened.append(System.lineSeparator());
+				sb_assignments_not_flattened.append(this.processAssignmentRelatedActions(k, false));
+				sb_assignments_not_flattened.append(System.lineSeparator());
 			}
 		}
-		sb_assignments.append("(= (ASSIGN* " + k + ") (ASSIGN* " + (k - 1) + "))))");
+		sb_assignments_flatten.append("(= (ASSIGN* " + k + ") (ASSIGN* " + (k - 1) + "))))");
+		sb_assignments_not_flattened.append("(= (ASSIGN " + k + ") (ASSIGN " + (k - 1) + "))))");
 		sb_associations.append("(= (ASSOC " + k + ") (ASSOC " + (k - 1) + "))))");
-		return sb_assignments.toString() + System.lineSeparator() + sb_associations.toString();
+		return sb_assignments_flatten.toString() + System.lineSeparator() + sb_assignments_not_flattened.toString()
+				+ System.lineSeparator() + sb_associations.toString();
 		// return System.lineSeparator() + sb_associations.toString();
 
 	}

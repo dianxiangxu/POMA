@@ -9,7 +9,7 @@ import java.util.List;
 
 abstract class BMC {
 	public enum QUERY_TYPE {
-		OBLIGATION, ACCESS_REQUEST, OOA, OAOA, UUA, UAUA
+		LABEL, ACCESS_REQUEST, UAOA, UO, UO_explicit, UAOA_explicit
 	}
 
 	private Solver solver = Solver.CVC4;
@@ -69,7 +69,7 @@ abstract class BMC {
 			// String smtlibv2Code = headCode + iterationCode + generateAssertKCode(k - 1,
 			// query, QUERY_TYPE.OBLIGATION) + tailCode;
 			String smtlibv2Code = headCode + iterationCode
-					+ generateAssertKCode(k - 1, query, QUERY_TYPE.UUA) + tailCode;
+					+ generateAssertKCode(k - 1, query, QUERY_TYPE.UO) + tailCode;
 			if (k == bound) {
 				// System.out.println(smtlibv2Code);
 			}

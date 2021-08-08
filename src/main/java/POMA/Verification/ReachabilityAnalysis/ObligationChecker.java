@@ -95,7 +95,7 @@ public class ObligationChecker extends BMC {
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += ";QUERY";
 		switch (queryType) {
-			case OBLIGATION:
+			case LABEL:
 				smtlibv2Code += System.lineSeparator();
 				smtlibv2Code += "(assert (= (" + query + " " + k + ") 1))";
 				smtlibv2Code += System.lineSeparator();
@@ -104,34 +104,32 @@ public class ObligationChecker extends BMC {
 			case ACCESS_REQUEST:
 				smtlibv2Code += System.lineSeparator();
 				smtlibv2Code += "(assert (member (mkTuple" + query + ") (ASSOC* " + k + ")))";
-				// smtlibv2Code += "(assert (member (mkTuple "+Attorneys1ID+" "+acceptID+"
-				// "+Case3InfoID+") (AccessRights " + k + ")))";
 				smtlibv2Code += System.lineSeparator();
 				smtlibv2Code += System.lineSeparator();
 				break;
-			case UUA:
+			case UO:
 				smtlibv2Code += System.lineSeparator();
 				smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN* " + (k+1) + ")))";
 				smtlibv2Code += System.lineSeparator();
 				smtlibv2Code += System.lineSeparator();
 				break;
-			case UAUA:
+			case UAOA:
 				smtlibv2Code += System.lineSeparator();
-				smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGNua " + k + ")))";
-				smtlibv2Code += System.lineSeparator();
-				smtlibv2Code += System.lineSeparator();
-				break;
-			case OOA:
-				smtlibv2Code += System.lineSeparator();
-				smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGNooa " + k + ")))";
+				smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN* " + k + ")))";
 				smtlibv2Code += System.lineSeparator();
 				smtlibv2Code += System.lineSeparator();
 				break;
-			case OAOA:
+			case UO_explicit:
 				smtlibv2Code += System.lineSeparator();
-				smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGNoa " + k + ")))";
+				smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN " + (k + 1) + ")))";
 				smtlibv2Code += System.lineSeparator();
-				smtlibv2Code += System.lineSeparator();			
+				smtlibv2Code += System.lineSeparator();
+				break;
+			case UAOA_explicit:
+				smtlibv2Code += System.lineSeparator();
+				smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN " + k + ")))";
+				smtlibv2Code += System.lineSeparator();
+				smtlibv2Code += System.lineSeparator();
 				break;
 		}
 

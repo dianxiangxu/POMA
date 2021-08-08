@@ -26,6 +26,11 @@
       "properties": {}
     },
     {
+      "name": "CoPI2",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "RA",
       "type": "UA",
       "properties": {}
@@ -464,12 +469,20 @@
       "target": "RD15"
     },
     {
+      "source": "CoPI",
+      "target": "CoPI2"
+    },
+    {
       "source": "PDSEditing",
       "target": "EditingPolicy"
     },
     {
       "source": "RD10",
       "target": "RD9"
+    },
+    {
+      "source": "CoPI2",
+      "target": "EditingPolicy"
     },
     {
       "source": "URA",
