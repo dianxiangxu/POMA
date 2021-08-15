@@ -23,7 +23,7 @@ public class ObligationChecker extends BMC {
 	String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy125.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy265.json";
-	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy500.json";
+	 //String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy500.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy750.json";
 
 	GraphTranslator gt = new GraphTranslator(pathToGraph);

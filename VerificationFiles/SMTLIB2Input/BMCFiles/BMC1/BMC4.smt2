@@ -1,4 +1,4 @@
-(set-logic ALL_SUPPORTED)
+(set-logic ALL)
 (set-option :produce-models true)
 (declare-fun SetToCheckUA () (Set (Tuple Int Int)))
 (assert (= SetToCheckUA (insert (mkTuple 13 13) 
@@ -83,8 +83,15 @@
 (singleton (mkTuple 19 19)))))
 (declare-fun ASSOC (Int) (Set (Tuple Int Int Int)))
 
-(assert (= (ASSOC 0) (insert(mkTuple 3 21 16) 
-(singleton (mkTuple 15 33 16)))))
+(assert (= (ASSOC 0) (insert(mkTuple 3 23 16) 
+(mkTuple 3 20 19) 
+(mkTuple 3 25 19) 
+(mkTuple 15 26 3) 
+(mkTuple 15 28 3) 
+(mkTuple 15 40 16) 
+(mkTuple 15 24 16) 
+(mkTuple 15 42 16) 
+(singleton (mkTuple 19 21 16)))))
 
 (declare-fun NODES () (Set (Tuple Int Int)))
 (assert (= NODES (insert (mkTuple 1 1) 
@@ -105,7 +112,7 @@
 (mkTuple 16 16) 
 (mkTuple 17 17) 
 (mkTuple 18 18) 
-(singleton (mkTuple 19 19)))) 
+(singleton (mkTuple 19 19))))) 
 
 
 (declare-fun ASSOC*UA (Int) (Set (Tuple Int Int Int)))
@@ -136,79 +143,79 @@
 (assert 
 (xor 
 (= (obligation1 0) 0) 
-(and (member (mkTuple 15 33 16) (ASSOC* 0)) (= (obligation1 0) 1))
+(and (member (mkTuple 15 40 16) (member (mkTuple 3 17) (ASSIGN* 0)) (ASSOC* 0)) (= (obligation1 0) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation2 0) 0) 
-(and (member (mkTuple 2 32 16) (ASSOC* 0)) (= (obligation2 0) 1))
+(and (member (mkTuple 2 39 16) (ASSOC* 0)) (= (obligation2 0) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation3 0) 0) 
-(and (member (mkTuple 7 32 16) (ASSOC* 0)) (= (obligation3 0) 1))
+(and (member (mkTuple 7 39 16) (ASSOC* 0)) (= (obligation3 0) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation4 0) 0) 
-(and (member (mkTuple 9 32 16) (ASSOC* 0)) (= (obligation4 0) 1))
+(and (member (mkTuple 9 39 16) (ASSOC* 0)) (= (obligation4 0) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation5 0) 0) 
-(and (member (mkTuple 11 33 16) (ASSOC* 0)) (= (obligation5 0) 1))
+(and (member (mkTuple 11 40 16) (ASSOC* 0)) (= (obligation5 0) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation6 0) 0) 
-(and (member (mkTuple 13 34 16) (ASSOC* 0)) (= (obligation6 0) 1))
+(and (member (mkTuple 13 41 16) (ASSOC* 0)) (= (obligation6 0) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation7 0) 0) 
-(and (member (mkTuple 18 32 16) (ASSOC* 0)) (= (obligation7 0) 1))
+(and (member (mkTuple 18 39 16) (ASSOC* 0)) (= (obligation7 0) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation8 0) 0) 
-(and (member (mkTuple 1 32 16) (ASSOC* 0)) (= (obligation8 0) 1))
+(and (member (mkTuple 1 39 16) (ASSOC* 0)) (= (obligation8 0) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation9 0) 0) 
-(and (member (mkTuple 8 32 16) (ASSOC* 0)) (= (obligation9 0) 1))
+(and (member (mkTuple 8 39 16) (ASSOC* 0)) (= (obligation9 0) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation10 0) 0) 
-(and (member (mkTuple 4 33 16) (ASSOC* 0)) (= (obligation10 0) 1))
+(and (member (mkTuple 4 40 16) (ASSOC* 0)) (= (obligation10 0) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation11 0) 0) 
-(and (member (mkTuple 5 34 16) (ASSOC* 0)) (= (obligation11 0) 1))
+(and (member (mkTuple 5 41 16) (ASSOC* 0)) (= (obligation11 0) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation12 0) 0) 
-(and (member (mkTuple 5 35 16) (ASSOC* 0)) (= (obligation12 0) 1))
+(and (member (mkTuple 5 42 16) (ASSOC* 0)) (= (obligation12 0) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation13 0) 0) 
-(and (member (mkTuple 4 37 16) (ASSOC* 0)) (= (obligation13 0) 1))
+(and (member (mkTuple 4 44 16) (ASSOC* 0)) (= (obligation13 0) 1))
 )
 )				
 
@@ -239,67 +246,67 @@
 (assert (or 
 (and (= (obligation1 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 2 32 16))) (singleton(mkTuple 15 32 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 2 39 16))) (singleton(mkTuple 15 39 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and (= (obligation2 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 7 32 16))) (singleton(mkTuple 2 32 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 7 39 16))) (singleton(mkTuple 2 39 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and (= (obligation3 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 9 32 16))) (singleton(mkTuple 7 32 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 9 39 16))) (singleton(mkTuple 7 39 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and (= (obligation4 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 11 33 16))) (singleton(mkTuple 9 32 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 11 40 16))) (singleton(mkTuple 9 39 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and (= (obligation5 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 13 34 16))) (singleton(mkTuple 11 33 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 13 41 16))) (singleton(mkTuple 11 40 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and (= (obligation6 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 18 32 16))) (singleton(mkTuple 13 34 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 18 39 16))) (singleton(mkTuple 13 41 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and (= (obligation7 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 1 32 16))) (singleton(mkTuple 18 32 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 1 39 16))) (singleton(mkTuple 18 39 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and (= (obligation8 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 8 32 16))) (singleton(mkTuple 1 32 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 8 39 16))) (singleton(mkTuple 1 39 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and (= (obligation9 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 4 33 16))) (singleton(mkTuple 8 32 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 4 40 16))) (singleton(mkTuple 8 39 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and (= (obligation10 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 5 34 16))) (singleton(mkTuple 4 32 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 5 41 16))) (singleton(mkTuple 4 39 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and (= (obligation11 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 5 35 16))) (singleton(mkTuple 5 34 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 5 42 16))) (singleton(mkTuple 5 41 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and (= (obligation12 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 4 37 16))) (singleton(mkTuple 5 35 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 4 44 16))) (singleton(mkTuple 5 42 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and (= (obligation13 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 5 37 16))) (singleton(mkTuple 4 37 16))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 5 44 16))) (singleton(mkTuple 4 44 16))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (= (ASSOC 1) (ASSOC 0))))
@@ -315,79 +322,79 @@
 (assert 
 (xor 
 (= (obligation1 1) 0) 
-(and (member (mkTuple 15 33 16) (ASSOC* 1)) (= (obligation1 1) 1))
+(and (member (mkTuple 15 40 16) (member (mkTuple 3 17) (ASSIGN* 1)) (ASSOC* 1)) (= (obligation1 1) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation2 1) 0) 
-(and (member (mkTuple 2 32 16) (ASSOC* 1)) (= (obligation2 1) 1))
+(and (member (mkTuple 2 39 16) (ASSOC* 1)) (= (obligation2 1) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation3 1) 0) 
-(and (member (mkTuple 7 32 16) (ASSOC* 1)) (= (obligation3 1) 1))
+(and (member (mkTuple 7 39 16) (ASSOC* 1)) (= (obligation3 1) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation4 1) 0) 
-(and (member (mkTuple 9 32 16) (ASSOC* 1)) (= (obligation4 1) 1))
+(and (member (mkTuple 9 39 16) (ASSOC* 1)) (= (obligation4 1) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation5 1) 0) 
-(and (member (mkTuple 11 33 16) (ASSOC* 1)) (= (obligation5 1) 1))
+(and (member (mkTuple 11 40 16) (ASSOC* 1)) (= (obligation5 1) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation6 1) 0) 
-(and (member (mkTuple 13 34 16) (ASSOC* 1)) (= (obligation6 1) 1))
+(and (member (mkTuple 13 41 16) (ASSOC* 1)) (= (obligation6 1) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation7 1) 0) 
-(and (member (mkTuple 18 32 16) (ASSOC* 1)) (= (obligation7 1) 1))
+(and (member (mkTuple 18 39 16) (ASSOC* 1)) (= (obligation7 1) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation8 1) 0) 
-(and (member (mkTuple 1 32 16) (ASSOC* 1)) (= (obligation8 1) 1))
+(and (member (mkTuple 1 39 16) (ASSOC* 1)) (= (obligation8 1) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation9 1) 0) 
-(and (member (mkTuple 8 32 16) (ASSOC* 1)) (= (obligation9 1) 1))
+(and (member (mkTuple 8 39 16) (ASSOC* 1)) (= (obligation9 1) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation10 1) 0) 
-(and (member (mkTuple 4 33 16) (ASSOC* 1)) (= (obligation10 1) 1))
+(and (member (mkTuple 4 40 16) (ASSOC* 1)) (= (obligation10 1) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation11 1) 0) 
-(and (member (mkTuple 5 34 16) (ASSOC* 1)) (= (obligation11 1) 1))
+(and (member (mkTuple 5 41 16) (ASSOC* 1)) (= (obligation11 1) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation12 1) 0) 
-(and (member (mkTuple 5 35 16) (ASSOC* 1)) (= (obligation12 1) 1))
+(and (member (mkTuple 5 42 16) (ASSOC* 1)) (= (obligation12 1) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation13 1) 0) 
-(and (member (mkTuple 4 37 16) (ASSOC* 1)) (= (obligation13 1) 1))
+(and (member (mkTuple 4 44 16) (ASSOC* 1)) (= (obligation13 1) 1))
 )
 )				
 
@@ -418,67 +425,67 @@
 (assert (or 
 (and (= (obligation1 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 2 32 16))) (singleton(mkTuple 15 32 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 2 39 16))) (singleton(mkTuple 15 39 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and (= (obligation2 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 7 32 16))) (singleton(mkTuple 2 32 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 7 39 16))) (singleton(mkTuple 2 39 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and (= (obligation3 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 9 32 16))) (singleton(mkTuple 7 32 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 9 39 16))) (singleton(mkTuple 7 39 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and (= (obligation4 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 11 33 16))) (singleton(mkTuple 9 32 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 11 40 16))) (singleton(mkTuple 9 39 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and (= (obligation5 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 13 34 16))) (singleton(mkTuple 11 33 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 13 41 16))) (singleton(mkTuple 11 40 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and (= (obligation6 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 18 32 16))) (singleton(mkTuple 13 34 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 18 39 16))) (singleton(mkTuple 13 41 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and (= (obligation7 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 1 32 16))) (singleton(mkTuple 18 32 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 1 39 16))) (singleton(mkTuple 18 39 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and (= (obligation8 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 8 32 16))) (singleton(mkTuple 1 32 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 8 39 16))) (singleton(mkTuple 1 39 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and (= (obligation9 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 4 33 16))) (singleton(mkTuple 8 32 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 4 40 16))) (singleton(mkTuple 8 39 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and (= (obligation10 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 5 34 16))) (singleton(mkTuple 4 32 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 5 41 16))) (singleton(mkTuple 4 39 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and (= (obligation11 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 5 35 16))) (singleton(mkTuple 5 34 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 5 42 16))) (singleton(mkTuple 5 41 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and (= (obligation12 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 4 37 16))) (singleton(mkTuple 5 35 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 4 44 16))) (singleton(mkTuple 5 42 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and (= (obligation13 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 5 37 16))) (singleton(mkTuple 4 37 16))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 5 44 16))) (singleton(mkTuple 4 44 16))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (= (ASSOC 2) (ASSOC 1))))
@@ -494,79 +501,79 @@
 (assert 
 (xor 
 (= (obligation1 2) 0) 
-(and (member (mkTuple 15 33 16) (ASSOC* 2)) (= (obligation1 2) 1))
+(and (member (mkTuple 15 40 16) (member (mkTuple 3 17) (ASSIGN* 2)) (ASSOC* 2)) (= (obligation1 2) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation2 2) 0) 
-(and (member (mkTuple 2 32 16) (ASSOC* 2)) (= (obligation2 2) 1))
+(and (member (mkTuple 2 39 16) (ASSOC* 2)) (= (obligation2 2) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation3 2) 0) 
-(and (member (mkTuple 7 32 16) (ASSOC* 2)) (= (obligation3 2) 1))
+(and (member (mkTuple 7 39 16) (ASSOC* 2)) (= (obligation3 2) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation4 2) 0) 
-(and (member (mkTuple 9 32 16) (ASSOC* 2)) (= (obligation4 2) 1))
+(and (member (mkTuple 9 39 16) (ASSOC* 2)) (= (obligation4 2) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation5 2) 0) 
-(and (member (mkTuple 11 33 16) (ASSOC* 2)) (= (obligation5 2) 1))
+(and (member (mkTuple 11 40 16) (ASSOC* 2)) (= (obligation5 2) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation6 2) 0) 
-(and (member (mkTuple 13 34 16) (ASSOC* 2)) (= (obligation6 2) 1))
+(and (member (mkTuple 13 41 16) (ASSOC* 2)) (= (obligation6 2) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation7 2) 0) 
-(and (member (mkTuple 18 32 16) (ASSOC* 2)) (= (obligation7 2) 1))
+(and (member (mkTuple 18 39 16) (ASSOC* 2)) (= (obligation7 2) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation8 2) 0) 
-(and (member (mkTuple 1 32 16) (ASSOC* 2)) (= (obligation8 2) 1))
+(and (member (mkTuple 1 39 16) (ASSOC* 2)) (= (obligation8 2) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation9 2) 0) 
-(and (member (mkTuple 8 32 16) (ASSOC* 2)) (= (obligation9 2) 1))
+(and (member (mkTuple 8 39 16) (ASSOC* 2)) (= (obligation9 2) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation10 2) 0) 
-(and (member (mkTuple 4 33 16) (ASSOC* 2)) (= (obligation10 2) 1))
+(and (member (mkTuple 4 40 16) (ASSOC* 2)) (= (obligation10 2) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation11 2) 0) 
-(and (member (mkTuple 5 34 16) (ASSOC* 2)) (= (obligation11 2) 1))
+(and (member (mkTuple 5 41 16) (ASSOC* 2)) (= (obligation11 2) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation12 2) 0) 
-(and (member (mkTuple 5 35 16) (ASSOC* 2)) (= (obligation12 2) 1))
+(and (member (mkTuple 5 42 16) (ASSOC* 2)) (= (obligation12 2) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation13 2) 0) 
-(and (member (mkTuple 4 37 16) (ASSOC* 2)) (= (obligation13 2) 1))
+(and (member (mkTuple 4 44 16) (ASSOC* 2)) (= (obligation13 2) 1))
 )
 )				
 
@@ -597,67 +604,67 @@
 (assert (or 
 (and (= (obligation1 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 2 32 16))) (singleton(mkTuple 15 32 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 2 39 16))) (singleton(mkTuple 15 39 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and (= (obligation2 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 7 32 16))) (singleton(mkTuple 2 32 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 7 39 16))) (singleton(mkTuple 2 39 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and (= (obligation3 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 9 32 16))) (singleton(mkTuple 7 32 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 9 39 16))) (singleton(mkTuple 7 39 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and (= (obligation4 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 11 33 16))) (singleton(mkTuple 9 32 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 11 40 16))) (singleton(mkTuple 9 39 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and (= (obligation5 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 13 34 16))) (singleton(mkTuple 11 33 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 13 41 16))) (singleton(mkTuple 11 40 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and (= (obligation6 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 18 32 16))) (singleton(mkTuple 13 34 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 18 39 16))) (singleton(mkTuple 13 41 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and (= (obligation7 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 1 32 16))) (singleton(mkTuple 18 32 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 1 39 16))) (singleton(mkTuple 18 39 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and (= (obligation8 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 8 32 16))) (singleton(mkTuple 1 32 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 8 39 16))) (singleton(mkTuple 1 39 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and (= (obligation9 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 4 33 16))) (singleton(mkTuple 8 32 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 4 40 16))) (singleton(mkTuple 8 39 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and (= (obligation10 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 5 34 16))) (singleton(mkTuple 4 32 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 5 41 16))) (singleton(mkTuple 4 39 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and (= (obligation11 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 5 35 16))) (singleton(mkTuple 5 34 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 5 42 16))) (singleton(mkTuple 5 41 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and (= (obligation12 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 4 37 16))) (singleton(mkTuple 5 35 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 4 44 16))) (singleton(mkTuple 5 42 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and (= (obligation13 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 5 37 16))) (singleton(mkTuple 4 37 16))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 5 44 16))) (singleton(mkTuple 4 44 16))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (= (ASSOC 3) (ASSOC 2))))
@@ -673,79 +680,79 @@
 (assert 
 (xor 
 (= (obligation1 3) 0) 
-(and (member (mkTuple 15 33 16) (ASSOC* 3)) (= (obligation1 3) 1))
+(and (member (mkTuple 15 40 16) (member (mkTuple 3 17) (ASSIGN* 3)) (ASSOC* 3)) (= (obligation1 3) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation2 3) 0) 
-(and (member (mkTuple 2 32 16) (ASSOC* 3)) (= (obligation2 3) 1))
+(and (member (mkTuple 2 39 16) (ASSOC* 3)) (= (obligation2 3) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation3 3) 0) 
-(and (member (mkTuple 7 32 16) (ASSOC* 3)) (= (obligation3 3) 1))
+(and (member (mkTuple 7 39 16) (ASSOC* 3)) (= (obligation3 3) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation4 3) 0) 
-(and (member (mkTuple 9 32 16) (ASSOC* 3)) (= (obligation4 3) 1))
+(and (member (mkTuple 9 39 16) (ASSOC* 3)) (= (obligation4 3) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation5 3) 0) 
-(and (member (mkTuple 11 33 16) (ASSOC* 3)) (= (obligation5 3) 1))
+(and (member (mkTuple 11 40 16) (ASSOC* 3)) (= (obligation5 3) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation6 3) 0) 
-(and (member (mkTuple 13 34 16) (ASSOC* 3)) (= (obligation6 3) 1))
+(and (member (mkTuple 13 41 16) (ASSOC* 3)) (= (obligation6 3) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation7 3) 0) 
-(and (member (mkTuple 18 32 16) (ASSOC* 3)) (= (obligation7 3) 1))
+(and (member (mkTuple 18 39 16) (ASSOC* 3)) (= (obligation7 3) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation8 3) 0) 
-(and (member (mkTuple 1 32 16) (ASSOC* 3)) (= (obligation8 3) 1))
+(and (member (mkTuple 1 39 16) (ASSOC* 3)) (= (obligation8 3) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation9 3) 0) 
-(and (member (mkTuple 8 32 16) (ASSOC* 3)) (= (obligation9 3) 1))
+(and (member (mkTuple 8 39 16) (ASSOC* 3)) (= (obligation9 3) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation10 3) 0) 
-(and (member (mkTuple 4 33 16) (ASSOC* 3)) (= (obligation10 3) 1))
+(and (member (mkTuple 4 40 16) (ASSOC* 3)) (= (obligation10 3) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation11 3) 0) 
-(and (member (mkTuple 5 34 16) (ASSOC* 3)) (= (obligation11 3) 1))
+(and (member (mkTuple 5 41 16) (ASSOC* 3)) (= (obligation11 3) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation12 3) 0) 
-(and (member (mkTuple 5 35 16) (ASSOC* 3)) (= (obligation12 3) 1))
+(and (member (mkTuple 5 42 16) (ASSOC* 3)) (= (obligation12 3) 1))
 )
 )				
 (assert 
 (xor 
 (= (obligation13 3) 0) 
-(and (member (mkTuple 4 37 16) (ASSOC* 3)) (= (obligation13 3) 1))
+(and (member (mkTuple 4 44 16) (ASSOC* 3)) (= (obligation13 3) 1))
 )
 )				
 
@@ -776,67 +783,67 @@
 (assert (or 
 (and (= (obligation1 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 2 32 16))) (singleton(mkTuple 15 32 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 2 39 16))) (singleton(mkTuple 15 39 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and (= (obligation2 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 7 32 16))) (singleton(mkTuple 2 32 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 7 39 16))) (singleton(mkTuple 2 39 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and (= (obligation3 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 9 32 16))) (singleton(mkTuple 7 32 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 9 39 16))) (singleton(mkTuple 7 39 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and (= (obligation4 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 11 33 16))) (singleton(mkTuple 9 32 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 11 40 16))) (singleton(mkTuple 9 39 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and (= (obligation5 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 13 34 16))) (singleton(mkTuple 11 33 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 13 41 16))) (singleton(mkTuple 11 40 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and (= (obligation6 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 18 32 16))) (singleton(mkTuple 13 34 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 18 39 16))) (singleton(mkTuple 13 41 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and (= (obligation7 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 1 32 16))) (singleton(mkTuple 18 32 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 1 39 16))) (singleton(mkTuple 18 39 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and (= (obligation8 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 8 32 16))) (singleton(mkTuple 1 32 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 8 39 16))) (singleton(mkTuple 1 39 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and (= (obligation9 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 4 33 16))) (singleton(mkTuple 8 32 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 4 40 16))) (singleton(mkTuple 8 39 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and (= (obligation10 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 5 34 16))) (singleton(mkTuple 4 32 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 5 41 16))) (singleton(mkTuple 4 39 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and (= (obligation11 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 5 35 16))) (singleton(mkTuple 5 34 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 5 42 16))) (singleton(mkTuple 5 41 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and (= (obligation12 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 4 37 16))) (singleton(mkTuple 5 35 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 4 44 16))) (singleton(mkTuple 5 42 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and (= (obligation13 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 5 37 16))) (singleton(mkTuple 4 37 16))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 5 44 16))) (singleton(mkTuple 4 44 16))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (= (ASSOC 4) (ASSOC 3))))

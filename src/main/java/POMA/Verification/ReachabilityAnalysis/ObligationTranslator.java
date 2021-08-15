@@ -24,12 +24,16 @@ import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.CreateAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.DeleteAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
+import gov.nist.csd.pm.pip.obligations.model.functions.Arg;
+import gov.nist.csd.pm.pip.obligations.model.functions.Function;
 
 public class ObligationTranslator {
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
-	String pathToObligations = "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
+	// String pathToObligations =
+	// "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
+	String pathToObligations = "Policies/ForBMC/GPMSSimplified/Obligations_conditions.yml";
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations_simple1.yml";
@@ -142,6 +146,7 @@ public class ObligationTranslator {
 		}
 	}
 
+	// Translate events + condition for the whole obligation
 	String translateObligationEvents(int k) {
 		StringBuilder sb = new StringBuilder();
 		for (Rule r : obligation.getRules()) {
@@ -152,13 +157,28 @@ public class ObligationTranslator {
 			int subjectID = mapOfIDs.get(subject);
 			int arID = mapOfIDs.get(ar);
 			int targetID = mapOfIDs.get(target);
-
+			String condition;
+			condition = processEventCondition(r, k);
 			sb.append("(assert \r\n" + "(xor \r\n" + "(= (" + obligationLabel + " " + (k - 1) + ") 0) \r\n"
 					+ "(and (member (mkTuple " + subjectID + " " + arID + " " + targetID + ") (ASSOC* " + (k - 1)
-					+ ")) (= (" + obligationLabel + " " + (k - 1) + ") 1))\r\n" + ")\r\n" + ")				\r\n");
+					+ "))  " + condition + " (= (" + obligationLabel + " " + (k - 1) + ") 1))\r\n" + ")\r\n"
+					+ ")				\r\n");
 			ruleLabels.add(r.getLabel());
 		}
 		return sb.toString();
+	}
+
+	String processEventCondition(Rule r, int k) {
+		if (r.getResponsePattern().getCondition() == null)
+			return "";
+		List<Function> conditions = r.getResponsePattern().getCondition().getCondition();
+		List<Arg> args = conditions.get(0).getArgs();
+		String ancestor = args.get(0).getFunction().getArgs().get(0).getValue();
+		String descendant = args.get(1).getFunction().getArgs().get(0).getValue();
+		int ancestorId = mapOfIDs.get(ancestor);
+		int descendantId = mapOfIDs.get(descendant);
+		return "(member (mkTuple " + ancestorId + " " + descendantId + ") (ASSIGN* " + (k - 1) + "))";
+
 	}
 
 	String translateGraphIntersection(int k) {
@@ -251,8 +271,7 @@ public class ObligationTranslator {
 						handleAddAssignmentActionUUA(k, sb_assignments, what, where);
 					else
 						handleAddAssignmentNoFlattenAction(k, sb_assignments_not_flattened, what, where);
-				}
-				else if ((assignAction.getAssignments().get(0).getWhat().getType().equals("UA")
+				} else if ((assignAction.getAssignments().get(0).getWhat().getType().equals("UA")
 						&& assignAction.getAssignments().get(0).getWhere().getType().equals("UA"))
 						|| (assignAction.getAssignments().get(0).getWhat().getType().equals("OA")
 								&& assignAction.getAssignments().get(0).getWhere().getType().equals("OA"))) {
@@ -268,16 +287,17 @@ public class ObligationTranslator {
 				deleteAction = (DeleteAction) action;
 				if (deleteAction.getAssignments() != null) {
 					if ((deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("U")
-						&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType().equals("UA"))
-						|| (deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("O")
-								&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType().equals("OA"))) {
-					what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
-					where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
-					if (isFlatten)
-						handleDeleteAssignmentActionUUA(k, sb_assignments, what, where);
-					else
-						handleDeleteAssignmentNoFlattenAction(k, sb_assignments_not_flattened, what, where);
-								}
+							&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType().equals("UA"))
+							|| (deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("O")
+									&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType()
+											.equals("OA"))) {
+						what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
+						where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
+						if (isFlatten)
+							handleDeleteAssignmentActionUUA(k, sb_assignments, what, where);
+						else
+							handleDeleteAssignmentNoFlattenAction(k, sb_assignments_not_flattened, what, where);
+					}
 				}
 				if (deleteAction.getAssignments() != null) {
 					if ((deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("UA")
@@ -318,28 +338,18 @@ public class ObligationTranslator {
 	private void handleDeleteAssignmentActionUAUA(int k, StringBuilder sb_assignments, String what, String where) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		sb_assignments.append("(setminus (ASSIGN* " + (k - 1)
-				+ ") (setminus (setminus (union (singleton (mkTuple " + whatID
-				+ " " + whereID + ")) (join (singleton (mkTuple " + whatID + " " + whereID
-				+ ")) (ASSIGN* " + (k - 1)
-				+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID
-				+ " " + whatID + ")) (join (ASSIGN* " + (k - 1)
-				+ ")  (singleton (mkTuple " + whatID + " " + whatID
-				+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID
-				+ ")) (join (ASSIGN* " + (k - 1)
-				+ ")  (singleton (mkTuple " + whatID + " " + whatID
-				+ ")))))) NODES) (setminus (ASSIGN " + (k - 1)
-				+ ") (singleton (mkTuple " + whatID + " " + whereID
-				+ ")))) (ASSIGN* " + (k - 1)
-				+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID
-				+ " " + whatID + ")) (join (ASSIGN* " + (k - 1)
-				+ ")  (singleton (mkTuple " + whatID + " " + whatID
-				+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID
-				+ ")) (join (ASSIGN* " + (k - 1)
-				+ ")  (singleton (mkTuple " + whatID + " " + whatID
-				+ ")))))) NODES) (setminus (ASSIGN " + (k - 1)
-				+ ") (singleton (mkTuple " + whatID + " " + whereID
-				+ ")))) (ASSIGN* " + (k - 1) + "))))");
+		sb_assignments.append("(setminus (ASSIGN* " + (k - 1) + ") (setminus (setminus (union (singleton (mkTuple "
+				+ whatID + " " + whereID + ")) (join (singleton (mkTuple " + whatID + " " + whereID + ")) (ASSIGN* "
+				+ (k - 1) + "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
+				+ ")) (join (ASSIGN* " + (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID
+				+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
+				+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
+				+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1)
+				+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
+				+ ")) (join (ASSIGN* " + (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID
+				+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
+				+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
+				+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1) + "))))");
 		sb_assignments.append("(setminus (ASSIGN* " + (k - 1) + ") (setminus (join (singleton (mkTuple " + whatID + " "
 				+ whereID + ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
 				+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
@@ -455,8 +465,9 @@ public class ObligationTranslator {
 		sb_associations.append(System.lineSeparator());
 		for (Rule rule : obligation.getRules()) {
 			this.groupActions(rule.getResponsePattern().getActions());
+			String condition = processActionCondition(rule, k);
 			if (grantGroupActions.size() > 0) {
-				sb_associations.append("(and (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
+				sb_associations.append("(and "+ condition+" (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
 				sb_associations.append(System.lineSeparator());
 				sb_associations.append("(xor (= (ASSOC " + k + ") ");
 				sb_associations.append(System.lineSeparator());
@@ -464,14 +475,16 @@ public class ObligationTranslator {
 				sb_associations.append(System.lineSeparator());
 			}
 			if (assignGroupActions.size() > 0) {
-				sb_assignments_flatten.append("(and (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
+				sb_assignments_flatten.append("(and " + condition
+						+ "  (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
 				sb_assignments_flatten.append(System.lineSeparator());
 				sb_assignments_flatten.append("(xor (= (ASSIGN* " + k + ") ");
 				sb_assignments_flatten.append(System.lineSeparator());
 				sb_assignments_flatten.append(this.processAssignmentRelatedActions(k, true));
 				sb_assignments_flatten.append(System.lineSeparator());
 
-				sb_assignments_not_flattened.append("(and (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
+				sb_assignments_not_flattened.append("(and " + condition
+						+ "  (= (" + rule.getLabel() + " " + (k - 1) + ") 1)");
 				sb_assignments_not_flattened.append(System.lineSeparator());
 				sb_assignments_not_flattened.append("(xor (= (ASSIGN " + k + ") ");
 				sb_assignments_not_flattened.append(System.lineSeparator());
@@ -485,6 +498,19 @@ public class ObligationTranslator {
 		return sb_assignments_flatten.toString() + System.lineSeparator() + sb_assignments_not_flattened.toString()
 				+ System.lineSeparator() + sb_associations.toString();
 		// return System.lineSeparator() + sb_associations.toString();
+
+	}
+
+	String processActionCondition(Rule r, int k) {
+		if (r.getResponsePattern().getActions().get(0).getCondition() == null)
+			return "";
+		List<Function> conditions = r.getResponsePattern().getActions().get(0).getCondition().getCondition();
+		List<Arg> args = conditions.get(0).getArgs();
+		String ancestor = args.get(0).getFunction().getArgs().get(0).getValue();
+		String descendant = args.get(1).getFunction().getArgs().get(0).getValue();
+		int ancestorId = mapOfIDs.get(ancestor);
+		int descendantId = mapOfIDs.get(descendant);
+		return "(member (mkTuple " + ancestorId + " " + descendantId + ") (ASSIGN* " + (k - 1) + "))";
 
 	}
 
