@@ -3,7 +3,8 @@ rules:
   - label: create_proposal
     event:
       subject:
-        anyUser:
+        anyUser: 
+          - "PI"     
       policyClass: 
         policyClass: EligibilityPolicyClass
       operations:

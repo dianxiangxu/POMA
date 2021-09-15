@@ -31,9 +31,9 @@ public class ObligationTranslator {
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
-	// String pathToObligations =
-	// "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
-	String pathToObligations = "Policies/ForBMC/GPMSSimplified/Obligations_conditions.yml";
+	 String pathToObligations =
+	 "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
+	//String pathToObligations = "Policies/ForBMC/GPMSSimplified/Obligations_conditions.yml";
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations_simple1.yml";
@@ -350,10 +350,10 @@ public class ObligationTranslator {
 				+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
 				+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
 				+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1) + "))))");
-		sb_assignments.append("(setminus (ASSIGN* " + (k - 1) + ") (setminus (join (singleton (mkTuple " + whatID + " "
-				+ whereID + ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
-				+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
-				+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + "))))");
+		// sb_assignments.append("(setminus (ASSIGN* " + (k - 1) + ") (setminus (join (singleton (mkTuple " + whatID + " "
+		// 		+ whereID + ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
+		// 		+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
+		// 		+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + "))))");
 	}
 
 	private void handleDeleteAssignmentNoFlattenAction(int k, StringBuilder sb_assignments, String what, String where) {
@@ -370,6 +370,15 @@ public class ObligationTranslator {
 				+ ")) (union (join (singleton (mkTuple " + whatID + " " + whereID + ")) (join (singleton (mkTuple "
 				+ whereID + " " + whereID + ")) (ASSIGN* " + (k - 1) + "))) (ASSIGN* " + (k - 1) + ")))");
 	}
+
+	private void handleAddAssignmentActionMultipleUUA(int k, StringBuilder sb_assignments, String what, String where) {
+		int whatID = mapOfIDs.get(what);
+		int whereID = mapOfIDs.get(where);
+		sb_assignments.append("(union (singleton (mkTuple " + whatID + " " + whereID
+				+ ")) (union (join (singleton (mkTuple " + whatID + " " + whereID + ")) (join (singleton (mkTuple "
+				+ whereID + " " + whereID + ")) (ASSIGN* " + (k - 1) + "))) (ASSIGN* " + (k - 1) + ")))");
+	}
+
 
 	private void handleAddAssignmentActionUAUA(int k, StringBuilder sb_assignments, String what, String where) {
 		int whatID = mapOfIDs.get(what);
