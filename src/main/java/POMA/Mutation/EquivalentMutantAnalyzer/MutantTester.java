@@ -31,10 +31,15 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
+import gov.nist.csd.pm.pip.obligations.model.EventPattern;
+import gov.nist.csd.pm.pip.obligations.model.EvrNode;
+import gov.nist.csd.pm.pip.obligations.model.Obligation;
+import gov.nist.csd.pm.pip.obligations.model.Rule;
+import gov.nist.csd.pm.pip.obligations.model.Target;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public class MutantTester {
-	String mutationMethod = "";
+	protected String mutationMethod = "";
 	private double numberOfKilledMutants = 0;
 	private int numberOfMutants = 0;
 	List<Set<String>> operations = new ArrayList<Set<String>>();
@@ -43,23 +48,31 @@ public class MutantTester {
 	List<Node> OAs;
 	public static Graph graph;
 	public static Prohibitions prohibitions;
-	String testMethod;
+	public static String obligationFilePath = "";
+	public static Obligation obligationMutant = new Obligation();
+	protected String testMethod;
 	// public String initialGraphConfig = "GPMSPolicies/SimpleGraphToSMT.json";
-	public String initialGraphConfig = "Policies/GPMS";
-//	public String initialGraphConfig = "Policies/LawUseCase";
+//	public String initialGraphConfig = "Policies/GPMS";
+	public String initialGraphConfig = "Policies/LawUseCase";
 //	public String initialGraphConfig = "Policies/BankPolicy/Complex";
 //	public String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA";
 //	public String initialGraphConfig = "";
 
+	static List<String> Us;
 	static List<Node> UAs;
-	static List<Node> UAsOAs;
+	protected static List<Node> UAsOAs;
 	static List<Node> UAsPCs;
 	static List<Node> UAsPCsOAs;
+	protected static List<EvrNode> EvrNodes;
+	
+	static List<AccessRequest> arList;
 
-	public MutantTester(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+	public MutantTester(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath, List<AccessRequest> ARList) throws GraphDoesNotMatchTestSuitException {
 		this.testMethod = testMethod;
 		this.graph = graph;
 		this.prohibitions = prohibitions;
+		this.obligationFilePath = obligationPath;
+		this.arList = ARList;
 		try {
 			//graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
 //			if (!Utils.verifyTestSuitIsForGraph(graph, getTestSuitPathByMethod(testMethod))) {
@@ -341,7 +354,7 @@ public class MutantTester {
 		}
 	}
 
-	public Graph createCopy() throws PMException {
+	public static Graph createCopy() throws PMException {
 		Graph mutant = new MemGraph();
 		String json = GraphSerializer.toJson(graph);
 
@@ -409,13 +422,44 @@ public class MutantTester {
 		}
 		return file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv";
 	}
-	public String getTestSuitPathByMethod(String testMethod, String path) {
-		File file = new File(path);
-		if(!file.isDirectory()) {
-			file = file.getParentFile();
-		}
-		System.out.println(file.getAbsolutePath());
-		System.out.println(file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv");
-		return file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv";
+	
+//	public String getTestSuitPathByMethod(String testMethod, String path) {
+//		File file = new File(path);
+//		if(!file.isDirectory()) {
+//			file = file.getParentFile();
+//		}
+//		System.out.println(file.getAbsolutePath());
+//		System.out.println(file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv");
+//		return file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv";
+//	}
+	
+	public List<AccessRequest> getARList () {
+		return arList;
 	}
+	
+	public static List<String> getAllUserNames() throws PMException {
+		Us = Utils.getUsInGraph(graph);
+		return Us;
+	}
+	
+	public static List<String> getUAsOAsNames() throws PMException {
+		List<String> list = Utils.getUsInGraph(graph);
+		list.addAll(Utils.getOsInGraph(graph));
+		return list;
+	}
+	
+	//get all EvrNodes in obligation
+	public void getAllEvrNodes(Obligation obligation) {
+		EvrNodes = new ArrayList<>();
+		List<Rule> rules = obligation.getRules();
+		for (Rule rule : rules) {
+			EventPattern eventPattern = rule.getEventPattern();
+			Target target = eventPattern.getTarget();
+			List<EvrNode> policyElements = target.getPolicyElements();
+			for (EvrNode node : policyElements) {
+				if (EvrNodes.contains(node) == false)
+					EvrNodes.add(node);
+			}	
+		}
+	}	
 }

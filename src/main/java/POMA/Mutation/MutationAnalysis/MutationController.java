@@ -55,31 +55,34 @@ public class MutationController {
 	public static void main(String[] args) throws PMException, IOException, GraphDoesNotMatchTestSuitException {
 		MutationController mc = new MutationController();
 		List<String> mutantNames = new ArrayList<String>();
+		String initialGraphConfig = "";
+		String initialProhibitionConfig = "";
+		
 //        String initialGraphConfig = "Policies/SimpleGraph/simpleGraphToSMT.json";
 //        String initialGraphConfig = "Policies/GPMS/Graph.json";
-//        String initialGraphConfig = "Policies/LawUseCase/Graph.json";
-//		String initialProhibitionConfig = "Policies/LawUseCase/prohibitions.json";
+        initialGraphConfig = "Policies/LawUseCase/Graph.json";
+		initialProhibitionConfig = "Policies/LawUseCase/prohibitions.json";
 //        String initialGraphConfig = "Policies/BankPolicy/Complex/bank_policy_config.json";
-        String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/graph.json";
-        String initialProhibitionConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/prohibitionsx1.json";
+//        String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/graph.json";
+//        String initialProhibitionConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/prohibitionsx1.json";
 
         
         
 		File folder = new File(initialGraphConfig).getParentFile();
-		mutantNames.add("RAD");
-		mutantNames.add("CAD");
+//		mutantNames.add("RAD");
+//		mutantNames.add("CAD");
 		mutantNames.add("CAA");
-		mutantNames.add("RAG");
-		mutantNames.add("AAG");
-		mutantNames.add("CUAA");
-		mutantNames.add("COAA");
-		mutantNames.add("RARA");
-		mutantNames.add("AARA");
-		mutantNames.add("RAC");
-		mutantNames.add("AAC");
-		mutantNames.add("RARAA");
+//		mutantNames.add("RAG");
+//		mutantNames.add("AAG");
+//		mutantNames.add("CUAA");
+//		mutantNames.add("COAA");
+//		mutantNames.add("RARA");
+//		mutantNames.add("AARA");
+//		mutantNames.add("RAC");
+//		mutantNames.add("AAC");
+//		mutantNames.add("RARAA");
 		mc.graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
-		if (initialProhibitionConfig != "")
+		if (!initialProhibitionConfig.equals(""))
 		    mc.prohibitions = Utils.readProhibitions(initialProhibitionConfig);
 		mc.createMutants( mutantNames,  mc.graph, mc.prohibitions, folder);
 	}
@@ -128,7 +131,7 @@ public class MutationController {
 				double result = 0;
 				if (mutantNames.get(i).equals("RAD")) {
 					row2[0] = "RAD";
-//					row2[j] = Double.toString(testRAD(testMethod, graph, prohibitions));
+					row2[j] = Double.toString(testRAD(testMethod, graph, prohibitions));
 				} else if (mutantNames.get(i).equals("CAD")) {
 					row3[0] = "CAD";
 					row3[j] = Double.toString(testCAD(testMethod, graph, prohibitions));

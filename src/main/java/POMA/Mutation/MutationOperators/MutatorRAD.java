@@ -11,7 +11,7 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 //reverse assignment direction
 public class MutatorRAD extends MutantTester {
-
+	int i;
 	public MutatorRAD(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph, prohibitions);
 	}
@@ -24,8 +24,7 @@ public class MutatorRAD extends MutantTester {
 //		getGraphLoaded("GPMSPolicies/gpms_testing_config.json");
 		// getGraphLoaded("GPMSPolicies/bank_policy_config.json");
 		// getGraphLoaded(initialGraphConfig);
-
-		// readGPMSGraph();
+		i = 0;
 
 		Node nodeB, nodePc;
 
@@ -63,30 +62,35 @@ public class MutatorRAD extends MutantTester {
 		File testSuite = new File(testSuitePath);
 		double before, after;
 
-			Graph mutant = createCopy();
+		Graph mutant = createCopy();
 
-			mutant = reverseAssignment(mutant, nodeA, nodeB);
+		mutant = reverseAssignment(mutant, nodeA, nodeB);
+		if (mutant == null)
+			return;
 
-			// add function to check node connected to PC or not
-			if (GraphUtils.isContained(nodeA, nodePc) != true) {
-				// add assignment if node a is not PC-connected
-				mutant.assign(nodeA.getName(), nodePc.getName());
-			}
+		// add function to check node connected to PC or not
+		if (GraphUtils.isContained(nodeA, nodePc) != true) {
+			// add assignment if node a is not PC-connected
+			mutant.assign(nodeA.getName(), nodePc.getName());			
+		}
 
-			before = getNumberOfKilledMutants();
-			testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
-			after = getNumberOfKilledMutants();
+		before = getNumberOfKilledMutants();
+		testMutant(mutant, testSuite, testMethod, getNumberOfMutants(), mutationMethod);
+		after = getNumberOfKilledMutants();
 
-			if (before == after)
-				System.out.println("Unkilled mutant:" + "RAD:" 
-							+ "NodeA:" + nodeA.toString() + " || " 
-							+ "NodeB:" + nodeB.toString() + " || " 
-							+ "PC:" + nodePc.toString());
-			setNumberOfMutants(getNumberOfMutants() + 1);
+		if (before == after)
+			System.out.println("Unkilled mutant:" + "(RAD:" + i + ")"
+					+ "NodeA:" + nodeA.toString() + " || " 
+					+ "NodeB:" + nodeB.toString() + " || " 
+					+ "PC:" + nodePc.toString());
+		setNumberOfMutants(getNumberOfMutants() + 1);
+		i++;
 	}
 
 	private Graph reverseAssignment(Graph mutant, Node nodeA, Node nodeB) throws PMException, IOException {
 		mutant.deassign(nodeA.getName(), nodeB.getName());
+		if (GraphUtils.isContained(nodeA, nodeB))
+			return null;
 		mutant.assign(nodeB.getName(), nodeA.getName());
 		return mutant;
 	}

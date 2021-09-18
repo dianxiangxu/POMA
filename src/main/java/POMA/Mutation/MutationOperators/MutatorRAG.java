@@ -15,8 +15,8 @@ public class MutatorRAG extends MutantTester {
 		super(testMethod, graph, prohibitions);
 	}
 	public void init() throws PMException, IOException {
-		this.mutationMethod = "RAGR";
-		String testResults = "CSV/"+testMethod+"/"+testMethod+"testResultsRAGR.csv";
+		this.mutationMethod = "RAG";
+		String testResults = "CSV/"+testMethod+"/"+testMethod+"testResultsRAG.csv";
 		String testSuitePath = getTestSuitPathByMethod(testMethod);
 //		getGraphLoaded("GPMSPolicies/gpms_testing_config.json");
 		//getGraphLoaded("GPMSPolicies/bank_policy_config.json");
@@ -34,7 +34,7 @@ public class MutatorRAG extends MutantTester {
 //					System.out.println("a is "+ua.toString()+"| b is "+ub.toString());
 					continue;
 				}
-//				System.out.println("Debug:" + "RAD:" + "a:" + ua.toString() + " || " + "b:" + ub.toString() + " || " + "pc:" + pc.toString());
+//				System.out.println("Debug:" + "RAD:" + "a:" + nodeA.getName() + " || " + "b:" + nodeB.getName());
 				
 				String pcName = Utils.getPCOf(graph, nodeB.getName());
 				if (pcName.isEmpty()) {
@@ -75,7 +75,7 @@ public class MutatorRAG extends MutantTester {
 			after = getNumberOfKilledMutants();
 			
 			if (before == after)
-				System.out.println("Unkilled mutant:" + "RAGR:" 
+				System.out.println("Unkilled mutant:" + "RAG:" 
 							+ "NodeA:" + nodeA.toString() + " || " 
 							+ "NodeB:" + nodeB.toString());
 			setNumberOfMutants(getNumberOfMutants() + 1);
