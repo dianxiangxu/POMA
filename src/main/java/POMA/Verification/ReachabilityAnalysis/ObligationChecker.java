@@ -96,43 +96,74 @@ public class ObligationChecker extends BMC {
 		smtlibv2Code += ";QUERY";
 		switch (queryType) {
 			case LABEL:
-				smtlibv2Code += System.lineSeparator();
 				smtlibv2Code += "(assert (= (" + query + " " + k + ") 1))";
-				smtlibv2Code += System.lineSeparator();
-				smtlibv2Code += System.lineSeparator();
 				break;
-			case ACCESS_REQUEST:
-				smtlibv2Code += System.lineSeparator();
+			case PERMIT:
 				smtlibv2Code += "(assert (member (mkTuple" + query + ") (ASSOC* " + k + ")))";
-				smtlibv2Code += System.lineSeparator();
-				smtlibv2Code += System.lineSeparator();
+				break;
+			case DENY:
+				smtlibv2Code += "(assert (not (member (mkTuple" + query + ") (ASSOC* " + k + "))))";
+				break;
+			case PERMIT_UA_ONLY:
+				smtlibv2Code += "(assert (not (= (as emptyset (Set (Tuple Int Int Int))) (join (singleton (mkTuple"
+						+ query + ")) (ASSOC* " + k + "))))";
+				break;
+			case PERMIT_AT_ONLY:
+				smtlibv2Code += "(assert (not (= (as emptyset (Set (Tuple Int Int Int))) (join (ASSOC* " + k
+						+ ") (singleton (mkTuple" + query + ")) )))";
+				break;
+			case DENY_UA_ONLY:
+				smtlibv2Code += "(assert  (= (as emptyset (Set (Tuple Int Int Int))) (join (singleton (mkTuple" + query
+						+ ")) (ASSOC* " + k + ")))";
+				break;
+			case DENY_AT_ONLY:
+				smtlibv2Code += "(assert  (= (as emptyset (Set (Tuple Int Int Int))) (join (ASSOC* " + k
+						+ ") (singleton (mkTuple" + query + "))))";
+				break;
+			case ASSOC_UA_ONLY:
+				smtlibv2Code += "(assert (not (= (as emptyset (Set (Tuple Int Int Int))) (join (singleton (mkTuple"
+						+ query + ")) (ASSOC " + k + "))))";
+				break;
+			case ASSOC_AT_ONLY:
+				smtlibv2Code += "(assert (not (= (as emptyset (Set (Tuple Int Int Int))) (join (ASSOC " + k
+						+ ") (singleton (mkTuple" + query + ")) )))";
+				break;
+			case NO_ASSOC_UA_ONLY:
+				smtlibv2Code += "(assert (= (as emptyset (Set (Tuple Int Int Int))) (join (singleton (mkTuple" + query
+						+ ")) (ASSOC " + k + ")))";
+				break;
+			case NO_ASSOC_AT_ONLY:
+				smtlibv2Code += "(assert  (= (as emptyset (Set (Tuple Int Int Int))) (join (ASSOC " + k
+						+ ") (singleton (mkTuple" + query + "))))";
 				break;
 			case UO:
-				smtlibv2Code += System.lineSeparator();
-				smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN* " + (k+1) + ")))";
-				smtlibv2Code += System.lineSeparator();
-				smtlibv2Code += System.lineSeparator();
+				smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN* " + (k + 1) + ")))";
 				break;
 			case UAOA:
-				smtlibv2Code += System.lineSeparator();
 				smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN* " + k + ")))";
-				smtlibv2Code += System.lineSeparator();
-				smtlibv2Code += System.lineSeparator();
 				break;
 			case UO_explicit:
-				smtlibv2Code += System.lineSeparator();
 				smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN " + (k + 1) + ")))";
-				smtlibv2Code += System.lineSeparator();
-				smtlibv2Code += System.lineSeparator();
 				break;
 			case UAOA_explicit:
-				smtlibv2Code += System.lineSeparator();
 				smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN " + k + ")))";
-				smtlibv2Code += System.lineSeparator();
-				smtlibv2Code += System.lineSeparator();
+				break;
+			case HIERARCHY:
+				String[] query_reverse_array = query.split(" ");
+				String query_reverse = " " + query_reverse_array[2] + " " + query_reverse_array[1];
+				smtlibv2Code += "(assert (or (member (mkTuple " + query + ") (ASSIGN* " + k + "))(member (mkTuple "
+						+ query_reverse + ") (ASSIGN* " + k + "))))";
+				break;
+			case NOT_HIERARCHY:
+				String[] query_reverse_array_negation = query.split(" ");
+				String query_reverse_negation = " " + query_reverse_array_negation[2] + " "
+						+ query_reverse_array_negation[1];
+				smtlibv2Code += "(assert (not (or (member (mkTuple " + query + ") (ASSIGN* " + k + "))(member (mkTuple "
+						+ query_reverse_negation + ") (ASSIGN* " + k + ")))))";
 				break;
 		}
-
+		smtlibv2Code += System.lineSeparator();
+		smtlibv2Code += System.lineSeparator();
 		return smtlibv2Code;
 	}
 

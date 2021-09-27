@@ -9,7 +9,8 @@ import java.util.List;
 
 abstract class BMC {
 	public enum QUERY_TYPE {
-		LABEL, ACCESS_REQUEST, UAOA, UO, UO_explicit, UAOA_explicit
+		LABEL, PERMIT, UAOA, UO, UO_explicit, UAOA_explicit, DENY, HIERARCHY, NOT_HIERARCHY, PERMIT_UA_ONLY,
+		PERMIT_AT_ONLY, ASSOC_UA_ONLY, ASSOC_AT_ONLY, DENY_UA_ONLY, DENY_AT_ONLY, NO_ASSOC_UA_ONLY, NO_ASSOC_AT_ONLY
 	}
 
 	private Solver solver = Solver.CVC4;
