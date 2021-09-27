@@ -219,7 +219,7 @@ public class ObligationTranslator {
 				if (condition == null) {
 					return;
 				}
-				condition="(member "+condition+" (ASSIGN* " + (k - 1) + "))";
+				condition = "(member " + condition + " (ASSIGN* " + (k - 1) + "))";
 				sb.append("(assert \r\n" + "(xor \r\n" + "(= (" + obligationLabel + " " + (k - 1) + ") 0) \r\n"
 						+ "(and (member (mkTuple " + subjectID + " " + arID + " " + targetID + ") (ASSOC* " + (k - 1)
 						+ "))  " + condition + " (= (" + obligationLabel + " " + (k - 1) + ") 1))\r\n" + ")\r\n"
@@ -535,8 +535,10 @@ public class ObligationTranslator {
 			String label = entry.getKey();
 			List<String> conditions = entry.getValue();
 			String labelIndex = label.substring(label.length() - 1);
-			String conditionVariable = conditions.get(Integer.parseInt(labelIndex)).replaceAll("\\{step\\}", Integer.toString(k)) + " ";
-			sb_custom_variables.append("(assert (and (= (" + label + " " + k + ") 1) "+ conditionVariable+"))");
+			String conditionVariable = conditions.get(Integer.parseInt(labelIndex)).replaceAll("\\{step\\}",
+					Integer.toString(k - 1)) + " ";
+			sb_custom_variables
+					.append("(assert (xor (= (" + label + " " + (k - 1) + ") 0) " + conditionVariable + "))");
 			sb_custom_variables.append(System.lineSeparator());
 		}
 
@@ -570,7 +572,7 @@ public class ObligationTranslator {
 
 							List<String> conditions = plugin.getStateResponseConditionVariables().get(label);
 							for (String c : conditions) {
-								condition += c.replaceAll("\\{step\\}", Integer.toString(k)) + " ";
+								condition += c.replaceAll("\\{step\\}", Integer.toString((k-1))) + " ";
 							}
 						} else {
 							resetActions();

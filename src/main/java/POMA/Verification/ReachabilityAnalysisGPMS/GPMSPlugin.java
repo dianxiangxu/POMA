@@ -179,7 +179,7 @@ public class GPMSPlugin extends Plugin {
             obligationActions.add(createAssignAction(CoPI, "UA", "CoPI", "UA"));
             obligationActions.add(createAssignAction(academicEntities.get(0), "UA", "Chair", "UA"));
             obligationActions.add(createAssignAction(academicEntities.get(1), "UA", "Business Manager", "UA"));
-            obligationActions.add(createAssignAction(academicEntities.get(2), "UA", "Dean", "UA"));
+            obligationActions.add(createAssignAction(academicEntities.get(2), "UA", "An", "UA"));
             stateActionConditionVariables.put(obligationLabel + indexOfCoPI,
                     new ImmutablePair<String, Boolean>("CoPI" + indexOfCoPI + dept + "Required", true));
             obligationEffects.put(obligationLabel + indexOfCoPI, obligationActions);
@@ -312,10 +312,12 @@ public class GPMSPlugin extends Plugin {
     @Override
     public void processObligations() {
         processCreateProposal("nazmul", "create_proposal");
-        processAddCoPI("vlad", "add_copi");
-        processDeleteCoPI("vlad", "delete_copi");
-        processAddCoPI("liliana", "add_copi");
-        processDeleteCoPI("liliana", "delete_copi");
+        processAddCoPI(null, "add_copi");
+        processDeleteCoPI(null, "delete_copi");
+       // processAddCoPI("vlad", "add_copi");
+      //  processDeleteCoPI("vlad", "delete_copi");
+    //    processAddCoPI("liliana", "add_copi");
+     //   processDeleteCoPI("liliana", "delete_copi");
         processAddSP(null, "add_sp");
         processDeleteSP(null, "delete_sp");
         processApproveStateVariables();

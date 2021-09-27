@@ -59,9 +59,9 @@ abstract class BMC {
 		String headCode = generateHeadCode();
 		String tailCode = generateTailCode();
 		String iterationCode = "";
-		// String query = "obligation3";
+		 String query = "accept_refuse_case_A";
 		//String query = " "+ mapOfIDs.get("BM") + " " + mapOfIDs.get("approve") + " " + mapOfIDs.get("PDSWhole");
-		String query = " " + mapOfIDs.get("Vlad") + " " + mapOfIDs.get("CoPI2");
+		//String query = " " + mapOfIDs.get("Vlad") + " " + mapOfIDs.get("CoPI2");
 
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
@@ -69,7 +69,7 @@ abstract class BMC {
 			// String smtlibv2Code = headCode + iterationCode + generateAssertKCode(k - 1,
 			// query, QUERY_TYPE.OBLIGATION) + tailCode;
 			String smtlibv2Code = headCode + iterationCode
-					+ generateAssertKCode(k - 1, query, QUERY_TYPE.UO) + tailCode;
+					+ generateAssertKCode(k - 1, query, QUERY_TYPE.LABEL) + tailCode;
 			if (k == bound) {
 				// System.out.println(smtlibv2Code);
 			}
