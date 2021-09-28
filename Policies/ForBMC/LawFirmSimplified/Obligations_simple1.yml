@@ -52,10 +52,18 @@ rules:
               type: UA
             operations:
               - accept
-              - refuse
             target:
               name: Case3
               type: OA
+        - grant:
+            subject:
+              name: AttorneysMain
+              type: UA
+            operations:
+              - refuse
+            target:
+              name: Case3
+              type: OA              
   - label: accept_case_Final
     event:
       subject:

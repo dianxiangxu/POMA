@@ -118,7 +118,7 @@
 (assert 
 (xor 
 (= (accept_refuse_case_A 0) 0) 
-(and (member (mkTuple 7 19 3) (ASSOC* 0))   (= (accept_refuse_case_A 0) 1))
+(and (member (mkTuple 7 18 3) (ASSOC* 0))   (= (accept_refuse_case_A 0) 1))
 )
 )				
 (assert 
@@ -130,7 +130,7 @@
 (assert 
 (xor 
 (= (accept_case_Final 0) 0) 
-(and (member (mkTuple 7 19 3) (ASSOC* 0))   (= (accept_case_Final 0) 1))
+(and (member (mkTuple 7 18 3) (ASSOC* 0))   (= (accept_case_Final 0) 1))
 )
 )				
 (assert 
@@ -147,12 +147,12 @@
 (assert (or 
 (and  (= (accept_refuse_case_A 0) 1)
 (xor (= (ASSOC 1) 
-(setminus (union  (ASSOC 0) (singleton(mkTuple 6 19 3))) (singleton(mkTuple 7 20 13))))
+(setminus (union  (ASSOC 0) (singleton(mkTuple 6 18 3))) (singleton(mkTuple 7 20 13))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and  (= (withdraw_case_info 0) 1)
 (xor (= (ASSOC 1) 
-(union  (ASSOC 0) (singleton(mkTuple 7 19 13))))
+(union (union  (ASSOC 0) (singleton(mkTuple 7 18 13))) (singleton(mkTuple 7 19 13))))
 (= (ASSOC 1) (ASSOC 0))))
 
 (and  (= (accept_case_Final 0) 1)
@@ -178,7 +178,7 @@
 (assert 
 (xor 
 (= (accept_refuse_case_A 1) 0) 
-(and (member (mkTuple 7 19 3) (ASSOC* 1))   (= (accept_refuse_case_A 1) 1))
+(and (member (mkTuple 7 18 3) (ASSOC* 1))   (= (accept_refuse_case_A 1) 1))
 )
 )				
 (assert 
@@ -190,7 +190,7 @@
 (assert 
 (xor 
 (= (accept_case_Final 1) 0) 
-(and (member (mkTuple 7 19 3) (ASSOC* 1))   (= (accept_case_Final 1) 1))
+(and (member (mkTuple 7 18 3) (ASSOC* 1))   (= (accept_case_Final 1) 1))
 )
 )				
 (assert 
@@ -207,12 +207,12 @@
 (assert (or 
 (and  (= (accept_refuse_case_A 1) 1)
 (xor (= (ASSOC 2) 
-(setminus (union  (ASSOC 1) (singleton(mkTuple 6 19 3))) (singleton(mkTuple 7 20 13))))
+(setminus (union  (ASSOC 1) (singleton(mkTuple 6 18 3))) (singleton(mkTuple 7 20 13))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and  (= (withdraw_case_info 1) 1)
 (xor (= (ASSOC 2) 
-(union  (ASSOC 1) (singleton(mkTuple 7 19 13))))
+(union (union  (ASSOC 1) (singleton(mkTuple 7 18 13))) (singleton(mkTuple 7 19 13))))
 (= (ASSOC 2) (ASSOC 1))))
 
 (and  (= (accept_case_Final 1) 1)
@@ -238,7 +238,7 @@
 (assert 
 (xor 
 (= (accept_refuse_case_A 2) 0) 
-(and (member (mkTuple 7 19 3) (ASSOC* 2))   (= (accept_refuse_case_A 2) 1))
+(and (member (mkTuple 7 18 3) (ASSOC* 2))   (= (accept_refuse_case_A 2) 1))
 )
 )				
 (assert 
@@ -250,7 +250,7 @@
 (assert 
 (xor 
 (= (accept_case_Final 2) 0) 
-(and (member (mkTuple 7 19 3) (ASSOC* 2))   (= (accept_case_Final 2) 1))
+(and (member (mkTuple 7 18 3) (ASSOC* 2))   (= (accept_case_Final 2) 1))
 )
 )				
 (assert 
@@ -267,12 +267,12 @@
 (assert (or 
 (and  (= (accept_refuse_case_A 2) 1)
 (xor (= (ASSOC 3) 
-(setminus (union  (ASSOC 2) (singleton(mkTuple 6 19 3))) (singleton(mkTuple 7 20 13))))
+(setminus (union  (ASSOC 2) (singleton(mkTuple 6 18 3))) (singleton(mkTuple 7 20 13))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and  (= (withdraw_case_info 2) 1)
 (xor (= (ASSOC 3) 
-(union  (ASSOC 2) (singleton(mkTuple 7 19 13))))
+(union (union  (ASSOC 2) (singleton(mkTuple 7 18 13))) (singleton(mkTuple 7 19 13))))
 (= (ASSOC 3) (ASSOC 2))))
 
 (and  (= (accept_case_Final 2) 1)
@@ -298,7 +298,7 @@
 (assert 
 (xor 
 (= (accept_refuse_case_A 3) 0) 
-(and (member (mkTuple 7 19 3) (ASSOC* 3))   (= (accept_refuse_case_A 3) 1))
+(and (member (mkTuple 7 18 3) (ASSOC* 3))   (= (accept_refuse_case_A 3) 1))
 )
 )				
 (assert 
@@ -310,7 +310,7 @@
 (assert 
 (xor 
 (= (accept_case_Final 3) 0) 
-(and (member (mkTuple 7 19 3) (ASSOC* 3))   (= (accept_case_Final 3) 1))
+(and (member (mkTuple 7 18 3) (ASSOC* 3))   (= (accept_case_Final 3) 1))
 )
 )				
 (assert 
@@ -327,12 +327,12 @@
 (assert (or 
 (and  (= (accept_refuse_case_A 3) 1)
 (xor (= (ASSOC 4) 
-(setminus (union  (ASSOC 3) (singleton(mkTuple 6 19 3))) (singleton(mkTuple 7 20 13))))
+(setminus (union  (ASSOC 3) (singleton(mkTuple 6 18 3))) (singleton(mkTuple 7 20 13))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and  (= (withdraw_case_info 3) 1)
 (xor (= (ASSOC 4) 
-(union  (ASSOC 3) (singleton(mkTuple 7 19 13))))
+(union (union  (ASSOC 3) (singleton(mkTuple 7 18 13))) (singleton(mkTuple 7 19 13))))
 (= (ASSOC 4) (ASSOC 3))))
 
 (and  (= (accept_case_Final 3) 1)
@@ -354,7 +354,11 @@
 
 
 ;QUERY
-(assert (= (obligation2 3) 1))
+(assert (= (approve_case 3) 1))
+
+
+;QUERY
+(assert (not (member (mkTuple 2 20 3) (ASSOC* 3))))
 
 
 (check-sat)
