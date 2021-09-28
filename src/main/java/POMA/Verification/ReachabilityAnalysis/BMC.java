@@ -60,7 +60,7 @@ abstract class BMC {
 		String headCode = generateHeadCode();
 		String tailCode = generateTailCode();
 		String iterationCode = "";
-		 String query = "accept_refuse_case_A";
+		 String query = "approve_case";
 		//String query = " "+ mapOfIDs.get("BM") + " " + mapOfIDs.get("approve") + " " + mapOfIDs.get("PDSWhole");
 		//String query = " " + mapOfIDs.get("Vlad") + " " + mapOfIDs.get("CoPI2");
 

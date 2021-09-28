@@ -118,7 +118,7 @@
 (assert 
 (xor 
 (= (accept_refuse_case_A 0) 0) 
-(and (member (mkTuple 7 19 3) (ASSOC* 0))   (= (accept_refuse_case_A 0) 1))
+(and (member (mkTuple 5 19 3) (ASSOC* 0))   (= (accept_refuse_case_A 0) 1))
 )
 )				
 (assert 
@@ -174,7 +174,7 @@
 
 
 ;QUERY
-(assert (= (accept_refuse_case_A 0) 1))
+(assert (= (approve_case 0) 1))
 
 
 (check-sat)

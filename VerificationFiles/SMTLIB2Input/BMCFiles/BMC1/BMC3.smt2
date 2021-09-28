@@ -118,7 +118,7 @@
 (assert 
 (xor 
 (= (accept_refuse_case_A 0) 0) 
-(and (member (mkTuple 7 19 3) (ASSOC* 0))   (= (accept_refuse_case_A 0) 1))
+(and (member (mkTuple 5 19 3) (ASSOC* 0))   (= (accept_refuse_case_A 0) 1))
 )
 )				
 (assert 
@@ -178,7 +178,7 @@
 (assert 
 (xor 
 (= (accept_refuse_case_A 1) 0) 
-(and (member (mkTuple 7 19 3) (ASSOC* 1))   (= (accept_refuse_case_A 1) 1))
+(and (member (mkTuple 5 19 3) (ASSOC* 1))   (= (accept_refuse_case_A 1) 1))
 )
 )				
 (assert 
@@ -238,7 +238,7 @@
 (assert 
 (xor 
 (= (accept_refuse_case_A 2) 0) 
-(and (member (mkTuple 7 19 3) (ASSOC* 2))   (= (accept_refuse_case_A 2) 1))
+(and (member (mkTuple 5 19 3) (ASSOC* 2))   (= (accept_refuse_case_A 2) 1))
 )
 )				
 (assert 

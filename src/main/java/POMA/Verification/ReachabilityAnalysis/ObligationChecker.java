@@ -94,6 +94,7 @@ public class ObligationChecker extends BMC {
 	public String generateAssertKCode(int k, String query, QUERY_TYPE queryType) {
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += ";QUERY";
+		smtlibv2Code += System.lineSeparator();
 		switch (queryType) {
 			case LABEL:
 				smtlibv2Code += "(assert (= (" + query + " " + k + ") 1))";
