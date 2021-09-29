@@ -31,13 +31,14 @@ public class ObligationTranslator {
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
-	 String pathToObligations =
-	 "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
+	//  String pathToObligations =
+	//  "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
 	//String pathToObligations = "Policies/ForBMC/GPMSSimplified/Obligations_conditions.yml";
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations_simple1.yml";
-
+	 String pathToObligations =
+	 "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml";
 	List<String> processedObligations = new ArrayList<String>();
 	List<String> processedObligationsEventLabels = new ArrayList<String>();
 	private List<AssociationRelation> listOfAddedAssociations = new ArrayList<AssociationRelation>();;

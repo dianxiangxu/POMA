@@ -17,10 +17,10 @@ public class ObligationChecker extends BMC {
 	private List<String> obligationLabels = new ArrayList<String>();
 	private Map<String, String> eventMembers = new HashMap<String, String>();
 
-	// String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
+	 String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
 	// String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyLess.json";
 
-	String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
+	//String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy125.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy265.json";
 	 //String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy500.json";
