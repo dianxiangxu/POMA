@@ -102,7 +102,6 @@ class GraphTranslator {
 		}
 	}
 
-
 	// O(V^2)
 	private void flattenAssignment() throws PMException {
 		Set<Node> nodes = graph.getNodes();
@@ -147,12 +146,14 @@ class GraphTranslator {
 					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
 							.toStringNoQuotes());
 				}
-				// for (String parent : graph.getParents(node.getName())) {
-				// int parentID = mapOfIDs.get(parent);
-				// tuples.add(new AssignmentRelation(Integer.toString(childID),
-				// Integer.toString(parentID)) // comment when needed flatten
-				// .toStringNoQuotes());
-				// }
+				for (String parent : graph.getParents(node.getName())) {
+					int parentID = mapOfIDs.get(parent);
+					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(parentID))
+							.toStringNoQuotes()); // comment
+																												// when
+																												// needed
+																												// flatten			
+				}
 			}
 		};
 		dfs.traverse(graph.getNode(policyClass), (c, p) -> {
@@ -330,7 +331,7 @@ class GraphTranslator {
 			int nodeID = mapOfIDs.get(node.getName());
 
 			if (!iterator.hasNext()) {
-				sb.append("(singleton " + "(mkTuple "+ nodeID+" "+ nodeID+"))))) " + System.lineSeparator());
+				sb.append("(singleton " + "(mkTuple " + nodeID + " " + nodeID + "))))) " + System.lineSeparator());
 			} else {
 				sb.append("(mkTuple " + nodeID + " " + nodeID + ") " + System.lineSeparator());
 			}
@@ -338,7 +339,6 @@ class GraphTranslator {
 		sb.append(System.lineSeparator());
 		return sb.toString();
 	}
-
 
 	private String translateBoundedVariablesDefinition() {
 		StringBuilder sb = new StringBuilder();

@@ -40,15 +40,25 @@
 (mkTuple 8 8) 
 (singleton (mkTuple 9 9)))))
 (declare-fun ASSIGN (Int) (Set (Tuple Int Int)))
-(assert (= (ASSIGN 0) (insert (mkTuple 4 4) 
-(mkTuple 7 7) 
-(mkTuple 6 6) 
+(assert (= (ASSIGN 0) (insert (mkTuple 10 5) 
 (mkTuple 2 2) 
 (mkTuple 3 3) 
+(mkTuple 2 5) 
+(mkTuple 1 1) 
+(mkTuple 6 5) 
+(mkTuple 4 5) 
+(mkTuple 4 4) 
+(mkTuple 7 7) 
+(mkTuple 7 8) 
+(mkTuple 8 10) 
+(mkTuple 6 6) 
+(mkTuple 3 7) 
+(mkTuple 7 5) 
+(mkTuple 1 9) 
+(mkTuple 9 5) 
 (mkTuple 8 8) 
 (mkTuple 9 9) 
-(mkTuple 10 10) 
-(singleton (mkTuple 1 1)))))
+(singleton (mkTuple 10 10)))))
 (declare-fun ASSOC (Int) (Set (Tuple Int Int Int)))
 
 (assert (= (ASSOC 0) (insert(mkTuple 7 13 9) 
@@ -87,31 +97,31 @@
 ;--------------------------------------------------------------------------------------------------------------------
 ;STEP1
 (assert 
-(xor 
+(or 
 (= (obligation1 0) 0) 
 (and (member (mkTuple 8 15 1) (ASSOC* 0))   (= (obligation1 0) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation2 0) 0) 
 (and (member (mkTuple 4 15 1) (ASSOC* 0))   (= (obligation2 0) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation3 0) 0) 
 (and (member (mkTuple 6 15 1) (ASSOC* 0))   (= (obligation3 0) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation4 0) 0) 
 (and (member (mkTuple 2 15 1) (ASSOC* 0))   (= (obligation4 0) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation5 0) 0) 
 (and (member (mkTuple 8 15 1) (ASSOC* 0))   (= (obligation5 0) 1))
 )
@@ -176,7 +186,7 @@
 
 
 ;QUERY
-(assert (= (obligation4 0) 1))
+(assert (= (obligation3 0) 1))
 
 
 (check-sat)

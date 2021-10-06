@@ -160,7 +160,7 @@ public class ObligationTranslator {
 			int targetID = mapOfIDs.get(target);
 			String condition;
 			condition = processEventCondition(r, k);
-			sb.append("(assert \r\n" + "(xor \r\n" + "(= (" + obligationLabel + " " + (k - 1) + ") 0) \r\n"
+			sb.append("(assert \r\n" + "(or \r\n" + "(= (" + obligationLabel + " " + (k - 1) + ") 0) \r\n"
 					+ "(and (member (mkTuple " + subjectID + " " + arID + " " + targetID + ") (ASSOC* " + (k - 1)
 					+ "))  " + condition + " (= (" + obligationLabel + " " + (k - 1) + ") 1))\r\n" + ")\r\n"
 					+ ")				\r\n");
@@ -452,7 +452,7 @@ public class ObligationTranslator {
 					+ arID + " " + whereID + ")))");
 		} else {
 			sb_associations.insert(0, "(" + SMTAction + " ");
-			sb_associations.append(" (singleton(mkTuple " + whatID + " " + arID + " " + whereID + ")))");
+			sb_associations.append(" (singleton (mkTuple " + whatID + " " + arID + " " + whereID + ")))");
 		}
 	}
 

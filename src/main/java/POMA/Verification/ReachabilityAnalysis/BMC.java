@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import gov.nist.csd.pm.pip.graph.Graph;
+import gov.nist.csd.pm.pip.obligations.Obligations;
+import gov.nist.csd.pm.pip.obligations.model.Obligation;
+import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
+
 abstract class BMC {
 	public enum QUERY_TYPE {
 		LABEL, PERMIT, UAOA, UO, UO_explicit, UAOA_explicit, DENY, HIERARCHY, NOT_HIERARCHY, PERMIT_UA_ONLY,
@@ -60,20 +65,21 @@ abstract class BMC {
 		String headCode = generateHeadCode();
 		String tailCode = generateTailCode();
 		String iterationCode = "";
-		 String queryLabel = "obligation4";
-		//String queryAR = " "+ mapOfIDs.get("BM") + " " + mapOfIDs.get("approve") + " " + mapOfIDs.get("PDSWhole");
-		//String queryASSIGNMENT = " " + mapOfIDs.get("Vlad") + " " + mapOfIDs.get("CoPI2");
-		 String query2 = " "+ mapOfIDs.get("Attorneys2") + " " + mapOfIDs.get("accept") + " "
-		 + mapOfIDs.get("Case3Info");
+		String queryLabel = "obligation3";
+		// String queryAR = " "+ mapOfIDs.get("BM") + " " + mapOfIDs.get("approve") + "
+		// " + mapOfIDs.get("PDSWhole");
+		// String queryASSIGNMENT = " " + mapOfIDs.get("Vlad") + " " +
+		// mapOfIDs.get("CoPI2");
+		String query2 = " " + mapOfIDs.get("Attorneys2") + " " + mapOfIDs.get("accept") + " "
+				+ mapOfIDs.get("Case3Info");
 
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
 			System.out.println("=============================================");
 			// String smtlibv2Code = headCode + iterationCode + generateAssertKCode(k - 1,
 			// query, QUERY_TYPE.OBLIGATION) + tailCode;
-			String smtlibv2Code = headCode + iterationCode + generateAssertKCode(k - 1, 
-					queryLabel, QUERY_TYPE.LABEL)
-					+  tailCode;
+			String smtlibv2Code = headCode + iterationCode + generateAssertKCode(k - 1, queryLabel, QUERY_TYPE.LABEL)
+					+ tailCode;
 			if (k == bound) {
 				// System.out.println(smtlibv2Code);
 			}
@@ -84,5 +90,10 @@ abstract class BMC {
 		count++;
 		// }
 		System.out.println("Total Runs: " + count);
+	}
+
+	public List<AccessRequest> solveConstraint(Graph graph, Prohibitions prohibitions, // not now
+			Obligations obligations, String contraint) {
+		return null;
 	}
 }
