@@ -277,7 +277,7 @@
 
 
 ;QUERY
-(assert (= (obligation3 1) 1))
+(assert (= (obligation2 1) 1))
 
 
 (check-sat)

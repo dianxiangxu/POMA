@@ -102,6 +102,9 @@ public class ObligationChecker extends BMC {
 			case PERMIT:
 				smtlibv2Code += "(assert (member (mkTuple" + query + ") (ASSOC* " + k + ")))";
 				break;
+			case ASSOC:
+				smtlibv2Code += "(assert (member (mkTuple" + query + ") (ASSOC " + k + ")))";
+				break;				
 			case DENY:
 				smtlibv2Code += "(assert (not (member (mkTuple" + query + ") (ASSOC* " + k + "))))";
 				break;

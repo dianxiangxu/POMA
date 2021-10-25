@@ -97,31 +97,31 @@
 ;--------------------------------------------------------------------------------------------------------------------
 ;STEP1
 (assert 
-(xor 
+(or 
 (= (obligation1 0) 0) 
 (and (member (mkTuple 8 15 1) (ASSOC* 0))   (= (obligation1 0) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation2 0) 0) 
 (and (member (mkTuple 4 15 1) (ASSOC* 0))   (= (obligation2 0) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation3 0) 0) 
 (and (member (mkTuple 6 15 1) (ASSOC* 0))   (= (obligation3 0) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation4 0) 0) 
 (and (member (mkTuple 2 15 1) (ASSOC* 0))   (= (obligation4 0) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation5 0) 0) 
 (and (member (mkTuple 8 15 1) (ASSOC* 0))   (= (obligation5 0) 1))
 )
@@ -145,7 +145,7 @@
 
 (and   (= (obligation5 0) 1)
 (xor (= (ASSIGN* 1) 
-(and (member (singleton (mkTuple 6 8)) (ASSIGN 0)) (setminus (ASSIGN* 0) (setminus (setminus (union (singleton (mkTuple 6 8)) (join (singleton (mkTuple 6 8)) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 6 8)))) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 6 8)))) (ASSIGN* 0))))))
+(setminus (ASSIGN* 0) (setminus (setminus (union (singleton (mkTuple 6 8)) (join (singleton (mkTuple 6 8)) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 6 8)))) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 6 8)))) (ASSIGN* 0)))))
 (= (ASSIGN* 1) (ASSIGN* 0))))
 
 (= (ASSIGN* 1) (ASSIGN* 0))))
@@ -188,31 +188,31 @@
 ;--------------------------------------------------------------------------------------------------------------------
 ;STEP2
 (assert 
-(xor 
+(or 
 (= (obligation1 1) 0) 
 (and (member (mkTuple 8 15 1) (ASSOC* 1))   (= (obligation1 1) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation2 1) 0) 
 (and (member (mkTuple 4 15 1) (ASSOC* 1))   (= (obligation2 1) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation3 1) 0) 
 (and (member (mkTuple 6 15 1) (ASSOC* 1))   (= (obligation3 1) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation4 1) 0) 
 (and (member (mkTuple 2 15 1) (ASSOC* 1))   (= (obligation4 1) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation5 1) 0) 
 (and (member (mkTuple 8 15 1) (ASSOC* 1))   (= (obligation5 1) 1))
 )
@@ -236,7 +236,7 @@
 
 (and   (= (obligation5 1) 1)
 (xor (= (ASSIGN* 2) 
-(and (member (singleton (mkTuple 6 8)) (ASSIGN 1)) (setminus (ASSIGN* 1) (setminus (setminus (union (singleton (mkTuple 6 8)) (join (singleton (mkTuple 6 8)) (ASSIGN* 1))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 1)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 1)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 1) (singleton (mkTuple 6 8)))) (ASSIGN* 1))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 1)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 1)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 1) (singleton (mkTuple 6 8)))) (ASSIGN* 1))))))
+(setminus (ASSIGN* 1) (setminus (setminus (union (singleton (mkTuple 6 8)) (join (singleton (mkTuple 6 8)) (ASSIGN* 1))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 1)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 1)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 1) (singleton (mkTuple 6 8)))) (ASSIGN* 1))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 1)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 1)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 1) (singleton (mkTuple 6 8)))) (ASSIGN* 1)))))
 (= (ASSIGN* 2) (ASSIGN* 1))))
 
 (= (ASSIGN* 2) (ASSIGN* 1))))
@@ -279,31 +279,31 @@
 ;--------------------------------------------------------------------------------------------------------------------
 ;STEP3
 (assert 
-(xor 
+(or 
 (= (obligation1 2) 0) 
 (and (member (mkTuple 8 15 1) (ASSOC* 2))   (= (obligation1 2) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation2 2) 0) 
 (and (member (mkTuple 4 15 1) (ASSOC* 2))   (= (obligation2 2) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation3 2) 0) 
 (and (member (mkTuple 6 15 1) (ASSOC* 2))   (= (obligation3 2) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation4 2) 0) 
 (and (member (mkTuple 2 15 1) (ASSOC* 2))   (= (obligation4 2) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation5 2) 0) 
 (and (member (mkTuple 8 15 1) (ASSOC* 2))   (= (obligation5 2) 1))
 )
@@ -327,7 +327,7 @@
 
 (and   (= (obligation5 2) 1)
 (xor (= (ASSIGN* 3) 
-(and (member (singleton (mkTuple 6 8)) (ASSIGN 2)) (setminus (ASSIGN* 2) (setminus (setminus (union (singleton (mkTuple 6 8)) (join (singleton (mkTuple 6 8)) (ASSIGN* 2))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 2)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 2)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 2) (singleton (mkTuple 6 8)))) (ASSIGN* 2))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 2)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 2)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 2) (singleton (mkTuple 6 8)))) (ASSIGN* 2))))))
+(setminus (ASSIGN* 2) (setminus (setminus (union (singleton (mkTuple 6 8)) (join (singleton (mkTuple 6 8)) (ASSIGN* 2))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 2)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 2)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 2) (singleton (mkTuple 6 8)))) (ASSIGN* 2))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 2)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 2)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 2) (singleton (mkTuple 6 8)))) (ASSIGN* 2)))))
 (= (ASSIGN* 3) (ASSIGN* 2))))
 
 (= (ASSIGN* 3) (ASSIGN* 2))))
@@ -370,31 +370,31 @@
 ;--------------------------------------------------------------------------------------------------------------------
 ;STEP4
 (assert 
-(xor 
+(or 
 (= (obligation1 3) 0) 
 (and (member (mkTuple 8 15 1) (ASSOC* 3))   (= (obligation1 3) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation2 3) 0) 
 (and (member (mkTuple 4 15 1) (ASSOC* 3))   (= (obligation2 3) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation3 3) 0) 
 (and (member (mkTuple 6 15 1) (ASSOC* 3))   (= (obligation3 3) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation4 3) 0) 
 (and (member (mkTuple 2 15 1) (ASSOC* 3))   (= (obligation4 3) 1))
 )
 )				
 (assert 
-(xor 
+(or 
 (= (obligation5 3) 0) 
 (and (member (mkTuple 8 15 1) (ASSOC* 3))   (= (obligation5 3) 1))
 )
@@ -418,7 +418,7 @@
 
 (and   (= (obligation5 3) 1)
 (xor (= (ASSIGN* 4) 
-(and (member (singleton (mkTuple 6 8)) (ASSIGN 3)) (setminus (ASSIGN* 3) (setminus (setminus (union (singleton (mkTuple 6 8)) (join (singleton (mkTuple 6 8)) (ASSIGN* 3))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 3)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 3)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 3) (singleton (mkTuple 6 8)))) (ASSIGN* 3))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 3)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 3)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 3) (singleton (mkTuple 6 8)))) (ASSIGN* 3))))))
+(setminus (ASSIGN* 3) (setminus (setminus (union (singleton (mkTuple 6 8)) (join (singleton (mkTuple 6 8)) (ASSIGN* 3))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 3)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 3)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 3) (singleton (mkTuple 6 8)))) (ASSIGN* 3))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 3)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 3)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 3) (singleton (mkTuple 6 8)))) (ASSIGN* 3)))))
 (= (ASSIGN* 4) (ASSIGN* 3))))
 
 (= (ASSIGN* 4) (ASSIGN* 3))))
