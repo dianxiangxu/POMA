@@ -16,7 +16,7 @@ rules:
         - assign:
             - what:
                 name: Attorneys1
-                type: UA
+                type: U
               where:
                 name: Attorneys
                 type: UA   

@@ -17,13 +17,13 @@ public class ObligationChecker extends BMC {
 	private List<String> obligationLabels = new ArrayList<String>();
 	private Map<String, String> eventMembers = new HashMap<String, String>();
 
-	 String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
+	 String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json"; //+++++++
 	// String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyLess.json";
 
-	//String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
+	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy125.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy265.json";
-	 //String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy500.json";
+	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy500.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy750.json";
 
 	GraphTranslator gt = new GraphTranslator(pathToGraph);
@@ -181,13 +181,13 @@ public class ObligationChecker extends BMC {
 						+ ";STEP" + k);
 
 		sb.append(System.lineSeparator());
-		sb.append(ot.translateObligationEvents(k));
+		sb.append(ot.translateObligationPreconditions(k));
 		// sb.append(System.lineSeparator());
 		// sb.append(ot.translateGraphIntersection(k));
 		sb.append(System.lineSeparator());
-		sb.append(ot.processActions(k));
-		sb.append(System.lineSeparator());
-		sb.append(gt.translateARCheck(k));
+		sb.append(ot.processEffects(k));
+		//sb.append(System.lineSeparator());
+		//sb.append(gt.translateARCheck(k));
 		sb.append(System.lineSeparator());
 		return sb.toString();
 	}

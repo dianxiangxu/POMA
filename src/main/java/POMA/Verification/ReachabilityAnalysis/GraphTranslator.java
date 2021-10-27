@@ -340,43 +340,43 @@ class GraphTranslator {
 		return sb.toString();
 	}
 
-	private String translateBoundedVariablesDefinition() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun ASSOC*UA (Int) (Set (Tuple Int Int Int)))");
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun ASSIGN*UUA (Int) (Set (Tuple Int Int)))");
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun ASSIGN*AT (Int) (Set (Tuple Int Int)))");
-		sb.append(System.lineSeparator());
-		sb.append("(declare-fun ASSOC*(Int) (Set (Tuple Int Int Int)))");
-		sb.append(System.lineSeparator());
+	// private String translateBoundedVariablesDefinition() {
+	// 	StringBuilder sb = new StringBuilder();
+	// 	sb.append(System.lineSeparator());
+	// 	sb.append("(declare-fun ASSOC*UA (Int) (Set (Tuple Int Int Int)))");
+	// 	sb.append(System.lineSeparator());
+	// 	sb.append("(declare-fun ASSIGN*UUA (Int) (Set (Tuple Int Int)))");
+	// 	sb.append(System.lineSeparator());
+	// 	sb.append("(declare-fun ASSIGN*AT (Int) (Set (Tuple Int Int)))");
+	// 	sb.append(System.lineSeparator());
+	// 	sb.append("(declare-fun ASSOC*(Int) (Set (Tuple Int Int Int)))");
+	// 	sb.append(System.lineSeparator());
 
-		return sb.toString();
-	}
+	// 	return sb.toString();
+	// }
 
-	String translateARCheck(int k) {
+	// String translateARCheck(int k) {
 
-		StringBuilder sb = new StringBuilder();
+	// 	StringBuilder sb = new StringBuilder();
 
-		ProhibitionTranslator pt = new ProhibitionTranslator(graph, mapOfIDs);
+	// 	ProhibitionTranslator pt = new ProhibitionTranslator(graph, mapOfIDs);
 
-		if (pt.translateProhibitionSingleContainer(1, k) != null && k == 0) {
-			return pt.translateProhibitionSingleContainer(1, k);
+	// 	if (pt.translateProhibitionSingleContainer(1, k) != null && k == 0) {
+	// 		return pt.translateProhibitionSingleContainer(1, k);
 
-		}
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= (ASSIGN*UUA " + k + ") (join SetToCheckUA (ASSIGN* " + k + "))))");
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= (ASSIGN*AT " + k + ") (join SetToCheckAT (ASSIGN* " + k + "))))");
-		sb.append(System.lineSeparator());
+	// 	}
+	// 	sb.append(System.lineSeparator());
+	// 	sb.append("(assert (= (ASSIGN*UUA " + k + ") (join SetToCheckUA (ASSIGN* " + k + "))))");
+	// 	sb.append(System.lineSeparator());
+	// 	sb.append("(assert (= (ASSIGN*AT " + k + ") (join SetToCheckAT (ASSIGN* " + k + "))))");
+	// 	sb.append(System.lineSeparator());
 
-		sb.append("(assert (= (ASSOC*UA " + k + ") (join (ASSIGN*UUA " + k + ") (ASSOC " + k + "))))");
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= (ASSOC* " + k + ") (join (ASSOC*UA " + k + ") (transpose (ASSIGN*AT " + k + ")))))");
-		sb.append(System.lineSeparator());
-		return sb.toString();
-	}
+	// 	sb.append("(assert (= (ASSOC*UA " + k + ") (join (ASSIGN*UUA " + k + ") (ASSOC " + k + "))))");
+	// 	sb.append(System.lineSeparator());
+	// 	sb.append("(assert (= (ASSOC* " + k + ") (join (ASSOC*UA " + k + ") (transpose (ASSIGN*AT " + k + ")))))");
+	// 	sb.append(System.lineSeparator());
+	// 	return sb.toString();
+	// }
 
 	String translateHeadCode(List<AssociationRelation> listOfAddedAssociationsFromObligations,
 			List<String> listOfAddedNodesUA_U, List<String> listOfAddedNodesOA_O, List<String> obligationLabels,
@@ -396,8 +396,8 @@ class GraphTranslator {
 		headcode.append(translateSetAssign());
 		headcode.append(translateAssociations());
 		headcode.append(getAllNodesTranslations());
-		headcode.append(translateBoundedVariablesDefinition());
-		headcode.append(translateARCheck(0));
+		//headcode.append(translateBoundedVariablesDefinition());
+		//headcode.append(translateARCheck(0));
 		headcode.append(setObligationLabels());
 		return headcode.toString();
 	}
