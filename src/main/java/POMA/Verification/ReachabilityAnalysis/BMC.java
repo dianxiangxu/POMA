@@ -65,7 +65,7 @@ abstract class BMC {
 		String headCode = generateHeadCode();
 		String tailCode = generateTailCode();
 		String iterationCode = "";
-		String queryLabel = "obligation1";
+		String queryLabel = "obligation4";
 		// String queryAR = " "+ mapOfIDs.get("BM") + " " + mapOfIDs.get("approve") + "
 		// " + mapOfIDs.get("PDSWhole");
 		// String queryASSIGNMENT = " " + mapOfIDs.get("Vlad") + " " +

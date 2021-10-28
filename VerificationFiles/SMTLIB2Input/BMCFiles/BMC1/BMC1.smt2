@@ -176,16 +176,21 @@
 
 
 ; 5.2 a->Eff
-(assert (=> (= (obligation1 0) 1)(= (ASSIGN* 1)(union (singleton (mkTuple 4 8)) (union (join (singleton (mkTuple 4 8)) (join (singleton (mkTuple 8 8)) (ASSIGN* 0))) (ASSIGN* 0))))))
-(assert (=> (= (obligation1 0) 1)(= (ASSIGN 1)(union (ASSIGN 0) (singleton (mkTuple 4 8))))))
-(assert (=> (= (obligation2 0) 1)(= (ASSIGN* 1)(union (join (join (union (singleton (mkTuple 6 6)) (join (ASSIGN* 0) (singleton (mkTuple 6 6)))) (singleton (mkTuple 6 4))) (union (singleton (mkTuple 4 4)) (join (singleton (mkTuple 4 4)) (ASSIGN* 0) ))) (ASSIGN* 0)))))
-(assert (=> (= (obligation2 0) 1)(= (ASSIGN 1)(union (ASSIGN 0) (singleton (mkTuple 6 4))))))
-(assert (=> (= (obligation3 0) 1)(= (ASSIGN* 1)(union (join (join (union (singleton (mkTuple 2 2)) (join (ASSIGN* 0) (singleton (mkTuple 2 2)))) (singleton (mkTuple 2 6))) (union (singleton (mkTuple 6 6)) (join (singleton (mkTuple 6 6)) (ASSIGN* 0) ))) (ASSIGN* 0)))))
-(assert (=> (= (obligation3 0) 1)(= (ASSIGN 1)(union (ASSIGN 0) (singleton (mkTuple 2 6))))))
-(assert (=> (= (obligation4 0) 1)(= (ASSOC 1)(union  (ASSOC 0) (singleton(mkTuple 7 16 9))))))
-(assert (=> (= (obligation5 0) 1)(= (ASSIGN 1)(setminus (ASSIGN* 0) (setminus (setminus (union (singleton (mkTuple 6 8)) (join (singleton (mkTuple 6 8)) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 6 8)))) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 6 8)))) (ASSIGN* 0)))))))
+(assert (=> (= (obligation1 0) 1)(subset (ASSIGN* 1) (union (singleton (mkTuple 4 8)) (union (join (singleton (mkTuple 4 8)) (join (singleton (mkTuple 8 8)) (ASSIGN* 0))) (ASSIGN* 0))))))
+(assert (=> (= (obligation1 0) 1)(subset (ASSIGN 1)(union (ASSIGN 0) (singleton (mkTuple 4 8))))))
+(assert (=> (=(obligation1 0) 1) (= (ASSOC 1) (ASSOC 0))))
+(assert (=> (= (obligation2 0) 1)(subset (ASSIGN* 1)(union (join (join (union (singleton (mkTuple 6 6)) (join (ASSIGN* 0) (singleton (mkTuple 6 6)))) (singleton (mkTuple 6 4))) (union (singleton (mkTuple 4 4)) (join (singleton (mkTuple 4 4)) (ASSIGN* 0) ))) (ASSIGN* 0)))))
+(assert (=> (= (obligation2 0) 1)(subset (ASSIGN 1)(union (ASSIGN 0) (singleton (mkTuple 6 4))))))
+(assert (=> (=(obligation2 0) 1) (= (ASSOC 1) (ASSOC 0))))
+(assert (=> (= (obligation3 0) 1)(subset (ASSIGN* 1)(union (join (join (union (singleton (mkTuple 2 2)) (join (ASSIGN* 0) (singleton (mkTuple 2 2)))) (singleton (mkTuple 2 6))) (union (singleton (mkTuple 6 6)) (join (singleton (mkTuple 6 6)) (ASSIGN* 0) ))) (ASSIGN* 0)))))
+(assert (=> (= (obligation3 0) 1)(subset (ASSIGN 1)(union (ASSIGN 0) (singleton (mkTuple 2 6))))))
+(assert (=> (=(obligation3 0) 1) (= (ASSOC 1) (ASSOC 0))))
+(assert (=> (= (obligation4 0) 1)(subset (ASSOC 1)(union  (ASSOC 0) (singleton(mkTuple 7 16 9))))))
+
+(assert (=> (= (obligation5 0) 1)(= (ASSIGN* 1)(setminus (ASSIGN* 0) (setminus (setminus (union (singleton (mkTuple 6 8)) (join (singleton (mkTuple 6 8)) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 6 8)))) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 6 8)))) (ASSIGN* 0)))))))
 (assert (=> (= (obligation5 0) 1)(= (ASSIGN 1)(setminus (ASSIGN 0) (singleton (mkTuple 6 8))))))
 
+(assert (=> (=(obligation5 0) 1) (= (ASSOC 1) (ASSOC 0))))
 
 
 ; 5.3 change implies the execution
@@ -217,7 +222,7 @@
 
 
 ;QUERY
-(assert (= (obligation1 0) 1))
+(assert (= (obligation4 0) 1))
 
 
 (check-sat)
