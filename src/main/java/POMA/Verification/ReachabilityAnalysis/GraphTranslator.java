@@ -55,7 +55,7 @@ class GraphTranslator {
 		StringBuilder sb = new StringBuilder();
 		for (String label : obligationLabels) {
 			sb.append(System.lineSeparator());
-			sb.append("(declare-fun " + label + " (Int) Int)");
+			sb.append("(declare-fun " + label + " (Int) Bool)");
 		}
 		return sb.toString();
 	}

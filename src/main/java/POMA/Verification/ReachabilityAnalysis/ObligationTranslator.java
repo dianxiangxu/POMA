@@ -132,7 +132,7 @@ public class ObligationTranslator {
 			sb.append(System.lineSeparator());
 			sb.append("(assert (= " + obligationAR + " " + arID + "))");
 			sb.append(System.lineSeparator());
-			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") 1) (let((.def_U " + obligationU
+			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true) (let((.def_U " + obligationU
 					+ ")(.def_UO " + obligationUO + ") (.def_UA " + obligationUA + ")(.def_AT " + obligationAT
 					+ "))(and\r\n"
 					// + "(member (mkTuple .def_U " + subjectID + ") (ASSIGN* " + k + "))\r\n"
@@ -263,7 +263,7 @@ public class ObligationTranslator {
 			String obligationLabel) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") 1)" + "(= (ASSIGN " + k
+		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(subset (ASSIGN " + k
 				+ ")(setminus (ASSIGN* " + (k - 1) + ") (setminus (join (singleton (mkTuple " + whatID + " " + whereID
 				+ ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
 				+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
@@ -274,7 +274,7 @@ public class ObligationTranslator {
 			String obligationLabel) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") 1)" + "(= (ASSIGN* " + k
+		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(subset (ASSIGN* " + k
 				+ ")(setminus (ASSIGN* " + (k - 1) + ") (setminus (setminus (union (singleton (mkTuple " + whatID + " "
 				+ whereID + ")) (join (singleton (mkTuple " + whatID + " " + whereID + ")) (ASSIGN* " + (k - 1)
 				+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
@@ -293,7 +293,7 @@ public class ObligationTranslator {
 			String obligationLabel) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") 1)" + "(= (ASSIGN " + k
+		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(subset (ASSIGN " + k
 				+ ")(setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + "))))))");
 	}
 
@@ -301,7 +301,7 @@ public class ObligationTranslator {
 			String obligationLabel) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") 1)" + "(subset (ASSIGN* " + k
+		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(subset (ASSIGN* " + k
 				+ ") (union (singleton (mkTuple " + whatID + " " + whereID + ")) (union (join (singleton (mkTuple "
 				+ whatID + " " + whereID + ")) (join (singleton (mkTuple " + whereID + " " + whereID + ")) (ASSIGN* "
 				+ (k - 1) + "))) (ASSIGN* " + (k - 1) + "))))))");
@@ -311,7 +311,7 @@ public class ObligationTranslator {
 			String obligationLabel) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") 1)" + "(subset (ASSIGN* " + k
+		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(subset (ASSIGN* " + k
 				+ ")" + "(union (join (join (union (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
 				+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whatID + ")))) (singleton (mkTuple " + whatID
 				+ " " + whereID + "))) (union (singleton (mkTuple " + whereID + " " + whereID
@@ -323,7 +323,7 @@ public class ObligationTranslator {
 			String obligationLabel) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") 1)" + "(subset (ASSIGN " + k
+		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(subset (ASSIGN " + k
 				+ ")" + "(union (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + "))))))");
 	}
 
@@ -360,7 +360,7 @@ public class ObligationTranslator {
 		int whereID = mapOfIDs.get(where);
 		int arID = mapOfIDs.get(op);
 
-		sb_associations.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") 1)(subset (ASSOC " + k + ")("
+		sb_associations.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)(subset (ASSOC " + k + ")("
 				+ SMTAction + "  (ASSOC " + (k - 1) + ") (singleton(mkTuple " + whatID + " " + arID + " " + whereID
 				+ "))))))");
 	}
@@ -388,14 +388,14 @@ public class ObligationTranslator {
 			}
 			sb.append(System.lineSeparator());
 			if (!assignmentRelatedActionExists) {
-				sb.append("(assert (=> (=(" + obligationLabel + " " + (k - 1) + ") 1) (= (ASSIGN* " + k + ") (ASSIGN* "
+				sb.append("(assert (=> (=(" + obligationLabel + " " + (k - 1) + ") true) (= (ASSIGN* " + k + ") (ASSIGN* "
 						+ (k - 1) + "))))");
 				sb.append(System.lineSeparator());
-				sb.append("(assert (=> (=(" + obligationLabel + " " + (k - 1) + ") 1) (= (ASSIGN " + k + ") (ASSIGN "
+				sb.append("(assert (=> (=(" + obligationLabel + " " + (k - 1) + ") true) (= (ASSIGN " + k + ") (ASSIGN "
 						+ (k - 1) + "))))");
 			}
 			if (!associationRelatedActionExists) {
-				sb.append("(assert (=> (=(" + obligationLabel + " " + (k - 1) + ") 1) (= (ASSOC " + k + ") (ASSOC "
+				sb.append("(assert (=> (=(" + obligationLabel + " " + (k - 1) + ") true) (= (ASSOC " + k + ") (ASSOC "
 						+ (k - 1) + "))))");
 			}
 			sb.append(System.lineSeparator());
@@ -426,8 +426,8 @@ public class ObligationTranslator {
 		sbASSOC.append(System.lineSeparator());
 
 		for (String label : ruleLabels) {
-			sbASSIGN.append("(= (" + label + " " + (k - 1) + ") 1)");
-			sbASSOC.append("(= (" + label + " " + (k - 1) + ") 1)");
+			sbASSIGN.append("(= (" + label + " " + (k - 1) + ") true)");
+			sbASSOC.append("(= (" + label + " " + (k - 1) + ") true)");
 		}
 		sbASSIGN.append(")))");
 		sbASSOC.append(")))");
@@ -459,8 +459,8 @@ public class ObligationTranslator {
 		for (String tuple : labelTuples) {
 			String[] tupleArray = tuple.split(":");
 			sb.append(System.lineSeparator());
-			sb.append("(assert (not (and (= (" + tupleArray[0] + " " + (k - 1) + ") 1) (= (" + tupleArray[1] + " "
-					+ (k - 1) + ") 1))))");
+			sb.append("(assert (not (and (= (" + tupleArray[0] + " " + (k - 1) + ") true) (= (" + tupleArray[1] + " "
+					+ (k - 1) + ") true))))");
 		}
 		sb.append(System.lineSeparator());
 		sb.append(System.lineSeparator());
@@ -468,7 +468,7 @@ public class ObligationTranslator {
 		sb.append(System.lineSeparator());
 		sb.append("(assert (or");
 		for (String label : ruleLabels) {
-			sb.append("(= (" + label + " " + (k - 1) + ") 1)");
+			sb.append("(= (" + label + " " + (k - 1) + ") true)");
 		}
 		sb.append("))");
 		sb.append(System.lineSeparator());

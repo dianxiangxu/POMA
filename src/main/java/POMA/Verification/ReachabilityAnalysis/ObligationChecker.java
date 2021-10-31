@@ -97,7 +97,7 @@ public class ObligationChecker extends BMC {
 		smtlibv2Code += System.lineSeparator();
 		switch (queryType) {
 			case LABEL:
-				smtlibv2Code += "(assert (= (" + query + " " + k + ") 1))";
+				smtlibv2Code += "(assert (= (" + query + " " + k + ") true))";
 				break;
 			case PERMIT:
 				smtlibv2Code += "(assert (member (mkTuple" + query + ") (ASSOC* " + k + ")))";
