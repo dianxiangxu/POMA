@@ -98,11 +98,11 @@
 (assert (>= obligation1UO_1 0))
 (declare-fun obligation1ar_1 () Int)
 (assert (= obligation1ar_1 15))
-(assert (=> (= (obligation1 0) true) (let((.def_U obligation1U_1)(.def_UO obligation1UO_1) (.def_UA obligation1UA_1)(.def_AT obligation1AT_1))(and
- (member (mkTuple  8 .def_UA) (ASSIGN* 0))
-(member (mkTuple .def_UA obligation1ar_1 .def_AT) (ASSOC 0))
- (member (mkTuple  1 .def_AT) (ASSIGN* 0))
-))))
+(assert (=> (= (obligation1 0) true) (and
+ (member (mkTuple  8 obligation1UA_1) (ASSIGN* 0))
+(member (mkTuple obligation1UA_1 obligation1ar_1 obligation1AT_1) (ASSOC 0))
+ (member (mkTuple  1 obligation1AT_1) (ASSIGN* 0))
+)))
 
 
 (declare-fun obligation2U_1 () Int)
@@ -115,11 +115,11 @@
 (assert (>= obligation2UO_1 0))
 (declare-fun obligation2ar_1 () Int)
 (assert (= obligation2ar_1 15))
-(assert (=> (= (obligation2 0) true) (let((.def_U obligation2U_1)(.def_UO obligation2UO_1) (.def_UA obligation2UA_1)(.def_AT obligation2AT_1))(and
- (member (mkTuple  4 .def_UA) (ASSIGN* 0))
-(member (mkTuple .def_UA obligation2ar_1 .def_AT) (ASSOC 0))
- (member (mkTuple  1 .def_AT) (ASSIGN* 0))
-))))
+(assert (=> (= (obligation2 0) true) (and
+ (member (mkTuple  4 obligation2UA_1) (ASSIGN* 0))
+(member (mkTuple obligation2UA_1 obligation2ar_1 obligation2AT_1) (ASSOC 0))
+ (member (mkTuple  1 obligation2AT_1) (ASSIGN* 0))
+)))
 
 
 (declare-fun obligation3U_1 () Int)
@@ -132,11 +132,11 @@
 (assert (>= obligation3UO_1 0))
 (declare-fun obligation3ar_1 () Int)
 (assert (= obligation3ar_1 15))
-(assert (=> (= (obligation3 0) true) (let((.def_U obligation3U_1)(.def_UO obligation3UO_1) (.def_UA obligation3UA_1)(.def_AT obligation3AT_1))(and
- (member (mkTuple  6 .def_UA) (ASSIGN* 0))
-(member (mkTuple .def_UA obligation3ar_1 .def_AT) (ASSOC 0))
- (member (mkTuple  1 .def_AT) (ASSIGN* 0))
-))))
+(assert (=> (= (obligation3 0) true) (and
+ (member (mkTuple  6 obligation3UA_1) (ASSIGN* 0))
+(member (mkTuple obligation3UA_1 obligation3ar_1 obligation3AT_1) (ASSOC 0))
+ (member (mkTuple  1 obligation3AT_1) (ASSIGN* 0))
+)))
 
 
 (declare-fun obligation4U_1 () Int)
@@ -149,11 +149,11 @@
 (assert (>= obligation4UO_1 0))
 (declare-fun obligation4ar_1 () Int)
 (assert (= obligation4ar_1 15))
-(assert (=> (= (obligation4 0) true) (let((.def_U obligation4U_1)(.def_UO obligation4UO_1) (.def_UA obligation4UA_1)(.def_AT obligation4AT_1))(and
- (member (mkTuple  2 .def_UA) (ASSIGN* 0))
-(member (mkTuple .def_UA obligation4ar_1 .def_AT) (ASSOC 0))
- (member (mkTuple  1 .def_AT) (ASSIGN* 0))
-))))
+(assert (=> (= (obligation4 0) true) (and
+ (member (mkTuple  2 obligation4UA_1) (ASSIGN* 0))
+(member (mkTuple obligation4UA_1 obligation4ar_1 obligation4AT_1) (ASSOC 0))
+ (member (mkTuple  1 obligation4AT_1) (ASSIGN* 0))
+)))
 
 
 (declare-fun obligation5U_1 () Int)
@@ -166,11 +166,11 @@
 (assert (>= obligation5UO_1 0))
 (declare-fun obligation5ar_1 () Int)
 (assert (= obligation5ar_1 15))
-(assert (=> (= (obligation5 0) true) (let((.def_U obligation5U_1)(.def_UO obligation5UO_1) (.def_UA obligation5UA_1)(.def_AT obligation5AT_1))(and
- (member (mkTuple  8 .def_UA) (ASSIGN* 0))
-(member (mkTuple .def_UA obligation5ar_1 .def_AT) (ASSOC 0))
- (member (mkTuple  1 .def_AT) (ASSIGN* 0))
-))))
+(assert (=> (= (obligation5 0) true) (and
+ (member (mkTuple  8 obligation5UA_1) (ASSIGN* 0))
+(member (mkTuple obligation5UA_1 obligation5ar_1 obligation5AT_1) (ASSOC 0))
+ (member (mkTuple  1 obligation5AT_1) (ASSIGN* 0))
+)))
 
 
 
@@ -228,7 +228,7 @@
 
 ;QUERY
 (declare-fun query1U0 () Int)(declare-fun query1UO0 () Int)(declare-fun query1UA0 () Int)(declare-fun query1AT0 () Int)(declare-fun query1ar0 () Int)(assert (= query1ar0 15))
-(assert (not (let( (.def_U query1U0)(.def_UA query1UA0) (.def_UO query1UO0) (.def_AT query1AT0) (.def_AT query1AT0))(and(member (mkTuple  .def_U .def_UA) (ASSIGN* 1))(member (mkTuple .def_UA query1ar0 .def_AT) (ASSOC 1))(member (mkTuple  9 .def_AT) (ASSIGN* 1))))))
+(assert (not (and(member (mkTuple  2 query1UA0) (ASSIGN* 1))(member (mkTuple query1UA0 query1ar0 query1AT0) (ASSOC 1))(member (mkTuple  9 query1AT0) (ASSIGN* 1)))))
 
 
 

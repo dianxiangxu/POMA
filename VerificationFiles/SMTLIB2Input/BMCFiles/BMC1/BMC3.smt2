@@ -98,11 +98,11 @@
 (assert (>= obligation1UO_1 0))
 (declare-fun obligation1ar_1 () Int)
 (assert (= obligation1ar_1 15))
-(assert (=> (= (obligation1 0) true) (let((.def_U obligation1U_1)(.def_UO obligation1UO_1) (.def_UA obligation1UA_1)(.def_AT obligation1AT_1))(and
- (member (mkTuple  8 .def_UA) (ASSIGN* 0))
-(member (mkTuple .def_UA obligation1ar_1 .def_AT) (ASSOC 0))
- (member (mkTuple  1 .def_AT) (ASSIGN* 0))
-))))
+(assert (=> (= (obligation1 0) true) (and
+ (member (mkTuple  8 obligation1UA_1) (ASSIGN* 0))
+(member (mkTuple obligation1UA_1 obligation1ar_1 obligation1AT_1) (ASSOC 0))
+ (member (mkTuple  1 obligation1AT_1) (ASSIGN* 0))
+)))
 
 
 (declare-fun obligation2U_1 () Int)
@@ -115,11 +115,11 @@
 (assert (>= obligation2UO_1 0))
 (declare-fun obligation2ar_1 () Int)
 (assert (= obligation2ar_1 15))
-(assert (=> (= (obligation2 0) true) (let((.def_U obligation2U_1)(.def_UO obligation2UO_1) (.def_UA obligation2UA_1)(.def_AT obligation2AT_1))(and
- (member (mkTuple  4 .def_UA) (ASSIGN* 0))
-(member (mkTuple .def_UA obligation2ar_1 .def_AT) (ASSOC 0))
- (member (mkTuple  1 .def_AT) (ASSIGN* 0))
-))))
+(assert (=> (= (obligation2 0) true) (and
+ (member (mkTuple  4 obligation2UA_1) (ASSIGN* 0))
+(member (mkTuple obligation2UA_1 obligation2ar_1 obligation2AT_1) (ASSOC 0))
+ (member (mkTuple  1 obligation2AT_1) (ASSIGN* 0))
+)))
 
 
 (declare-fun obligation3U_1 () Int)
@@ -132,11 +132,11 @@
 (assert (>= obligation3UO_1 0))
 (declare-fun obligation3ar_1 () Int)
 (assert (= obligation3ar_1 15))
-(assert (=> (= (obligation3 0) true) (let((.def_U obligation3U_1)(.def_UO obligation3UO_1) (.def_UA obligation3UA_1)(.def_AT obligation3AT_1))(and
- (member (mkTuple  6 .def_UA) (ASSIGN* 0))
-(member (mkTuple .def_UA obligation3ar_1 .def_AT) (ASSOC 0))
- (member (mkTuple  1 .def_AT) (ASSIGN* 0))
-))))
+(assert (=> (= (obligation3 0) true) (and
+ (member (mkTuple  6 obligation3UA_1) (ASSIGN* 0))
+(member (mkTuple obligation3UA_1 obligation3ar_1 obligation3AT_1) (ASSOC 0))
+ (member (mkTuple  1 obligation3AT_1) (ASSIGN* 0))
+)))
 
 
 (declare-fun obligation4U_1 () Int)
@@ -149,11 +149,11 @@
 (assert (>= obligation4UO_1 0))
 (declare-fun obligation4ar_1 () Int)
 (assert (= obligation4ar_1 15))
-(assert (=> (= (obligation4 0) true) (let((.def_U obligation4U_1)(.def_UO obligation4UO_1) (.def_UA obligation4UA_1)(.def_AT obligation4AT_1))(and
- (member (mkTuple  2 .def_UA) (ASSIGN* 0))
-(member (mkTuple .def_UA obligation4ar_1 .def_AT) (ASSOC 0))
- (member (mkTuple  1 .def_AT) (ASSIGN* 0))
-))))
+(assert (=> (= (obligation4 0) true) (and
+ (member (mkTuple  2 obligation4UA_1) (ASSIGN* 0))
+(member (mkTuple obligation4UA_1 obligation4ar_1 obligation4AT_1) (ASSOC 0))
+ (member (mkTuple  1 obligation4AT_1) (ASSIGN* 0))
+)))
 
 
 (declare-fun obligation5U_1 () Int)
@@ -166,11 +166,11 @@
 (assert (>= obligation5UO_1 0))
 (declare-fun obligation5ar_1 () Int)
 (assert (= obligation5ar_1 15))
-(assert (=> (= (obligation5 0) true) (let((.def_U obligation5U_1)(.def_UO obligation5UO_1) (.def_UA obligation5UA_1)(.def_AT obligation5AT_1))(and
- (member (mkTuple  8 .def_UA) (ASSIGN* 0))
-(member (mkTuple .def_UA obligation5ar_1 .def_AT) (ASSOC 0))
- (member (mkTuple  1 .def_AT) (ASSIGN* 0))
-))))
+(assert (=> (= (obligation5 0) true) (and
+ (member (mkTuple  8 obligation5UA_1) (ASSIGN* 0))
+(member (mkTuple obligation5UA_1 obligation5ar_1 obligation5AT_1) (ASSOC 0))
+ (member (mkTuple  1 obligation5AT_1) (ASSIGN* 0))
+)))
 
 
 
@@ -240,11 +240,11 @@
 (assert (>= obligation1UO_2 0))
 (declare-fun obligation1ar_2 () Int)
 (assert (= obligation1ar_2 15))
-(assert (=> (= (obligation1 1) true) (let((.def_U obligation1U_2)(.def_UO obligation1UO_2) (.def_UA obligation1UA_2)(.def_AT obligation1AT_2))(and
- (member (mkTuple  8 .def_UA) (ASSIGN* 1))
-(member (mkTuple .def_UA obligation1ar_2 .def_AT) (ASSOC 1))
- (member (mkTuple  1 .def_AT) (ASSIGN* 1))
-))))
+(assert (=> (= (obligation1 1) true) (and
+ (member (mkTuple  8 obligation1UA_2) (ASSIGN* 1))
+(member (mkTuple obligation1UA_2 obligation1ar_2 obligation1AT_2) (ASSOC 1))
+ (member (mkTuple  1 obligation1AT_2) (ASSIGN* 1))
+)))
 
 
 (declare-fun obligation2U_2 () Int)
@@ -257,11 +257,11 @@
 (assert (>= obligation2UO_2 0))
 (declare-fun obligation2ar_2 () Int)
 (assert (= obligation2ar_2 15))
-(assert (=> (= (obligation2 1) true) (let((.def_U obligation2U_2)(.def_UO obligation2UO_2) (.def_UA obligation2UA_2)(.def_AT obligation2AT_2))(and
- (member (mkTuple  4 .def_UA) (ASSIGN* 1))
-(member (mkTuple .def_UA obligation2ar_2 .def_AT) (ASSOC 1))
- (member (mkTuple  1 .def_AT) (ASSIGN* 1))
-))))
+(assert (=> (= (obligation2 1) true) (and
+ (member (mkTuple  4 obligation2UA_2) (ASSIGN* 1))
+(member (mkTuple obligation2UA_2 obligation2ar_2 obligation2AT_2) (ASSOC 1))
+ (member (mkTuple  1 obligation2AT_2) (ASSIGN* 1))
+)))
 
 
 (declare-fun obligation3U_2 () Int)
@@ -274,11 +274,11 @@
 (assert (>= obligation3UO_2 0))
 (declare-fun obligation3ar_2 () Int)
 (assert (= obligation3ar_2 15))
-(assert (=> (= (obligation3 1) true) (let((.def_U obligation3U_2)(.def_UO obligation3UO_2) (.def_UA obligation3UA_2)(.def_AT obligation3AT_2))(and
- (member (mkTuple  6 .def_UA) (ASSIGN* 1))
-(member (mkTuple .def_UA obligation3ar_2 .def_AT) (ASSOC 1))
- (member (mkTuple  1 .def_AT) (ASSIGN* 1))
-))))
+(assert (=> (= (obligation3 1) true) (and
+ (member (mkTuple  6 obligation3UA_2) (ASSIGN* 1))
+(member (mkTuple obligation3UA_2 obligation3ar_2 obligation3AT_2) (ASSOC 1))
+ (member (mkTuple  1 obligation3AT_2) (ASSIGN* 1))
+)))
 
 
 (declare-fun obligation4U_2 () Int)
@@ -291,11 +291,11 @@
 (assert (>= obligation4UO_2 0))
 (declare-fun obligation4ar_2 () Int)
 (assert (= obligation4ar_2 15))
-(assert (=> (= (obligation4 1) true) (let((.def_U obligation4U_2)(.def_UO obligation4UO_2) (.def_UA obligation4UA_2)(.def_AT obligation4AT_2))(and
- (member (mkTuple  2 .def_UA) (ASSIGN* 1))
-(member (mkTuple .def_UA obligation4ar_2 .def_AT) (ASSOC 1))
- (member (mkTuple  1 .def_AT) (ASSIGN* 1))
-))))
+(assert (=> (= (obligation4 1) true) (and
+ (member (mkTuple  2 obligation4UA_2) (ASSIGN* 1))
+(member (mkTuple obligation4UA_2 obligation4ar_2 obligation4AT_2) (ASSOC 1))
+ (member (mkTuple  1 obligation4AT_2) (ASSIGN* 1))
+)))
 
 
 (declare-fun obligation5U_2 () Int)
@@ -308,11 +308,11 @@
 (assert (>= obligation5UO_2 0))
 (declare-fun obligation5ar_2 () Int)
 (assert (= obligation5ar_2 15))
-(assert (=> (= (obligation5 1) true) (let((.def_U obligation5U_2)(.def_UO obligation5UO_2) (.def_UA obligation5UA_2)(.def_AT obligation5AT_2))(and
- (member (mkTuple  8 .def_UA) (ASSIGN* 1))
-(member (mkTuple .def_UA obligation5ar_2 .def_AT) (ASSOC 1))
- (member (mkTuple  1 .def_AT) (ASSIGN* 1))
-))))
+(assert (=> (= (obligation5 1) true) (and
+ (member (mkTuple  8 obligation5UA_2) (ASSIGN* 1))
+(member (mkTuple obligation5UA_2 obligation5ar_2 obligation5AT_2) (ASSOC 1))
+ (member (mkTuple  1 obligation5AT_2) (ASSIGN* 1))
+)))
 
 
 
@@ -382,11 +382,11 @@
 (assert (>= obligation1UO_3 0))
 (declare-fun obligation1ar_3 () Int)
 (assert (= obligation1ar_3 15))
-(assert (=> (= (obligation1 2) true) (let((.def_U obligation1U_3)(.def_UO obligation1UO_3) (.def_UA obligation1UA_3)(.def_AT obligation1AT_3))(and
- (member (mkTuple  8 .def_UA) (ASSIGN* 2))
-(member (mkTuple .def_UA obligation1ar_3 .def_AT) (ASSOC 2))
- (member (mkTuple  1 .def_AT) (ASSIGN* 2))
-))))
+(assert (=> (= (obligation1 2) true) (and
+ (member (mkTuple  8 obligation1UA_3) (ASSIGN* 2))
+(member (mkTuple obligation1UA_3 obligation1ar_3 obligation1AT_3) (ASSOC 2))
+ (member (mkTuple  1 obligation1AT_3) (ASSIGN* 2))
+)))
 
 
 (declare-fun obligation2U_3 () Int)
@@ -399,11 +399,11 @@
 (assert (>= obligation2UO_3 0))
 (declare-fun obligation2ar_3 () Int)
 (assert (= obligation2ar_3 15))
-(assert (=> (= (obligation2 2) true) (let((.def_U obligation2U_3)(.def_UO obligation2UO_3) (.def_UA obligation2UA_3)(.def_AT obligation2AT_3))(and
- (member (mkTuple  4 .def_UA) (ASSIGN* 2))
-(member (mkTuple .def_UA obligation2ar_3 .def_AT) (ASSOC 2))
- (member (mkTuple  1 .def_AT) (ASSIGN* 2))
-))))
+(assert (=> (= (obligation2 2) true) (and
+ (member (mkTuple  4 obligation2UA_3) (ASSIGN* 2))
+(member (mkTuple obligation2UA_3 obligation2ar_3 obligation2AT_3) (ASSOC 2))
+ (member (mkTuple  1 obligation2AT_3) (ASSIGN* 2))
+)))
 
 
 (declare-fun obligation3U_3 () Int)
@@ -416,11 +416,11 @@
 (assert (>= obligation3UO_3 0))
 (declare-fun obligation3ar_3 () Int)
 (assert (= obligation3ar_3 15))
-(assert (=> (= (obligation3 2) true) (let((.def_U obligation3U_3)(.def_UO obligation3UO_3) (.def_UA obligation3UA_3)(.def_AT obligation3AT_3))(and
- (member (mkTuple  6 .def_UA) (ASSIGN* 2))
-(member (mkTuple .def_UA obligation3ar_3 .def_AT) (ASSOC 2))
- (member (mkTuple  1 .def_AT) (ASSIGN* 2))
-))))
+(assert (=> (= (obligation3 2) true) (and
+ (member (mkTuple  6 obligation3UA_3) (ASSIGN* 2))
+(member (mkTuple obligation3UA_3 obligation3ar_3 obligation3AT_3) (ASSOC 2))
+ (member (mkTuple  1 obligation3AT_3) (ASSIGN* 2))
+)))
 
 
 (declare-fun obligation4U_3 () Int)
@@ -433,11 +433,11 @@
 (assert (>= obligation4UO_3 0))
 (declare-fun obligation4ar_3 () Int)
 (assert (= obligation4ar_3 15))
-(assert (=> (= (obligation4 2) true) (let((.def_U obligation4U_3)(.def_UO obligation4UO_3) (.def_UA obligation4UA_3)(.def_AT obligation4AT_3))(and
- (member (mkTuple  2 .def_UA) (ASSIGN* 2))
-(member (mkTuple .def_UA obligation4ar_3 .def_AT) (ASSOC 2))
- (member (mkTuple  1 .def_AT) (ASSIGN* 2))
-))))
+(assert (=> (= (obligation4 2) true) (and
+ (member (mkTuple  2 obligation4UA_3) (ASSIGN* 2))
+(member (mkTuple obligation4UA_3 obligation4ar_3 obligation4AT_3) (ASSOC 2))
+ (member (mkTuple  1 obligation4AT_3) (ASSIGN* 2))
+)))
 
 
 (declare-fun obligation5U_3 () Int)
@@ -450,11 +450,11 @@
 (assert (>= obligation5UO_3 0))
 (declare-fun obligation5ar_3 () Int)
 (assert (= obligation5ar_3 15))
-(assert (=> (= (obligation5 2) true) (let((.def_U obligation5U_3)(.def_UO obligation5UO_3) (.def_UA obligation5UA_3)(.def_AT obligation5AT_3))(and
- (member (mkTuple  8 .def_UA) (ASSIGN* 2))
-(member (mkTuple .def_UA obligation5ar_3 .def_AT) (ASSOC 2))
- (member (mkTuple  1 .def_AT) (ASSIGN* 2))
-))))
+(assert (=> (= (obligation5 2) true) (and
+ (member (mkTuple  8 obligation5UA_3) (ASSIGN* 2))
+(member (mkTuple obligation5UA_3 obligation5ar_3 obligation5AT_3) (ASSOC 2))
+ (member (mkTuple  1 obligation5AT_3) (ASSIGN* 2))
+)))
 
 
 
@@ -511,8 +511,8 @@
 
 
 ;QUERY
-(declare-fun query1U2 () Int)(declare-fun query1UO2 () Int)(declare-fun query1UA2 () Int)(declare-fun query1AT2 () Int)(declare-fun query1ar2 () Int)(assert (= query1ar2 null))
-(assert (not (let( (.def_U query1U2)(.def_UA query1UA2) (.def_UO query1UO2) (.def_AT query1AT2) (.def_AT query1AT2))(and(member (mkTuple  .def_U .def_UA) (ASSIGN* 3))(member (mkTuple .def_UA query1ar2 .def_AT) (ASSOC 3))(member (mkTuple  9 .def_AT) (ASSIGN* 3))))))
+(declare-fun query1U2 () Int)(declare-fun query1UO2 () Int)(declare-fun query1UA2 () Int)(declare-fun query1AT2 () Int)(declare-fun query1ar2 () Int)(assert (= query1ar2 15))
+(assert (and(member (mkTuple  2 query1UA2) (ASSIGN* 3))(member (mkTuple query1UA2 query1ar2 query1AT2) (ASSOC 3))(member (mkTuple  9 query1AT2) (ASSIGN* 3))))
 
 
 

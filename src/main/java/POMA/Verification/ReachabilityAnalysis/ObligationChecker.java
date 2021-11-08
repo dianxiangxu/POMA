@@ -111,16 +111,10 @@ public class ObligationChecker extends BMC {
 		case NO_ASSOC:
 			smtlibv2Code += processAssocQuery(accessRequests[0], k, true);;
 			break;
-		case UO:
+		case ASSIGN:
 			smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN* " + (k + 1) + ")))";
 			break;
-		case UAOA:
-			smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN* " + k + ")))";
-			break;
-		case UO_explicit:
-			smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN " + (k + 1) + ")))";
-			break;
-		case UAOA_explicit:
+		case ASSIGN_explicit:
 			smtlibv2Code += "(assert (member (mkTuple " + query + ") (ASSIGN " + k + ")))";
 			break;
 		case HIERARCHY:
@@ -153,20 +147,20 @@ public class ObligationChecker extends BMC {
 		smtlibv2Code += "(declare-fun query1AT" + k + " () Int)";
 		smtlibv2Code += "(declare-fun query1ar" + k + " () Int)";
 
-		String userSpec = s != null ? "(member (mkTuple  " + s + " .def_UA) (ASSIGN* " + (k + 1) + "))"
-				: "(member (mkTuple  " + ".def_U" + " .def_UA) (ASSIGN* " + (k + 1) + "))";
-		String targetSpec = t != null ? "(member (mkTuple  " + t + " .def_AT) (ASSIGN* " + (k + 1) + "))"
-				: "(member (mkTuple  " + ".def_UO" + " .def_AT) (ASSIGN* " + (k + 1) + "))";
+		String userSpec = s != null ? "(member (mkTuple  " + s + " query1UA" + k
+				+ ") (ASSIGN* " + (k + 1) + "))"
+				: "(member (mkTuple  " + " query1U" + k  + " query1UA" + k + ") (ASSIGN* " + (k + 1) + "))";
+		String targetSpec = t != null ? "(member (mkTuple  " + t + " query1AT" + k
+				+ ") (ASSIGN* " + (k + 1) + "))"
+				: "(member (mkTuple  " + "query1UO" + k + " query1AT" + k + ") (ASSIGN* " + (k + 1) + "))";
 		String arSpec = accessright != null ? "(assert (= query1ar" + k + " " + accessright + "))" : "";
 		smtlibv2Code += arSpec;
 		smtlibv2Code += System.lineSeparator();
 
-		smtlibv2Code += isDeny == true ? "(assert  (let( (.def_U query1U" + k + ")(.def_UA query1UA" + k + ") (.def_UO query1UO" + k
-				+ ") (.def_AT query1AT" + k + ") (.def_AT query1AT" + k + "))(and" + userSpec + "(member (mkTuple .def_UA " + "query1ar" + k  
-				+ " .def_AT) (ASSOC " + (k + 1) + "))" + targetSpec + ")))" : "(assert (not (let( (.def_U query1U" + k
-						+ ")(.def_UA query1UA" + k + ") (.def_UO query1UO" + k + ") (.def_AT query1AT" + k
-						+ ") (.def_AT query1AT" + k + "))(and" + userSpec + "(member (mkTuple .def_UA " + "query1ar" + k
-						+ " .def_AT) (ASSOC " + (k + 1) + "))" + targetSpec + "))))";
+		smtlibv2Code += isDeny == false ? "(assert (and" + userSpec + "(member (mkTuple query1UA" + k + " " + "query1ar" + k  
+				+ " query1AT" + k
+				+ ") (ASSOC " + (k + 1) + "))" + targetSpec + "))" : "(assert (not (and" + userSpec + "(member (mkTuple query1UA" + k + " query1ar" + k
+						+ " query1AT" + k + ") (ASSOC " + (k + 1) + "))" + targetSpec + ")))";
 		smtlibv2Code += System.lineSeparator();
 		return smtlibv2Code;
 	}
@@ -190,10 +184,11 @@ public class ObligationChecker extends BMC {
 		smtlibv2Code += System.lineSeparator();
 		smtlibv2Code += arSpec;
 		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += isNegated ? "(assert  (let( (.def_UA query1UA" + k + ") (.def_AT query1AT" + k
-				+ ")) (member (mkTuple .def_UA query1ar" + k + " .def_AT) (ASSOC " + (k + 1) + "))))" : "(assert  (not(let( (.def_UA query1UA"
-						+ k + ") (.def_AT query1AT" + k + ")) (member (mkTuple .def_UA " + "query1ar" + k 
-						+ " .def_AT) (ASSOC " + (k + 1) + ")))))";
+		smtlibv2Code += !isNegated ? "(assert (member (mkTuple query1UA" + k
+				+ " query1ar" + k + " query1AT" + k
+				+ ") (ASSOC " + (k + 1) + ")))" : "(assert  (not (member (mkTuple query1UA" + k
+						+  " query1ar" + k 
+						+ " query1AT" + k + ") (ASSOC " + (k + 1) + "))))";
 		smtlibv2Code += System.lineSeparator();
 		return smtlibv2Code;
 	}
