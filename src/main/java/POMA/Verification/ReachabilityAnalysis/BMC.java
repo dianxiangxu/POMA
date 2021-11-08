@@ -15,11 +15,11 @@ import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 abstract class BMC {
 	public enum QUERY_TYPE {
 		LABEL, PERMIT, UAOA, UO, UO_explicit, UAOA_explicit, DENY, HIERARCHY, NOT_HIERARCHY, PERMIT_UA_ONLY,
-		PERMIT_AT_ONLY, ASSOC_UA_ONLY, ASSOC_AT_ONLY, DENY_UA_ONLY, DENY_AT_ONLY, NO_ASSOC_UA_ONLY, NO_ASSOC_AT_ONLY, ASSOC
+		PERMIT_AT_ONLY, ASSOC_UA_ONLY, ASSOC_AT_ONLY, DENY_UA_ONLY, DENY_AT_ONLY, NO_ASSOC_UA_ONLY, NO_ASSOC_AT_ONLY, ASSOC, NO_ASSOC
 	}
 
 	private Solver solver = Solver.CVC4;
-	private int bound = 5;
+	private int bound = 8;
 	private String smtCodeFilePath = "";
 	HashMap<String, Integer> mapOfIDs;
 
@@ -39,7 +39,8 @@ abstract class BMC {
 
 	abstract String generateTailCode();
 
-	abstract String generateAssertKCode(int k, String obligation_label, QUERY_TYPE queryType);
+	abstract String generateAssertKCode(int k, String obligation_label, QUERY_TYPE queryType,
+			AccessRequest... accessRequest);
 
 	abstract String generateIterationCode(int k);
 
@@ -65,7 +66,7 @@ abstract class BMC {
 		String headCode = generateHeadCode();
 		String tailCode = generateTailCode();
 		String iterationCode = "";
-		String queryLabel = "obligation7";
+		String queryLabel = "obligation2";
 		// String queryAR = " "+ mapOfIDs.get("BM") + " " + mapOfIDs.get("approve") + "
 		// " + mapOfIDs.get("PDSWhole");
 		// String queryASSIGNMENT = " " + mapOfIDs.get("Vlad") + " " +
@@ -73,13 +74,19 @@ abstract class BMC {
 		String query2 = " " + mapOfIDs.get("LeadAttorneys") + " " + mapOfIDs.get("approve") + " "
 				+ mapOfIDs.get("Case3");
 		String query3 = " " + mapOfIDs.get("Attorney1") + " " + mapOfIDs.get("Attorney1");
+		Integer s = null;//mapOfIDs.get("Attorneys2");
+	    Integer ar = mapOfIDs.get("accept");
+		Integer t =  mapOfIDs.get("Case3");
+		AccessRequest accessRequest = new AccessRequest(s, ar, t);
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
 			System.out.println("=============================================");
 			// String smtlibv2Code = headCode + iterationCode + generateAssertKCode(k - 1,
 			// query, QUERY_TYPE.OBLIGATION) + tailCode;
+			// String smtlibv2Code = headCode + iterationCode 
+			// + generateAssertKCode(k - 1, queryLabel, QUERY_TYPE.LABEL)
 			String smtlibv2Code = headCode + iterationCode 
-			+ generateAssertKCode(k - 1, queryLabel, QUERY_TYPE.LABEL)
+			+ generateAssertKCode(k - 1, "", QUERY_TYPE.PERMIT, accessRequest)
 					//+ generateAssertKCode(k - 1, query3, QUERY_TYPE.PERMIT_UA_ONLY)
 					+ tailCode;
 			if (k == bound) {
