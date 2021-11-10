@@ -3,7 +3,14 @@ package POMA.Verification.ReachabilityAnalysis;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Solver {
 
@@ -11,6 +18,8 @@ public class Solver {
 	public static final Solver CVC4 = new Solver("CVC4", "VerificationFiles/CVC4/cvc4.exe");
 	private String name;
 	private String executable;
+	List<String> obligationLabelsWithStep = new ArrayList<String>();
+	List<String> obligationVarsWithAssignments = new ArrayList<String>();
 
 	public Solver(String name, String executable) {
 		this.name = name;
@@ -26,32 +35,94 @@ public class Solver {
 		return "Solver " + name + ": " + executable;
 	}
 
-	protected boolean runSolver(String pathToFile, int k, List<String> confirmedObligations) throws IOException {
+	protected boolean runSolver(String pathToFile, int k, List<String> confirmedObligations,
+			List<String> obligationLabels, List<String> obligationEventVariables, HashMap<String, Integer> mapOfIDs)
+			throws IOException {
 		String[] cmdArguments = commandArguments(pathToFile);
 		Process proc = Runtime.getRuntime().exec(cmdArguments);
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 		String result = null;
+		List<String> output = new ArrayList<String>();
 		while ((result = stdInput.readLine()) != null) {
 			System.out.println(k + ": " + result);
 			if (result.equals("sat")) {
 				while ((result = stdInput.readLine()) != null) {
-					System.out.println(result);
+					String line = result.replaceAll("[()]", "");
+					output.add(line);
+					System.out.println(line);
 					// String[] stringArray = result.split("\\)\\),\\(ite");
 					String[] stringArray = result.split("BOUND_VARIABLE|\\)\\)|\\)|\\(ite \\(=");
 					String[] labelArray = (stringArray[0]).split(" \\(lambda \\(\\(|\\(\\(");
 					// System.out.println("Label: "+ label[1]);
 					String label = labelArray[1];
 					for (String s : stringArray) {
+
 						// System.out.println(s);
-						if (s.length() < 5 && s.contains("1")&&!confirmedObligations.contains(label)) {
+						if (s.length() < 5 && s.contains("1") && !confirmedObligations.contains(label)) {
 							confirmedObligations.add(label);
 							break;
 						}
 					}
 				}
+				Solution solution = findSolution(output, obligationLabels, mapOfIDs);
+				System.out.println(solution);
 				return true;
 			}
 		}
 		return false;
+	}
+
+	Solution findSolution(List<String> output, List<String> obligationLabels, HashMap<String, Integer> mapOfIDs) {
+		Step[] arrayOfSteps = new Step[100];
+
+		for (String line : output) {
+			for (String label : obligationLabels) {
+				if (isContain(line, label)) {
+					String[] splittedLine = line.split(" ");
+					String stepNumber = splittedLine[splittedLine.length - 1];
+					if (Character.isDigit(stepNumber.charAt(0))) {
+						Step step = new Step();
+						step.setObligationLabel(label);
+						for (String line2 : output) {
+							String[] splittedLine2 = line2.split(" ");
+							String varAssignment = splittedLine2[splittedLine2.length - 1];
+							if (isContain(line2, label + "U_" + stepNumber)) {
+								int varAssignmentInt = Integer.parseInt(varAssignment);
+								step.setSubject(getKeyFromValue(varAssignmentInt, mapOfIDs));
+							} else if (isContain(line2, label + "UO_" + stepNumber)) {
+								int varAssignmentInt = Integer.parseInt(varAssignment);
+								step.setObject(getKeyFromValue(varAssignmentInt, mapOfIDs));
+							} else if (isContain(line2, label + "ar_" + stepNumber)) {
+								int varAssignmentInt = Integer.parseInt(varAssignment);
+								step.setEvent(getKeyFromValue(varAssignmentInt, mapOfIDs));
+							}
+						}
+						arrayOfSteps[Integer.parseInt(stepNumber)] = step;
+					}
+				}
+			}
+		}
+		return new Solution(Arrays.asList(arrayOfSteps).stream().filter(Objects::nonNull).collect(Collectors.toList()));
+	}
+
+	private static boolean isContain(String source, String subItem) {
+		String pattern = "\\b" + subItem + "\\b";
+		Pattern p = Pattern.compile(pattern);
+		Matcher m = p.matcher(source);
+		return m.find();
+	}
+
+	private static String getKeyFromValue(int value, HashMap<String, Integer> mapOfIDs) {
+		if(value==0){
+			return "NONE";
+		}
+		try {
+			String key = mapOfIDs.entrySet().stream().filter(entry -> Objects.equals(entry.getValue(), value))
+					.findFirst().get().getKey();
+			return key;
+		} catch (Exception e) {
+			System.out.println("BREAKING VALUE: "+value);
+			return "NONE";
+		}
 	}
 }

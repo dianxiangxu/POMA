@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import POMA.Verification.TranslationWithSets.AssociationRelation;
+import POMA.Verification.ReachabilityAnalysis.fol.model.*;
+import POMA.Verification.ReachabilityAnalysis.fol.model.predicates.PermitPredicate;
+import POMA.Verification.ReachabilityAnalysis.fol.model.terms.*;
+import POMA.Verification.ReachabilityAnalysis.fol.parser.FOLGrammar;
+import POMA.Verification.ReachabilityAnalysis.models.AccessRequest;
 
 public class ObligationChecker extends BMC {
 
@@ -16,8 +21,9 @@ public class ObligationChecker extends BMC {
 	private List<String> listOfAddedNodesOA_O = new ArrayList<String>();
 	private List<String> obligationLabels = new ArrayList<String>();
 	private Map<String, String> eventMembers = new HashMap<String, String>();
+	private List<String> obligationEventVariables = new ArrayList<String>();
 
-	String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json"; // +++++++
+	String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json"; // +++++++
 	// String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyLess.json";
 
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
@@ -31,10 +37,11 @@ public class ObligationChecker extends BMC {
 
 	public static void main(String[] args) throws Exception {
 
-		long start = System.currentTimeMillis();
+		
 
 		ObligationChecker checker = new ObligationChecker();
 
+		long start = System.currentTimeMillis();
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC2/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC3/BMC");
@@ -49,6 +56,7 @@ public class ObligationChecker extends BMC {
 		System.out.println(sec + " seconds");
 
 	}
+	
 
 	public ObligationChecker() throws Exception {
 		mapOfIDs = gt.getMapOfIDs();
@@ -70,6 +78,11 @@ public class ObligationChecker extends BMC {
 		super.setBound(bound);
 	}
 
+	public List<String> getObligationEventVariables() {
+		return obligationEventVariables;
+	}
+
+
 	public String generateHeadCode() throws Exception {
 		String headcode = gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O,
 				obligationLabels, eventMembers);
@@ -81,10 +94,16 @@ public class ObligationChecker extends BMC {
 	}
 
 	public String generateTailCode() {
+		obligationEventVariables.addAll(ot.getObligationEventVariables());
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += "(check-sat)";
 		smtlibv2Code += System.lineSeparator();
+		//smtlibv2Code += "(get-model)";
 		for (String label : obligationLabels) {
+			smtlibv2Code += "(get-value (" + label + "))";
+			smtlibv2Code += System.lineSeparator();
+		}
+		for (String label : obligationEventVariables) {
 			smtlibv2Code += "(get-value (" + label + "))";
 			smtlibv2Code += System.lineSeparator();
 		}

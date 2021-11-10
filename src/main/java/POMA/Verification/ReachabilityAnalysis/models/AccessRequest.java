@@ -1,6 +1,6 @@
-package POMA.Verification.ReachabilityAnalysis;
+package POMA.Verification.ReachabilityAnalysis.models;
 
-public class AccessRequest {
+public class AccessRequest implements Request{
 
     Integer S;
     Integer ar;
