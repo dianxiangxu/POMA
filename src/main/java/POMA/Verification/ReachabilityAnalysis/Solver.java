@@ -49,7 +49,7 @@ public class Solver {
 				while ((result = stdInput.readLine()) != null) {
 					String line = result.replaceAll("[()]", "");
 					output.add(line);
-					System.out.println(line);
+					//System.out.println(line);
 					// String[] stringArray = result.split("\\)\\),\\(ite");
 					String[] stringArray = result.split("BOUND_VARIABLE|\\)\\)|\\)|\\(ite \\(=");
 					String[] labelArray = (stringArray[0]).split(" \\(lambda \\(\\(|\\(\\(");
