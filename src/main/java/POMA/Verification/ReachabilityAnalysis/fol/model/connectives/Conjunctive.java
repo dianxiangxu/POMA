@@ -22,4 +22,8 @@ public class Conjunctive implements IFormula {
 	public String toString() {
 		return "Conjunctive [subformulaA=" + subformulaA + ", subformulaB=" + subformulaB + "]";
 	}
+
+	public String toSMT(){
+		return "(and " +subformulaA.toSMT()+" "+ subformulaB.toSMT()+")";
+	}
 }

@@ -48,7 +48,9 @@ public class ObligationChecker extends BMC {
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC4/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC5/BMC");
 
-		checker.check();
+	//	checker.solveConstraint("(PERMIT(Attorneys2U, accept, Case3Info) OR PERMIT(Attorneys2U, accept, Case3Info));");
+		checker.solveConstraint("NOT(ASSOCIATE(Attorneys, accept, Case3));");
+		
 		System.out.println(checker.mapOfIDs);
 		long end = System.currentTimeMillis();
 

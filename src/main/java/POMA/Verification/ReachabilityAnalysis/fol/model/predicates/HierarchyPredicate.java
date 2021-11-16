@@ -26,4 +26,8 @@ public class HierarchyPredicate implements IPredicate {
 	public String toString() {
 		return "Hierarchy [tuple=" + tuple + "]";
 	}
+	
+	public String toSMT() {
+		return "";
+	}
 }

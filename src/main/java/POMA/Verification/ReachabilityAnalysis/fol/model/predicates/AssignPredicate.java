@@ -23,4 +23,8 @@ public class AssignPredicate implements IPredicate{
 	public String toString() {
 		return "AssignPredicate [tuple=" + tuple + "]";
 	}
+
+	public String toSMT() {
+		return "";
+	}
 }

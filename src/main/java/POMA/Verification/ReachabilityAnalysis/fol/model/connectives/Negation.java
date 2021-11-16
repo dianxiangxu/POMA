@@ -1,6 +1,5 @@
 package POMA.Verification.ReachabilityAnalysis.fol.model.connectives;
 
-import java.util.List;
 
 import POMA.Verification.ReachabilityAnalysis.fol.model.IFormula;
 
@@ -15,5 +14,9 @@ public class Negation implements IFormula {
 	@Override
 	public String toString() {
 		return "Negation [subformula=" + subformula + "]";
+	}
+
+	public String toSMT() {
+		return "(not " + subformula.toSMT() + ")";
 	}
 }

@@ -35,7 +35,7 @@ public class Solver {
 		return "Solver " + name + ": " + executable;
 	}
 
-	protected boolean runSolver(String pathToFile, int k, List<String> confirmedObligations,
+	protected Solution runSolver(String pathToFile, int k, List<String> confirmedObligations,
 			List<String> obligationLabels, List<String> obligationEventVariables, HashMap<String, Integer> mapOfIDs)
 			throws IOException {
 		String[] cmdArguments = commandArguments(pathToFile);
@@ -44,7 +44,7 @@ public class Solver {
 		String result = null;
 		List<String> output = new ArrayList<String>();
 		while ((result = stdInput.readLine()) != null) {
-			System.out.println(k + ": " + result);
+			//System.out.println(k + ": " + result);
 			if (result.equals("sat")) {
 				while ((result = stdInput.readLine()) != null) {
 					String line = result.replaceAll("[()]", "");
@@ -66,14 +66,14 @@ public class Solver {
 				}
 				Solution solution = findSolution(output, obligationLabels, mapOfIDs);
 				System.out.println(solution);
-				return true;
+				return solution;
 			}
 		}
-		return false;
+		return null;
 	}
 
 	Solution findSolution(List<String> output, List<String> obligationLabels, HashMap<String, Integer> mapOfIDs) {
-		Step[] arrayOfSteps = new Step[100];
+		ObligationFiring[] arrayOfSteps = new ObligationFiring[100];
 
 		for (String line : output) {
 			for (String label : obligationLabels) {
@@ -81,7 +81,7 @@ public class Solver {
 					String[] splittedLine = line.split(" ");
 					String stepNumber = splittedLine[splittedLine.length - 1];
 					if (Character.isDigit(stepNumber.charAt(0))) {
-						Step step = new Step();
+						ObligationFiring step = new ObligationFiring();
 						step.setObligationLabel(label);
 						for (String line2 : output) {
 							String[] splittedLine2 = line2.split(" ");

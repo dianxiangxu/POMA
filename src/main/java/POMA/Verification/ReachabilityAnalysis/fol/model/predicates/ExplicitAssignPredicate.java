@@ -24,4 +24,8 @@ public class ExplicitAssignPredicate implements IPredicate{
 	public String toString() {
 		return "ExplicitAssignPredicate [tuple=" + tuple + "]";
 	}
+
+	public String toSMT() {
+		return "";
+	}
 }

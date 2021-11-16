@@ -14,4 +14,8 @@ public class Disjunctive implements IFormula{
 		public String toString() {
 			return "Disjunctive [subformulaA=" + subformulaA + ", subformulaB=" + subformulaB + "]";
 		}  
+
+		public String toSMT() {
+			return "(or " + subformulaA.toSMT() + " " + subformulaB.toSMT() + ")";
+		}
 }

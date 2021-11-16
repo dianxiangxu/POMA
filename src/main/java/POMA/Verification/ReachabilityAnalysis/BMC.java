@@ -1,11 +1,14 @@
 package POMA.Verification.ReachabilityAnalysis;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.Obligations;
@@ -20,17 +23,14 @@ import POMA.Verification.ReachabilityAnalysis.models.Request;
 
 abstract class BMC {
 	public enum QUERY_TYPE {
-		LABEL, PERMIT, DENY, HIERARCHY, NOT_HIERARCHY,
-		      ASSOC, NO_ASSOC, ASSIGN, ASSIGN_explicit
+		LABEL, PERMIT, DENY, HIERARCHY, NOT_HIERARCHY, ASSOC, NO_ASSOC, ASSIGN, ASSIGN_explicit
 	}
 
 	private Solver solver = Solver.CVC4;
-	private int bound = 8;
+	private int bound = 3;
 	private String smtCodeFilePath = "";
 	HashMap<String, Integer> mapOfIDs;
-	
-	List<AccessRequest> permitRequests = new ArrayList<AccessRequest>();
-	List<AccessRequest> denyRequests = new ArrayList<AccessRequest>();
+
 
 	void setSolver(Solver solver) {
 		this.solver = solver;
@@ -61,9 +61,10 @@ abstract class BMC {
 	}
 
 	abstract List<String> getObligationLabels();
-	abstract List<String> getObligationEventVariables();	
-	
-	public void check() throws Exception {
+
+	abstract List<String> getObligationEventVariables();
+
+	public Solution check(String query) throws Exception {
 
 		List<String> obligationLabels = getObligationLabels();
 		List<String> confirmedObligations = new ArrayList<String>();
@@ -75,7 +76,7 @@ abstract class BMC {
 		boolean solved = false;
 		String headCode = generateHeadCode();
 		String iterationCode = "";
-		String queryLabel = "obligation3";
+		String queryLabel = "obligation2";
 		// String queryAR = " "+ mapOfIDs.get("BM") + " " + mapOfIDs.get("approve") + "
 		// " + mapOfIDs.get("PDSWhole");
 		// String queryASSIGNMENT = " " + mapOfIDs.get("Vlad") + " " +
@@ -84,58 +85,67 @@ abstract class BMC {
 				+ mapOfIDs.get("Case3");
 		String query3 = " " + mapOfIDs.get("Attorney1") + " " + mapOfIDs.get("Attorney1");
 		Integer s = mapOfIDs.get("Attorneys2");
-	    Integer ar = mapOfIDs.get("accept");
-		Integer t =  mapOfIDs.get("Case3");
-		AccessRequest accessRequest = new AccessRequest(s, ar, t);
-		//parseQuery();
+		Integer ar = mapOfIDs.get("accept");
+		Integer t = mapOfIDs.get("Case3");
+
+		IFormula formula = parseQuery(query);
+		Solution solution = null;
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
 			System.out.println("=============================================");
-
-			String smtlibv2Code = headCode + iterationCode; 
-			smtlibv2Code+=processSMTQueryCode(k);
-			smtlibv2Code+= generateAssertKCode(k - 1, queryLabel, QUERY_TYPE.LABEL);
-			smtlibv2Code+= generateTailCode();
+			String smtlibv2Code = headCode + iterationCode;
+			// smtlibv2Code+=processSMTQueryCode(k);
+			smtlibv2Code += postProcessFormula(formula, (k - 1));
+			// smtlibv2Code+= generateAssertKCode(k - 1, queryLabel, QUERY_TYPE.LABEL);
+			smtlibv2Code += generateTailCode();
 			if (k == bound) {
 				// System.out.println(smtlibv2Code);
 			}
 			String pathToFile = smtCodeFilePath + k + ".smt2";
 			saveCodeToFile(smtlibv2Code, pathToFile);
-			solved = solver.runSolver(pathToFile, k, confirmedObligations, 
-					obligationLabels, getObligationEventVariables(), mapOfIDs);
+			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
+					getObligationEventVariables(), mapOfIDs);
+			solved = solution == null ? false : true;
 		}
+
 		count++;
 		// }
 		System.out.println("Total Runs: " + count);
+		return solution;
 	}
 
 	public Solution solveConstraint(Graph graph, Prohibitions prohibitions, // not now
-			Obligations obligations, String contraint) {
+			Obligations obligations, String constraint) {
 		return null;
 	}
 
-	private String processSMTQueryCode(int k){
-		String toReturn = System.lineSeparator();
-		int count = 0;
-		for(AccessRequest pr : permitRequests){
-			toReturn += generateAssertKCode(k - 1,"", QUERY_TYPE.PERMIT, pr);
-			toReturn += System.lineSeparator();
-			count++;
-		}
-
-		return toReturn;
+	public Solution solveConstraint(String constraint) throws Exception {
+		return check(constraint);
 	}
-	
-	private void parseQuery() {
-		FOLGrammar parser = new FOLGrammar(System.in);
+	// private String processSMTQueryCode(int k){
+	// String toReturn = System.lineSeparator();
+	// int count = 0;
+	// for(AccessRequest pr : permitRequests){
+	// toReturn += generateAssertKCode(k - 1,"", QUERY_TYPE.PERMIT, pr);
+	// toReturn += System.lineSeparator();
+	// count++;
+	// }
+
+	// return toReturn;
+	// }
+
+	private IFormula parseQuery(String query) {
+		// FOLGrammar parser = new FOLGrammar(System.in);
+		FOLGrammar parser = new FOLGrammar(new ByteArrayInputStream(query.getBytes()));
+
 		while (true) {
 			System.out.println("Reading from standard input...");
 			System.out.print("Enter an expression: ");
 			try {
 				IFormula f = FOLGrammar.parse();
-				System.out.println(f);
-				processFormula(f);
-				break;
+				System.out.println(f.toSMT());
+				return f;
+				// processFormula(f);
 			} catch (Exception e) {
 				System.out.println("NOK.");
 				System.out.println(e.getMessage());
@@ -146,40 +156,33 @@ abstract class BMC {
 				break;
 			}
 		}
+		return null;
 	}
 
-	private List<AccessRequest> processFormula(IFormula f) {
-		if (f instanceof PermitPredicate) {
-			PermitPredicate permitPredicate = (PermitPredicate) f;
-			permitRequests.add(processPermissionRequest(permitPredicate));
-		}
-		if (f instanceof DenyPredicate) {
-			DenyPredicate denyPredicate = (DenyPredicate) f;
-			denyRequests.add(processPermissionRequest(denyPredicate));
-		}
-		if (f instanceof Conjunctive) {
-			processFormula( ((Conjunctive) f).getSubformulaA());
-			processFormula( ((Conjunctive) f).getSubformulaB());
-		}
-		return permitRequests;
-	}
+	private String postProcessFormula(IFormula f, int k) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(System.lineSeparator());
+		List<String> queryVars = new ArrayList<String>();
+		String formula = f.toSMT();
 
-	private AccessRequest processPermissionRequest(IPredicate permitPredicate){
-		List<ITerm> terms = permitPredicate.getTuple();
-		ITerm source = terms.get(0);
-		ITerm accessright = terms.get(1);
-		ITerm target = terms.get(2);
+		String formulaWithStep = formula.replace("{k}", Integer.toString(k)).replace("{(k + 1)}",
+				Integer.toString((k + 1)));
 
-		AccessRequest accessRequest = new AccessRequest(null, null, null);
-		if (!source.toString().contains("?")) {
-			accessRequest.setS(mapOfIDs.get(source.getElement()));
+		String[] splittedFormula = formulaWithStep.split(" ");
+		for (String formulaElement : splittedFormula) {
+			if (formulaElement.contains("queryVAR") && !queryVars.contains(formulaElement)) {
+				sb.append("(declare-fun " + formulaElement + " () Int)");
+				sb.append(System.lineSeparator());
+				queryVars.add(formulaElement);
+				continue;
+			}
+			if (formulaElement.contains("[")) {
+				String cleanFormulaElement = formulaElement.replace("[", "").replace("]", "");
+				Integer elementId = mapOfIDs.getOrDefault(cleanFormulaElement, -1);
+				formulaWithStep = formulaWithStep.replace(formulaElement, Integer.toString(elementId));
+			}
 		}
-		if (!accessright.toString().contains("?")) {
-			accessRequest.setAr(mapOfIDs.get(accessright.getElement()));
-		}
-		if (!target.toString().contains("?")) {
-			accessRequest.setT(mapOfIDs.get(target.getElement()));
-		}
-		return accessRequest;
+		sb.append("(assert " + formulaWithStep + ")");
+		return sb.toString();
 	}
 }

@@ -469,11 +469,9 @@
 (assert (or(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true)))
 
 
-
-;QUERY
-(assert (= (obligation3 1) true))
-
-
+(assert (not 
+(member (mkTuple  5  18  13 ) (ASSOC 2))
+))
 (check-sat)
 (get-value (obligation3))
 (get-value (obligation2))
