@@ -474,7 +474,7 @@
 
 
 (assert 
-(= (obligation3 1) true)
+(= (obligation2 1) true)
 )
 (check-sat)
 (get-value (obligation3))

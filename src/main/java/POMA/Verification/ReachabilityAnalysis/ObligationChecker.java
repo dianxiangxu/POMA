@@ -8,7 +8,6 @@ import java.util.Map;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 import POMA.Verification.TranslationWithSets.AssociationRelation;
 
-
 public class ObligationChecker extends BMC {
 
 	private List<String> obligationsResponse = new ArrayList<String>();
@@ -20,7 +19,8 @@ public class ObligationChecker extends BMC {
 	private Map<String, String> eventMembers = new HashMap<String, String>();
 	private List<String> obligationEventVariables = new ArrayList<String>();
 
-	String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json"; // +++++++
+	//String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json"; // +++++++
+	String pathToGraph;
 	// String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyLess.json";
 
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
@@ -29,42 +29,59 @@ public class ObligationChecker extends BMC {
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy500.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy750.json";
 
-	GraphTranslator gt = new GraphTranslator(pathToGraph);
+	GraphTranslator gt;
 	ObligationTranslator ot;
 
 	public static void main(String[] args) throws Exception {
 
-		
+		// ObligationChecker checker = new ObligationChecker();
+		ObligationChecker checker = new ObligationChecker("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json",
+				"Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
 
-		ObligationChecker checker = new ObligationChecker();
+		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 
 		long start = System.currentTimeMillis();
-		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC2/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC3/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC4/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC5/BMC");
 
-		//checker.solveConstraint("(PERMIT(Attorneys2U, accept, Case3Info) OR PERMIT(Attorneys2U, accept, Case3Info));");
+		// checker.solveConstraint("(PERMIT(Attorneys2U, accept, Case3Info) OR
+		// PERMIT(Attorneys2U, accept, Case3Info));");
 
+		// Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2,
+		// Attorneys1);");
+		Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation2);");
 
-		//Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2, Attorneys1);");
-		Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation3);");
-
-		//System.out.println(checker.mapOfIDs);
-
+		// System.out.println(checker.mapOfIDs);
 
 		long end = System.currentTimeMillis();
-
 		float sec = (end - start) / 1000F;
-		System.out.println("The job took: "+sec + " seconds");
+		System.out.println("The job took: " + sec + " seconds");
 
 	}
-	
 
 	public ObligationChecker() throws Exception {
+		gt = new GraphTranslator(pathToGraph);
 		mapOfIDs = gt.getMapOfIDs();
 		ot = new ObligationTranslator(mapOfIDs);
+		ot.findAllAbsentElements();
+
+		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
+		obligationsResponse.addAll(ot.getProcessedObligations());
+		listOfAddedAssociations.addAll(ot.getListOfAddedAssociations());
+		listOfAddedNodesUA_U.addAll(ot.getListOfCreatedNodesUA_U());
+		listOfAddedNodesOA_O.addAll(ot.getListOfCreatedNodesOA_O());
+		obligationLabels.addAll(ot.getRuleLabels());
+		eventMembers.putAll(ot.getEventMembers());
+	}
+
+	public ObligationChecker(String pathToGraph, String pathToObligations) throws Exception {
+		this.pathToGraph = pathToGraph;
+		gt = new GraphTranslator(pathToGraph);
+
+		mapOfIDs = gt.getMapOfIDs();
+		ot = new ObligationTranslator(mapOfIDs, pathToObligations);
 		ot.findAllAbsentElements();
 
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
@@ -85,7 +102,6 @@ public class ObligationChecker extends BMC {
 		return obligationEventVariables;
 	}
 
-
 	public String generateHeadCode() throws Exception {
 		String headcode = gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O,
 				obligationLabels, eventMembers);
@@ -101,7 +117,6 @@ public class ObligationChecker extends BMC {
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += "(check-sat)";
 		smtlibv2Code += System.lineSeparator();
-		//smtlibv2Code += "(get-model)";
 		for (String label : obligationLabels) {
 			smtlibv2Code += "(get-value (" + label + "))";
 			smtlibv2Code += System.lineSeparator();
@@ -112,7 +127,6 @@ public class ObligationChecker extends BMC {
 		}
 		return smtlibv2Code;
 	}
-
 
 	public String generateIterationCode(int k) {
 

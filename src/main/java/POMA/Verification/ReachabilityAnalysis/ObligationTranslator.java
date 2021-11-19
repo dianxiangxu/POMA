@@ -39,7 +39,8 @@ public class ObligationTranslator {
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations_simple1.yml";
-	String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml";// +++
+	//String pathToObligations = "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml";// +++
+	String pathToObligations;
 	List<String> processedObligations = new ArrayList<String>();
 	List<String> processedObligationsEventLabels = new ArrayList<String>();
 	private List<AssociationRelation> listOfAddedAssociations = new ArrayList<AssociationRelation>();;
@@ -65,6 +66,18 @@ public class ObligationTranslator {
 		translateObligationRules();
 	}
 
+	public ObligationTranslator(HashMap<String, Integer> mapOfIDs, String pathToObligations) {
+		this.mapOfIDs = mapOfIDs;
+		this.pathToObligations = pathToObligations;
+		try {
+			obligation = readObligations();
+		} catch (EVRException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		translateObligationRules();
+	}
 	public List<String> getProcessedObligations() {
 		return processedObligations;
 	}
