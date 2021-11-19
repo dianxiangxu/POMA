@@ -49,7 +49,7 @@ public class ObligationChecker extends BMC {
 
 
 		//Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2, Attorneys1);");
-		Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation1);");
+		Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation3);");
 
 		//System.out.println(checker.mapOfIDs);
 

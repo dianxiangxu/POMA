@@ -83,6 +83,9 @@ abstract class BMC {
 			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
 					getObligationEventVariables(), mapOfIDs);
 			solved = solution == null ? false : true;
+			if(!solved){
+				System.out.println("Solution not found with time horizon: " + k);
+			}
 		}
 		count++;
 		// }

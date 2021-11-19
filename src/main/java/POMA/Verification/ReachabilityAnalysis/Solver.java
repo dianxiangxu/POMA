@@ -12,6 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import com.github.javafaker.Bool;
+
 import POMA.Verification.ReachabilityAnalysis.model.ObligationFiring;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 
@@ -47,12 +49,12 @@ public class Solver {
 		String result = null;
 		List<String> output = new ArrayList<String>();
 		while ((result = stdInput.readLine()) != null) {
-			//System.out.println(k + ": " + result);
+			// System.out.println(k + ": " + result);
 			if (result.equals("sat")) {
 				while ((result = stdInput.readLine()) != null) {
 					String line = result.replaceAll("[()]", "");
 					output.add(line);
-					//System.out.println(line);
+					// System.out.println(line);
 					// String[] stringArray = result.split("\\)\\),\\(ite");
 					String[] stringArray = result.split("BOUND_VARIABLE|\\)\\)|\\)|\\(ite \\(=");
 					String[] labelArray = (stringArray[0]).split(" \\(lambda \\(\\(|\\(\\(");
@@ -83,6 +85,9 @@ public class Solver {
 				if (isContain(line, label)) {
 					String[] splittedLine = line.split(" ");
 					String stepNumber = splittedLine[splittedLine.length - 1];
+					if (Boolean.parseBoolean(stepNumber)) {
+						stepNumber = "0";
+					}
 					if (Character.isDigit(stepNumber.charAt(0))) {
 						ObligationFiring step = new ObligationFiring();
 						step.setObligationLabel(label);
@@ -116,7 +121,7 @@ public class Solver {
 	}
 
 	private static String getKeyFromValue(int value, HashMap<String, Integer> mapOfIDs) {
-		if(value==0){
+		if (value == 0) {
 			return "NONE";
 		}
 		try {
@@ -124,7 +129,7 @@ public class Solver {
 					.findFirst().get().getKey();
 			return key;
 		} catch (Exception e) {
-			System.out.println("BREAKING VALUE: "+value);
+			System.out.println("BREAKING VALUE: " + value);
 			return "NONE";
 		}
 	}
