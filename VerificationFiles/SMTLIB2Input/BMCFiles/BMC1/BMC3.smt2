@@ -254,7 +254,7 @@
 
 
 (assert (=> (= (obligation5 0) true)(subset (ASSIGN* 1) (setminus (ASSIGN* 0) (setminus (setminus (union (singleton (mkTuple 9 4)) (join (singleton (mkTuple 9 4)) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 9 9)) (join (ASSIGN* 0)  (singleton (mkTuple 9 9)))) (transpose (union  (singleton (mkTuple 9 9)) (join (ASSIGN* 0)  (singleton (mkTuple 9 9)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 9 4)))) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 9 9)) (join (ASSIGN* 0)  (singleton (mkTuple 9 9)))) (transpose (union  (singleton (mkTuple 9 9)) (join (ASSIGN* 0)  (singleton (mkTuple 9 9)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 9 4)))) (ASSIGN* 0)))))))
-(assert (=> (= (obligation5 0) true)(subset (ASSIGN* 1) (setminus (ASSIGN 0) (singleton (mkTuple 9 4))))))
+(assert (=> (= (obligation5 0) true)(subset (ASSIGN 1) (setminus (ASSIGN 0) (singleton (mkTuple 9 4))))))
 (assert (=> (=(obligation5 0) true) (= (ASSOC 1) (ASSOC 0))))
 
 
@@ -263,6 +263,8 @@
 (assert (=> (distinct (ASSIGN* 1) (ASSIGN* 0))
 (or 
 (= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true))))
+(assert (=> (distinct (ASSIGN 1) (ASSIGN 0))
+(or (= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true))))
 (assert (=> (distinct (ASSOC 1) (ASSOC 0))
 (or 
 (= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true))))
@@ -436,7 +438,7 @@
 
 
 (assert (=> (= (obligation5 1) true)(subset (ASSIGN* 2) (setminus (ASSIGN* 1) (setminus (setminus (union (singleton (mkTuple 9 4)) (join (singleton (mkTuple 9 4)) (ASSIGN* 1))) (join (join (intersection (join (union  (singleton (mkTuple 9 9)) (join (ASSIGN* 1)  (singleton (mkTuple 9 9)))) (transpose (union  (singleton (mkTuple 9 9)) (join (ASSIGN* 1)  (singleton (mkTuple 9 9)))))) NODES) (setminus (ASSIGN 1) (singleton (mkTuple 9 4)))) (ASSIGN* 1))) (join (join (intersection (join (union  (singleton (mkTuple 9 9)) (join (ASSIGN* 1)  (singleton (mkTuple 9 9)))) (transpose (union  (singleton (mkTuple 9 9)) (join (ASSIGN* 1)  (singleton (mkTuple 9 9)))))) NODES) (setminus (ASSIGN 1) (singleton (mkTuple 9 4)))) (ASSIGN* 1)))))))
-(assert (=> (= (obligation5 1) true)(subset (ASSIGN* 2) (setminus (ASSIGN 1) (singleton (mkTuple 9 4))))))
+(assert (=> (= (obligation5 1) true)(subset (ASSIGN 2) (setminus (ASSIGN 1) (singleton (mkTuple 9 4))))))
 (assert (=> (=(obligation5 1) true) (= (ASSOC 2) (ASSOC 1))))
 
 
@@ -445,6 +447,8 @@
 (assert (=> (distinct (ASSIGN* 2) (ASSIGN* 1))
 (or 
 (= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true))))
+(assert (=> (distinct (ASSIGN 2) (ASSIGN 1))
+(or (= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true))))
 (assert (=> (distinct (ASSOC 2) (ASSOC 1))
 (or 
 (= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true))))
@@ -618,7 +622,7 @@
 
 
 (assert (=> (= (obligation5 2) true)(subset (ASSIGN* 3) (setminus (ASSIGN* 2) (setminus (setminus (union (singleton (mkTuple 9 4)) (join (singleton (mkTuple 9 4)) (ASSIGN* 2))) (join (join (intersection (join (union  (singleton (mkTuple 9 9)) (join (ASSIGN* 2)  (singleton (mkTuple 9 9)))) (transpose (union  (singleton (mkTuple 9 9)) (join (ASSIGN* 2)  (singleton (mkTuple 9 9)))))) NODES) (setminus (ASSIGN 2) (singleton (mkTuple 9 4)))) (ASSIGN* 2))) (join (join (intersection (join (union  (singleton (mkTuple 9 9)) (join (ASSIGN* 2)  (singleton (mkTuple 9 9)))) (transpose (union  (singleton (mkTuple 9 9)) (join (ASSIGN* 2)  (singleton (mkTuple 9 9)))))) NODES) (setminus (ASSIGN 2) (singleton (mkTuple 9 4)))) (ASSIGN* 2)))))))
-(assert (=> (= (obligation5 2) true)(subset (ASSIGN* 3) (setminus (ASSIGN 2) (singleton (mkTuple 9 4))))))
+(assert (=> (= (obligation5 2) true)(subset (ASSIGN 3) (setminus (ASSIGN 2) (singleton (mkTuple 9 4))))))
 (assert (=> (=(obligation5 2) true) (= (ASSOC 3) (ASSOC 2))))
 
 
@@ -627,6 +631,8 @@
 (assert (=> (distinct (ASSIGN* 3) (ASSIGN* 2))
 (or 
 (= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true))))
+(assert (=> (distinct (ASSIGN 3) (ASSIGN 2))
+(or (= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true))))
 (assert (=> (distinct (ASSOC 3) (ASSOC 2))
 (or 
 (= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true))))
@@ -651,9 +657,9 @@
 (assert (or(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true)))
 
 
-(assert (not 
-(member (mkTuple  5  18  13 ) (ASSOC 3))
-))
+(assert 
+(member (mkTuple  9  4 ) (ASSIGN 3))
+)
 (check-sat)
 (get-value (obligation3))
 (get-value (obligation2))

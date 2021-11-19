@@ -4,22 +4,16 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Stream;
 
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.Obligations;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 import POMA.Verification.ReachabilityAnalysis.fol.model.*;
-import POMA.Verification.ReachabilityAnalysis.fol.model.connectives.Conjunctive;
-import POMA.Verification.ReachabilityAnalysis.fol.model.predicates.*;
-import POMA.Verification.ReachabilityAnalysis.fol.model.terms.*;
 import POMA.Verification.ReachabilityAnalysis.fol.parser.FOLGrammar;
-import POMA.Verification.ReachabilityAnalysis.models.AccessRequest;
-import POMA.Verification.ReachabilityAnalysis.models.Request;
+import POMA.Verification.ReachabilityAnalysis.model.Solution;
 
 abstract class BMC {
 	public enum QUERY_TYPE {
@@ -30,7 +24,6 @@ abstract class BMC {
 	private int bound = 3;
 	private String smtCodeFilePath = "";
 	HashMap<String, Integer> mapOfIDs;
-
 
 	void setSolver(Solver solver) {
 		this.solver = solver;
@@ -48,8 +41,8 @@ abstract class BMC {
 
 	abstract String generateTailCode();
 
-	abstract String generateAssertKCode(int k, String obligation_label, QUERY_TYPE queryType,
-			AccessRequest... accessRequest);
+	// abstract String generateAssertKCode(int k, String obligation_label, QUERY_TYPE queryType,
+			// AccessRequest... accessRequest);
 
 	abstract String generateIterationCode(int k);
 
@@ -76,26 +69,30 @@ abstract class BMC {
 		boolean solved = false;
 		String headCode = generateHeadCode();
 		String iterationCode = "";
-		String queryLabel = "obligation2";
-		// String queryAR = " "+ mapOfIDs.get("BM") + " " + mapOfIDs.get("approve") + "
-		// " + mapOfIDs.get("PDSWhole");
-		// String queryASSIGNMENT = " " + mapOfIDs.get("Vlad") + " " +
-		// mapOfIDs.get("CoPI2");
-		String query2 = " " + mapOfIDs.get("LeadAttorneys") + " " + mapOfIDs.get("approve") + " "
-				+ mapOfIDs.get("Case3");
-		String query3 = " " + mapOfIDs.get("Attorney1") + " " + mapOfIDs.get("Attorney1");
-		Integer s = mapOfIDs.get("Attorneys2");
-		Integer ar = mapOfIDs.get("accept");
-		Integer t = mapOfIDs.get("Case3");
+		// String queryLabel = "obligation2";
+		// // String queryAR = " "+ mapOfIDs.get("BM") + " " + mapOfIDs.get("approve") + "
+		// // " + mapOfIDs.get("PDSWhole");
+		// // String queryASSIGNMENT = " " + mapOfIDs.get("Vlad") + " " +
+		// // mapOfIDs.get("CoPI2");
+		// String query2 = " " + mapOfIDs.get("LeadAttorneys") + " " + mapOfIDs.get("approve") + " "
+		// 		+ mapOfIDs.get("Case3");
+		// String query3 = " " + mapOfIDs.get("Attorney1") + " " + mapOfIDs.get("Attorney1");
+		// Integer s = mapOfIDs.get("Attorneys2");
+		// Integer ar = mapOfIDs.get("accept");
+		// Integer t = mapOfIDs.get("Case3");
 
 		IFormula formula = parseQuery(query);
+		if (formula == null) {
+			return null;
+		}
 		Solution solution = null;
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
-			System.out.println("=============================================");
 			String smtlibv2Code = headCode + iterationCode;
 			// smtlibv2Code+=processSMTQueryCode(k);
 			smtlibv2Code += postProcessFormula(formula, (k - 1));
+			System.out.println("=============================================");
+			System.out.println("Processing step: "+k+"...");
 			// smtlibv2Code+= generateAssertKCode(k - 1, queryLabel, QUERY_TYPE.LABEL);
 			smtlibv2Code += generateTailCode();
 			if (k == bound) {
@@ -107,7 +104,6 @@ abstract class BMC {
 					getObligationEventVariables(), mapOfIDs);
 			solved = solution == null ? false : true;
 		}
-
 		count++;
 		// }
 		System.out.println("Total Runs: " + count);
@@ -120,7 +116,13 @@ abstract class BMC {
 	}
 
 	public Solution solveConstraint(String constraint) throws Exception {
-		return check(constraint);
+		try {
+			Solution s = check(constraint);
+			return s;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return null;
 	}
 	// private String processSMTQueryCode(int k){
 	// String toReturn = System.lineSeparator();
@@ -139,17 +141,16 @@ abstract class BMC {
 		FOLGrammar parser = new FOLGrammar(new ByteArrayInputStream(query.getBytes()));
 
 		while (true) {
-			System.out.println("Reading from standard input...");
-			System.out.print("Enter an expression: ");
+		//	System.out.println("Reading from standard input...");
+			//System.out.print("Enter an expression: ");
 			try {
 				IFormula f = FOLGrammar.parse();
-				System.out.println(f.toSMT());
+				// System.out.println(f.toSMT());
 				return f;
-				// processFormula(f);
 			} catch (Exception e) {
-				System.out.println("NOK.");
-				System.out.println(e.getMessage());
-				FOLGrammar.ReInit(System.in);
+				// System.out.println("NOK.");
+				System.out.println(e);
+				break;
 			} catch (Error e) {
 				System.out.println("Oops.");
 				System.out.println(e.getMessage());
@@ -159,7 +160,7 @@ abstract class BMC {
 		return null;
 	}
 
-	private String postProcessFormula(IFormula f, int k) {
+	private String postProcessFormula(IFormula f, int k) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
 		List<String> queryVars = new ArrayList<String>();

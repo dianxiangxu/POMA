@@ -12,6 +12,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import POMA.Verification.ReachabilityAnalysis.model.ObligationFiring;
+import POMA.Verification.ReachabilityAnalysis.model.Solution;
+
 public class Solver {
 
 	public static final Solver Z3 = new Solver("Z3", "/usr/local/bin/z3");

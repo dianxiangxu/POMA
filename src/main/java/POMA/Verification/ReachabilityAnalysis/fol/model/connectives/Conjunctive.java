@@ -23,7 +23,7 @@ public class Conjunctive implements IFormula {
 		return "Conjunctive [subformulaA=" + subformulaA + ", subformulaB=" + subformulaB + "]";
 	}
 
-	public String toSMT(){
+	public String toSMT() throws Exception{
 		return "(and " +subformulaA.toSMT()+" "+ subformulaB.toSMT()+")";
 	}
 }

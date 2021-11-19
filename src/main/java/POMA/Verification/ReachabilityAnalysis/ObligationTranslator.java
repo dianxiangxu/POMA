@@ -220,7 +220,7 @@ public class ObligationTranslator {
 			String subject = r.getEventPattern().getSubject().getAnyUser().get(0); // TODO: Add multiple users
 			String ar = r.getEventPattern().getOperations().get(0);
 			String target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
-			System.out.println(subject + " : " + ar + " : " + target);
+			//System.out.println(subject + " : " + ar + " : " + target);
 			ruleLabels.add(r.getLabel());
 			eventMembers.put(subject, target);
 			processedObligationsEventLabels.addAll(getEvents(r));
@@ -365,7 +365,7 @@ public class ObligationTranslator {
 			String obligationLabel, String actionIndex, boolean isSingleAction) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		String toVariable = isSingleAction ? "(ASSIGN* " + k + ")" : "ASSIGN*" + actionIndex;
+		String toVariable = isSingleAction ? "(ASSIGN " + k + ")" : "ASSIGN" + actionIndex;
 
 		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(subset " + toVariable
 				+ " (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + "))))))");
@@ -525,22 +525,29 @@ public class ObligationTranslator {
 	String implyExecution(int k) {
 		StringBuilder sbASSIGN = new StringBuilder();
 		StringBuilder sbASSOC = new StringBuilder();
+		StringBuilder sbASSIGNEXPLICIT = new StringBuilder();
 
 		sbASSIGN.append("(assert (=> (distinct (ASSIGN* " + k + ") (ASSIGN* " + (k - 1) + "))" + System.lineSeparator()
 				+ "(or ");
 		sbASSIGN.append(System.lineSeparator());
+
+		sbASSIGNEXPLICIT.append("(assert (=> (distinct (ASSIGN " + k + ") (ASSIGN " + (k - 1) + "))"
+				+ System.lineSeparator() + "(or ");
+
 		sbASSOC.append(
 				"(assert (=> (distinct (ASSOC " + k + ") (ASSOC " + (k - 1) + "))" + System.lineSeparator() + "(or ");
 		sbASSOC.append(System.lineSeparator());
 
 		for (String label : ruleLabels) {
 			sbASSIGN.append("(= (" + label + " " + (k - 1) + ") true)");
+			sbASSIGNEXPLICIT.append("(= (" + label + " " + (k - 1) + ") true)");
 			sbASSOC.append("(= (" + label + " " + (k - 1) + ") true)");
 		}
 		sbASSIGN.append(")))");
 		sbASSOC.append(")))");
+		sbASSIGNEXPLICIT.append(")))");
 
-		return sbASSIGN.toString() + System.lineSeparator() + sbASSOC.toString() + System.lineSeparator();
+		return sbASSIGN.toString() + System.lineSeparator()+ sbASSIGNEXPLICIT.toString() + System.lineSeparator() + sbASSOC.toString() + System.lineSeparator();
 	}
 
 	// 5.4

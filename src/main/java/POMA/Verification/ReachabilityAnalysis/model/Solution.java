@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysis;
+package POMA.Verification.ReachabilityAnalysis.model;
 
 import java.util.ArrayList;
 import java.util.List;

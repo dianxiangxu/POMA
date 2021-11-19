@@ -16,7 +16,7 @@ public class Negation implements IFormula {
 		return "Negation [subformula=" + subformula + "]";
 	}
 
-	public String toSMT() {
+	public String toSMT() throws Exception {
 		return "(not " + subformula.toSMT() + ")";
 	}
 }

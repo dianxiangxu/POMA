@@ -249,7 +249,7 @@ class GraphTranslator {
 			// Integer.toString(
 			// targetID)).toStringNoQuotes());
 		}
-		System.out.println("ASSIGNMENTS SIZE: " + flattenedTuples.size());
+	//	System.out.println("ASSIGNMENTS SIZE: " + flattenedTuples.size());
 		// System.exit(0);
 	}
 

@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysis;
+package POMA.Verification.ReachabilityAnalysis.model;
 
 public class ObligationFiring {
     String obligationLabel;
