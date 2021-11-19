@@ -67,7 +67,6 @@ public class ObligationChecker extends BMC {
 		ot = new ObligationTranslator(mapOfIDs);
 		ot.findAllAbsentElements();
 
-		// ot.processObligations();
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
 		obligationsResponse.addAll(ot.getProcessedObligations());
 		listOfAddedAssociations.addAll(ot.getListOfAddedAssociations());
@@ -126,12 +125,8 @@ public class ObligationChecker extends BMC {
 
 		sb.append(System.lineSeparator());
 		sb.append(ot.translateObligationPreconditions(k));
-		// sb.append(System.lineSeparator());
-		// sb.append(ot.translateGraphIntersection(k));
 		sb.append(System.lineSeparator());
 		sb.append(ot.processEffects(k));
-		// sb.append(System.lineSeparator());
-		// sb.append(gt.translateARCheck(k));
 		sb.append(System.lineSeparator());
 		return sb.toString();
 	}

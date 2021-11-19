@@ -16,9 +16,6 @@ import POMA.Verification.ReachabilityAnalysis.fol.parser.FOLGrammar;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 
 abstract class BMC {
-	public enum QUERY_TYPE {
-		LABEL, PERMIT, DENY, HIERARCHY, NOT_HIERARCHY, ASSOC, NO_ASSOC, ASSIGN, ASSIGN_explicit
-	}
 
 	private Solver solver = Solver.CVC4;
 	private int bound = 3;
@@ -40,9 +37,6 @@ abstract class BMC {
 	abstract String generateHeadCode() throws Exception;
 
 	abstract String generateTailCode();
-
-	// abstract String generateAssertKCode(int k, String obligation_label, QUERY_TYPE queryType,
-			// AccessRequest... accessRequest);
 
 	abstract String generateIterationCode(int k);
 
@@ -69,17 +63,6 @@ abstract class BMC {
 		boolean solved = false;
 		String headCode = generateHeadCode();
 		String iterationCode = "";
-		// String queryLabel = "obligation2";
-		// // String queryAR = " "+ mapOfIDs.get("BM") + " " + mapOfIDs.get("approve") + "
-		// // " + mapOfIDs.get("PDSWhole");
-		// // String queryASSIGNMENT = " " + mapOfIDs.get("Vlad") + " " +
-		// // mapOfIDs.get("CoPI2");
-		// String query2 = " " + mapOfIDs.get("LeadAttorneys") + " " + mapOfIDs.get("approve") + " "
-		// 		+ mapOfIDs.get("Case3");
-		// String query3 = " " + mapOfIDs.get("Attorney1") + " " + mapOfIDs.get("Attorney1");
-		// Integer s = mapOfIDs.get("Attorneys2");
-		// Integer ar = mapOfIDs.get("accept");
-		// Integer t = mapOfIDs.get("Case3");
 
 		IFormula formula = parseQuery(query);
 		if (formula == null) {
@@ -89,11 +72,9 @@ abstract class BMC {
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
 			String smtlibv2Code = headCode + iterationCode;
-			// smtlibv2Code+=processSMTQueryCode(k);
-			smtlibv2Code += postProcessFormula(formula, (k - 1));
+			smtlibv2Code += postProcessQuery(formula, (k - 1));
 			System.out.println("=============================================");
 			System.out.println("Processing step: "+k+"...");
-			// smtlibv2Code+= generateAssertKCode(k - 1, queryLabel, QUERY_TYPE.LABEL);
 			smtlibv2Code += generateTailCode();
 			if (k == bound) {
 				// System.out.println(smtlibv2Code);
@@ -124,35 +105,18 @@ abstract class BMC {
 		}
 		return null;
 	}
-	// private String processSMTQueryCode(int k){
-	// String toReturn = System.lineSeparator();
-	// int count = 0;
-	// for(AccessRequest pr : permitRequests){
-	// toReturn += generateAssertKCode(k - 1,"", QUERY_TYPE.PERMIT, pr);
-	// toReturn += System.lineSeparator();
-	// count++;
-	// }
-
-	// return toReturn;
-	// }
-
+	
 	private IFormula parseQuery(String query) {
-		// FOLGrammar parser = new FOLGrammar(System.in);
 		FOLGrammar parser = new FOLGrammar(new ByteArrayInputStream(query.getBytes()));
 
 		while (true) {
-		//	System.out.println("Reading from standard input...");
-			//System.out.print("Enter an expression: ");
 			try {
 				IFormula f = FOLGrammar.parse();
-				// System.out.println(f.toSMT());
 				return f;
 			} catch (Exception e) {
-				// System.out.println("NOK.");
-				System.out.println(e);
+				System.out.println(e.getMessage());
 				break;
 			} catch (Error e) {
-				System.out.println("Oops.");
 				System.out.println(e.getMessage());
 				break;
 			}
@@ -160,7 +124,7 @@ abstract class BMC {
 		return null;
 	}
 
-	private String postProcessFormula(IFormula f, int k) throws Exception {
+	private String postProcessQuery(IFormula f, int k) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
 		List<String> queryVars = new ArrayList<String>();
