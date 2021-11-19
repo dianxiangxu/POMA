@@ -51,6 +51,9 @@ class GraphTranslator {
 		}
 	}
 
+	GraphTranslator(Graph graph) {
+			this.graph = graph;
+	}
 	private String setObligationLabels() {
 		StringBuilder sb = new StringBuilder();
 		for (String label : obligationLabels) {

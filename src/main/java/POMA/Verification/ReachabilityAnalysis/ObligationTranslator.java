@@ -78,6 +78,13 @@ public class ObligationTranslator {
 		}
 		translateObligationRules();
 	}
+	
+	public ObligationTranslator(HashMap<String, Integer> mapOfIDs, Obligation obligation) {
+		this.mapOfIDs = mapOfIDs;
+		this.obligation = obligation;
+		translateObligationRules();
+	}
+
 	public List<String> getProcessedObligations() {
 		return processedObligations;
 	}

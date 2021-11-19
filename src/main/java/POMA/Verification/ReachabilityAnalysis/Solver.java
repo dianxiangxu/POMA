@@ -70,7 +70,6 @@ public class Solver {
 					}
 				}
 				Solution solution = findSolution(output, obligationLabels, mapOfIDs);
-				System.out.println(solution);
 				return solution;
 			}
 		}
