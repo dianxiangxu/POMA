@@ -47,7 +47,7 @@ public class ObligationChecker extends BMC {
 		// Create with paths
 		// ObligationChecker checker = new ObligationChecker("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json",
 		// 		"Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
-		
+
 		// Create with objects
 		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
 		String yml = new String(
@@ -70,7 +70,7 @@ public class ObligationChecker extends BMC {
 		// PERMIT(Attorneys2U, accept, Case3Info));");
 		// Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2,
 		// Attorneys1);");
-		Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation2);");
+		Solution solution = checker.solveConstraint("NOT(OBLIGATIONLABEL(obligation2));");
 		System.out.println(solution);
 
 		// System.out.println(checker.mapOfIDs);

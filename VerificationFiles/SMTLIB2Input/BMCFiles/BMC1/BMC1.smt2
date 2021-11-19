@@ -289,9 +289,9 @@
 (assert (or(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true)))
 
 
-(assert 
+(assert (not 
 (= (obligation2 0) true)
-)
+))
 (check-sat)
 (get-value (obligation3))
 (get-value (obligation2))
