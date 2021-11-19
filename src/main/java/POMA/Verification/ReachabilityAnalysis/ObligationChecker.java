@@ -41,14 +41,18 @@ public class ObligationChecker extends BMC {
 
 	public static void main(String[] args) throws Exception {
 
-		// ObligationChecker checker = new ObligationChecker();
 
-		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
-		String yml = new String(Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
-		Obligation obligation = EVRParser.parse(yml);
 		
+
+		// Create with paths
 		// ObligationChecker checker = new ObligationChecker("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json",
 		// 		"Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
+		
+		// Create with objects
+		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
+		String yml = new String(
+				Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
+		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(
 				graph,
 				obligation);
