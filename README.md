@@ -74,4 +74,4 @@ In order to use negation, simply do:
 "NOT(OBLIGATIONLABEL(obligation2));"
 ```
 
-**NOTE**: while queries of type (Predicate1 AND (Predicate2 OR Predicate3)) should work, there was no thorough testing of those. 
+**NOTE**: while queries of type _(Predicate1 AND (Predicate2 OR Predicate3))_ should work, there was no thorough testing of those. 
