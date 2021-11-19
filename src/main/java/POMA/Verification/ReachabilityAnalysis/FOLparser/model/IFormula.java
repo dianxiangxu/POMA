@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysis.fol.model;
+package POMA.Verification.ReachabilityAnalysis.FOLparser.model;
 
 import java.util.Map;
 

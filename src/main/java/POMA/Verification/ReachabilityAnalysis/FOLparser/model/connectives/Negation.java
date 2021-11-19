@@ -1,7 +1,7 @@
-package POMA.Verification.ReachabilityAnalysis.fol.model.connectives;
+package POMA.Verification.ReachabilityAnalysis.FOLparser.model.connectives;
 
 
-import POMA.Verification.ReachabilityAnalysis.fol.model.IFormula;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.IFormula;
 
 public class Negation implements IFormula {
 

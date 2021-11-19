@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysis.fol.model.terms;
+package POMA.Verification.ReachabilityAnalysis.FOLparser.model.terms;
 
 public class Constant implements ITerm{
 	

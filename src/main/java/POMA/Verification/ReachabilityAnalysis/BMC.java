@@ -11,8 +11,8 @@ import java.util.List;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.Obligations;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
-import POMA.Verification.ReachabilityAnalysis.fol.model.*;
-import POMA.Verification.ReachabilityAnalysis.fol.parser.FOLGrammar;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.*;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.parser.FOLGrammar;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 
 abstract class BMC {
@@ -74,7 +74,7 @@ abstract class BMC {
 			String smtlibv2Code = headCode + iterationCode;
 			smtlibv2Code += postProcessQuery(formula, (k - 1));
 			System.out.println("=============================================");
-			System.out.println("Processing step: "+k+"...");
+			System.out.println("Time horizon " + k + " processing...");
 			smtlibv2Code += generateTailCode();
 			if (k == bound) {
 				// System.out.println(smtlibv2Code);
@@ -101,7 +101,7 @@ abstract class BMC {
 			Solution s = check(constraint);
 			return s;
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println(e.getMessage());
 		}
 		return null;
 	}

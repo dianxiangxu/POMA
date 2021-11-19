@@ -1,6 +1,6 @@
-package POMA.Verification.ReachabilityAnalysis.fol.model.connectives;
+package POMA.Verification.ReachabilityAnalysis.FOLparser.model.connectives;
 
-import POMA.Verification.ReachabilityAnalysis.fol.model.IFormula;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.IFormula;
 
 public class Conjunctive implements IFormula {
 	private IFormula subformulaA = null, subformulaB = null;
@@ -24,6 +24,10 @@ public class Conjunctive implements IFormula {
 	}
 
 	public String toSMT() throws Exception{
+		// if (tuple.size() != 2) {
+		// 	throw new Exception(
+		// 			"Incorrect ASSIGN predictate format. Please use the following format: ASSIGN(ancestor, descendant)");
+		// }
 		return "(and " +subformulaA.toSMT()+" "+ subformulaB.toSMT()+")";
 	}
 }

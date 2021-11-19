@@ -57,7 +57,7 @@ public class ObligationChecker extends BMC {
 		long end = System.currentTimeMillis();
 
 		float sec = (end - start) / 1000F;
-		System.out.println(sec + " seconds");
+		System.out.println("The job took: "+sec + " seconds");
 
 	}
 	
@@ -118,11 +118,9 @@ public class ObligationChecker extends BMC {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
-
 		sb.append(
 				";--------------------------------------------------------------------------------------------------------------------\r\n"
 						+ ";STEP" + k);
-
 		sb.append(System.lineSeparator());
 		sb.append(ot.translateObligationPreconditions(k));
 		sb.append(System.lineSeparator());

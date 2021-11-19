@@ -1,35 +1,38 @@
-package POMA.Verification.ReachabilityAnalysis.fol.model.predicates;
+package POMA.Verification.ReachabilityAnalysis.FOLparser.model.predicates;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import POMA.Verification.ReachabilityAnalysis.fol.model.terms.Constant;
-import POMA.Verification.ReachabilityAnalysis.fol.model.terms.ITerm;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.terms.Constant;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.terms.ITerm;
 
-public class AssignPredicate implements IPredicate {
+public class HierarchyPredicate implements IPredicate {
 	List<ITerm> tuple = new ArrayList<ITerm>();
 
-	public AssignPredicate() {
+	public HierarchyPredicate() {
+
 	}
 
-	public List<ITerm> getTuple() {
-		return tuple;
-	}
-
+	@Override
 	public void setTuple(List<ITerm> tuple) {
 		this.tuple = tuple;
 	}
 
 	@Override
+	public List<ITerm> getTuple() {
+		return tuple;
+	}
+
+	@Override
 	public String toString() {
-		return "AssignPredicate [tuple=" + tuple + "]";
+		return "Hierarchy [tuple=" + tuple + "]";
 	}
 
 	public String toSMT() throws Exception {
 		if (tuple.size() != 2) {
 			throw new Exception(
-					"Incorrect ASSIGN predictate. Please use the following format: ASSIGN(ancestor, descendant)");
-				}
+					"Incorrect HIERARCHY predictate format. Please use the following format: HIERARCHY(ancestor, descendant)");
+		}
 		String smtlibv2Code = "";
 		String a = tuple.get(0) instanceof Constant ? tuple.get(0).getElement() : null;
 		String d = tuple.get(0) instanceof Constant ? tuple.get(1).getElement() : null;
@@ -41,10 +44,10 @@ public class AssignPredicate implements IPredicate {
 		String dSpec = d != null ? " [" + d + "] " : dVar;
 
 		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += "(member (mkTuple " + aSpec + dSpec + ") (ASSIGN* " + "{(k + 1)}" + "))";
+		smtlibv2Code += "(or (member (mkTuple " + aSpec + dSpec + ") (ASSIGN* " + "{(k + 1)}" + ")) (member (mkTuple "
+				+ dSpec + aSpec + ") (ASSIGN* " + "{(k + 1)}" + ")))";
 
 		smtlibv2Code += System.lineSeparator();
 		return smtlibv2Code;
 	}
-
 }

@@ -1,10 +1,10 @@
-package POMA.Verification.ReachabilityAnalysis.fol.model.predicates;
+package POMA.Verification.ReachabilityAnalysis.FOLparser.model.predicates;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import POMA.Verification.ReachabilityAnalysis.fol.model.terms.Constant;
-import POMA.Verification.ReachabilityAnalysis.fol.model.terms.ITerm;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.terms.Constant;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.terms.ITerm;
 
 public class DenyPredicate implements IPredicate{
 
@@ -28,7 +28,11 @@ public class DenyPredicate implements IPredicate{
 	}
 
 
-	public String toSMT() {
+	public String toSMT() throws Exception {
+		if (tuple.size() != 3) {
+			throw new Exception(
+					"Incorrect DENY predictate format. Please use the following format: DENY(source, ar, target)");
+		}
 		String smtlibv2Code = "";
 		String s = tuple.get(0) instanceof Constant ? tuple.get(0).getElement() : null;
 		String accessright = tuple.get(1) instanceof Constant ? tuple.get(1).getElement() : null;
