@@ -73,7 +73,6 @@ abstract class BMC {
 			iterationCode += generateIterationCode(k);
 			String smtlibv2Code = headCode + iterationCode;
 			smtlibv2Code += postProcessQuery(formula, (k - 1));
-			System.out.println("=============================================");
 			System.out.println("Time horizon " + k + " processing...");
 			smtlibv2Code += generateTailCode();
 			if (k == bound) {
@@ -93,6 +92,7 @@ abstract class BMC {
 
 	public Solution solveConstraint(Graph graph, Prohibitions prohibitions, // not now
 			Obligations obligations, String constraint) {
+				
 		return null;
 	}
 
@@ -107,8 +107,7 @@ abstract class BMC {
 	}
 	
 	private IFormula parseQuery(String query) {
-		FOLGrammar parser = new FOLGrammar(new ByteArrayInputStream(query.getBytes()));
-
+		new FOLGrammar(new ByteArrayInputStream(query.getBytes()));
 		while (true) {
 			try {
 				IFormula f = FOLGrammar.parse();

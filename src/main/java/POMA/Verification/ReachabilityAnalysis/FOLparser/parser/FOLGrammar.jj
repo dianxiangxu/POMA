@@ -167,6 +167,10 @@ IPredicate getPredicate() :
   {
     return new HierarchyPredicate();
   }
+| < OBLIGATIONLABEL >
+{
+  return new ObligationLabelPredicate();
+}
 }
 
 IPredicate predicate() :
