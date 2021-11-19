@@ -474,7 +474,7 @@
 
 
 (assert 
-(member (mkTuple  9  7 ) (ASSIGN* 2))
+(= (obligation2 1) true)
 )
 (check-sat)
 (get-value (obligation3))

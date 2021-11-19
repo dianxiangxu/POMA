@@ -4,11 +4,11 @@ options
 }
 
 PARSER_BEGIN(FOLGrammar)
-package POMA.Verification.ReachabilityAnalysis.fol.parser;
-import POMA.Verification.ReachabilityAnalysis.fol.model.connectives.*;
-import POMA.Verification.ReachabilityAnalysis.fol.model.predicates.*;
-import POMA.Verification.ReachabilityAnalysis.fol.model.terms.*;
-import POMA.Verification.ReachabilityAnalysis.fol.model.IFormula;
+package POMA.Verification.ReachabilityAnalysis.FOLparser.parser;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.connectives.*;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.predicates.*;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.terms.*;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.IFormula;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +96,8 @@ TOKEN :
 | < ASSIGN : "ASSIGN" >
 | < ASSOCIATE : "ASSOCIATE" >
 | < HIERARCHY : "HIERARCHY" >
+| < OBLIGATIONLABEL : "OBLIGATIONLABEL" >
+
 }
 
 //logical connectives

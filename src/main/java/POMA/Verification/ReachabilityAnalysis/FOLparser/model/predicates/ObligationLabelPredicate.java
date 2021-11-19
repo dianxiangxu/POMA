@@ -38,7 +38,7 @@ public class ObligationLabelPredicate implements IPredicate {
 		String label = tuple.get(0).getElement();
 
 		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += "(= (" + label  + "{(k + 1)}" + ") true)";
+		smtlibv2Code += "(= (" + label  + " {k}" + ") true)";
 
 		smtlibv2Code += System.lineSeparator();
 		return smtlibv2Code;
