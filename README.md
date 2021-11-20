@@ -53,6 +53,9 @@ The following are the queries currently supported:
 | Deny - permission does not exist | DENY(Attorneys2U, accept, Case3Info); |
 | Hierarchy exists - either a is assigned to b or b is assigned to a(inheritance included) | HIERARCHY(Attorneys2U, Attorneys2); |
 | Exists???? | ASSIGN(Attorneys2U, ?ANY); |
+| SUBSET???? | ? |
+
+The following sets are available: ASSIGN, ASSIGN*, ASSOCIATE
 
 **CONNECTIVES**
 
