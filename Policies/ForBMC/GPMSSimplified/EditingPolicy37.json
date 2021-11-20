@@ -1,16 +1,6 @@
 {
   "nodes": [
     {
-      "name": "UBM",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "CoPI",
-      "type": "UA",
-      "properties": {}
-    },
-    {
       "name": "Chair",
       "type": "UA",
       "properties": {}
@@ -26,8 +16,73 @@
       "properties": {}
     },
     {
+      "name": "RAU",
+      "type": "U",
+      "properties": {}
+    },
+    {
       "name": "BM",
       "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Vlad",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "CoPIU",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "SPU",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "EditingPolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "UChair",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "SP",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "UBM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "RDU",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "CoPI",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeanU",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairU",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BMU",
+      "type": "U",
       "properties": {}
     },
     {
@@ -56,11 +111,6 @@
       "properties": {}
     },
     {
-      "name": "Vlad",
-      "type": "U",
-      "properties": {}
-    },
-    {
       "name": "RD",
       "type": "UA",
       "properties": {}
@@ -81,26 +131,12 @@
       "properties": {}
     },
     {
-      "name": "EditingPolicy",
-      "type": "PC",
-      "properties": {}
-    },
-    {
-      "name": "UChair",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "SP",
-      "type": "UA",
+      "name": "PIU",
+      "type": "U",
       "properties": {}
     }
   ],
   "assignments": [
-    {
-      "source": "PI",
-      "target": "EditingPolicy"
-    },
     {
       "source": "UDean",
       "target": "EditingPolicy"
@@ -110,15 +146,63 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "UChair",
-      "target": "EditingPolicy"
-    },
-    {
       "source": "Chair",
       "target": "EditingPolicy"
     },
     {
       "source": "RD",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "RAU",
+      "target": "RA"
+    },
+    {
+      "source": "Vlad",
+      "target": "PI"
+    },
+    {
+      "source": "DeanU",
+      "target": "Dean"
+    },
+    {
+      "source": "CoPI",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "UBM",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "RDU",
+      "target": "RD"
+    },
+    {
+      "source": "PIU",
+      "target": "PI"
+    },
+    {
+      "source": "SP",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "URD",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "CoPIU",
+      "target": "CoPI"
+    },
+    {
+      "source": "SPU",
+      "target": "SP"
+    },
+    {
+      "source": "PI",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "UChair",
       "target": "EditingPolicy"
     },
     {
@@ -134,32 +218,20 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "Vlad",
-      "target": "PI"
-    },
-    {
-      "source": "CoPI",
-      "target": "EditingPolicy"
-    },
-    {
       "source": "BM",
       "target": "EditingPolicy"
     },
     {
-      "source": "UBM",
-      "target": "EditingPolicy"
+      "source": "ChairU",
+      "target": "Chair"
     },
     {
       "source": "CoPI2",
       "target": "EditingPolicy"
     },
     {
-      "source": "SP",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "URD",
-      "target": "EditingPolicy"
+      "source": "BMU",
+      "target": "BM"
     },
     {
       "source": "URA",
@@ -176,6 +248,21 @@
   ],
   "associations": [
     {
+      "source": "SP",
+      "target": "PDSWhole",
+      "operations": [
+        "read"
+      ]
+    },
+    {
+      "source": "CoPI",
+      "target": "SP",
+      "operations": [
+        "delete-sp",
+        "add-sp"
+      ]
+    },
+    {
       "source": "CoPI",
       "target": "PDSWhole",
       "operations": [
@@ -191,27 +278,12 @@
       ]
     },
     {
-      "source": "CoPI",
-      "target": "SP",
-      "operations": [
-        "delete-sp",
-        "add-sp"
-      ]
-    },
-    {
       "source": "PI",
       "target": "PDSWhole",
       "operations": [
         "submit",
         "create",
         "delete"
-      ]
-    },
-    {
-      "source": "SP",
-      "target": "PDSWhole",
-      "operations": [
-        "read"
       ]
     }
   ]

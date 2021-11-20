@@ -159,27 +159,16 @@ public class ObligationTranslator {
 			processVariables(obligationU, obligationUA, obligationAT, obligationUO, obligationS, obligationT,
 					obligationAR, sb, subjectID, targetID, arID);
 
-			// sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)
-			// (let((.def_U " + obligationU
-			// + ")(.def_UO " + obligationUO + ") (.def_UA " + obligationUA + ")(.def_AT " +
-			// obligationAT
-			// + "))(and\r\n"
-			// // + "(member (mkTuple .def_U " + subjectID + ") (ASSIGN* " + k + "))\r\n"
-			// + " (member (mkTuple " + subjectID + " .def_UA) (ASSIGN* " + (k - 1) +
-			// "))\r\n"
-			// + "(member (mkTuple .def_UA " + obligationAR + " .def_AT) (ASSOC " + (k - 1)
-			// + "))\r\n"
-			// // + "(member (mkTuple .def_UO " + targetID + ") (ASSIGN* " + k + "))\r\n"
-			// + " (member (mkTuple " + targetID + " .def_AT) (ASSIGN* " + (k - 1) +
-			// "))\r\n" + "))))");
 			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true) (and\r\n" + " (member (mkTuple  "
 					+ obligationU + " " + obligationS + ") (ASSIGN* " + (k - 1) + "))\r\n" + " (member (mkTuple  "
 					+ obligationS + " " + obligationUA + ") (ASSIGN* " + (k - 1) + "))\r\n" + "(member (mkTuple "
 					+ obligationUA + " " + obligationAR + " " + obligationAT + ") (ASSOC " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationUO + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationT + " " + obligationUO + ") (ASSIGN* " + (k - 1) + "))\r\n"
-					+ " (distinct " + obligationS + " " + obligationU + ")\r\n" + " (distinct " + obligationT + " "
-					+ obligationUO + ")\r\n" + ")))");
+					+ " (distinct " + obligationS + " " + obligationU + ")\r\n" 
+					// + " (distinct " + obligationT + " "
+					// + obligationUO + ")\r\n" 
+					+ ")))");
 			sb.append(System.lineSeparator());
 			sb.append(System.lineSeparator());
 			ruleLabels.add(r.getLabel());

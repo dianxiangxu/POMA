@@ -50,13 +50,28 @@ public class GPMSGenerator {
 		editingPolicy.createPolicyClass("EditingPolicy", null);
 
 		editingPolicy.createNode("PI", UA, null, "EditingPolicy");
+		editingPolicy.createNode("PIU", U, null, "PI");
+
 		editingPolicy.createNode("CoPI", UA, null, "EditingPolicy");
+		editingPolicy.createNode("CoPIU", U, null, "CoPI");
+
 		editingPolicy.createNode("SP", UA, null, "EditingPolicy");
+		editingPolicy.createNode("SPU", U, null, "SP");
+
 		editingPolicy.createNode("Chair", UA, null, "EditingPolicy");
+		editingPolicy.createNode("ChairU", U, null, "Chair");
+
 		editingPolicy.createNode("BM", UA, null, "EditingPolicy");
+		editingPolicy.createNode("BMU", U, null, "BM");
+
 		editingPolicy.createNode("Dean", UA, null, "EditingPolicy");
+		editingPolicy.createNode("DeanU", U, null, "Dean");
+
 		editingPolicy.createNode("RA", UA, null, "EditingPolicy");
+		editingPolicy.createNode("RAU", U, null, "RA");
+
 		editingPolicy.createNode("RD", UA, null, "EditingPolicy");
+		editingPolicy.createNode("RDU", U, null, "RD");
 
 		editingPolicy.createNode("UChair", UA, null, "EditingPolicy");
 		editingPolicy.createNode("UBM", UA, null, "EditingPolicy");

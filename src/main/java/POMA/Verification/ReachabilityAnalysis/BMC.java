@@ -18,7 +18,7 @@ import POMA.Verification.ReachabilityAnalysis.model.Solution;
 abstract class BMC {
 
 	private Solver solver = Solver.CVC4;
-	private int bound = 3;
+	private int bound = 4;
 	private String smtCodeFilePath = "";
 	HashMap<String, Integer> mapOfIDs;
 

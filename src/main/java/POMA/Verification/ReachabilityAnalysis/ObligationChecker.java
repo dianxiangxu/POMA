@@ -30,11 +30,14 @@ public class ObligationChecker extends BMC {
 	String pathToGraph;
 	// String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyLess.json";
 
-	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy125.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy265.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy500.json";
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy750.json";
+
+	// String pathToObligations =
+	// "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml"; // +++
+	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
 
 	GraphTranslator gt;
 	ObligationTranslator ot;
@@ -49,9 +52,13 @@ public class ObligationChecker extends BMC {
 		// 		"Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
 
 		// Create with objects
-		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
+		// Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
+		// String yml = new String(
+		// 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
+		Graph graph =
+		Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/EditingPolicy37.json");
 		String yml = new String(
-				Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
+		Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple2.yml")));
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(
 				graph,
@@ -70,10 +77,10 @@ public class ObligationChecker extends BMC {
 		// PERMIT(Attorneys2U, accept, Case3Info));");
 		// Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2,
 		// Attorneys1);");
-		Solution solution = checker.solveConstraint("NOT(OBLIGATIONLABEL(obligation2));");
+		Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation4);");
 		System.out.println(solution);
 
-		// System.out.println(checker.mapOfIDs);
+		System.out.println(checker.mapOfIDs);
 
 		long end = System.currentTimeMillis();
 		float sec = (end - start) / 1000F;
