@@ -52,6 +52,7 @@ The following are the queries currently supported:
 | Explicit + implicit assignment exists (hierarchy accounted for) | EXPLICITASSIGN(Attorneys2U, Attorneys); |
 | Deny - permission does not exist | DENY(Attorneys2U, accept, Case3Info); |
 | Hierarchy exists - either a is assigned to b or b is assigned to a(inheritance included) | HIERARCHY(Attorneys2U, Attorneys2); |
+| Exists???? | ASSIGN(Attorneys2U, ?ANY); |
 
 **CONNECTIVES**
 
