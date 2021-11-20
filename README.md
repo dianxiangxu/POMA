@@ -76,5 +76,7 @@ In order to use negation, simply do:
 
 **NOTE**: while queries of type _(Predicate1 AND (Predicate2 OR Predicate3))_ should work, there was no thorough testing of those. 
 
+
 **TERMS**
+
 Any terms that contains a "?" is considered to be a variables. Otherwise, it is a constant. Please give your variables valid names that you will recognize once the processing is done. 
