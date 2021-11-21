@@ -30,6 +30,11 @@ Then, you need to set the output for smt code as follows:
 checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 ```
 
+Additionaly, you may want to set the time horizon(default is 4) via following command:
+```java
+checker.setBound(10);
+```
+
 ### Queries
 
 **PREDICATES**
