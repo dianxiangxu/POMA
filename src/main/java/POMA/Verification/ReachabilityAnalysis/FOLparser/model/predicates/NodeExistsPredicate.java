@@ -28,11 +28,11 @@ public class NodeExistsPredicate implements IPredicate{
     public String toSMT() throws Exception {
         if (tuple.size() != 1) {
             throw new Exception(
-                    "Incorrect NodeExists predictate format. Please use the following format: EXISTS(node)");
+                    "Incorrect EXISTS predictate format. Please use the following format: EXISTS(node)");
         }
         if(!(tuple.get(0) instanceof Constant)){
             throw new Exception(
-                    "Incorrect NodeExists predictate format. Please use the following format: EXISTS(node). The \"node\" term needs to be constant");
+                    "Incorrect EXISTS predictate format. Please use the following format: EXISTS(node). The \"node\" term needs to be constant");
         }
         String smtlibv2Code = "";
         String a = tuple.get(0) instanceof Constant ? tuple.get(0).getElement() : null;
