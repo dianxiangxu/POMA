@@ -5,7 +5,11 @@ import java.util.List;
 
 public class Solution {
 
-    List<ObligationFiring> obligationFirings = new ArrayList<ObligationFiring>();
+    private List<ObligationFiring> obligationFirings = new ArrayList<ObligationFiring>();
+
+    public List<ObligationFiring> getObligationFirings() {
+        return obligationFirings;
+    }
 
     public Solution(List<ObligationFiring> obligationFirings) {
         this.obligationFirings = obligationFirings;

@@ -97,6 +97,7 @@ TOKEN :
 | < ASSOCIATE : "ASSOCIATE" >
 | < HIERARCHY : "HIERARCHY" >
 | < OBLIGATIONLABEL : "OBLIGATIONLABEL" >
+| < EXISTS : "EXISTS" >
 
 }
 
@@ -172,6 +173,10 @@ IPredicate getPredicate() :
 | < OBLIGATIONLABEL >
 {
   return new ObligationLabelPredicate();
+}
+| < EXISTS >
+{
+  return new NodeExistsPredicate();
 }
 }
 

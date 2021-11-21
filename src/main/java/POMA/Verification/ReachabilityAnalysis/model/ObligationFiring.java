@@ -89,7 +89,7 @@ public class ObligationFiring {
 
     @Override
     public String toString() {
-        return "Step [obligationLabel=" + obligationLabel + ", subject=" + subject + ", event=" + event + ", object=" + object   + "]";
+        return "ObligationFiring [obligationLabel=" + obligationLabel + ", subject=" + subject + ", event=" + event + ", object=" + object   + "]";
     }
     
 }

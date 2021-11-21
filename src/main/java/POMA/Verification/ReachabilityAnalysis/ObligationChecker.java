@@ -47,27 +47,30 @@ public class ObligationChecker extends BMC {
 
 		
 
-		// Create with paths
-		// ObligationChecker checker = new ObligationChecker("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json",
-		// 		"Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
+	//	Create with paths
+		ObligationChecker checker = new ObligationChecker("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json",
+				"Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
 
-		// Create with objects
+	//	Create with objects
 		// Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
 		// String yml = new String(
 		// 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
-		Graph graph =
-		Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/EditingPolicy37.json");
-		String yml = new String(
-		Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple2.yml")));
-		Obligation obligation = EVRParser.parse(yml);
-		ObligationChecker checker = new ObligationChecker(
-				graph,
-				obligation);
+		// Graph graph =
+		// Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/EditingPolicy37.json");
+		// String yml = new String(
+		// Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple2.yml")));
+		// Obligation obligation = EVRParser.parse(yml);
+		// ObligationChecker checker = new ObligationChecker(
+		// 		graph,
+		// 		obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
-
-
-
 		long start = System.currentTimeMillis();
+
+		//Solution solution = checker.solveConstraint("(OBLIGATIONLABEL(obligation1) AND ASSOCIATE(AttorneysMain,refuse,Case3));");
+		Solution solution = checker
+				.solveConstraint("EXISTS(AttorneysMain);");
+
+
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC2/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC3/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC4/BMC");
@@ -77,7 +80,6 @@ public class ObligationChecker extends BMC {
 		// PERMIT(Attorneys2U, accept, Case3Info));");
 		// Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2,
 		// Attorneys1);");
-		Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation4);");
 		System.out.println(solution);
 
 		System.out.println(checker.mapOfIDs);
