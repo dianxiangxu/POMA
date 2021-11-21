@@ -100,6 +100,6 @@ There are currently 3 sets that obligations are making changes to in SMT.
 
 3. ASSOCIATE: associations, not permissions.
 
-It is possible to get all the permissions with join operations, but is very expensive.
+It is possible to get all the permissions with join operations, but is very expensive. Also, it is possible to get all the permissions for just ua, ar, at, or their permutations. 
 
 If there is a need to use any of the above sets with a predicate, let me know and I will add such predicate. 
