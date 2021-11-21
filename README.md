@@ -94,8 +94,12 @@ Any terms that contains a "?" is considered to be a _VARIABLE_. Otherwise, it is
 
 There are currently 3 sets that obligations are making changes to in SMT. 
 
-> ASSIGN: assignments with no hierarchy
+1. ASSIGN: assignments with no hierarchy
 
-> ASSIGN*: assignments with hierarchy
+2. ASSIGN*: assignments with hierarchy
 
-> ASSOCIATE: associations, not permissions.
+3. ASSOCIATE: associations, not permissions.
+
+It is possible to get all the permissions with join operations, but is very expensive.
+
+If there is a need to use any of the above sets with a predicate, let me know and I will add such predicate. 
