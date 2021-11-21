@@ -88,4 +88,4 @@ In order to use negation, simply do:
 
 **TERMS**
 
-Any terms that contains a "?" is considered to be a _VARIABLE_. Otherwise, it is a constant. Please give your variables valid names that you will recognize once the processing is done. 
+Any terms that contains a "?" is considered to be a _VARIABLE_. Otherwise, it is a _CONSTANT_. Please give your variables valid names that you will recognize once the processing is done. 
