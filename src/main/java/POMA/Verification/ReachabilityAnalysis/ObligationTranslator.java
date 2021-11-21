@@ -499,19 +499,24 @@ public class ObligationTranslator {
 
 			sb.append(System.lineSeparator());
 			if (!assignRelatedActionExists) {
+				sb.append(System.lineSeparator());
 				sb.append("(assert (=> (=(" + obligationLabel + " " + (k - 1) + ") true) (= (ASSIGN* " + k
 						+ ") (ASSIGN* " + (k - 1) + "))))");
 				sb.append(System.lineSeparator());
 				sb.append("(assert (=> (=(" + obligationLabel + " " + (k - 1) + ") true) (= (ASSIGN " + k + ") (ASSIGN "
 						+ (k - 1) + "))))");
+				sb.append(System.lineSeparator());		
 			} else {
 				sb.append(processAssignmentRelatedAction(k, obligationLabel, assignActions));
 			}
 			if (!associateRelatedActionExists) {
+				sb.append(System.lineSeparator());
 				sb.append("(assert (=> (=(" + obligationLabel + " " + (k - 1) + ") true) (= (ASSOC " + k + ") (ASSOC "
 						+ (k - 1) + "))))");
+				sb.append(System.lineSeparator());
 			} else {
 				sb.append(processAssociationRelatedActions(k, obligationLabel, associateActions));
+				sb.append(System.lineSeparator());
 			}
 			sb.append(System.lineSeparator());
 
