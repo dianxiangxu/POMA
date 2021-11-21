@@ -48,17 +48,17 @@ Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation2);");
 The solution object, hopefully, will contain a list of steps. 
 
 The following are the queries currently supported: 
-| Predicate  | Logic | Query Example |
-| ------------- | ------------- | ------------- |
-| Obligation Label is reachable  | ------ | OBLIGATIONLABEL(obligation2); |
-| Association exists  | (ua, ar, at) belongsTo ASSOCIATE | ASSOCIATE(Attorneys,refuse,Case3);  |
-| Permission exists  | (u,?ua) belongsTo ASSIGN* AND (t,?at) belongsTo ASSIGN* AND (?ua, ar, ?at) belongsTo ASSOCIATE | PERMIT(Attorneys2U, accept, Case3Info); |
-| Explicit assignment exists (no hierarchy)  | (a,d) belongsTo ASSIGN | ASSIGN(Attorneys2U, Attorneys2); |
-| Explicit + implicit assignment exists (hierarchy accounted for) | (a,d) belongsTo ASSIGN* | EXPLICITASSIGN(Attorneys2U, Attorneys); |
-| Deny - permission does not exist | NOT(PERMIT(u,ar,t)) | DENY(Attorneys2U, accept, Case3Info); |
-| Hierarchy exists - either a is assigned to b or b is assigned to a(inheritance included) | (a,b) belongsTo ASSIGN* OR (b,a) belongsTo ASSIGN*| HIERARCHY(Attorneys2U, Attorneys2); |
-| Exists | (a,?d) belongsTo ASSIGN | EXISTS(Attorneys2U); |
-| SUBSET | ------ | NOT NOW |
+| Predicate  | Logic | Query Example | Variables Allowed? |
+| ------------- | ------------- | ------------- | ------------- |
+| Obligation Label is reachable  | ------ | OBLIGATIONLABEL(obligation2); | NO |
+| Association exists  | (ua, ar, at) belongsTo ASSOCIATE | ASSOCIATE(Attorneys,refuse,Case3);  | YES |
+| Permission exists  | (u,?ua) belongsTo ASSIGN* AND (t,?at) belongsTo ASSIGN* AND (?ua, ar, ?at) belongsTo ASSOCIATE | PERMIT(Attorneys2U, accept, Case3Info); | YES |
+| Explicit assignment exists (no hierarchy)  | (a,d) belongsTo ASSIGN | ASSIGN(Attorneys2U, Attorneys2); | YES |
+| Explicit + implicit assignment exists (hierarchy accounted for) | (a,d) belongsTo ASSIGN* | EXPLICITASSIGN(Attorneys2U, Attorneys); | YES |
+| Deny - permission does not exist | NOT(PERMIT(u,ar,t)) | DENY(Attorneys2U, accept, Case3Info); | YES |
+| Hierarchy exists - either a is assigned to b or b is assigned to a(inheritance included) | (a,b) belongsTo ASSIGN* OR (b,a) belongsTo ASSIGN*| HIERARCHY(Attorneys2U, Attorneys2); | YES |
+| Exists | (a,?d) belongsTo ASSIGN | EXISTS(Attorneys2U); | YES |
+| SUBSET | ------ | NOT NOW | ----- |
 
 The following sets are available: ASSIGN, ASSIGN*, ASSOCIATE
 
