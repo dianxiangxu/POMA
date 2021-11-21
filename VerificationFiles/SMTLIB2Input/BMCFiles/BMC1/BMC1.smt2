@@ -284,10 +284,11 @@
 (assert (or(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true)))
 
 
-(declare-fun queryVARASSIGN*D_AttorneysMain_0 () Int)
-(assert 
-(member (mkTuple  5  queryVARASSIGN*D_AttorneysMain_0 ) (ASSIGN* 1))
-)
+(assert (and 
+(= (obligation1 0) true)
+ 
+(member (mkTuple  4  15  13 ) (ASSOC 1))
+))
 (check-sat)
 (get-value (obligation3))
 (get-value (obligation2))

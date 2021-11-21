@@ -66,9 +66,9 @@ public class ObligationChecker extends BMC {
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
 		//checker.setBound(10);
-		//Solution solution = checker.solveConstraint("(OBLIGATIONLABEL(obligation1) AND ASSOCIATE(AttorneysMain,refuse,Case3));");
-		Solution solution = checker
-				.solveConstraint("EXISTS(AttorneysMain);");
+		Solution solution = checker.solveConstraint("(OBLIGATIONLABEL(obligation1) AND ASSOCIATE(Attorneys,refuse,Case3));");
+		// Solution solution = checker
+		// 		.solveConstraint("EXISTS(AttorneysMain);");
 
 
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC2/BMC");
