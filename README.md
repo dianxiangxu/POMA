@@ -37,7 +37,7 @@ checker.setBound(10);
 
 ### Queries
 
-**PREDICATES**
+#### PREDICATES
 
 In order to solve the contraint, use the following format method call: 
 
@@ -62,7 +62,7 @@ The following are the queries currently supported:
 
 The following sets are available: ASSIGN, ASSIGN*, ASSOCIATE
 
-**CONNECTIVES**
+#### CONNECTIVES
 
 Both "and" and "or" are supported. The format as follows: 
 
@@ -75,7 +75,7 @@ Both "and" and "or" are supported. The format as follows:
 
 Note that even though smt supports and/or with 3 or more elements, this feature is not included in this solver.
 
-**NEGATION**
+#### NEGATION
 
 In order to use negation, simply do: 
 
@@ -86,6 +86,16 @@ In order to use negation, simply do:
 **NOTE**: while queries of type _(Predicate1 AND (Predicate2 OR Predicate3))_ should work, there was no thorough testing of those. 
 
 
-**TERMS**
+#### TERMS
 
 Any terms that contains a "?" is considered to be a _VARIABLE_. Otherwise, it is a _CONSTANT_. Please give your variables valid names that you will recognize once the processing is done. 
+
+#### SETS
+
+There are currently 3 sets that obligations are making changes to in SMT. 
+
+> ASSIGN: assignments with no hierarchy
+
+> ASSIGN*: assignments with hierarchy
+
+> ASSOCIATE: associations, not permissions.
