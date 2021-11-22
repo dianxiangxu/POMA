@@ -35,6 +35,20 @@ Additionaly, you may want to set the time horizon(default is 4) via following co
 checker.setBound(10);
 ```
 
+The solver will return null if no solution is found or Solution object that has a list of obligation firings as shown below: 
+
+```
+Solution [
+1: ObligationFiring [obligationLabel=obligation1, subject=Vlad, event=submit, object=PDSWhole]
+2: ObligationFiring [obligationLabel=obligation2, subject=ChairU, event=approve, object=PDSWhole]
+3: ObligationFiring [obligationLabel=obligation3, subject=BMU, event=approve, object=PDSWhole]
+4: ObligationFiring [obligationLabel=obligation4, subject=DeanU, event=approve, object=PDSWhole]
+5: ObligationFiring [obligationLabel=obligation5, subject=RAU, event=submit, object=PDSWhole]
+6: ObligationFiring [obligationLabel=obligation6, subject=RDU, event=archive, object=PDSWhole]
+7: ObligationFiring [obligationLabel=obligation7, subject=UserChair, event=approve, object=PDSWhole]
+]
+```
+
 ### Queries
 
 #### PREDICATES
