@@ -52,6 +52,8 @@ import POMA.Mutation.EquivalentMutantAnalyzer.Obligation.IGA;
 import POMA.Mutation.EquivalentMutantAnalyzer.Obligation.IAA;
 import POMA.Mutation.EquivalentMutantAnalyzer.Obligation.INA;
 
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.ROA_Solver;
+
 import POMA.Mutation.EquivalentMutantAnalyzer.AccessRequest;
 import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
@@ -97,18 +99,26 @@ public class EquivalentMutantAnalyzer {
 //        initialGraphConfig = "Policies/GPMS/Graph.json";
 //		obligationPath = "Policies/GPMS/Obligations.yml";
 		
-		initialGraphConfig = "Policies/LawUseCase/Graph.json";
-		initialProhibitionConfig = "Policies/LawUseCase/prohibitions.json";
-		obligationPath = "Policies/LawUseCase/Obligations.yml";
+//		initialGraphConfig = "Policies/LawUseCase/Graph.json";
+//		initialProhibitionConfig = "Policies/LawUseCase/prohibitions.json";
+//		obligationPath = "Policies/LawUseCase/Obligations.yml";
 		
 //        initialGraphConfig = "Policies/BankPolicy/Complex/bank_policy_config.json";
 		
 //        initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/graph.json";
 //        initialProhibitionConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/prohibitionsx1.json";
-        
+		
+		//BMC: LawFirm
+		//FIXME: prohibition not working yet
+		initialGraphConfig = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
+		obligationPath = "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
+////      initialProhibitionConfig = "Policies/ForBMC/LawFirmSimplified/prohibitions.json";
+		
+		//BMC: GPMS
+//		initialGraphConfig = "Policies/ForBMC/GPMSSimplified/EditingPolicy.json";
+//		obligationPath = "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml";
 
-        
-        
+		
 		File folder = new File(initialGraphConfig).getParentFile();
 //		mutantNames.add("AAG");
 //		mutantNames.add("RAG");
@@ -145,12 +155,32 @@ public class EquivalentMutantAnalyzer {
 //			mutantNames.add("AEO");
 //			mutantNames.add("REO");
 //			mutantNames.add("CEPE");
-			mutantNames.add("REPE");
+//			mutantNames.add("REPE");
 //			mutantNames.add("ROC");
 //			mutantNames.add("NCD");
 //			mutantNames.add("ROF");
 //			mutantNames.add("NOF");
-//			mutantNames.add("ROA");//has problem
+//			mutantNames.add("ROA");
+//			mutantNames.add("COA");
+//			mutantNames.add("ICA");
+//			mutantNames.add("IGA");
+//			mutantNames.add("IAA");
+//			mutantNames.add("INA");
+			
+			//FIXME: reserved for solver
+//			mutantNames.add("ROB");
+//			mutantNames.add("CEU");
+//			mutantNames.add("REU");
+//			mutantNames.add("CEO");
+//			mutantNames.add("AEO");
+//			mutantNames.add("REO");
+//			mutantNames.add("CEPE");
+//			mutantNames.add("REPE");
+//			mutantNames.add("ROC");
+//			mutantNames.add("NCD");
+//			mutantNames.add("ROF");
+//			mutantNames.add("NOF");
+			mutantNames.add("ROA_Solver");
 //			mutantNames.add("COA");
 //			mutantNames.add("ICA");
 //			mutantNames.add("IGA");
@@ -358,6 +388,9 @@ public class EquivalentMutantAnalyzer {
 				} else if (mutantNames.get(i).equals("INA")) {
 					row41[0] = "INA";
 					row41[j] = Double.toString(testINA(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("ROA_Solver")) {
+					row36[0] = "ROA_Solver";
+					row36[j] = Double.toString(testROA_Solver(testMethod, graph, prohibitions, obligationPath));
 				}
 			}
 			row42[j] = Double.toString(
@@ -1506,6 +1539,33 @@ public class EquivalentMutantAnalyzer {
 		System.out.println();
 		totalNumberOfMutantsForTest += INA.getNumberOfMutants();
 		totalNumberOfKilledMutantsForTest += INA.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testROA_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		ROA_Solver ROA_Solver = new ROA_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is ROA_Solver");
+
+		try {
+			ROA_Solver.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		arList = ROA_Solver.getARList();
+		
+		double mutationScore = ROA_Solver.calculateMutationScore(ROA_Solver.getNumberOfMutants(),
+				ROA_Solver.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + ROA_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + ROA_Solver.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += ROA_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += ROA_Solver.getNumberOfKilledMutants();
 		return mutationScore;
 	}
 	

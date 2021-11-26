@@ -53,10 +53,13 @@ public class MutantTester {
 	protected String testMethod;
 	// public String initialGraphConfig = "GPMSPolicies/SimpleGraphToSMT.json";
 //	public String initialGraphConfig = "Policies/GPMS";
-	public String initialGraphConfig = "Policies/LawUseCase";
+//	public String initialGraphConfig = "Policies/LawUseCase";
 //	public String initialGraphConfig = "Policies/BankPolicy/Complex";
 //	public String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA";
-//	public String initialGraphConfig = "";
+	
+	//BMC
+	public String initialGraphConfig = "Policies/ForBMC/LawFirmSimplified/";
+//	public String initialGraphConfig = "Policies/ForBMC/GPMSSimplified/";
 
 	static List<String> Us;
 	static List<Node> UAs;

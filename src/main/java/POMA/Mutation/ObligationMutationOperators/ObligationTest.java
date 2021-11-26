@@ -97,7 +97,7 @@ public class ObligationTest {
 			pdp.getEPP().processEvent(new AddCoPIEvent(target_copi, copiToAdd), "nazmul", "process");
 			assertTrue(decider.check("tomtom", "", "CoPIInfo", "read"));
 			assertTrue(graph.getChildren("CoPI").contains("tomtom"));
-			assertTrue(graph.getChildren("Chair").contains("ChairChemUser"));//asser error
+			assertTrue(graph.getChildren("Chair").contains("ChairChemUser"));
 			assertTrue(graph.getChildren("Business Manager").contains("bmChemUser"));
 			assertTrue(graph.getChildren("Dean").contains("DeanCOASUser"));
 			assertTrue(decider.check("tomtom", "", "CoPIEditable", "read"));

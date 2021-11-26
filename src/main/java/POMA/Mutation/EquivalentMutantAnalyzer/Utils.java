@@ -1,6 +1,7 @@
 package POMA.Mutation.EquivalentMutantAnalyzer;
 
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.U;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -67,16 +68,21 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.obligations.MemObligations;
 import gov.nist.csd.pm.pip.obligations.evr.EVRException;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
+import gov.nist.csd.pm.pip.obligations.model.Condition;
 import gov.nist.csd.pm.pip.obligations.model.EventPattern;
 import gov.nist.csd.pm.pip.obligations.model.EvrNode;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.obligations.model.ResponsePattern;
 import gov.nist.csd.pm.pip.obligations.model.Rule;
+import gov.nist.csd.pm.pip.obligations.model.Subject;
+import gov.nist.csd.pm.pip.obligations.model.Target;
 import gov.nist.csd.pm.pip.obligations.model.actions.Action;
 import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction.Assignment;
 import gov.nist.csd.pm.pip.obligations.model.actions.CreateAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.CreateAction.CreateNode;
+import gov.nist.csd.pm.pip.obligations.model.actions.DenyAction.Target.Container;
+import gov.nist.csd.pm.pip.obligations.model.functions.Function;
 import gov.nist.csd.pm.pip.obligations.model.actions.DeleteAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.DenyAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
@@ -344,6 +350,19 @@ public class Utils extends MutantTester {
 		return userName;
 	}
 	
+	public static List<String> getPcList(Node node, Graph graph) throws PMException {
+		Node nodePc;
+		List<String> pcList = new ArrayList<String>();
+
+		for (String pc : graph.getPolicyClasses()) {
+			nodePc = graph.getNode(pc);
+			if (isContained(node.getName(), nodePc.getName(), graph)) {
+				pcList.add(pc);
+			}
+		}
+		return pcList;
+	}
+	
 	//this function returns the list of attributes whose privilege sets might be changed (propagation)
 	static public void getAffectedAttributes (Set<String> attributeList, String ruleLabel) throws FileNotFoundException, PMException {
 		List<Rule> rules = createObligationCopy().getRules();
@@ -392,6 +411,7 @@ public class Utils extends MutantTester {
 								attributeList.add(gAction.getTarget().getName());
 							}
 						}
+						//FIXME: below not handled
 						//prohibitions
 						if (((DeleteAction) action).getProhibitions() != null) {
 							List<String> prohibitionList = ((DeleteAction) action).getProhibitions();
@@ -808,10 +828,6 @@ public class Utils extends MutantTester {
 //		}
 	}	
 	
-	//If mutation happens in eventPattern, ar could help build:
-	//1) the request can trigger obligation in initial policy and cannot trigger obligation in mutant; or 
-	//2) the request cannot trigger obligation in initial policy and can trigger obligation in mutant.
-	//ar is null if there is no mutation within event pattern
 	public static AccessRequest decideEquivalentMutant (Obligation obligation, Obligation mutant, AccessRequest ar, String ruleLabel) throws Exception {
 		Set<String> attributeList = new HashSet<String>();
 		Set<String> tmpList = new HashSet<String>();
@@ -874,7 +890,7 @@ public class Utils extends MutantTester {
 			
 			graph = createCopy();
 			prohibitions = createProhibitionsCopy();
-			reachObligation(graph, prohibitions, mutant, ar,ruleLabel);
+			reachObligation(graph, prohibitions, mutant, ar, ruleLabel);
 			decider = new PReviewDecider(graph, prohibitions);
 			if (graph.exists(attribute)) {
 				ACLM = decider.generateACL(attribute, null);
@@ -910,4 +926,210 @@ public class Utils extends MutantTester {
 		return true;
 	}
 	
+	public static List<String> getSubject (Subject s) {
+		if (s == null)
+			return null;
+		List<String> tmpList = new ArrayList<String>();
+		if (s.getUser() != null)
+			tmpList.add(s.getUser());
+		if (s.getAnyUser() != null)
+			tmpList.addAll(s.getAnyUser());
+		if (s.getProcess() != null)
+			tmpList.add(s.getProcess().getValue());
+		return tmpList;
+	}
+	
+	public static List<String> getTarget (Target t) {
+		if (t == null)
+			return null;
+		List<String> tmpList = new ArrayList<String>();
+		if (t.getPolicyElements() != null) {
+			for (EvrNode en : t.getPolicyElements()) {
+				tmpList.add(en.getName());
+			}
+		}
+		if (t.getContainers() != null) {
+			for (EvrNode en : t.getContainers()) {
+				tmpList.add(en.getName());
+			}
+		}
+		return tmpList;
+	}
+	
+	public static List<String> getReachabilityConstraint (EventPattern event) throws PMException {
+		List<String> tmpConstraints = new ArrayList<String>();
+		List<String> subjects = getSubject(event.getSubject());
+		if (subjects == null) {
+			subjects = POMA.Utils.getUAsInGraph(graph);
+			subjects.addAll(POMA.Utils.getUsInGraph(graph));
+		}
+		List<String> targets = getTarget(event.getTarget());
+		if (targets == null) {
+			targets = POMA.Utils.getUAsInGraph(graph);
+			targets.addAll(POMA.Utils.getUsInGraph(graph));
+			targets.addAll(POMA.Utils.getOAsInGraph(graph));
+			targets.addAll(POMA.Utils.getOsInGraph(graph));
+		}
+		for (String s : subjects) {
+			for (String ar : event.getOperations()) {
+				for (String at : targets) {
+					tmpConstraints.add("PERMIT(" + s + "," + ar + "," + at +")");
+				}
+			}
+		}
+		return tmpConstraints;
+	}
+	
+	//FIXME: function unhandled
+	public static List<String> getNecessityConstraint (List<Function> fList, Boolean satisfy) {
+		List<String> tmpConstraints = new ArrayList<String>();
+		return null;
+	}
+	
+	//constraintP: action should change permit or deny
+	public static List<String> getPropagationConstraint (Action action) {
+		List<String> tmpConstraints = new ArrayList<String>();
+		if (action instanceof CreateAction) {
+			//FIXME: currently, create action not applied to solver because solver assumes all attributes exist
+//			for (CreateNode createNode: ((CreateAction) action).getCreateNodesList()) {
+//				attributeList.add(createNode.getWhat().getName());
+//				attributeList.add(createNode.getWhere().getName());
+//			}
+			return null;
+		} else if (action instanceof AssignAction) {
+			for (Assignment assignment : ((AssignAction) action).getAssignments() ) {
+				String what = assignment.getWhat().getName();
+				String where = assignment.getWhere().getName();
+				tmpConstraints.add("PERMIT_UA_ONLY(" + where + "," + where + ") AND NOT_HIERARCHY(" + what + "," + where + ")");
+				tmpConstraints.add("PERMIT_AT_ONLY(" + where + "," + where + ") AND NOT_HIERARCHY(" + what + "," + where + ")");
+			}
+		} else if (action instanceof GrantAction) {
+			String subject = ((GrantAction) action).getSubject().getName();
+			List<String> operations = ((GrantAction) action).getOperations();
+			String target = ((GrantAction) action).getTarget().getName();
+			for (String op : operations) {
+				tmpConstraints.add("NOT_PERMIT(" + subject + "," + op + "," + target + ")");
+			}
+			
+		} else if (action instanceof DenyAction) {
+			String subject = ((DenyAction) action).getSubject().getName();
+			List<String> operations = ((DenyAction) action).getOperations();
+			List<Container> containers = ((DenyAction) action).getTarget().getContainers();
+			for (String op : operations) {
+				for (Container c : containers) {
+					tmpConstraints.add("PERMIT(" + subject + "," + op + "," + c.getName() + ")");
+				}
+			}
+		} else if (action instanceof DeleteAction) {
+			if (((DeleteAction) action).getNodes() != null) {
+				for (EvrNode evrNnode : ((DeleteAction) action).getNodes()) {
+					String name = evrNnode.getName();
+					tmpConstraints.add("PERMIT_UA_ONLY(" + name + "," + name + ")");
+					tmpConstraints.add("PERMIT_AT_ONLY(" + name + "," + name + ")");
+				}
+			}
+			if (((DeleteAction) action).getAssignments() != null) {
+				AssignAction assignAction = ((DeleteAction) action).getAssignments();
+				for (Assignment assignment : assignAction.getAssignments()) {
+					String what = assignment.getWhat().getName();
+					String where = assignment.getWhere().getName();
+					//FIXME: a special case:PS(where) is subset Association(what)
+					//in this situation, removing assignment not affects PS(what)
+					//this special case not handled in solver?
+					tmpConstraints.add("UAOA_explicit(" + what + "," + where + ") AND "
+									+ "NOT_UAOA(" + what + "," + where + ") AND "
+									+ "ASSOC_UA_ONLY(" + what + "," + what + ") AND "
+									+ "NOT_EQ(ASSOC_UA_ONLY(" + what + "," + what + "),PERMIT_UA_ONLY(" + where + "," + where + ")");
+					tmpConstraints.add("UAOA_explicit(" + what + "," + where + ") AND "
+							+ "NOT_UAOA(" + what + "," + where + ") AND "
+							+ "ASSOC_AT_ONLY(" + what + "," + what + ") AND "
+							+ "NOT_EQ(ASSOC_AT_ONLY(" + what + "," + what + "),PERMIT_AT_ONLY(" + where + "," + where + ")");
+				}
+			}
+			if (((DeleteAction) action).getAssociations() != null) {
+				List<GrantAction> grantList = ((DeleteAction) action).getAssociations();
+				for (GrantAction gAction : grantList) {
+					String subject = ((GrantAction) gAction).getSubject().getName();
+					List<String> operations = ((GrantAction) gAction).getOperations();//operation cannot be empty
+					String target = ((GrantAction) gAction).getTarget().getName();
+					String operation = "{";
+					for (String op : operations) {
+						operation += " " + op; 
+					}
+					operation += "}";
+					for (String op : operations) {
+						tmpConstraints.add("AssociationExist(" + subject + "," + operation + "," + target + ") AND "
+								+ "PERMIT(" + subject + "," + op + "," + target + ")");
+					}
+					
+				}
+			}
+//			//FIXME: below not handled
+//			//prohibitions
+//			if (((DeleteAction) action).getProhibitions() != null) {
+//				List<String> prohibitionList = ((DeleteAction) action).getProhibitions();
+//				for (String name : prohibitionList) {
+//					for (Prohibition p : Utils.getProhibitionList()) {
+//						if (p.getName().equals(name)) {
+//							attributeList.add(p.getSubject());
+//						}
+//					}
+//				}
+//			}
+//			//obligations
+//			if (((DeleteAction) action).getRules() != null) {
+//				List<String> ruleList = ((DeleteAction) action).getRules();
+//				for (String name : ruleList) {
+//					getAffectedAttributes(attributeList, name);
+//				}
+//			}
+		}
+		return tmpConstraints;
+	}
+	
+	//FIXME: currently do nothing
+	public static List<AccessRequest> sendToSolver (Graph g, Prohibitions p, Obligation ob, String constraints) {
+		List<AccessRequest> eventList= new ArrayList<AccessRequest>();
+		//Below are implemented by handwriting
+		eventList.add(new AccessRequest("Attorneys", "accept", "Case3Info"));
+		eventList.add(new AccessRequest("Attorneys1", "refuse", "Case3"));
+		return eventList;
+	}
+	
+	static public boolean verifyEventList(Obligation obligation, Obligation mutant, List<AccessRequest> eventList) throws Exception {
+		Graph graphI = createCopy();
+		Graph graphM = createCopy();
+		Prohibitions prohibitionsI = createProhibitionsCopy();
+		Prohibitions prohibitionsM = createProhibitionsCopy();
+		runPolicyMachine(graphI, prohibitionsI, obligation, eventList);
+		runPolicyMachine(graphM, prohibitionsM, mutant, eventList);
+		PReviewDecider deciderI = new PReviewDecider(graphI, prohibitionsI);
+		PReviewDecider deciderM = new PReviewDecider(graphM, prohibitionsM);
+		AccessRequest assertRequest = eventList.get(eventList.size() - 1);
+		Boolean resultI = deciderI.check(assertRequest.getSA(), "", assertRequest.getTA(), assertRequest.getAR());
+		Boolean resultM = deciderM.check(assertRequest.getSA(), "", assertRequest.getTA(), assertRequest.getAR());
+		
+		//return true if assert results are different between initial obligation and mutant obligation
+		return resultI != resultM;
+	}
+	
+	static public void runPolicyMachine (Graph graph, Prohibitions prohibitions, Obligation obligation, List<AccessRequest> eventList) throws Exception {
+		PDP pdp = getPdpLawFirm(graph, prohibitions, obligation);
+		int i = 0;
+		
+		while (eventList.size() > (i + 1)) {
+			AccessRequest current = eventList.get(i);
+			
+			switch (current.getAR()) {
+			case "accept":
+				pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(current.getTA())), current.getSA(), "");
+			}
+			i++;
+		}
+	}
+	
+	//parse received string into list of struct AccessRequest
+//	static public void parseIntoEventList (String receivedData, List<AccessRequest> eventList) {
+//		
+//	}
 }

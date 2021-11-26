@@ -61,26 +61,27 @@ public class MutationController {
 //        String initialGraphConfig = "Policies/SimpleGraph/simpleGraphToSMT.json";
 //        String initialGraphConfig = "Policies/GPMS/Graph.json";
         initialGraphConfig = "Policies/LawUseCase/Graph.json";
-		initialProhibitionConfig = "Policies/LawUseCase/prohibitions.json";
+//		initialProhibitionConfig = "Policies/LawUseCase/prohibitions.json";
 //        String initialGraphConfig = "Policies/BankPolicy/Complex/bank_policy_config.json";
 //        String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/graph.json";
 //        String initialProhibitionConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/prohibitionsx1.json";
+//		initialGraphConfig = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
 
         
         
 		File folder = new File(initialGraphConfig).getParentFile();
-//		mutantNames.add("RAD");
-//		mutantNames.add("CAD");
+		mutantNames.add("RAD");
+		mutantNames.add("CAD");
 		mutantNames.add("CAA");
-//		mutantNames.add("RAG");
-//		mutantNames.add("AAG");
-//		mutantNames.add("CUAA");
-//		mutantNames.add("COAA");
-//		mutantNames.add("RARA");
-//		mutantNames.add("AARA");
-//		mutantNames.add("RAC");
-//		mutantNames.add("AAC");
-//		mutantNames.add("RARAA");
+		mutantNames.add("RAG");
+		mutantNames.add("AAG");
+		mutantNames.add("CUAA");
+		mutantNames.add("COAA");
+		mutantNames.add("RARA");
+		mutantNames.add("AARA");
+		mutantNames.add("RAC");
+		mutantNames.add("AAC");
+		mutantNames.add("RARAA");
 		mc.graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
 		if (!initialProhibitionConfig.equals(""))
 		    mc.prohibitions = Utils.readProhibitions(initialProhibitionConfig);

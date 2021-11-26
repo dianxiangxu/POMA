@@ -21,9 +21,7 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 import gov.nist.csd.pm.pip.prohibitions.model.Prohibition;
-
 //import prohibition interfaces
-import POMA.Mutation.ProhibitionMutationOperators.ProhibitionMutation;
 
 public class RAG extends MutantTester {
 	int i;
@@ -64,7 +62,7 @@ public class RAG extends MutantTester {
 	public AccessRequest decideEquivalentMutantForRAG (Node nodeA, Node nodeB) throws PMException {
 		if (nodeA.getName().equals("C-Suit") && nodeB.getName().equals("MainOffice"))
 			System.out.print("Debug here");
-		if (nodeA.getType().toString().equals("UA")) {
+		if (nodeA.getType().toString().equals("UA") || nodeA.getType().toString().equals("U")) {
 			Set<String> ascendantList = new HashSet<String>();
 			
 			Utils.getAllAscendant(nodeA.getName(), ascendantList, graph);
@@ -74,7 +72,14 @@ public class RAG extends MutantTester {
 				PReviewDecider decider = new PReviewDecider(mutant, prohibitions);
 				Map<String, Set<String>> CapabilityList = decider.getCapabilityList(ascendant, null);
 				
+				for (String pc : Utils.getPcList(nodeB, graph)) {
+					if (Utils.isContained(nodeA.getName(), pc, graph) != true) {
+						//add assignment if node a is not PC-connected
+						mutant.assign(nodeA.getName(), pc);
+					}
+				}
 				mutant.deassign(nodeA.getName(), nodeB.getName());
+				
 				decider = new PReviewDecider(mutant, prohibitions);
 				Map<String, Set<String>> CapabilityListMutant = decider.getCapabilityList(ascendant, null);
 				
@@ -100,7 +105,14 @@ public class RAG extends MutantTester {
 			PReviewDecider decider = new PReviewDecider(mutant, prohibitions);
 			Map<String, Set<String>> ACL = decider.generateACL(ascendant, null);
 
+			for (String pc : Utils.getPcList(nodeB, graph)) {
+				if (Utils.isContained(nodeA.getName(), pc, graph) != true) {
+					//add assignment if node a is not PC-connected
+					mutant.assign(nodeA.getName(), pc);
+				}
+			}
 			mutant.deassign(nodeA.getName(), nodeB.getName());
+			
 			decider = new PReviewDecider(mutant, prohibitions);
 			Map<String, Set<String>> ACLM = decider.generateACL(ascendant, null);
 			

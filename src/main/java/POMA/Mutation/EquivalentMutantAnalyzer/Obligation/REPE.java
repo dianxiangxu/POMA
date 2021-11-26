@@ -92,6 +92,10 @@ public class REPE extends MutantTester {
 				for (EvrNode evr : policyElements) {
 					tmpList.remove(evr.getName());
 				}
+				if (tmpList.isEmpty()) {
+					System.out.println("tmpList is empty.");
+					continue;
+				}
 				AccessRequest ar = new AccessRequest(null, null, tmpList.get(0));
 
 				try {

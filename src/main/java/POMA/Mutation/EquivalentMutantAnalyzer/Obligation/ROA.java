@@ -55,7 +55,6 @@ public class ROA extends MutantTester {
 				}
 				newActions.remove(actionToDelete); 
 				mutant = updateActions(mutant, ruleLabel, newActions);
-				
 				Utils.setObligationMutant(mutant);
 
 				try {

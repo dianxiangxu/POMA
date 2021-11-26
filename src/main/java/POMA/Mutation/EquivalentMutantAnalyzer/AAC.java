@@ -59,11 +59,11 @@ public class AAC extends MutantTester {
 					accessRights.add(accessRight);
 					AccessRequest q = decideEquivalentMutantForAAC(sourceNode.getName(), targetNode.getName(), accessRights);
 					if (q == null) {
-						System.out.println("Mutant equivalent!(AAC:" + i + ") Add AssoCiation:(" + sourceNode.getName() + "," + targetNode + ")");
+						System.out.println("Mutant equivalent!(AAC:" + i + ") Add AssoCiation:(" + sourceNode.getName() + "," + accessRights + "," + targetNode.getName() + ")");
 					} else {
 						Utils.addToARList(q);
 						setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
-//						System.out.println("Mutant not equivalent!(AAC:" + i + ") Add AssoCiation:(" + sourceNode.getName() + "," + targetNode + ")");
+//						System.out.println("Mutant not equivalent!(AAC:" + i + ") Add AssoCiation:(" + sourceNode.getName() + "," + accessRights + ","  + targetNode.getName() + ")");
 //						System.out.println("    Access request to show difference: " + q.getSA() + " " + q.getAR() + " " + q.getTA());
 					}
 					i++;
