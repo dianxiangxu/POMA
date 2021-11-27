@@ -19,10 +19,18 @@ rules:
                type: UA
              operations:
                - approve
+             target:
+               name: PDSWhole
+               type: OA     
+        - grant:
+             subject:
+               name: Chair
+               type: UA
+             operations:
                - disapprove               
              target:
                name: PDSWhole
-               type: OA                     
+               type: OA                                
         - delete:
             associations:
               - subject:
@@ -30,10 +38,19 @@ rules:
                   type: UA
                 operations:
                   - approve
+                target:
+                  name: PDSWhole
+                  type: UA    
+        - delete:
+            associations:
+              - subject:
+                  name: PI
+                  type: UA
+                operations:
                   - disapprove   
                 target:
                   name: PDSWhole
-                  type: UA                                                                                     
+                  type: UA                                                                                                    
   - label: obligation2
     event:
       subject:
@@ -53,15 +70,8 @@ rules:
                type: UA
              operations:
                - approve
-             target:
-               name: PDSWhole
-               type: OA  
-        - grant:
-             subject:
-               name: BM
-               type: UA
-             operations:
                - disapprove               
+
              target:
                name: PDSWhole
                type: OA                 
@@ -72,19 +82,10 @@ rules:
                   type: UA
                 operations:
                   - approve
-                target:
-                  name: PDSWhole
-                  type: UA    
-        - delete:
-            associations:
-              - subject:
-                  name: Chair
-                  type: UA
-                operations:
                   - disapprove                   
                 target:
                   name: PDSWhole
-                  type: UA                                  
+                  type: UA                                      
   - label: obligation3
     event:
       subject:
@@ -119,13 +120,13 @@ rules:
                 target:
                   name: PDSWhole
                   type: UA 
-        - assign:
-            - what:
-                name: Vlad
-                type: UA
-              where:
-                name: CoPI
-                type: UA                                      
+        # - assign:
+        #     - what:
+        #         name: Vlad
+        #         type: UA
+        #       where:
+        #         name: CoPI
+        #         type: UA                                      
   - label: obligation4
     event:
       subject:
@@ -159,14 +160,14 @@ rules:
                 target:
                   name: PDSWhole
                   type: UA      
-        - delete:
-            assignments:
-              - what:
-                  name: Vlad
-                  type: UA                          
-                where:
-                  name: CoPI
-                  type: UA                                                      
+        # - delete:
+        #     assignments:
+        #       - what:
+        #           name: Vlad
+        #           type: UA                          
+        #         where:
+        #           name: CoPI
+        #           type: UA                                                      
   - label: obligation5
     event:
       subject:

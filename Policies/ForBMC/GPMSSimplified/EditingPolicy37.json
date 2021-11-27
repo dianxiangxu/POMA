@@ -1,6 +1,11 @@
 {
   "nodes": [
     {
+      "name": "UserChair",
+      "type": "U",
+      "properties": {}
+    },
+    {
       "name": "Chair",
       "type": "UA",
       "properties": {}
@@ -216,6 +221,10 @@
     {
       "source": "RA",
       "target": "EditingPolicy"
+    },
+    {
+      "source": "UserChair",
+      "target": "UChair"
     },
     {
       "source": "BM",

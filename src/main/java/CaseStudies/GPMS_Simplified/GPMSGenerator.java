@@ -74,6 +74,8 @@ public class GPMSGenerator {
 		editingPolicy.createNode("RDU", U, null, "RD");
 
 		editingPolicy.createNode("UChair", UA, null, "EditingPolicy");
+		editingPolicy.createNode("UserChair", U, null, "UChair");
+
 		editingPolicy.createNode("UBM", UA, null, "EditingPolicy");
 		editingPolicy.createNode("UDean", UA, null, "EditingPolicy");
 		editingPolicy.createNode("URA", UA, null, "EditingPolicy");

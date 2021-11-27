@@ -40,36 +40,30 @@ public class ObligationChecker extends BMC {
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
 
 	GraphTranslator gt;
-	ObligationTranslator ot;
+	ObligationTranslator2 ot;
 
 	public static void main(String[] args) throws Exception {
+		// Create with paths
+		// ObligationChecker checker = new
+		// ObligationChecker("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json",
+		// "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
 
-
-		
-
-	//	Create with paths
-		ObligationChecker checker = new ObligationChecker("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json",
-				"Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
-
-	//	Create with objects
-		// Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
-		// String yml = new String(
-		// 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
+		// Create with objects
 		// Graph graph =
-		// Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/EditingPolicy37.json");
+		// Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
 		// String yml = new String(
-		// Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple2.yml")));
-		// Obligation obligation = EVRParser.parse(yml);
-		// ObligationChecker checker = new ObligationChecker(
-		// 		graph,
-		// 		obligation);
+		// Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
+		Graph graph = Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/EditingPolicy37.json");
+		String yml = new String(
+				Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple2.yml")));
+		Obligation obligation = EVRParser.parse(yml);
+		ObligationChecker checker = new ObligationChecker(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		//checker.setBound(10);
-		Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation2);");
+		checker.setBound(3);
+		Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation3);");
 		// Solution solution = checker
-		// 		.solveConstraint("EXISTS(AttorneysMain);");
-
+		// .solveConstraint("EXISTS(AttorneysMain);");
 
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC2/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC3/BMC");
@@ -93,7 +87,7 @@ public class ObligationChecker extends BMC {
 	public ObligationChecker() throws Exception {
 		gt = new GraphTranslator(pathToGraph);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator(mapOfIDs);
+		ot = new ObligationTranslator2(mapOfIDs);
 		ot.findAllAbsentElements();
 
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
@@ -110,7 +104,7 @@ public class ObligationChecker extends BMC {
 		gt = new GraphTranslator(pathToGraph);
 
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator(mapOfIDs, pathToObligations);
+		ot = new ObligationTranslator2(mapOfIDs, pathToObligations);
 		ot.findAllAbsentElements();
 
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
@@ -123,12 +117,12 @@ public class ObligationChecker extends BMC {
 	}
 
 	public ObligationChecker(Graph graph, Obligation obligations) throws Exception {
-	//	this.pathToGraph = pathToGraph;
+		// this.pathToGraph = pathToGraph;
 
 		gt = new GraphTranslator(graph);
 
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator(mapOfIDs, obligations);
+		ot = new ObligationTranslator2(mapOfIDs, obligations);
 		ot.findAllAbsentElements();
 
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
@@ -139,6 +133,7 @@ public class ObligationChecker extends BMC {
 		obligationLabels.addAll(ot.getRuleLabels());
 		eventMembers.putAll(ot.getEventMembers());
 	}
+
 	public ObligationChecker(Solver solver, int bound, int amount) {
 		super.setSolver(solver);
 		super.setBound(bound);
