@@ -30,9 +30,35 @@ Then, you need to set the output for smt code as follows:
 checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 ```
 
+Additionaly, you may want to set the time horizon(default is 4) via following command:
+```java
+checker.setBound(10);
+```
+
+Optionally, you can enable showing the SMT output(disabled by default, especially useful if you suspect an error):
+```java
+checker.enableSMTOutput(true);
+```
+
+
+
+The solver will return null if no solution is found or Solution object that has a list of obligation firings as shown below: 
+
+```
+Solution [
+1: ObligationFiring [obligationLabel=obligation1, subject=Vlad, event=submit, object=PDSWhole]
+2: ObligationFiring [obligationLabel=obligation2, subject=ChairU, event=approve, object=PDSWhole]
+3: ObligationFiring [obligationLabel=obligation3, subject=BMU, event=approve, object=PDSWhole]
+4: ObligationFiring [obligationLabel=obligation4, subject=DeanU, event=approve, object=PDSWhole]
+5: ObligationFiring [obligationLabel=obligation5, subject=RAU, event=submit, object=PDSWhole]
+6: ObligationFiring [obligationLabel=obligation6, subject=RDU, event=archive, object=PDSWhole]
+7: ObligationFiring [obligationLabel=obligation7, subject=UserChair, event=approve, object=PDSWhole]
+]
+```
+
 ### Queries
 
-**PREDICATES**
+#### PREDICATES
 
 In order to solve the contraint, use the following format method call: 
 
@@ -43,30 +69,34 @@ Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation2);");
 The solution object, hopefully, will contain a list of steps. 
 
 The following are the queries currently supported: 
-| Predicate  | Query Example |
-| ------------- | ------------- |
-| Obligation Label is reachable  | OBLIGATIONLABEL(obligation2); |
-| Association xists  | ASSOCIATE(Attorneys,refuse,Case3);  |
-| Permission exists  | PERMIT(Attorneys2U, accept, Case3Info); |
-| Explicit assignment exists (no hierarchy)  | ASSIGN(Attorneys2U, Attorneys2); |
-| Explicit + implicit assignment exists (hierarchy accounted for) | EXPLICITASSIGN(Attorneys2U, Attorneys); |
-| Deny - permission does not exist | DENY(Attorneys2U, accept, Case3Info); |
-| Hierarchy exists - either a is assigned to b or b is assigned to a(inheritance included) | HIERARCHY(Attorneys2U, Attorneys2); |
+| Predicate  | Logic | Query Example | Variables Allowed? |
+| ------------- | ------------- | ------------- | ------------- |
+| Obligation Label is reachable  | ------ | OBLIGATIONLABEL(obligation2); | NO |
+| Association exists  | (ua, ar, at) belongsTo ASSOCIATE | ASSOCIATE(Attorneys,refuse,Case3);  | YES |
+| Permission exists  | (u,?ua) belongsTo ASSIGN* AND (t,?at) belongsTo ASSIGN* AND (?ua, ar, ?at) belongsTo ASSOCIATE | PERMIT(Attorneys2U, accept, Case3Info); | YES |
+| Explicit assignment exists (no hierarchy)  | (a,d) belongsTo ASSIGN | ASSIGN(Attorneys2U, Attorneys2); | YES |
+| Explicit + implicit assignment exists (hierarchy accounted for) | (a,d) belongsTo ASSIGN* | EXPLICITASSIGN(Attorneys2U, Attorneys); | YES |
+| Deny - permission does not exist | NOT(PERMIT(u,ar,t)) | DENY(Attorneys2U, accept, Case3Info); | YES |
+| Hierarchy exists - either a is assigned to b or b is assigned to a(inheritance included) | (a,b) belongsTo ASSIGN* OR (b,a) belongsTo ASSIGN*| HIERARCHY(Attorneys2U, Attorneys2); | YES |
+| Node Exists | (a,?d) belongsTo ASSIGN | NODEEXISTS(Attorneys2U);*** | YES |
+| SUBSET | ------ | NOT NOW | ----- |
 
-**CONNECTIVES**
+The following sets are available: ASSIGN, ASSIGN*, ASSOCIATE
+
+#### CONNECTIVES
 
 Both "and" and "or" are supported. The format as follows: 
 
 ```java
-"(OBLIGATIONLABEL(obligation2) AND ASSOCIATE(Attorneys,refuse,Case3));" 
+"(OBLIGATIONLABEL(obligation1) AND ASSOCIATE(Attorneys,refuse,Case3));" 
 ```
 ```java
-"(OBLIGATIONLABEL(obligation2) OR ASSOCIATE(Attorneys,refuse,Case3));"
+"(OBLIGATIONLABEL(obligation1) OR ASSOCIATE(Attorneys,refuse,Case3));"
 ```
 
 Note that even though smt supports and/or with 3 or more elements, this feature is not included in this solver.
 
-**NEGATION**
+#### NEGATION
 
 In order to use negation, simply do: 
 
@@ -75,3 +105,43 @@ In order to use negation, simply do:
 ```
 
 **NOTE**: while queries of type _(Predicate1 AND (Predicate2 OR Predicate3))_ should work, there was no thorough testing of those. 
+
+
+#### TERMS
+
+Any terms that contains a "?" is considered to be a _VARIABLE_. Otherwise, it is a _CONSTANT_. Please give your variables valid names that you will recognize once the processing is done. 
+
+#### SETS
+
+There are currently 3 sets that obligations are making changes to in SMT. 
+
+1. ASSIGN: assignments with no hierarchy
+
+2. ASSIGN*: assignments with hierarchy
+
+3. ASSOCIATE: associations, not permissions.
+
+It is possible to get all the permissions with join operations, but is very expensive. Also, it is possible to get all the permissions for just ua, ar, at, or their permutations. 
+
+If there is a need to use any of the above sets with a predicate, let me know and I will add such predicate. 
+
+#### Current Limitations
+Only the following obligation actions are currently supported: Create Node, Add Assignment, Remove Assignment, Add Association, Remove Association.
+
+Some actions have limitations as follows: 
+
+Create Node: only 1 node can be created per single action.
+
+Add Assignment: only 1 assignment can be created per single action.
+
+Remove Assignment: only 1 assignment can be removed per single action.
+
+Add Association: only 1 association can be added with only 1 access right per single action.
+
+Remove Association: only 1 association can be removed with only 1 access right per single action.
+
+**Each of these limitation can be solved by simply creating multiple actions. For example, the association (UA, {ar1, ar2}, AT) can be instead written as two: (UA, ar1, AT) and (UA, ar2, AT).**
+
+Additionally, remove node is not currently supported - removing all the assignments from the node should remove the node. 
+
+

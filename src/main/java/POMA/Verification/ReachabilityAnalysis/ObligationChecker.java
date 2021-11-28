@@ -62,7 +62,7 @@ public class ObligationChecker extends Planner {
 		long start = System.currentTimeMillis();
 		checker.setBound(4);
 		//checker.enableSMTOutput(true);
-		Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation2);");
+		//Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation2);");
 		// Solution solution = checker
 		// .solveConstraint("EXISTS(AttorneysMain);");
 
@@ -71,10 +71,9 @@ public class ObligationChecker extends Planner {
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC4/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC5/BMC");
 
-		// checker.solveConstraint("(PERMIT(Attorneys2U, accept, Case3Info) OR
-		// PERMIT(Attorneys2U, accept, Case3Info));");
-		// Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2,
-		// Attorneys1);");
+		Solution solution = checker.solveConstraint("(PERMIT(Attorneys2U, accept, Case3Info) OR PERMIT(Attorneys2U, accept, Case3Info));");
+		//  Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2,
+		//  Attorneys1);");
 		System.out.println(solution);
 		System.out.println(checker.mapOfIDs);
 		long end = System.currentTimeMillis();
