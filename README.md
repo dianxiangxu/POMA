@@ -124,3 +124,24 @@ There are currently 3 sets that obligations are making changes to in SMT.
 It is possible to get all the permissions with join operations, but is very expensive. Also, it is possible to get all the permissions for just ua, ar, at, or their permutations. 
 
 If there is a need to use any of the above sets with a predicate, let me know and I will add such predicate. 
+
+#### Current Limitations
+Only the following obligation actions are currently supported: Create Node, Add Assignment, Remove Assignment, Add Association, Remove Association.
+
+Some actions have limitations as follows: 
+
+Create Node: only 1 node can be created per single action.
+
+Add Assignment: only 1 assignment can be created per single action.
+
+Remove Assignment: only 1 assignment can be removed per single action.
+
+Add Association: only 1 association can be added with only 1 access right per single action.
+
+Remove Association: only 1 association can be removed with only 1 access right per single action.
+
+Each of these limitation can be solved by simply creating multiple actions. For example, the association (UA, {ar1, ar2}, AT) can be instead written as two: (UA, ar1, AT) and (UA, ar2, AT).
+
+Additionally, remove node is not currently supported - removing all the assignments from the node should remove the node. 
+
+
