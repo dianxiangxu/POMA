@@ -281,8 +281,6 @@ public class ObligationTranslator2 {
 						where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
 						innerAction = handleDeleteAssignmentActionUUA(k, what, where, obligationLabel, innerAction);
 					}
-				}
-				if (deleteAction.getAssignments() != null) {
 					if ((deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("UA")
 							&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType().equals("UA"))
 							|| (deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("OA")
@@ -293,10 +291,8 @@ public class ObligationTranslator2 {
 						innerAction = handleDeleteAssignmentActionUAUA(k, what, where, obligationLabel, innerAction);
 					}
 				}
-				// sb.append(System.lineSeparator());
 				innerActionNoFlatten = handleDeleteAssignmentNoFlattenAction(k, what, where, obligationLabel,
 						innerActionNoFlatten);
-				// sb.append(System.lineSeparator());
 			}
 		}
 		sb.append(System.lineSeparator());
