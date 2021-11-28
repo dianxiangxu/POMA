@@ -15,7 +15,7 @@ import POMA.Verification.ReachabilityAnalysis.FOLparser.model.*;
 import POMA.Verification.ReachabilityAnalysis.FOLparser.parser.FOLGrammar;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 
-abstract class BMC {
+abstract class Planner {
 
 	private Solver solver = Solver.CVC4;
 	private int bound = 4;
