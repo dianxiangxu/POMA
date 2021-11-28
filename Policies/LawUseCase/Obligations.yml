@@ -1,6 +1,6 @@
 label: LawUseCase Obligations
 rules:
-  - label: withdraw_case_info
+  - label: disapprove_case
     event:
       subject:
         anyUser: 
@@ -120,12 +120,12 @@ rules:
                   name: Case3
                   type: OA                 
 
-  - label: accept_case_Final
+  - label: accept_case_final
     event:
       subject:
         process: finalAccept      
       operations:
-        - accept
+        - finalAccept
       target:
         policyElements:
           - name: Case3Info

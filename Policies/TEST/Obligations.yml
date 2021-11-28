@@ -1,0 +1,16 @@
+label: LawUseCase Obligations
+rules:
+  - label: obligation1
+    event:
+      operations:
+        - accept
+    response:      
+      actions:                        
+        - delete:
+            assignments:
+              - what:
+                  name: a
+                  type: UA
+                where:
+                  name: c 
+                  type: UA     

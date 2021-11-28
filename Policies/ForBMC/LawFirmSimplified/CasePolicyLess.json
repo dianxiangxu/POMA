@@ -1,0 +1,136 @@
+{
+  "nodes": [
+    {
+      "name": "C-Suit",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Google",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "Case3Info",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "Alice",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "Attorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "LeadAttorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "AttorneysMain",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "C1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "A1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "LeadAttorneysMain",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "CasePolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "LA1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Case3",
+      "type": "OA",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "Attorneys",
+      "target": "AttorneysMain"
+    },
+    {
+      "source": "Case3Info",
+      "target": "Case3"
+    },
+    {
+      "source": "LeadAttorneys",
+      "target": "LeadAttorneysMain"
+    },
+    {
+      "source": "C-Suit",
+      "target": "LeadAttorneys"
+    },
+    {
+      "source": "Google",
+      "target": "Case3"
+    },
+    {
+      "source": "A1",
+      "target": "Attorneys"
+    },
+    {
+      "source": "LeadAttorneysMain",
+      "target": "Attorneys"
+    },
+    {
+      "source": "Case3",
+      "target": "CasePolicy"
+    },
+    {
+      "source": "Alice",
+      "target": "Case3"
+    },
+    {
+      "source": "LA1",
+      "target": "LeadAttorneys"
+    },
+    {
+      "source": "C1",
+      "target": "C-Suit"
+    },
+    {
+      "source": "AttorneysMain",
+      "target": "CasePolicy"
+    }
+  ],
+  "associations": [
+    {
+      "source": "AttorneysMain",
+      "target": "Case3",
+      "operations": [
+        "create"
+      ]
+    },
+    {
+      "source": "LeadAttorneysMain",
+      "target": "Case3",
+      "operations": [
+        "disapprove",
+        "withdraw"
+      ]
+    }
+  ]
+}

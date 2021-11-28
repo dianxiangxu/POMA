@@ -25,7 +25,9 @@ import POMA.GlobalVariables;
 import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
+import POMA.Verification.TranslationWithSets.AssociationRelation;
 import gov.nist.csd.pm.exceptions.PMException;
+import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pdp.decider.PReviewDecider;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
@@ -45,35 +47,85 @@ public class MutantTester {
 	public static Prohibitions prohibitions;
 	String testMethod;
 	// public String initialGraphConfig = "GPMSPolicies/SimpleGraphToSMT.json";
-//	public String initialGraphConfig = "Policies/GPMS";
-//	public String initialGraphConfig = "Policies/LawUseCase";
-//	public String initialGraphConfig = "Policies/BankPolicy/Complex";
+	// public String initialGraphConfig = "Policies/GPMS";
+	// public String initialGraphConfig = "Policies/LawUseCase";
+	// public String initialGraphConfig = "Policies/BankPolicy/Complex";
 	public String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA";
-//	public String initialGraphConfig = "";
+	// public String initialGraphConfig = "";
 
 	static List<Node> UAs;
 	static List<Node> UAsOAs;
 	static List<Node> UAsPCs;
 	static List<Node> UAsPCsOAs;
 
-	public MutantTester(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
+	public MutantTester(String testMethod, Graph graph, Prohibitions prohibitions)
+			throws GraphDoesNotMatchTestSuitException {
 		this.testMethod = testMethod;
 		this.graph = graph;
 		this.prohibitions = prohibitions;
 		try {
-			//graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
-//			if (!Utils.verifyTestSuitIsForGraph(graph, getTestSuitPathByMethod(testMethod))) {
-//				throw new GraphDoesNotMatchTestSuitException("Please verify that the testing suit is for this graph");
-//			}
+			// graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
+			// if (!Utils.verifyTestSuitIsForGraph(graph,
+			// getTestSuitPathByMethod(testMethod))) {
+			// throw new GraphDoesNotMatchTestSuitException("Please verify that the testing
+			// suit is for this graph");
+			// }
 			getGraphLoaded();
 
 		} catch (PMException | IOException e) {
 			e.printStackTrace();
 		}
 	}
+
 	public void setGraph(Graph graph) {
 		this.graph = graph;
 	}
+
+	public void testMutantCVC4(Graph mutant, File testSuiteCSV,
+			ArrayList<AssociationRelation> privilegesFromTranslation, String testMethod, int mutantNumber,
+			String mutationMethod) throws PMException, IOException {
+
+		List<String[]> listOfPriveleges = new ArrayList<String[]>();		
+		for (AssociationRelation sArray : privilegesFromTranslation) {
+			String UAname = sArray.getUA();
+			String OAname = sArray.getAT();
+			OperationSet os = sArray.getOperationSet();
+			for (String ar : os) {
+				String[] arrayOfPriveleges = new String[3];
+				arrayOfPriveleges[0]=UAname;
+				arrayOfPriveleges[1] = ar;
+				arrayOfPriveleges[2] = OAname;
+				listOfPriveleges.add(arrayOfPriveleges);
+			}
+		}
+
+		PReviewDecider decider = new PReviewDecider(mutant, prohibitions);
+		if (mutantNumber == 0) {
+			String[] header = new String[listOfPriveleges.size() + 2];
+			header[0] = "MutantName";
+
+			for (int i = 1; i < header.length; i++) {
+				header[i] = "Test" + i;
+			}
+			header[header.length - 1] = "MutantKilled?";
+			data.add(header);
+		}
+		int counter = 1;
+		String[] mutantTest = new String[listOfPriveleges.size() + 2];
+		mutantTest[0] = mutationMethod + (mutantNumber + 1);
+		for (String[] privilege : listOfPriveleges) {
+			String UAname = privilege[0];
+			String ar = privilege[1];
+			String OAname = privilege[2];
+			if (decider.check(UAname, "", OAname, ar)) {
+				mutantTest[counter] = "Pass";
+			} else {
+				mutantTest[counter] = "Fail";
+			}
+			counter++;
+		}
+	}
+
 	public void testMutant(Graph mutant, File testSuiteCSV, String testMethod, int mutantNumber, String mutationMethod)
 			throws PMException, IOException {
 
@@ -131,7 +183,7 @@ public class MutantTester {
 	}
 
 	public double calculateMutationScore(double numberOfMutations, double numberOfKilledMutants) {
-		if(numberOfMutations == 0) {
+		if (numberOfMutations == 0) {
 			return 0;
 		}
 		return (numberOfKilledMutants / numberOfMutations * 100);
@@ -401,17 +453,18 @@ public class MutantTester {
 
 	public String getTestSuitPathByMethod(String testMethod) {
 		File file = new File(GlobalVariables.currentPath);
-		if(!file.isDirectory()) {
+		if (!file.isDirectory()) {
 			file = file.getParentFile();
 		}
-		if(file==null) {
+		if (file == null) {
 			return this.initialGraphConfig + "/CSV/testSuits/" + testMethod + "testSuite.csv";
 		}
 		return file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv";
 	}
+
 	public String getTestSuitPathByMethod(String testMethod, String path) {
 		File file = new File(path);
-		if(!file.isDirectory()) {
+		if (!file.isDirectory()) {
 			file = file.getParentFile();
 		}
 		System.out.println(file.getAbsolutePath());

@@ -38,10 +38,10 @@
 			<artifactId>junit</artifactId>
 			<version>4.13.1</version>
 		</dependency>
-		  <dependency>
+		<dependency>
 			<groupId>vladi7groupid</groupId>
 			<artifactId>policy-machine-core</artifactId>
-			<version>1.9.1</version>
+			<version>1.9.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.javafaker</groupId>
@@ -84,6 +84,12 @@
 			<groupId>com.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
 			<version>4.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.java.dev.javacc/javacc -->
+		<dependency>
+			<groupId>net.java.dev.javacc</groupId>
+			<artifactId>javacc</artifactId>
+			<version>7.0.10</version>
 		</dependency>
 	</dependencies>
 </project>

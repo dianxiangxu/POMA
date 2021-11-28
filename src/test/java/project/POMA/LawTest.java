@@ -60,6 +60,12 @@ public class LawTest {
 		InputStream is = new FileInputStream(obligationFile);
 		obligation = EVRParser.parse(is);
 
+		Graph simpleGraph = new MemGraph();
+		File testFile = new File("Policies/SimpleGraph/simpleGraphExample.json");
+		String testpolicy = new String(Files.readAllBytes(Paths.get(testFile.getAbsolutePath())));
+
+		GraphSerializer.fromJson(simpleGraph, testpolicy);
+
 	}
 
 	@Test

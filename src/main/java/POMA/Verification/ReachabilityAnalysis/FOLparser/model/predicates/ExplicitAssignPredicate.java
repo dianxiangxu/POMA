@@ -1,0 +1,50 @@
+package POMA.Verification.ReachabilityAnalysis.FOLparser.model.predicates;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.terms.Constant;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.terms.ITerm;
+
+public class ExplicitAssignPredicate implements IPredicate{
+	
+	List<ITerm >tuple = new ArrayList<ITerm>();
+	
+	public ExplicitAssignPredicate() {
+	}
+
+	public List<ITerm> getTuple() {
+		return tuple;
+	}
+	
+	public void setTuple(List<ITerm> tuple) {
+		this.tuple = tuple;
+	}
+	
+	@Override
+	public String toString() {
+		return "ExplicitAssignPredicate [tuple=" + tuple + "]";
+	}
+
+	public String toSMT() throws Exception {
+		if (tuple.size() != 2) {
+			throw new Exception(
+					"Incorrect EXPLICITASSIGN predictate format. Please use the following format: EXPLICITASSIGN(ancestor, descendant)");
+		}
+		String smtlibv2Code = "";
+		String a = tuple.get(0) instanceof Constant ? tuple.get(0).getElement() : null;
+		String d = tuple.get(0) instanceof Constant ? tuple.get(1).getElement() : null;
+
+		String aVar = " queryVARASSIGNS_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_" + "{k} ";
+		String dVar = " queryVARASSIGNT_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_" + "{k} ";
+
+		String aSpec = a != null ? " [" + a + "] " : aVar;
+		String dSpec = d != null ? " [" + d + "] " : dVar;
+
+		smtlibv2Code += System.lineSeparator();
+		smtlibv2Code += "(member (mkTuple " + aSpec + dSpec + ") (ASSIGN " + "{(k + 1)}" + "))";
+
+		smtlibv2Code += System.lineSeparator();
+		return smtlibv2Code;
+	}
+}
