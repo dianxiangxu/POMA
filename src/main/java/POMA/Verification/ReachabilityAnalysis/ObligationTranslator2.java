@@ -166,10 +166,7 @@ public class ObligationTranslator2 {
 					+ obligationUA + " " + obligationAR + " " + obligationAT + ") (ASSOC " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationUO + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationT + " " + obligationUO + ") (ASSIGN* " + (k - 1) + "))\r\n"
-					+ " (distinct " + obligationS + " " + obligationU + ")\r\n"
-					// + " (distinct " + obligationT + " "
-					// + obligationUO + ")\r\n"
-					+ ")))");
+					+ " (distinct " + obligationS + " " + obligationU + ")\r\n" + ")))");
 			sb.append(System.lineSeparator());
 			sb.append(System.lineSeparator());
 			ruleLabels.add(r.getLabel());
@@ -246,19 +243,11 @@ public class ObligationTranslator2 {
 
 		String what = "";
 		String where = "";
-		boolean isSingleAction = actions.size() == 1;
-		List<String> actionVariables = new ArrayList<String>();
+		String innerAction = "";
+		String innerActionNoFlatten = "";
+
 		for (int i = 0; i < actions.size(); i++) {
-			Action action = actions.get(0);
-			String actionVariable = obligationLabel + "_" + i + "_" + k;
-			if (!isSingleAction) {
-				actionVariables.add(actionVariable);
-				sb.append(System.lineSeparator());
-				sb.append("(declare-fun " + "ASSIGN" + actionVariable + " () (Set (Tuple Int Int)))");
-				sb.append(System.lineSeparator());
-				sb.append("(declare-fun " + "ASSIGN*" + actionVariable + " () (Set (Tuple Int Int)))");
-				sb.append(System.lineSeparator());
-			}
+			Action action = actions.get(i);
 			if (action instanceof AssignAction) {
 				assignAction = (AssignAction) action;
 				if ((assignAction.getAssignments().get(0).getWhat().getType().equals("U")
@@ -267,18 +256,18 @@ public class ObligationTranslator2 {
 								&& assignAction.getAssignments().get(0).getWhere().getType().equals("OA"))) {
 					what = assignAction.getAssignments().get(0).getWhat().getName();
 					where = assignAction.getAssignments().get(0).getWhere().getName();
-					handleAddAssignmentActionUUA(k, sb, what, where, obligationLabel, actionVariable, isSingleAction);
+					innerAction = handleAddAssignmentActionUUA(k, what, where, obligationLabel, innerAction);
 				} else if ((assignAction.getAssignments().get(0).getWhat().getType().equals("UA")
 						&& assignAction.getAssignments().get(0).getWhere().getType().equals("UA"))
 						|| (assignAction.getAssignments().get(0).getWhat().getType().equals("OA")
 								&& assignAction.getAssignments().get(0).getWhere().getType().equals("OA"))) {
 					what = assignAction.getAssignments().get(0).getWhat().getName();
 					where = assignAction.getAssignments().get(0).getWhere().getName();
-					handleAddAssignmentActionUAUA(k, sb, what, where, obligationLabel, actionVariable, isSingleAction);
+					innerAction = handleAddAssignmentActionUAUA(k, what, where, obligationLabel, innerAction);
 
 				}
-				sb.append(System.lineSeparator());
-				handleAddAssignmentNoFlattenAction(k, sb, what, where, obligationLabel, actionVariable, isSingleAction);
+				innerActionNoFlatten = handleAddAssignmentNoFlattenAction(k, what, where, obligationLabel,
+						innerActionNoFlatten);
 			}
 			if (action instanceof DeleteAction) {
 				deleteAction = (DeleteAction) action;
@@ -290,8 +279,7 @@ public class ObligationTranslator2 {
 											.equals("OA"))) {
 						what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
 						where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
-						handleDeleteAssignmentActionUUA(k, sb, what, where, obligationLabel, actionVariable,
-								isSingleAction);
+						innerAction = handleDeleteAssignmentActionUUA(k, what, where, obligationLabel, innerAction);
 					}
 				}
 				if (deleteAction.getAssignments() != null) {
@@ -302,119 +290,142 @@ public class ObligationTranslator2 {
 											.equals("OA"))) {
 						what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
 						where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
-						handleDeleteAssignmentActionUAUA(k, sb, what, where, obligationLabel, actionVariable,
-								isSingleAction);
+						innerAction = handleDeleteAssignmentActionUAUA(k, what, where, obligationLabel, innerAction);
 					}
 				}
-				sb.append(System.lineSeparator());
-				handleDeleteAssignmentNoFlattenAction(k, sb, what, where, obligationLabel, actionVariable,
-						isSingleAction);
-				sb.append(System.lineSeparator());
+				// sb.append(System.lineSeparator());
+				innerActionNoFlatten = handleDeleteAssignmentNoFlattenAction(k, what, where, obligationLabel,
+						innerActionNoFlatten);
+				// sb.append(System.lineSeparator());
 			}
 		}
-		if (!isSingleAction) {
-			processMultipleActionsUnion(sb, k, actionVariables, "ASSIGN");
-			processMultipleActionsUnion(sb, k, actionVariables, "ASSIGN*");
-		}
+		sb.append(System.lineSeparator());
+		sb.append(finishHandlingAssignmentAction(k, obligationLabel, innerAction));
+		sb.append(System.lineSeparator());
+		sb.append(finishHandlingAssignmentActionNoFlatten(k, obligationLabel, innerActionNoFlatten));
+		sb.append(System.lineSeparator());
 		return sb.toString();
 	}
 
-	private void processMultipleActionsUnion(StringBuilder sb, int k, List<String> actionVariables, String action) {
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= (" + action + " " + k + ") ");
-		for (int i = 0; i < actionVariables.size(); i++) {
-			String actionVariable = actionVariables.get(i);
-			if (i == actionVariables.size() - 2) {
-				sb.append(
-						" " + "(union " + action + actionVariable + " " + action + actionVariables.get(i + 1) + "))) ");
-				break;
-			}
-			sb.append("(union " + action + actionVariable);
+	private String handleDeleteAssignmentActionUUA(int k, String what, String where, String obligationLabel,
+			String innerAction) {
+		int whatID = mapOfIDs.get(what);
+		int whereID = mapOfIDs.get(where);
+		if (innerAction.isEmpty()) {
+			return " (setminus (ASSIGN* " + (k - 1) + ") (setminus (join (singleton (mkTuple " + whatID + " " + whereID
+					+ ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
+					+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
+					+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + "))))";
+		} else {
+			return " (setminus " + innerAction
+					+ " (setminus (join (singleton (mkTuple " + whatID + " " + whereID
+					+ ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
+					+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
+					+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + "))))";
 		}
-		for (int i = 0; i < actionVariables.size() - 2; i++) {
-			sb.append(")");
+	}
+
+	
+
+	private String handleDeleteAssignmentActionUAUA(int k, String what, String where, String obligationLabel,
+			String innerAction) {
+		int whatID = mapOfIDs.get(what);
+		int whereID = mapOfIDs.get(where);
+		if (innerAction.isEmpty()) {
+			return "(setminus (ASSIGN* " + (k - 1) + ") (setminus (setminus (union (singleton (mkTuple " + whatID + " "
+					+ whereID + ")) (join (singleton (mkTuple " + whatID + " " + whereID + ")) (ASSIGN* " + (k - 1)
+					+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
+					+ ")) (join (ASSIGN* " + (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID
+					+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
+					+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
+					+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1)
+					+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
+					+ ")) (join (ASSIGN* " + (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID
+					+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
+					+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
+					+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1) + "))))";
+		} else {
+			return "(setminus " + innerAction + " (setminus (setminus (union (singleton (mkTuple " + whatID + " "
+					+ whereID + ")) (join (singleton (mkTuple " + whatID + " " + whereID + ")) (ASSIGN* " + (k - 1)
+					+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
+					+ ")) (join (ASSIGN* " + (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID
+					+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
+					+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
+					+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1)
+					+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
+					+ ")) (join (ASSIGN* " + (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID
+					+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
+					+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
+					+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1) + "))))";
 		}
-		sb.append(System.lineSeparator());
-
 	}
 
-	private void handleDeleteAssignmentActionUUA(int k, StringBuilder sb_assignments, String what, String where,
-			String obligationLabel, String actionIndex, boolean isSingleAction) {
+	private String handleDeleteAssignmentNoFlattenAction(int k, String what, String where, String obligationLabel,
+			String innerAction) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		String toVariable = isSingleAction ? "(ASSIGN* " + k + ")" : "ASSIGN*" + actionIndex;
-		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(= " + toVariable
-				+ " (setminus (ASSIGN* " + (k - 1) + ") (setminus (join (singleton (mkTuple " + whatID + " " + whereID
-				+ ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
-				+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
-				+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + ")))))))");
+		if (innerAction.isEmpty()) {
+			return " (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))";
+		} else {
+			return " (setminus " + innerAction + " (singleton (mkTuple " + whatID + " " + whereID + ")))";
+		}
 	}
 
-	private void handleDeleteAssignmentActionUAUA(int k, StringBuilder sb_assignments, String what, String where,
-			String obligationLabel, String actionIndex, boolean isSingleAction) {
+	private String handleAddAssignmentActionUUA(int k, String what, String where, String obligationLabel,
+			String innerAction) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		String toVariable = isSingleAction ? "(ASSIGN* " + k + ")" : "ASSIGN*" + actionIndex;
-
-		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(= " + toVariable
-				+ " (setminus (ASSIGN* " + (k - 1) + ") (setminus (setminus (union (singleton (mkTuple " + whatID + " "
-				+ whereID + ")) (join (singleton (mkTuple " + whatID + " " + whereID + ")) (ASSIGN* " + (k - 1)
-				+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
-				+ ")) (join (ASSIGN* " + (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID
-				+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
-				+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
-				+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1)
-				+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
-				+ ")) (join (ASSIGN* " + (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID
-				+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
-				+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
-				+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1) + ")))))))");
+		if (innerAction.isEmpty()) {
+			return "(union (singleton (mkTuple " + whatID + " " + whereID + ")) (union (join (singleton (mkTuple "
+					+ whatID + " " + whereID + ")) (join (singleton (mkTuple " + whereID + " " + whereID
+					+ ")) (ASSIGN* " + (k - 1) + "))) (ASSIGN* " + (k - 1) + ")))";
+		} else {
+			return "(union (singleton (mkTuple " + whatID + " " + whereID + ")) (union (join (singleton (mkTuple "
+					+ whatID + " " + whereID + ")) (join (singleton (mkTuple " + whereID + " " + whereID
+					+ ")) (ASSIGN* " + (k - 1) + ")))" + innerAction + "))";
+		}
 	}
 
-	private void handleDeleteAssignmentNoFlattenAction(int k, StringBuilder sb_assignments, String what, String where,
-			String obligationLabel, String actionIndex, boolean isSingleAction) {
+	private String handleAddAssignmentActionUAUA(int k, String what, String where, String obligationLabel,
+			String innerAction) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		String toVariable = isSingleAction ? "(ASSIGN " + k + ")" : "ASSIGN" + actionIndex;
+		if (innerAction.isEmpty()) {
 
-		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(= " + toVariable
-				+ " (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + "))))))");
+			return " (union (join (join (union (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
+					+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whatID + ")))) (singleton (mkTuple " + whatID
+					+ " " + whereID + "))) (union (singleton (mkTuple " + whereID + " " + whereID
+					+ ")) (join (singleton (mkTuple " + whereID + " " + whereID + ")) (ASSIGN* " + (k - 1)
+					+ ") ))) (ASSIGN* " + (k - 1) + "))";
+		} else {
+			return " (union (join (join (union (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
+					+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whatID + ")))) (singleton (mkTuple " + whatID
+					+ " " + whereID + "))) (union (singleton (mkTuple " + whereID + " " + whereID
+					+ ")) (join (singleton (mkTuple " + whereID + " " + whereID + ")) (ASSIGN* " + (k - 1) + ") )))"
+					+ innerAction + ")";
+		}
 	}
 
-	private void handleAddAssignmentActionUUA(int k, StringBuilder sb_assignments, String what, String where,
-			String obligationLabel, String actionIndex, boolean isSingleAction) {
+	private String handleAddAssignmentNoFlattenAction(int k, String what, String where, String obligationLabel,
+			String innerAction) {
 		int whatID = mapOfIDs.get(what);
 		int whereID = mapOfIDs.get(where);
-		String toVariable = isSingleAction ? "(ASSIGN* " + k + ")" : "ASSIGN*" + actionIndex;
-
-		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(= " + toVariable
-				+ " (union (singleton (mkTuple " + whatID + " " + whereID + ")) (union (join (singleton (mkTuple "
-				+ whatID + " " + whereID + ")) (join (singleton (mkTuple " + whereID + " " + whereID + ")) (ASSIGN* "
-				+ (k - 1) + "))) (ASSIGN* " + (k - 1) + "))))))");
+		if (innerAction.isEmpty()) {
+			return "( union (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))";
+		} else {
+			return "( union " + innerAction + " (singleton (mkTuple " + whatID + " " + whereID + ")))";
+		}
 	}
 
-	private void handleAddAssignmentActionUAUA(int k, StringBuilder sb_assignments, String what, String where,
-			String obligationLabel, String actionIndex, boolean isSingleAction) {
-		int whatID = mapOfIDs.get(what);
-		int whereID = mapOfIDs.get(where);
-		String toVariable = isSingleAction ? "(ASSIGN* " + k + ")" : "ASSIGN*" + actionIndex;
-
-		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(= " + toVariable
-				+ " (union (join (join (union (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
-				+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whatID + ")))) (singleton (mkTuple " + whatID
-				+ " " + whereID + "))) (union (singleton (mkTuple " + whereID + " " + whereID
-				+ ")) (join (singleton (mkTuple " + whereID + " " + whereID + ")) (ASSIGN* " + (k - 1)
-				+ ") ))) (ASSIGN* " + (k - 1) + ")))))");
+	private String finishHandlingAssignmentAction(int k, String obligationLabel, String completePlanningAction) {
+		return "(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(= " + "(ASSIGN* " + k + ")"
+				+ completePlanningAction + ")))";
 	}
 
-	private void handleAddAssignmentNoFlattenAction(int k, StringBuilder sb_assignments, String what, String where,
-			String obligationLabel, String actionIndex, boolean isSingleAction) {
-		int whatID = mapOfIDs.get(what);
-		int whereID = mapOfIDs.get(where);
-		String toVariable = isSingleAction ? "(ASSIGN " + k + ")" : "ASSIGN" + actionIndex;
-
-		sb_assignments.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(= " + toVariable
-				+ "( union (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + "))))))");
+	private String finishHandlingAssignmentActionNoFlatten(int k, String obligationLabel,
+			String completePlanningAction) {
+		return "(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(= " + "(ASSIGN " + k + ")"
+				+ completePlanningAction + ")))";
 	}
 
 	private String processAssociationRelatedActions(int k, String obligationLabel, List<Action> actions) {
@@ -425,8 +436,6 @@ public class ObligationTranslator2 {
 		String where = "";
 		String op = "";
 		String SMTAction = "";
-		boolean isSingleAction = actions.size() == 1;
-		List<String> actionVariables = new ArrayList<String>();
 		String innerAction = "";
 		for (int i = 0; i < actions.size(); i++) {
 			Action action = actions.get(i);
@@ -457,8 +466,8 @@ public class ObligationTranslator2 {
 		int arID = mapOfIDs.get(op);
 
 		if (innerAction.isEmpty()) {
-			return "(" + SMTAction  + "(ASSOC "
-					+ (k - 1) + ")" + "(singleton(mkTuple " + whatID + " " + arID + " " + whereID + ")))";
+			return "(" + SMTAction + "(ASSOC " + (k - 1) + ")" + "(singleton(mkTuple " + whatID + " " + arID + " "
+					+ whereID + ")))";
 		} else {
 			return "(" + SMTAction + innerAction + "(singleton(mkTuple " + whatID + " " + arID + " " + whereID + ")))";
 		}
@@ -606,7 +615,7 @@ public class ObligationTranslator2 {
 	}
 
 	boolean isActionAssignmentRelated(Action a) {
-		if (a instanceof AssignAction || a instanceof CreateAction) {
+		if (a instanceof AssignAction) {// || a instanceof CreateAction) {
 			return true;
 		}
 		if (a instanceof DeleteAction && ((DeleteAction) a).getAssignments() != null) {

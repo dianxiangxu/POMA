@@ -20,14 +20,14 @@ rules:
               where:
                 name: Attorneys
                 type: UA   
-        # - delete:
-        #     assignments:
-        #       - what:
-        #           name: Attorneys3
-        #           type: UA
-        #         where:
-        #           name: Attorneys
-        #           type: UA                        
+        - delete:
+            assignments:
+              - what:
+                  name: Attorneys3
+                  type: UA
+                where:
+                  name: Attorneys
+                  type: UA                        
        # - delete:
        #     assignments:
         #      - what:

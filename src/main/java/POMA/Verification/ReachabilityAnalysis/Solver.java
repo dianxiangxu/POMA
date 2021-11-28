@@ -41,15 +41,16 @@ public class Solver {
 	}
 
 	protected Solution runSolver(String pathToFile, int k, List<String> confirmedObligations,
-			List<String> obligationLabels, List<String> obligationEventVariables, HashMap<String, Integer> mapOfIDs)
-			throws IOException {
+			List<String> obligationLabels, List<String> obligationEventVariables, HashMap<String, Integer> mapOfIDs,
+			boolean showSMTOutput) throws IOException {
 		String[] cmdArguments = commandArguments(pathToFile);
 		Process proc = Runtime.getRuntime().exec(cmdArguments);
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 		String result = null;
 		List<String> output = new ArrayList<String>();
 		while ((result = stdInput.readLine()) != null) {
-			// System.out.println(k + ": " + result);
+			if (showSMTOutput)
+				System.out.println(k + ": " + result);
 			if (result.equals("sat")) {
 				while ((result = stdInput.readLine()) != null) {
 					String line = result.replaceAll("[()]", "");

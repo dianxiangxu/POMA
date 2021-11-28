@@ -48,20 +48,21 @@ public class ObligationChecker extends BMC {
 		// ObligationChecker("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json",
 		// "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
 
-		// Create with objects
-		// Graph graph =
-		// Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
-		// String yml = new String(
-		// Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
-		Graph graph = Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/EditingPolicy37.json");
+		//Create with objects
+		Graph graph =
+		Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
 		String yml = new String(
-				Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple2.yml")));
+		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
+		// Graph graph = Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/EditingPolicy37.json");
+		// String yml = new String(
+		// 		Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple2.yml")));
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		checker.setBound(3);
-		Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation3);");
+		checker.setBound(4);
+		//checker.enableSMTOutput(true);
+		Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation2);");
 		// Solution solution = checker
 		// .solveConstraint("EXISTS(AttorneysMain);");
 

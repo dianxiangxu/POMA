@@ -21,7 +21,7 @@ abstract class BMC {
 	private int bound = 4;
 	private String smtCodeFilePath = "";
 	HashMap<String, Integer> mapOfIDs;
-
+	boolean showSMTOutput = false;
 	void setSolver(Solver solver) {
 		this.solver = solver;
 	}
@@ -45,6 +45,10 @@ abstract class BMC {
 		FileWriter myWriter = new FileWriter(file);
 		myWriter.write(code);
 		myWriter.close();
+	}
+
+	public void enableSMTOutput(boolean showSMTOutput) {
+		this.showSMTOutput = showSMTOutput;
 	}
 
 	abstract List<String> getObligationLabels();
@@ -81,7 +85,7 @@ abstract class BMC {
 			String pathToFile = smtCodeFilePath + k + ".smt2";
 			saveCodeToFile(smtlibv2Code, pathToFile);
 			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
-					getObligationEventVariables(), mapOfIDs);
+					getObligationEventVariables(), mapOfIDs, showSMTOutput);
 			solved = solution == null ? false : true;
 			if(!solved){
 				System.out.println("Solution not found with time horizon: " + k);
