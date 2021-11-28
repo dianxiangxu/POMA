@@ -35,6 +35,13 @@ Additionaly, you may want to set the time horizon(default is 4) via following co
 checker.setBound(10);
 ```
 
+Optionally, you can enable showing the SMT output(disabled by default, especially useful if you suspect an error):
+```java
+checker.enableSMTOutput(true);
+```
+
+
+
 The solver will return null if no solution is found or Solution object that has a list of obligation firings as shown below: 
 
 ```
