@@ -140,7 +140,7 @@ Add Association: only 1 association can be added with only 1 access right per si
 
 Remove Association: only 1 association can be removed with only 1 access right per single action.
 
-Each of these limitation can be solved by simply creating multiple actions. For example, the association (UA, {ar1, ar2}, AT) can be instead written as two: (UA, ar1, AT) and (UA, ar2, AT).
+**Each of these limitation can be solved by simply creating multiple actions. For example, the association (UA, {ar1, ar2}, AT) can be instead written as two: (UA, ar1, AT) and (UA, ar2, AT).**
 
 Additionally, remove node is not currently supported - removing all the assignments from the node should remove the node. 
 
