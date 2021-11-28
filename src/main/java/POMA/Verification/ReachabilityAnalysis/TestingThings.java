@@ -28,7 +28,7 @@ public class TestingThings {
 	        {
 	            e.printStackTrace();
 	        }
-		BMC bmc = new ObligationChecker();
+		Planner bmc = new ObligationChecker();
 		bmc.generateHeadCode();
 		
 		//int threads = Runtime.getRuntime().availableProcessors();

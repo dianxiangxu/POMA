@@ -14,7 +14,7 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
 
-public class ObligationChecker extends BMC {
+public class ObligationChecker extends Planner {
 
 	private List<String> obligationsResponse = new ArrayList<String>();
 	private List<String> obligationsEvents = new ArrayList<String>();
@@ -40,7 +40,7 @@ public class ObligationChecker extends BMC {
 	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
 
 	GraphTranslator gt;
-	ObligationTranslator2 ot;
+	ObligationTranslator ot;
 
 	public static void main(String[] args) throws Exception {
 		// Create with paths
@@ -76,9 +76,7 @@ public class ObligationChecker extends BMC {
 		// Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2,
 		// Attorneys1);");
 		System.out.println(solution);
-
 		System.out.println(checker.mapOfIDs);
-
 		long end = System.currentTimeMillis();
 		float sec = (end - start) / 1000F;
 		System.out.println("The job took: " + sec + " seconds");
@@ -88,9 +86,8 @@ public class ObligationChecker extends BMC {
 	public ObligationChecker() throws Exception {
 		gt = new GraphTranslator(pathToGraph);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator2(mapOfIDs);
+		ot = new ObligationTranslator(mapOfIDs);
 		ot.findAllAbsentElements();
-
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
 		obligationsResponse.addAll(ot.getProcessedObligations());
 		listOfAddedAssociations.addAll(ot.getListOfAddedAssociations());
@@ -103,11 +100,9 @@ public class ObligationChecker extends BMC {
 	public ObligationChecker(String pathToGraph, String pathToObligations) throws Exception {
 		this.pathToGraph = pathToGraph;
 		gt = new GraphTranslator(pathToGraph);
-
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator2(mapOfIDs, pathToObligations);
+		ot = new ObligationTranslator(mapOfIDs, pathToObligations);
 		ot.findAllAbsentElements();
-
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
 		obligationsResponse.addAll(ot.getProcessedObligations());
 		listOfAddedAssociations.addAll(ot.getListOfAddedAssociations());
@@ -118,14 +113,10 @@ public class ObligationChecker extends BMC {
 	}
 
 	public ObligationChecker(Graph graph, Obligation obligations) throws Exception {
-		// this.pathToGraph = pathToGraph;
-
 		gt = new GraphTranslator(graph);
-
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator2(mapOfIDs, obligations);
+		ot = new ObligationTranslator(mapOfIDs, obligations);
 		ot.findAllAbsentElements();
-
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
 		obligationsResponse.addAll(ot.getProcessedObligations());
 		listOfAddedAssociations.addAll(ot.getListOfAddedAssociations());

@@ -12,14 +12,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.github.javafaker.Bool;
 
 import POMA.Verification.ReachabilityAnalysis.model.ObligationFiring;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 
 public class Solver {
 
-	public static final Solver Z3 = new Solver("Z3", "/usr/local/bin/z3");
+	//public static final Solver Z3 = new Solver("Z3", "/usr/local/bin/z3");
 	public static final Solver CVC4 = new Solver("CVC4", "VerificationFiles/CVC4/cvc4.exe");
 	private String name;
 	private String executable;
@@ -55,15 +54,10 @@ public class Solver {
 				while ((result = stdInput.readLine()) != null) {
 					String line = result.replaceAll("[()]", "");
 					output.add(line);
-					// System.out.println(line);
-					// String[] stringArray = result.split("\\)\\),\\(ite");
 					String[] stringArray = result.split("BOUND_VARIABLE|\\)\\)|\\)|\\(ite \\(=");
 					String[] labelArray = (stringArray[0]).split(" \\(lambda \\(\\(|\\(\\(");
-					// System.out.println("Label: "+ label[1]);
 					String label = labelArray[1];
 					for (String s : stringArray) {
-
-						// System.out.println(s);
 						if (s.length() < 5 && s.contains("1") && !confirmedObligations.contains(label)) {
 							confirmedObligations.add(label);
 							break;
