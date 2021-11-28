@@ -76,9 +76,7 @@ public class ObligationChecker extends Planner {
 		// Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2,
 		// Attorneys1);");
 		System.out.println(solution);
-
 		System.out.println(checker.mapOfIDs);
-
 		long end = System.currentTimeMillis();
 		float sec = (end - start) / 1000F;
 		System.out.println("The job took: " + sec + " seconds");
@@ -90,7 +88,6 @@ public class ObligationChecker extends Planner {
 		mapOfIDs = gt.getMapOfIDs();
 		ot = new ObligationTranslator(mapOfIDs);
 		ot.findAllAbsentElements();
-
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
 		obligationsResponse.addAll(ot.getProcessedObligations());
 		listOfAddedAssociations.addAll(ot.getListOfAddedAssociations());
@@ -103,11 +100,9 @@ public class ObligationChecker extends Planner {
 	public ObligationChecker(String pathToGraph, String pathToObligations) throws Exception {
 		this.pathToGraph = pathToGraph;
 		gt = new GraphTranslator(pathToGraph);
-
 		mapOfIDs = gt.getMapOfIDs();
 		ot = new ObligationTranslator(mapOfIDs, pathToObligations);
 		ot.findAllAbsentElements();
-
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
 		obligationsResponse.addAll(ot.getProcessedObligations());
 		listOfAddedAssociations.addAll(ot.getListOfAddedAssociations());
@@ -118,14 +113,10 @@ public class ObligationChecker extends Planner {
 	}
 
 	public ObligationChecker(Graph graph, Obligation obligations) throws Exception {
-		// this.pathToGraph = pathToGraph;
-
 		gt = new GraphTranslator(graph);
-
 		mapOfIDs = gt.getMapOfIDs();
 		ot = new ObligationTranslator(mapOfIDs, obligations);
 		ot.findAllAbsentElements();
-
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
 		obligationsResponse.addAll(ot.getProcessedObligations());
 		listOfAddedAssociations.addAll(ot.getListOfAddedAssociations());
