@@ -294,6 +294,31 @@ public class ObligationTranslator2 {
 				innerActionNoFlatten = handleDeleteAssignmentNoFlattenAction(k, what, where, obligationLabel,
 						innerActionNoFlatten);
 			}
+			if (action instanceof CreateAction) {
+				createAction = (CreateAction) action;
+				if (createAction.getCreateNodesList().get(0) != null) {
+					if ((createAction.getCreateNodesList().get(0).getWhat().getType().equals("U")
+							&& createAction.getCreateNodesList().get(0).getWhere().getType().equals("UA"))
+							|| (createAction.getCreateNodesList().get(0).getWhat().getType().equals("O")
+									&& createAction.getCreateNodesList().get(0).getWhere().getType()
+											.equals("OA"))) {
+						what = createAction.getCreateNodesList().get(0).getWhat().getName();
+						where = createAction.getCreateNodesList().get(0).getWhere().getName();
+						innerAction = handleAddAssignmentActionUUA(k, what, where, obligationLabel, innerAction);
+					}
+					if ((createAction.getCreateNodesList().get(0).getWhat().getType().equals("UA")
+							&& createAction.getCreateNodesList().get(0).getWhere().getType().equals("UA"))
+							|| (createAction.getCreateNodesList().get(0).getWhat().getType().equals("OA")
+									&& createAction.getCreateNodesList().get(0).getWhere().getType()
+											.equals("OA"))) {
+						what = createAction.getCreateNodesList().get(0).getWhat().getName();
+						where = createAction.getCreateNodesList().get(0).getWhere().getName();
+						innerAction = handleAddAssignmentActionUAUA(k, what, where, obligationLabel, innerAction);
+					}
+				}
+				innerActionNoFlatten = handleAddAssignmentNoFlattenAction(k, what, where, obligationLabel,
+						innerActionNoFlatten);
+			}
 		}
 		sb.append(System.lineSeparator());
 		sb.append(finishHandlingAssignmentAction(k, obligationLabel, innerAction));
@@ -611,7 +636,7 @@ public class ObligationTranslator2 {
 	}
 
 	boolean isActionAssignmentRelated(Action a) {
-		if (a instanceof AssignAction) {// || a instanceof CreateAction) {
+		if (a instanceof AssignAction || a instanceof CreateAction) {
 			return true;
 		}
 		if (a instanceof DeleteAction && ((DeleteAction) a).getAssignments() != null) {

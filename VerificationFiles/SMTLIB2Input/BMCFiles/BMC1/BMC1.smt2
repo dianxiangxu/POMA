@@ -258,8 +258,8 @@
 
 
 
-(assert (=> (=(obligation4 0) true) (= (ASSIGN* 1) (ASSIGN* 0))))
-(assert (=> (=(obligation4 0) true) (= (ASSIGN 1) (ASSIGN 0))))
+(assert (=> (= (obligation4 0) true)(= (ASSIGN* 1) (union (join (join (union (singleton (mkTuple 14 14)) (join (ASSIGN* 0) (singleton (mkTuple 14 14)))) (singleton (mkTuple 14 4))) (union (singleton (mkTuple 4 4)) (join (singleton (mkTuple 4 4)) (ASSIGN* 0) ))) (ASSIGN* 0)))))
+(assert (=> (= (obligation4 0) true)(= (ASSIGN 1)( union (ASSIGN 0) (singleton (mkTuple 14 4))))))
 (assert (=> (= (obligation4 0) true)(= (ASSOC 1) (union(ASSOC 0)(singleton(mkTuple 3 19 13))))))
 
 
