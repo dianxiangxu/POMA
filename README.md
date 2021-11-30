@@ -74,8 +74,8 @@ The following are the queries currently supported:
 | Obligation Label is reachable  | ------ | OBLIGATIONLABEL(obligation2); | NO |
 | Association exists  | (ua, ar, at) belongsTo ASSOCIATE | ASSOCIATE(Attorneys,refuse,Case3);  | YES |
 | Permission exists  | (u,?ua) belongsTo ASSIGN* AND (t,?at) belongsTo ASSIGN* AND (?ua, ar, ?at) belongsTo ASSOCIATE | PERMIT(Attorneys2U, accept, Case3Info); | YES |
-| Explicit assignment exists (no hierarchy)  | (a,d) belongsTo ASSIGN | ASSIGN(Attorneys2U, Attorneys2); | YES |
-| Explicit + implicit assignment exists (hierarchy accounted for) | (a,d) belongsTo ASSIGN* | EXPLICITASSIGN(Attorneys2U, Attorneys); | YES |
+| Explicit assignment exists (no hierarchy)  | (a,d) belongsTo ASSIGN | EXPLICITASSIGN(Attorneys2U, Attorneys2); | YES |
+| Explicit + implicit assignment exists (hierarchy accounted for) | (a,d) belongsTo ASSIGN* | ASSIGN(Attorneys2U, Attorneys); | YES |
 | Deny - permission does not exist | NOT(PERMIT(u,ar,t)) | DENY(Attorneys2U, accept, Case3Info); | YES |
 | Hierarchy exists - either a is assigned to b or b is assigned to a(inheritance included) | (a,b) belongsTo ASSIGN* OR (b,a) belongsTo ASSIGN*| HIERARCHY(Attorneys2U, Attorneys2); | YES |
 | Node Exists | (a,?d) belongsTo ASSIGN | NODEEXISTS(Attorneys2U);*** | YES |
