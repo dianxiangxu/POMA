@@ -5,7 +5,6 @@
 (mkTuple 5 5) 
 (mkTuple 4 4) 
 (mkTuple 7 7) 
-(mkTuple 14 14) 
 (mkTuple 6 6) 
 (mkTuple 2 2) 
 (mkTuple 3 3) 
@@ -79,10 +78,10 @@
 (singleton (mkTuple 9 9)))))
 (declare-fun ASSOC (Int) (Set (Tuple Int Int Int)))
 
-(assert (= (ASSOC 0) (insert(mkTuple 3 16 13) 
-(mkTuple 3 17 13) 
-(mkTuple 4 15 13) 
-(singleton (mkTuple 5 18 13)))))
+(assert (= (ASSOC 0) (insert(mkTuple 3 15 13) 
+(mkTuple 3 16 13) 
+(mkTuple 4 14 13) 
+(singleton (mkTuple 5 17 13)))))
 
 (declare-fun NODES () (Set (Tuple Int Int)))
 (assert (= NODES (insert (mkTuple 1 1) 
@@ -120,7 +119,7 @@
 (assert (>= obligation1UA_0 0))
 (assert (>= obligation1AT_0 0))
 (assert (>= obligation1UO_0 0))
-(assert (= obligation1ar_0 18))
+(assert (= obligation1ar_0 17))
 (assert (= obligation1S_0 4))
 (assert (= obligation1T_0 1))
 (assert (=> (= (obligation1 0) true) (and
@@ -144,7 +143,7 @@
 (assert (>= obligation2UA_0 0))
 (assert (>= obligation2AT_0 0))
 (assert (>= obligation2UO_0 0))
-(assert (= obligation2ar_0 18))
+(assert (= obligation2ar_0 17))
 (assert (= obligation2S_0 7))
 (assert (= obligation2T_0 1))
 (assert (=> (= (obligation2 0) true) (and
@@ -168,7 +167,7 @@
 (assert (>= obligation3UA_0 0))
 (assert (>= obligation3AT_0 0))
 (assert (>= obligation3UO_0 0))
-(assert (= obligation3ar_0 18))
+(assert (= obligation3ar_0 17))
 (assert (= obligation3S_0 9))
 (assert (= obligation3T_0 1))
 (assert (=> (= (obligation3 0) true) (and
@@ -192,7 +191,7 @@
 (assert (>= obligation4UA_0 0))
 (assert (>= obligation4AT_0 0))
 (assert (>= obligation4UO_0 0))
-(assert (= obligation4ar_0 18))
+(assert (= obligation4ar_0 17))
 (assert (= obligation4S_0 6))
 (assert (= obligation4T_0 1))
 (assert (=> (= (obligation4 0) true) (and
@@ -216,7 +215,7 @@
 (assert (>= obligation5UA_0 0))
 (assert (>= obligation5AT_0 0))
 (assert (>= obligation5UO_0 0))
-(assert (= obligation5ar_0 18))
+(assert (= obligation5ar_0 17))
 (assert (= obligation5S_0 4))
 (assert (= obligation5T_0 1))
 (assert (=> (= (obligation5 0) true) (and
@@ -234,8 +233,8 @@
 ; 5.2 a->Eff
 
 
-(assert (=> (= (obligation1 0) true)(= (ASSIGN* 1)(setminus (union (singleton (mkTuple 7 4)) (union (join (singleton (mkTuple 7 4)) (join (singleton (mkTuple 4 4)) (ASSIGN* 0))) (ASSIGN* 0))) (setminus (setminus (union (singleton (mkTuple 6 4)) (join (singleton (mkTuple 6 4)) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 6 4)))) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))) (transpose (union  (singleton (mkTuple 6 6)) (join (ASSIGN* 0)  (singleton (mkTuple 6 6)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 6 4)))) (ASSIGN* 0)))))))
-(assert (=> (= (obligation1 0) true)(= (ASSIGN 1) (setminus ( union (ASSIGN 0) (singleton (mkTuple 7 4))) (singleton (mkTuple 6 4))))))
+(assert (=> (= (obligation1 0) true)(= (ASSIGN* 1)(union (singleton (mkTuple 7 4)) (union (join (singleton (mkTuple 7 4)) (join (singleton (mkTuple 4 4)) (ASSIGN* 0))) (ASSIGN* 0))))))
+(assert (=> (= (obligation1 0) true)(= (ASSIGN 1)( union (ASSIGN 0) (singleton (mkTuple 7 4))))))
 
 (assert (=> (=(obligation1 0) true) (= (ASSOC 1) (ASSOC 0))))
 
@@ -258,9 +257,9 @@
 
 
 
-(assert (=> (= (obligation4 0) true)(= (ASSIGN* 1) (union (join (join (union (singleton (mkTuple 14 14)) (join (ASSIGN* 0) (singleton (mkTuple 14 14)))) (singleton (mkTuple 14 4))) (union (singleton (mkTuple 4 4)) (join (singleton (mkTuple 4 4)) (ASSIGN* 0) ))) (ASSIGN* 0)))))
-(assert (=> (= (obligation4 0) true)(= (ASSIGN 1)( union (ASSIGN 0) (singleton (mkTuple 14 4))))))
-(assert (=> (= (obligation4 0) true)(= (ASSOC 1) (union(ASSOC 0)(singleton(mkTuple 3 19 13))))))
+(assert (=> (=(obligation4 0) true) (= (ASSIGN* 1) (ASSIGN* 0))))
+(assert (=> (=(obligation4 0) true) (= (ASSIGN 1) (ASSIGN 0))))
+(assert (=> (= (obligation4 0) true)(= (ASSOC 1) (union(ASSOC 0)(singleton(mkTuple 3 18 13))))))
 
 
 
@@ -303,13 +302,25 @@
 (assert (or(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true)))
 
 
-(declare-fun queryVARPERMITUA_Attorneys2U_accept_Case3Info_0 () Int)
-(declare-fun queryVARPERMITAT_Attorneys2U_accept_Case3Info_0 () Int)
-(assert (or 
-(and(member (mkTuple  11  queryVARPERMITUA_Attorneys2U_accept_Case3Info_0 ) (ASSIGN* 1))(member (mkTuple  queryVARPERMITUA_Attorneys2U_accept_Case3Info_0 18  queryVARPERMITAT_Attorneys2U_accept_Case3Info_0 ) (ASSOC 1))(member (mkTuple  1  queryVARPERMITAT_Attorneys2U_accept_Case3Info_0 ) (ASSIGN* 1)))
+(declare-fun queryVARPERMITUA_Attorneys_accept_Case3Info_0 () Int)
+(declare-fun queryVARPERMITAT_Attorneys_accept_Case3Info_0 () Int)
+(declare-fun queryVARASSIGN*D_Attorneys1_0 () Int)
+(declare-fun queryVARASSIGN*D_Attorneys_0 () Int)
+(declare-fun queryVARPERMITUA_Attorneys_?ar_?at_0 () Int)
+(declare-fun queryVARPERMITAR_Attorneys_?ar_?at_0 () Int)
+(declare-fun queryVARPERMITAT_Attorneys_?ar_?at_0 () Int)
+(declare-fun queryVARPERMITUO_Attorneys_?ar_?at_0 () Int)
+(assert (and (and (and (and 
+(and(member (mkTuple  4  queryVARPERMITUA_Attorneys_accept_Case3Info_0 ) (ASSIGN* 1))(member (mkTuple  queryVARPERMITUA_Attorneys_accept_Case3Info_0 17  queryVARPERMITAT_Attorneys_accept_Case3Info_0 ) (ASSOC 1))(member (mkTuple  1  queryVARPERMITAT_Attorneys_accept_Case3Info_0 ) (ASSIGN* 1)))
  
-(and(member (mkTuple  11  queryVARPERMITUA_Attorneys2U_accept_Case3Info_0 ) (ASSIGN* 1))(member (mkTuple  queryVARPERMITUA_Attorneys2U_accept_Case3Info_0 18  queryVARPERMITAT_Attorneys2U_accept_Case3Info_0 ) (ASSOC 1))(member (mkTuple  1  queryVARPERMITAT_Attorneys2U_accept_Case3Info_0 ) (ASSIGN* 1)))
-))
+(member (mkTuple  7  queryVARASSIGN*D_Attorneys1_0 ) (ASSIGN* 1))
+) 
+(member (mkTuple  4  queryVARASSIGN*D_Attorneys_0 ) (ASSIGN* 1))
+) 
+(and(member (mkTuple  4  queryVARPERMITUA_Attorneys_?ar_?at_0 ) (ASSIGN* 1))(member (mkTuple  queryVARPERMITUA_Attorneys_?ar_?at_0  queryVARPERMITAR_Attorneys_?ar_?at_0  queryVARPERMITAT_Attorneys_?ar_?at_0 ) (ASSOC 1))(member (mkTuple   queryVARPERMITUO_Attorneys_?ar_?at_0  queryVARPERMITAT_Attorneys_?ar_?at_0 ) (ASSIGN* 1)))
+) (not 
+(member (mkTuple  7  4 ) (ASSIGN* 1))
+)))
 (check-sat)
 (get-value (obligation3))
 (get-value (obligation2))

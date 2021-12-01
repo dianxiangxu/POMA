@@ -62,7 +62,10 @@ public class ObligationChecker extends Planner {
 		long start = System.currentTimeMillis();
 		checker.setBound(4);
 		//checker.enableSMTOutput(true);
-		//Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation2);");
+		//Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation4);");
+		Solution solution = checker.solveConstraint(
+				"((((PERMIT(Attorneys,accept,Case3Info) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) AND PERMIT(Attorneys,?ar,?at)) AND NOT(IMPLICITASSIGN(Attorneys1,Attorneys)));");
+
 		// Solution solution = checker
 		// .solveConstraint("EXISTS(AttorneysMain);");
 
@@ -71,7 +74,7 @@ public class ObligationChecker extends Planner {
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC4/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC5/BMC");
 
-		Solution solution = checker.solveConstraint("(PERMIT(Attorneys2U, accept, Case3Info) OR PERMIT(Attorneys2U, accept, Case3Info));");
+		//Solution solution = checker.solveConstraint("(PERMIT(Attorneys2U, accept, Case3Info) OR PERMIT(Attorneys2U, accept, Case3Info));");
 		//  Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2,
 		//  Attorneys1);");
 		System.out.println(solution);
