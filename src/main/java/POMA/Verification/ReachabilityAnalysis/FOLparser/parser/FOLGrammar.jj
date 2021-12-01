@@ -21,7 +21,6 @@ import java.util.List;
  * The negation operator is "NOT". Comma is used as a delimiter for predicate parameters
  * The input has to end with ";"
  * 
- * TODO: "EXISTS" - needs to be added
  * < formula > ::=  < predicate > | < binary > | <negation> {, formula} ";"
  * < binary > :==  "(" < formula > "AND" < formula > ")"
  *          		| "(" < formula > "OR" < formula > ")"
@@ -31,8 +30,9 @@ import java.util.List;
  * < ASSOCIATE > ::=  "ASSOCIATE""(" < term > < term > < term >")"
  * < DENY > ::= "DENY""(" < term > < term > < term >")"
  * < EXPLICITASSIGN > "EXPLICITASSIGN""(" ::=  < term > < term >")"
- * < ASSIGN > ::=  "ASSIGN""(" < term > < term >")"
+ * < ASSIGN > ::=  "ASSIGN""("< term > < term >")"
  * < HIERARCHY > ::= "HIERARCHY""(" < term > < term >")"
+ * < EXISTS > ::=  "EXISTS""("< term >")"
  * < term >  ::= CONST | VAR
  *
  * @author Vladislav Dubrovenski
