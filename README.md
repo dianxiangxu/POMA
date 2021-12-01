@@ -125,6 +125,38 @@ It is possible to get all the permissions with join operations, but is very expe
 
 If there is a need to use any of the above sets with a predicate, let me know and I will add such predicate. 
 
+BNF
+
+```java
+/**
+ * Parser for queries NGAC.
+ * 
+ * Syntax: variables start with ?, predicates and constants
+ * with either letters or digits. 
+ * The binary operators "AND", "OR" must be put in parentheses; Predicates have parentheses for parameters.
+ * The negation operator is "NOT". Comma is used as a delimiter for predicate parameters
+ * The input has to end with ";"
+ * 
+ * < formula > ::=  < predicate > | < binary > | <negation> {, formula} ";"
+ * < binary > :==  "(" < formula > "AND" < formula > ")"
+ *          		| "(" < formula > "OR" < formula > ")"
+ * < negation > :== "NOT" "(" < formula > ")"
+ * < predicate > ::=  < PERMIT > | < ASSOCIATE > | < DENY > | < EXPLICITASSIGN > | < ASSIGN >
+ * < PERMIT >  ::=  "PERMIT" "("< term > < term > < term >")"
+ * < ASSOCIATE > ::=  "ASSOCIATE""(" < term > < term > < term >")"
+ * < DENY > ::= "DENY""(" < term > < term > < term >")"
+ * < EXPLICITASSIGN > "EXPLICITASSIGN""(" ::=  < term > < term >")"
+ * < ASSIGN > ::=  "ASSIGN""("< term > < term >")"
+ * < HIERARCHY > ::= "HIERARCHY""(" < term > < term >")"
+ * < EXISTS > ::=  "EXISTS""("< term >")"
+ * < term >  ::= CONST | VAR
+ *
+ * @author Vladislav Dubrovenski
+ */
+
+```
+
+
 #### Current Limitations
 Only the following obligation actions are currently supported: Create Node, Add Assignment, Remove Assignment, Add Association, Remove Association.
 
