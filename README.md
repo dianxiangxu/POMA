@@ -74,11 +74,12 @@ The following are the queries currently supported:
 | Obligation Label is reachable  | ------ | OBLIGATIONLABEL(obligation2); | NO |
 | Association exists  | (ua, ar, at) belongsTo ASSOCIATE | ASSOCIATE(Attorneys,refuse,Case3);  | YES |
 | Permission exists  | (u,?ua) belongsTo ASSIGN* AND (t,?at) belongsTo ASSIGN* AND (?ua, ar, ?at) belongsTo ASSOCIATE | PERMIT(Attorneys2U, accept, Case3Info); | YES |
-| Explicit assignment exists (no hierarchy)  | (a,d) belongsTo ASSIGN | ASSIGN(Attorneys2U, Attorneys2); | YES |
-| Explicit + implicit assignment exists (hierarchy accounted for) | (a,d) belongsTo ASSIGN* | EXPLICITASSIGN(Attorneys2U, Attorneys); | YES |
+| Explicit assignment exists (no hierarchy)  | (a,d) belongsTo ASSIGN | EXPLICITASSIGN(Attorneys2U, Attorneys2); | YES |
+| Implicit assignment exists (only hierarchy)  | (a,d) belongsTo (ASSIGN* - ASSIGN) | IMPLICITASSIGN(Attorneys2U, Attorneys2); | YES |
+| Explicit + implicit assignment exists (hierarchy accounted for) | (a,d) belongsTo ASSIGN* | ASSIGN(Attorneys2U, Attorneys); | YES |
 | Deny - permission does not exist | NOT(PERMIT(u,ar,t)) | DENY(Attorneys2U, accept, Case3Info); | YES |
 | Hierarchy exists - either a is assigned to b or b is assigned to a(inheritance included) | (a,b) belongsTo ASSIGN* OR (b,a) belongsTo ASSIGN*| HIERARCHY(Attorneys2U, Attorneys2); | YES |
-| Node Exists | (a,?d) belongsTo ASSIGN | NODEEXISTS(Attorneys2U);*** | YES |
+| Node Exists | (a,?d) belongsTo ASSIGN | NODEEXISTS(Attorneys2U); | YES |
 | SUBSET | ------ | NOT NOW | ----- |
 
 The following sets are available: ASSIGN, ASSIGN*, ASSOCIATE
@@ -124,6 +125,39 @@ There are currently 3 sets that obligations are making changes to in SMT.
 It is possible to get all the permissions with join operations, but is very expensive. Also, it is possible to get all the permissions for just ua, ar, at, or their permutations. 
 
 If there is a need to use any of the above sets with a predicate, let me know and I will add such predicate. 
+
+BNF
+
+```java
+/**
+ * Parser for queries NGAC.
+ * 
+ * Syntax: variables start with ?, predicates and constants
+ * with either letters or digits. 
+ * The binary operators "AND", "OR" must be put in parentheses; Predicates have parentheses for parameters.
+ * The negation operator is "NOT". Comma is used as a delimiter for predicate parameters
+ * The input has to end with ";"
+ * 
+ * < formula > ::=  < predicate > | < binary > | <negation> {, formula} ";"
+ * < binary > :==  "(" < formula > "AND" < formula > ")"
+ *          		| "(" < formula > "OR" < formula > ")"
+ * < negation > :== "NOT" "(" < formula > ")"
+ * < predicate > ::=  < PERMIT > | < ASSOCIATE > | < DENY > | < IMPLICITASSIGN > | < EXPLICITASSIGN > | < HIERARCHY > | < ASSIGN > | < NODEEXISTS >
+ * < PERMIT >  ::=  "PERMIT" "("< term > < term > < term >")"
+ * < ASSOCIATE > ::=  "ASSOCIATE""(" < term > < term > < term >")"
+ * < DENY > ::= "DENY""(" < term > < term > < term >")"
+ * < EXPLICITASSIGN > "EXPLICITASSIGN""("< term > < term >")"
+ * < IMPLICITASSIGN > "IMPLICITASSIGN""("< term > < term >")"
+ * < ASSIGN > ::=  "ASSIGN""("< term > < term >")"
+ * < HIERARCHY > ::= "HIERARCHY""(" < term > < term >")"
+ * < NODEEXISTS > ::=  "NODEEXISTS""("< term >")"
+ * < term >  ::= CONST | VAR
+ *
+ * @author Vladislav Dubrovenski
+ */
+
+```
+
 
 #### Current Limitations
 Only the following obligation actions are currently supported: Create Node, Add Assignment, Remove Assignment, Add Association, Remove Association.
