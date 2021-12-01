@@ -16,18 +16,19 @@ import java.util.List;
  * The negation operator is "NOT". Comma is used as a delimiter for predicate parameters
  * The input has to end with ";"
  * 
- * TODO: "EXISTS" - needs to be added
  * < formula > ::=  < predicate > | < binary > | <negation> {, formula} ";"
  * < binary > :==  "(" < formula > "AND" < formula > ")"
  *          		| "(" < formula > "OR" < formula > ")"
  * < negation > :== "NOT" "(" < formula > ")"
- * < predicate > ::=  < PERMIT > | < ASSOCIATE > | < DENY > | < EXPLICITASSIGN > | < ASSIGN >
+ * < predicate > ::=  < PERMIT > | < ASSOCIATE > | < DENY > | < IMPLICITASSIGN > | < EXPLICITASSIGN > | < HIERARCHY > | < ASSIGN > | < NODEEXISTS >
  * < PERMIT >  ::=  "PERMIT" "("< term > < term > < term >")"
  * < ASSOCIATE > ::=  "ASSOCIATE""(" < term > < term > < term >")"
  * < DENY > ::= "DENY""(" < term > < term > < term >")"
- * < EXPLICITASSIGN > "EXPLICITASSIGN""(" ::=  < term > < term >")"
- * < ASSIGN > ::=  "ASSIGN""(" < term > < term >")"
+ * < EXPLICITASSIGN > "EXPLICITASSIGN""("< term > < term >")"
+ * < IMPLICITASSIGN > "IMPLICITASSIGN""("< term > < term >")"
+ * < ASSIGN > ::=  "ASSIGN""("< term > < term >")"
  * < HIERARCHY > ::= "HIERARCHY""(" < term > < term >")"
+ * < NODEEXISTS > ::=  "NODEEXISTS""("< term >")"
  * < term >  ::= CONST | VAR
  *
  * @author Vladislav Dubrovenski
@@ -64,7 +65,7 @@ public class FOLGrammar implements FOLGrammarConstants {
   static final public IFormula parse() throws ParseException {
   IFormula f;
     f = formula();
-    jj_consume_token(23);
+    jj_consume_token(24);
     {if (true) return f;}
     throw new Error("Missing return statement in function");
   }
@@ -101,6 +102,10 @@ public class FOLGrammar implements FOLGrammarConstants {
       jj_consume_token(EXPLICITASSIGN);
     {if (true) return new ExplicitAssignPredicate();}
       break;
+    case IMPLICITASSIGN:
+      jj_consume_token(IMPLICITASSIGN);
+    {if (true) return new ImplicitAssignPredicate();}
+      break;
     case ASSIGN:
       jj_consume_token(ASSIGN);
     {if (true) return new AssignPredicate();}
@@ -117,8 +122,8 @@ public class FOLGrammar implements FOLGrammarConstants {
       jj_consume_token(OBLIGATIONLABEL);
   {if (true) return new ObligationLabelPredicate();}
       break;
-    case EXISTS:
-      jj_consume_token(EXISTS);
+    case NODEEXISTS:
+      jj_consume_token(NODEEXISTS);
   {if (true) return new NodeExistsPredicate();}
       break;
     default:
@@ -199,11 +204,12 @@ public class FOLGrammar implements FOLGrammarConstants {
     case PERMIT:
     case DENY:
     case EXPLICITASSIGN:
+    case IMPLICITASSIGN:
     case ASSIGN:
     case ASSOCIATE:
     case HIERARCHY:
     case OBLIGATIONLABEL:
-    case EXISTS:
+    case NODEEXISTS:
       form = predicate();
       break;
     case OPEN:
@@ -237,7 +243,7 @@ public class FOLGrammar implements FOLGrammarConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x300000,0x1fe00,0x80,0x60000,0x9fe20,};
+      jj_la1_0 = new int[] {0x600000,0x3fe00,0x80,0xc0000,0x13fe20,};
    }
 
   /** Constructor with InputStream. */
@@ -375,7 +381,7 @@ public class FOLGrammar implements FOLGrammarConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[24];
+    boolean[] la1tokens = new boolean[25];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -389,7 +395,7 @@ public class FOLGrammar implements FOLGrammarConstants {
         }
       }
     }
-    for (int i = 0; i < 24; i++) {
+    for (int i = 0; i < 25; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

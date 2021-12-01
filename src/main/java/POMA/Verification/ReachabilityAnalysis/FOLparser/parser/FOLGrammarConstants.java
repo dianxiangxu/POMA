@@ -25,27 +25,29 @@ public interface FOLGrammarConstants {
   /** RegularExpression Id. */
   int EXPLICITASSIGN = 11;
   /** RegularExpression Id. */
-  int ASSIGN = 12;
+  int IMPLICITASSIGN = 12;
   /** RegularExpression Id. */
-  int ASSOCIATE = 13;
+  int ASSIGN = 13;
   /** RegularExpression Id. */
-  int HIERARCHY = 14;
+  int ASSOCIATE = 14;
   /** RegularExpression Id. */
-  int OBLIGATIONLABEL = 15;
+  int HIERARCHY = 15;
   /** RegularExpression Id. */
-  int EXISTS = 16;
+  int OBLIGATIONLABEL = 16;
   /** RegularExpression Id. */
-  int OR = 17;
+  int NODEEXISTS = 17;
   /** RegularExpression Id. */
-  int AND = 18;
+  int OR = 18;
   /** RegularExpression Id. */
-  int NOT = 19;
+  int AND = 19;
   /** RegularExpression Id. */
-  int CONST = 20;
+  int NOT = 20;
   /** RegularExpression Id. */
-  int VAR = 21;
+  int CONST = 21;
   /** RegularExpression Id. */
-  int IDENTIFIER = 22;
+  int VAR = 22;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 23;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -64,11 +66,12 @@ public interface FOLGrammarConstants {
     "\"PERMIT\"",
     "\"DENY\"",
     "\"EXPLICITASSIGN\"",
+    "\"IMPLICITASSIGN\"",
     "\"ASSIGN\"",
     "\"ASSOCIATE\"",
     "\"HIERARCHY\"",
     "\"OBLIGATIONLABEL\"",
-    "\"EXISTS\"",
+    "\"NODEEXISTS\"",
     "\"OR\"",
     "\"AND\"",
     "\"NOT\"",

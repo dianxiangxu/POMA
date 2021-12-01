@@ -64,7 +64,7 @@ public class ObligationChecker extends Planner {
 		//checker.enableSMTOutput(true);
 		//Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation4);");
 		Solution solution = checker.solveConstraint(
-				"((((PERMIT(Attorneys,accept,Case3Info) AND EXISTS(Attorneys1)) AND EXISTS(Attorneys)) AND PERMIT(Attorneys,?ar,?at)) AND NOT(HIERARCHY(Attorneys1,Attorneys)));");
+				"((((PERMIT(Attorneys,accept,Case3Info) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) AND PERMIT(Attorneys,?ar,?at)) AND NOT(IMPLICITASSIGN(Attorneys1,Attorneys)));");
 
 		// Solution solution = checker
 		// .solveConstraint("EXISTS(AttorneysMain);");

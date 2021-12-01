@@ -319,7 +319,7 @@
 ) 
 (and(member (mkTuple  4  queryVARPERMITUA_Attorneys_?ar_?at_0 ) (ASSIGN* 1))(member (mkTuple  queryVARPERMITUA_Attorneys_?ar_?at_0  queryVARPERMITAR_Attorneys_?ar_?at_0  queryVARPERMITAT_Attorneys_?ar_?at_0 ) (ASSOC 1))(member (mkTuple   queryVARPERMITUO_Attorneys_?ar_?at_0  queryVARPERMITAT_Attorneys_?ar_?at_0 ) (ASSIGN* 1)))
 ) (not 
-(or (member (mkTuple  7  4 ) (ASSIGN* 1)) (member (mkTuple  4  7 ) (ASSIGN* 1)))
+(member (mkTuple  7  4 ) (ASSIGN* 1))
 )))
 (check-sat)
 (get-value (obligation3))

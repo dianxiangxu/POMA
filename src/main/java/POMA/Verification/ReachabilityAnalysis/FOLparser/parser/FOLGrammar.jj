@@ -25,14 +25,15 @@ import java.util.List;
  * < binary > :==  "(" < formula > "AND" < formula > ")"
  *          		| "(" < formula > "OR" < formula > ")"
  * < negation > :== "NOT" "(" < formula > ")"
- * < predicate > ::=  < PERMIT > | < ASSOCIATE > | < DENY > | < EXPLICITASSIGN > | < ASSIGN >
+ * < predicate > ::=  < PERMIT > | < ASSOCIATE > | < DENY > | < IMPLICITASSIGN > | < EXPLICITASSIGN > | < HIERARCHY > | < ASSIGN > | < NODEEXISTS >
  * < PERMIT >  ::=  "PERMIT" "("< term > < term > < term >")"
  * < ASSOCIATE > ::=  "ASSOCIATE""(" < term > < term > < term >")"
  * < DENY > ::= "DENY""(" < term > < term > < term >")"
- * < EXPLICITASSIGN > "EXPLICITASSIGN""(" ::=  < term > < term >")"
+ * < EXPLICITASSIGN > "EXPLICITASSIGN""("< term > < term >")"
+ * < IMPLICITASSIGN > "IMPLICITASSIGN""("< term > < term >")"
  * < ASSIGN > ::=  "ASSIGN""("< term > < term >")"
  * < HIERARCHY > ::= "HIERARCHY""(" < term > < term >")"
- * < EXISTS > ::=  "EXISTS""("< term >")"
+ * < NODEEXISTS > ::=  "NODEEXISTS""("< term >")"
  * < term >  ::= CONST | VAR
  *
  * @author Vladislav Dubrovenski
@@ -93,11 +94,12 @@ TOKEN :
   < PERMIT : "PERMIT" >
 | < DENY : "DENY" >
 | < EXPLICITASSIGN : "EXPLICITASSIGN" >
+| < IMPLICITASSIGN : "IMPLICITASSIGN" >
 | < ASSIGN : "ASSIGN" >
 | < ASSOCIATE : "ASSOCIATE" >
 | < HIERARCHY : "HIERARCHY" >
 | < OBLIGATIONLABEL : "OBLIGATIONLABEL" >
-| < EXISTS : "EXISTS" >
+| < NODEEXISTS : "NODEEXISTS" >
 
 }
 
@@ -158,6 +160,10 @@ IPredicate getPredicate() :
   {
     return new ExplicitAssignPredicate();
   }
+| < IMPLICITASSIGN >
+  {
+    return new ImplicitAssignPredicate();
+  }
 | < ASSIGN >
   {
     return new AssignPredicate();
@@ -174,7 +180,7 @@ IPredicate getPredicate() :
 {
   return new ObligationLabelPredicate();
 }
-| < EXISTS >
+| < NODEEXISTS >
 {
   return new NodeExistsPredicate();
 }
