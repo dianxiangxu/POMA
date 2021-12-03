@@ -32,10 +32,7 @@ public class MutatorAAC extends MutantTester {
 		// readGPMSGraph();
 
 		allAccessRightSet = GraphUtils.getAllAccessRights();
-		 int i = 0;
 		for (Node sourceNode : UAs) {
-			 i++;
-			 System.out.println(i);
 			performMutation(sourceNode, testMethod, testSuitePath);
 		}
 		saveCSV(data, new File(testResults), testMethod);

@@ -10,6 +10,7 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 //change assignment descendent
 public class MutatorCAD extends MutantTester {
+	int i;
 	public MutatorCAD(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph, prohibitions);
 	}
@@ -22,6 +23,8 @@ public class MutatorCAD extends MutantTester {
 		// getGraphLoaded("GPMSPolicies/bank_policy_config.json");
 		// getGraphLoaded(initialGraphConfig);
 		// readGPMSGraph();
+		
+		i = 0;
 
 		Node nodeB;
 
@@ -64,6 +67,7 @@ public class MutatorCAD extends MutantTester {
 			throws PMException, IOException {
 		File testSuite = new File(testSuitePath);
 		double before, after;
+		i++;
 
 		try {
 			Graph mutant = createCopy();
@@ -77,7 +81,7 @@ public class MutatorCAD extends MutantTester {
 			after = getNumberOfKilledMutants();
 
 			if (before == after)
-				System.out.println("Unkilled mutant:" + "CAD:" 
+				System.out.println("Unkilled mutant:" + "(CAD:" + i + ")" 
 								+ "a:" + nodeA.toString() + " || " 
 								+ "b:" + nodeB.toString() + " || " + "c:" + nodeC.toString());
 			setNumberOfMutants(getNumberOfMutants() + 1);

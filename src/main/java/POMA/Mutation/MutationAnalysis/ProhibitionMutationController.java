@@ -55,16 +55,16 @@ public class ProhibitionMutationController {
 //		String initialProhibitionConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/prohibitionsx1.json";
 		
 		File folder = new File(initialGraphConfig).getParentFile();
-		mutantNames.add("AOC");
-		mutantNames.add("AOAR");
-		mutantNames.add("COC");
+//		mutantNames.add("AOC");
+//		mutantNames.add("AOAR");
+//		mutantNames.add("COC");
 		mutantNames.add("COAR");
-		mutantNames.add("CSS");
-		mutantNames.add("RCT");
-		mutantNames.add("RIS");
-		mutantNames.add("ROCT");
-		mutantNames.add("ROAR");
-		mutantNames.add("ROP");
+//		mutantNames.add("CSS");
+//		mutantNames.add("RCT");
+//		mutantNames.add("RIS");
+//		mutantNames.add("ROCT");
+//		mutantNames.add("ROAR");
+//		mutantNames.add("ROP");
 
 
 		pmc.graph = Utils.readAnyGraph(initialGraphConfig);

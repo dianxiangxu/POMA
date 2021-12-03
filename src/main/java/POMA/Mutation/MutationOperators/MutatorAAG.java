@@ -10,14 +10,16 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 //add assignment
 public class MutatorAAG extends MutantTester {
+	int i;
 	public MutatorAAG(String testMethod, Graph graph, Prohibitions prohibitions) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph, prohibitions);
 	}
 
 	public void init() throws PMException, IOException {
-		this.mutationMethod = "AAGR";
-		String testResults = "CSV/" + testMethod + "/" + testMethod + "testResultsAAGR.csv";
+		this.mutationMethod = "AAG";
+		String testResults = "CSV/" + testMethod + "/" + testMethod + "testResultsAAG.csv";
 		String testSuitePath = getTestSuitPathByMethod(testMethod);
+		i = 1;
 //		getGraphLoaded("GPMSPolicies/gpms_testing_config.json");
 		// getGraphLoaded("GPMSPolicies/bank_policy_config.json");
 		// getGraphLoaded(initialGraphConfig);
@@ -36,6 +38,10 @@ public class MutatorAAG extends MutantTester {
 				}
 				if (GraphUtils.isContained(nodeB, nodeA)) {
 					//this will incur a cycle
+					continue;
+				}
+				if (GraphUtils.isContained(nodeA, nodeB)) {
+					//this does not make sense
 					continue;
 				}
 				if (graph.isAssigned(nodeA.getName(), nodeB.getName())) {
@@ -57,7 +63,8 @@ public class MutatorAAG extends MutantTester {
 			throws PMException, IOException {
 		File testSuite = new File(testSuitePath);
 		double before, after;
-
+		i++;
+		
 		Graph mutant = createCopy();
 
 		mutant = addAssignment(mutant, nodeA, nodeB);
@@ -68,7 +75,7 @@ public class MutatorAAG extends MutantTester {
 
 		if (before == after)
 			System.out
-					.println("Unkilled mutant:" + "AAGR:" + "a:" + nodeA.toString() + " || " + "b:" + nodeB.toString());
+					.println("Unkilled mutant" + "(AAG:" + i + ")a:" + nodeA.toString() + " || " + "b:" + nodeB.toString());
 		setNumberOfMutants(getNumberOfMutants() + 1);
 	}
 

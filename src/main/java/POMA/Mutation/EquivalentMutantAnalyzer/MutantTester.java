@@ -1,4 +1,4 @@
-package POMA.Mutation.MutationOperators;
+package POMA.Mutation.EquivalentMutantAnalyzer;
 
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.OA;
 import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.PC;
@@ -25,18 +25,21 @@ import POMA.GlobalVariables;
 import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
-import POMA.Verification.TranslationWithSets.AssociationRelation;
 import gov.nist.csd.pm.exceptions.PMException;
-import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pdp.decider.PReviewDecider;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
+import gov.nist.csd.pm.pip.obligations.model.EventPattern;
+import gov.nist.csd.pm.pip.obligations.model.EvrNode;
+import gov.nist.csd.pm.pip.obligations.model.Obligation;
+import gov.nist.csd.pm.pip.obligations.model.Rule;
+import gov.nist.csd.pm.pip.obligations.model.Target;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public class MutantTester {
-	String mutationMethod = "";
+	protected String mutationMethod = "";
 	private double numberOfKilledMutants = 0;
 	private int numberOfMutants = 0;
 	List<Set<String>> operations = new ArrayList<Set<String>>();
@@ -45,87 +48,48 @@ public class MutantTester {
 	List<Node> OAs;
 	public static Graph graph;
 	public static Prohibitions prohibitions;
-	String testMethod;
+	public static String obligationFilePath = "";
+	public static Obligation obligationMutant = new Obligation();
+	protected String testMethod;
 	// public String initialGraphConfig = "GPMSPolicies/SimpleGraphToSMT.json";
 //	public String initialGraphConfig = "Policies/GPMS";
-	public String initialGraphConfig = "Policies/LawUseCase";
+//	public String initialGraphConfig = "Policies/LawUseCase";
 //	public String initialGraphConfig = "Policies/BankPolicy/Complex";
 //	public String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA";
-//	public String initialGraphConfig = "Policies/ForBMC/LawFirmSimplified";
+	
+	//BMC
+	public String initialGraphConfig = "Policies/ForBMC/LawFirmSimplified/";
+//	public String initialGraphConfig = "Policies/ForBMC/GPMSSimplified/";
 
+	static List<String> Us;
 	static List<Node> UAs;
-	static List<Node> UAsOAs;
+	protected static List<Node> UAsOAs;
 	static List<Node> UAsPCs;
 	static List<Node> UAsPCsOAs;
+	protected static List<EvrNode> EvrNodes;
+	
+	static List<AccessRequest> arList;
 
-	public MutantTester(String testMethod, Graph graph, Prohibitions prohibitions)
-			throws GraphDoesNotMatchTestSuitException {
+	public MutantTester(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath, List<AccessRequest> ARList) throws GraphDoesNotMatchTestSuitException {
 		this.testMethod = testMethod;
 		this.graph = graph;
 		this.prohibitions = prohibitions;
+		this.obligationFilePath = obligationPath;
+		this.arList = ARList;
 		try {
-			// graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
-			// if (!Utils.verifyTestSuitIsForGraph(graph,
-			// getTestSuitPathByMethod(testMethod))) {
-			// throw new GraphDoesNotMatchTestSuitException("Please verify that the testing
-			// suit is for this graph");
-			// }
+			//graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
+//			if (!Utils.verifyTestSuitIsForGraph(graph, getTestSuitPathByMethod(testMethod))) {
+//				throw new GraphDoesNotMatchTestSuitException("Please verify that the testing suit is for this graph");
+//			}
 			getGraphLoaded();
 
 		} catch (PMException | IOException e) {
 			e.printStackTrace();
 		}
 	}
-
 	public void setGraph(Graph graph) {
 		this.graph = graph;
 	}
-
-	public void testMutantCVC4(Graph mutant, File testSuiteCSV,
-			ArrayList<AssociationRelation> privilegesFromTranslation, String testMethod, int mutantNumber,
-			String mutationMethod) throws PMException, IOException {
-
-		List<String[]> listOfPriveleges = new ArrayList<String[]>();		
-		for (AssociationRelation sArray : privilegesFromTranslation) {
-			String UAname = sArray.getUA();
-			String OAname = sArray.getAT();
-			OperationSet os = sArray.getOperationSet();
-			for (String ar : os) {
-				String[] arrayOfPriveleges = new String[3];
-				arrayOfPriveleges[0]=UAname;
-				arrayOfPriveleges[1] = ar;
-				arrayOfPriveleges[2] = OAname;
-				listOfPriveleges.add(arrayOfPriveleges);
-			}
-		}
-
-		PReviewDecider decider = new PReviewDecider(mutant, prohibitions);
-		if (mutantNumber == 0) {
-			String[] header = new String[listOfPriveleges.size() + 2];
-			header[0] = "MutantName";
-
-			for (int i = 1; i < header.length; i++) {
-				header[i] = "Test" + i;
-			}
-			header[header.length - 1] = "MutantKilled?";
-			data.add(header);
-		}
-		int counter = 1;
-		String[] mutantTest = new String[listOfPriveleges.size() + 2];
-		mutantTest[0] = mutationMethod + (mutantNumber + 1);
-		for (String[] privilege : listOfPriveleges) {
-			String UAname = privilege[0];
-			String ar = privilege[1];
-			String OAname = privilege[2];
-			if (decider.check(UAname, "", OAname, ar)) {
-				mutantTest[counter] = "Pass";
-			} else {
-				mutantTest[counter] = "Fail";
-			}
-			counter++;
-		}
-	}
-
 	public void testMutant(Graph mutant, File testSuiteCSV, String testMethod, int mutantNumber, String mutationMethod)
 			throws PMException, IOException {
 
@@ -183,7 +147,7 @@ public class MutantTester {
 	}
 
 	public double calculateMutationScore(double numberOfMutations, double numberOfKilledMutants) {
-		if (numberOfMutations == 0) {
+		if(numberOfMutations == 0) {
 			return 0;
 		}
 		return (numberOfKilledMutants / numberOfMutations * 100);
@@ -393,7 +357,7 @@ public class MutantTester {
 		}
 	}
 
-	public Graph createCopy() throws PMException {
+	public static Graph createCopy() throws PMException {
 		Graph mutant = new MemGraph();
 		String json = GraphSerializer.toJson(graph);
 
@@ -453,22 +417,52 @@ public class MutantTester {
 
 	public String getTestSuitPathByMethod(String testMethod) {
 		File file = new File(GlobalVariables.currentPath);
-		if (!file.isDirectory()) {
+		if(!file.isDirectory()) {
 			file = file.getParentFile();
 		}
-		if (file == null) {
+		if(file==null) {
 			return this.initialGraphConfig + "/CSV/testSuits/" + testMethod + "testSuite.csv";
 		}
 		return file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv";
 	}
-
-	public String getTestSuitPathByMethod(String testMethod, String path) {
-		File file = new File(path);
-		if (!file.isDirectory()) {
-			file = file.getParentFile();
-		}
-		System.out.println(file.getAbsolutePath());
-		System.out.println(file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv");
-		return file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv";
+	
+//	public String getTestSuitPathByMethod(String testMethod, String path) {
+//		File file = new File(path);
+//		if(!file.isDirectory()) {
+//			file = file.getParentFile();
+//		}
+//		System.out.println(file.getAbsolutePath());
+//		System.out.println(file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv");
+//		return file.getAbsolutePath() + "/CSV/testSuits/" + testMethod + "testSuite.csv";
+//	}
+	
+	public List<AccessRequest> getARList () {
+		return arList;
 	}
+	
+	public static List<String> getAllUserNames() throws PMException {
+		Us = Utils.getUsInGraph(graph);
+		return Us;
+	}
+	
+	public static List<String> getUAsOAsNames() throws PMException {
+		List<String> list = Utils.getUsInGraph(graph);
+		list.addAll(Utils.getOsInGraph(graph));
+		return list;
+	}
+	
+	//get all EvrNodes in obligation
+	public void getAllEvrNodes(Obligation obligation) {
+		EvrNodes = new ArrayList<>();
+		List<Rule> rules = obligation.getRules();
+		for (Rule rule : rules) {
+			EventPattern eventPattern = rule.getEventPattern();
+			Target target = eventPattern.getTarget();
+			List<EvrNode> policyElements = target.getPolicyElements();
+			for (EvrNode node : policyElements) {
+				if (EvrNodes.contains(node) == false)
+					EvrNodes.add(node);
+			}	
+		}
+	}	
 }
