@@ -130,7 +130,7 @@ If there is a need to use any of the above sets with a predicate, let me know an
 
 ```java
 "
-  Parser for NGAC planner queries .
+  Parser for NGAC planner queries.
   
   Syntax: variables start with ?, predicates and constants
   with either letters or digits. 
