@@ -105,7 +105,14 @@ In order to use negation, simply do:
 "NOT(OBLIGATIONLABEL(obligation2));"
 ```
 
-**NOTE**: while queries of type _(Predicate1 AND (Predicate2 OR Predicate3))_ should work, there was no thorough testing of those. 
+#### NESTED QUERIES
+
+The following is an example for complex queries with logical connective "AND" and negation.  
+
+```java
+"((((PERMIT(Attorneys,accept,Case3Info) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) 
+AND PERMIT(Attorneys,?ar,?at)) AND NOT(IMPLICITASSIGN(Attorneys1,Attorneys)));"
+```
 
 
 #### TERMS
@@ -156,7 +163,6 @@ If there is a need to use any of the above sets with a predicate, let me know an
 "
 
 ```
-
 
 #### Current Limitations
 Only the following obligation actions are currently supported: Create Node, Add Assignment, Remove Assignment, Add Association, Remove Association.
