@@ -142,7 +142,8 @@ If there is a need to use any of the above sets with a predicate, let me know an
   < binary > :==  "(" < formula > "AND" < formula > ")"
            		| "(" < formula > "OR" < formula > ")"
   < negation > :== "NOT" "(" < formula > ")"
-  < predicate > ::=  < PERMIT > | < ASSOCIATE > | < DENY > | < IMPLICITASSIGN > | < EXPLICITASSIGN > | < HIERARCHY > | < ASSIGN > | < NODEEXISTS >
+  < predicate > ::=  < PERMIT > | < ASSOCIATE > | < DENY > | < IMPLICITASSIGN > | < EXPLICITASSIGN > |
+                     < HIERARCHY > | < ASSIGN > | < NODEEXISTS >
   < PERMIT >  ::=  "PERMIT" "("< term > < term > < term >")"
   < ASSOCIATE > ::=  "ASSOCIATE""(" < term > < term > < term >")"
   < DENY > ::= "DENY""(" < term > < term > < term >")"
