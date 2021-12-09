@@ -89,10 +89,10 @@ The following sets are available: ASSIGN, ASSIGN*, ASSOCIATE
 Both "and" and "or" are supported. The format as follows: 
 
 ```java
-"(OBLIGATIONLABEL(obligation1) AND ASSOCIATE(Attorneys,refuse,Case3));" 
+"(OBLIGATIONLABEL(obligation1, Attorneys, accept, Case3Info) AND ASSOCIATE(Attorneys,refuse,Case3));" 
 ```
 ```java
-"(OBLIGATIONLABEL(obligation1) OR ASSOCIATE(Attorneys,refuse,Case3));"
+"(OBLIGATIONLABEL(obligation1, Attorneys, accept, Case3Info) OR ASSOCIATE(Attorneys,refuse,Case3));"
 ```
 
 Note that even though smt supports and/or with 3 or more elements, this feature is not included in this solver.
@@ -102,7 +102,7 @@ Note that even though smt supports and/or with 3 or more elements, this feature 
 In order to use negation, simply do: 
 
 ```java
-"NOT(OBLIGATIONLABEL(obligation2));"
+"NOT(OBLIGATIONLABEL(obligation1, Attorneys, accept, Case3Info));"
 ```
 
 #### NESTED QUERIES
