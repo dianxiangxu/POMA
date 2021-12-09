@@ -71,7 +71,7 @@ The solution object, hopefully, will contain a list of steps.
 The following are the queries currently supported: 
 | Predicate  | Logic | Query Example | Variables Allowed? |
 | ------------- | ------------- | ------------- | ------------- |
-| Obligation Label is reachable  | ------ | OBLIGATIONLABEL(obligation2); | NO |
+| Obligation Label is reachable  | ------ | OBLIGATIONLABEL(obligation1, Attorneys, accept, Case3Info); | YES(not for label) |
 | Association exists  | (ua, ar, at) belongsTo ASSOCIATE | ASSOCIATE(Attorneys,refuse,Case3);  | YES |
 | Permission exists  | (u,?ua) belongsTo ASSIGN* AND (t,?at) belongsTo ASSIGN* AND (?ua, ar, ?at) belongsTo ASSOCIATE | PERMIT(Attorneys2U, accept, Case3Info); | YES |
 | Explicit assignment exists (no hierarchy)  | (a,d) belongsTo ASSIGN | EXPLICITASSIGN(Attorneys2U, Attorneys2); | YES |
