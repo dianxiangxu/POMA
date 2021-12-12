@@ -1,0 +1,6 @@
+precondition constraint:
+PERMIT(PI,submit,PDSWhole) AND NOT(PERMIT(Chair,approve,PDSWhole)) AND NODEEXIST(Chair) AND NODEEXIST(PDSWhole)
+obligation:
+obligation1
+postcondition constraint:
+PERMIT(Chair,approve,PDSWhole)
