@@ -1,0 +1,6 @@
+precondition constraint:
+{(PERMIT(Attorneys2,?ar,?at) AND NOT(PERMIT(Attorneys1,?ar,?at))) OR (PERMIT(Attorneys1,?ar,?at) AND NOT(PERMIT(Attorneys2,?ar,?at)) AND NOT(ASSOCIATEA(Attorneys1,?ar,?at2)) AND IMPILICITASSIGN(?at,?at2)) 
+obligation:
+obligation1
+postcondition constraint:
+EXPLICITASSIGN(Attorneys1,Attorneys) AND NOT(EXPLICITASSIGN(Attorneys1,Attorneys2))
