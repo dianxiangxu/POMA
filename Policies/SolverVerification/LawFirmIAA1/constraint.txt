@@ -1,6 +1,7 @@
 precondition constraint:
 {(PERMIT(Attorneys2,?ar,?at) AND NOT(PERMIT(Attorneys1,?ar,?at))) OR (PERMIT(Attorneys1,?ar,?at) AND NOT(PERMIT(Attorneys2,?ar,?at)) AND NOT(ASSOCIATEA(Attorneys1,?ar,?at2)) AND IMPILICITASSIGN(?at,?at2)) 
+((((((PERMIT(Attorneys2,?ar,?at) AND NOT(PERMIT(Attorneys1,?ar,?at))) OR PERMIT(Attorneys1,?ar,?at)) AND NOT(PERMIT(Attorneys2,?ar,?at))) AND NOT(ASSOCIATE(Attorneys1,?ar,?at2))) AND IMPLICITASSIGN(?at,?at2)) AND OBLIGATIONLABEL(obligation1,?u,?q,?t))
 obligation:
 obligation1
 postcondition constraint:
-EXPLICITASSIGN(Attorneys1,Attorneys) AND NOT(EXPLICITASSIGN(Attorneys1,Attorneys2))
+(EXPLICITASSIGN(Attorneys1,Attorneys) AND NOT(EXPLICITASSIGN(Attorneys1,Attorneys2)));

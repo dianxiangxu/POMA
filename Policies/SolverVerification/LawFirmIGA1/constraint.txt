@@ -1,6 +1,9 @@
 precondition constraint:
 PERMIT(Attorneys3,accept,Case3Info) AND ((PERMIT(LeadAttorneys,approve,Case3) AND NOT(PERMIT(LeadAttorneys,approve,Case3Info)) AND IMPLICITASSIGN(Case3,Case3Info)) OR ((NOT(PERMIT(LeadAttorneys,approve,Case3)) OR (PERMIT(LeadAttorneys,approve,Case3)) AND NOT(PERMIT(LeadAttorneys,approve,Case3Info))) AND NOT(IMPLICITASSIGN(Case3,Case3Info)))
+((((((((PERMIT(Attorneys3,accept,Case3Info) AND PERMIT(LeadAttorneys,approve,Case3)) AND NOT(PERMIT(LeadAttorneys,approve,Case3Info))) AND IMPLICITASSIGN(Case3,Case3Info)) OR NOT(PERMIT(LeadAttorneys,approve,Case3))) OR PERMIT(LeadAttorneys,approve,Case3)) AND NOT(PERMIT(LeadAttorneys,approve,Case3Info))) AND NOT(IMPLICITASSIGN(Case3,Case3Info))) AND  OBLIGATIONLABEL(obligation4,?u,?q,?t));
+
 obligation:
 obligation4
 postcondition constraint:
 (PERMIT(LeadAttorneys,approve,Case3) AND NOT(PERMIT(LeadAttorneys,approve,Case3Info)) AND IMPLICITASSIGN(Case3,Case3Info)) OR (PERMIT(LeadAttorneys,approve,Case3) AND NOT(IMPLICITASSIGN(Case3,Case3Info)))
+((((PERMIT(LeadAttorneys,approve,Case3) AND NOT(PERMIT(LeadAttorneys,approve,Case3Info))) AND IMPLICITASSIGN(Case3,Case3Info)) OR PERMIT(LeadAttorneys,approve,Case3)) AND NOT(IMPLICITASSIGN(Case3,Case3Info)));

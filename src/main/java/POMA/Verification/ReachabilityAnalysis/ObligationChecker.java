@@ -49,9 +49,13 @@ public class ObligationChecker extends Planner {
 		// "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
 
 		// Create with objects
-		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
+		// Graph graph =
+		// Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
+		// String yml = new String(
+		// Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
+		Graph graph = Utils.readAnyGraph("Policies/SolverVerification/LawFirmROB1/Graph.json");
 		String yml = new String(
-				Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
+				Files.readAllBytes(Paths.get("Policies/SolverVerification/LawFirmROB1/ObligationsMutant.yml")));
 		// Graph graph =
 		// Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/EditingPolicy37.json");
 		// String yml = new String(
@@ -63,12 +67,12 @@ public class ObligationChecker extends Planner {
 		checker.setBound(4);
 		checker.enableSMTOutput(true);
 		// Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation4);");
-		String precondition = "OBLIGATIONLABEL(obligation2,?Attorneys,?accept,?Case3Info);";
+		String precondition = "((((((PERMIT(Attorneys,accept,Case3Info) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) AND NOT(EXPLICITASSIGN(Attorneys1,Attorneys))) AND PERMIT(Attorneys,?ar,?at)) AND NOT(PERMIT(Attorneys1,?ar,?at))) AND OBLIGATIONLABEL(obligation1,?u,?q,?t));";
 
 		// String postcondition = "((((PERMIT(Attorneys,accept,Case3Info) AND
 		// NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) AND
 		// PERMIT(Attorneys,?ar,?at)) AND NOT(IMPLICITASSIGN(Attorneys1,Attorneys)));";
-		String postcondition = "PERMIT(Attorneys,accept,Case3Info);";
+		String postcondition = "((EXPLICITASSIGN(Attorneys1,Attorneys) AND NOT(PERMIT(Attorneys,?ar,?at))) AND NOT(PERMIT(Attorneys1,?ar,?at)));";
 		Solution solution = checker.solveConstraint(precondition, postcondition);
 
 		// Solution solution = checker

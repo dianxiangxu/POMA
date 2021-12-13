@@ -81,14 +81,12 @@ abstract class Planner {
 		IFormula formulaPost = parseQuery(post, true); 
 		IFormula formulaPre = pre.isEmpty() ? null : parseQuery(pre, false);
 
-		if (formulaPost == null) {
-			return null;
-		}
+
 		Solution solution = null;
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
 			String smtlibv2Code = headCode + iterationCode;
-			smtlibv2Code += generateProperty(formulaPost, (k - 1));
+			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1)):"";
 			smtlibv2Code += System.lineSeparator();
 			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k - 2)) : "";
 			System.out.println("Time horizon " + k + " processing...");
