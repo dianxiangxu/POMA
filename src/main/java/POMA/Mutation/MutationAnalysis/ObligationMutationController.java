@@ -45,10 +45,10 @@ public class ObligationMutationController {
 		long startTime = System.currentTimeMillis();
 		omc.createHeaderForCSV();
 
-		String initialGraphConfig = "Policies/GPMS/Graph.json";
-		String initialObligationConfig = "Policies/GPMS/Obligations.yml";
-//		String initialGraphConfig = "Policies/LawUseCase/Graph.json";
-//		String initialObligationConfig = "Policies/LawUseCase/Obligations.yml";
+//		String initialGraphConfig = "Policies/GPMS/Graph.json";
+//		String initialObligationConfig = "Policies/GPMS/Obligations.yml";
+		String initialGraphConfig = "Policies/LawUseCase/Graph.json";
+		String initialObligationConfig = "Policies/LawUseCase/Obligations.yml";
 		omc.graph = Utils.readAnyGraph(initialGraphConfig);
 //		Utils.combineGraphs();
 		//omc.graph = Utils.readGPMSGraph();

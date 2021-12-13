@@ -49,10 +49,10 @@ public class MutatorCUAA extends MutantTester {
 		for (String targetNode : targetNodes) {
 			Set<String> operateSet = sources.get(targetNode);
 			OperationSet accessRights = new OperationSet(operateSet);
-				
-			Graph mutant = createCopy();
+			
 			for (Node newSourceNode : UAs) {
 				if (!newSourceNode.getName().equals(oldSourceNode.getName())) {
+					Graph mutant = createCopy();
 					changeUserAttributeOfAssociate(mutant, oldSourceNode.getName(), targetNode, newSourceNode.getName(), accessRights);
 					before = getNumberOfKilledMutants();
 					if(mutant==null) continue;

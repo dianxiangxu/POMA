@@ -47,11 +47,11 @@ public class MutantTester {
 	public static Prohibitions prohibitions;
 	String testMethod;
 	// public String initialGraphConfig = "GPMSPolicies/SimpleGraphToSMT.json";
-	// public String initialGraphConfig = "Policies/GPMS";
-	// public String initialGraphConfig = "Policies/LawUseCase";
-	// public String initialGraphConfig = "Policies/BankPolicy/Complex";
-	public String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA";
-	// public String initialGraphConfig = "";
+//	public String initialGraphConfig = "Policies/GPMS";
+	public String initialGraphConfig = "Policies/LawUseCase";
+//	public String initialGraphConfig = "Policies/BankPolicy/Complex";
+//	public String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA";
+//	public String initialGraphConfig = "Policies/ForBMC/LawFirmSimplified";
 
 	static List<Node> UAs;
 	static List<Node> UAsOAs;
