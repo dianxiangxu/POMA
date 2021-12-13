@@ -500,9 +500,15 @@
 (assert (or(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true)))
 
 
+(declare-fun queryVARPERMITUA_Attorneys_accept_Case3Info_2 () Int)
+(declare-fun queryVARPERMITAT_Attorneys_accept_Case3Info_2 () Int)
 (assert 
-(= (obligation4 1) true)
+(and(member (mkTuple  4  queryVARPERMITUA_Attorneys_accept_Case3Info_2 ) (ASSIGN* 2))(member (mkTuple  queryVARPERMITUA_Attorneys_accept_Case3Info_2 17  queryVARPERMITAT_Attorneys_accept_Case3Info_2 ) (ASSOC 2))(member (mkTuple  1  queryVARPERMITAT_Attorneys_accept_Case3Info_2 ) (ASSIGN* 2)))
 )
+
+(assert 
+(and (= (obligation1 0) true)
+ (= obligation1S_0 4 ) (= obligation1ar_0 17 ) (= obligation1T_0 1 )))
 (check-sat)
 (get-value (obligation3))
 (get-value (obligation2))

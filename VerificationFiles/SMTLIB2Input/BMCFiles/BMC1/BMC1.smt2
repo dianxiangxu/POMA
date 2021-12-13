@@ -302,25 +302,15 @@
 (assert (or(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true)))
 
 
-(declare-fun queryVARPERMITUA_Attorneys_accept_Case3Info_0 () Int)
-(declare-fun queryVARPERMITAT_Attorneys_accept_Case3Info_0 () Int)
-(declare-fun queryVARASSIGN*D_Attorneys1_0 () Int)
-(declare-fun queryVARASSIGN*D_Attorneys_0 () Int)
-(declare-fun queryVARPERMITUA_Attorneys_?ar_?at_0 () Int)
-(declare-fun queryVARPERMITAR_Attorneys_?ar_?at_0 () Int)
-(declare-fun queryVARPERMITAT_Attorneys_?ar_?at_0 () Int)
-(declare-fun queryVARPERMITUO_Attorneys_?ar_?at_0 () Int)
-(assert (and (and (and (and 
-(and(member (mkTuple  4  queryVARPERMITUA_Attorneys_accept_Case3Info_0 ) (ASSIGN* 1))(member (mkTuple  queryVARPERMITUA_Attorneys_accept_Case3Info_0 17  queryVARPERMITAT_Attorneys_accept_Case3Info_0 ) (ASSOC 1))(member (mkTuple  1  queryVARPERMITAT_Attorneys_accept_Case3Info_0 ) (ASSIGN* 1)))
- 
-(member (mkTuple  7  queryVARASSIGN*D_Attorneys1_0 ) (ASSIGN* 1))
-) 
-(member (mkTuple  4  queryVARASSIGN*D_Attorneys_0 ) (ASSIGN* 1))
-) 
-(and(member (mkTuple  4  queryVARPERMITUA_Attorneys_?ar_?at_0 ) (ASSIGN* 1))(member (mkTuple  queryVARPERMITUA_Attorneys_?ar_?at_0  queryVARPERMITAR_Attorneys_?ar_?at_0  queryVARPERMITAT_Attorneys_?ar_?at_0 ) (ASSOC 1))(member (mkTuple   queryVARPERMITUO_Attorneys_?ar_?at_0  queryVARPERMITAT_Attorneys_?ar_?at_0 ) (ASSIGN* 1)))
-) (not 
-(member (mkTuple  7  4 ) (ASSIGN* 1))
-)))
+(declare-fun queryVARPERMITUA_Attorneys_accept_Case3Info_1 () Int)
+(declare-fun queryVARPERMITAT_Attorneys_accept_Case3Info_1 () Int)
+(assert 
+(and(member (mkTuple  4  queryVARPERMITUA_Attorneys_accept_Case3Info_1 ) (ASSIGN* 1))(member (mkTuple  queryVARPERMITUA_Attorneys_accept_Case3Info_1 17  queryVARPERMITAT_Attorneys_accept_Case3Info_1 ) (ASSOC 1))(member (mkTuple  1  queryVARPERMITAT_Attorneys_accept_Case3Info_1 ) (ASSIGN* 1)))
+)
+
+(assert 
+(and (= (obligation1 0) true)
+ (= obligation1S_0 4 ) (= obligation1ar_0 17 ) (= obligation1T_0 1 )))
 (check-sat)
 (get-value (obligation3))
 (get-value (obligation2))

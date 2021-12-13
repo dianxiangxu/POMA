@@ -896,9 +896,15 @@
 (assert (or(= (obligation3 3) true)(= (obligation2 3) true)(= (obligation5 3) true)(= (obligation4 3) true)(= (obligation1 3) true)))
 
 
+(declare-fun queryVARPERMITUA_Attorneys_accept_Case3Info_4 () Int)
+(declare-fun queryVARPERMITAT_Attorneys_accept_Case3Info_4 () Int)
 (assert 
-(= (obligation4 3) true)
+(and(member (mkTuple  4  queryVARPERMITUA_Attorneys_accept_Case3Info_4 ) (ASSIGN* 4))(member (mkTuple  queryVARPERMITUA_Attorneys_accept_Case3Info_4 17  queryVARPERMITAT_Attorneys_accept_Case3Info_4 ) (ASSOC 4))(member (mkTuple  1  queryVARPERMITAT_Attorneys_accept_Case3Info_4 ) (ASSIGN* 4)))
 )
+
+(assert 
+(and (= (obligation1 {(k+1)}) true)
+ (= obligation1S_{(k+1)} 4 ) (= obligation1ar_{(k+1)} 17 ) (= obligation1T_{(k+1)} 1 )))
 (check-sat)
 (get-value (obligation3))
 (get-value (obligation2))
