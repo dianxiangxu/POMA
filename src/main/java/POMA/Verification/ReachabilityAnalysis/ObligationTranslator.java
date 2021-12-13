@@ -141,11 +141,13 @@ public class ObligationTranslator {
 		sb.append("; 5.1 a->PRE");
 		for (Rule r : obligation.getRules()) {
 			String subject = r.getEventPattern().getSubject().getAnyUser().get(0);
-			String ar = r.getEventPattern().getOperations().get(0);
 			String target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
 			String obligationLabel = r.getLabel();
 			int subjectID = mapOfIDs.get(subject);
-			int arID = mapOfIDs.get(ar);
+			List<Integer> arIds = new ArrayList<Integer>();
+			for (String ar : r.getEventPattern().getOperations()) {
+				arIds.add(mapOfIDs.get(ar));
+			}
 			int targetID = mapOfIDs.get(target);
 			String obligationU = obligationLabel + "U" + "_" + (k - 1);
 			String obligationUA = obligationLabel + "UA" + "_" + (k - 1);
@@ -158,7 +160,7 @@ public class ObligationTranslator {
 					obligationUO, obligationS, obligationT, obligationAR)));
 			sb.append(System.lineSeparator());
 			processVariables(obligationU, obligationUA, obligationAT, obligationUO, obligationS, obligationT,
-					obligationAR, sb, subjectID, targetID, arID);
+					obligationAR, sb, subjectID, targetID, arIds);
 
 			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true) (and\r\n" + " (member (mkTuple  "
 					+ obligationU + " " + obligationS + ") (ASSIGN* " + (k - 1) + "))\r\n" + " (member (mkTuple  "
@@ -176,7 +178,7 @@ public class ObligationTranslator {
 
 	void processVariables(String obligationU, String obligationUA, String obligationAT, String obligationUO,
 			String obligationS, String obligationT, String obligationAR, StringBuilder sb, int subjectID, int targetID,
-			int arID) {
+			List<Integer> arIDs) {
 		sb.append("(declare-fun " + obligationU + " () Int)");
 		sb.append(System.lineSeparator());
 		sb.append("(declare-fun " + obligationUA + " () Int)");
@@ -199,7 +201,12 @@ public class ObligationTranslator {
 		sb.append(System.lineSeparator());
 		sb.append("(assert (>= " + obligationUO + " 0))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= " + obligationAR + " " + arID + "))");
+		sb.append("(assert (or");
+		for (int arID : arIDs) {
+			sb.append(" (= " + obligationAR + " " + arID + ")");
+			sb.append(System.lineSeparator());
+		}
+		sb.append("))");
 		sb.append(System.lineSeparator());
 		sb.append("(assert (= " + obligationS + " " + subjectID + "))");
 		sb.append(System.lineSeparator());
@@ -345,8 +352,6 @@ public class ObligationTranslator {
 					+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + "))))";
 		}
 	}
-
-	
 
 	private String handleDeleteAssignmentActionUAUA(int k, String what, String where, String obligationLabel,
 			String innerAction) {

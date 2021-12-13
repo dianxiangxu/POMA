@@ -88,9 +88,9 @@ abstract class Planner {
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
 			String smtlibv2Code = headCode + iterationCode;
-			smtlibv2Code += postProcessQuery(formulaPost, (k - 1));
+			smtlibv2Code += generateProperty(formulaPost, (k - 1));
 			smtlibv2Code += System.lineSeparator();
-			smtlibv2Code += formulaPre != null ? postProcessQuery(formulaPre, (k - 2)) : "";
+			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k - 2)) : "";
 			System.out.println("Time horizon " + k + " processing...");
 			smtlibv2Code += generateTailCode();
 			if (k == bound) {
@@ -134,7 +134,7 @@ abstract class Planner {
 		return null;
 	}
 
-	private String postProcessQuery(IFormula f, int k) throws Exception {
+	private String generateProperty(IFormula f, int k) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
 		List<String> queryVars = new ArrayList<String>();

@@ -63,7 +63,7 @@ public class ObligationChecker extends Planner {
 		checker.setBound(4);
 		checker.enableSMTOutput(true);
 		// Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation4);");
-		String precondition = "OBLIGATIONLABEL(obligation1,Attorneys,accept,Case3Info);";
+		String precondition = "OBLIGATIONLABEL(obligation2,?Attorneys,?accept,?Case3Info);";
 
 		// String postcondition = "((((PERMIT(Attorneys,accept,Case3Info) AND
 		// NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) AND

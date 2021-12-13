@@ -119,7 +119,9 @@
 (assert (>= obligation1UA_0 0))
 (assert (>= obligation1AT_0 0))
 (assert (>= obligation1UO_0 0))
-(assert (= obligation1ar_0 17))
+(assert (or (= obligation1ar_0 17)
+(or (= obligation1ar_0 14)
+))
 (assert (= obligation1S_0 4))
 (assert (= obligation1T_0 1))
 (assert (=> (= (obligation1 0) true) (and
@@ -143,7 +145,8 @@
 (assert (>= obligation2UA_0 0))
 (assert (>= obligation2AT_0 0))
 (assert (>= obligation2UO_0 0))
-(assert (= obligation2ar_0 17))
+(assert (or (= obligation2ar_0 17)
+))
 (assert (= obligation2S_0 7))
 (assert (= obligation2T_0 1))
 (assert (=> (= (obligation2 0) true) (and
@@ -167,7 +170,8 @@
 (assert (>= obligation3UA_0 0))
 (assert (>= obligation3AT_0 0))
 (assert (>= obligation3UO_0 0))
-(assert (= obligation3ar_0 17))
+(assert (or (= obligation3ar_0 17)
+))
 (assert (= obligation3S_0 9))
 (assert (= obligation3T_0 1))
 (assert (=> (= (obligation3 0) true) (and
@@ -191,7 +195,8 @@
 (assert (>= obligation4UA_0 0))
 (assert (>= obligation4AT_0 0))
 (assert (>= obligation4UO_0 0))
-(assert (= obligation4ar_0 17))
+(assert (or (= obligation4ar_0 17)
+))
 (assert (= obligation4S_0 6))
 (assert (= obligation4T_0 1))
 (assert (=> (= (obligation4 0) true) (and
@@ -215,7 +220,8 @@
 (assert (>= obligation5UA_0 0))
 (assert (>= obligation5AT_0 0))
 (assert (>= obligation5UO_0 0))
-(assert (= obligation5ar_0 17))
+(assert (or (= obligation5ar_0 17)
+))
 (assert (= obligation5S_0 4))
 (assert (= obligation5T_0 1))
 (assert (=> (= (obligation5 0) true) (and
@@ -317,7 +323,9 @@
 (assert (>= obligation1UA_1 0))
 (assert (>= obligation1AT_1 0))
 (assert (>= obligation1UO_1 0))
-(assert (= obligation1ar_1 17))
+(assert (or (= obligation1ar_1 17)
+(or (= obligation1ar_1 14)
+))
 (assert (= obligation1S_1 4))
 (assert (= obligation1T_1 1))
 (assert (=> (= (obligation1 1) true) (and
@@ -341,7 +349,8 @@
 (assert (>= obligation2UA_1 0))
 (assert (>= obligation2AT_1 0))
 (assert (>= obligation2UO_1 0))
-(assert (= obligation2ar_1 17))
+(assert (or (= obligation2ar_1 17)
+))
 (assert (= obligation2S_1 7))
 (assert (= obligation2T_1 1))
 (assert (=> (= (obligation2 1) true) (and
@@ -365,7 +374,8 @@
 (assert (>= obligation3UA_1 0))
 (assert (>= obligation3AT_1 0))
 (assert (>= obligation3UO_1 0))
-(assert (= obligation3ar_1 17))
+(assert (or (= obligation3ar_1 17)
+))
 (assert (= obligation3S_1 9))
 (assert (= obligation3T_1 1))
 (assert (=> (= (obligation3 1) true) (and
@@ -389,7 +399,8 @@
 (assert (>= obligation4UA_1 0))
 (assert (>= obligation4AT_1 0))
 (assert (>= obligation4UO_1 0))
-(assert (= obligation4ar_1 17))
+(assert (or (= obligation4ar_1 17)
+))
 (assert (= obligation4S_1 6))
 (assert (= obligation4T_1 1))
 (assert (=> (= (obligation4 1) true) (and
@@ -413,7 +424,8 @@
 (assert (>= obligation5UA_1 0))
 (assert (>= obligation5AT_1 0))
 (assert (>= obligation5UO_1 0))
-(assert (= obligation5ar_1 17))
+(assert (or (= obligation5ar_1 17)
+))
 (assert (= obligation5S_1 4))
 (assert (= obligation5T_1 1))
 (assert (=> (= (obligation5 1) true) (and
@@ -515,7 +527,9 @@
 (assert (>= obligation1UA_2 0))
 (assert (>= obligation1AT_2 0))
 (assert (>= obligation1UO_2 0))
-(assert (= obligation1ar_2 17))
+(assert (or (= obligation1ar_2 17)
+(or (= obligation1ar_2 14)
+))
 (assert (= obligation1S_2 4))
 (assert (= obligation1T_2 1))
 (assert (=> (= (obligation1 2) true) (and
@@ -539,7 +553,8 @@
 (assert (>= obligation2UA_2 0))
 (assert (>= obligation2AT_2 0))
 (assert (>= obligation2UO_2 0))
-(assert (= obligation2ar_2 17))
+(assert (or (= obligation2ar_2 17)
+))
 (assert (= obligation2S_2 7))
 (assert (= obligation2T_2 1))
 (assert (=> (= (obligation2 2) true) (and
@@ -563,7 +578,8 @@
 (assert (>= obligation3UA_2 0))
 (assert (>= obligation3AT_2 0))
 (assert (>= obligation3UO_2 0))
-(assert (= obligation3ar_2 17))
+(assert (or (= obligation3ar_2 17)
+))
 (assert (= obligation3S_2 9))
 (assert (= obligation3T_2 1))
 (assert (=> (= (obligation3 2) true) (and
@@ -587,7 +603,8 @@
 (assert (>= obligation4UA_2 0))
 (assert (>= obligation4AT_2 0))
 (assert (>= obligation4UO_2 0))
-(assert (= obligation4ar_2 17))
+(assert (or (= obligation4ar_2 17)
+))
 (assert (= obligation4S_2 6))
 (assert (= obligation4T_2 1))
 (assert (=> (= (obligation4 2) true) (and
@@ -611,7 +628,8 @@
 (assert (>= obligation5UA_2 0))
 (assert (>= obligation5AT_2 0))
 (assert (>= obligation5UO_2 0))
-(assert (= obligation5ar_2 17))
+(assert (or (= obligation5ar_2 17)
+))
 (assert (= obligation5S_2 4))
 (assert (= obligation5T_2 1))
 (assert (=> (= (obligation5 2) true) (and
@@ -713,7 +731,9 @@
 (assert (>= obligation1UA_3 0))
 (assert (>= obligation1AT_3 0))
 (assert (>= obligation1UO_3 0))
-(assert (= obligation1ar_3 17))
+(assert (or (= obligation1ar_3 17)
+(or (= obligation1ar_3 14)
+))
 (assert (= obligation1S_3 4))
 (assert (= obligation1T_3 1))
 (assert (=> (= (obligation1 3) true) (and
@@ -737,7 +757,8 @@
 (assert (>= obligation2UA_3 0))
 (assert (>= obligation2AT_3 0))
 (assert (>= obligation2UO_3 0))
-(assert (= obligation2ar_3 17))
+(assert (or (= obligation2ar_3 17)
+))
 (assert (= obligation2S_3 7))
 (assert (= obligation2T_3 1))
 (assert (=> (= (obligation2 3) true) (and
@@ -761,7 +782,8 @@
 (assert (>= obligation3UA_3 0))
 (assert (>= obligation3AT_3 0))
 (assert (>= obligation3UO_3 0))
-(assert (= obligation3ar_3 17))
+(assert (or (= obligation3ar_3 17)
+))
 (assert (= obligation3S_3 9))
 (assert (= obligation3T_3 1))
 (assert (=> (= (obligation3 3) true) (and
@@ -785,7 +807,8 @@
 (assert (>= obligation4UA_3 0))
 (assert (>= obligation4AT_3 0))
 (assert (>= obligation4UO_3 0))
-(assert (= obligation4ar_3 17))
+(assert (or (= obligation4ar_3 17)
+))
 (assert (= obligation4S_3 6))
 (assert (= obligation4T_3 1))
 (assert (=> (= (obligation4 3) true) (and
@@ -809,7 +832,8 @@
 (assert (>= obligation5UA_3 0))
 (assert (>= obligation5AT_3 0))
 (assert (>= obligation5UO_3 0))
-(assert (= obligation5ar_3 17))
+(assert (or (= obligation5ar_3 17)
+))
 (assert (= obligation5S_3 4))
 (assert (= obligation5T_3 1))
 (assert (=> (= (obligation5 3) true) (and
@@ -903,8 +927,8 @@
 )
 
 (assert 
-(and (= (obligation1 {(k+1)}) true)
- (= obligation1S_{(k+1)} 4 ) (= obligation1ar_{(k+1)} 17 ) (= obligation1T_{(k+1)} 1 )))
+(and (= (obligation1 3) true)
+ (= obligation1S_3 4 ) (= obligation1ar_3 17 ) (= obligation1T_3 1 )))
 (check-sat)
 (get-value (obligation3))
 (get-value (obligation2))
