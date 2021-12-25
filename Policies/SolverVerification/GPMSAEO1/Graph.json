@@ -159,6 +159,10 @@
     {
       "source": "PDSWhole",
       "target": "EditingPolicy"
+    },
+    {
+      "source": "PI",
+      "target": "CoPI"
     }
   ],
   "associations": [

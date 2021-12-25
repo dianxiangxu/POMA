@@ -1,0 +1,21 @@
+GPMSAEO1 - checked
+GPMSCEO1 - checked
+GPMSCEPE1 - checked
+GPMSCEU1 - checked
+GPMSIAA1 - checked
+GPMSIGA1 - ??? 2 contraints, 1st contraint works, step 2, 2nd contraint works, step 1
+GPMSREPE1 - NEED to translate a pattern without a target
+GPMSREU1 - null pointer exception
+GPMSROB1 - checked
+LawFirmAEO1 - checked
+LawFirmCEO1 - checked
+LawFirmCEPE1 - checked
+LawFirmCEU1 - checked
+LawFirmIAA1 - checked
+LawFirmIGA1 - checked
+LawFirmREPE1 - checked
+LawFirmREU1 - checked , NEED to translate a pattern without a target
+LawFirmROA1 - checked
+LawFirmROB1 - checked
+
+"(((OBLIGATIONLABEL(obligation1,?u,?q,?t) AND NOT(PERMIT(Chair,approve,PDSWhole))) AND NODEEXISTS(Chair)) AND NODEEXISTS(PDSWhole));"

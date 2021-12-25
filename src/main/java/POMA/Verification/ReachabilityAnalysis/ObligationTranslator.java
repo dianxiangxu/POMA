@@ -231,15 +231,22 @@ public class ObligationTranslator {
 		processedObligations.add("");
 		processedObligationsEventLabels.add("");
 		for (Rule r : obligation.getRules()) {
-			String subject = r.getEventPattern().getSubject().getAnyUser().get(0); // TODO: Add multiple users
+			String subject = "";
+			if(r.getEventPattern().getSubject().getAnyUser() !=null){
+			 subject = r.getEventPattern().getSubject().getAnyUser().get(0); // TODO: Add multiple users
+			}
 			String ar = r.getEventPattern().getOperations().get(0);
+			if(r.getEventPattern().getTarget().getPolicyElements() !=null){
 			String target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
+			eventMembers.put(subject, target);
+			}
 			// System.out.println(subject + " : " + ar + " : " + target);
 			ruleLabels.add(r.getLabel());
-			eventMembers.put(subject, target);
+
+			
 			processedObligationsEventLabels.addAll(getEvents(r));
 		}
-	}
+	} 
 
 	private String processAssignmentRelatedAction(int k, String obligationLabel, List<Action> actions) {
 		StringBuilder sb = new StringBuilder();

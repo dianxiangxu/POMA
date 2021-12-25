@@ -2,5 +2,6 @@ precondition constraint:
 PERMIT(Attorneys,accept,Case3Info)
 obligation:
 obligation1=(Attorneys,accept,Case3Info)
+"(OBLIGATIONLABEL(obligation1,Attorneys,accept,Case3Info) AND PERMIT(Attorneys,accept,Case3Info));"
 postcondition constraint:
-EXPLICITASSIGN(Attorneys1,Attorneys)
+EXPLICITASSIGN(Attorneys1,Attorneys);

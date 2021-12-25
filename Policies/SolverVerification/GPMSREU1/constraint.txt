@@ -2,5 +2,7 @@ precondition constraint:
 "";
 obligation:
 obligation1=(CoPI,submit,PDSWhole)
+"OBLIGATIONLABEL(obligation1,CoPI,submit,PDSWhole);"
 postcondition constraint:
 PERMIT(Chair,approve,PDSWhole) AND PERMIT(Chair,disapprove,PDSWhole) AND NOT(ASSOCIATE(PI,approve,PDSWhole)) AND NOT(ASSOCIATE(PI,disapprove,PDSWhole))
+"(((PERMIT(Chair,approve,PDSWhole) AND PERMIT(Chair,disapprove,PDSWhole)) AND NOT(ASSOCIATE(PI,approve,PDSWhole))) AND NOT(ASSOCIATE(PI,disapprove,PDSWhole)));"

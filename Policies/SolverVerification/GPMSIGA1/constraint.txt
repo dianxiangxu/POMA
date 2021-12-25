@@ -2,14 +2,17 @@ precondition constraint:
 PERMIT(PI,submit,PDSWhole) AND PERMIT(Chair,approve,PDSWhole) AND NOT(PERMIT(Chair,approve,PDSEditing)) 
 obligation:
 obligation1=(PI,submit,PDSWhole)
+"(((PERMIT(PI,submit,PDSWhole) AND PERMIT(Chair,approve,PDSWhole)) AND NOT(PERMIT(Chair,approve,PDSEditing))) AND OBLIGATIONLABEL(obligation1,PI,submit,PDSWhole));"
 postcondition constraint:
 PERMIT(Chair,approve,PDSWhole) AND NOT(PERMIT(Chair,approve,PDSEditing))
-
+"(PERMIT(Chair,approve,PDSWhole) AND NOT(PERMIT(Chair,approve,PDSEditing)));"
 
 
 precondition constraint:
 PERMIT(PI,submit,PDSWhole) AND ((NOT(PERMIT(Chair,approve,PDSWhole))) AND NOT(IMPLICITASSIGN(PDSWhole,PDSEditing)))
 obligation:
 obligation1=(PI,submit,PDSWhole)
+"(((PERMIT(PI,submit,PDSWhole) AND NOT(PERMIT(Chair,approve,PDSWhole))) AND NOT(IMPLICITASSIGN(PDSWhole,PDSEditing))) AND OBLIGATIONLABEL(obligation1,PI,submit,PDSWhole));"
+
 postcondition constraint:
-PERMIT(Chair,approve,PDSWhole)
+PERMIT(Chair,approve,PDSWhole);
