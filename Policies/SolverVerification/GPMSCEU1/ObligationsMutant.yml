@@ -1,5 +1,56 @@
 label: GPMS Obligations
-rules:                                                                                      
+rules:
+  - label: obligation1
+    event:
+      subject:
+        anyUser: 
+          - "CoPI"
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: Chair
+               type: UA
+             operations:
+               - approve
+             target:
+               name: PDSWhole
+               type: OA     
+        - grant:
+             subject:
+               name: Chair
+               type: UA
+             operations:
+               - disapprove               
+             target:
+               name: PDSWhole
+               type: OA                                
+        - delete:
+            associations:
+              - subject:
+                  name: PI
+                  type: UA
+                operations:
+                  - approve
+                target:
+                  name: PDSWhole
+                  type: UA    
+        - delete:
+            associations:
+              - subject:
+                  name: PI
+                  type: UA
+                operations:
+                  - disapprove   
+                target:
+                  name: PDSWhole
+                  type: UA                                                                                                    
   - label: obligation2
     event:
       subject:

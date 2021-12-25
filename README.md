@@ -71,7 +71,7 @@ The solution object, hopefully, will contain a list of steps.
 The following are the queries currently supported: 
 | Predicate  | Logic | Query Example | Variables Allowed? |
 | ------------- | ------------- | ------------- | ------------- |
-| Obligation Label is reachable  | ------ | OBLIGATIONLABEL(obligation2); | NO |
+| Obligation Label is reachable  | ------ | OBLIGATIONLABEL(obligation1, Attorneys, accept, Case3Info); | YES(not for label) |
 | Association exists  | (ua, ar, at) belongsTo ASSOCIATE | ASSOCIATE(Attorneys,refuse,Case3);  | YES |
 | Permission exists  | (u,?ua) belongsTo ASSIGN* AND (t,?at) belongsTo ASSIGN* AND (?ua, ar, ?at) belongsTo ASSOCIATE | PERMIT(Attorneys2U, accept, Case3Info); | YES |
 | Explicit assignment exists (no hierarchy)  | (a,d) belongsTo ASSIGN | EXPLICITASSIGN(Attorneys2U, Attorneys2); | YES |
@@ -89,10 +89,10 @@ The following sets are available: ASSIGN, ASSIGN*, ASSOCIATE
 Both "and" and "or" are supported. The format as follows: 
 
 ```java
-"(OBLIGATIONLABEL(obligation1) AND ASSOCIATE(Attorneys,refuse,Case3));" 
+"(OBLIGATIONLABEL(obligation1, Attorneys, accept, Case3Info) AND ASSOCIATE(Attorneys,refuse,Case3));" 
 ```
 ```java
-"(OBLIGATIONLABEL(obligation1) OR ASSOCIATE(Attorneys,refuse,Case3));"
+"(OBLIGATIONLABEL(obligation1, Attorneys, accept, Case3Info) OR ASSOCIATE(Attorneys,refuse,Case3));"
 ```
 
 Note that even though smt supports and/or with 3 or more elements, this feature is not included in this solver.
@@ -102,10 +102,17 @@ Note that even though smt supports and/or with 3 or more elements, this feature 
 In order to use negation, simply do: 
 
 ```java
-"NOT(OBLIGATIONLABEL(obligation2));"
+"NOT(OBLIGATIONLABEL(obligation1, Attorneys, accept, Case3Info));"
 ```
 
-**NOTE**: while queries of type _(Predicate1 AND (Predicate2 OR Predicate3))_ should work, there was no thorough testing of those. 
+#### NESTED QUERIES
+
+The following is an example for complex queries with logical connective "AND" and negation.  
+
+```java
+"((((PERMIT(Attorneys,accept,Case3Info) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) 
+AND PERMIT(Attorneys,?ar,?at)) AND NOT(IMPLICITASSIGN(Attorneys1,Attorneys)));"
+```
 
 
 #### TERMS
@@ -129,35 +136,33 @@ If there is a need to use any of the above sets with a predicate, let me know an
 #### BNF
 
 ```java
-/**
- * Parser for queries NGAC.
- * 
- * Syntax: variables start with ?, predicates and constants
- * with either letters or digits. 
- * The binary operators "AND", "OR" must be put in parentheses; Predicates have parentheses for parameters.
- * The negation operator is "NOT". Comma is used as a delimiter for predicate parameters
- * The input has to end with ";"
- * 
- * < formula > ::=  < predicate > | < binary > | <negation> {, formula} ";"
- * < binary > :==  "(" < formula > "AND" < formula > ")"
- *          		| "(" < formula > "OR" < formula > ")"
- * < negation > :== "NOT" "(" < formula > ")"
- * < predicate > ::=  < PERMIT > | < ASSOCIATE > | < DENY > | < IMPLICITASSIGN > | < EXPLICITASSIGN > | < HIERARCHY > | < ASSIGN > | < NODEEXISTS >
- * < PERMIT >  ::=  "PERMIT" "("< term > < term > < term >")"
- * < ASSOCIATE > ::=  "ASSOCIATE""(" < term > < term > < term >")"
- * < DENY > ::= "DENY""(" < term > < term > < term >")"
- * < EXPLICITASSIGN > "EXPLICITASSIGN""("< term > < term >")"
- * < IMPLICITASSIGN > "IMPLICITASSIGN""("< term > < term >")"
- * < ASSIGN > ::=  "ASSIGN""("< term > < term >")"
- * < HIERARCHY > ::= "HIERARCHY""(" < term > < term >")"
- * < NODEEXISTS > ::=  "NODEEXISTS""("< term >")"
- * < term >  ::= CONST | VAR
- *
- * @author Vladislav Dubrovenski
- */
+"
+  Parser for NGAC planner queries.
+  
+  Syntax: variables start with ?, predicates and constants
+  with either letters or digits. 
+  The binary operators "AND", "OR" must be put in parentheses; Predicates have parentheses for parameters.
+  The negation operator is "NOT". Comma is used as a delimiter for predicate parameters
+  The input has to end with ";"
+  
+  < formula > ::=  < predicate > | < binary > | <negation> {, formula} ";"
+  < binary > :==  "(" < formula > "AND" < formula > ")"
+           		| "(" < formula > "OR" < formula > ")"
+  < negation > :== "NOT" "(" < formula > ")"
+  < predicate > ::=  < PERMIT > | < ASSOCIATE > | < DENY > | < IMPLICITASSIGN > | < EXPLICITASSIGN > |
+                     < HIERARCHY > | < ASSIGN > | < NODEEXISTS >
+  < PERMIT >  ::=  "PERMIT" "("< term > < term > < term >")"
+  < ASSOCIATE > ::=  "ASSOCIATE""(" < term > < term > < term >")"
+  < DENY > ::= "DENY""(" < term > < term > < term >")"
+  < EXPLICITASSIGN > "EXPLICITASSIGN""("< term > < term >")"
+  < IMPLICITASSIGN > "IMPLICITASSIGN""("< term > < term >")"
+  < ASSIGN > ::=  "ASSIGN""("< term > < term >")"
+  < HIERARCHY > ::= "HIERARCHY""(" < term > < term >")"
+  < NODEEXISTS > ::=  "NODEEXISTS""("< term >")"
+  < term >  ::= CONST | VAR
+"
 
 ```
-
 
 #### Current Limitations
 Only the following obligation actions are currently supported: Create Node, Add Assignment, Remove Assignment, Add Association, Remove Association.
