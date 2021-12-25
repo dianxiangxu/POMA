@@ -1,7 +1,0 @@
-precondition constraint:
-
-obligation:
-obligation1
-"OBLIGATIONLABEL(obligation1,?u,?q,?t);"
-
-postcondition constraint:
