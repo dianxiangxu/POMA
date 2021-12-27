@@ -68,12 +68,12 @@ public class ObligationChecker extends Planner {
 		long start = System.currentTimeMillis();
 		checker.setBound(4);
 		checker.enableSMTOutput(true);
-		String precondition = "OBLIGATIONLABEL(obligation1,Attorneys,accept,Case3Info);";
+		String precondition = "OBLIGATIONLABEL(obligation1,Attorneys1,accept,Case3Info);";
 
 		// String postcondition = "((((PERMIT(Attorneys,accept,Case3Info) AND
 		// NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) AND
 		// PERMIT(Attorneys,?ar,?at)) AND NOT(IMPLICITASSIGN(Attorneys1,Attorneys)));";
-		String postcondition = "EXPLICITASSIGN(Attorneys1,Attorneys);";
+		String postcondition = "EXPLICITASSIGN(Attorneys1, Attorneys);";
 		Solution solution = checker.solveConstraint(precondition, postcondition);
 
 		// Solution solution = checker
