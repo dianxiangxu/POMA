@@ -53,9 +53,9 @@ public class MutatorCEPE extends MutantTester2 {
 			System.out.println(ruleLabel + "|" + getNumberOfMutants());
 			for (EvrNode originPolicyElement : policyElements) {
 				for (EvrNode changeToPolicyElement : EvrNodes) {
-					if (originPolicyElement.equals(changeToPolicyElement)) {
-						continue;
-					}
+//					if (originPolicyElement.equals(changeToPolicyElement)) {
+//						continue;
+//					}
 					if (policyElements.contains(changeToPolicyElement)) {
 						continue;
 					}
