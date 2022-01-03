@@ -1,0 +1,6 @@
+precondition constraint:
+PERMIT(Chair,approve,PDSWhole) AND NODEEXIST(BM) AND NODEEXIST(PDSWhole) AND (NOT(ASSOCIATE(BM,approve,PDSWhole)) OR NOT(ASSOCIATE(BM,disapprove,PDSWhole)))
+obligation:
+obligation2=(Chair,approve,PDSWhole)
+postcondition constraint:
+ASSOCIATE(BM,approve,PDSWhole) AND ASSOCIATE(BM,disapprove,PDSWhole)
