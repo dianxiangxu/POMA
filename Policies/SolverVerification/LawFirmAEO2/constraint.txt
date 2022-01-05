@@ -1,0 +1,6 @@
+precondition constraint:
+"";
+obligation:
+obligation1=(Attorneys,withdraw,Case3Info)
+postcondition constraint:
+EXPLICITASSIGN(Attorneys1,Attorneys)

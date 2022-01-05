@@ -48,44 +48,44 @@ public class MutatorCEU extends MutantTester2 {
 			EventPattern eventPattern = rule.getEventPattern();
 			Subject subject = eventPattern.getSubject();
 			
-			for (int i = 0; i < Us.size(); i++) {
-			mutant = createObligationCopy();
-			String user = subject.getUser();
-			if (user == null) {
-				List<String> anyUser = subject.getAnyUser();
-				if (anyUser == null || anyUser.isEmpty()) {
-					EvrProcess process = subject.getProcess();
-					if (process == null) {
-//						//have to do some default mutation if all all null
-//						changeToUser = getRandomUserName();
-//						mutant = changeEventUser(mutant, ruleLabel, changeToUser);
-						continue;
+			for (int i = 0; i < UAs.size(); i++) {
+				mutant = createObligationCopy();
+				String user = subject.getUser();
+				if (user == null) {
+					List<String> anyUser = subject.getAnyUser();
+					if (anyUser == null || anyUser.isEmpty()) {
+						EvrProcess process = subject.getProcess();
+						if (process == null) {
+//							//have to do some default mutation if all all null
+//							changeToUser = getRandomUserName();
+//							mutant = changeEventUser(mutant, ruleLabel, changeToUser);
+							continue;
+						} else {
+							//not sure how to change process yet
+//							mutant = changeEventProcess(mutant, ruleLabel, changeToUser);
+							//if user/anyuser/process are all null
+							continue;
+						}
 					} else {
-						//not sure how to change process yet
-//						mutant = changeEventProcess(mutant, ruleLabel, changeToUser);
-						//if user/anyuser/process are all null
-						continue;
+						System.out.println("AnyUser" + anyUser);
+						anyUser.clear();
+					
+//						changeToUser = getRandomUserName();
+						changeToUser = getUserName(i);
+						anyUser.add(changeToUser);
+						mutant = changeEventAnyUser(mutant, ruleLabel, anyUser);
 					}
 				} else {
-					System.out.println("AnyUser" + anyUser);
-					anyUser.clear();
-					
+					System.out.println("UserToBeChanged:" + user);
 //					changeToUser = getRandomUserName();
 					changeToUser = getUserName(i);
-					anyUser.add(changeToUser);
-					mutant = changeEventAnyUser(mutant, ruleLabel, anyUser);
+					mutant = changeEventUser(mutant, ruleLabel, changeToUser);
 				}
-			} else {
-				System.out.println("UserToBeChanged:" + user);
-//				changeToUser = getRandomUserName();
-				changeToUser = getUserName(i);
-				mutant = changeEventUser(mutant, ruleLabel, changeToUser);
-			}
-			setObligationMutant(mutant);
+				setObligationMutant(mutant);
 
-//			//invoke junit to kill obligation_mutant
-			testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "CEU");
-			setNumberOfMutants(getNumberOfMutants() + 1);
+//				//invoke junit to kill obligation_mutant
+				testMutant(graph, mutant, testSuite, testMethod, getNumberOfMutants(), "CEU");
+				setNumberOfMutants(getNumberOfMutants() + 1);
 			}
 			
 		}
@@ -142,16 +142,17 @@ public class MutatorCEU extends MutantTester2 {
 		//to be implemented
 		return obligation;
 	}
-	public String getRandomUserName() {
-		//0 can be replaced by a random number from 0 to length(Us)
-		String userName = Us.get(0);
-		System.out.println("changeToUser:" + userName);
-		return userName;
-	}
+	
+//	public String getRandomUserName() {
+//		//0 can be replaced by a random number from 0 to length(Us)
+//		String userName = UAs.get(0).getName();
+//		System.out.println("changeToUser:" + userName);
+//		return userName;
+//	}
 	
 	public String getUserName(int i) {
 		//0 can be replaced by a random number from 0 to length(Us)
-		String userName = Us.get(i);
+		String userName = UAs.get(i).getName();
 		System.out.println("changeToUser:" + userName);
 		return userName;
 	}
