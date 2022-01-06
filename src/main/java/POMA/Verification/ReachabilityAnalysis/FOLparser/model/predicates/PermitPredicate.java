@@ -39,15 +39,15 @@ public class PermitPredicate implements IPredicate {
 		String t = tuple.get(2) instanceof Constant ? tuple.get(2).getElement() : null;
 
 		String uVar = " queryVARPERMITU_" + tuple.get(0).getElement()+"_"+ tuple.get(1).getElement()
-				+ "_" + tuple.get(2).getElement() + "_" + "{k} ";
+				+ "_" + tuple.get(2).getElement() + "_" + "{(k + 1)} ";
 		String uoVar = " queryVARPERMITUO_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement()
-				+ "_" + tuple.get(2).getElement() + "_" + "{k} ";
+				+ "_" + tuple.get(2).getElement() + "_" + "{(k + 1)} ";
 		String uaVar = " queryVARPERMITUA_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement()
-				+ "_" + tuple.get(2).getElement() + "_" + "{k} ";
+				+ "_" + tuple.get(2).getElement() + "_" + "{(k + 1)} ";
 		String atVar = " queryVARPERMITAT_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement()
-				+ "_" + tuple.get(2).getElement() + "_" + "{k} ";
+				+ "_" + tuple.get(2).getElement() + "_" + "{(k + 1)} ";
 		String arVar = " queryVARPERMITAR_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement()
-				+ "_" + tuple.get(2).getElement() + "_" + "{k} ";
+				+ "_" + tuple.get(2).getElement() + "_" + "{(k + 1)} ";
 
 		String userSpec = s != null ? "(member (mkTuple  [" + s + "] " + uaVar + ") (ASSIGN* " + "{(k + 1)}" + "))"
 				: "(member (mkTuple  " + uVar + uaVar + ") (ASSIGN* " + "{(k + 1)}" + "))";

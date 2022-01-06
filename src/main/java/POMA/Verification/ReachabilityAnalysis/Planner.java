@@ -18,7 +18,7 @@ import POMA.Verification.ReachabilityAnalysis.model.Solution;
 abstract class Planner {
 
 	private Solver solver = Solver.CVC4;
-	private int bound = 4;
+	private int bound = 8;
 	private String smtCodeFilePath = "";
 	HashMap<String, Integer> mapOfIDs;
 	boolean showSMTOutput = false;
@@ -55,7 +55,17 @@ abstract class Planner {
 
 	abstract List<String> getObligationEventVariables();
 
-	public Solution check(String query) throws Exception {
+	public Solution solveConstraint(String pre, String post) throws Exception {
+		try {
+			Solution s = check(pre, post);
+			return s;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+
+	public Solution check(String pre, String post) throws Exception {
 
 		List<String> obligationLabels = getObligationLabels();
 		List<String> confirmedObligations = new ArrayList<String>();
@@ -68,15 +78,17 @@ abstract class Planner {
 		String headCode = generateHeadCode();
 		String iterationCode = "";
 
-		IFormula formula = parseQuery(query);
-		if (formula == null) {
-			return null;
-		}
+		IFormula formulaPost = parseQuery(post, true); 
+		IFormula formulaPre = pre.isEmpty() ? null : parseQuery(pre, false);
+
+
 		Solution solution = null;
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
 			String smtlibv2Code = headCode + iterationCode;
-			smtlibv2Code += postProcessQuery(formula, (k - 1));
+			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1)):"";
+			smtlibv2Code += System.lineSeparator();
+			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k - 2)) : "";
 			System.out.println("Time horizon " + k + " processing...");
 			smtlibv2Code += generateTailCode();
 			if (k == bound) {
@@ -103,18 +115,8 @@ abstract class Planner {
 		return null;
 	}
 
-	public Solution solveConstraint(String constraint) throws Exception {
-		try {
-			Solution s = check(constraint);
-			return s;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return null;
-	}
-	
-	private IFormula parseQuery(String query) {
-		new FOLGrammar(new ByteArrayInputStream(query.getBytes()));
+	private IFormula parseQuery(String query, boolean isFirst) {
+		if(isFirst) new FOLGrammar(new ByteArrayInputStream(query.getBytes())); else FOLGrammar.ReInit(new ByteArrayInputStream(query.getBytes()));
 		while (true) {
 			try {
 				IFormula f = FOLGrammar.parse();
@@ -130,7 +132,7 @@ abstract class Planner {
 		return null;
 	}
 
-	private String postProcessQuery(IFormula f, int k) throws Exception {
+	private String generateProperty(IFormula f, int k) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
 		List<String> queryVars = new ArrayList<String>();

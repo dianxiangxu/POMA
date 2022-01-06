@@ -244,6 +244,7 @@ class GraphTranslator {
 		// flattenAssignmentsV4();
 		flattenAssignment();
 		for (Map.Entry<String, String> entry : eventMembers.entrySet()) {
+			if(entry.getKey()!=""){
 			int userID = mapOfIDs.get(entry.getKey());
 			// int targetID = mapOfIDs.get(entry.getValue());
 			flattenedTuples
@@ -251,6 +252,7 @@ class GraphTranslator {
 			// tuples.add(new AssignmentRelation(Integer.toString(targetID),
 			// Integer.toString(
 			// targetID)).toStringNoQuotes());
+			}
 		}
 	//	System.out.println("ASSIGNMENTS SIZE: " + flattenedTuples.size());
 		// System.exit(0);

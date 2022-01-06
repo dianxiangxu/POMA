@@ -140,13 +140,31 @@ public class ObligationTranslator {
 		sb.append(System.lineSeparator());
 		sb.append("; 5.1 a->PRE");
 		for (Rule r : obligation.getRules()) {
-			String subject = r.getEventPattern().getSubject().getAnyUser().get(0);
-			String ar = r.getEventPattern().getOperations().get(0);
-			String target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
+			String subject ="";
+			if(r.getEventPattern().getSubject().getAnyUser()!=null){
+			subject = r.getEventPattern().getSubject().getAnyUser().get(0);
+			}
+			String target = "";
+			if(r.getEventPattern().getTarget().getPolicyElements() != null){
+			target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
+			}
 			String obligationLabel = r.getLabel();
-			int subjectID = mapOfIDs.get(subject);
-			int arID = mapOfIDs.get(ar);
-			int targetID = mapOfIDs.get(target);
+
+			Integer subjectID = null;
+			if (mapOfIDs.containsKey(subject)) {
+				subjectID = mapOfIDs.get(subject);
+			}
+
+			List<Integer> arIds = new ArrayList<Integer>();
+			for (String ar : r.getEventPattern().getOperations()) {
+				arIds.add(mapOfIDs.get(ar));
+			}
+
+			Integer targetID = null;
+			if (mapOfIDs.containsKey(target)) {
+				targetID = mapOfIDs.get(target);
+			}
+
 			String obligationU = obligationLabel + "U" + "_" + (k - 1);
 			String obligationUA = obligationLabel + "UA" + "_" + (k - 1);
 			String obligationAT = obligationLabel + "AT" + "_" + (k - 1);
@@ -158,15 +176,17 @@ public class ObligationTranslator {
 					obligationUO, obligationS, obligationT, obligationAR)));
 			sb.append(System.lineSeparator());
 			processVariables(obligationU, obligationUA, obligationAT, obligationUO, obligationS, obligationT,
-					obligationAR, sb, subjectID, targetID, arID);
+					obligationAR, sb, subjectID, targetID, arIds);
 
 			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true) (and\r\n" + " (member (mkTuple  "
 					+ obligationU + " " + obligationS + ") (ASSIGN* " + (k - 1) + "))\r\n" + " (member (mkTuple  "
 					+ obligationS + " " + obligationUA + ") (ASSIGN* " + (k - 1) + "))\r\n" + "(member (mkTuple "
 					+ obligationUA + " " + obligationAR + " " + obligationAT + ") (ASSOC " + (k - 1) + "))\r\n"
-					+ " (member (mkTuple  " + obligationUO + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"
-					+ " (member (mkTuple  " + obligationT + " " + obligationUO + ") (ASSIGN* " + (k - 1) + "))\r\n"
-					+ " (distinct " + obligationS + " " + obligationU + ")\r\n" + ")))");
+					+ " (member (mkTuple  " + obligationUO + " " + obligationT + ") (ASSIGN* " + (k - 1) + "))\r\n"
+					+ " (member (mkTuple  " + obligationT + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"
+					//+ " (distinct " + obligationS + " " + obligationU + ")\r\n" 
+					//+ " (distinct " + obligationUO + " " + obligationT + ")\r\n" 
+					+ ")))");
 			sb.append(System.lineSeparator());
 			sb.append(System.lineSeparator());
 			ruleLabels.add(r.getLabel());
@@ -175,8 +195,9 @@ public class ObligationTranslator {
 	}
 
 	void processVariables(String obligationU, String obligationUA, String obligationAT, String obligationUO,
-			String obligationS, String obligationT, String obligationAR, StringBuilder sb, int subjectID, int targetID,
-			int arID) {
+			String obligationS, String obligationT, String obligationAR, StringBuilder sb, Integer subjectID,
+			Integer targetID,
+			List<Integer> arIDs) {
 		sb.append("(declare-fun " + obligationU + " () Int)");
 		sb.append(System.lineSeparator());
 		sb.append("(declare-fun " + obligationUA + " () Int)");
@@ -199,11 +220,24 @@ public class ObligationTranslator {
 		sb.append(System.lineSeparator());
 		sb.append("(assert (>= " + obligationUO + " 0))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= " + obligationAR + " " + arID + "))");
+		sb.append("(assert (or");
+		for (int arID : arIDs) {
+			sb.append(" (= " + obligationAR + " " + arID + ")");
+			sb.append(System.lineSeparator());
+		}
+		sb.append("))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= " + obligationS + " " + subjectID + "))");
+		if (subjectID != null) {
+			sb.append("(assert (= " + obligationS + " " + subjectID + "))");
+		} else {
+			sb.append("(assert (>= " + obligationS + " 0))");
+		}
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= " + obligationT + " " + targetID + "))");
+		if (targetID != null) {
+			sb.append("(assert (= " + obligationT + " " + targetID + "))");
+		} else {
+			sb.append("(assert (>= " + obligationT + " 0))");
+		}
 		sb.append(System.lineSeparator());
 	}
 
@@ -224,12 +258,17 @@ public class ObligationTranslator {
 		processedObligations.add("");
 		processedObligationsEventLabels.add("");
 		for (Rule r : obligation.getRules()) {
-			String subject = r.getEventPattern().getSubject().getAnyUser().get(0); // TODO: Add multiple users
-			String ar = r.getEventPattern().getOperations().get(0);
-			String target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
+			String subject = "";
+			if (r.getEventPattern().getSubject().getAnyUser() != null) {
+				subject = r.getEventPattern().getSubject().getAnyUser().get(0); // TODO: Add multiple users
+			}
+			if (r.getEventPattern().getTarget().getPolicyElements() != null) {
+				String target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
+				eventMembers.put(subject, target);
+			}
 			// System.out.println(subject + " : " + ar + " : " + target);
 			ruleLabels.add(r.getLabel());
-			eventMembers.put(subject, target);
+
 			processedObligationsEventLabels.addAll(getEvents(r));
 		}
 	}
@@ -345,8 +384,6 @@ public class ObligationTranslator {
 					+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + "))))";
 		}
 	}
-
-	
 
 	private String handleDeleteAssignmentActionUAUA(int k, String what, String where, String obligationLabel,
 			String innerAction) {
@@ -613,17 +650,18 @@ public class ObligationTranslator {
 			}
 		}
 		// AT MOST ONE
-		sb.append(System.lineSeparator());
-		sb.append(System.lineSeparator());
-		sb.append("; AT MOST ONE");
-		for (String tuple : labelTuples) {
-			String[] tupleArray = tuple.split(":");
-			sb.append(System.lineSeparator());
-			sb.append("(assert (not (and (= (" + tupleArray[0] + " " + (k - 1) + ") true) (= (" + tupleArray[1] + " "
-					+ (k - 1) + ") true))))");
-		}
-		sb.append(System.lineSeparator());
-		sb.append(System.lineSeparator());
+		// sb.append(System.lineSeparator());
+		// sb.append(System.lineSeparator());
+		// sb.append("; AT MOST ONE");
+		// for (String tuple : labelTuples) {
+		// String[] tupleArray = tuple.split(":");
+		// sb.append(System.lineSeparator());
+		// sb.append("(assert (not (and (= (" + tupleArray[0] + " " + (k - 1) + ") true)
+		// (= (" + tupleArray[1] + " "
+		// + (k - 1) + ") true))))");
+		// }
+		// sb.append(System.lineSeparator());
+		// sb.append(System.lineSeparator());
 		sb.append("; AT LEAST ONE");
 		sb.append(System.lineSeparator());
 		sb.append("(assert (or");

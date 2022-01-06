@@ -46,6 +46,10 @@ public class MutatorREO extends MutantTester2 {
 			ruleLabel = rule.getLabel();
 			EventPattern eventPattern = rule.getEventPattern();
 			List<String> operations = eventPattern.getOperations();
+			
+			//at least one operation
+			if (operations.size() == 1)
+				continue;
 		
 			for (String operationToDelete : operations) {
 				mutant = createObligationCopy();

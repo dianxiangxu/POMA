@@ -13,8 +13,13 @@ public class CVC4Runner {
 	public List<String> runFromSMTLIB2SetsTheory(String pathToFile) throws IOException {
 		Runtime rt = Runtime.getRuntime();
 		String[] commands = { GlobalVariables.cvc4path, "--incremental", pathToFile };
-		Process proc = rt.exec(commands);
+		
+		long start = System.currentTimeMillis();
 
+		Process proc = rt.exec(commands);
+		long end = System.currentTimeMillis();
+		float sec = (end - start) / 1000F;
+		System.out.println("The job took: " + sec + " seconds");
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
 		String s = null;
@@ -38,8 +43,12 @@ public class CVC4Runner {
 	public List<String> runFromSMTLIB2SetsTheoryIncremental(String pathToFile) throws IOException {
 		Runtime rt = Runtime.getRuntime();
 		String[] commands = { GlobalVariables.cvc4path, "--incremental", pathToFile };
-		Process proc = rt.exec(commands);
+		long start = System.currentTimeMillis();
 
+		Process proc = rt.exec(commands);
+		long end = System.currentTimeMillis();
+		float sec = (end - start) / 1000F;
+		System.out.println("The job took: " + sec + " seconds");
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
 		String s = null;
