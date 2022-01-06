@@ -1,20 +1,39 @@
-GPMSAEO1 - checked
-GPMSCEO1 - checked
-GPMSCEPE1 - checked
-GPMSCEU1 - checked
+name, result, orgininal, mutant
+GPMSAEO1 - checked, unsat, sat
+GPMSAEO2 - CANNOT BE DONE, PI DOES NOT HAVE APPROVE ON PDSWHOLE EVER !!!
+GPMSCEO1 - checked, sat, unsat
+GPMSCEO2 - checked, sat, unsat
+GPMSCEPE1 - checked, sat, unsat
+GPMSCEPE2 - checked, sat, unsat
+GPMSCEU1 - checked, unsat, sat
+GPMSCEU2 - check, unsat, sat
 GPMSIAA1 - checked
 GPMSIGA1 - ??? 2 contraints, 1st contraint works, step 2, 2nd contraint works, step 1
+GPMSIGA2 - 1st: 2nd step, sat, unsat, 2nd: 1st step, sat, unsat
 GPMSREPE1 - checked
-GPMSREU1 - null pointer exception
-GPMSROB1 - checked
+GPMSREPE2 - checked, unsat, sat
+GPMSREU1 - checked, unsat, null pointer exception
+GPMSREU2 - checked, unsat, null pointer exception
+GPMSROA1 - checked, unsat, sat
+GPMSROA2 - checked, sat, sat, NOT KILLED
+GPMSROB1 - checked, unsat, symbol obligation2 is not declared
+GPMSROB2 - checked, unsat, symbol obligation2 is not declared
 LawFirmAEO1 - checked
-LawFirmCEO1 - checked
-LawFirmCEPE1 - checked
-LawFirmCEU1 - checked
+LawFirmAEO2 - checked, unsat, unsat, Attorney does not have withdraw access right.
+LawFirmCEO1 - checked, unsat, sat 
+LawFirmCEO2 - checked, unsat, sat
+LawFirmCEPE1 - checked, sat, unsat
+LawFirmCEPE1 - checked, sat, unsat
+LawFirmCEU1 - checked, sat, unsat
+LawFirmCEU2 - checked, sat, unsat
 LawFirmIAA1 - checked
+LawFirmIAA2 - checked, sat(step3), unsat
 LawFirmIGA1 - checked
 LawFirmREPE1 - checked
-LawFirmREU1 -  NEED to translate a pattern without a source
+LawFirmREPE2 - checked, unsat, sat
+LawFirmREU1 -  checked, wierd
+LawFirmREU2 - checked, unsat, sat
 LawFirmROA1 - checked
-LawFirmROB1 - checked
-
+LawFirmROA2 - checked, sat, null pointer
+LawFirmROB1 - checked, unsat, obligation 1 is not declared
+LawFirmROB2 - checked, unsat, obligation 5 is not declared

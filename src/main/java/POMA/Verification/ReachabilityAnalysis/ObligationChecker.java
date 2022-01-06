@@ -56,24 +56,24 @@ public class ObligationChecker extends Planner {
 
 		// Graph graph = Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/EditingPolicy37.json");
 		// String yml = new String(
-		// 		Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple2.yml")));
+		// 		Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
 
-		Graph graph = Utils.readAnyGraph("Policies/SolverVerification/LawFirmREU1/Graph.json");
+		Graph graph = Utils.readAnyGraph("Policies/SolverVerification/LawFirmROB2/Graph.json");
 		String yml = new String(
-				Files.readAllBytes(Paths.get("Policies/SolverVerification/LawFirmREU1/ObligationsMutant.yml")));
+				Files.readAllBytes(Paths.get("Policies/SolverVerification/LawFirmROB2/ObligationsMutant.yml")));
 
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		checker.setBound(4);
+		checker.setBound(3);
 		checker.enableSMTOutput(true);
-		String precondition = "OBLIGATIONLABEL(obligation1,Attorneys1,accept,Case3Info);";
+		String precondition = "(((((((PERMIT(Attorneys,accept,Case3Info) AND EXPLICITASSIGN(Attorneys2,Attorneys)) AND NOT(IMPLICITASSIGN(Attorneys2,Attorneys))) AND ASSOCIATE(Attorneys2,?ar,?at)) AND NOT(PERMIT(Attorneys,?ar,?at))) OR ASSOCIATE(?s,?ar,Attorneys2)) AND NOT(PERMIT(?s,?ar,Attorneys))) AND OBLIGATIONLABEL(obligation5,Attorneys,accept,Case3Info));";
 
 		// String postcondition = "((((PERMIT(Attorneys,accept,Case3Info) AND
 		// NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) AND
 		// PERMIT(Attorneys,?ar,?at)) AND NOT(IMPLICITASSIGN(Attorneys1,Attorneys)));";
-		String postcondition = "EXPLICITASSIGN(Attorneys1, Attorneys);";
+		String postcondition = "NOT(EXPLICITASSIGN(Attorneys2,Attorneys));";
 		Solution solution = checker.solveConstraint(precondition, postcondition);
 
 		// Solution solution = checker

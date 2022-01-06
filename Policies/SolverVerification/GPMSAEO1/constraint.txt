@@ -1,5 +1,6 @@
 precondition constraint:
-"";
+""
+"OBLIGATIONLABEL(obligation1,PI,edit,PDSWhole);"
 obligation:
 obligation1=(PI,edit,PDSWhole)
 postcondition constraint:

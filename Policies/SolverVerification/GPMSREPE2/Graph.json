@@ -160,6 +160,11 @@
       "source": "PDSWhole",
       "target": "EditingPolicy"
     }
+    ,
+    {
+      "source": "PDSEditing",
+      "target": "PDSWhole"
+    }
   ],
   "associations": [
     {

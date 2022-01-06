@@ -18,7 +18,7 @@ import POMA.Verification.ReachabilityAnalysis.model.Solution;
 abstract class Planner {
 
 	private Solver solver = Solver.CVC4;
-	private int bound = 4;
+	private int bound = 8;
 	private String smtCodeFilePath = "";
 	HashMap<String, Integer> mapOfIDs;
 	boolean showSMTOutput = false;

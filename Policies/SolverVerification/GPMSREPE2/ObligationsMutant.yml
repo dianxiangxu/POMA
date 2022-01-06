@@ -66,12 +66,19 @@ rules:
                name: BM
                type: UA
              operations:
-               - approve
-               - disapprove               
-
+               - approve               
              target:
                name: PDSWhole
-               type: OA                 
+               type: OA    
+        - grant:
+             subject:
+               name: BM
+               type: UA
+             operations:
+               - disapprove               
+             target:
+               name: PDSWhole
+               type: OA                             
         - delete:
             associations:
               - subject:
@@ -79,10 +86,19 @@ rules:
                   type: UA
                 operations:
                   - approve
+                target:
+                  name: PDSWhole
+                  type: UA   
+        - delete:
+            associations:
+              - subject:
+                  name: Chair
+                  type: UA
+                operations:
                   - disapprove                   
                 target:
                   name: PDSWhole
-                  type: UA                                      
+                  type: UA                                                       
   - label: obligation3
     event:
       subject:
