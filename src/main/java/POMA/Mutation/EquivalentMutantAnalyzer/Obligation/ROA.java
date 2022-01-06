@@ -43,6 +43,8 @@ public class ROA extends MutantTester {
 			String ruleLabel = rule.getLabel();
 			ResponsePattern responsePattern = rule.getResponsePattern();
 			List<Action> actions = responsePattern.getActions();
+			if (actions.size() <= 1)
+				continue;
 			for (Action actionToDelete : actions) {
 				index++;
 				Obligation obligation = Utils.createObligationCopy();
