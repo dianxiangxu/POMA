@@ -22,6 +22,8 @@ abstract class Planner {
 	private String smtCodeFilePath = "";
 	HashMap<String, Integer> mapOfIDs;
 	boolean showSMTOutput = false;
+	static FOLGrammar parser = null;
+
 	void setSolver(Solver solver) {
 		this.solver = solver;
 	}
@@ -78,8 +80,8 @@ abstract class Planner {
 		String headCode = generateHeadCode();
 		String iterationCode = "";
 
-		IFormula formulaPost = parseQuery(post, true); 
-		IFormula formulaPre = pre.isEmpty() ? null : parseQuery(pre, false);
+		IFormula formulaPost = post.isEmpty() ? null : parseQuery(post); 
+		IFormula formulaPre = pre.isEmpty() ? null : parseQuery(pre);
 
 
 		Solution solution = null;
@@ -115,8 +117,15 @@ abstract class Planner {
 		return null;
 	}
 
-	private IFormula parseQuery(String query, boolean isFirst) {
-		if(isFirst) new FOLGrammar(new ByteArrayInputStream(query.getBytes())); else FOLGrammar.ReInit(new ByteArrayInputStream(query.getBytes()));
+	private IFormula parseQuery(String query) {
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(query.getBytes());
+		if (parser == null){
+			parser = new FOLGrammar(inputStream);
+		}
+		else{
+			parser.ReInit(inputStream);
+		}
+
 		while (true) {
 			try {
 				IFormula f = FOLGrammar.parse();

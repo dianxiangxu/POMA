@@ -37,17 +37,7 @@ rules:
                   name: PI
                   type: UA
                 operations:
-                  - approve
-                target:
-                  name: PDSWhole
-                  type: UA    
-        - delete:
-            associations:
-              - subject:
-                  name: PI
-                  type: UA
-                operations:
-                  - disapprove   
+                  - submit
                 target:
                   name: PDSWhole
                   type: UA                                                                                                    
