@@ -1,0 +1,9 @@
+precondition constraint:
+PERMIT(PI,submit,PDSWhole) AND NOT(PERMIT(Chair,approve,PDSWhole)) AND NODEEXIST(Chair) AND NODEEXIST(PDSWhole)
+"((((OBLIGATIONLABEL(obligation1,PI,submit,PDSWhole) AND PERMIT(PI,submit,PDSWhole)) AND NOT(PERMIT(Chair,approve,PDSWhole))) AND NODEEXISTS(Chair)) AND NODEEXISTS(PDSWhole));"
+"((OBLIGATIONLABEL(obligation1,PI,submit,PDSWhole) AND PERMIT(PI,submit,PDSWhole)) AND ASSOCIATE(PI,approve,PDSWhole));"
+
+obligation:
+obligation1=(PI,submit,PDSWhole)
+postcondition constraint:
+NOT(PERMIT(PI,approve,PDSWhole));

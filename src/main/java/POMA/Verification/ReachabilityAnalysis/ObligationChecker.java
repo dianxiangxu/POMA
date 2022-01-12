@@ -48,23 +48,36 @@ public class ObligationChecker extends Planner {
 		// ObligationChecker("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json",
 		// "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
 
-		//Create with objects
+		// Create with objects
 		Graph graph =
 		Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
 		String yml = new String(
-		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
-		// Graph graph = Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/EditingPolicy37.json");
+		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+
+		// Graph graph = Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/LawFirmPolicy.json");
 		// String yml = new String(
-		// 		Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple2.yml")));
+		// 		Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
+
+		// Graph graph = Utils.readAnyGraph("Policies/SolverVerification/GPMSROA2/Graph.json");
+		// String yml = new String(
+		// 		Files.readAllBytes(Paths.get("Policies/SolverVerification/GPMSROA2/Obligations.yml")));
+
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		checker.setBound(4);
-		//checker.enableSMTOutput(true);
-		//Solution solution = checker.solveConstraint("OBLIGATIONLABEL(obligation4);");
-		Solution solution = checker.solveConstraint(
-				"((((PERMIT(Attorneys,accept,Case3Info) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) AND PERMIT(Attorneys,?ar,?at)) AND NOT(IMPLICITASSIGN(Attorneys1,Attorneys)));");
+		checker.setBound(3);
+		checker.enableSMTOutput(true);
+		String precondition = "OBLIGATIONLABEL(obligation1,AttorneysMain,refuse,Case3Info);";
+
+		String postcondition = "";
+
+		Solution solution = checker.solveConstraint(precondition, postcondition);
+		ObligationChecker checker2 = new ObligationChecker(graph, obligation);
+
+		Solution solution21 = checker2.solveConstraint(precondition, postcondition);
+		checker.setBound(3);
+		checker.enableSMTOutput(true);
 
 		// Solution solution = checker
 		// .solveConstraint("EXISTS(AttorneysMain);");
@@ -74,9 +87,10 @@ public class ObligationChecker extends Planner {
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC4/BMC");
 		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC5/BMC");
 
-		//Solution solution = checker.solveConstraint("(PERMIT(Attorneys2U, accept, Case3Info) OR PERMIT(Attorneys2U, accept, Case3Info));");
-		//  Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2,
-		//  Attorneys1);");
+		// Solution solution = checker.solveConstraint("(PERMIT(Attorneys2U, accept,
+		// Case3Info) OR PERMIT(Attorneys2U, accept, Case3Info));");
+		// Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2,
+		// Attorneys1);");
 		System.out.println(solution);
 		System.out.println(checker.mapOfIDs);
 		long end = System.currentTimeMillis();

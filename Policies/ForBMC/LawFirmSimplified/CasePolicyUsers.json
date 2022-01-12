@@ -133,7 +133,8 @@
       "target": "Case3",
       "operations": [
         "disapprove",
-        "withdraw"
+        "withdraw",
+        "approve"
       ]
     },
     {

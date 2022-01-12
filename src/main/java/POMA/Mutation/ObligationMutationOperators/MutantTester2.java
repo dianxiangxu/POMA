@@ -454,15 +454,19 @@ public class MutantTester2 {
 	//get all EvrNodes in obligation
 	public void getAllEvrNodes() {
 		EvrNodes = new ArrayList<>();
-		List<Rule> rules = originObligation.getRules();
-		for (Rule rule : rules) {
-			EventPattern eventPattern = rule.getEventPattern();
-			Target target = eventPattern.getTarget();
-			List<EvrNode> policyElements = target.getPolicyElements();
-			for (EvrNode node : policyElements) {
-				if (EvrNodes.contains(node) == false)
-					EvrNodes.add(node);
-			}	
+//		List<Rule> rules = originObligation.getRules();
+//		for (Rule rule : rules) {
+//			EventPattern eventPattern = rule.getEventPattern();
+//			Target target = eventPattern.getTarget();
+//			List<EvrNode> policyElements = target.getPolicyElements();
+//			for (EvrNode node : policyElements) {
+//				if (EvrNodes.contains(node) == false)
+//					EvrNodes.add(node);
+//			}	
+//		}
+		for (Node node : UAsOAs) {
+			EvrNode eNode = new EvrNode(node.getName(), node.getType().toString(), node.getProperties());
+			EvrNodes.add(eNode);
 		}
 		//print
 //		for (EvrNode node : EvrNodes) {

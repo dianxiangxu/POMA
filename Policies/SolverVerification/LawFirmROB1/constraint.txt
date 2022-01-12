@@ -1,0 +1,9 @@
+precondition constraint:
+((((PERMIT(Attorneys,accept,Case3Info) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) AND NOT(EXPLICITASSIGN(Attorneys1,Attorneys))) AND PERMIT(Attorneys,?ar,?at)) AND NOT(PERMIT(Attorneys1,?ar,?at))
+((((((PERMIT(Attorneys,accept,Case3Info) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) AND NOT(EXPLICITASSIGN(Attorneys1,Attorneys))) AND PERMIT(Attorneys,?ar,?at)) AND NOT(PERMIT(Attorneys1,?ar,?at))) AND OBLIGATIONLABEL(obligation1,?u,?q,?t));
+
+obligation:
+obligation1
+postcondition constraint:
+EXPLICITASSIGN(Attorneys1,Attorneys) AND NOT(PERMIT(Attorneys,?ar,?at) AND NOT(PERMIT(Attorneys1,?ar,?at)))
+((EXPLICITASSIGN(Attorneys1,Attorneys) AND NOT(PERMIT(Attorneys,?ar,?at))) AND NOT(PERMIT(Attorneys1,?ar,?at)));

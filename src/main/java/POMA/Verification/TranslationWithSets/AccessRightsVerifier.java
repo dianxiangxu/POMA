@@ -53,21 +53,21 @@ public class AccessRightsVerifier {
 
 	private static boolean checkContains(List<String[]> testOracleArrays,  List<String[]> testArrays) {
 		boolean result = false;
-		for (String[] test : testOracleArrays) {
-			for(String[] oracle : testArrays) {
-				if(checkEquality(oracle, test)) {
-					result=true;
-					//System.out.println(test[0]+":"+test[1]+":"+ test[2]);
-					break;
-				}
-				result=false;
-			}
-		}
-		if(testOracleArrays.size()!=testArrays.size())
-		{
-			result=false;
-		}
-		System.out.println("TEST SUITE MATCHING: "+result);
+		// for (String[] test : testOracleArrays) {
+		// 	for(String[] oracle : testArrays) {
+		// 		if(checkEquality(oracle, test)) {
+		// 			result=true;
+		// 			//System.out.println(test[0]+":"+test[1]+":"+ test[2]);
+		// 			break;
+		// 		}
+		// 		result=false;
+		// 	}
+		// }
+		// if(testOracleArrays.size()!=testArrays.size())
+		// {
+		// 	result=false;
+		// }
+		// System.out.println("TEST SUITE MATCHING: "+result);
 		//assertTrue(result);	
 		return result;	
 	}

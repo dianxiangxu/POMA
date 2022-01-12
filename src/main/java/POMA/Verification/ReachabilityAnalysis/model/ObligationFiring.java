@@ -4,35 +4,8 @@ public class ObligationFiring {
     String obligationLabel;
     
     String event;
-    String user;
     String object;
-
     String subject;
-    String userAttribute;
-    String target;
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getUserAttribute() {
-        return userAttribute;
-    }
-
-    public void setUserAttribute(String userAttribute) {
-        this.userAttribute = userAttribute;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
 
     public String getObjectAttribute() {
         return objectAttribute;
@@ -46,9 +19,9 @@ public class ObligationFiring {
 
     public ObligationFiring(String obligationLabel, String subject, String event, String object) {
         this.obligationLabel = obligationLabel;
-        this.user = subject;
         this.event = event;
         this.object = object;
+        this.subject = subject;
     }
 
     public ObligationFiring(){

@@ -1,0 +1,7 @@
+precondition constraint:
+"";
+obligation:
+obligation1=(Attorneys1,accept,Case3Info)
+"OBLIGATIONLABEL(obligation1,Attorneys1,accept,Case3Info);"
+postcondition constraint:
+EXPLICITASSIGN(Attorneys1,Attorneys);
