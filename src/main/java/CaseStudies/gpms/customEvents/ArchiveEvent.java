@@ -6,8 +6,8 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 public class ArchiveEvent extends EventContext {
 	
 	
-	 public ArchiveEvent() {
-	        super("archive");
+	 public ArchiveEvent(Node target) {
+	        super("archive", target);
 	    }
 	 
 	 
