@@ -6,7 +6,8 @@ public class ObligationFiring {
     String event;
     String object;
     String subject;
-
+    String source;
+    String target;
     public String getObjectAttribute() {
         return objectAttribute;
     }
@@ -24,6 +25,15 @@ public class ObligationFiring {
         this.subject = subject;
     }
 
+    public ObligationFiring(String obligationLabel, String subject, String source, String event, String object, String target) {
+        this.obligationLabel = obligationLabel;
+        this.event = event;
+        this.object = object;
+        this.subject = subject;
+        this.source = source;
+        this.target = target;
+
+    }
     public ObligationFiring(){
 
     }
@@ -60,9 +70,26 @@ public class ObligationFiring {
         this.object = object;
     }
 
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
     @Override
     public String toString() {
-        return "ObligationFiring [obligationLabel=" + obligationLabel + ", subject=" + subject + ", event=" + event + ", object=" + object   + "]";
+        return "ObligationFiring [obligationLabel=" + obligationLabel + ", subject=" + subject + ", event=" + event + ", object=" + object 
+                + ", source="+ source + ", target=" + target + "]";
     }
     
 }

@@ -184,6 +184,7 @@ public class ObligationTranslator {
 					+ obligationUA + " " + obligationAR + " " + obligationAT + ") (ASSOC " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationUO + " " + obligationT + ") (ASSIGN* " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationT + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"
+					+ " (member (mkTuple  " + obligationU + " " + obligationU + ") USERS)\r\n"
 					//+ " (distinct " + obligationS + " " + obligationU + ")\r\n" 
 					//+ " (distinct " + obligationUO + " " + obligationT + ")\r\n" 
 					+ ")))");
@@ -649,19 +650,7 @@ public class ObligationTranslator {
 				}
 			}
 		}
-		// AT MOST ONE
-		// sb.append(System.lineSeparator());
-		// sb.append(System.lineSeparator());
-		// sb.append("; AT MOST ONE");
-		// for (String tuple : labelTuples) {
-		// String[] tupleArray = tuple.split(":");
-		// sb.append(System.lineSeparator());
-		// sb.append("(assert (not (and (= (" + tupleArray[0] + " " + (k - 1) + ") true)
-		// (= (" + tupleArray[1] + " "
-		// + (k - 1) + ") true))))");
-		// }
-		// sb.append(System.lineSeparator());
-		// sb.append(System.lineSeparator());
+
 		sb.append("; AT LEAST ONE");
 		sb.append(System.lineSeparator());
 		sb.append("(assert (or");

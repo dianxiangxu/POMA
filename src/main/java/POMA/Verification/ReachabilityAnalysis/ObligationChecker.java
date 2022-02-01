@@ -49,18 +49,18 @@ public class ObligationChecker extends Planner {
 		// "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
 
 		// Create with objects
-		Graph graph =
-		Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
-		String yml = new String(
-		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+		// Graph graph =
+		// Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
+		// String yml = new String(
+		// Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
 
 		// Graph graph = Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/LawFirmPolicy.json");
 		// String yml = new String(
 		// 		Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
 
-		// Graph graph = Utils.readAnyGraph("Policies/SolverVerification/GPMSROA2/Graph.json");
-		// String yml = new String(
-		// 		Files.readAllBytes(Paths.get("Policies/SolverVerification/GPMSROA2/Obligations.yml")));
+		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+		String yml = new String(
+				Files.readAllBytes(Paths.get("Policies/ForBMC/LeoBug/ObligationsMutant.yml")));
 
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(graph, obligation);
@@ -68,16 +68,16 @@ public class ObligationChecker extends Planner {
 		long start = System.currentTimeMillis();
 		checker.setBound(3);
 		checker.enableSMTOutput(true);
-		String precondition = "OBLIGATIONLABEL(obligation1,AttorneysMain,refuse,Case3Info);";
+		String precondition = "(((((PERMIT(Attorneys,?ar,?at) AND NOT(PERMIT(Attorneys1,?ar,?at))) AND NOT(HIERARCHY(Attorneys1,Attorneys))) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) AND OBLIGATIONLABEL(obligation1,AttorneysU,accept,Case3Info));";
 
-		String postcondition = "";
+		String postcondition = "EXPLICITASSIGN(Attorneys1,Attorneys);";
 
 		Solution solution = checker.solveConstraint(precondition, postcondition);
-		ObligationChecker checker2 = new ObligationChecker(graph, obligation);
+		//ObligationChecker checker2 = new ObligationChecker(graph, obligation);
 
-		Solution solution21 = checker2.solveConstraint(precondition, postcondition);
-		checker.setBound(3);
-		checker.enableSMTOutput(true);
+		//Solution solution21 = checker2.solveConstraint(precondition, postcondition);
+		//checker.setBound(3);
+		//checker.enableSMTOutput(true);
 
 		// Solution solution = checker
 		// .solveConstraint("EXISTS(AttorneysMain);");

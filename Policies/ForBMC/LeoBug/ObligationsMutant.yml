@@ -1,0 +1,129 @@
+label: LawUseCase Obligations
+rules:
+  - label: obligation1
+    event:
+      subject:
+        anyUser: 
+          - "LeadAttorneys"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:      
+      actions:
+        - assign:
+            - what:
+                name: Attorneys1
+                type: U
+              where:
+                name: Attorneys
+                type: UA   
+        # - delete:
+        #     assignments:
+        #       - what:
+        #           name: Attorneys3
+        #           type: UA
+        #         where:
+        #           name: Attorneys
+        #           type: UA                        
+       # - delete:
+       #     assignments:
+        #      - what:
+        #          name: Attorneys2
+        #          type: UA
+        #        where:
+         #         name: Attorneys
+          #        type: UA                                           
+  - label: obligation2
+    event:
+      subject:
+        anyUser: 
+          - "Attorneys1"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:      
+      actions:
+        - assign:
+            - what:
+                name: Attorneys2
+                type: UA
+              where:
+                name: Attorneys1
+                type: UA       
+  - label: obligation3
+    event:
+      subject:
+        anyUser: 
+          - "Attorneys2"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:      
+      actions:
+        - assign:
+            - what:
+                name: Attorneys3
+                type: UA
+              where:
+                name: Attorneys2
+                type: UA                 
+  - label: obligation4
+    event:
+      subject:
+        anyUser: 
+          - "Attorneys3"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:      
+      actions:
+        # - create:
+        #     - what:
+        #         name: C-Suit
+        #         type: UA
+        #       where:
+        #         name: Attorneys
+        #         type: UA  
+        - grant:
+             subject:
+               name: LeadAttorneys
+               type: UA
+             operations:
+               - approve
+             target:
+               name: Case3
+               type: OA                                          
+  - label: obligation5
+    event:
+      subject:
+        anyUser: 
+          - "Attorneys"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:      
+      actions:                      
+        - delete:
+            assignments:
+              - what:
+                  name: Attorneys2
+                  type: UA
+                where:
+                  name: Attorneys
+                  type: UA 
+                                                                                                   

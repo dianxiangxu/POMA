@@ -46,7 +46,7 @@ public class ObligationLabelPredicate implements IPredicate {
 		String ar = tuple.get(2) instanceof Constant ? tuple.get(2).getElement() : null;
 		String t = tuple.get(3) instanceof Constant ? tuple.get(3).getElement() : null;
 
-		String sVar = label + "S" + "_" + "{(k + 1)}";
+		String sVar = label + "U" + "_" + "{(k + 1)}";
 		String tVar = label + "T" + "_" + "{(k + 1)}";
 		String arVar = label + "ar" + "_" + "{(k + 1)}";
 		smtlibv2Code += s != null ? " (= "+sVar+" ["+s+"] )" :"";
