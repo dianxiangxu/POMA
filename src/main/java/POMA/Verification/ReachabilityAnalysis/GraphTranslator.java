@@ -26,8 +26,10 @@ class GraphTranslator {
 	private Set<String> flattenedTuples = new HashSet<String>();
 	private Set<String> tuples = new HashSet<String>();
 
-	private Set<String> tuplesForUACheck = new HashSet<String>();
-	private Set<String> tuplesForOACheck = new HashSet<String>();
+	//private Set<String> tuplesForUACheck = new HashSet<String>();
+	//private Set<String> tuplesForOACheck = new HashSet<String>();
+	 private Set<String> tuplesUsers = new HashSet<String>();
+
 	private List<AssociationRelation> listOfAssociations = new ArrayList<AssociationRelation>();;
 	private List<AssociationRelation> associationsFromObligations;
 	private List<String> addedNodesFromObligationsUA_U;
@@ -138,15 +140,19 @@ class GraphTranslator {
 							.toStringNoQuotes());
 				}
 				if (node.getType().toString().equals("UA") || node.getType().toString().equals("U")) {
-					tuplesForUACheck.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
-							.toStringNoQuotes());
+					// tuplesForUACheck.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
+					// 		.toStringNoQuotes());
 					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
 							.toStringNoQuotes());
 				}
 				if (node.getType().toString().equals("OA") || node.getType().toString().equals("O")) {
-					tuplesForOACheck.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
-							.toStringNoQuotes());
+					// tuplesForOACheck.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
+					// 		.toStringNoQuotes());
 					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
+							.toStringNoQuotes());
+				}
+				if(node.getType().toString().equals("U")){
+					tuplesUsers.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
 							.toStringNoQuotes());
 				}
 				for (String parent : graph.getParents(node.getName())) {
@@ -163,38 +169,54 @@ class GraphTranslator {
 		}, visitor, Direction.CHILDREN);
 	}
 
-	private String translateSetToCheckUA() {
-		for (String UA_U : addedNodesFromObligationsUA_U) {
-			int ua_uID = mapOfIDs.get(UA_U);
-			tuplesForUACheck
-					.add(new AssignmentRelation(Integer.toString(ua_uID), Integer.toString(ua_uID)).toStringNoQuotes());
-		}
-		StringBuilder sb = new StringBuilder();
-		sb.append("(declare-fun SetToCheckUA () (Set (Tuple Int Int)))");
-		sb.append(System.lineSeparator());
-		sb.append("(assert (= SetToCheckUA (insert ");
-		for (Iterator<String> iterator = tuplesForUACheck.iterator(); iterator.hasNext();) {
-			String tuple = iterator.next();
-			if (!iterator.hasNext()) {
-				sb.append("(singleton " + tuple + "))))" + System.lineSeparator());
-			} else {
-				sb.append(tuple + " " + System.lineSeparator());
-			}
-		}
-		return sb.toString();
-	}
+	// private String translateSetToCheckUA() {
+	// 	for (String UA_U : addedNodesFromObligationsUA_U) {
+	// 		int ua_uID = mapOfIDs.get(UA_U);
+	// 		tuplesForUACheck
+	// 				.add(new AssignmentRelation(Integer.toString(ua_uID), Integer.toString(ua_uID)).toStringNoQuotes());
+	// 	}
+	// 	StringBuilder sb = new StringBuilder();
+	// 	sb.append("(declare-fun SetToCheckUA () (Set (Tuple Int Int)))");
+	// 	sb.append(System.lineSeparator());
+	// 	sb.append("(assert (= SetToCheckUA (insert ");
+	// 	for (Iterator<String> iterator = tuplesForUACheck.iterator(); iterator.hasNext();) {
+	// 		String tuple = iterator.next();
+	// 		if (!iterator.hasNext()) {
+	// 			sb.append("(singleton " + tuple + "))))" + System.lineSeparator());
+	// 		} else {
+	// 			sb.append(tuple + " " + System.lineSeparator());
+	// 		}
+	// 	}
+	// 	return sb.toString();
+	// }
 
-	private String translateSetToCheckOA() {
-		for (String OA_O : addedNodesFromObligationsOA_O) {
-			int oa_oID = mapOfIDs.get(OA_O);
-			tuplesForOACheck
-					.add(new AssignmentRelation(Integer.toString(oa_oID), Integer.toString(oa_oID)).toStringNoQuotes());
-		}
+	// private String translateSetToCheckOA() {
+	// 	for (String OA_O : addedNodesFromObligationsOA_O) {
+	// 		int oa_oID = mapOfIDs.get(OA_O);
+	// 		tuplesForOACheck
+	// 				.add(new AssignmentRelation(Integer.toString(oa_oID), Integer.toString(oa_oID)).toStringNoQuotes());
+	// 	}
+	// 	StringBuilder sb = new StringBuilder();
+	// 	sb.append("(declare-fun SetToCheckAT () (Set (Tuple Int Int)))");
+	// 	sb.append(System.lineSeparator());
+	// 	sb.append("(assert (= SetToCheckAT (insert ");
+	// 	for (Iterator<String> iterator = tuplesForOACheck.iterator(); iterator.hasNext();) {
+	// 		String tuple = iterator.next();
+	// 		if (!iterator.hasNext()) {
+	// 			sb.append("(singleton " + tuple + "))))" + System.lineSeparator());
+	// 		} else {
+	// 			sb.append(tuple + " " + System.lineSeparator());
+	// 		}
+	// 	}
+	// 	return sb.toString();
+	// }
+
+	private String translateUsersSet() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("(declare-fun SetToCheckAT () (Set (Tuple Int Int)))");
+		sb.append("(declare-fun USERS () (Set (Tuple Int Int)))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= SetToCheckAT (insert ");
-		for (Iterator<String> iterator = tuplesForOACheck.iterator(); iterator.hasNext();) {
+		sb.append("(assert (= USERS (insert ");
+		for (Iterator<String> iterator = tuplesUsers.iterator(); iterator.hasNext();) {
 			String tuple = iterator.next();
 			if (!iterator.hasNext()) {
 				sb.append("(singleton " + tuple + "))))" + System.lineSeparator());
@@ -395,8 +417,9 @@ class GraphTranslator {
 		getGraphElements();
 		populateTuples();
 		headcode.append(setCVC4Options());
-		headcode.append(translateSetToCheckUA());
-		headcode.append(translateSetToCheckOA());
+		//headcode.append(translateSetToCheckUA());
+		//headcode.append(translateSetToCheckOA());
+		headcode.append(translateUsersSet());
 		headcode.append(translateSetFlattenedAssign());
 		headcode.append(translateSetAssign());
 		headcode.append(translateAssociations());

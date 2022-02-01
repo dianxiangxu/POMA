@@ -98,6 +98,14 @@ public class Solver {
 								int varAssignmentInt = Integer.parseInt(varAssignment);
 								step.setEvent(getKeyFromValue(varAssignmentInt, mapOfIDs));
 							}
+							else if (isContain(line2, label + "S_" + stepNumber)) {
+								int varAssignmentInt = Integer.parseInt(varAssignment);
+								step.setSource(getKeyFromValue(varAssignmentInt, mapOfIDs));
+							}
+							else if (isContain(line2, label + "T_" + stepNumber)) {
+								int varAssignmentInt = Integer.parseInt(varAssignment);
+								step.setTarget(getKeyFromValue(varAssignmentInt, mapOfIDs));
+							}
 						}
 						arrayOfSteps[Integer.parseInt(stepNumber)] = step;
 					}
