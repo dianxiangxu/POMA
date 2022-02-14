@@ -145,7 +145,7 @@ public class ObligationTranslator {
 			subject = r.getEventPattern().getSubject().getAnyUser().get(0);
 			}
 			String target = "";
-			if(r.getEventPattern().getTarget().getPolicyElements() != null){
+			if(r.getEventPattern().getTarget()!=null&&r.getEventPattern().getTarget().getPolicyElements() != null){
 			target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
 			}
 			String obligationLabel = r.getLabel();
@@ -263,7 +263,7 @@ public class ObligationTranslator {
 			if (r.getEventPattern().getSubject().getAnyUser() != null) {
 				subject = r.getEventPattern().getSubject().getAnyUser().get(0); // TODO: Add multiple users
 			}
-			if (r.getEventPattern().getTarget().getPolicyElements() != null) {
+			if (r.getEventPattern().getTarget()!=null && r.getEventPattern().getTarget().getPolicyElements() != null) {
 				String target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
 				eventMembers.put(subject, target);
 			}

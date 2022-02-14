@@ -54,13 +54,14 @@ public class ObligationChecker extends Planner {
 		// String yml = new String(
 		// Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
 
-		// Graph graph = Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/LawFirmPolicy.json");
+		// Graph graph =
+		// Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/LawFirmPolicy.json");
 		// String yml = new String(
-		// 		Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
+		// Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
 
-		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoPolicyElement/Graph.json");
 		String yml = new String(
-				Files.readAllBytes(Paths.get("Policies/ForBMC/LeoBug/ObligationsMutant.yml")));
+				Files.readAllBytes(Paths.get("Policies/ForBMC/LeoPolicyElement/Obligations.yml")));
 
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(graph, obligation);
@@ -68,16 +69,16 @@ public class ObligationChecker extends Planner {
 		long start = System.currentTimeMillis();
 		checker.setBound(3);
 		checker.enableSMTOutput(true);
-		String precondition = "(((((PERMIT(Attorneys,?ar,?at) AND NOT(PERMIT(Attorneys1,?ar,?at))) AND NOT(HIERARCHY(Attorneys1,Attorneys))) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) AND OBLIGATIONLABEL(obligation1,AttorneysU,accept,Case3Info));";
+		String precondition = "((NOT(ASSIGN(?object,Case3Info)) AND (PERMIT(Case3Info,accept,?object) AND OBLIGATIONLABEL(obligation1,Case3Info,accept,?object))) AND (((((PERMIT(Attorneys,?ar,?at) AND NOT(PERMIT(Attorneys1,?ar,?at))) AND NOT(HIERARCHY(Attorneys1,Attorneys))) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) OR ((((PERMIT(?s,?ar,Attorneys) AND NOT(PERMIT(?s,?at,Attorneys1))) AND NOT(HIERARCHY(Attorneys1,Attorneys))) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys))));";
 
 		String postcondition = "EXPLICITASSIGN(Attorneys1,Attorneys);";
 
 		Solution solution = checker.solveConstraint(precondition, postcondition);
-		//ObligationChecker checker2 = new ObligationChecker(graph, obligation);
+		// ObligationChecker checker2 = new ObligationChecker(graph, obligation);
 
-		//Solution solution21 = checker2.solveConstraint(precondition, postcondition);
-		//checker.setBound(3);
-		//checker.enableSMTOutput(true);
+		// Solution solution21 = checker2.solveConstraint(precondition, postcondition);
+		// checker.setBound(3);
+		// checker.enableSMTOutput(true);
 
 		// Solution solution = checker
 		// .solveConstraint("EXISTS(AttorneysMain);");
