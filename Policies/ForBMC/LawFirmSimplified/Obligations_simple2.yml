@@ -41,7 +41,7 @@ rules:
     event:
       subject:
         anyUser: 
-          - "Attorneys1"
+          - "AttorneysMain"
       operations:
         - accept
       target:
@@ -61,7 +61,7 @@ rules:
     event:
       subject:
         anyUser: 
-          - "Attorneys2"
+          - "AttorneysMain"
       operations:
         - accept
       target:

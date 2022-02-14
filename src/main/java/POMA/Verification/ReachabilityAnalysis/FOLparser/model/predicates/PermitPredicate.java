@@ -2,7 +2,6 @@ package POMA.Verification.ReachabilityAnalysis.FOLparser.model.predicates;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import POMA.Verification.ReachabilityAnalysis.FOLparser.model.terms.Constant;
 import POMA.Verification.ReachabilityAnalysis.FOLparser.model.terms.ITerm;

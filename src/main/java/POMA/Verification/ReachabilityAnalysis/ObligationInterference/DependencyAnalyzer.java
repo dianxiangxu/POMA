@@ -1,5 +1,6 @@
 package POMA.Verification.ReachabilityAnalysis.ObligationInterference;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -15,10 +16,20 @@ import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.CreateAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 
+import POMA.Utils;
+import POMA.Verification.ReachabilityAnalysis.ObligationChecker;
+import POMA.Verification.ReachabilityAnalysis.model.ObligationFiring;
+import POMA.Verification.ReachabilityAnalysis.model.Solution;
+import POMA.Verification.TranslationWithSets.AssociationRelation;
+import gov.nist.csd.pm.exceptions.PMException;
+import gov.nist.csd.pm.pip.graph.Graph;
+import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
+import gov.nist.csd.pm.pip.obligations.model.Obligation;
+
 public class DependencyAnalyzer {
     public enum CONFLICT_TYPE {
         DirtyAssignment, DirtyAssociation, DirtyCycle, DirtyProhibition, DirtyReadCondition, DirtyReadAssociation,
-        DirtyReadAssignment
+        DirtyReadAssignment, NoConflict
     }
 
     private static CONFLICT_TYPE affectsPrecondition(Rule obligationA, Rule obligationB) {
@@ -54,7 +65,7 @@ public class DependencyAnalyzer {
                 }
             }
         }
-        return null;
+        return CONFLICT_TYPE.NoConflict;
     }
 
     private static boolean affectsResponse(Rule obligationA, Rule obligationB) {
@@ -64,6 +75,9 @@ public class DependencyAnalyzer {
         for (Action action : rpA.getActions()) {
             if (action instanceof GrantAction) {
                 isConflictingGrantWrite((GrantAction) action, rpB);
+            }
+            if (action instanceof AssignAction) {
+                isConflictingAssignWrite((AssignAction) action, rpB);
             }
         }
         return false;
@@ -84,18 +98,36 @@ public class DependencyAnalyzer {
                 }
             }
         }
-        return null;
+        return CONFLICT_TYPE.NoConflict;
     }
 
-    private static void findConflicts(Obligation obligation) {
-        for (Rule targetObligation : obligation.getRules())
+    private static CONFLICT_TYPE isConflictingAssignWrite(AssignAction assignA, ResponsePattern rpB) {
+        String whatA = assignA.getAssignments().get(0).getWhat().toString();// .getSubject().getName();
+        String whereA = assignA.getAssignments().get(0).getWhere().toString();
+
+        for (Action action : rpB.getActions()) {
+            if (action instanceof AssignAction) {
+                AssignAction assignB = (AssignAction) action;
+                if (whatA.equals(assignB.getAssignments().get(0).getWhat().toString()) && whereA.equals(assignB
+                        .getAssignments().get(0).getWhere().toString())) {
+                    return CONFLICT_TYPE.DirtyAssignment;
+                }
+            }
+        }
+        return CONFLICT_TYPE.NoConflict;
+    }
+
+    private static void findConflicts(Obligation obligation, String obligationLabel1, String obligationLabel2) {
+        for (Rule targetObligation : obligation.getRules()) {
             for (Rule sourceObligation : obligation.getRules()) {
+               
+                
                 if (sourceObligation.getLabel().equals(targetObligation.getLabel())) {
                     continue;
                 }
                 CONFLICT_TYPE ct = affectsPrecondition(targetObligation, sourceObligation);
                 try {
-                    if (!ct.equals(null)) {
+                    if (!ct.equals(null) && !ct.equals(CONFLICT_TYPE.NoConflict)) {
                         System.out.println("Precondition conflict found: " + ct + " in obligations: "
                                 + sourceObligation.getLabel() + " and " + targetObligation.getLabel());
                     }
@@ -107,15 +139,45 @@ public class DependencyAnalyzer {
                     System.out.println(e);
 
                 }
+            
             }
+        }
+    }
+
+    private static Solution getSolution() throws Exception {
+        Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+        String yml = new String(
+                Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+
+        Obligation obligation = EVRParser.parse(yml);
+        ObligationChecker checker = new ObligationChecker(graph, obligation);
+        checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
+        long start = System.currentTimeMillis();
+        checker.setBound(3);
+        checker.enableSMTOutput(true);
+        String precondition = "OBLIGATIONLABEL(obligation1, AttorneysU, ?ar, ?o);";
+
+        String postcondition = "OBLIGATIONLABEL(obligation3, AttorneysU, ?ar, ?o);";
+
+        return checker.solveConstraint(precondition, postcondition);
     }
 
     public static void main(String[] args) throws Exception {
 
         String yml = new String(
-                Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml")));
+                Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
 
+        // String yml = new String(
+        // Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
         Obligation obligation = EVRParser.parse(yml);
-        findConflicts(obligation);
+        // findConflicts(obligation);
+        Solution solution = getSolution();
+        System.out.println(solution.toString());
+        String obligationLabelA = "";
+        String obligationLabelB = "";
+        obligationLabelA = solution.getObligationFirings().get(0).getObligationLabel();
+        obligationLabelB = solution.getObligationFirings().get(1).getObligationLabel();
+
+        findConflicts(obligation, obligationLabelA, obligationLabelB);
     }
 }

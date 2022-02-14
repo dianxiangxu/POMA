@@ -28,11 +28,11 @@ abstract class Planner {
 		this.solver = solver;
 	}
 
-	void setBound(int bound) {
+	public void setBound(int bound) {
 		this.bound = bound;
 	}
 
-	void setSMTCodePath(String path) {
+	public void setSMTCodePath(String path) {
 		this.smtCodeFilePath = path;
 	}
 

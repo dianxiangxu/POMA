@@ -59,7 +59,7 @@ public class ObligationChecker extends Planner {
 		// String yml = new String(
 		// Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
 
-		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoPolicyElement/Graph.json");
+		Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");
 		String yml = new String(
 				Files.readAllBytes(Paths.get("Policies/ForBMC/LeoPolicyElement/Obligations.yml")));
 
