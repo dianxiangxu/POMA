@@ -6,6 +6,11 @@ import java.util.List;
 public class Solution {
 
 	private List<ObligationFiring> obligationFirings = new ArrayList<ObligationFiring>();
+
+	public void setObligationFirings(List<ObligationFiring> obligationFirings) {
+		this.obligationFirings = obligationFirings;
+	}
+
 	Variables variables;
 
 	public List<ObligationFiring> getObligationFirings() {
@@ -17,6 +22,10 @@ public class Solution {
 		this.variables = variables;
 	}
 
+	public Variables getVariables() {
+		return variables;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
