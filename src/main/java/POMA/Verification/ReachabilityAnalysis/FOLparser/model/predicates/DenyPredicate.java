@@ -38,21 +38,19 @@ public class DenyPredicate implements IPredicate{
 		String accessright = tuple.get(1) instanceof Constant ? tuple.get(1).getElement() : null;
 		String t = tuple.get(2) instanceof Constant ? tuple.get(2).getElement() : null;
 
-		String uVar = " queryVARDENYU_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
-				+ tuple.get(2).getElement() + "_" + "{k} ";
-		String uoVar = " queryVARDENYUO_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
-				+ tuple.get(2).getElement() + "_" + "{k} ";
-		String uaVar = " queryVARDENYUA_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
-				+ tuple.get(2).getElement() + "_" + "{k} ";
-		String atVar = " queryVARDENYAT_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
-				+ tuple.get(2).getElement() + "_" + "{k} ";
-		String arVar = " queryVARDENYAR_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
+		String uVar = " queryVAR" + tuple.get(0).getElement().replace("?", "") + " ";//UDV
+		String arVar = " queryVAR" + tuple.get(1).getElement().replace("?", "")+ " ";//UDV
+		String uoVar = " queryVAR" + tuple.get(2).getElement().replace("?", "")+ " ";//UDV
+
+		String uaVar = " queryCONSTDENYUA_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
+				+ tuple.get(2).getElement() + "_" + "{k} "; 
+		String atVar = " queryCONSTDENYAT_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
 				+ tuple.get(2).getElement() + "_" + "{k} ";
 
 		String userSpec = s != null ? "(member (mkTuple  [" + s + "] " + uaVar + ") (ASSIGN* " + "{(k + 1)}" + "))"
-				: "(member (mkTuple  " + uVar + uaVar + ") (ASSIGN* " + "{(k + 1)}" + "))";
+				: "(member (mkTuple" + uVar + uaVar + ") (ASSIGN* " + "{(k + 1)}" + "))";
 		String targetSpec = t != null ? "(member (mkTuple  [" + t + "] " + atVar + ") (ASSIGN* " + "{(k + 1)}" + "))"
-				: "(member (mkTuple  " + uoVar + atVar + ") (ASSIGN* " + "{(k + 1)}" + "))";
+				: "(member (mkTuple" + uoVar + atVar + ") (ASSIGN* " + "{(k + 1)}" + "))";
 
 		smtlibv2Code += System.lineSeparator();
 		smtlibv2Code += accessright != null

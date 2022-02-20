@@ -25,7 +25,9 @@
 (mkTuple 14 9) 
 (mkTuple 8 9) 
 (mkTuple 10 10) 
+(mkTuple 12 4) 
 (mkTuple 11 7) 
+(mkTuple 12 6) 
 (mkTuple 13 13) 
 (mkTuple 13 9) 
 (mkTuple 11 9) 
@@ -59,6 +61,7 @@
 (mkTuple 14 9) 
 (mkTuple 8 9) 
 (mkTuple 10 10) 
+(mkTuple 12 4) 
 (mkTuple 11 7) 
 (mkTuple 13 13) 
 (mkTuple 2 3) 
@@ -146,7 +149,7 @@
 (assert (>= obligation2UO_0 0))
 (assert (or (= obligation2ar_0 19)
 ))
-(assert (= obligation2S_0 8))
+(assert (= obligation2S_0 6))
 (assert (= obligation2T_0 1))
 (assert (=> (= (obligation2 0) true) (and
  (member (mkTuple  obligation2U_0 obligation2S_0) (ASSIGN* 0))
@@ -171,7 +174,7 @@
 (assert (>= obligation3UO_0 0))
 (assert (or (= obligation3ar_0 19)
 ))
-(assert (= obligation3S_0 10))
+(assert (= obligation3S_0 6))
 (assert (= obligation3T_0 1))
 (assert (=> (= (obligation3 0) true) (and
  (member (mkTuple  obligation3U_0 obligation3S_0) (ASSIGN* 0))
@@ -336,7 +339,7 @@
 (assert (>= obligation2UO_1 0))
 (assert (or (= obligation2ar_1 19)
 ))
-(assert (= obligation2S_1 8))
+(assert (= obligation2S_1 6))
 (assert (= obligation2T_1 1))
 (assert (=> (= (obligation2 1) true) (and
  (member (mkTuple  obligation2U_1 obligation2S_1) (ASSIGN* 1))
@@ -361,7 +364,7 @@
 (assert (>= obligation3UO_1 0))
 (assert (or (= obligation3ar_1 19)
 ))
-(assert (= obligation3S_1 10))
+(assert (= obligation3S_1 6))
 (assert (= obligation3T_1 1))
 (assert (=> (= (obligation3 1) true) (and
  (member (mkTuple  obligation3U_1 obligation3S_1) (ASSIGN* 1))
@@ -526,7 +529,7 @@
 (assert (>= obligation2UO_2 0))
 (assert (or (= obligation2ar_2 19)
 ))
-(assert (= obligation2S_2 8))
+(assert (= obligation2S_2 6))
 (assert (= obligation2T_2 1))
 (assert (=> (= (obligation2 2) true) (and
  (member (mkTuple  obligation2U_2 obligation2S_2) (ASSIGN* 2))
@@ -551,7 +554,7 @@
 (assert (>= obligation3UO_2 0))
 (assert (or (= obligation3ar_2 19)
 ))
-(assert (= obligation3S_2 10))
+(assert (= obligation3S_2 6))
 (assert (= obligation3T_2 1))
 (assert (=> (= (obligation3 2) true) (and
  (member (mkTuple  obligation3U_2 obligation3S_2) (ASSIGN* 2))
@@ -672,10 +675,20 @@
 ; AT LEAST ONE
 (assert (or(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true)))
 
+;PRE PROPERTY
 
-
+(declare-fun queryVARuser () Int)
+(declare-fun queryVARar () Int)
+(declare-fun queryVARo () Int)
 (assert 
+(and (= (obligation1 1) true)
+ (= obligation1U_1 queryVARuser ) (= obligation1ar_1 queryVARar ) (= obligation1T_1 queryVARo )));POST PROPERTY
+(declare-fun queryCONSTDENYUA_Attorneys2U_permit_?o_2 () Int)
+(declare-fun queryCONSTDENYAT_Attorneys2U_permit_?o_2 () Int)
+(assert (and 
 (and (= (obligation3 2) true)
+ (= obligation3U_2 queryVARuser ) (= obligation3ar_2 queryVARar ) (= obligation3T_2 1 )) 
+(and(member (mkTuple  12  queryCONSTDENYUA_Attorneys2U_permit_?o_2 ) (ASSIGN* 3))(member (mkTuple  queryCONSTDENYUA_Attorneys2U_permit_?o_2 -1  queryCONSTDENYAT_Attorneys2U_permit_?o_2 ) (ASSOC 3))(member (mkTuple queryVARo  queryCONSTDENYAT_Attorneys2U_permit_?o_2 ) (ASSIGN* 3)))
 ))
 (check-sat)
 (get-value (obligation3))

@@ -68,19 +68,21 @@ public class DependencyAnalyzer {
         return CONFLICT_TYPE.NoConflict;
     }
 
-    private static boolean affectsResponse(Rule obligationA, Rule obligationB) {
+    private static CONFLICT_TYPE affectsResponse(Rule obligationA, Rule obligationB) {
         ResponsePattern rpA = obligationA.getResponsePattern();
         ResponsePattern rpB = obligationB.getResponsePattern();
-
+        CONFLICT_TYPE ct = CONFLICT_TYPE.NoConflict;
         for (Action action : rpA.getActions()) {
             if (action instanceof GrantAction) {
                 isConflictingGrantWrite((GrantAction) action, rpB);
+                ct = CONFLICT_TYPE.DirtyReadAssociation;
             }
             if (action instanceof AssignAction) {
                 isConflictingAssignWrite((AssignAction) action, rpB);
+                ct = CONFLICT_TYPE.DirtyReadAssignment;
             }
         }
-        return false;
+        return ct;
     }
 
     private static CONFLICT_TYPE isConflictingGrantWrite(GrantAction grantA, ResponsePattern rpB) {
@@ -120,9 +122,17 @@ public class DependencyAnalyzer {
     private static void findConflicts(Obligation obligation, String obligationLabel1, String obligationLabel2) {
         for (Rule targetObligation : obligation.getRules()) {
             for (Rule sourceObligation : obligation.getRules()) {
-               
-                
+
                 if (sourceObligation.getLabel().equals(targetObligation.getLabel())) {
+                    continue;
+                }
+                if (!sourceObligation.getLabel().equals(obligationLabel1) && !targetObligation.getLabel()
+                        .equals(obligationLabel1)) {
+                    continue;
+                }
+                if (!sourceObligation.getLabel().equals(
+                        obligationLabel2) && !targetObligation.getLabel()
+                        .equals(obligationLabel2)) {
                     continue;
                 }
                 CONFLICT_TYPE ct = affectsPrecondition(targetObligation, sourceObligation);
@@ -131,7 +141,8 @@ public class DependencyAnalyzer {
                         System.out.println("Precondition conflict found: " + ct + " in obligations: "
                                 + sourceObligation.getLabel() + " and " + targetObligation.getLabel());
                     }
-                    if (affectsResponse(targetObligation, sourceObligation)) {
+                    CONFLICT_TYPE ctResponse = affectsResponse(targetObligation, sourceObligation);
+                    if (!ctResponse.equals(null) && !ctResponse.equals(CONFLICT_TYPE.NoConflict)) {
                         System.out.println("Actions conflict found: in obligations: "
                                 + sourceObligation.getLabel() + " and " + targetObligation.getLabel());
                     }
@@ -139,7 +150,7 @@ public class DependencyAnalyzer {
                     System.out.println(e);
 
                 }
-            
+
             }
         }
     }
@@ -155,9 +166,9 @@ public class DependencyAnalyzer {
         long start = System.currentTimeMillis();
         checker.setBound(3);
         checker.enableSMTOutput(true);
-        String precondition = "OBLIGATIONLABEL(obligation1, AttorneysU, ?ar, ?o);";
+        String precondition = "OBLIGATIONLABEL(obligation1, ?user, ?ar, ?o);";
 
-        String postcondition = "OBLIGATIONLABEL(obligation3, AttorneysU, ?ar, ?o);";
+        String postcondition = "(OBLIGATIONLABEL(obligation3, ?user, ?ar, Case3Info) AND PERMIT(Attorneys2U,accept,Case3Info));";
 
         return checker.solveConstraint(precondition, postcondition);
     }
@@ -176,7 +187,7 @@ public class DependencyAnalyzer {
         String obligationLabelA = "";
         String obligationLabelB = "";
         obligationLabelA = solution.getObligationFirings().get(0).getObligationLabel();
-        obligationLabelB = solution.getObligationFirings().get(1).getObligationLabel();
+       // obligationLabelB = solution.getObligationFirings().get(1).getObligationLabel();
 
         findConflicts(obligation, obligationLabelA, obligationLabelB);
     }

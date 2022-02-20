@@ -77,20 +77,22 @@ abstract class Planner {
 		// continue;
 		// }
 		boolean solved = false;
+		IFormula formulaPre = pre.isEmpty() ? null : parseQuery(pre);
+		IFormula formulaPost = post.isEmpty() ? null : parseQuery(post);
+
 		String headCode = generateHeadCode();
 		String iterationCode = "";
-
-		IFormula formulaPost = post.isEmpty() ? null : parseQuery(post); 
-		IFormula formulaPre = pre.isEmpty() ? null : parseQuery(pre);
-
 
 		Solution solution = null;
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
 			String smtlibv2Code = headCode + iterationCode;
-			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1)):"";
-			smtlibv2Code += System.lineSeparator();
-			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k - 2)) : "";
+			List<String> queryCONSTSandVARS = new ArrayList<String>();
+
+			smtlibv2Code += ";PRE PROPERTY";
+			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k - 2), queryCONSTSandVARS) : "";
+			smtlibv2Code += System.lineSeparator() + System.lineSeparator() + ";POST PROPERTY";
+			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1), queryCONSTSandVARS) : "";
 			System.out.println("Time horizon " + k + " processing...");
 			smtlibv2Code += generateTailCode();
 			if (k == bound) {
@@ -101,7 +103,7 @@ abstract class Planner {
 			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
 					getObligationEventVariables(), mapOfIDs, showSMTOutput);
 			solved = solution == null ? false : true;
-			if(!solved){
+			if (!solved) {
 				System.out.println("Solution not found with time horizon: " + k);
 			}
 		}
@@ -113,16 +115,15 @@ abstract class Planner {
 
 	public Solution solveConstraint(Graph graph, Prohibitions prohibitions, // not now
 			Obligations obligations, String constraint) {
-				
+
 		return null;
 	}
 
 	private IFormula parseQuery(String query) {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(query.getBytes());
-		if (parser == null){
+		if (parser == null) {
 			parser = new FOLGrammar(inputStream);
-		}
-		else{
+		} else {
 			parser.ReInit(inputStream);
 		}
 
@@ -141,10 +142,9 @@ abstract class Planner {
 		return null;
 	}
 
-	private String generateProperty(IFormula f, int k) throws Exception {
+	private String generateProperty(IFormula f, int k, List<String> queryCONSTSandVARS) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
-		List<String> queryVars = new ArrayList<String>();
 		String formula = f.toSMT();
 
 		String formulaWithStep = formula.replace("{k}", Integer.toString(k)).replace("{(k + 1)}",
@@ -152,10 +152,16 @@ abstract class Planner {
 
 		String[] splittedFormula = formulaWithStep.split(" ");
 		for (String formulaElement : splittedFormula) {
-			if (formulaElement.contains("queryVAR") && !queryVars.contains(formulaElement)) {
+			if (formulaElement.contains("queryCONST") && !queryCONSTSandVARS.contains(formulaElement)) {
 				sb.append("(declare-fun " + formulaElement + " () Int)");
 				sb.append(System.lineSeparator());
-				queryVars.add(formulaElement);
+				queryCONSTSandVARS.add(formulaElement);
+				continue;
+			}
+			if (formulaElement.contains("queryVAR") && !queryCONSTSandVARS.contains(formulaElement)) {
+				sb.append("(declare-fun " + formulaElement + " () Int)");
+				sb.append(System.lineSeparator());
+				queryCONSTSandVARS.add(formulaElement);
 				continue;
 			}
 			if (formulaElement.contains("[")) {
