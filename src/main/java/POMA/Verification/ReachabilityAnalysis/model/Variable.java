@@ -8,7 +8,15 @@ public class Variable {
 		this.name = name;
 		this.assignment = assignment;
 	}
+	
+	public String getName() {
+		return name;
+	}
 
+	public String getAssignment() {
+		return assignment;
+	}
+	
 	@Override
 	public String toString() {
 		return "Variable [" + name + ":" + assignment + "]";
