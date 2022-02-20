@@ -97,20 +97,12 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "UDean",
-      "target": "EditingPolicy"
-    },
-    {
       "source": "Dean",
       "target": "EditingPolicy"
     },
     {
       "source": "UDean",
       "target": "Dean"
-    },
-    {
-      "source": "UChair",
-      "target": "EditingPolicy"
     },
     {
       "source": "Chair",
@@ -150,10 +142,6 @@
     },
     {
       "source": "UBM",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "UBM",
       "target": "BM"
     },
     {
@@ -162,15 +150,7 @@
     },
     {
       "source": "URD",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "URD",
       "target": "RD"
-    },
-    {
-      "source": "URA",
-      "target": "EditingPolicy"
     },
     {
       "source": "Nazmul",

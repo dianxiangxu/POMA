@@ -71,7 +71,7 @@ public class CEU extends MutantTester {
 		AccessRequest ar = new AccessRequest(null, null, null);
 		i = 0;
 		
-		List<String> Us = Utils.getAllUserNames();
+		List<Node> Us = Utils.getUsInGraph(graph);
 		
 		List<Rule> rules = Utils.createObligationCopy().getRules();
 		for (Rule rule : rules) {

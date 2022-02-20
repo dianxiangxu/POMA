@@ -13,10 +13,24 @@ rules:
             type: OA
     response:      
       actions:
-        - assign:
+        - condition!:
+          - function:
+              name: is_node_contained_in
+              args:
+                - function:
+                    name: get_node
+                    args:
+                      - Attorneys1
+                      - UA  
+                - function:
+                    name: get_node
+                    args:
+                      - Attorneys
+                      - UA    
+          assign:
             - what:
                 name: Attorneys1
-                type: U
+                type: UA
               where:
                 name: Attorneys
                 type: UA   
@@ -49,7 +63,21 @@ rules:
             type: OA
     response:      
       actions:
-        - assign:
+        - condition!:
+          - function:
+              name: is_node_contained_in
+              args:
+                - function:
+                    name: get_node
+                    args:
+                      - Attorneys2
+                      - UA  
+                - function:
+                    name: get_node
+                    args:
+                      - Attorneys1
+                      - UA
+          assign:
             - what:
                 name: Attorneys2
                 type: UA
@@ -69,7 +97,21 @@ rules:
             type: OA
     response:      
       actions:
-        - assign:
+        - condition!:
+          - function:
+              name: is_node_contained_in
+              args:
+                - function:
+                    name: get_node
+                    args:
+                      - Attorneys3
+                      - UA  
+                - function:
+                    name: get_node
+                    args:
+                      - Attorneys2
+                      - UA
+          assign:
             - what:
                 name: Attorneys3
                 type: UA
@@ -126,3 +168,4 @@ rules:
                 where:
                   name: Attorneys
                   type: UA 
+                                                                                                   
