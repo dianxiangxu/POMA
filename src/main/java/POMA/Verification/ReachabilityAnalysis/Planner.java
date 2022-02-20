@@ -38,7 +38,7 @@ abstract class Planner {
 
 	abstract String generateHeadCode() throws Exception;
 
-	abstract String generateTailCode();
+	abstract String generateTailCode(List<String> queryVARS);
 
 	abstract String generateIterationCode(int k);
 
@@ -87,21 +87,22 @@ abstract class Planner {
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
 			String smtlibv2Code = headCode + iterationCode;
-			List<String> queryCONSTSandVARS = new ArrayList<String>();
+			List<String> queryVARS = new ArrayList<String>();
+			List<String> queryConst = new ArrayList<String>();
 
 			smtlibv2Code += ";PRE PROPERTY";
-			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k - 2), queryCONSTSandVARS) : "";
+			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k - 2), queryVARS, queryConst) : "";
 			smtlibv2Code += System.lineSeparator() + System.lineSeparator() + ";POST PROPERTY";
-			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1), queryCONSTSandVARS) : "";
+			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1), queryVARS, queryConst) : "";
 			System.out.println("Time horizon " + k + " processing...");
-			smtlibv2Code += generateTailCode();
+			smtlibv2Code += generateTailCode(queryVARS);
 			if (k == bound) {
 				// System.out.println(smtlibv2Code);
 			}
 			String pathToFile = smtCodeFilePath + k + ".smt2";
 			saveCodeToFile(smtlibv2Code, pathToFile);
 			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
-					getObligationEventVariables(), mapOfIDs, showSMTOutput);
+					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS);
 			solved = solution == null ? false : true;
 			if (!solved) {
 				System.out.println("Solution not found with time horizon: " + k);
@@ -142,7 +143,7 @@ abstract class Planner {
 		return null;
 	}
 
-	private String generateProperty(IFormula f, int k, List<String> queryCONSTSandVARS) throws Exception {
+	private String generateProperty(IFormula f, int k, List<String> queryVARS, List<String> queryConst) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
 		String formula = f.toSMT();
@@ -152,16 +153,16 @@ abstract class Planner {
 
 		String[] splittedFormula = formulaWithStep.split(" ");
 		for (String formulaElement : splittedFormula) {
-			if (formulaElement.contains("queryCONST") && !queryCONSTSandVARS.contains(formulaElement)) {
+			if (formulaElement.contains("queryCONST") && !queryConst.contains(formulaElement)) {
 				sb.append("(declare-fun " + formulaElement + " () Int)");
 				sb.append(System.lineSeparator());
-				queryCONSTSandVARS.add(formulaElement);
+				queryConst.add(formulaElement);
 				continue;
 			}
-			if (formulaElement.contains("queryVAR") && !queryCONSTSandVARS.contains(formulaElement)) {
+			if (formulaElement.contains("queryVAR") && !queryVARS.contains(formulaElement)) {
 				sb.append("(declare-fun " + formulaElement + " () Int)");
 				sb.append(System.lineSeparator());
-				queryCONSTSandVARS.add(formulaElement);
+				queryVARS.add(formulaElement);
 				continue;
 			}
 			if (formulaElement.contains("[")) {

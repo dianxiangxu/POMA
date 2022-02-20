@@ -352,3 +352,6 @@
 (get-value (obligation5S_0))
 (get-value (obligation5T_0))
 (get-value (obligation5ar_0))
+(get-value (queryVARuser))
+(get-value (queryVARar))
+(get-value (queryVARo))

@@ -162,7 +162,7 @@ public class ObligationChecker extends Planner {
 		return obligationLabels;
 	}
 
-	public String generateTailCode() {
+	public String generateTailCode(List<String> queryVARS) {
 		obligationEventVariables.addAll(ot.getObligationEventVariables());
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += "(check-sat)";
@@ -171,8 +171,12 @@ public class ObligationChecker extends Planner {
 			smtlibv2Code += "(get-value (" + label + "))";
 			smtlibv2Code += System.lineSeparator();
 		}
-		for (String label : obligationEventVariables) {
-			smtlibv2Code += "(get-value (" + label + "))";
+		for (String eventVars : obligationEventVariables) {
+			smtlibv2Code += "(get-value (" + eventVars + "))";
+			smtlibv2Code += System.lineSeparator();
+		}
+		for(String udVar : queryVARS) {
+			smtlibv2Code += "(get-value (" + udVar + "))";
 			smtlibv2Code += System.lineSeparator();
 		}
 		return smtlibv2Code;

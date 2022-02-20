@@ -612,3 +612,6 @@
 (get-value (obligation5S_1))
 (get-value (obligation5T_1))
 (get-value (obligation5ar_1))
+(get-value (queryVARuser))
+(get-value (queryVARar))
+(get-value (queryVARo))

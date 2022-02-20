@@ -12,13 +12,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-
 import POMA.Verification.ReachabilityAnalysis.model.ObligationFiring;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
+import POMA.Verification.ReachabilityAnalysis.model.Variable;
+import POMA.Verification.ReachabilityAnalysis.model.Variables;
 
 public class Solver {
 
-	//public static final Solver Z3 = new Solver("Z3", "/usr/local/bin/z3");
+	// public static final Solver Z3 = new Solver("Z3", "/usr/local/bin/z3");
 	public static final Solver CVC4 = new Solver("CVC4", "VerificationFiles/CVC4/cvc4.exe");
 	private String name;
 	private String executable;
@@ -41,7 +42,7 @@ public class Solver {
 
 	protected Solution runSolver(String pathToFile, int k, List<String> confirmedObligations,
 			List<String> obligationLabels, List<String> obligationEventVariables, HashMap<String, Integer> mapOfIDs,
-			boolean showSMTOutput) throws IOException {
+			boolean showSMTOutput, List<String> queryVARS) throws IOException {
 		String[] cmdArguments = commandArguments(pathToFile);
 		Process proc = Runtime.getRuntime().exec(cmdArguments);
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -64,16 +65,18 @@ public class Solver {
 						}
 					}
 				}
-				Solution solution = findSolution(output, obligationLabels, mapOfIDs);
+				Solution solution = findSolution(output, obligationLabels, mapOfIDs, queryVARS);
+
 				return solution;
 			}
 		}
 		return null;
 	}
 
-	Solution findSolution(List<String> output, List<String> obligationLabels, HashMap<String, Integer> mapOfIDs) {
+	Solution findSolution(List<String> output, List<String> obligationLabels, HashMap<String, Integer> mapOfIDs,
+			List<String> queryVARS) {
 		ObligationFiring[] arrayOfSteps = new ObligationFiring[100];
-
+		List<Variable> variablesList = new ArrayList<Variable>();
 		for (String line : output) {
 			for (String label : obligationLabels) {
 				if (isContain(line, label)) {
@@ -97,12 +100,10 @@ public class Solver {
 							} else if (isContain(line2, label + "ar_" + stepNumber)) {
 								int varAssignmentInt = Integer.parseInt(varAssignment);
 								step.setEvent(getKeyFromValue(varAssignmentInt, mapOfIDs));
-							}
-							else if (isContain(line2, label + "S_" + stepNumber)) {
+							} else if (isContain(line2, label + "S_" + stepNumber)) {
 								int varAssignmentInt = Integer.parseInt(varAssignment);
 								step.setSource(getKeyFromValue(varAssignmentInt, mapOfIDs));
-							}
-							else if (isContain(line2, label + "T_" + stepNumber)) {
+							} else if (isContain(line2, label + "T_" + stepNumber)) {
 								int varAssignmentInt = Integer.parseInt(varAssignment);
 								step.setTarget(getKeyFromValue(varAssignmentInt, mapOfIDs));
 							}
@@ -111,8 +112,17 @@ public class Solver {
 					}
 				}
 			}
+
+			for (String var : queryVARS) {
+				if (isContain(line, var)) {
+					String[] splittedLineWithVars = line.split(" ");
+					int varAssignment = Integer.parseInt(splittedLineWithVars[splittedLineWithVars.length - 1]);
+					String variableName = var.replace("queryVAR", "");
+					variablesList.add(new Variable(variableName,getKeyFromValue(varAssignment, mapOfIDs)));
+				}
+			}
 		}
-		return new Solution(Arrays.asList(arrayOfSteps).stream().filter(Objects::nonNull).collect(Collectors.toList()));
+		return new Solution(Arrays.asList(arrayOfSteps).stream().filter(Objects::nonNull).collect(Collectors.toList()), new Variables(variablesList));
 	}
 
 	private static boolean isContain(String source, String subItem) {
