@@ -1,0 +1,100 @@
+label: LawUseCase Obligations
+rules:
+  - label: AcceptCaseLead
+    event:
+      subject:
+        anyUser: 
+          - "Lead"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: NewCases
+            type: OA
+    response:      
+      actions:
+        - condition:
+            - function:
+                name: all_children_have_properties
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - Attorneys
+                        - UA
+                  - function:
+                      name: to_props
+                      args:
+                        - refused=true  
+          assign:
+              - what:
+                  name: CR7
+                  type: O           
+              # - what:
+              #     function:
+              #       name: current_target  
+                where:
+                  name: Accepted
+                  type: OA  
+        - condition:
+            - function:
+                name: all_children_have_properties
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - Attorneys
+                        - UA
+                  - function:
+                      name: to_props
+                      args:
+                        - refused=true                                                         
+        - delete:
+            assignments:
+              - what:
+                  name: CR7
+                  type: O
+                where:
+                  name: NewCases
+                  type: OA                    
+       # - delete:
+       #     assignments:
+        #      - what:
+        #          name: Attorneys2
+        #          type: UA
+        #        where:
+         #         name: Attorneys
+          #        type: UA    
+
+            #   - function:
+            # name: add_properties_to_node
+            # args:
+            #   - function:
+            #       name: current_user
+            #   - function:
+            #       name: to_props
+            #       args:
+            #         - approved=true 
+  - label: RefuseCaseAttorney
+    event:
+      subject:
+        anyUser: 
+          - "Attorney"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: NewCases
+            type: OA
+    response:      
+      actions:
+        - function:
+            name: add_properties_to_node
+            args:
+              - function:
+                  name: current_user
+              - function:
+                  name: to_props
+                  args:
+                    - refused=true                                                                     
+                                                                                                   

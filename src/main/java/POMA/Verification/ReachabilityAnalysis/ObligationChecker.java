@@ -59,9 +59,9 @@ public class ObligationChecker extends Planner {
 		// String yml = new String(
 		// Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
 
-		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoPolicyElement/Graph.json");
+		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
 		String yml = new String(
-				Files.readAllBytes(Paths.get("Policies/ForBMC/LeoPolicyElement/Obligations.yml")));
+				Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
 
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(graph, obligation);
@@ -69,9 +69,9 @@ public class ObligationChecker extends Planner {
 		long start = System.currentTimeMillis();
 		checker.setBound(3);
 		checker.enableSMTOutput(true);
-		String precondition = "((NOT(ASSIGN(?object,Case3Info)) AND (PERMIT(Case3Info,accept,?object) AND OBLIGATIONLABEL(obligation1,Case3Info,accept,?object))) AND (((((PERMIT(Attorneys,?ar,?at) AND NOT(PERMIT(Attorneys1,?ar,?at))) AND NOT(HIERARCHY(Attorneys1,Attorneys))) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) OR ((((PERMIT(?s,?ar,Attorneys) AND NOT(PERMIT(?s,?at,Attorneys1))) AND NOT(HIERARCHY(Attorneys1,Attorneys))) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys))));";
+		 String precondition = "OBLIGATIONLABEL(obligation1, ?user, ?ar, ?o);";
 
-		String postcondition = "EXPLICITASSIGN(Attorneys1,Attorneys);";
+	        String postcondition = "(OBLIGATIONLABEL(obligation3, ?user, ?ar, ?o) AND ASSIGN(Attorneys2U, ?user));";
 
 		Solution solution = checker.solveConstraint(precondition, postcondition);
 		// ObligationChecker checker2 = new ObligationChecker(graph, obligation);
@@ -162,7 +162,7 @@ public class ObligationChecker extends Planner {
 		return obligationLabels;
 	}
 
-	public String generateTailCode() {
+	public String generateTailCode(List<String> queryVARS) {
 		obligationEventVariables.addAll(ot.getObligationEventVariables());
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += "(check-sat)";
@@ -171,8 +171,12 @@ public class ObligationChecker extends Planner {
 			smtlibv2Code += "(get-value (" + label + "))";
 			smtlibv2Code += System.lineSeparator();
 		}
-		for (String label : obligationEventVariables) {
-			smtlibv2Code += "(get-value (" + label + "))";
+		for (String eventVars : obligationEventVariables) {
+			smtlibv2Code += "(get-value (" + eventVars + "))";
+			smtlibv2Code += System.lineSeparator();
+		}
+		for(String udVar : queryVARS) {
+			smtlibv2Code += "(get-value (" + udVar + "))";
 			smtlibv2Code += System.lineSeparator();
 		}
 		return smtlibv2Code;

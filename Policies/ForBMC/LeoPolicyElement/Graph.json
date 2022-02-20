@@ -21,26 +21,6 @@
       "properties": {}
     },
     {
-      "name": "Attorneys1U",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "AttorneysU",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "Attorneys2U",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "Attorneys3U",
-      "type": "U",
-      "properties": {}
-    },
-    {
       "name": "CasePolicy",
       "type": "PC",
       "properties": {}
@@ -85,26 +65,6 @@
       "target": "CasePolicy"
     },
     {
-      "source": "Attorneys1U",
-      "target": "Attorneys1"
-    },
-    {
-      "source": "AttorneysU",
-      "target": "Attorneys"
-    },
-    {
-      "source": "Attorneys2U",
-      "target": "Attorneys"
-    },
-    {
-      "source": "Attorneys2U",
-      "target": "Attorneys2"
-    },
-    {
-      "source": "Attorneys3U",
-      "target": "Attorneys3"
-    },
-    {
       "source": "Case3Info",
       "target": "Case3"
     },
@@ -146,8 +106,7 @@
       "target": "Case3",
       "operations": [
         "disapprove",
-        "withdraw",
-        "approve"
+        "withdraw"
       ]
     },
     {
@@ -158,4 +117,4 @@
       ]
     }
   ]
-}
+} 

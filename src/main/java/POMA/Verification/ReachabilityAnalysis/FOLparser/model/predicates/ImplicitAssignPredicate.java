@@ -33,16 +33,16 @@ public class ImplicitAssignPredicate implements IPredicate{
 		}
 		String smtlibv2Code = "";
 		String a = tuple.get(0) instanceof Constant ? tuple.get(0).getElement() : null;
-		String d = tuple.get(0) instanceof Constant ? tuple.get(1).getElement() : null;
+		String d = tuple.get(1) instanceof Constant ? tuple.get(1).getElement() : null;
 
-		String aVar = " queryVARASSIGNS_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_" + "{k} ";
-		String dVar = " queryVARASSIGNT_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_" + "{k} ";
+		String aEncoding = "queryVAR" + tuple.get(0).getElement().replace("?", "");
+		String dEncoding = "queryVAR" + tuple.get(1).getElement().replace("?", "");
 
-		String aSpec = a != null ? " [" + a + "] " : aVar;
-		String dSpec = d != null ? " [" + d + "] " : dVar;
+		String aSpec = a != null ? " [" + a + "] " : aEncoding;
+		String dSpec = d != null ? " [" + d + "] " : dEncoding;
 
 		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += "(member (mkTuple " + aSpec + dSpec + ") (setminus (ASSIGN* " + "{(k + 1)}"
+		smtlibv2Code += "(member (mkTuple " + aSpec + " " + dSpec + " ) (setminus (ASSIGN* " + "{(k + 1)}"
 				+ ")(ASSIGN " + "{(k + 1)}" + ")))";
 
 		smtlibv2Code += System.lineSeparator();

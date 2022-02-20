@@ -38,20 +38,23 @@ public class ObligationLabelPredicate implements IPredicate {
 		String label = tuple.get(0).getElement();
 
 		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += "(and (= (" + label  + " {(k + 1)}" + ") true)";
+		smtlibv2Code += "(and (= (" + label + " {k}" + ") true)";
 
 		smtlibv2Code += System.lineSeparator();
-		
-		String s = tuple.get(1) instanceof Constant ? tuple.get(1).getElement() : null;
-		String ar = tuple.get(2) instanceof Constant ? tuple.get(2).getElement() : null;
-		String t = tuple.get(3) instanceof Constant ? tuple.get(3).getElement() : null;
 
-		String sVar = label + "U" + "_" + "{(k + 1)}";
-		String tVar = label + "T" + "_" + "{(k + 1)}";
-		String arVar = label + "ar" + "_" + "{(k + 1)}";
-		smtlibv2Code += s != null ? " (= "+sVar+" ["+s+"] )" :"";
-		smtlibv2Code += ar != null ? " (= "+arVar+" ["+ar+"] )" :"";
-		smtlibv2Code += t != null ? " (= "+tVar+" ["+t+"] )" :"";
+		String s = tuple.get(1) instanceof Constant ? "[" + tuple.get(1).getElement() + "]"
+				: "queryVAR" + tuple.get(1).getElement().replace("?", "");
+		String ar = tuple.get(2) instanceof Constant ? "[" + tuple.get(2).getElement() + "]"
+				: "queryVAR" + tuple.get(2).getElement().replace("?", "");
+		String t = tuple.get(3) instanceof Constant ? "[" + tuple.get(3).getElement() + "]"
+				: "queryVAR" + tuple.get(3).getElement().replace("?", "");
+
+		String sEncoding = label + "U" + "_" + "{k}";
+		String arEncoding = label + "ar" + "_" + "{k}";
+		String tEncoding = label + "T" + "_" + "{k}";
+		smtlibv2Code += " (= " + sEncoding + " " + s + " )";
+		smtlibv2Code += " (= " + arEncoding + " " + ar + " )";
+		smtlibv2Code += " (= " + tEncoding + " " + t + " )";
 		smtlibv2Code += ")";
 		return smtlibv2Code;
 	}

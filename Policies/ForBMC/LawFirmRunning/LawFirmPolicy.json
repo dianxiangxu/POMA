@@ -1,0 +1,152 @@
+{
+  "nodes": [
+    {
+      "name": "LawFirmPolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "Lead",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Attorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Nick",
+      "type": "U",
+      "properties": {
+        "canAccept": "true"
+      }
+    },
+    {
+      "name": "Amy",
+      "type": "U",
+      "properties": {
+        "canAccept": "true"
+      }
+    },
+    {
+      "name": "Chris",
+      "type": "U",
+      "properties": {
+        "isLead": "true"
+      }
+    },
+    {
+      "name": "Ann",
+      "type": "U",
+      "properties": {
+        "isLead": "true"
+      }
+    },
+    {
+      "name": "NewCases",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "Accepted",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "CR7",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "CV16",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "CR8",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "CV2",
+      "type": "O",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "Attorneys",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "NewCases",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "Accepted",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "Lead",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "Chris",
+      "target": "Lead"
+    },
+    {
+      "source": "Ann",
+      "target": "Lead"
+    },
+    {
+      "source": "Nick",
+      "target": "Attorneys"
+    },
+    {
+      "source": "Amy",
+      "target": "Attorneys"
+    },
+    {
+      "source": "CR7",
+      "target": "NewCases"
+    },
+    {
+      "source": "CV16",
+      "target": "NewCases"
+    },
+    {
+      "source": "CV2",
+      "target": "Accepted"
+    },
+    {
+      "source": "CR8",
+      "target": "Accepted"
+    }
+  ],
+  "associations": [
+    {
+      "source": "Attorneys",
+      "target": "NewCases",
+      "operations": [
+        "accept",
+        "refuse"
+      ]
+    },
+    {
+      "source": "Lead",
+      "target": "Accepted",
+      "operations": [
+        "approve"
+      ]
+    },
+    {
+      "source": "Lead",
+      "target": "NewCases",
+      "operations": [
+        "accept",
+        "withdraw"
+      ]
+    }
+  ]
+}
