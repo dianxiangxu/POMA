@@ -676,19 +676,19 @@
 (assert (or(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true)))
 
 ;PRE PROPERTY
-
-(declare-fun queryVARuser () Int)
+(declare-fun queryVARuser1 () Int)
 (declare-fun queryVARar () Int)
 (declare-fun queryVARo () Int)
 (assert 
 (and (= (obligation1 1) true)
- (= obligation1U_1 queryVARuser ) (= obligation1ar_1 queryVARar ) (= obligation1T_1 queryVARo )));POST PROPERTY
-(declare-fun queryCONSTDENYUA_Attorneys2U_permit_?o_2 () Int)
-(declare-fun queryCONSTDENYAT_Attorneys2U_permit_?o_2 () Int)
+ (= obligation1U_1 queryVARuser1 ) (= obligation1ar_1 queryVARar ) (= obligation1T_1 queryVARo )))
+
+;POST PROPERTY
+(declare-fun queryVARuser2 () Int)
 (assert (and 
 (and (= (obligation3 2) true)
- (= obligation3U_2 queryVARuser ) (= obligation3ar_2 queryVARar ) (= obligation3T_2 1 )) 
-(and(member (mkTuple  12  queryCONSTDENYUA_Attorneys2U_permit_?o_2 ) (ASSIGN* 3))(member (mkTuple  queryCONSTDENYUA_Attorneys2U_permit_?o_2 -1  queryCONSTDENYAT_Attorneys2U_permit_?o_2 ) (ASSOC 3))(member (mkTuple queryVARo  queryCONSTDENYAT_Attorneys2U_permit_?o_2 ) (ASSIGN* 3)))
+ (= obligation3U_2 queryVARuser2 ) (= obligation3ar_2 queryVARar ) (= obligation3T_2 queryVARo )) 
+(=  5   12  )
 ))
 (check-sat)
 (get-value (obligation3))
@@ -906,3 +906,7 @@
 (get-value (obligation5S_2))
 (get-value (obligation5T_2))
 (get-value (obligation5ar_2))
+(get-value (queryVARuser1))
+(get-value (queryVARar))
+(get-value (queryVARo))
+(get-value (queryVARuser2))
