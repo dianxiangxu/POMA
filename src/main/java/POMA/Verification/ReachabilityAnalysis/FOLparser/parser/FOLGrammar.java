@@ -65,7 +65,7 @@ public class FOLGrammar implements FOLGrammarConstants {
   static final public IFormula parse() throws ParseException {
   IFormula f;
     f = formula();
-    jj_consume_token(24);
+    jj_consume_token(25);
     {if (true) return f;}
     throw new Error("Missing return statement in function");
   }
@@ -125,6 +125,10 @@ public class FOLGrammar implements FOLGrammarConstants {
     case NODEEXISTS:
       jj_consume_token(NODEEXISTS);
   {if (true) return new NodeExistsPredicate();}
+      break;
+    case EQUALS:
+      jj_consume_token(EQUALS);
+  {if (true) return new EqualsPredicate();}
       break;
     default:
       jj_la1[1] = jj_gen;
@@ -210,6 +214,7 @@ public class FOLGrammar implements FOLGrammarConstants {
     case HIERARCHY:
     case OBLIGATIONLABEL:
     case NODEEXISTS:
+    case EQUALS:
       form = predicate();
       break;
     case OPEN:
@@ -243,7 +248,7 @@ public class FOLGrammar implements FOLGrammarConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x600000,0x3fe00,0x80,0xc0000,0x13fe20,};
+      jj_la1_0 = new int[] {0xc00000,0x7fe00,0x80,0x180000,0x27fe20,};
    }
 
   /** Constructor with InputStream. */
@@ -381,7 +386,7 @@ public class FOLGrammar implements FOLGrammarConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[25];
+    boolean[] la1tokens = new boolean[26];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -395,7 +400,7 @@ public class FOLGrammar implements FOLGrammarConstants {
         }
       }
     }
-    for (int i = 0; i < 25; i++) {
+    for (int i = 0; i < 26; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

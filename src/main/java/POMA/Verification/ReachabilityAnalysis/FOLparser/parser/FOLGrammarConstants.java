@@ -37,17 +37,19 @@ public interface FOLGrammarConstants {
   /** RegularExpression Id. */
   int NODEEXISTS = 17;
   /** RegularExpression Id. */
-  int OR = 18;
+  int EQUALS = 18;
   /** RegularExpression Id. */
-  int AND = 19;
+  int OR = 19;
   /** RegularExpression Id. */
-  int NOT = 20;
+  int AND = 20;
   /** RegularExpression Id. */
-  int CONST = 21;
+  int NOT = 21;
   /** RegularExpression Id. */
-  int VAR = 22;
+  int CONST = 22;
   /** RegularExpression Id. */
-  int IDENTIFIER = 23;
+  int VAR = 23;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 24;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -72,6 +74,7 @@ public interface FOLGrammarConstants {
     "\"HIERARCHY\"",
     "\"OBLIGATIONLABEL\"",
     "\"NODEEXISTS\"",
+    "\"EQUALS\"",
     "\"OR\"",
     "\"AND\"",
     "\"NOT\"",

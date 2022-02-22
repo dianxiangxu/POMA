@@ -1,6 +1,4 @@
 precondition constraint:
-((NOT(ASSIGN(?object,Case3Info)) AND (PERMIT(Case3Info,accept,?object) AND OBLIGATIONLABEL(obligation1,Case3Info,accept,?object))) AND (((((PERMIT(Attorneys,?ar,?at) AND NOT(PERMIT(Attorneys1,?ar,?at))) AND NOT(HIERARCHY(Attorneys1,Attorneys))) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys)) OR ((((PERMIT(?s,?ar,Attorneys) AND NOT(PERMIT(?s,?at,Attorneys1))) AND NOT(HIERARCHY(Attorneys1,Attorneys))) AND NODEEXISTS(Attorneys1)) AND NODEEXISTS(Attorneys))));
-obligation:
-obligation1
+(((ASSIGN(?user,Attorneys1) AND NOT(ASSIGN(?user,Attorneys))) OR (NOT(ASSIGN(?user,Attorneys1)) AND ASSIGN(?user,Attorneys))) AND (((((PERMIT(Attorneys1,?ar,?at) AND NOT(PERMIT(Attorneys2,?ar,?at))) AND NOT(HIERARCHY(Attorneys2,Attorneys1))) AND NODEEXISTS(Attorneys2)) AND NODEEXISTS(Attorneys1)) OR ((((PERMIT(?s,?ar,Attorneys1) AND NOT(PERMIT(?s,?at,Attorneys2))) AND NOT(HIERARCHY(Attorneys2,Attorneys1))) AND NODEEXISTS(Attorneys2)) AND NODEEXISTS(Attorneys1))));
 postcondition constraint:
-EXPLICITASSIGN(Attorneys1,Attorneys);
+(EXPLICITASSIGN(Attorneys2,Attorneys1) AND OBLIGATIONLABEL(obligation2,?user,accept,Case3Info));

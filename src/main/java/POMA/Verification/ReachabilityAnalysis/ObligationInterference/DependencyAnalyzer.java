@@ -166,9 +166,9 @@ public class DependencyAnalyzer {
         long start = System.currentTimeMillis();
         checker.setBound(3);
         checker.enableSMTOutput(true);
-        String precondition = "OBLIGATIONLABEL(obligation1, ?user, ?ar, ?o);";
+        String precondition = "OBLIGATIONLABEL(obligation1, ?user1, ?ar, ?o);";
 
-        String postcondition = "(OBLIGATIONLABEL(obligation3, ?user, ?ar, Case3Info) AND PERMIT(Attorneys2U,accept,Case3Info));";
+        String postcondition = "(OBLIGATIONLABEL(obligation3, ?user2, ?ar, ?o) AND EQUALS(AttorneysU,Attorneys2U));";
 
         return checker.solveConstraint(precondition, postcondition);
     }
@@ -184,10 +184,8 @@ public class DependencyAnalyzer {
         // findConflicts(obligation);
         Solution solution = getSolution();
         System.out.println(solution.toString());
-        String obligationLabelA = "";
-        String obligationLabelB = "";
-        obligationLabelA = solution.getObligationFirings().get(0).getObligationLabel();
-       // obligationLabelB = solution.getObligationFirings().get(1).getObligationLabel();
+        String obligationLabelA = solution.getObligationFirings().get(0).getObligationLabel();
+        String obligationLabelB = solution.getObligationFirings().get(1).getObligationLabel();
 
         findConflicts(obligation, obligationLabelA, obligationLabelB);
     }

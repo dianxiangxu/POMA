@@ -59,19 +59,19 @@ public class ObligationChecker extends Planner {
 		// String yml = new String(
 		// Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
 
-		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoPolicyElement/Graph.json");
 		String yml = new String(
-				Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+				Files.readAllBytes(Paths.get("Policies/ForBMC/LeoPolicyElement/Obligations.yml")));
 
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		checker.setBound(3);
+		checker.setBound(2);
 		checker.enableSMTOutput(true);
-		 String precondition = "OBLIGATIONLABEL(obligation1, ?user, ?ar, ?o);";
+		String precondition = "(((ASSIGN(?user,Attorneys1) AND NOT(ASSIGN(?user,Attorneys))) OR (NOT(ASSIGN(?user,Attorneys1)) AND ASSIGN(?user,Attorneys))) AND (((((PERMIT(Attorneys1,?ar,?at) AND NOT(PERMIT(Attorneys2,?ar,?at))) AND NOT(HIERARCHY(Attorneys2,Attorneys1))) AND NODEEXISTS(Attorneys2)) AND NODEEXISTS(Attorneys1)) OR ((((PERMIT(?s,?ar,Attorneys1) AND NOT(PERMIT(?s,?at,Attorneys2))) AND NOT(HIERARCHY(Attorneys2,Attorneys1))) AND NODEEXISTS(Attorneys2)) AND NODEEXISTS(Attorneys1))));";
 
-	        String postcondition = "(OBLIGATIONLABEL(obligation3, ?user, ?ar, ?o) AND ASSIGN(Attorneys2U, ?user));";
+	    String postcondition = "(EXPLICITASSIGN(Attorneys2,Attorneys1) AND OBLIGATIONLABEL(obligation2,?user,accept,Case3Info));";
 
 		Solution solution = checker.solveConstraint(precondition, postcondition);
 		// ObligationChecker checker2 = new ObligationChecker(graph, obligation);
