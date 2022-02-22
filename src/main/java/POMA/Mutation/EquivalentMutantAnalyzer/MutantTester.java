@@ -62,7 +62,7 @@ public class MutantTester {
 //	public String initialGraphConfig = "Policies/ForBMC/GPMSSimplified/";
 
 	static List<String> Us;
-	static List<Node> UAs;
+	protected static List<Node> UAs;
 	protected static List<Node> UAsOAs;
 	static List<Node> UAsPCs;
 	static List<Node> UAsPCsOAs;
@@ -213,7 +213,6 @@ public class MutantTester {
 			if (node.getType() == OA) {
 				OAs.add(node);
 			}
-
 		}
 	}
 
@@ -446,8 +445,8 @@ public class MutantTester {
 	}
 	
 	public static List<String> getUAsOAsNames() throws PMException {
-		List<String> list = Utils.getUsInGraph(graph);
-		list.addAll(Utils.getOsInGraph(graph));
+		List<String> list = Utils.getUAsInGraph(graph);
+		list.addAll(Utils.getOAsInGraph(graph));
 		return list;
 	}
 	
