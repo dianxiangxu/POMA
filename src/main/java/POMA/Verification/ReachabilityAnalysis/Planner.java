@@ -62,7 +62,7 @@ abstract class Planner {
 			Solution s = check(pre, post);
 			return s;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println(e);
 		}
 		return null;
 	}

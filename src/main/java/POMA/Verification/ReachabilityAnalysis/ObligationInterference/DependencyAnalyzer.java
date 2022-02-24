@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.EventPattern;
@@ -119,7 +123,8 @@ public class DependencyAnalyzer {
         return CONFLICT_TYPE.NoConflict;
     }
 
-    private static void findConflicts(Obligation obligation, String obligationLabel1, String obligationLabel2) {
+    private static void findConflicts(Obligation obligation, String obligationLabel1, String obligationLabel2,
+            List<String> conflicts) {
         for (Rule targetObligation : obligation.getRules()) {
             for (Rule sourceObligation : obligation.getRules()) {
 
@@ -131,8 +136,9 @@ public class DependencyAnalyzer {
                     continue;
                 }
                 if (!sourceObligation.getLabel().equals(
-                        obligationLabel2) && !targetObligation.getLabel()
-                        .equals(obligationLabel2)) {
+                        obligationLabel2)
+                        && !targetObligation.getLabel()
+                                .equals(obligationLabel2)) {
                     continue;
                 }
                 CONFLICT_TYPE ct = affectsPrecondition(targetObligation, sourceObligation);
@@ -140,10 +146,14 @@ public class DependencyAnalyzer {
                     if (!ct.equals(null) && !ct.equals(CONFLICT_TYPE.NoConflict)) {
                         System.out.println("Precondition conflict found: " + ct + " in obligations: "
                                 + sourceObligation.getLabel() + " and " + targetObligation.getLabel());
+                        conflicts.add("Precondition conflict found: " + ct + " in obligations: "
+                                + sourceObligation.getLabel() + " and " + targetObligation.getLabel());
                     }
                     CONFLICT_TYPE ctResponse = affectsResponse(targetObligation, sourceObligation);
                     if (!ctResponse.equals(null) && !ctResponse.equals(CONFLICT_TYPE.NoConflict)) {
                         System.out.println("Actions conflict found: in obligations: "
+                                + sourceObligation.getLabel() + " and " + targetObligation.getLabel());
+                        conflicts.add("Actions conflict found: in obligations: "
                                 + sourceObligation.getLabel() + " and " + targetObligation.getLabel());
                     }
                 } catch (Exception e) {
@@ -155,7 +165,7 @@ public class DependencyAnalyzer {
         }
     }
 
-    private static Solution getSolution() throws Exception {
+    private static Solution getSolution(String label1, String label2) throws Exception {
         Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
         String yml = new String(
                 Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
@@ -166,27 +176,85 @@ public class DependencyAnalyzer {
         long start = System.currentTimeMillis();
         checker.setBound(3);
         checker.enableSMTOutput(true);
-        String precondition = "OBLIGATIONLABEL(obligation1, ?user1, ?ar, ?o);";
+        String precondition = "OBLIGATIONLABEL(" + label1 + ", ?user1, ?ar, ?o);";
 
-        String postcondition = "(OBLIGATIONLABEL(obligation3, ?user2, ?ar, ?o) AND EQUALS(AttorneysU,Attorneys2U));";
+        String postcondition = "OBLIGATIONLABEL(" + label2 + ", ?user2, ?ar, ?o);";
 
         return checker.solveConstraint(precondition, postcondition);
+    }
+
+    private static void groupObligationsByAccessEvent(List<Rule> rules, Map<String, List<String>> groupedObligations) {
+        for (Rule r : rules) {
+            List<String> accessEvents = r.getEventPattern().getOperations();
+            for (String accessEvent : accessEvents) {
+                List<String> currentLabels = new ArrayList<>();
+                if (groupedObligations.containsKey(accessEvent)) {
+                    currentLabels = groupedObligations.get(accessEvent);
+                    groupedObligations.replace(accessEvent, currentLabels);
+                }
+                currentLabels.add(r.getLabel());
+                groupedObligations.put(accessEvent, currentLabels);
+            }
+        }
+    }
+
+    private static void processPairs(List<String> labels, Obligation obligation) throws Exception {
+        List<String> conflicts = new ArrayList<String>();
+        for (String label1 : labels) {
+            for (String label2 : labels) {
+                if (!label1.equals(label2)) {
+                    Solution solution = getSolution(label1, label2);
+                    System.out.println(solution);
+                    if (solution == null) {
+                        continue;
+                    }
+                    String obligationLabelA = solution.getObligationFirings().get(0).getObligationLabel();
+                    String obligationLabelB = solution.getObligationFirings().get(1).getObligationLabel();
+                    findConflicts(obligation, obligationLabelA, obligationLabelB, conflicts);
+                }
+            }
+        }
+        System.out.println(conflicts);
     }
 
     public static void main(String[] args) throws Exception {
 
         String yml = new String(
                 Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+        long start = System.currentTimeMillis();
 
         // String yml = new String(
         // Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
         Obligation obligation = EVRParser.parse(yml);
-        // findConflicts(obligation);
-        Solution solution = getSolution();
-        System.out.println(solution.toString());
-        String obligationLabelA = solution.getObligationFirings().get(0).getObligationLabel();
-        String obligationLabelB = solution.getObligationFirings().get(1).getObligationLabel();
+        List<Rule> rules = obligation.getRules();
+        Map<String, List<String>> groupedObligations = new HashMap<String, List<String>>();
+        groupObligationsByAccessEvent(rules, groupedObligations);
+        System.out.println(groupedObligations);
+        for (Map.Entry<String, List<String>> mapElement : groupedObligations.entrySet()) {
+            String key = mapElement.getKey();
+            List<String> labels = mapElement.getValue();
+            processPairs(labels, obligation);
+        }
+        long end = System.currentTimeMillis();
+        float sec = (end - start) / 1000F;
+        System.out.println("The job took: " + sec + " seconds");
+        // groupedObligations.forEach((accessEvent, labels) -> {
+        // try {
+        // processPairs(labels, obligation);
+        // } catch (Exception e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
+        // });
+        // findConflicts(obligation, "obligation1", "obligation3");
+        // Solution solution = getSolution("obligation1", "obligation3");
+        // System.out.println(solution.toString());
+        // String obligationLabelA =
+        // solution.getObligationFirings().get(0).getObligationLabel();
+        // String obligationLabelB =
+        // solution.getObligationFirings().get(1).getObligationLabel();
 
-        findConflicts(obligation, obligationLabelA, obligationLabelB);
+        // findConflicts(obligation, obligationLabelA, obligationLabelB);
     }
+
 }

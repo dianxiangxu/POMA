@@ -44,6 +44,7 @@ rules:
           - "AttorneysMain"
       operations:
         - accept
+        - refuse        
       target:
         policyElements:
           - name: Case3Info
@@ -113,6 +114,7 @@ rules:
           - "Attorneys"
       operations:
         - accept
+        - refuse        
       target:
         policyElements:
           - name: Case3Info

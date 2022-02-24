@@ -180,10 +180,10 @@ public class ObligationTranslator {
 
 			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true) (and\r\n" + " (member (mkTuple  "
 					+ obligationU + " " + obligationS + ") (ASSIGN* " + (k - 1) + "))\r\n" + " (member (mkTuple  "
-					+ obligationS + " " + obligationUA + ") (ASSIGN* " + (k - 1) + "))\r\n" + "(member (mkTuple "
+					+ obligationU + " " + obligationUA + ") (ASSIGN* " + (k - 1) + "))\r\n" + "(member (mkTuple "
 					+ obligationUA + " " + obligationAR + " " + obligationAT + ") (ASSOC " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationUO + " " + obligationT + ") (ASSIGN* " + (k - 1) + "))\r\n"
-					+ " (member (mkTuple  " + obligationT + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"
+					+ " (member (mkTuple  " + obligationUO + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationU + " " + obligationU + ") USERS)\r\n"
 					//+ " (distinct " + obligationS + " " + obligationU + ")\r\n" 
 					//+ " (distinct " + obligationUO + " " + obligationT + ")\r\n" 
