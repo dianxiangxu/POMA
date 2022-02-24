@@ -69,9 +69,9 @@ public class ObligationChecker extends Planner {
 		long start = System.currentTimeMillis();
 		checker.setBound(2);
 		checker.enableSMTOutput(true);
-		String precondition = "(((ASSIGN(?user,Attorneys1) AND NOT(ASSIGN(?user,Attorneys))) OR (NOT(ASSIGN(?user,Attorneys1)) AND ASSIGN(?user,Attorneys))) AND (((((PERMIT(Attorneys1,?ar,?at) AND NOT(PERMIT(Attorneys2,?ar,?at))) AND NOT(HIERARCHY(Attorneys2,Attorneys1))) AND NODEEXISTS(Attorneys2)) AND NODEEXISTS(Attorneys1)) OR ((((PERMIT(?s,?ar,Attorneys1) AND NOT(PERMIT(?s,?at,Attorneys2))) AND NOT(HIERARCHY(Attorneys2,Attorneys1))) AND NODEEXISTS(Attorneys2)) AND NODEEXISTS(Attorneys1))));";
+		String precondition = "PERMIT(Attorneys,?ar,?at);";
 
-	    String postcondition = "(EXPLICITASSIGN(Attorneys2,Attorneys1) AND OBLIGATIONLABEL(obligation2,?user,accept,Case3Info));";
+	    String postcondition = "(EXPLICITASSIGN(Attorneys1,Attorneys) AND (OBLIGATIONLABEL(obligation1,?user,approve,Case3Info) AND ASSIGN(?user,Attorneys)));";;
 
 		Solution solution = checker.solveConstraint(precondition, postcondition);
 		// ObligationChecker checker2 = new ObligationChecker(graph, obligation);

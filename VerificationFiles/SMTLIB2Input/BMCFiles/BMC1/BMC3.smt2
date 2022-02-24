@@ -128,10 +128,10 @@
 (assert (= obligation1T_0 1))
 (assert (=> (= (obligation1 0) true) (and
  (member (mkTuple  obligation1U_0 obligation1S_0) (ASSIGN* 0))
- (member (mkTuple  obligation1S_0 obligation1UA_0) (ASSIGN* 0))
+ (member (mkTuple  obligation1U_0 obligation1UA_0) (ASSIGN* 0))
 (member (mkTuple obligation1UA_0 obligation1ar_0 obligation1AT_0) (ASSOC 0))
  (member (mkTuple  obligation1UO_0 obligation1T_0) (ASSIGN* 0))
- (member (mkTuple  obligation1T_0 obligation1AT_0) (ASSIGN* 0))
+ (member (mkTuple  obligation1UO_0 obligation1AT_0) (ASSIGN* 0))
  (member (mkTuple  obligation1U_0 obligation1U_0) USERS)
 )))
 
@@ -148,15 +148,16 @@
 (assert (>= obligation2AT_0 0))
 (assert (>= obligation2UO_0 0))
 (assert (or (= obligation2ar_0 19)
+ (= obligation2ar_0 15)
 ))
 (assert (= obligation2S_0 6))
 (assert (= obligation2T_0 1))
 (assert (=> (= (obligation2 0) true) (and
  (member (mkTuple  obligation2U_0 obligation2S_0) (ASSIGN* 0))
- (member (mkTuple  obligation2S_0 obligation2UA_0) (ASSIGN* 0))
+ (member (mkTuple  obligation2U_0 obligation2UA_0) (ASSIGN* 0))
 (member (mkTuple obligation2UA_0 obligation2ar_0 obligation2AT_0) (ASSOC 0))
  (member (mkTuple  obligation2UO_0 obligation2T_0) (ASSIGN* 0))
- (member (mkTuple  obligation2T_0 obligation2AT_0) (ASSIGN* 0))
+ (member (mkTuple  obligation2UO_0 obligation2AT_0) (ASSIGN* 0))
  (member (mkTuple  obligation2U_0 obligation2U_0) USERS)
 )))
 
@@ -178,10 +179,10 @@
 (assert (= obligation3T_0 1))
 (assert (=> (= (obligation3 0) true) (and
  (member (mkTuple  obligation3U_0 obligation3S_0) (ASSIGN* 0))
- (member (mkTuple  obligation3S_0 obligation3UA_0) (ASSIGN* 0))
+ (member (mkTuple  obligation3U_0 obligation3UA_0) (ASSIGN* 0))
 (member (mkTuple obligation3UA_0 obligation3ar_0 obligation3AT_0) (ASSOC 0))
  (member (mkTuple  obligation3UO_0 obligation3T_0) (ASSIGN* 0))
- (member (mkTuple  obligation3T_0 obligation3AT_0) (ASSIGN* 0))
+ (member (mkTuple  obligation3UO_0 obligation3AT_0) (ASSIGN* 0))
  (member (mkTuple  obligation3U_0 obligation3U_0) USERS)
 )))
 
@@ -203,10 +204,10 @@
 (assert (= obligation4T_0 1))
 (assert (=> (= (obligation4 0) true) (and
  (member (mkTuple  obligation4U_0 obligation4S_0) (ASSIGN* 0))
- (member (mkTuple  obligation4S_0 obligation4UA_0) (ASSIGN* 0))
+ (member (mkTuple  obligation4U_0 obligation4UA_0) (ASSIGN* 0))
 (member (mkTuple obligation4UA_0 obligation4ar_0 obligation4AT_0) (ASSOC 0))
  (member (mkTuple  obligation4UO_0 obligation4T_0) (ASSIGN* 0))
- (member (mkTuple  obligation4T_0 obligation4AT_0) (ASSIGN* 0))
+ (member (mkTuple  obligation4UO_0 obligation4AT_0) (ASSIGN* 0))
  (member (mkTuple  obligation4U_0 obligation4U_0) USERS)
 )))
 
@@ -223,15 +224,16 @@
 (assert (>= obligation5AT_0 0))
 (assert (>= obligation5UO_0 0))
 (assert (or (= obligation5ar_0 19)
+ (= obligation5ar_0 15)
 ))
 (assert (= obligation5S_0 4))
 (assert (= obligation5T_0 1))
 (assert (=> (= (obligation5 0) true) (and
  (member (mkTuple  obligation5U_0 obligation5S_0) (ASSIGN* 0))
- (member (mkTuple  obligation5S_0 obligation5UA_0) (ASSIGN* 0))
+ (member (mkTuple  obligation5U_0 obligation5UA_0) (ASSIGN* 0))
 (member (mkTuple obligation5UA_0 obligation5ar_0 obligation5AT_0) (ASSOC 0))
  (member (mkTuple  obligation5UO_0 obligation5T_0) (ASSIGN* 0))
- (member (mkTuple  obligation5T_0 obligation5AT_0) (ASSIGN* 0))
+ (member (mkTuple  obligation5UO_0 obligation5AT_0) (ASSIGN* 0))
  (member (mkTuple  obligation5U_0 obligation5U_0) USERS)
 )))
 
@@ -318,10 +320,10 @@
 (assert (= obligation1T_1 1))
 (assert (=> (= (obligation1 1) true) (and
  (member (mkTuple  obligation1U_1 obligation1S_1) (ASSIGN* 1))
- (member (mkTuple  obligation1S_1 obligation1UA_1) (ASSIGN* 1))
+ (member (mkTuple  obligation1U_1 obligation1UA_1) (ASSIGN* 1))
 (member (mkTuple obligation1UA_1 obligation1ar_1 obligation1AT_1) (ASSOC 1))
  (member (mkTuple  obligation1UO_1 obligation1T_1) (ASSIGN* 1))
- (member (mkTuple  obligation1T_1 obligation1AT_1) (ASSIGN* 1))
+ (member (mkTuple  obligation1UO_1 obligation1AT_1) (ASSIGN* 1))
  (member (mkTuple  obligation1U_1 obligation1U_1) USERS)
 )))
 
@@ -338,15 +340,16 @@
 (assert (>= obligation2AT_1 0))
 (assert (>= obligation2UO_1 0))
 (assert (or (= obligation2ar_1 19)
+ (= obligation2ar_1 15)
 ))
 (assert (= obligation2S_1 6))
 (assert (= obligation2T_1 1))
 (assert (=> (= (obligation2 1) true) (and
  (member (mkTuple  obligation2U_1 obligation2S_1) (ASSIGN* 1))
- (member (mkTuple  obligation2S_1 obligation2UA_1) (ASSIGN* 1))
+ (member (mkTuple  obligation2U_1 obligation2UA_1) (ASSIGN* 1))
 (member (mkTuple obligation2UA_1 obligation2ar_1 obligation2AT_1) (ASSOC 1))
  (member (mkTuple  obligation2UO_1 obligation2T_1) (ASSIGN* 1))
- (member (mkTuple  obligation2T_1 obligation2AT_1) (ASSIGN* 1))
+ (member (mkTuple  obligation2UO_1 obligation2AT_1) (ASSIGN* 1))
  (member (mkTuple  obligation2U_1 obligation2U_1) USERS)
 )))
 
@@ -368,10 +371,10 @@
 (assert (= obligation3T_1 1))
 (assert (=> (= (obligation3 1) true) (and
  (member (mkTuple  obligation3U_1 obligation3S_1) (ASSIGN* 1))
- (member (mkTuple  obligation3S_1 obligation3UA_1) (ASSIGN* 1))
+ (member (mkTuple  obligation3U_1 obligation3UA_1) (ASSIGN* 1))
 (member (mkTuple obligation3UA_1 obligation3ar_1 obligation3AT_1) (ASSOC 1))
  (member (mkTuple  obligation3UO_1 obligation3T_1) (ASSIGN* 1))
- (member (mkTuple  obligation3T_1 obligation3AT_1) (ASSIGN* 1))
+ (member (mkTuple  obligation3UO_1 obligation3AT_1) (ASSIGN* 1))
  (member (mkTuple  obligation3U_1 obligation3U_1) USERS)
 )))
 
@@ -393,10 +396,10 @@
 (assert (= obligation4T_1 1))
 (assert (=> (= (obligation4 1) true) (and
  (member (mkTuple  obligation4U_1 obligation4S_1) (ASSIGN* 1))
- (member (mkTuple  obligation4S_1 obligation4UA_1) (ASSIGN* 1))
+ (member (mkTuple  obligation4U_1 obligation4UA_1) (ASSIGN* 1))
 (member (mkTuple obligation4UA_1 obligation4ar_1 obligation4AT_1) (ASSOC 1))
  (member (mkTuple  obligation4UO_1 obligation4T_1) (ASSIGN* 1))
- (member (mkTuple  obligation4T_1 obligation4AT_1) (ASSIGN* 1))
+ (member (mkTuple  obligation4UO_1 obligation4AT_1) (ASSIGN* 1))
  (member (mkTuple  obligation4U_1 obligation4U_1) USERS)
 )))
 
@@ -413,15 +416,16 @@
 (assert (>= obligation5AT_1 0))
 (assert (>= obligation5UO_1 0))
 (assert (or (= obligation5ar_1 19)
+ (= obligation5ar_1 15)
 ))
 (assert (= obligation5S_1 4))
 (assert (= obligation5T_1 1))
 (assert (=> (= (obligation5 1) true) (and
  (member (mkTuple  obligation5U_1 obligation5S_1) (ASSIGN* 1))
- (member (mkTuple  obligation5S_1 obligation5UA_1) (ASSIGN* 1))
+ (member (mkTuple  obligation5U_1 obligation5UA_1) (ASSIGN* 1))
 (member (mkTuple obligation5UA_1 obligation5ar_1 obligation5AT_1) (ASSOC 1))
  (member (mkTuple  obligation5UO_1 obligation5T_1) (ASSIGN* 1))
- (member (mkTuple  obligation5T_1 obligation5AT_1) (ASSIGN* 1))
+ (member (mkTuple  obligation5UO_1 obligation5AT_1) (ASSIGN* 1))
  (member (mkTuple  obligation5U_1 obligation5U_1) USERS)
 )))
 
@@ -508,10 +512,10 @@
 (assert (= obligation1T_2 1))
 (assert (=> (= (obligation1 2) true) (and
  (member (mkTuple  obligation1U_2 obligation1S_2) (ASSIGN* 2))
- (member (mkTuple  obligation1S_2 obligation1UA_2) (ASSIGN* 2))
+ (member (mkTuple  obligation1U_2 obligation1UA_2) (ASSIGN* 2))
 (member (mkTuple obligation1UA_2 obligation1ar_2 obligation1AT_2) (ASSOC 2))
  (member (mkTuple  obligation1UO_2 obligation1T_2) (ASSIGN* 2))
- (member (mkTuple  obligation1T_2 obligation1AT_2) (ASSIGN* 2))
+ (member (mkTuple  obligation1UO_2 obligation1AT_2) (ASSIGN* 2))
  (member (mkTuple  obligation1U_2 obligation1U_2) USERS)
 )))
 
@@ -528,15 +532,16 @@
 (assert (>= obligation2AT_2 0))
 (assert (>= obligation2UO_2 0))
 (assert (or (= obligation2ar_2 19)
+ (= obligation2ar_2 15)
 ))
 (assert (= obligation2S_2 6))
 (assert (= obligation2T_2 1))
 (assert (=> (= (obligation2 2) true) (and
  (member (mkTuple  obligation2U_2 obligation2S_2) (ASSIGN* 2))
- (member (mkTuple  obligation2S_2 obligation2UA_2) (ASSIGN* 2))
+ (member (mkTuple  obligation2U_2 obligation2UA_2) (ASSIGN* 2))
 (member (mkTuple obligation2UA_2 obligation2ar_2 obligation2AT_2) (ASSOC 2))
  (member (mkTuple  obligation2UO_2 obligation2T_2) (ASSIGN* 2))
- (member (mkTuple  obligation2T_2 obligation2AT_2) (ASSIGN* 2))
+ (member (mkTuple  obligation2UO_2 obligation2AT_2) (ASSIGN* 2))
  (member (mkTuple  obligation2U_2 obligation2U_2) USERS)
 )))
 
@@ -558,10 +563,10 @@
 (assert (= obligation3T_2 1))
 (assert (=> (= (obligation3 2) true) (and
  (member (mkTuple  obligation3U_2 obligation3S_2) (ASSIGN* 2))
- (member (mkTuple  obligation3S_2 obligation3UA_2) (ASSIGN* 2))
+ (member (mkTuple  obligation3U_2 obligation3UA_2) (ASSIGN* 2))
 (member (mkTuple obligation3UA_2 obligation3ar_2 obligation3AT_2) (ASSOC 2))
  (member (mkTuple  obligation3UO_2 obligation3T_2) (ASSIGN* 2))
- (member (mkTuple  obligation3T_2 obligation3AT_2) (ASSIGN* 2))
+ (member (mkTuple  obligation3UO_2 obligation3AT_2) (ASSIGN* 2))
  (member (mkTuple  obligation3U_2 obligation3U_2) USERS)
 )))
 
@@ -583,10 +588,10 @@
 (assert (= obligation4T_2 1))
 (assert (=> (= (obligation4 2) true) (and
  (member (mkTuple  obligation4U_2 obligation4S_2) (ASSIGN* 2))
- (member (mkTuple  obligation4S_2 obligation4UA_2) (ASSIGN* 2))
+ (member (mkTuple  obligation4U_2 obligation4UA_2) (ASSIGN* 2))
 (member (mkTuple obligation4UA_2 obligation4ar_2 obligation4AT_2) (ASSOC 2))
  (member (mkTuple  obligation4UO_2 obligation4T_2) (ASSIGN* 2))
- (member (mkTuple  obligation4T_2 obligation4AT_2) (ASSIGN* 2))
+ (member (mkTuple  obligation4UO_2 obligation4AT_2) (ASSIGN* 2))
  (member (mkTuple  obligation4U_2 obligation4U_2) USERS)
 )))
 
@@ -603,15 +608,16 @@
 (assert (>= obligation5AT_2 0))
 (assert (>= obligation5UO_2 0))
 (assert (or (= obligation5ar_2 19)
+ (= obligation5ar_2 15)
 ))
 (assert (= obligation5S_2 4))
 (assert (= obligation5T_2 1))
 (assert (=> (= (obligation5 2) true) (and
  (member (mkTuple  obligation5U_2 obligation5S_2) (ASSIGN* 2))
- (member (mkTuple  obligation5S_2 obligation5UA_2) (ASSIGN* 2))
+ (member (mkTuple  obligation5U_2 obligation5UA_2) (ASSIGN* 2))
 (member (mkTuple obligation5UA_2 obligation5ar_2 obligation5AT_2) (ASSOC 2))
  (member (mkTuple  obligation5UO_2 obligation5T_2) (ASSIGN* 2))
- (member (mkTuple  obligation5T_2 obligation5AT_2) (ASSIGN* 2))
+ (member (mkTuple  obligation5UO_2 obligation5AT_2) (ASSIGN* 2))
  (member (mkTuple  obligation5U_2 obligation5U_2) USERS)
 )))
 
@@ -680,16 +686,14 @@
 (declare-fun queryVARar () Int)
 (declare-fun queryVARo () Int)
 (assert 
-(and (= (obligation1 1) true)
- (= obligation1U_1 queryVARuser1 ) (= obligation1ar_1 queryVARar ) (= obligation1T_1 queryVARo )))
+(and (= (obligation5 1) true)
+ (= obligation5U_1 queryVARuser1 ) (= obligation5ar_1 queryVARar ) (= obligation5T_1 queryVARo )))
 
 ;POST PROPERTY
 (declare-fun queryVARuser2 () Int)
-(assert (and 
-(and (= (obligation3 2) true)
- (= obligation3U_2 queryVARuser2 ) (= obligation3ar_2 queryVARar ) (= obligation3T_2 queryVARo )) 
-(=  5   12  )
-))
+(assert 
+(and (= (obligation4 2) true)
+ (= obligation4U_2 queryVARuser2 ) (= obligation4ar_2 queryVARar ) (= obligation4T_2 queryVARo )))
 (check-sat)
 (get-value (obligation3))
 (get-value (obligation2))
