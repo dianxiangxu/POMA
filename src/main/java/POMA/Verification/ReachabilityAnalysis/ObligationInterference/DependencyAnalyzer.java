@@ -1,12 +1,10 @@
 package POMA.Verification.ReachabilityAnalysis.ObligationInterference;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,24 +17,51 @@ import gov.nist.csd.pm.pip.obligations.model.actions.Action;
 import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.CreateAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
+import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction.Assignment;
+import gov.nist.csd.pm.pip.obligations.model.actions.DeleteAction;
 
 import POMA.Utils;
 import POMA.Verification.ReachabilityAnalysis.ObligationChecker;
-import POMA.Verification.ReachabilityAnalysis.model.ObligationFiring;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
-import POMA.Verification.TranslationWithSets.AssociationRelation;
-import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
-import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
-import gov.nist.csd.pm.pip.obligations.model.Obligation;
 
 public class DependencyAnalyzer {
+
+    Obligation obligation;
+    Graph graph;
+
     public enum CONFLICT_TYPE {
-        DirtyAssignment, DirtyAssociation, DirtyCycle, DirtyProhibition, DirtyReadCondition, DirtyReadAssociation,
-        DirtyReadAssignment, NoConflict
+        AddAssignmentAddAssignmentAction,
+        AddAssignmentCreatePEAction,
+        AddAssignmentDeleteAssignmentAction,
+        AddAssignmentAddGrantAction,
+        AddAssignmentDeletePEAction,
+        AddDeleteGrantAction,
+        AddGrantAddAssignmentAction,
+        AddGrantDeleteAssignmentAction,
+        AddGrantDeletePEAction,
+        AddGrantCreatePEAction, 
+        AddAssignmentDeleteGrantAction, 
+        CreatePEAddAssignmentAction,
+        CreatePECreatePEAction, 
+        CreatePEDeleteGrantAction, 
+        CreatePEDeleteAssignmentAction, 
+        CreatePEDeletePEAction, 
+        DeletePEDeletePEAction, 
+        DeletePEDeleteAssignmentAction, 
+        DeletePEDeleteGrantAction, 
+        DeletePECreatePEAction, 
+        DeletePEAddAssignmentAction,
+        DirtyAssociation,
+        DirtyCycle,
+        DirtyProhibition,
+        DirtyReadCondition,
+        GrantPrecondition,
+        AssignmentPrecondition,
+        NoConflict
     }
 
-    private static CONFLICT_TYPE affectsPrecondition(Rule obligationA, Rule obligationB) {
+    private CONFLICT_TYPE affectsPrecondition(Rule obligationA, Rule obligationB) {
         EventPattern epB = obligationB.getEventPattern();
         ResponsePattern rpA = obligationA.getResponsePattern();
         String eventSubject = epB.getSubject().getAnyUser().get(0);
@@ -50,13 +75,13 @@ public class DependencyAnalyzer {
                 String op = association.getOperations().get(0);
                 if (what.equals(eventSubject) || where.equals(eventTarget) ||
                         eventOperation.equals(op)) {
-                    return CONFLICT_TYPE.DirtyReadAssociation;
+                    return CONFLICT_TYPE.GrantPrecondition;
                 }
             } else if (action instanceof CreateAction) {
                 CreateAction createAction = (CreateAction) action;
                 String what = createAction.getCreateNodesList().get(0).getWhat().getName().toString();
                 if (what.equals(eventSubject) || what.equals(eventTarget)) {
-                    return CONFLICT_TYPE.DirtyReadAssignment;
+                    return CONFLICT_TYPE.AssignmentPrecondition;
                 }
             } else if (action instanceof AssignAction) {
                 AssignAction assignAction = (AssignAction) action;
@@ -65,31 +90,40 @@ public class DependencyAnalyzer {
                 if (what.equals(eventSubject) || where.equals(eventTarget) ||
                         what.equals(eventTarget)
                         || where.equals(eventSubject)) {
-                    return CONFLICT_TYPE.DirtyReadAssignment;
+                    return CONFLICT_TYPE.AssignmentPrecondition;
                 }
             }
         }
         return CONFLICT_TYPE.NoConflict;
     }
 
-    private static CONFLICT_TYPE affectsResponse(Rule obligationA, Rule obligationB) {
+    private CONFLICT_TYPE affectsResponse(Rule obligationA, Rule obligationB) {
         ResponsePattern rpA = obligationA.getResponsePattern();
         ResponsePattern rpB = obligationB.getResponsePattern();
         CONFLICT_TYPE ct = CONFLICT_TYPE.NoConflict;
         for (Action action : rpA.getActions()) {
             if (action instanceof GrantAction) {
-                isConflictingGrantWrite((GrantAction) action, rpB);
-                ct = CONFLICT_TYPE.DirtyReadAssociation;
-            }
-            if (action instanceof AssignAction) {
-                isConflictingAssignWrite((AssignAction) action, rpB);
-                ct = CONFLICT_TYPE.DirtyReadAssignment;
+                ct = isConflictingGrantAction((GrantAction) action, rpB);
+            } else if (action instanceof AssignAction) {
+                ct = isConflictingAssignAction((AssignAction) action, rpB);
+            } else if (action instanceof CreateAction) {
+                if (((CreateAction) action).getCreateNodesList() != null) {
+                    if (((CreateAction) action).getCreateNodesList().size() > 0) {
+                        ct = isConflictingCreatePEAction((CreateAction) action, rpB);
+                    }
+                }
+            } else if (action instanceof DeleteAction) {
+                if (((DeleteAction) action).getNodes() != null) {
+                    if (((DeleteAction) action).getNodes().size() > 0) {
+                        ct = isConflictingDeletePEAction((DeleteAction) action, rpB);
+                    }
+                }
             }
         }
         return ct;
     }
 
-    private static CONFLICT_TYPE isConflictingGrantWrite(GrantAction grantA, ResponsePattern rpB) {
+    private CONFLICT_TYPE isConflictingGrantAction(GrantAction grantA, ResponsePattern rpB) {
         String subjectA = grantA.getSubject().getName();
         String targetA = grantA.getSubject().getName();
         String operationA = grantA.getOperations().get(0);
@@ -97,33 +131,264 @@ public class DependencyAnalyzer {
         for (Action action : rpB.getActions()) {
             if (action instanceof GrantAction) {
                 GrantAction grantB = (GrantAction) action;
-                if (subjectA.equals(grantB.getSubject().getName()) && targetA.equals(grantB.getTarget().getName())
-                        && operationA.equals(grantB
-                                .getOperations().get(0))) {
-                    return CONFLICT_TYPE.DirtyAssociation;
+                String subjectB = grantB.getSubject().getName();
+                String targetB = grantB.getTarget().getName();
+                String operationB = grantB
+                        .getOperations().get(0);
+                if ((subjectA.equals(
+                        subjectB)
+                        || targetA.equals(
+                                targetB)
+                        || subjectA.equals(
+                                targetB)
+                        || targetA.equals(
+                                subjectB))
+                        && operationA.equals(operationB)) {
+                    return CONFLICT_TYPE.AddAssignmentAddGrantAction;
+                }
+            } else if (action instanceof AssignAction) {
+                AssignAction assignB = (AssignAction) action;
+                Assignment assignment = assignB.getAssignments().get(0);
+                String whatB = assignment.getWhat().getName().toString();
+                String whereB = assignment.getWhere().getName().toString();
+                if (subjectA.equals(whatB) || targetA.equals(whereB) || subjectA.equals(whereB)
+                        || targetA.equals(whatB)) {
+                    return CONFLICT_TYPE.AddGrantAddAssignmentAction;
+                }
+            } else if (action instanceof DeleteAction) {
+                DeleteAction deleteB = (DeleteAction) action;
+                if (deleteB.getAssociations() != null) {
+                    GrantAction grant = deleteB.getAssociations().get(0);
+                    String subjectB = grant.getSubject().getName().toString();
+                    String targetB = grant.getTarget().getName().toString();
+                    String operationB = grant.getOperations().get(0);
+                    if ((subjectA.equals(
+                            subjectB)
+                            || targetA.equals(
+                                    targetB)
+                            || subjectA.equals(
+                                    targetB)
+                            || targetA.equals(
+                                    subjectB))
+                            && operationA.equals(operationB)) {
+                        return CONFLICT_TYPE.AddDeleteGrantAction;
+                    }
+                } else if (deleteB.getAssignments() != null && deleteB.getAssignments().getAssignments() != null
+                        && deleteB
+                                .getAssignments().getAssignments().get(0) != null) {
+                    Assignment assignment = deleteB.getAssignments().getAssignments().get(0);
+                    String whatB = assignment.getWhat().getName().toString();
+                    String whereB = assignment
+                            .getWhere().getName().toString();
+                    if (subjectA.equals(
+                            whatB) || targetA.equals(whereB) || subjectA.equals(whereB) || targetA.equals(whatB)) {
+                        return CONFLICT_TYPE.AddGrantDeleteAssignmentAction;
+                    }
+                } else if (deleteB.getNodes() != null) {
+                    String whatB = deleteB.getNodes().get(0).getName().toString();
+                    if (subjectA.equals(
+                            whatB) || targetA.equals(whatB)) {
+                        return CONFLICT_TYPE.AddGrantDeletePEAction;
+                    }
+                }
+            } else if (action instanceof CreateAction) {
+                CreateAction createB = (CreateAction) action;
+                if (createB.getCreateNodesList() != null && createB.getCreateNodesList().get(0) != null) {
+                    String whatB = createB.getCreateNodesList().get(0).getWhat().getName().toString();
+                    String whereB = createB.getCreateNodesList().get(0).getWhere().getName().toString();
+                    if (subjectA.equals(
+                            whatB) || targetA.equals(whereB) || subjectA.equals(whereB) || targetA.equals(whatB)) {
+                        return CONFLICT_TYPE.AddGrantCreatePEAction;
+                    }
                 }
             }
         }
         return CONFLICT_TYPE.NoConflict;
     }
 
-    private static CONFLICT_TYPE isConflictingAssignWrite(AssignAction assignA, ResponsePattern rpB) {
-        String whatA = assignA.getAssignments().get(0).getWhat().toString();// .getSubject().getName();
-        String whereA = assignA.getAssignments().get(0).getWhere().toString();
+    private CONFLICT_TYPE isConflictingAssignAction(AssignAction assignA, ResponsePattern rpB) {
+        String whatA = assignA.getAssignments().get(0).getWhat().getName().toString();
+        String whereA = assignA.getAssignments().get(0).getWhere().getName().toString();
 
         for (Action action : rpB.getActions()) {
             if (action instanceof AssignAction) {
                 AssignAction assignB = (AssignAction) action;
-                if (whatA.equals(assignB.getAssignments().get(0).getWhat().toString()) && whereA.equals(assignB
-                        .getAssignments().get(0).getWhere().toString())) {
-                    return CONFLICT_TYPE.DirtyAssignment;
+                Assignment assignment = assignB.getAssignments().get(0);
+                String whatB = assignment.getWhat().getName().toString();
+                String whereB = assignment.getWhere().getName().toString();
+                if (whatA.equals(whatB) || whereA.equals(whereB) || whatA.equals(whereB) || whereA.equals(whatB)) {
+                    return CONFLICT_TYPE.AddAssignmentAddAssignmentAction;
+                }
+            } else if (action instanceof CreateAction) {
+                CreateAction createB = (CreateAction) action;
+                if (createB.getCreateNodesList() != null && createB.getCreateNodesList().get(0) != null) {
+                    String whatB = createB.getCreateNodesList().get(0).getWhat().getName().toString();
+                    String whereB = createB.getCreateNodesList().get(0).getWhere().getName().toString();
+                    if (whatA.equals(
+                            whatB) || whereA.equals(whereB) || whatA.equals(whereB) || whereA.equals(whatB)) {
+                        return CONFLICT_TYPE.AddAssignmentCreatePEAction;
+                    }
+                }
+            } else if (action instanceof DeleteAction) {
+                DeleteAction deleteB = (DeleteAction) action;
+                if (deleteB.getAssociations() != null) {
+                    GrantAction grant = deleteB.getAssociations().get(0);
+                    String subjectB = grant.getSubject().getName().toString();
+                    String targetB = grant.getTarget().getName().toString();
+                    if ((whatA.equals(
+                            subjectB)
+                            || whereA.equals(
+                                    targetB)
+                            || whatA.equals(
+                                    targetB)
+                            || whereA.equals(
+                                    subjectB))) {
+                        return CONFLICT_TYPE.AddAssignmentDeleteGrantAction;
+                    }
+                } else if (deleteB.getAssignments() != null && deleteB.getAssignments().getAssignments() != null
+                        && deleteB
+                                .getAssignments().getAssignments().get(0) != null) {
+                    Assignment assignment = deleteB.getAssignments().getAssignments().get(0);
+                    String whatB = assignment.getWhat().getName().toString();
+                    String whereB = assignment
+                            .getWhere().getName().toString();
+                    if (whatA.equals(
+                            whatB) || whereA.equals(whereB) || whatA.equals(whereB) || whereA.equals(whatB)) {
+                        return CONFLICT_TYPE.AddAssignmentDeleteAssignmentAction;
+                    }
+                } else if (deleteB.getNodes() != null) {
+                    String whatB = deleteB.getNodes().get(0).getName().toString();
+                    if (whatA.equals(
+                            whatB) || whereA.equals(whatB)) {
+                        return CONFLICT_TYPE.AddAssignmentDeletePEAction;
+                    }
                 }
             }
         }
         return CONFLICT_TYPE.NoConflict;
     }
 
-    private static void findConflicts(Obligation obligation, String obligationLabel1, String obligationLabel2,
+    private CONFLICT_TYPE isConflictingCreatePEAction(CreateAction createPEA, ResponsePattern rpB) {
+        String whatA = createPEA.getCreateNodesList().get(0).getWhat().getName();
+        String whereA = createPEA.getCreateNodesList().get(0).getWhere().getName();
+
+        for (Action action : rpB.getActions()) {
+            if (action instanceof AssignAction) {
+                AssignAction assignB = (AssignAction) action;
+                Assignment assignment = assignB.getAssignments().get(0);
+                String whatB = assignment.getWhat().getName().toString();
+                String whereB = assignment.getWhere().getName().toString();
+                if (whatA.equals(whatB) || whereA.equals(whereB) || whatA.equals(whereB) || whereA.equals(whatB)) {
+                    return CONFLICT_TYPE.CreatePEAddAssignmentAction;
+                }
+            } else if (action instanceof CreateAction) {
+                CreateAction createB = (CreateAction) action;
+                if (createB.getCreateNodesList() != null && createB.getCreateNodesList().get(0) != null) {
+                    String whatB = createB.getCreateNodesList().get(0).getWhat().getName().toString();
+                    String whereB = createB.getCreateNodesList().get(0).getWhere().getName().toString();
+                    if (whatA.equals(
+                            whatB) || whereA.equals(whereB) || whatA.equals(whereB) || whereA.equals(whatB)) {
+                        return CONFLICT_TYPE.CreatePECreatePEAction;
+                    }
+                }
+            } else if (action instanceof DeleteAction) {
+                DeleteAction deleteB = (DeleteAction) action;
+                if (deleteB.getAssociations() != null) {
+                    GrantAction grant = deleteB.getAssociations().get(0);
+                    String subjectB = grant.getSubject().getName().toString();
+                    String targetB = grant.getTarget().getName().toString();
+                    if ((whatA.equals(
+                            subjectB)
+                            || whereA.equals(
+                                    targetB)
+                            || whatA.equals(
+                                    targetB)
+                            || whereA.equals(
+                                    subjectB))) {
+                        return CONFLICT_TYPE.CreatePEDeleteGrantAction;
+                    }
+                } else if (deleteB.getAssignments() != null && deleteB.getAssignments().getAssignments() != null
+                        && deleteB
+                                .getAssignments().getAssignments().get(0) != null) {
+                    Assignment assignment = deleteB.getAssignments().getAssignments().get(0);
+                    String whatB = assignment.getWhat().getName().toString();
+                    String whereB = assignment
+                            .getWhere().getName().toString();
+                    if (whatA.equals(
+                            whatB) || whereA.equals(whereB) || whatA.equals(whereB) || whereA.equals(whatB)) {
+                        return CONFLICT_TYPE.CreatePEDeleteAssignmentAction;
+                    }
+                } else if (deleteB.getNodes() != null) {
+                    String whatB = deleteB.getNodes().get(0).getName().toString();
+                    if (whatA.equals(
+                            whatB) || whereA.equals(whatB)) {
+                        return CONFLICT_TYPE.CreatePEDeletePEAction;
+                    }
+                }
+            }
+        }
+        return CONFLICT_TYPE.NoConflict;
+    }
+
+    private CONFLICT_TYPE isConflictingDeletePEAction(DeleteAction deletePEA, ResponsePattern rpB) {
+
+        String whatA = deletePEA.getNodes().get(0).getName();
+
+        for (Action action : rpB.getActions()) {
+            if (action instanceof AssignAction) {
+                AssignAction assignB = (AssignAction) action;
+                Assignment assignment = assignB.getAssignments().get(0);
+                String whatB = assignment.getWhat().getName().toString();
+                String whereB = assignment.getWhere().getName().toString();
+                if (whatA.equals(whatB) || whatA.equals(whereB)) {
+                    return CONFLICT_TYPE.DeletePEAddAssignmentAction;
+                }
+            } else if (action instanceof CreateAction) {
+                CreateAction createB = (CreateAction) action;
+                if (createB.getCreateNodesList() != null && createB.getCreateNodesList().get(0) != null) {
+                    String whatB = createB.getCreateNodesList().get(0).getWhat().getName().toString();
+                    String whereB = createB.getCreateNodesList().get(0).getWhere().getName().toString();
+                    if (whatA.equals(
+                            whatB) || whatA.equals(whereB)) {
+                        return CONFLICT_TYPE.DeletePECreatePEAction;
+                    }
+                }
+            } else if (action instanceof DeleteAction) {
+                DeleteAction deleteB = (DeleteAction) action;
+                if (deleteB.getAssociations() != null) {
+                    GrantAction grant = deleteB.getAssociations().get(0);
+                    String subjectB = grant.getSubject().getName().toString();
+                    String targetB = grant.getTarget().getName().toString();
+                    if ((whatA.equals(
+                            subjectB)
+                            || whatA.equals(
+                                    targetB))) {
+                        return CONFLICT_TYPE.DeletePEDeleteGrantAction;
+                    }
+                } else if (deleteB.getAssignments() != null && deleteB.getAssignments().getAssignments() != null
+                        && deleteB
+                                .getAssignments().getAssignments().get(0) != null) {
+                    Assignment assignment = deleteB.getAssignments().getAssignments().get(0);
+                    String whatB = assignment.getWhat().getName().toString();
+                    String whereB = assignment
+                            .getWhere().getName().toString();
+                    if (whatA.equals(
+                            whatB) || whatA.equals(whereB)) {
+                        return CONFLICT_TYPE.DeletePEDeleteAssignmentAction;
+                    }
+                } else if (deleteB.getNodes() != null) {
+                    String whatB = deleteB.getNodes().get(0).getName().toString();
+                    if (whatA.equals(
+                            whatB)) {
+                        return CONFLICT_TYPE.DeletePEDeletePEAction;
+                    }
+                }
+            }
+        }
+        return CONFLICT_TYPE.NoConflict;
+    }
+
+    private void findConflicts(Obligation obligation, String obligationLabel1, String obligationLabel2,
             List<String> conflicts) {
         for (Rule targetObligation : obligation.getRules()) {
             for (Rule sourceObligation : obligation.getRules()) {
@@ -144,16 +409,12 @@ public class DependencyAnalyzer {
                 CONFLICT_TYPE ct = affectsPrecondition(targetObligation, sourceObligation);
                 try {
                     if (!ct.equals(null) && !ct.equals(CONFLICT_TYPE.NoConflict)) {
-                        System.out.println("Precondition conflict found: " + ct + " in obligations: "
-                                + sourceObligation.getLabel() + " and " + targetObligation.getLabel());
                         conflicts.add("Precondition conflict found: " + ct + " in obligations: "
                                 + sourceObligation.getLabel() + " and " + targetObligation.getLabel());
                     }
                     CONFLICT_TYPE ctResponse = affectsResponse(targetObligation, sourceObligation);
                     if (!ctResponse.equals(null) && !ctResponse.equals(CONFLICT_TYPE.NoConflict)) {
-                        System.out.println("Actions conflict found: in obligations: "
-                                + sourceObligation.getLabel() + " and " + targetObligation.getLabel());
-                        conflicts.add("Actions conflict found: in obligations: "
+                        conflicts.add("Actions conflict found: " + ctResponse + " in obligations: "
                                 + sourceObligation.getLabel() + " and " + targetObligation.getLabel());
                     }
                 } catch (Exception e) {
@@ -165,17 +426,11 @@ public class DependencyAnalyzer {
         }
     }
 
-    private static Solution getSolution(String label1, String label2) throws Exception {
-        Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
-        String yml = new String(
-                Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
-
-        Obligation obligation = EVRParser.parse(yml);
+    private Solution getSolution(String label1, String label2) throws Exception {
         ObligationChecker checker = new ObligationChecker(graph, obligation);
         checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
-        long start = System.currentTimeMillis();
         checker.setBound(3);
-        checker.enableSMTOutput(true);
+        checker.enableSMTOutput(false);
         String precondition = "OBLIGATIONLABEL(" + label1 + ", ?user1, ?ar, ?o);";
 
         String postcondition = "OBLIGATIONLABEL(" + label2 + ", ?user2, ?ar, ?o);";
@@ -183,7 +438,7 @@ public class DependencyAnalyzer {
         return checker.solveConstraint(precondition, postcondition);
     }
 
-    private static void groupObligationsByAccessEvent(List<Rule> rules, Map<String, List<String>> groupedObligations) {
+    private void groupObligationsByAccessEvent(List<Rule> rules, Map<String, List<String>> groupedObligations) {
         for (Rule r : rules) {
             List<String> accessEvents = r.getEventPattern().getOperations();
             for (String accessEvent : accessEvents) {
@@ -198,7 +453,7 @@ public class DependencyAnalyzer {
         }
     }
 
-    private static void processPairs(List<String> labels, Obligation obligation) throws Exception {
+    private void processPairs(List<String> labels, Obligation obligation) throws Exception {
         List<String> conflicts = new ArrayList<String>();
         for (String label1 : labels) {
             for (String label2 : labels) {
@@ -217,44 +472,36 @@ public class DependencyAnalyzer {
         System.out.println(conflicts);
     }
 
-    public static void main(String[] args) throws Exception {
-
-        String yml = new String(
-                Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+    private void analyzeDependencies() throws Exception {
         long start = System.currentTimeMillis();
 
-        // String yml = new String(
-        // Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
-        Obligation obligation = EVRParser.parse(yml);
         List<Rule> rules = obligation.getRules();
         Map<String, List<String>> groupedObligations = new HashMap<String, List<String>>();
         groupObligationsByAccessEvent(rules, groupedObligations);
-        System.out.println(groupedObligations);
         for (Map.Entry<String, List<String>> mapElement : groupedObligations.entrySet()) {
-            String key = mapElement.getKey();
             List<String> labels = mapElement.getValue();
-            processPairs(labels, obligation);
+            if (labels.size() > 1) {
+                processPairs(labels, obligation);
+            }
         }
+
         long end = System.currentTimeMillis();
         float sec = (end - start) / 1000F;
         System.out.println("The job took: " + sec + " seconds");
-        // groupedObligations.forEach((accessEvent, labels) -> {
-        // try {
-        // processPairs(labels, obligation);
-        // } catch (Exception e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        // });
-        // findConflicts(obligation, "obligation1", "obligation3");
-        // Solution solution = getSolution("obligation1", "obligation3");
-        // System.out.println(solution.toString());
-        // String obligationLabelA =
-        // solution.getObligationFirings().get(0).getObligationLabel();
-        // String obligationLabelB =
-        // solution.getObligationFirings().get(1).getObligationLabel();
+    }
 
-        // findConflicts(obligation, obligationLabelA, obligationLabelB);
+    public DependencyAnalyzer(Graph graph, Obligation obligation) {
+        this.graph = graph;
+        this.obligation = obligation;
+    }
+
+    public static void main(String[] args) throws Exception {
+        Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+        String yml = new String(
+                Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+        Obligation obligation = EVRParser.parse(yml);
+        DependencyAnalyzer da = new DependencyAnalyzer(graph, obligation);
+        da.analyzeDependencies();
     }
 
 }
