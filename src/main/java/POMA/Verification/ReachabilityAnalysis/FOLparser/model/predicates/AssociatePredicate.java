@@ -34,9 +34,9 @@ public class AssociatePredicate implements IPredicate {
 		String accessright = tuple.get(1) instanceof Constant ? tuple.get(1).getElement() : null;
 		String at = tuple.get(2) instanceof Constant ? tuple.get(2).getElement() : null;
 
-		String uaVar = " queryVAR" + tuple.get(0).getElement().replace("?", "");
-		String arVar = " queryVAR" + tuple.get(1).getElement().replace("?", "");
-		String atVar = " queryVAR" + tuple.get(2).getElement().replace("?", "");
+		String uaVar = " queryVAR" + tuple.get(0).getElement().replace("?", "") + " ";
+		String arVar = " queryVAR" + tuple.get(1).getElement().replace("?", "") + " ";
+		String atVar = " queryVAR" + tuple.get(2).getElement().replace("?", "") + " ";
 		
 		String userSpec = ua != null ? " [" + ua + "] " : uaVar;
 		String arSpec = accessright != null ? " [" + accessright + "] " : arVar;
