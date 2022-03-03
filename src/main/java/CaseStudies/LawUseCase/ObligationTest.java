@@ -21,6 +21,7 @@ import CaseStudies.LawUseCase.customEvents.DisapproveEvent;
 import CaseStudies.LawUseCase.customEvents.RefuseEvent;
 import CaseStudies.LawUseCase.customEvents.WithdrawEvent;
 import gov.nist.csd.pm.epp.EPPOptions;
+import gov.nist.csd.pm.epp.events.EventContext;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pap.PAP;
@@ -157,7 +158,7 @@ public class ObligationTest {
 	public void caseTossed() throws Exception {
 		PDP pdp = getPDP(ngacGraph, prohibitions, obligation);
 		assertFalse(ngacGraph.getChildren("Case3").contains("Case3Info"));
-		pdp.getEPP().processEvent(new CreateEvent(ngacGraph.getNode("Case3")), "A1", "initialCreate");
+		pdp.getEPP().processEvent(new EventContext("create",ngacGraph.getNode("Case3")), "A1", "initialCreate");
 		assertTrue(ngacGraph.getChildren("Case3").contains("Case3Info"));
 		assertTrue(ngacGraph.getChildren("CasePolicy").contains("Case3"));
 		pdp.getEPP().processEvent(new WithdrawEvent(ngacGraph.getNode("Case3")), "LA1", "Withdraw");

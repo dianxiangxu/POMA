@@ -59,21 +59,26 @@ public class ObligationChecker extends Planner {
 		// String yml = new String(
 		// Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
 
-		Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoPolicyElement/Graph.json");
-		String yml = new String(
-				Files.readAllBytes(Paths.get("Policies/ForBMC/LeoPolicyElement/Obligations.yml")));
-
+		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoBug2/Graph.json");
+		 String yml = new String(
+		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LeoBug2/Obligations.yml")));
+//		Graph graph =
+//		Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+//		String yml = new String(
+//		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
 		checker.setBound(2);
 		checker.enableSMTOutput(true);
-		String precondition = "PERMIT(Attorneys,?ar,?at);";
+		String precondition = "(ASSIGN(?u,Chair) AND (((NOT(PERMIT(BM,approve,PDSWhole)) OR NOT(PERMIT(BM,disapprove,PDSWhole))) OR (((ASSOCIATE(Chair,approve,PDSWhole) AND NOT(ASSOCIATE(?s,approve,?at))) AND IMPLICITASSIGN(Chair,?s)) AND IMPLICITASSIGN(PDSWhole,?at))) OR (((ASSOCIATE(Chair,disapprove,PDSWhole) AND NOT(ASSOCIATE(?s,disapprove,?at))) AND IMPLICITASSIGN(Chair,?s)) AND IMPLICITASSIGN(PDSWhole,?at))));";
 
-	    String postcondition = "(EXPLICITASSIGN(Attorneys1,Attorneys) AND (OBLIGATIONLABEL(obligation1,?user,approve,Case3Info) AND ASSIGN(?user,Attorneys)));";;
+		String postcondition = "((ASSOCIATE(BM,approve,PDSWhole) OR (NOT(ASSOCIATE(Chair,approve,PDSWhole)) OR NOT(ASSOCIATE(Chair,disapprove,PDSWhole)))) AND OBLIGATIONLABEL(obligation2,?u,approve,PDSWhole));";
+
 
 		Solution solution = checker.solveConstraint(precondition, postcondition);
+		
 		// ObligationChecker checker2 = new ObligationChecker(graph, obligation);
 
 		// Solution solution21 = checker2.solveConstraint(precondition, postcondition);
@@ -98,6 +103,8 @@ public class ObligationChecker extends Planner {
 		float sec = (end - start) / 1000F;
 		System.out.println("The job took: " + sec + " seconds");
 
+		SolutionSimulator ss = new SolutionSimulator(solution, graph, obligation);
+		//ss.simulate();
 	}
 
 	public ObligationChecker() throws Exception {

@@ -77,35 +77,35 @@ rules:
               where:
                 name: Attorneys2
                 type: UA                 
-  - label: obligation4
-    event:
-      subject:
-        anyUser: 
-          - "Attorneys3"
-      operations:
-        - accept
-      target:
-        policyElements:
-          - name: Case3Info
-            type: OA
-    response:      
-      actions:
-        # - create:
-        #     - what:
-        #         name: C-Suit
-        #         type: UA
-        #       where:
-        #         name: Attorneys
-        #         type: UA  
-        - grant:
-             subject:
-               name: LeadAttorneys
-               type: UA
-             operations:
-               - approve
-             target:
-               name: Case3
-               type: OA                                          
+  # - label: obligation4
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "Attorneys3"
+  #     operations:
+  #       - accept
+  #     target:
+  #       policyElements:
+  #         - name: Case3Info
+  #           type: OA
+  #   response:      
+  #     actions:
+  #       # - create:
+  #       #     - what:
+  #       #         name: C-Suit
+  #       #         type: UA
+  #       #       where:
+  #       #         name: Attorneys
+  #       #         type: UA  
+  #       - grant:
+  #            subject:
+  #              name: LeadAttorneys
+  #              type: UA
+  #            operations:
+  #              - approve
+  #            target:
+  #              name: Case3
+  #              type: OA                                          
   - label: obligation5
     event:
       subject:
