@@ -109,23 +109,28 @@ public class REU_Solver extends MutantTester {
 						mutant = removeEventAnyUser(mutant, ruleLabel, 0);
 						Utils.setObligationMutant(mutant);
 						
+						Obligation obM = Utils.createObligationWithCondtionCopy();
+						obM = removeEventAnyUser(obM, ruleLabel, 0);
+						Utils.setObligationMutant(obM);
+						
 						//generate UserConstraint
 						UserConstraint = "NOT(ASSIGN(?user,"+anyUser.get(0)+"))";
 						
 						//generate RConstraint
-						RConstraint = null;
-						for (String operation : event.getOperations()) {
-							for (String target : Utils.getAllTarget(event)) {
-								String a = "PERMIT(?user,"+operation+","+target+")";
-								String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
-								String all = Utils.andP(a, b);
-								if (RConstraint == null)
-									RConstraint = all;
-								else
-									RConstraint = Utils.orP(RConstraint, all);
-							}
-						}
-						RConstraint = Utils.andP(UserConstraint, RConstraint);
+//						RConstraint = null;
+//						for (String operation : event.getOperations()) {
+//							for (String target : Utils.getAllTarget(event)) {
+//								String a = "PERMIT(?user,"+operation+","+target+")";
+//								String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
+//								String all = Utils.andP(a, b);
+//								if (RConstraint == null)
+//									RConstraint = all;
+//								else
+//									RConstraint = Utils.orP(RConstraint, all);
+//							}
+//						}
+//						RConstraint = Utils.andP(UserConstraint, RConstraint);
+						RConstraint = UserConstraint;
 						
 						ResponsePattern responsePattern = rule.getResponsePattern();
 						//generate Pconstraint
@@ -135,14 +140,24 @@ public class REU_Solver extends MutantTester {
 						System.out.println(i + "Pre:" + preConstraint);
 						//generate postConstraint
 						postConstraint = Utils.generatePostConstraint(responsePattern);
+						String tmpS = null;
+						for (String operation : event.getOperations()) {
+							for (String target : Utils.getAllTarget(event)) {
+								String a = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
+								if (tmpS == null)
+									tmpS = a;
+								else
+									tmpS = Utils.orP(tmpS, a);
+							}
+						}
+						postConstraint = Utils.andP(postConstraint, tmpS) + ";"; 
 						System.out.println(i + "Post:" + postConstraint);
 						
-						Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+//						Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+						Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
 						if (res) {
-							System.out.println("Mutant killed!");
 							setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
-						} else
-							System.out.println("Mutant not killed!");
+						}
 						setNumberOfMutants(getNumberOfMutants() + 1);
 						i++;
 					} else {
@@ -156,6 +171,9 @@ public class REU_Solver extends MutantTester {
 							Obligation mutant = Utils.createObligationCopy();
 							mutant = removeEventAnyUser(mutant, ruleLabel, j);
 							Utils.setObligationMutant(mutant);
+							Obligation obM = Utils.createObligationWithCondtionCopy();
+							obM = removeEventAnyUser(obM, ruleLabel, j);
+							Utils.setObligationMutant(obM);
 							
 							//generate UserConstraint
 							UserConstraint = null;
@@ -173,19 +191,20 @@ public class REU_Solver extends MutantTester {
 								}
 							}
 							//generate RConstraint
-							RConstraint = null;
-							for (String operation : event.getOperations()) {
-								for (String target : Utils.getAllTarget(event)) {
-									String a = "PERMIT(?user,"+operation+","+target+")";
-									String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
-									String all = Utils.andP(a, b);
-									if (RConstraint == null)
-										RConstraint = all;
-									else
-										RConstraint = Utils.orP(RConstraint, all);
-								}
-							}
-							RConstraint = Utils.andP(UserConstraint, RConstraint);
+//							RConstraint = null;
+//							for (String operation : event.getOperations()) {
+//								for (String target : Utils.getAllTarget(event)) {
+//									String a = "PERMIT(?user,"+operation+","+target+")";
+//									String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
+//									String all = Utils.andP(a, b);
+//									if (RConstraint == null)
+//										RConstraint = all;
+//									else
+//										RConstraint = Utils.orP(RConstraint, all);
+//								}
+//							}
+//							RConstraint = Utils.andP(UserConstraint, RConstraint);
+							RConstraint = UserConstraint;
 							
 							ResponsePattern responsePattern = rule.getResponsePattern();
 							//generate Pconstraint
@@ -195,14 +214,24 @@ public class REU_Solver extends MutantTester {
 							System.out.println(i + "Pre:" + preConstraint);
 							//generate postConstraint
 							postConstraint = Utils.generatePostConstraint(responsePattern);
+							String tmpS = null;
+							for (String operation : event.getOperations()) {
+								for (String target : Utils.getAllTarget(event)) {
+									String a = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
+									if (tmpS == null)
+										tmpS = a;
+									else
+										tmpS = Utils.orP(tmpS, a);
+								}
+							}
+							postConstraint = Utils.andP(postConstraint, tmpS) + ";"; 
 							System.out.println(i + "Post:" + postConstraint);
 							
-							Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+//							Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+							Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
 							if (res) {
-								System.out.println("Mutant killed!");
 								setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
-							} else
-								System.out.println("Mutant not killed!");
+							}
 							setNumberOfMutants(getNumberOfMutants() + 1);
 							i++;
 						}
@@ -214,6 +243,9 @@ public class REU_Solver extends MutantTester {
 				Obligation mutant = Utils.createObligationCopy();
 				mutant = removeEventAnyUser(mutant, ruleLabel, 0);
 				Utils.setObligationMutant(mutant);
+				Obligation obM = Utils.createObligationWithCondtionCopy();
+				obM = removeEventAnyUser(obM, ruleLabel, 0);
+				Utils.setObligationMutant(obM);
 				
 				//generate UserConstraint
 				UserConstraint = "NOT(ASSIGN(?user,"+user+"))";
@@ -243,7 +275,8 @@ public class REU_Solver extends MutantTester {
 				postConstraint = Utils.generatePostConstraint(responsePattern);
 				System.out.println(i + "Post:" + postConstraint);
 				
-				Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+//				Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+				Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
 				if (res) {
 					System.out.println("Mutant killed!");
 					setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
@@ -289,7 +322,12 @@ public class REU_Solver extends MutantTester {
 			if (newRule.getLabel().equals(ruleLabel)) {
 				EventPattern eventPattern = newRule.getEventPattern();
 				List<String> anyUser = eventPattern.getSubject().getAnyUser();
-				anyUser.remove(index);
+				
+				if (anyUser.size() == 1) {
+					anyUser = null;
+				} else {
+					anyUser.remove(index);
+				}
 				//change anyUser to empty array
 				Subject subject = new Subject(anyUser);
 //				Subject subject = Subject.class.getConstructor(String.class).newInstance(anyUser);

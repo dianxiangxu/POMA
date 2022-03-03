@@ -88,20 +88,24 @@ public class CEPE_Solver extends MutantTester {
 			Target target = eventPattern.getTarget();
 			
 			List<EvrNode> policyElements = target.getPolicyElements();
-			System.out.println(ruleLabel + "|" + getNumberOfMutants());
+//			System.out.println(ruleLabel + "|" + getNumberOfMutants());
 			for (EvrNode originPolicyElement : policyElements) {
 				for (Node changeToPolicyElement : UAsOAs) {
-					if (originPolicyElement.equals(changeToPolicyElement)) {
+					if (originPolicyElement.getName().equals(changeToPolicyElement.getName())) {
 						continue;
 					}
 					if (policyElements.contains(changeToPolicyElement)) {
 						continue;
 					}
 					//generate mutant
-					System.out.println("Change PE from: " + originPolicyElement.getName() + " to " + changeToPolicyElement);
+					System.out.println("Change PE from: " + originPolicyElement.getName() + " to " + changeToPolicyElement.getName());
 					Obligation mutant = Utils.createObligationCopy();
 					mutant = changeEventPolicyElement(mutant, ruleLabel, originPolicyElement, changeToPolicyElement);
 					Utils.setObligationMutant(mutant);
+					
+					Obligation obM = Utils.createObligationWithCondtionCopy();
+					obM = changeEventPolicyElement(obM, ruleLabel, originPolicyElement, changeToPolicyElement);
+					Utils.setObligationMutant(obM);
 					
 					//generate TargetConstraint
 					TargetConstraint = null;
@@ -122,19 +126,20 @@ public class CEPE_Solver extends MutantTester {
 					}
 					
 					//generate RConstraint
-					RConstraint = null;
-					for (String subject : Utils.getAllTarget(eventPattern)) {
-						for (String operation : eventPattern.getOperations()) {
-							String a = "PERMIT("+subject+","+operation+",?object)";
-							String b = "OBLIGATIONLABEL("+ruleLabel+","+subject+","+operation+",?object)";
-							String all = Utils.andP(a, b);
-							if (RConstraint == null)
-								RConstraint = all;
-							else
-								RConstraint = Utils.orP(RConstraint, all);
-						}
-					}
-					RConstraint = Utils.andP(TargetConstraint, RConstraint);
+//					RConstraint = null;
+//					for (String subject : Utils.getAllTarget(eventPattern)) {
+//						for (String operation : eventPattern.getOperations()) {
+//							String a = "PERMIT("+subject+","+operation+",?object)";
+//							String b = "OBLIGATIONLABEL("+ruleLabel+","+subject+","+operation+",?object)";
+//							String all = Utils.andP(a, b);
+//							if (RConstraint == null)
+//								RConstraint = all;
+//							else
+//								RConstraint = Utils.orP(RConstraint, all);
+//						}
+//					}
+//					RConstraint = Utils.andP(TargetConstraint, RConstraint);
+					RConstraint = TargetConstraint;
 					
 					ResponsePattern responsePattern = rule.getResponsePattern();
 					//generate Pconstraint
@@ -144,14 +149,27 @@ public class CEPE_Solver extends MutantTester {
 					System.out.println(i + "Pre:" + preConstraint);
 					//generate postConstraint
 					postConstraint = Utils.generatePostConstraint(responsePattern);
+					String tmpS = null;
+					for (String subject : Utils.getAllSubject(eventPattern)) {
+						for (String operation : eventPattern.getOperations()) {
+							String a = "PERMIT("+subject+","+operation+",?object)";
+							String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+",?object)";
+							String c = "ASSIGN(?user,"+ subject +")";
+							String all = Utils.andP(Utils.andP(a, b), c);
+							if (tmpS == null)
+								tmpS = all;
+							else
+								tmpS = Utils.orP(tmpS, all);
+						}
+					}
+					postConstraint = Utils.andP(postConstraint, tmpS) + ";"; 
 					System.out.println(i + "Post:" + postConstraint);
 					
-					Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+//					Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+					Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
 					if (res) {
-						System.out.println("Mutant killed!");
 						setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
-					} else
-						System.out.println("Mutant not killed!");
+					}
 					setNumberOfMutants(getNumberOfMutants() + 1);
 					i++;
 				}

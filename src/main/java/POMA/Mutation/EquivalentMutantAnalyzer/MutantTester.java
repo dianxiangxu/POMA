@@ -49,6 +49,7 @@ public class MutantTester {
 	public static Graph graph;
 	public static Prohibitions prohibitions;
 	public static String obligationFilePath = "";
+	public static String obligationWithConditionFilePath = "";
 	public static Obligation obligationMutant = new Obligation();
 	protected String testMethod;
 	// public String initialGraphConfig = "GPMSPolicies/SimpleGraphToSMT.json";
@@ -75,6 +76,8 @@ public class MutantTester {
 		this.graph = graph;
 		this.prohibitions = prohibitions;
 		this.obligationFilePath = obligationPath;
+		//FIXME: below only for Law Firm example
+		this.obligationWithConditionFilePath = "Policies/SolverVerification/LawFirm/ObligationsWithCondition.yml";
 		this.arList = ARList;
 		try {
 			//graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();

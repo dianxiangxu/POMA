@@ -23,45 +23,49 @@ import java.util.Set;
 
 import com.opencsv.CSVReader;
 
-import CaseStudies.LawUseCase.customEvents.AcceptEvent;
-import CaseStudies.LawUseCase.customEvents.ApproveEvent;
-import CaseStudies.LawUseCase.customEvents.CreateEvent;
-import CaseStudies.LawUseCase.customEvents.DisapproveEvent;
-import CaseStudies.LawUseCase.customEvents.WithdrawEvent;
+//import CaseStudies.LawUseCase.customEvents.AcceptEvent;
+//import CaseStudies.LawUseCase.customEvents.ApproveEvent;
+//import CaseStudies.LawUseCase.customEvents.CreateEvent;
+//import CaseStudies.LawUseCase.customEvents.DisapproveEvent;
+//import CaseStudies.LawUseCase.customEvents.RefuseEvent;
+//import CaseStudies.LawUseCase.customEvents.WithdrawEvent;
 
-//import CaseStudies.gpms.Constants;
-//import CaseStudies.gpms.customEvents.AddCoPIEvent;
-//import CaseStudies.gpms.customEvents.AddSPEvent;
-//import CaseStudies.gpms.customEvents.ApproveEvent;
-//import CaseStudies.gpms.customEvents.CreateEvent;
-//import CaseStudies.gpms.customEvents.DeleteCoPIEvent;
-//import CaseStudies.gpms.customEvents.DeleteSPEvent;
-//import CaseStudies.gpms.customEvents.DisapproveEvent;
-//import CaseStudies.gpms.customEvents.SubmitEvent;
-//import CaseStudies.gpms.customEvents.SubmitRAEvent;
-//import CaseStudies.gpms.customFunctions.AddPropertiesToNodeExecutor;
-//import CaseStudies.gpms.customFunctions.AllChildrenHavePropertiesExecutor;
-//import CaseStudies.gpms.customFunctions.CoPIToAddExecutor;
-//import CaseStudies.gpms.customFunctions.CoPIToDeleteExecutor;
-//import CaseStudies.gpms.customFunctions.CompareNodeNamesExecutor;
-//import CaseStudies.gpms.customFunctions.ConcatExecutor;
-//import CaseStudies.gpms.customFunctions.CreateNodeExecutor1;
-//import CaseStudies.gpms.customFunctions.DeleteNodeExecutor;
-//import CaseStudies.gpms.customFunctions.GetAncestorInPCExecutor;
-//import CaseStudies.gpms.customFunctions.GetAncestorsInPCExecutor;
-//import CaseStudies.gpms.customFunctions.GetChildExecutor;
-//import CaseStudies.gpms.customFunctions.GetChildInPCExecutor;
-//import CaseStudies.gpms.customFunctions.GetChildrenUsersInPolicyClassExecutor;
-//import CaseStudies.gpms.customFunctions.IRBApprovalRequired;
-//import CaseStudies.gpms.customFunctions.IsNodeInListExecutor;
-//import CaseStudies.gpms.customFunctions.RemovePropertyFromChildrenExecutor;
-//import CaseStudies.gpms.customFunctions.SPToAddExecutor;
-//import CaseStudies.gpms.customFunctions.SPToDeleteExecutor;
+import CaseStudies.gpms.Constants;
+import CaseStudies.gpms.customEvents.AddCoPIEvent;
+import CaseStudies.gpms.customEvents.AddSPEvent;
+import CaseStudies.gpms.customEvents.ApproveEvent;
+import CaseStudies.gpms.customEvents.ArchiveEvent;
+import CaseStudies.gpms.customEvents.CreateEvent;
+import CaseStudies.gpms.customEvents.DeleteCoPIEvent;
+import CaseStudies.gpms.customEvents.DeleteSPEvent;
+import CaseStudies.gpms.customEvents.DisapproveEvent;
+import CaseStudies.gpms.customEvents.SubmitEvent;
+import CaseStudies.gpms.customEvents.SubmitRAEvent;
+import CaseStudies.gpms.customFunctions.AddPropertiesToNodeExecutor;
+import CaseStudies.gpms.customFunctions.AllChildrenHavePropertiesExecutor;
+import CaseStudies.gpms.customFunctions.CoPIToAddExecutor;
+import CaseStudies.gpms.customFunctions.CoPIToDeleteExecutor;
+import CaseStudies.gpms.customFunctions.CompareNodeNamesExecutor;
+import CaseStudies.gpms.customFunctions.ConcatExecutor;
+import CaseStudies.gpms.customFunctions.CreateNodeExecutor1;
+import CaseStudies.gpms.customFunctions.DeleteNodeExecutor;
+import CaseStudies.gpms.customFunctions.GetAncestorInPCExecutor;
+import CaseStudies.gpms.customFunctions.GetAncestorsInPCExecutor;
+import CaseStudies.gpms.customFunctions.GetChildExecutor;
+import CaseStudies.gpms.customFunctions.GetChildInPCExecutor;
+import CaseStudies.gpms.customFunctions.GetChildrenUsersInPolicyClassExecutor;
+import CaseStudies.gpms.customFunctions.IRBApprovalRequired;
+import CaseStudies.gpms.customFunctions.IsNodeInListExecutor;
+import CaseStudies.gpms.customFunctions.RemovePropertyFromChildrenExecutor;
+import CaseStudies.gpms.customFunctions.SPToAddExecutor;
+import CaseStudies.gpms.customFunctions.SPToDeleteExecutor;
 
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Verification.ReachabilityAnalysis.ObligationChecker;
 import POMA.Verification.ReachabilityAnalysis.model.ObligationFiring;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
+import POMA.Verification.ReachabilityAnalysis.model.Variable;
+import POMA.Verification.ReachabilityAnalysis.model.Variables;
 import gov.nist.csd.pm.epp.EPPOptions;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
@@ -69,6 +73,7 @@ import gov.nist.csd.pm.pap.PAP;
 import gov.nist.csd.pm.pdp.PDP;
 import gov.nist.csd.pm.pdp.decider.PReviewDecider;
 import gov.nist.csd.pm.pip.graph.Graph;
+import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.obligations.MemObligations;
 import gov.nist.csd.pm.pip.obligations.evr.EVRException;
@@ -373,6 +378,14 @@ public class Utils extends MutantTester {
 		return readObligation();
 	}
 	
+	public static Obligation createObligationWithCondtionCopy() throws FileNotFoundException, EVRException {
+		File obligationFile = new File(obligationWithConditionFilePath);
+		InputStream inputStream = new FileInputStream(obligationFile);
+		Obligation obligation = EVRParser.parse(inputStream);
+
+		return obligation;
+	}
+	
 	public static void setObligationMutant(Obligation obligation){
 		obligationMutant.setEnabled(obligation.isEnabled());
 		obligationMutant.setLabel(obligation.getLabel());
@@ -507,75 +520,75 @@ public class Utils extends MutantTester {
 		String approveNode = "Case3Info", approveUser = "C-Suit", approveProcess = "approve";
 		
 		PDP pdp = getPdpLawFirm(graph, prohibitions, obligation);
-		switch(ruleLabel) {
-		case "withdraw_case_info":
-			if (ar != null) {
-				if (ar.getSA() != null) disapproveUser = ar.getSA();
-				if (ar.getTA() != null) disapproveNode = ar.getTA();
-//				disapproveProcess = "";
-			}
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(acceptNode)), acceptUser, acceptProcess);
-			pdp.getEPP().processEvent(new DisapproveEvent(graph.getNode(disapproveNode)), disapproveUser, disapproveProcess);
-			break;
-		case "withdraw_case":
-			if (ar != null) {
-				if (ar.getSA() != null) withdrawUser = ar.getSA();
-				if (ar.getTA() != null) withdrawNode = ar.getTA();
-			}
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
-			pdp.getEPP().processEvent(new WithdrawEvent(graph.getNode(withdrawNode)), withdrawUser, withdrawProcess);
-			break;
-		case "create_case_info":
-			if (ar != null) {
-				if (ar.getSA() != null) createUser = ar.getSA();
-				if (ar.getTA() != null) createNode = ar.getTA();
-			}
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
-			break;
-		case "accept_case_LA":
-			if (ar != null) {
-				if (ar.getSA() != null) laAcceptUser = ar.getSA();
-				if (ar.getTA() != null) laAcceptNode = ar.getTA();
-			}
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(acceptNode)), acceptUser, acceptProcess);
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(laAcceptNode)), laAcceptUser, laAcceptProcess);
-			break;
-		case "accept_refuse_case_A":
-			if (ar != null) {
-				if (ar.getSA() != null) acceptUser = ar.getSA();
-				if (ar.getTA() != null) acceptNode = ar.getTA();
-			}
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(acceptNode)), acceptUser, acceptProcess);
-			break;
-		case "accept_case_Final":
-			//FIXME: mutation on process not implemented
-			if (ar != null) {
-				if (ar.getSA() != null) finalAcceptProcess = ar.getSA();
-				if (ar.getTA() != null) finalAcceptNode = ar.getTA();
-				finalAcceptUser = "";
-			}
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(acceptNode)), acceptUser, acceptProcess);
-			//final accept
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(finalAcceptNode)), finalAcceptUser, finalAcceptProcess);
-			break;
-		case "approve_case":
-			if (ar != null) {
-				if (ar.getSA() != null) approveUser = ar.getSA();
-				if (ar.getTA() != null) approveNode = ar.getTA();
-			}
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(acceptNode)), acceptUser, acceptProcess);
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(laAcceptNode)), laAcceptUser, laAcceptProcess);
-			pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(approveNode)), approveUser, approveProcess);
-			break;
-			
-		default:
-			break;
-		}
+//		switch(ruleLabel) {
+//		case "withdraw_case_info":
+//			if (ar != null) {
+//				if (ar.getSA() != null) disapproveUser = ar.getSA();
+//				if (ar.getTA() != null) disapproveNode = ar.getTA();
+////				disapproveProcess = "";
+//			}
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(acceptNode)), acceptUser, acceptProcess);
+//			pdp.getEPP().processEvent(new DisapproveEvent(graph.getNode(disapproveNode)), disapproveUser, disapproveProcess);
+//			break;
+//		case "withdraw_case":
+//			if (ar != null) {
+//				if (ar.getSA() != null) withdrawUser = ar.getSA();
+//				if (ar.getTA() != null) withdrawNode = ar.getTA();
+//			}
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
+//			pdp.getEPP().processEvent(new WithdrawEvent(graph.getNode(withdrawNode)), withdrawUser, withdrawProcess);
+//			break;
+//		case "create_case_info":
+//			if (ar != null) {
+//				if (ar.getSA() != null) createUser = ar.getSA();
+//				if (ar.getTA() != null) createNode = ar.getTA();
+//			}
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
+//			break;
+//		case "accept_case_LA":
+//			if (ar != null) {
+//				if (ar.getSA() != null) laAcceptUser = ar.getSA();
+//				if (ar.getTA() != null) laAcceptNode = ar.getTA();
+//			}
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(acceptNode)), acceptUser, acceptProcess);
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(laAcceptNode)), laAcceptUser, laAcceptProcess);
+//			break;
+//		case "accept_refuse_case_A":
+//			if (ar != null) {
+//				if (ar.getSA() != null) acceptUser = ar.getSA();
+//				if (ar.getTA() != null) acceptNode = ar.getTA();
+//			}
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(acceptNode)), acceptUser, acceptProcess);
+//			break;
+//		case "accept_case_Final":
+//			//FIXME: mutation on process not implemented
+//			if (ar != null) {
+//				if (ar.getSA() != null) finalAcceptProcess = ar.getSA();
+//				if (ar.getTA() != null) finalAcceptNode = ar.getTA();
+//				finalAcceptUser = "";
+//			}
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(acceptNode)), acceptUser, acceptProcess);
+//			//final accept
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(finalAcceptNode)), finalAcceptUser, finalAcceptProcess);
+//			break;
+//		case "approve_case":
+//			if (ar != null) {
+//				if (ar.getSA() != null) approveUser = ar.getSA();
+//				if (ar.getTA() != null) approveNode = ar.getTA();
+//			}
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode(createNode)), createUser, createProcess);
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(acceptNode)), acceptUser, acceptProcess);
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(laAcceptNode)), laAcceptUser, laAcceptProcess);
+//			pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(approveNode)), approveUser, approveProcess);
+//			break;
+//			
+//		default:
+//			break;
+//		}
 	}
 	
 	//Function getAccessRequestNoTrigger() should return an access request which cannot trigger obligation in initial policy
@@ -583,51 +596,51 @@ public class Utils extends MutantTester {
 	//the returned access request should be according to mutant
 	static public void reachObligationNoTrigger(Graph graph, Prohibitions prohibitions, Obligation obligation, EventPattern eventPattern, String ruleLabel) throws Exception {
 		PDP pdp = getPdpLawFirm(graph, prohibitions, obligation);
-		switch(ruleLabel) {
-		case "withdraw_case_info":
-			//FIXME
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("Case3")), "Attorneys", "initialCreate");
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Case3Info")), "Attorneys", "initialAccept");
-			getAccessRequestNoTrigger();
-			pdp.getEPP().processEvent(new DisapproveEvent(graph.getNode("Apple")), "LeadAttorneys", "");
-			break;
-		case "withdraw_case":
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("Case3")), "Attorneys", "initialCreate");
-			getAccessRequestNoTrigger();
-			pdp.getEPP().processEvent(new WithdrawEvent(graph.getNode("Apple")), "LeadAttorneys", "Withdraw");
-			break;
-		case "create_case_info":
-			getAccessRequestNoTrigger();
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("GeneralInfo")), "Attorneys", "initialCreate");
-			break;
-		case "accept_case_LA":
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("Case3")), "Attorneys", "initialCreate");
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Case3Info")), "Attorneys", "initialAccept");
-			getAccessRequestNoTrigger();
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Apple")), "LeadAttorneys", "finalAccept");
-			break;
-		case "accept_refuse_case_A":
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("Case3")), "Attorneys", "initialCreate");
-			getAccessRequestNoTrigger();
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Apple")), "Attorneys", "initialAccept");
-			break;
-		case "accept_case_Final":
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("Case3")), "Attorneys", "initialCreate");
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Case3Info")), "Attorneys", "initialAccept");
-			getAccessRequestNoTrigger();
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Apple")), "LeadAttorneys", "finalAccept");
-			break;
-		case "approve_case":
-			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("Case3")), "Attorneys", "initialCreate");
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Case3Info")), "Attorneys", "initialAccept");
-			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Case3Info")), "LeadAttorneys", "finalAccept");
-			getAccessRequestNoTrigger();
-			pdp.getEPP().processEvent(new ApproveEvent(graph.getNode("Apple")), "C-Suit", "approve");
-			break;
-			
-		default:
-			break;
-		}
+//		switch(ruleLabel) {
+//		case "withdraw_case_info":
+//			//FIXME
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("Case3")), "Attorneys", "initialCreate");
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Case3Info")), "Attorneys", "initialAccept");
+//			getAccessRequestNoTrigger();
+//			pdp.getEPP().processEvent(new DisapproveEvent(graph.getNode("Apple")), "LeadAttorneys", "");
+//			break;
+//		case "withdraw_case":
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("Case3")), "Attorneys", "initialCreate");
+//			getAccessRequestNoTrigger();
+//			pdp.getEPP().processEvent(new WithdrawEvent(graph.getNode("Apple")), "LeadAttorneys", "Withdraw");
+//			break;
+//		case "create_case_info":
+//			getAccessRequestNoTrigger();
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("GeneralInfo")), "Attorneys", "initialCreate");
+//			break;
+//		case "accept_case_LA":
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("Case3")), "Attorneys", "initialCreate");
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Case3Info")), "Attorneys", "initialAccept");
+//			getAccessRequestNoTrigger();
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Apple")), "LeadAttorneys", "finalAccept");
+//			break;
+//		case "accept_refuse_case_A":
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("Case3")), "Attorneys", "initialCreate");
+//			getAccessRequestNoTrigger();
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Apple")), "Attorneys", "initialAccept");
+//			break;
+//		case "accept_case_Final":
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("Case3")), "Attorneys", "initialCreate");
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Case3Info")), "Attorneys", "initialAccept");
+//			getAccessRequestNoTrigger();
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Apple")), "LeadAttorneys", "finalAccept");
+//			break;
+//		case "approve_case":
+//			pdp.getEPP().processEvent(new CreateEvent(graph.getNode("Case3")), "Attorneys", "initialCreate");
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Case3Info")), "Attorneys", "initialAccept");
+//			pdp.getEPP().processEvent(new AcceptEvent(graph.getNode("Case3Info")), "LeadAttorneys", "finalAccept");
+//			getAccessRequestNoTrigger();
+//			pdp.getEPP().processEvent(new ApproveEvent(graph.getNode("Apple")), "C-Suit", "approve");
+//			break;
+//			
+//		default:
+//			break;
+//		}
 	}
 
 	//Example: GPMS
@@ -1101,25 +1114,38 @@ public class Utils extends MutantTester {
 				if (((DeleteAction) action).getAssociations() != null) {
 					List<GrantAction> grantList = ((DeleteAction) action).getAssociations();
 					int i = 0;
+					postConstraint = null;
 					for (GrantAction gAction : grantList) {
 						String subject = ((GrantAction) gAction).getSubject().getName();
 						List<String> operations = ((GrantAction) gAction).getOperations();//operation cannot be empty
 						String target = ((GrantAction) gAction).getTarget().getName();
-						String operation = "{";
-						String firstOp = operations.get(0);
-						if(operations.size() != 0)
-							operation += firstOp;
+//						String operation = "{";
+//						String firstOp = operations.get(0);
+//						if(operations.size() != 0)
+//							operation += firstOp;
+//						for (String op : operations) {
+//							if (firstOp.equals(op))
+//								continue;
+//							operation += "," + op; 
+//						}
+//						operation += "}";
+//					
+//						if (i == 0) {
+//							postConstraint = "NOT(ASSOCIATE(" + subject + "," + operation + "," + target + "))";
+//						} else {
+//							andP(postConstraint, "NOT(ASSOCIATE(" + subject + "," + operation + "," + target + "))");
+//						}
+						String tmpS = null;
 						for (String op : operations) {
-							if (firstOp.equals(op))
-								continue;
-							operation += "," + op; 
+							if (tmpS == null)
+								tmpS = "NOT(ASSOCIATE(" + subject + "," + op + "," + target + "))";
+							else
+								tmpS = orP(tmpS, "NOT(ASSOCIATE(" + subject + "," + op + "," + target + "))");
 						}
-						operation += "}";
-					
 						if (i == 0) {
-							postConstraint = "NOT(ASSOCIATE(" + subject + "," + operation + "," + target + "))";
+							postConstraint = tmpS;
 						} else {
-							andP(postConstraint, "NOT(ASSOCIATE(" + subject + "," + operation + "," + target + "))");
+							postConstraint = andP(postConstraint, tmpS);
 						}
 						i++;
 					}
@@ -1205,15 +1231,15 @@ public class Utils extends MutantTester {
 				String tmp = "PERMIT(" + where + ",?ar,?at)";
 				tmp = andP(tmp, "NOT(PERMIT(" + what + ",?ar,?at))");
 				tmp = andP(tmp, "NOT(HIERARCHY(" + what + "," + where + "))");
-				tmp = andP(tmp, "NODEEXISTS(" + what + ")");
-				tmp = andP(tmp, "NODEEXISTS(" + where  + ")");
+//				tmp = andP(tmp, "NODEEXISTS(" + what + ")");
+//				tmp = andP(tmp, "NODEEXISTS(" + where  + ")");
 				tmpConstraints.add(tmp);
 
 				tmp = "PERMIT(?s,?ar," + where + ")";
 				tmp = andP(tmp, "NOT(PERMIT(?s,?at," + what + "))");
 				tmp = andP(tmp, "NOT(HIERARCHY(" + what + "," + where + "))");
-				tmp = andP(tmp, "NODEEXISTS(" + what + ")");
-				tmp = andP(tmp, "NODEEXISTS(" + where  + ")");
+//				tmp = andP(tmp, "NODEEXISTS(" + what + ")");
+//				tmp = andP(tmp, "NODEEXISTS(" + where  + ")");
 				tmpConstraints.add(tmp);
 			}
 		} else if (action instanceof GrantAction) {
@@ -1222,8 +1248,8 @@ public class Utils extends MutantTester {
 			String target = ((GrantAction) action).getTarget().getName();
 			for (String op : operations) {
 				String tmp = "NOT(PERMIT(" + subject + "," + op + "," + target + "))";
-				tmp = andP(tmp, "NODEEXISTS(" + subject + ")");
-				tmp = andP(tmp, "NODEEXISTS(" + target + ")");		
+//				tmp = andP(tmp, "NODEEXISTS(" + subject + ")");
+//				tmp = andP(tmp, "NODEEXISTS(" + target + ")");		
 				tmpConstraints.add(tmp);
 			}
 			
@@ -1259,13 +1285,13 @@ public class Utils extends MutantTester {
 					String tmp = "EXPLICITASSIGN(" + what + "," + where + ")";
 					tmp = andP(tmp, "NOT(IMPLICITASSIGN(" + what + "," + where + "))");
 					tmp = andP(tmp, "PERMIT(" + what + ",?ar,?at)");
-					tmp = andP(tmp, "NOT(ASSOCIATE(" + what + ",ar,at))");
+					tmp = andP(tmp, "NOT(ASSOCIATE(" + what + ",?ar,?at))");
 					tmpConstraints.add(tmp);
 					
 					tmp = "EXPLICITASSIGN(" + what + "," + where + ")";
 					tmp = andP(tmp, "NOT(IMPLICITASSIGN(" + what + "," + where + "))");
 					tmp = andP(tmp, "PERMIT(?s,?ar," + what + ")");
-					tmp = andP(tmp, "NOT(ASSOCIATE(s,ar," + what + "))");
+					tmp = andP(tmp, "NOT(ASSOCIATE(?s,?ar," + what + "))");
 					tmpConstraints.add(tmp);
 				}
 			}
@@ -1288,10 +1314,10 @@ public class Utils extends MutantTester {
 					
 					String tmp;
 					for (String op : operations) {
-						tmp = "ASSOCIATE(" + subject + "," + operation + "," + target + ")";
-						tmp = andP(tmp, "NOT(ASSOCIATE(?s," + op + ",?at)");
-						tmp = andP(tmp, "IMPLICITASSIGN(" + subject + ",s)");
-						tmp = andP(tmp, "IMPLICITASSIGN(" + target + ",at)");
+						tmp = "ASSOCIATE(" + subject + "," + op + "," + target + ")";
+						tmp = andP(tmp, "NOT(ASSOCIATE(?s," + op + ",?at))");
+						tmp = andP(tmp, "IMPLICITASSIGN(" + subject + ",?s)");
+						tmp = andP(tmp, "IMPLICITASSIGN(" + target + ",?at)");
 						tmpConstraints.add(tmp);
 					}
 					
@@ -1361,9 +1387,10 @@ public class Utils extends MutantTester {
 			return tmpConstraint;
 		}
 	
-	public static List<AccessRequest> sendToSolver (Graph g, Prohibitions p, Obligation ob, String preConstraints, String postConstraint) throws Exception {
-		//FIXME:ob here is the version W/O condition, the original ob ignored
-		ob = readObligation("Policies/SolverVerification/LawFirm/ObligationsNoCondition.yml");
+	public static List<AccessRequest> sendToSolver (Graph g, Prohibitions p, Obligation ob, String preConstraints, String postConstraint, Set<String> attributeList) throws Exception {
+		//FIXME:ob here is the version W/O condition, the original ob ignored/ only in LAWFIRM example
+		//once below line works, it blocks solver finding solution with mutant obligation
+//		ob = readObligation("Policies/SolverVerification/LawFirm/ObligationsNoCondition.yml");
 		
 		List<AccessRequest> eventList= new ArrayList<AccessRequest>();
 		ObligationChecker checker = new ObligationChecker(g, ob);
@@ -1379,24 +1406,31 @@ public class Utils extends MutantTester {
 			AccessRequest q = new AccessRequest(event.getSubject(),event.getEvent(),event.getObject());
 			eventList.add(q);
 		}
+		
+		Variables vs = solution.getVariables();
+		for (Variable v : vs.getVariables()) {
+			attributeList.add(v.getAssignment());
+		}
 
 		return eventList;
 	}
 	
-	static public AccessRequest verifyEventList(Obligation obligation, Obligation mutant, List<AccessRequest> eventList, String ruleLabel) throws Exception {
+	static public AccessRequest verifyEventList(Obligation obligation, Obligation mutant, List<AccessRequest> eventList, String ruleLabel, Set<String> aList) throws Exception {
 		//FIXME: return null currently; wait sample ready to test
-		if (true)
-			return null;
+//		if (true)
+//			return null;
 		Map<String, Set<String>> CapabilityList = null;
 		Map<String, Set<String>> CapabilityListMutant = null;
 		Map<String, Set<String>> ACL = null;
 		Map<String, Set<String>> ACLM = null;
 		AccessRequest q;
-		Set<String> attributeList = new HashSet<String>();;
-		
-		//get potentially affected attributes
-		getAffectedAttributes(attributeList, ruleLabel);
-				
+		Set<String> potentialAttributeList = new HashSet<String>();
+
+//		//get potentially affected attributes
+		Set<String> attributeList = new HashSet<String>();
+		getAffectedAttributes(potentialAttributeList, ruleLabel);
+		filterNotU(potentialAttributeList, attributeList);
+		attributeList.addAll(aList);
 				
 		Graph graphI = createCopy();
 		Graph graphM = createCopy();
@@ -1404,6 +1438,8 @@ public class Utils extends MutantTester {
 		Prohibitions prohibitionsM = createProhibitionsCopy();
 		runPolicyMachine(graphI, prohibitionsI, obligation, eventList);
 		runPolicyMachine(graphM, prohibitionsM, mutant, eventList);
+//		System.out.print(GraphSerializer.toJson(graphI));
+//		System.out.print(GraphSerializer.toJson(graphM));
 		PReviewDecider deciderI = new PReviewDecider(graphI, prohibitionsI);
 		PReviewDecider deciderM = new PReviewDecider(graphM, prohibitionsM);
 		
@@ -1425,8 +1461,12 @@ public class Utils extends MutantTester {
 					compareTwoLists(CapabilityList, CapabilityListMutant, "UA") :
 					compareTwoLists(CapabilityListMutant, CapabilityList, "UA");
 			}
-			if (q != null)
+			if (q != null) {
+				System.out.println("Original:" + CapabilityList.toString());
+				System.out.println("Mutant:" + CapabilityListMutant.toString());
 				return new AccessRequest(attribute, q.getAR(), q.getTA());
+			}
+				
 			
 			if (graphI.exists(attribute)) {
 				ACL = deciderI.generateACL(attribute, null);
@@ -1444,8 +1484,12 @@ public class Utils extends MutantTester {
 					compareTwoLists(ACL, ACLM, "OA") :
 					compareTwoLists(ACLM, ACL, "OA");
 			}
-			if (q != null)
+			if (q != null) {
+				System.out.println("Original:" + ACL.toString());
+				System.out.println("Mutant:" + ACLM.toString());
 				return new AccessRequest(q.getSA(), q.getAR(), attribute);
+			}
+				
 		}
 		
 		//return true if assert results are different between initial obligation and mutant obligation
@@ -1459,13 +1503,13 @@ public class Utils extends MutantTester {
 		for (AccessRequest q : eventList) {
 			if (obligation.getLabel().equals("LawUseCase Obligations")) {
 				switch (q.getAR()) {
-				case "accept":
-					pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(q.getTA())), q.getSA(), "Accept");
+//				case "accept":
+//					pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(q.getTA())), q.getSA(), "Accept");
 //					System.out.println(q.getSA() + "||" + q.getTA());
-					break;
-//				case "create":
-//					pdp.getEPP().processEvent(new CreateEvent(graph.getNode(q.getTA())), q.getSA(), "Create");
 //					break;
+////				case "create":
+////					pdp.getEPP().processEvent(new CreateEvent(graph.getNode(q.getTA())), q.getSA(), "Create");
+////					break;
 //				case "approve":
 //					pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(q.getTA())), q.getSA(), "Approve");
 //					break;
@@ -1476,23 +1520,24 @@ public class Utils extends MutantTester {
 //					pdp.getEPP().processEvent(new WithdrawEvent(graph.getNode(q.getTA())), q.getSA(), "Withdraw");
 //					break;
 //				case "refuse":
+//					pdp.getEPP().processEvent(new RefuseEvent(graph.getNode(q.getTA())), q.getSA(), "Withdraw");
 //					break;
 //				case "finalAccept":
 //					break;
-				default:
-					break;
+//				default:
+//					break;
 				}
 			} else if (obligation.getLabel().equals("GPMS Obligations")) {
 				switch (q.getAR()) {
-//				case "submit":
-//					pdp.getEPP().processEvent(new SubmitEvent(graph.getNode(q.getTA()), true),q.getSA(), "Submit");
-//					break;
-//				case "approve":
-//					pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(q.getTA())), q.getSA(), "Approve");
-//					break;
-//				case "archive":
-//					pdp.getEPP().processEvent(new ArchiveEvent(graph.getNode(q.getTA())), q.getSA(), "Archive");
-//					break;
+				case "submit":
+					pdp.getEPP().processEvent(new SubmitEvent(graph.getNode(q.getTA()), true),q.getSA(), "Submit");
+					break;
+				case "approve":
+					pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(q.getTA())), q.getSA(), "Approve");
+					break;
+				case "archive":
+					pdp.getEPP().processEvent(new ArchiveEvent(graph.getNode(q.getTA())), q.getSA(), "Archive");
+					break;
 //				case "create":
 //					break;
 //				case "add-copi":
@@ -1568,34 +1613,101 @@ public class Utils extends MutantTester {
 			else
 				postConstraint = Utils.orP(postConstraint, tmpPostConstraint);
 		}
-		return postConstraint + ";";
+//		return postConstraint + ";";
+		return postConstraint;
 	}
 	
-	public static boolean killMutant (Obligation mutant, String ruleLabel, String preConstraint, String postConstraint) throws FileNotFoundException, EVRException, Exception {
+	//FIXME: obM is the mutant with condtion
+	public static boolean killMutantT (Obligation mutant, String ruleLabel, String preConstraint, String postConstraint, Obligation obM) throws FileNotFoundException, EVRException, Exception {
+		Set<String> attributeList = new HashSet<String>();
 		//send to solver
-		List<AccessRequest> eventList = sendToSolver(createCopy(), createProhibitionsCopy(), createObligationCopy(), preConstraint, postConstraint);
+		try {
+			List<AccessRequest> eventList = sendToSolver(createCopy(), createProhibitionsCopy(), createObligationCopy(), preConstraint, postConstraint, attributeList);
+			if (eventList == null) {
+				eventList = sendToSolver(createCopy(), createProhibitionsCopy(), mutant, preConstraint, postConstraint, attributeList);
+			}
+			if (eventList == null) {
+				//equivalent mutant
+				System.out.println("Mutant not killed! No solution found!");
+				return false;
+			}
+		
+			//run policy machine
+			Obligation ob;
+			//FIXME:for running obligation, load obligtion with condition to avoid PM error
+			if (mutant.getLabel().equals("LawUseCase Obligations")) {
+				ob = readObligation("Policies/SolverVerification/LawFirm/ObligationsWithCondition.yml");
+			} else {
+				ob = createObligationCopy();
+			}
+			
+		
+			AccessRequest q = verifyEventList(ob, obM, eventList, ruleLabel, attributeList);
+			if (q == null) {
+			//equivalent mutant
+				System.out.println("Mutant not killed!");
+				return false;
+			} else {
+				System.out.println("Mutant Killed! Assert request:(" + q.getSA() + "," + q.getAR() + "," + q.getTA() + ")");
+				//FIXME: should save eventList+assert request, q, into test suite
+//				System.out.println(eventList.toString());
+//				Utils.addToARList(eventList);
+//				Utils.addToARList(q);
+				return true;
+			}
+		} catch (PMException e) {
+			e.printStackTrace();
+			return true;
+		}
+	}
+	
+	//FIXME: obM is the mutant with condtion
+	public static boolean killMutant (Obligation mutant, String ruleLabel, String preConstraint, String postConstraint) throws FileNotFoundException, EVRException, Exception {
+		Set<String> attributeList = new HashSet<String>();
+		//send to solver
+		List<AccessRequest> eventList = sendToSolver(createCopy(), createProhibitionsCopy(), createObligationCopy(), preConstraint, postConstraint, attributeList);
 		if (eventList == null) {
-			eventList = sendToSolver(createCopy(), createProhibitionsCopy(), mutant, preConstraint, postConstraint);
+			eventList = sendToSolver(createCopy(), createProhibitionsCopy(), mutant, preConstraint, postConstraint, attributeList);
 		}
 		if (eventList == null) {
 			//equivalent mutant
+			System.out.println("Mutant not killed! No solution found!");
 			return false;
 		}
 		
 		//run policy machine
-		AccessRequest q = verifyEventList(Utils.createObligationCopy(), mutant, eventList, ruleLabel);
-		if (q == null) {
+		try {
+			AccessRequest q = verifyEventList(createObligationCopy(), mutant, eventList, ruleLabel, attributeList);
+			if (q == null) {
 			//equivalent mutant
-			return false;
-		} else {
-			System.out.println("Mutant Killed!");
-			//FIXME: should save eventList+assert request, q, into test suite
-//			System.out.println(eventList.toString());
-			System.out.println(q.getSA() + "," + q.getAR() + "," + q.getTA());
-//			Utils.addToARList(eventList);
-//			Utils.addToARList(q);
+				System.out.println("Mutant not killed!");
+				return false;
+			} else {
+				System.out.println("Mutant Killed!");
+				//FIXME: should save eventList+assert request, q, into test suite
+//				System.out.println(eventList.toString());
+				System.out.println(q.getSA() + "," + q.getAR() + "," + q.getTA());
+//				Utils.addToARList(eventList);
+//				Utils.addToARList(q);
+				return true;
+			}
+		} catch (PMException e) {
+			e.printStackTrace();
 			return true;
 		}
+	}
+	
+	static void filterNotU (Set<String> potentialAttributeList, Set<String> userList) throws PMException {
+		List<Node> nodeList = getUsInGraph(graph);
+		for (Node node : nodeList) {
+			for (String s : potentialAttributeList) {
+				if (isContained(node.getName(), s, graph)) {
+					userList.add(node.getName());
+					break;
+				}
+			}
+		}
+		
 	}
 	
 	//parse received string into list of struct AccessRequest

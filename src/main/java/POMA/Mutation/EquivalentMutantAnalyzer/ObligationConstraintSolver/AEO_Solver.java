@@ -93,38 +93,54 @@ public class AEO_Solver extends MutantTester {
 				mutant = updateOperationSet(mutant, ruleLabel, changeToOperationSet);
 				Utils.setObligationMutant(mutant);
 				
+				Obligation obM = Utils.createObligationWithCondtionCopy();
+				obM = updateOperationSet(obM, ruleLabel, changeToOperationSet);
+				Utils.setObligationMutant(obM);
+				
 				//generate RConstraint
-				RConstraint = null;
-				for (String subject : Utils.getAllSubject(eventPattern)) {
-					for (String target : Utils.getAllTarget(eventPattern)) {
-						String a = "PERMIT(?user,"+operationToAdd+","+target+")";
-						String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operationToAdd+","+target+")";
-						String c = "ASSIGN(?user,"+subject+")";
-						String all = Utils.andP(Utils.andP(a, b), c);
-						if (RConstraint == null)
-							RConstraint = all;
-						else
-							RConstraint = Utils.orP(RConstraint, all);
-					}
-				}
+//				RConstraint = null;
+//				for (String subject : Utils.getAllSubject(eventPattern)) {
+//					for (String target : Utils.getAllTarget(eventPattern)) {
+//						String a = "PERMIT(?user,"+operationToAdd+","+target+")";
+//						String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operationToAdd+","+target+")";
+//						String c = "ASSIGN(?user,"+subject+")";
+//						String all = Utils.andP(Utils.andP(a, b), c);
+//						if (RConstraint == null)
+//							RConstraint = all;
+//						else
+//							RConstraint = Utils.orP(RConstraint, all);
+//					}
+//				}
 				
 				ResponsePattern responsePattern = rule.getResponsePattern();
 				//generate Pconstraint
 				PConstraint = Utils.generatePConstraint(responsePattern);
 				//generate preConstraint
-				preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
-//				preConstraint = RConstraint + ";";
+//				preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
+				preConstraint = PConstraint + ";";
 				System.out.println(i + "Pre:" + preConstraint);
 				//generate postConstraint
 				postConstraint = Utils.generatePostConstraint(responsePattern);
+				String tmpS = null;
+				for (String subject : Utils.getAllSubject(eventPattern)) {
+					for (String target : Utils.getAllTarget(eventPattern)) {
+						String a = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operationToAdd+","+target+")";
+						String b = "ASSIGN(?user,"+subject+")";
+						String all = Utils.andP(a, b);
+						if (tmpS == null)
+							tmpS = all;
+						else
+							tmpS = Utils.orP(tmpS, all);
+					}
+				}
+				postConstraint = Utils.andP(postConstraint, tmpS) + ";"; 
 				System.out.println(i + "Post:" + postConstraint);
 				
-				Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+//				Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+				Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
 				if (res) {
-					System.out.println("Mutant killed!");
 					setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
-				} else
-					System.out.println("Mutant not killed!");
+				}
 				setNumberOfMutants(getNumberOfMutants() + 1);
 				i++;
 			}

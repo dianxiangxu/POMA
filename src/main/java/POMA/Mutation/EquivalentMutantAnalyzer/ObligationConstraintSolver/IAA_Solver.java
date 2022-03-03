@@ -72,8 +72,6 @@ public class IAA_Solver extends MutantTester {
 					continue;
 				}
 				
-				//generate mutant
-				Obligation mutant = Utils.createObligationCopy();
 				//make a copy of newActions
 				newActions.clear();
 				for (Action action : actions) {
@@ -107,10 +105,10 @@ public class IAA_Solver extends MutantTester {
 							continue;
 						where = new EvrNode(newWhere.getName(), newWhere.getType().toString(), newWhere.getProperties());
 						
-						System.out.println("Unkilled mutant (IAA_Solver) " + ruleLabel + "|actionIndex:" + index);
-						System.out.println(what.getName() + "|" + what.getType());
-						System.out.println(as.getWhere().getName() + "|" + as.getWhere().getType());
-						System.out.println(where.getName() + "|" + where.getType());
+						System.out.println("(IAA_Solver) " + ruleLabel + "|actionIndex:" + index);
+						System.out.println("What:" + what.getName() + "|" + what.getType());
+						System.out.println("Old where:" + as.getWhere().getName() + "|" + as.getWhere().getType());
+						System.out.println("New where:" + where.getName() + "|" + where.getType());
 						Assignment assignment = new Assignment(what, where);
 						newAction.addAssignment(assignment);
 						
@@ -119,41 +117,62 @@ public class IAA_Solver extends MutantTester {
 						newAction.setNegatedCondition(actionToChange.getNegatedCondition());
 						newActions.add(newAction);
 						
+						//generate mutant
+						Obligation mutant = Utils.createObligationCopy();
 						mutant = updateActions(mutant, ruleLabel, newActions);
 						Utils.setObligationMutant(mutant);
 						
+						Obligation obM = Utils.createObligationWithCondtionCopy();
+						obM = updateActions(obM, ruleLabel, newActions);
+						Utils.setObligationMutant(obM);
+						
 						//generate RConstraint
-						RConstraint = null;
-						for (String subject : Utils.getAllSubject(event)) {
-							for (String operation : event.getOperations()) {
-								for (String target : Utils.getAllTarget(event)) {
-									String a = "PERMIT(?user,"+operation+","+target+")";
-									String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
-									String c = "ASSIGN(?user,"+subject+")";
-									String all = Utils.andP(Utils.andP(a, b), c);
-									if (RConstraint == null)
-										RConstraint = all;
-									else
-										RConstraint = Utils.orP(RConstraint, all);
-								}
-							}
-						}
+//						RConstraint = null;
+//						for (String subject : Utils.getAllSubject(event)) {
+//							for (String operation : event.getOperations()) {
+//								for (String target : Utils.getAllTarget(event)) {
+//									String a = "PERMIT(?user,"+operation+","+target+")";
+//									String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
+//									String c = "ASSIGN(?user,"+subject+")";
+//									String all = Utils.andP(Utils.andP(a, b), c);
+//									if (RConstraint == null)
+//										RConstraint = all;
+//									else
+//										RConstraint = Utils.orP(RConstraint, all);
+//								}
+//							}
+//						}
 						
 						//generate Pconstraint
 						PConstraint = Utils.getPropagationConstraintIAA(what.getName(), oldWhere.getName(), where.getName());
 						//generate preConstraint
-						preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
+//						preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
+						preConstraint = PConstraint + ";";
 						System.out.println(i + "Pre:" + preConstraint);
 						//generate postConstraint
 						postConstraint = Utils.generatePostConstraint(responsePattern);
+						String tmpS = null;
+						for (String subject : Utils.getAllSubject(event)) {
+							for (String operation : event.getOperations()) {
+								for (String target : Utils.getAllTarget(event)) {
+									String a = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
+									String b = "ASSIGN(?user,"+subject+")";
+									String all = Utils.andP(a, b);
+									if (tmpS == null)
+										tmpS = all;
+									else
+										tmpS = Utils.orP(tmpS, all);
+								}
+							}
+						}
+						postConstraint = Utils.andP(postConstraint, tmpS) + ";"; 
 						System.out.println(i + "Post:" + postConstraint);
 						
-						Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+//						Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+						Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
 						if (res) {
-							System.out.println("Mutant killed!");
 							setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
-						} else
-							System.out.println("Mutant not killed!");
+						}
 						setNumberOfMutants(getNumberOfMutants() + 1);
 						i++;
 						

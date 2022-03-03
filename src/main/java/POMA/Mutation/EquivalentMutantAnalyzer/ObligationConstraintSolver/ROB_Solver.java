@@ -53,22 +53,33 @@ public class ROB_Solver extends MutantTester {
 			mutant = removeOneRule(mutant, ruleLabel);
 			Utils.setObligationMutant(mutant);
 			
+			Obligation obM = Utils.createObligationWithCondtionCopy();
+			obM = removeOneRule(obM, ruleLabel);
+			Utils.setObligationMutant(obM);
+			
 			//generate Rconstraint
 			String RConstraint = null;
 			for (String subject : Utils.getAllSubject(event)) {
-				for (String operation : event.getOperations()) {
-					for (String target : Utils.getAllTarget(event)) {
-						String a = "ASSIGN(?u,"+subject+")";
-						String b = "PERMIT(?u,"+operation+","+target+")";
-						String c = "OBLIGATIONLABEL("+ruleLabel+",?u,"+operation+","+target+")";
-						String all = Utils.andP(Utils.andP(a, b), c);
-						if (RConstraint == null)
-							RConstraint = all;
-						else
-							RConstraint = Utils.orP(RConstraint, all);
-					}
-				}
-			}	
+				String a = "ASSIGN(?u,"+subject+")";
+				if (RConstraint == null)
+					RConstraint = a;
+				else
+					RConstraint = Utils.orP(RConstraint, a);
+			}
+//			for (String subject : Utils.getAllSubject(event)) {
+//				for (String operation : event.getOperations()) {
+//					for (String target : Utils.getAllTarget(event)) {
+//						String a = "ASSIGN(?u,"+subject+")";
+//						String b = "PERMIT(?u,"+operation+","+target+")";
+//						String c = "OBLIGATIONLABEL("+ruleLabel+",?u,"+operation+","+target+")";
+//						String all = Utils.andP(Utils.andP(a, b), c);
+//						if (RConstraint == null)
+//							RConstraint = all;
+//						else
+//							RConstraint = Utils.orP(RConstraint, all);
+//					}
+//				}
+//			}	
 			
 			ResponsePattern responsePattern = rule.getResponsePattern();
 			//generate Pconstraint
@@ -78,39 +89,28 @@ public class ROB_Solver extends MutantTester {
 			System.out.println(i + "Pre:" + preConstraint);
 			//generate postConstraint
 			postConstraint = Utils.generatePostConstraint(responsePattern);
+			String tmpS = null;
+			for (String operation : event.getOperations()) {
+				for (String target : Utils.getAllTarget(event)) {
+//					String b = "PERMIT(?u,"+operation+","+target+")";
+					String c = "OBLIGATIONLABEL("+ruleLabel+",?u,"+operation+","+target+")";
+//					String all = Utils.andP(b, c);
+					if (tmpS == null)
+						tmpS = c;
+					else
+						tmpS = Utils.orP(tmpS, c);
+				}
+			}
+			postConstraint = Utils.andP(postConstraint, tmpS) + ";";
 			System.out.println(i + "Post:" + postConstraint);
 			
-			//send to solver
-			List<AccessRequest> eventList = Utils.sendToSolver(createCopy(), Utils.createProhibitionsCopy(), Utils.createObligationCopy(), preConstraint, postConstraint);
-//			if (eventList == null) {
-//				eventList = Utils.sendToSolver(createCopy(), Utils.createProhibitionsCopy(), mutant, preConstraint, postConstraint);
-//			}
-			if (eventList == null) {
-				//equivalent mutant
-				i++;
-				setNumberOfMutants(getNumberOfMutants() + 1);
-				continue;
-			}
-			
-			//run policy machine
-			AccessRequest q = Utils.verifyEventList(Utils.createObligationCopy(), mutant, eventList, ruleLabel);
-			if (q == null) {
-				//equivalent mutant
-				i++;
-				setNumberOfMutants(getNumberOfMutants() + 1);
-				continue;
-			} else {
-				System.out.println("Mutant Killed!");
-				//FIXME: should save eventList+assert request, q, into test suite
-//				System.out.println(eventList.toString());
-				System.out.println(q.getSA() + "," + q.getAR() + "," + q.getTA());
-//				Utils.addToARList(eventList);
-//				Utils.addToARList(q);
-				
-				i++;
-				setNumberOfMutants(getNumberOfMutants() + 1);
+			Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
+			if (res) {
 				setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
 			}
+			setNumberOfMutants(getNumberOfMutants() + 1);
+			i++;
+			
 		}
 	}
 		

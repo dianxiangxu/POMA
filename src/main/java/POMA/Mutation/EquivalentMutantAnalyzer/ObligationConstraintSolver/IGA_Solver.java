@@ -130,6 +130,7 @@ public class IGA_Solver extends MutantTester {
 					System.out.println(i + "Post:" + postConstraint);
 					
 					Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+//					Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
 					if (res) {
 						System.out.println("Mutant killed!");
 						setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);

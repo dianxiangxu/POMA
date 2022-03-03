@@ -40,7 +40,7 @@ rules:
                   - approve
                 target:
                   name: PDSWhole
-                  type: OA    
+                  type: UA    
         - delete:
             associations:
               - subject:
@@ -50,7 +50,7 @@ rules:
                   - disapprove   
                 target:
                   name: PDSWhole
-                  type: OA                                                                                                    
+                  type: UA                                                                                                    
   - label: obligation2
     event:
       subject:
@@ -80,11 +80,11 @@ rules:
                   name: Chair
                   type: UA
                 operations:
-                  #- approve
+                  - approve
                   - disapprove                   
                 target:
-                 name: PDSWhole
-                 type: OA                                      
+                  name: PDSWhole
+                  type: UA                                      
   - label: obligation3
     event:
       subject:
