@@ -43,9 +43,9 @@ public class DenyPredicate implements IPredicate{
 		String uoVar = " queryVAR" + tuple.get(2).getElement().replace("?", "")+ " ";//UDV
 
 		String uaVar = " queryCONSTDENYUA_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
-				+ tuple.get(2).getElement() + "_" + "{k} "; 
+				+ tuple.get(2).getElement() + "_" + "{(k + 1)} "; 
 		String atVar = " queryCONSTDENYAT_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
-				+ tuple.get(2).getElement() + "_" + "{k} ";
+				+ tuple.get(2).getElement() + "_" + "{(k + 1)} ";
 
 		String userSpec = s != null ? "(member (mkTuple  [" + s + "] " + uaVar + ") (ASSIGN* " + "{(k + 1)}" + "))"
 				: "(member (mkTuple" + uVar + uaVar + ") (ASSIGN* " + "{(k + 1)}" + "))";

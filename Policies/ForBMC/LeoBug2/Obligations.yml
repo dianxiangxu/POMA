@@ -19,18 +19,10 @@ rules:
                type: UA
              operations:
                - approve
-             target:
-               name: PDSWhole
-               type: OA     
-        - grant:
-             subject:
-               name: Chair
-               type: UA
-             operations:
                - disapprove               
              target:
                name: PDSWhole
-               type: OA                                
+               type: OA                                     
         - delete:
             associations:
               - subject:
@@ -38,19 +30,10 @@ rules:
                   type: UA
                 operations:
                   - approve
-                target:
-                  name: PDSWhole
-                  type: UA    
-        - delete:
-            associations:
-              - subject:
-                  name: PI
-                  type: UA
-                operations:
                   - disapprove   
                 target:
-                  name: PDSWhole
-                  type: UA                                                                                                    
+                  function:
+                    name: current_target                                                                                                     
   - label: obligation2
     event:
       subject:
@@ -228,38 +211,6 @@ rules:
                   type: UA
                 operations:
                   - archive                     
-                target:
-                  name: PDSWhole
-                  type: UA     
-  - label: obligation7
-    event:
-      subject:
-        anyUser: 
-          - "UChair"
-      operations:
-        - approve
-      target:
-        policyElements:
-          - name: PDSWhole
-            type: OA
-    response:      
-      actions:
-        - grant:
-             subject:
-               name: UBM
-               type: UA
-             operations:
-               - approve               
-             target:
-               name: PDSWhole
-               type: OA   
-        - delete:
-            associations:
-              - subject:
-                  name: UChair
-                  type: UA
-                operations:
-                  - approve                     
                 target:
                   name: PDSWhole
                   type: UA     
