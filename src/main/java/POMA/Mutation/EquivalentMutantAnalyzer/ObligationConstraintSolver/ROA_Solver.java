@@ -66,6 +66,10 @@ public class ROA_Solver extends MutantTester {
 				mutant = updateActions(mutant, ruleLabel, newActions);
 				Utils.setObligationMutant(mutant);
 				
+				Obligation obM = Utils.createObligationWithCondtionCopy();
+				obM = updateActions(obM, ruleLabel, newActions);
+				Utils.setObligationMutant(obM);
+				
 				//generate RConstraint
 				RConstraint = null;
 				for (String subject : Utils.getAllSubject(eventPattern)) {
@@ -92,7 +96,8 @@ public class ROA_Solver extends MutantTester {
 				postConstraint = Utils.generatePostConstraint(responsePattern);
 				System.out.println(i + "Post:" + postConstraint);
 				
-				Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+//				Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+				Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
 				if (res) {
 					System.out.println("Mutant killed!");
 					setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);

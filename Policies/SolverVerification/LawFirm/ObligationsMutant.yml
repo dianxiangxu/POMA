@@ -7,10 +7,6 @@ rules:
           - "Attorneys"
       operations:
         - accept
-      target:
-        policyElements:
-          - name: Case3Info
-            type: OA
     response:      
       actions:
         - assign:

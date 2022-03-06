@@ -110,6 +110,11 @@ public class CEU_Solver extends MutantTester {
 							mutant = changeEventAnyUser(mutant, ruleLabel, tmp);
 							Utils.setObligationMutant(mutant);
 							
+							Obligation obM = Utils.createObligationWithCondtionCopy();
+							obM = changeEventAnyUser(obM, ruleLabel, tmp);
+							Utils.setObligationMutant(obM);
+							
+							
 							//generate UserConstraint
 							UserConstraint = null;
 							for (String sub : anyUser) {
@@ -129,19 +134,20 @@ public class CEU_Solver extends MutantTester {
 							}
 							
 							//generate RConstraint
-							RConstraint = null;
-							for (String operation : event.getOperations()) {
-								for (String target : Utils.getAllTarget(event)) {
-									String a = "PERMIT(?user,"+operation+","+target+")";
-									String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
-									String all = Utils.andP(a, b);
-									if (RConstraint == null)
-										RConstraint = all;
-									else
-										RConstraint = Utils.orP(RConstraint, all);
-								}
-							}
-							RConstraint = Utils.andP(UserConstraint, RConstraint);
+//							RConstraint = null;
+//							for (String operation : event.getOperations()) {
+//								for (String target : Utils.getAllTarget(event)) {
+//									String a = "PERMIT(?user,"+operation+","+target+")";
+//									String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
+//									String all = Utils.andP(a, b);
+//									if (RConstraint == null)
+//										RConstraint = all;
+//									else
+//										RConstraint = Utils.orP(RConstraint, all);
+//								}
+//							}
+//							RConstraint = Utils.andP(UserConstraint, RConstraint);
+							RConstraint = UserConstraint;
 							
 							ResponsePattern responsePattern = rule.getResponsePattern();
 							//generate Pconstraint
@@ -151,66 +157,77 @@ public class CEU_Solver extends MutantTester {
 							System.out.println(i + "Pre:" + preConstraint);
 							//generate postConstraint
 							postConstraint = Utils.generatePostConstraint(responsePattern);
+							String tmpS = null;
+							for (String operation : event.getOperations()) {
+								for (String target : Utils.getAllTarget(event)) {
+									String a = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
+									if (tmpS == null)
+										tmpS = a;
+									else
+										tmpS = Utils.orP(tmpS, a);
+								}
+							}
+							postConstraint = Utils.andP(postConstraint, tmpS) + ";"; 
 							System.out.println(i + "Post:" + postConstraint);
 							
-							Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+//							Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+							Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
 							if (res) {
-								System.out.println("Mutant killed!");
 								setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
-							} else
-								System.out.println("Mutant not killed!");
+							}
 							setNumberOfMutants(getNumberOfMutants() + 1);
 							i++;
 						}
 					}
 				} else {
-					changeToSubject = Utils.getUserName(j, UAs);
-					if (changeToSubject.equals(user))
-						continue;
-					
-					//generate mutant 
-					System.out.println("CEU: change from " + user + " to " + changeToSubject);
-					Obligation mutant = Utils.createObligationCopy();
-					mutant = changeEventUser(mutant, ruleLabel, changeToSubject);
-					Utils.setObligationMutant(mutant);
-					
-					//generate Rconstraint
-					RConstraint = null;
-					String tmp1 = Utils.andP("ASSIGN(?user,"+user+")", "NOT(ASSIGN(?user,"+changeToSubject+"))");
-					String tmp2 = Utils.andP("NOT(ASSIGN(?user,"+user+"))", "ASSIGN(?user,"+changeToSubject+")");
-					UserConstraint = Utils.orP(tmp1, tmp2);
-					
-					for (String operation : event.getOperations()) {
-						for (String target : Utils.getAllTarget(event)) {
-							String a = "PERMIT(?user,"+operation+","+target+")";
-							String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
-							String all = Utils.andP(a, b);
-							if (RConstraint == null)
-								RConstraint = all;
-							else
-								RConstraint = Utils.orP(RConstraint, all);
-						}
-					}
-					RConstraint = Utils.andP(RConstraint, UserConstraint);
-					
-					ResponsePattern responsePattern = rule.getResponsePattern();
-					//generate Pconstraint
-					PConstraint = Utils.generatePConstraint(responsePattern);
-					//generate preConstraint
-					preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
-					System.out.println(i + "Pre:" + preConstraint);
-					//generate postConstraint
-					postConstraint = Utils.generatePostConstraint(responsePattern);
-					System.out.println(i + "Post:" + postConstraint);
-					
-					Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
-					if (res) {
-						System.out.println("Mutant killed!");
-						setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
-					} else
-						System.out.println("Mutant not killed!");
-					setNumberOfMutants(getNumberOfMutants() + 1);
-					i++;
+					//FIXME: no sample right now. Code needs implementation.
+//					changeToSubject = Utils.getUserName(j, UAs);
+//					if (changeToSubject.equals(user))
+//						continue;
+//					
+//					//generate mutant 
+//					System.out.println("CEU: change from " + user + " to " + changeToSubject);
+//					Obligation mutant = Utils.createObligationCopy();
+//					mutant = changeEventUser(mutant, ruleLabel, changeToSubject);
+//					Utils.setObligationMutant(mutant);
+//					
+//					//generate Rconstraint
+//					RConstraint = null;
+//					String tmp1 = Utils.andP("ASSIGN(?user,"+user+")", "NOT(ASSIGN(?user,"+changeToSubject+"))");
+//					String tmp2 = Utils.andP("NOT(ASSIGN(?user,"+user+"))", "ASSIGN(?user,"+changeToSubject+")");
+//					UserConstraint = Utils.orP(tmp1, tmp2);
+//					
+//					for (String operation : event.getOperations()) {
+//						for (String target : Utils.getAllTarget(event)) {
+//							String a = "PERMIT(?user,"+operation+","+target+")";
+//							String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
+//							String all = Utils.andP(a, b);
+//							if (RConstraint == null)
+//								RConstraint = all;
+//							else
+//								RConstraint = Utils.orP(RConstraint, all);
+//						}
+//					}
+//					RConstraint = Utils.andP(RConstraint, UserConstraint);
+//					
+//					ResponsePattern responsePattern = rule.getResponsePattern();
+//					//generate Pconstraint
+//					PConstraint = Utils.generatePConstraint(responsePattern);
+//					//generate preConstraint
+//					preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
+//					System.out.println(i + "Pre:" + preConstraint);
+//					//generate postConstraint
+//					postConstraint = Utils.generatePostConstraint(responsePattern);
+//					System.out.println(i + "Post:" + postConstraint);
+//					
+//					Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+//					if (res) {
+//						System.out.println("Mutant killed!");
+//						setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
+//					} else
+//						System.out.println("Mutant not killed!");
+//					setNumberOfMutants(getNumberOfMutants() + 1);
+//					i++;
 				}
 			}
 		}

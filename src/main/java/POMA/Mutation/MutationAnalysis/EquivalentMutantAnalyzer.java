@@ -122,7 +122,7 @@ public class EquivalentMutantAnalyzer {
 		//FIXME: prohibition not working yet
 //		initialGraphConfig = "Policies/SolverVerification/LawFirm/Graph.json";
 //		obligationPath = "Policies/SolverVerification/LawFirm/Obligations.yml";
-//		obligationPath = "Policies/SolverVerification/LawFirm/ObligationsNoCondition.yml";
+//		obligationPath = "Policies/SolverVerification/LawFirm/ObligationsWithCondition.yml";
 ////      initialProhibitionConfig = "Policies/ForBMC/LawFirmSimplified/prohibitions.json";
 		
 		//BMC: GPMS

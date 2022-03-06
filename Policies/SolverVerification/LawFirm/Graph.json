@@ -5,6 +5,11 @@
       "type": "OA",
       "properties": {}
     },
+	{
+      "name": "Case3Info2",
+      "type": "OA",
+      "properties": {}
+    },
     {
       "name": "Attorneys3",
       "type": "UA",
@@ -12,7 +17,7 @@
     },
     {
       "name": "LeadAttorneysU",
-      "type": "UA",
+      "type": "U",
       "properties": {}
     },
     {
@@ -102,6 +107,10 @@
     },
     {
       "source": "Case3Info",
+      "target": "Case3"
+    },
+	{
+      "source": "Case3Info2",
       "target": "Case3"
     },
     {
