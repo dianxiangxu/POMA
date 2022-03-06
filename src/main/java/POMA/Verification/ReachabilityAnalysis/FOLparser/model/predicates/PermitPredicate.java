@@ -30,7 +30,7 @@ public class PermitPredicate implements IPredicate {
 	public String toSMT() throws Exception {
 		if (tuple.size() != 3) {
 			throw new Exception(
-					"Incorrect DENY predictate format. Please use the following format: DENY(source, ar, target)");
+					"Incorrect PERMIT predictate format. Please use the following format: PERMIT(source, ar, target)");
 		}
 		String smtlibv2Code = "";
 		String s = tuple.get(0) instanceof Constant ? tuple.get(0).getElement() : null;
@@ -41,10 +41,10 @@ public class PermitPredicate implements IPredicate {
 		String arVar = " queryVAR" + tuple.get(1).getElement().replace("?", "") + " ";// UDV
 		String uoVar = " queryVAR" + tuple.get(2).getElement().replace("?", "") + " ";// UDV
 
-		String uaVar = " queryCONSTDENYUA_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
-				+ tuple.get(2).getElement() + "_" + "{k} ";
-		String atVar = " queryCONSTDENYAT_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
-				+ tuple.get(2).getElement() + "_" + "{k} ";
+		String uaVar = " queryCONSTPERMITUA_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
+				+ tuple.get(2).getElement() + "_" + "{(k + 1)} ";
+		String atVar = " queryCONSTPERMITAT_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
+				+ tuple.get(2).getElement() + "_" + "{(k + 1)} ";
 
 		String userSpec = s != null ? "(member (mkTuple  [" + s + "] " + uaVar + ") (ASSIGN* " + "{(k + 1)}" + "))"
 				: "(member (mkTuple" + uVar + uaVar + ") (ASSIGN* " + "{(k + 1)}" + "))";

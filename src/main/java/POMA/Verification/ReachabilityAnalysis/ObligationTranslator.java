@@ -140,13 +140,14 @@ public class ObligationTranslator {
 		sb.append(System.lineSeparator());
 		sb.append("; 5.1 a->PRE");
 		for (Rule r : obligation.getRules()) {
-			String subject ="";
-			if(r.getEventPattern().getSubject().getAnyUser()!=null){
-			subject = r.getEventPattern().getSubject().getAnyUser().get(0);
+			String subject = "";
+			if (r.getEventPattern().getSubject().getAnyUser() != null) {
+				subject = r.getEventPattern().getSubject().getAnyUser().get(0);
 			}
 			String target = "";
-			if(r.getEventPattern().getTarget()!=null&&r.getEventPattern().getTarget().getPolicyElements() != null){
-			target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
+			if (r.getEventPattern().getTarget() != null
+					&& r.getEventPattern().getTarget().getPolicyElements() != null) {
+				target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
 			}
 			String obligationLabel = r.getLabel();
 
@@ -185,8 +186,8 @@ public class ObligationTranslator {
 					+ " (member (mkTuple  " + obligationUO + " " + obligationT + ") (ASSIGN* " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationUO + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationU + " " + obligationU + ") USERS)\r\n"
-					//+ " (distinct " + obligationS + " " + obligationU + ")\r\n" 
-					//+ " (distinct " + obligationUO + " " + obligationT + ")\r\n" 
+					// + " (distinct " + obligationS + " " + obligationU + ")\r\n"
+					// + " (distinct " + obligationUO + " " + obligationT + ")\r\n"
 					+ ")))");
 			sb.append(System.lineSeparator());
 			sb.append(System.lineSeparator());
@@ -197,8 +198,7 @@ public class ObligationTranslator {
 
 	void processVariables(String obligationU, String obligationUA, String obligationAT, String obligationUO,
 			String obligationS, String obligationT, String obligationAR, StringBuilder sb, Integer subjectID,
-			Integer targetID,
-			List<Integer> arIDs) {
+			Integer targetID, List<Integer> arIDs) {
 		sb.append("(declare-fun " + obligationU + " () Int)");
 		sb.append(System.lineSeparator());
 		sb.append("(declare-fun " + obligationUA + " () Int)");
@@ -263,7 +263,8 @@ public class ObligationTranslator {
 			if (r.getEventPattern().getSubject().getAnyUser() != null) {
 				subject = r.getEventPattern().getSubject().getAnyUser().get(0); // TODO: Add multiple users
 			}
-			if (r.getEventPattern().getTarget()!=null && r.getEventPattern().getTarget().getPolicyElements() != null) {
+			if (r.getEventPattern().getTarget() != null
+					&& r.getEventPattern().getTarget().getPolicyElements() != null) {
 				String target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
 				eventMembers.put(subject, target);
 			}
@@ -290,21 +291,23 @@ public class ObligationTranslator {
 			Action action = actions.get(i);
 			if (action instanceof AssignAction) {
 				assignAction = (AssignAction) action;
+				what = assignAction.getAssignments().get(0).getWhat().getFunction() != null
+						? assignAction.getAssignments().get(0).getWhat().getFunction().getName()
+						: assignAction.getAssignments().get(0).getWhat().getName();
+				where = assignAction.getAssignments().get(0).getWhere().getFunction() != null
+						? assignAction.getAssignments().get(0).getWhere().getFunction().getName()
+						: assignAction.getAssignments().get(0).getWhere().getName();
+
 				if ((assignAction.getAssignments().get(0).getWhat().getType().equals("U")
 						&& assignAction.getAssignments().get(0).getWhere().getType().equals("UA"))
 						|| (assignAction.getAssignments().get(0).getWhat().getType().equals("O")
 								&& assignAction.getAssignments().get(0).getWhere().getType().equals("OA"))) {
-					what = assignAction.getAssignments().get(0).getWhat().getName();
-					where = assignAction.getAssignments().get(0).getWhere().getName();
 					innerAction = handleAddAssignmentActionUUA(k, what, where, obligationLabel, innerAction);
 				} else if ((assignAction.getAssignments().get(0).getWhat().getType().equals("UA")
 						&& assignAction.getAssignments().get(0).getWhere().getType().equals("UA"))
 						|| (assignAction.getAssignments().get(0).getWhat().getType().equals("OA")
 								&& assignAction.getAssignments().get(0).getWhere().getType().equals("OA"))) {
-					what = assignAction.getAssignments().get(0).getWhat().getName();
-					where = assignAction.getAssignments().get(0).getWhere().getName();
 					innerAction = handleAddAssignmentActionUAUA(k, what, where, obligationLabel, innerAction);
-
 				}
 				innerActionNoFlatten = handleAddAssignmentNoFlattenAction(k, what, where, obligationLabel,
 						innerActionNoFlatten);
@@ -312,13 +315,19 @@ public class ObligationTranslator {
 			if (action instanceof DeleteAction) {
 				deleteAction = (DeleteAction) action;
 				if (deleteAction.getAssignments() != null) {
+					what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getFunction() != null
+							? deleteAction.getAssignments().getAssignments().get(0).getWhat().getFunction().getName()
+							: deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
+
+					where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getFunction() != null
+							? deleteAction.getAssignments().getAssignments().get(0).getWhere().getFunction().getName()
+							: deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
+
 					if ((deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("U")
 							&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType().equals("UA"))
 							|| (deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("O")
 									&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType()
 											.equals("OA"))) {
-						what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
-						where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
 						innerAction = handleDeleteAssignmentActionUUA(k, what, where, obligationLabel, innerAction);
 					}
 					if ((deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("UA")
@@ -326,8 +335,6 @@ public class ObligationTranslator {
 							|| (deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("OA")
 									&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType()
 											.equals("OA"))) {
-						what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
-						where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
 						innerAction = handleDeleteAssignmentActionUAUA(k, what, where, obligationLabel, innerAction);
 					}
 				}
@@ -337,22 +344,23 @@ public class ObligationTranslator {
 			if (action instanceof CreateAction) {
 				createAction = (CreateAction) action;
 				if (createAction.getCreateNodesList().get(0) != null) {
+					what = createAction.getCreateNodesList().get(0).getWhat().getFunction() != null
+							? createAction.getCreateNodesList().get(0).getWhat().getFunction().getName()
+							: createAction.getCreateNodesList().get(0).getWhat().getName();
+					where = createAction.getCreateNodesList().get(0).getWhere().getFunction() != null
+							? createAction.getCreateNodesList().get(0).getWhere().getFunction().getName()
+							: createAction.getCreateNodesList().get(0).getWhere().getName();
+
 					if ((createAction.getCreateNodesList().get(0).getWhat().getType().equals("U")
 							&& createAction.getCreateNodesList().get(0).getWhere().getType().equals("UA"))
 							|| (createAction.getCreateNodesList().get(0).getWhat().getType().equals("O")
-									&& createAction.getCreateNodesList().get(0).getWhere().getType()
-											.equals("OA"))) {
-						what = createAction.getCreateNodesList().get(0).getWhat().getName();
-						where = createAction.getCreateNodesList().get(0).getWhere().getName();
+									&& createAction.getCreateNodesList().get(0).getWhere().getType().equals("OA"))) {
 						innerAction = handleAddAssignmentActionUUA(k, what, where, obligationLabel, innerAction);
 					}
 					if ((createAction.getCreateNodesList().get(0).getWhat().getType().equals("UA")
 							&& createAction.getCreateNodesList().get(0).getWhere().getType().equals("UA"))
 							|| (createAction.getCreateNodesList().get(0).getWhat().getType().equals("OA")
-									&& createAction.getCreateNodesList().get(0).getWhere().getType()
-											.equals("OA"))) {
-						what = createAction.getCreateNodesList().get(0).getWhat().getName();
-						where = createAction.getCreateNodesList().get(0).getWhere().getName();
+									&& createAction.getCreateNodesList().get(0).getWhere().getType().equals("OA"))) {
 						innerAction = handleAddAssignmentActionUAUA(k, what, where, obligationLabel, innerAction);
 					}
 				}
@@ -370,16 +378,17 @@ public class ObligationTranslator {
 
 	private String handleDeleteAssignmentActionUUA(int k, String what, String where, String obligationLabel,
 			String innerAction) {
-		int whatID = mapOfIDs.get(what);
-		int whereID = mapOfIDs.get(where);
+		String obligationU = obligationLabel + "U" + "_" + (k - 1);
+		String obligationT = obligationLabel + "T" + "_" + (k - 1);
+		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
+		String whereID = what.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
 		if (innerAction.isEmpty()) {
 			return " (setminus (ASSIGN* " + (k - 1) + ") (setminus (join (singleton (mkTuple " + whatID + " " + whereID
 					+ ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
 					+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
 					+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + "))))";
 		} else {
-			return " (setminus " + innerAction
-					+ " (setminus (join (singleton (mkTuple " + whatID + " " + whereID
+			return " (setminus " + innerAction + " (setminus (join (singleton (mkTuple " + whatID + " " + whereID
 					+ ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
 					+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
 					+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + "))))";
@@ -388,8 +397,10 @@ public class ObligationTranslator {
 
 	private String handleDeleteAssignmentActionUAUA(int k, String what, String where, String obligationLabel,
 			String innerAction) {
-		int whatID = mapOfIDs.get(what);
-		int whereID = mapOfIDs.get(where);
+		String obligationU = obligationLabel + "U" + "_" + (k - 1);
+		String obligationT = obligationLabel + "T" + "_" + (k - 1);
+		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
+		String whereID = what.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
 		if (innerAction.isEmpty()) {
 			return "(setminus (ASSIGN* " + (k - 1) + ") (setminus (setminus (union (singleton (mkTuple " + whatID + " "
 					+ whereID + ")) (join (singleton (mkTuple " + whatID + " " + whereID + ")) (ASSIGN* " + (k - 1)
@@ -421,8 +432,10 @@ public class ObligationTranslator {
 
 	private String handleDeleteAssignmentNoFlattenAction(int k, String what, String where, String obligationLabel,
 			String innerAction) {
-		int whatID = mapOfIDs.get(what);
-		int whereID = mapOfIDs.get(where);
+		String obligationU = obligationLabel + "U" + "_" + (k - 1);
+		String obligationT = obligationLabel + "T" + "_" + (k - 1);
+		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
+		String whereID = what.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
 		if (innerAction.isEmpty()) {
 			return " (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))";
 		} else {
@@ -432,8 +445,10 @@ public class ObligationTranslator {
 
 	private String handleAddAssignmentActionUUA(int k, String what, String where, String obligationLabel,
 			String innerAction) {
-		int whatID = mapOfIDs.get(what);
-		int whereID = mapOfIDs.get(where);
+		String obligationU = obligationLabel + "U" + "_" + (k - 1);
+		String obligationT = obligationLabel + "T" + "_" + (k - 1);
+		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
+		String whereID = what.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
 		if (innerAction.isEmpty()) {
 			return "(union (singleton (mkTuple " + whatID + " " + whereID + ")) (union (join (singleton (mkTuple "
 					+ whatID + " " + whereID + ")) (join (singleton (mkTuple " + whereID + " " + whereID
@@ -447,8 +462,10 @@ public class ObligationTranslator {
 
 	private String handleAddAssignmentActionUAUA(int k, String what, String where, String obligationLabel,
 			String innerAction) {
-		int whatID = mapOfIDs.get(what);
-		int whereID = mapOfIDs.get(where);
+		String obligationU = obligationLabel + "U" + "_" + (k - 1);
+		String obligationT = obligationLabel + "T" + "_" + (k - 1);
+		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
+		String whereID = what.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
 		if (innerAction.isEmpty()) {
 
 			return " (union (join (join (union (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
@@ -467,8 +484,10 @@ public class ObligationTranslator {
 
 	private String handleAddAssignmentNoFlattenAction(int k, String what, String where, String obligationLabel,
 			String innerAction) {
-		int whatID = mapOfIDs.get(what);
-		int whereID = mapOfIDs.get(where);
+		String obligationU = obligationLabel + "U" + "_" + (k - 1);
+		String obligationT = obligationLabel + "T" + "_" + (k - 1);
+		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
+		String whereID = what.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
 		if (innerAction.isEmpty()) {
 			return "( union (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))";
 		} else {
@@ -493,7 +512,7 @@ public class ObligationTranslator {
 		DeleteAction deleteAction;
 		String what = "";
 		String where = "";
-		String op = "";
+		List<String> ops = new ArrayList<String>();
 		String SMTAction = "";
 		String innerAction = "";
 		for (int i = 0; i < actions.size(); i++) {
@@ -502,17 +521,24 @@ public class ObligationTranslator {
 				grantAction = (GrantAction) action;
 				what = grantAction.getSubject().getName();
 				where = grantAction.getTarget().getName();
-				op = grantAction.getOperations().get(0);
+				ops = grantAction.getOperations();
 				SMTAction = "union";
-			} else if (action instanceof DeleteAction) {// TODO: add multiple associations
+			} else if (action instanceof DeleteAction) {
 				deleteAction = (DeleteAction) action;
-				what = deleteAction.getAssociations().get(0).getSubject().getName();
-				where = deleteAction.getAssociations().get(0).getTarget().getName();
-				op = deleteAction.getAssociations().get(0).getOperations().get(0);
+				what = deleteAction.getAssociations().get(0).getSubject().getFunction() != null
+						? deleteAction.getAssociations().get(0).getSubject().getFunction().getName()
+						: deleteAction.getAssociations().get(0).getSubject().getName();
+
+				where = deleteAction.getAssociations().get(0).getTarget().getFunction() != null
+						? deleteAction.getAssociations().get(0).getTarget().getFunction().getName()
+						: deleteAction.getAssociations().get(0).getTarget().getName();
+				ops = deleteAction.getAssociations().get(0).getOperations();
 				SMTAction = "setminus";
 			}
-			innerAction = handleAssociationAction(k, sb_associations, what, where, op, SMTAction, obligationLabel,
-					innerAction);
+			for (String op : ops) {
+				innerAction = handleAssociationAction(k, sb_associations, what, where, op, SMTAction, obligationLabel,
+						innerAction);
+			}
 		}
 		innerAction = finishHandlingAssociationAction(k, obligationLabel, innerAction);
 		return innerAction;
@@ -520,9 +546,12 @@ public class ObligationTranslator {
 
 	private String handleAssociationAction(int k, StringBuilder sb_associations, String what, String where, String op,
 			String SMTAction, String obligationLabel, String innerAction) {
-		int whatID = mapOfIDs.get(what);
-		int whereID = mapOfIDs.get(where);
-		int arID = mapOfIDs.get(op);
+		String obligationU = obligationLabel + "U" + "_" + (k - 1);
+		String obligationT = obligationLabel + "T" + "_" + (k - 1);
+
+		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
+		String whereID = where.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
+		String arID = mapOfIDs.get(op).toString();
 
 		if (innerAction.isEmpty()) {
 			return "(" + SMTAction + "(ASSOC " + (k - 1) + ")" + "(singleton(mkTuple " + whatID + " " + arID + " "

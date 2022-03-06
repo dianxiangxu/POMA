@@ -298,18 +298,14 @@
 (assert (or(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true)))
 
 ;PRE PROPERTY
-(declare-fun queryVARuser1 () Int)
-(declare-fun queryVARar () Int)
-(declare-fun queryVARo () Int)
-(assert 
-(and (= (obligation5 -1) true)
- (= obligation5U_-1 queryVARuser1 ) (= obligation5ar_-1 queryVARar ) (= obligation5T_-1 queryVARo )))
 
 ;POST PROPERTY
-(declare-fun queryVARuser2 () Int)
+(declare-fun queryVARu () Int)
+(declare-fun queryVARar () Int)
+(declare-fun queryVARat () Int)
 (assert 
-(and (= (obligation4 0) true)
- (= obligation4U_0 queryVARuser2 ) (= obligation4ar_0 queryVARar ) (= obligation4T_0 queryVARo )))
+(and (= (obligation2 0) true)
+ (= obligation2U_0 queryVARu ) (= obligation2ar_0 queryVARar ) (= obligation2T_0 queryVARat )))
 (check-sat)
 (get-value (obligation3))
 (get-value (obligation2))
@@ -351,7 +347,6 @@
 (get-value (obligation5S_0))
 (get-value (obligation5T_0))
 (get-value (obligation5ar_0))
-(get-value (queryVARuser1))
+(get-value (queryVARu))
 (get-value (queryVARar))
-(get-value (queryVARo))
-(get-value (queryVARuser2))
+(get-value (queryVARat))

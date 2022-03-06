@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import gov.nist.csd.pm.pip.obligations.MemObligations;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.EventPattern;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
@@ -23,6 +24,11 @@ import gov.nist.csd.pm.pip.obligations.model.actions.DeleteAction;
 import POMA.Utils;
 import POMA.Verification.ReachabilityAnalysis.ObligationChecker;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
+import gov.nist.csd.pm.epp.EPPOptions;
+import gov.nist.csd.pm.epp.events.EventContext;
+import gov.nist.csd.pm.pap.PAP;
+import gov.nist.csd.pm.pdp.PDP;
+import gov.nist.csd.pm.pdp.decider.PReviewDecider;
 import gov.nist.csd.pm.pip.graph.Graph;
 
 public class DependencyAnalyzer {
@@ -429,7 +435,7 @@ public class DependencyAnalyzer {
     private Solution getSolution(String label1, String label2) throws Exception {
         ObligationChecker checker = new ObligationChecker(graph, obligation);
         checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
-        checker.setBound(3);
+        checker.setBound(2);
         checker.enableSMTOutput(false);
         String precondition = "OBLIGATIONLABEL(" + label1 + ", ?user1, ?ar, ?o);";
 
@@ -496,12 +502,34 @@ public class DependencyAnalyzer {
     }
 
     public static void main(String[] args) throws Exception {
-        Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+        // Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+        // String yml = new String(
+        //         Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+        Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoBug2/Graph.json");
         String yml = new String(
-                Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+                Files.readAllBytes(Paths.get("Policies/ForBMC/LeoBug2/Obligations.yml")));        
         Obligation obligation = EVRParser.parse(yml);
-        DependencyAnalyzer da = new DependencyAnalyzer(graph, obligation);
-        da.analyzeDependencies();
+        EPPOptions eppOptions = new EPPOptions();
+
+        PDP pdp = new PDP(new PAP(graph, null, new MemObligations()), eppOptions);
+//        if (graph.exists("super_pc_rep")) {
+//            graph.deleteNode("super_pc_rep");
+//        }
+        PReviewDecider decider = new PReviewDecider(graph);
+        pdp.getPAP().getObligationsPAP().add(obligation, true);
+        System.out.println(decider.list("PI", "", "PDSWhole"));
+        System.out.println(decider.list("Chair", "", "PDSWhole"));
+        pdp.getEPP().processEvent(new EventContext("submit", graph.getNode("PDSWhole")), "Vlad", "");
+         System.out.println(decider.list("Chair", "", "PDSWhole"));
+
+         System.out.println(decider.list("BM", "", "PDSWhole"));
+
+        pdp.getEPP().processEvent(new EventContext("approve", graph.getNode("PDSWhole")), "UChair", "");
+        System.out.println(decider.list("BM", "", "PDSWhole"));
+
+        //DependencyAnalyzer da = new DependencyAnalyzer(graph, obligation);
+        //da.analyzeDependencies();
     }
+
 
 }
