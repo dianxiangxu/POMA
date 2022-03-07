@@ -59,23 +59,23 @@ public class ObligationChecker extends Planner {
 		// String yml = new String(
 		// Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
 
-//		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoBug2/Graph.json");
-//		 String yml = new String(
-//		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LeoBug2/Obligations.yml")));
-		Graph graph =
-		Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
-		String yml = new String(
-		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoBug2/Graph.json");
+		 String yml = new String(
+		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LeoBug2/Obligations.yml")));
+		// Graph graph =
+		// Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+		// String yml = new String(
+		// Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		checker.setBound(2);
+		checker.setBound(5);
 		checker.enableSMTOutput(true);
-		String precondition = "";
+		String precondition = "NOT(ASSIGN(?user,Chair));";
 
 		//String postcondition = "((ASSOCIATE(BM,approve,PDSWhole) OR (NOT(ASSOCIATE(Chair,approve,PDSWhole)) OR NOT(ASSOCIATE(Chair,disapprove,PDSWhole)))) AND OBLIGATIONLABEL(obligation2,?u,approve,PDSWhole));";
-		String postcondition = "OBLIGATIONLABEL(obligation2,?u,?ar,?at);";
+		String postcondition = "OBLIGATIONLABEL(obligation4,?user,approve,PDSWhole);";
 
 		Solution solution = checker.solveConstraint(precondition, postcondition);
 		

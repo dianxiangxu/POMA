@@ -1,91 +1,95 @@
 (set-logic ALL)
 (set-option :produce-models true)
 (declare-fun USERS () (Set (Tuple Int Int)))
-(assert (= USERS (insert (mkTuple 12 12) 
+(assert (= USERS (insert (mkTuple 5 5) 
 (mkTuple 13 13) 
-(mkTuple 14 14) 
-(mkTuple 6 6) 
-(singleton (mkTuple 3 3)))))
+(mkTuple 17 17) 
+(mkTuple 8 8) 
+(mkTuple 3 3) 
+(mkTuple 11 11) 
+(singleton (mkTuple 1 1)))))
 (declare-fun ASSIGN* (Int) (Set (Tuple Int Int)))
-(assert (= (ASSIGN* 0) (insert (mkTuple 7 10) 
-(mkTuple 2 10) 
+(assert (= (ASSIGN* 0) (insert (mkTuple 13 16) 
+(mkTuple 18 16) 
+(mkTuple 13 4) 
+(mkTuple 2 16) 
 (mkTuple 15 15) 
 (mkTuple 2 2) 
+(mkTuple 6 16) 
 (mkTuple 3 3) 
-(mkTuple 13 10) 
-(mkTuple 11 11) 
+(mkTuple 17 2) 
+(mkTuple 18 18) 
 (mkTuple 1 1) 
-(mkTuple 4 7) 
-(mkTuple 6 5) 
-(mkTuple 4 5) 
-(mkTuple 1 10) 
+(mkTuple 11 11) 
 (mkTuple 14 14) 
-(mkTuple 8 10) 
-(mkTuple 6 7) 
-(mkTuple 4 10) 
-(mkTuple 14 10) 
-(mkTuple 14 9) 
-(mkTuple 9 10) 
+(mkTuple 14 16) 
+(mkTuple 1 16) 
+(mkTuple 5 12) 
+(mkTuple 17 17) 
+(mkTuple 8 9) 
+(mkTuple 10 16) 
 (mkTuple 10 10) 
-(mkTuple 11 10) 
+(mkTuple 5 16) 
+(mkTuple 9 16) 
+(mkTuple 4 16) 
 (mkTuple 13 13) 
-(mkTuple 12 8) 
-(mkTuple 2 15) 
-(mkTuple 5 10) 
-(mkTuple 3 4) 
-(mkTuple 13 11) 
-(mkTuple 15 10) 
-(mkTuple 5 5) 
+(mkTuple 15 16) 
+(mkTuple 16 16) 
+(mkTuple 11 16) 
+(mkTuple 11 14) 
+(mkTuple 8 16) 
 (mkTuple 12 12) 
+(mkTuple 5 5) 
 (mkTuple 4 4) 
+(mkTuple 3 16) 
 (mkTuple 7 7) 
-(mkTuple 3 5) 
+(mkTuple 1 7) 
 (mkTuple 3 10) 
-(mkTuple 1 15) 
-(mkTuple 3 7) 
+(mkTuple 12 16) 
+(mkTuple 17 16) 
 (mkTuple 6 6) 
-(mkTuple 6 10) 
-(mkTuple 5 7) 
 (mkTuple 8 8) 
 (mkTuple 9 9) 
-(singleton (mkTuple 12 10)))))
+(singleton (mkTuple 7 16)))))
 (declare-fun ASSIGN (Int) (Set (Tuple Int Int)))
-(assert (= (ASSIGN 0) (insert (mkTuple 7 10) 
+(assert (= (ASSIGN 0) (insert (mkTuple 18 16) 
+(mkTuple 13 4) 
+(mkTuple 2 16) 
 (mkTuple 15 15) 
 (mkTuple 2 2) 
+(mkTuple 6 16) 
 (mkTuple 3 3) 
+(mkTuple 17 2) 
+(mkTuple 18 18) 
 (mkTuple 11 11) 
 (mkTuple 1 1) 
-(mkTuple 6 5) 
-(mkTuple 4 5) 
 (mkTuple 14 14) 
-(mkTuple 8 10) 
-(mkTuple 14 9) 
-(mkTuple 4 10) 
-(mkTuple 9 10) 
-(mkTuple 11 10) 
+(mkTuple 14 16) 
+(mkTuple 5 12) 
+(mkTuple 17 17) 
+(mkTuple 8 9) 
+(mkTuple 10 16) 
+(mkTuple 10 10) 
+(mkTuple 9 16) 
+(mkTuple 4 16) 
 (mkTuple 13 13) 
-(mkTuple 12 8) 
-(mkTuple 2 15) 
-(mkTuple 3 4) 
-(mkTuple 13 11) 
-(mkTuple 15 10) 
-(mkTuple 12 12) 
+(mkTuple 15 16) 
+(mkTuple 11 14) 
 (mkTuple 5 5) 
+(mkTuple 12 12) 
 (mkTuple 4 4) 
 (mkTuple 7 7) 
-(mkTuple 1 15) 
+(mkTuple 12 16) 
+(mkTuple 1 7) 
+(mkTuple 3 10) 
 (mkTuple 6 6) 
-(mkTuple 5 7) 
 (mkTuple 8 8) 
-(singleton (mkTuple 9 9)))))
+(mkTuple 9 9) 
+(singleton (mkTuple 7 16)))))
 (declare-fun ASSOC (Int) (Set (Tuple Int Int Int)))
 
-(assert (= (ASSOC 0) (insert(mkTuple 4 17 15) 
-(mkTuple 4 18 15) 
-(mkTuple 4 19 15) 
-(mkTuple 5 16 15) 
-(singleton (mkTuple 7 20 15)))))
+(assert (= (ASSOC 0) (insert(mkTuple 4 20 15) 
+(singleton (mkTuple 14 27 15)))))
 
 (declare-fun NODES () (Set (Tuple Int Int)))
 (assert (= NODES (insert (mkTuple 1 1) 
@@ -102,12 +106,17 @@
 (mkTuple 12 12) 
 (mkTuple 13 13) 
 (mkTuple 14 14) 
-(singleton (mkTuple 15 15))))) 
+(mkTuple 15 15) 
+(mkTuple 16 16) 
+(mkTuple 17 17) 
+(singleton (mkTuple 18 18))))) 
 
 
+(declare-fun obligation6 (Int) Bool)
 (declare-fun obligation3 (Int) Bool)
 (declare-fun obligation2 (Int) Bool)
 (declare-fun obligation5 (Int) Bool)
+(declare-fun obligation4 (Int) Bool)
 (declare-fun obligation1 (Int) Bool)
 ;--------------------------------------------------------------------------------------------------------------------
 ;STEP1
@@ -124,11 +133,10 @@
 (assert (>= obligation1UA_0 0))
 (assert (>= obligation1AT_0 0))
 (assert (>= obligation1UO_0 0))
-(assert (or (= obligation1ar_0 20)
- (= obligation1ar_0 17)
+(assert (or (= obligation1ar_0 27)
 ))
-(assert (= obligation1S_0 5))
-(assert (= obligation1T_0 1))
+(assert (= obligation1S_0 14))
+(assert (= obligation1T_0 15))
 (assert (=> (= (obligation1 0) true) (and
  (member (mkTuple  obligation1U_0 obligation1S_0) (ASSIGN* 0))
  (member (mkTuple  obligation1U_0 obligation1UA_0) (ASSIGN* 0))
@@ -150,10 +158,10 @@
 (assert (>= obligation2UA_0 0))
 (assert (>= obligation2AT_0 0))
 (assert (>= obligation2UO_0 0))
-(assert (or (= obligation2ar_0 20)
+(assert (or (= obligation2ar_0 29)
 ))
-(assert (= obligation2S_0 9))
-(assert (= obligation2T_0 1))
+(assert (>= obligation2S_0 0))
+(assert (= obligation2T_0 15))
 (assert (=> (= (obligation2 0) true) (and
  (member (mkTuple  obligation2U_0 obligation2S_0) (ASSIGN* 0))
  (member (mkTuple  obligation2U_0 obligation2UA_0) (ASSIGN* 0))
@@ -175,10 +183,10 @@
 (assert (>= obligation3UA_0 0))
 (assert (>= obligation3AT_0 0))
 (assert (>= obligation3UO_0 0))
-(assert (or (= obligation3ar_0 20)
+(assert (or (= obligation3ar_0 29)
 ))
-(assert (= obligation3S_0 11))
-(assert (= obligation3T_0 1))
+(assert (= obligation3S_0 7))
+(assert (= obligation3T_0 15))
 (assert (=> (= (obligation3 0) true) (and
  (member (mkTuple  obligation3U_0 obligation3S_0) (ASSIGN* 0))
  (member (mkTuple  obligation3U_0 obligation3UA_0) (ASSIGN* 0))
@@ -186,6 +194,31 @@
  (member (mkTuple  obligation3UO_0 obligation3T_0) (ASSIGN* 0))
  (member (mkTuple  obligation3UO_0 obligation3AT_0) (ASSIGN* 0))
  (member (mkTuple  obligation3U_0 obligation3U_0) USERS)
+)))
+
+
+(declare-fun obligation4U_0 () Int)
+(declare-fun obligation4UA_0 () Int)
+(declare-fun obligation4AT_0 () Int)
+(declare-fun obligation4UO_0 () Int)
+(declare-fun obligation4ar_0 () Int)
+(declare-fun obligation4S_0 () Int)
+(declare-fun obligation4T_0 () Int)
+(assert (>= obligation4U_0 0))
+(assert (>= obligation4UA_0 0))
+(assert (>= obligation4AT_0 0))
+(assert (>= obligation4UO_0 0))
+(assert (or (= obligation4ar_0 29)
+))
+(assert (= obligation4S_0 9))
+(assert (= obligation4T_0 15))
+(assert (=> (= (obligation4 0) true) (and
+ (member (mkTuple  obligation4U_0 obligation4S_0) (ASSIGN* 0))
+ (member (mkTuple  obligation4U_0 obligation4UA_0) (ASSIGN* 0))
+(member (mkTuple obligation4UA_0 obligation4ar_0 obligation4AT_0) (ASSOC 0))
+ (member (mkTuple  obligation4UO_0 obligation4T_0) (ASSIGN* 0))
+ (member (mkTuple  obligation4UO_0 obligation4AT_0) (ASSIGN* 0))
+ (member (mkTuple  obligation4U_0 obligation4U_0) USERS)
 )))
 
 
@@ -200,10 +233,10 @@
 (assert (>= obligation5UA_0 0))
 (assert (>= obligation5AT_0 0))
 (assert (>= obligation5UO_0 0))
-(assert (or (= obligation5ar_0 20)
+(assert (or (= obligation5ar_0 27)
 ))
-(assert (= obligation5S_0 5))
-(assert (= obligation5T_0 1))
+(assert (= obligation5S_0 10))
+(assert (= obligation5T_0 15))
 (assert (=> (= (obligation5 0) true) (and
  (member (mkTuple  obligation5U_0 obligation5S_0) (ASSIGN* 0))
  (member (mkTuple  obligation5U_0 obligation5UA_0) (ASSIGN* 0))
@@ -214,39 +247,74 @@
 )))
 
 
+(declare-fun obligation6U_0 () Int)
+(declare-fun obligation6UA_0 () Int)
+(declare-fun obligation6AT_0 () Int)
+(declare-fun obligation6UO_0 () Int)
+(declare-fun obligation6ar_0 () Int)
+(declare-fun obligation6S_0 () Int)
+(declare-fun obligation6T_0 () Int)
+(assert (>= obligation6U_0 0))
+(assert (>= obligation6UA_0 0))
+(assert (>= obligation6AT_0 0))
+(assert (>= obligation6UO_0 0))
+(assert (or (= obligation6ar_0 28)
+))
+(assert (= obligation6S_0 12))
+(assert (= obligation6T_0 15))
+(assert (=> (= (obligation6 0) true) (and
+ (member (mkTuple  obligation6U_0 obligation6S_0) (ASSIGN* 0))
+ (member (mkTuple  obligation6U_0 obligation6UA_0) (ASSIGN* 0))
+(member (mkTuple obligation6UA_0 obligation6ar_0 obligation6AT_0) (ASSOC 0))
+ (member (mkTuple  obligation6UO_0 obligation6T_0) (ASSIGN* 0))
+ (member (mkTuple  obligation6UO_0 obligation6AT_0) (ASSIGN* 0))
+ (member (mkTuple  obligation6U_0 obligation6U_0) USERS)
+)))
+
+
 
 
 ; 5.2 a->Eff
 
 
-(assert (=> (= (obligation1 0) true)(= (ASSIGN* 1) (union (join (join (union (singleton (mkTuple 9 9)) (join (ASSIGN* 0) (singleton (mkTuple 9 9)))) (singleton (mkTuple 9 5))) (union (singleton (mkTuple 5 5)) (join (singleton (mkTuple 5 5)) (ASSIGN* 0) ))) (ASSIGN* 0)))))
-(assert (=> (= (obligation1 0) true)(= (ASSIGN 1)( union (ASSIGN 0) (singleton (mkTuple 9 5))))))
-
-(assert (=> (=(obligation1 0) true) (= (ASSOC 1) (ASSOC 0))))
-
-
-
-
-(assert (=> (= (obligation2 0) true)(= (ASSIGN* 1) (union (join (join (union (singleton (mkTuple 11 11)) (join (ASSIGN* 0) (singleton (mkTuple 11 11)))) (singleton (mkTuple 11 9))) (union (singleton (mkTuple 9 9)) (join (singleton (mkTuple 9 9)) (ASSIGN* 0) ))) (ASSIGN* 0)))))
-(assert (=> (= (obligation2 0) true)(= (ASSIGN 1)( union (ASSIGN 0) (singleton (mkTuple 11 9))))))
-
-(assert (=> (=(obligation2 0) true) (= (ASSOC 1) (ASSOC 0))))
+(assert (=> (=(obligation1 0) true) (= (ASSIGN* 1) (ASSIGN* 0))))
+(assert (=> (=(obligation1 0) true) (= (ASSIGN 1) (ASSIGN 0))))
+(assert (=> (= (obligation1 0) true)(= (ASSOC 1) (setminus(union(union(ASSOC 0)(singleton(mkTuple 2 29 15)))(singleton(mkTuple 2 26 15)))(singleton(mkTuple 14 27 obligation1T_0))))))
 
 
 
 
-(assert (=> (= (obligation3 0) true)(= (ASSIGN* 1) (union (join (join (union (singleton (mkTuple 8 8)) (join (ASSIGN* 0) (singleton (mkTuple 8 8)))) (singleton (mkTuple 8 11))) (union (singleton (mkTuple 11 11)) (join (singleton (mkTuple 11 11)) (ASSIGN* 0) ))) (ASSIGN* 0)))))
-(assert (=> (= (obligation3 0) true)(= (ASSIGN 1)( union (ASSIGN 0) (singleton (mkTuple 8 11))))))
-
-(assert (=> (=(obligation3 0) true) (= (ASSOC 1) (ASSOC 0))))
-
+(assert (=> (=(obligation2 0) true) (= (ASSIGN* 1) (ASSIGN* 0))))
+(assert (=> (=(obligation2 0) true) (= (ASSIGN 1) (ASSIGN 0))))
+(assert (=> (= (obligation2 0) true)(= (ASSOC 1) (setminus(setminus(union(union(ASSOC 0)(singleton(mkTuple 7 29 15)))(singleton(mkTuple 7 26 15)))(singleton(mkTuple 2 29 15)))(singleton(mkTuple 2 26 15))))))
 
 
 
-(assert (=> (= (obligation5 0) true)(= (ASSIGN* 1)(setminus (ASSIGN* 0) (setminus (setminus (union (singleton (mkTuple 11 5)) (join (singleton (mkTuple 11 5)) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 11 11)) (join (ASSIGN* 0)  (singleton (mkTuple 11 11)))) (transpose (union  (singleton (mkTuple 11 11)) (join (ASSIGN* 0)  (singleton (mkTuple 11 11)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 11 5)))) (ASSIGN* 0))) (join (join (intersection (join (union  (singleton (mkTuple 11 11)) (join (ASSIGN* 0)  (singleton (mkTuple 11 11)))) (transpose (union  (singleton (mkTuple 11 11)) (join (ASSIGN* 0)  (singleton (mkTuple 11 11)))))) NODES) (setminus (ASSIGN 0) (singleton (mkTuple 11 5)))) (ASSIGN* 0)))))))
-(assert (=> (= (obligation5 0) true)(= (ASSIGN 1) (setminus (ASSIGN 0) (singleton (mkTuple 11 5))))))
 
-(assert (=> (=(obligation5 0) true) (= (ASSOC 1) (ASSOC 0))))
+(assert (=> (=(obligation3 0) true) (= (ASSIGN* 1) (ASSIGN* 0))))
+(assert (=> (=(obligation3 0) true) (= (ASSIGN 1) (ASSIGN 0))))
+(assert (=> (= (obligation3 0) true)(= (ASSOC 1) (setminus(setminus(union(union(ASSOC 0)(singleton(mkTuple 9 29 15)))(singleton(mkTuple 9 26 15)))(singleton(mkTuple 7 29 15)))(singleton(mkTuple 7 26 15))))))
+
+
+
+
+(assert (=> (=(obligation4 0) true) (= (ASSIGN* 1) (ASSIGN* 0))))
+(assert (=> (=(obligation4 0) true) (= (ASSIGN 1) (ASSIGN 0))))
+(assert (=> (= (obligation4 0) true)(= (ASSOC 1) (setminus(setminus(union(ASSOC 0)(singleton(mkTuple 10 27 15)))(singleton(mkTuple 9 29 15)))(singleton(mkTuple 9 26 15))))))
+
+
+
+
+(assert (=> (=(obligation5 0) true) (= (ASSIGN* 1) (ASSIGN* 0))))
+(assert (=> (=(obligation5 0) true) (= (ASSIGN 1) (ASSIGN 0))))
+(assert (=> (= (obligation5 0) true)(= (ASSOC 1) (setminus(union(ASSOC 0)(singleton(mkTuple 12 28 15)))(singleton(mkTuple 10 27 15))))))
+
+
+
+
+(assert (=> (=(obligation6 0) true) (= (ASSIGN* 1) (ASSIGN* 0))))
+(assert (=> (=(obligation6 0) true) (= (ASSIGN 1) (ASSIGN 0))))
+(assert (=> (= (obligation6 0) true)(= (ASSOC 1) (setminus(union(ASSOC 0)(singleton(mkTuple 2 29 15)))(singleton(mkTuple 12 28 15))))))
 
 
 
@@ -254,17 +322,17 @@
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 1) (ASSIGN* 0))
 (or 
-(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation1 0) true))))
+(= (obligation6 0) true)(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true))))
 (assert (=> (distinct (ASSIGN 1) (ASSIGN 0))
-(or (= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation1 0) true))))
+(or (= (obligation6 0) true)(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true))))
 (assert (=> (distinct (ASSOC 1) (ASSOC 0))
 (or 
-(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation1 0) true))))
+(= (obligation6 0) true)(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation1 0) true)))
+(assert (or(= (obligation6 0) true)(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -282,11 +350,10 @@
 (assert (>= obligation1UA_1 0))
 (assert (>= obligation1AT_1 0))
 (assert (>= obligation1UO_1 0))
-(assert (or (= obligation1ar_1 20)
- (= obligation1ar_1 17)
+(assert (or (= obligation1ar_1 27)
 ))
-(assert (= obligation1S_1 5))
-(assert (= obligation1T_1 1))
+(assert (= obligation1S_1 14))
+(assert (= obligation1T_1 15))
 (assert (=> (= (obligation1 1) true) (and
  (member (mkTuple  obligation1U_1 obligation1S_1) (ASSIGN* 1))
  (member (mkTuple  obligation1U_1 obligation1UA_1) (ASSIGN* 1))
@@ -308,10 +375,10 @@
 (assert (>= obligation2UA_1 0))
 (assert (>= obligation2AT_1 0))
 (assert (>= obligation2UO_1 0))
-(assert (or (= obligation2ar_1 20)
+(assert (or (= obligation2ar_1 29)
 ))
-(assert (= obligation2S_1 9))
-(assert (= obligation2T_1 1))
+(assert (>= obligation2S_1 0))
+(assert (= obligation2T_1 15))
 (assert (=> (= (obligation2 1) true) (and
  (member (mkTuple  obligation2U_1 obligation2S_1) (ASSIGN* 1))
  (member (mkTuple  obligation2U_1 obligation2UA_1) (ASSIGN* 1))
@@ -333,10 +400,10 @@
 (assert (>= obligation3UA_1 0))
 (assert (>= obligation3AT_1 0))
 (assert (>= obligation3UO_1 0))
-(assert (or (= obligation3ar_1 20)
+(assert (or (= obligation3ar_1 29)
 ))
-(assert (= obligation3S_1 11))
-(assert (= obligation3T_1 1))
+(assert (= obligation3S_1 7))
+(assert (= obligation3T_1 15))
 (assert (=> (= (obligation3 1) true) (and
  (member (mkTuple  obligation3U_1 obligation3S_1) (ASSIGN* 1))
  (member (mkTuple  obligation3U_1 obligation3UA_1) (ASSIGN* 1))
@@ -344,6 +411,31 @@
  (member (mkTuple  obligation3UO_1 obligation3T_1) (ASSIGN* 1))
  (member (mkTuple  obligation3UO_1 obligation3AT_1) (ASSIGN* 1))
  (member (mkTuple  obligation3U_1 obligation3U_1) USERS)
+)))
+
+
+(declare-fun obligation4U_1 () Int)
+(declare-fun obligation4UA_1 () Int)
+(declare-fun obligation4AT_1 () Int)
+(declare-fun obligation4UO_1 () Int)
+(declare-fun obligation4ar_1 () Int)
+(declare-fun obligation4S_1 () Int)
+(declare-fun obligation4T_1 () Int)
+(assert (>= obligation4U_1 0))
+(assert (>= obligation4UA_1 0))
+(assert (>= obligation4AT_1 0))
+(assert (>= obligation4UO_1 0))
+(assert (or (= obligation4ar_1 29)
+))
+(assert (= obligation4S_1 9))
+(assert (= obligation4T_1 15))
+(assert (=> (= (obligation4 1) true) (and
+ (member (mkTuple  obligation4U_1 obligation4S_1) (ASSIGN* 1))
+ (member (mkTuple  obligation4U_1 obligation4UA_1) (ASSIGN* 1))
+(member (mkTuple obligation4UA_1 obligation4ar_1 obligation4AT_1) (ASSOC 1))
+ (member (mkTuple  obligation4UO_1 obligation4T_1) (ASSIGN* 1))
+ (member (mkTuple  obligation4UO_1 obligation4AT_1) (ASSIGN* 1))
+ (member (mkTuple  obligation4U_1 obligation4U_1) USERS)
 )))
 
 
@@ -358,10 +450,10 @@
 (assert (>= obligation5UA_1 0))
 (assert (>= obligation5AT_1 0))
 (assert (>= obligation5UO_1 0))
-(assert (or (= obligation5ar_1 20)
+(assert (or (= obligation5ar_1 27)
 ))
-(assert (= obligation5S_1 5))
-(assert (= obligation5T_1 1))
+(assert (= obligation5S_1 10))
+(assert (= obligation5T_1 15))
 (assert (=> (= (obligation5 1) true) (and
  (member (mkTuple  obligation5U_1 obligation5S_1) (ASSIGN* 1))
  (member (mkTuple  obligation5U_1 obligation5UA_1) (ASSIGN* 1))
@@ -372,39 +464,74 @@
 )))
 
 
+(declare-fun obligation6U_1 () Int)
+(declare-fun obligation6UA_1 () Int)
+(declare-fun obligation6AT_1 () Int)
+(declare-fun obligation6UO_1 () Int)
+(declare-fun obligation6ar_1 () Int)
+(declare-fun obligation6S_1 () Int)
+(declare-fun obligation6T_1 () Int)
+(assert (>= obligation6U_1 0))
+(assert (>= obligation6UA_1 0))
+(assert (>= obligation6AT_1 0))
+(assert (>= obligation6UO_1 0))
+(assert (or (= obligation6ar_1 28)
+))
+(assert (= obligation6S_1 12))
+(assert (= obligation6T_1 15))
+(assert (=> (= (obligation6 1) true) (and
+ (member (mkTuple  obligation6U_1 obligation6S_1) (ASSIGN* 1))
+ (member (mkTuple  obligation6U_1 obligation6UA_1) (ASSIGN* 1))
+(member (mkTuple obligation6UA_1 obligation6ar_1 obligation6AT_1) (ASSOC 1))
+ (member (mkTuple  obligation6UO_1 obligation6T_1) (ASSIGN* 1))
+ (member (mkTuple  obligation6UO_1 obligation6AT_1) (ASSIGN* 1))
+ (member (mkTuple  obligation6U_1 obligation6U_1) USERS)
+)))
+
+
 
 
 ; 5.2 a->Eff
 
 
-(assert (=> (= (obligation1 1) true)(= (ASSIGN* 2) (union (join (join (union (singleton (mkTuple 9 9)) (join (ASSIGN* 1) (singleton (mkTuple 9 9)))) (singleton (mkTuple 9 5))) (union (singleton (mkTuple 5 5)) (join (singleton (mkTuple 5 5)) (ASSIGN* 1) ))) (ASSIGN* 1)))))
-(assert (=> (= (obligation1 1) true)(= (ASSIGN 2)( union (ASSIGN 1) (singleton (mkTuple 9 5))))))
-
-(assert (=> (=(obligation1 1) true) (= (ASSOC 2) (ASSOC 1))))
-
-
-
-
-(assert (=> (= (obligation2 1) true)(= (ASSIGN* 2) (union (join (join (union (singleton (mkTuple 11 11)) (join (ASSIGN* 1) (singleton (mkTuple 11 11)))) (singleton (mkTuple 11 9))) (union (singleton (mkTuple 9 9)) (join (singleton (mkTuple 9 9)) (ASSIGN* 1) ))) (ASSIGN* 1)))))
-(assert (=> (= (obligation2 1) true)(= (ASSIGN 2)( union (ASSIGN 1) (singleton (mkTuple 11 9))))))
-
-(assert (=> (=(obligation2 1) true) (= (ASSOC 2) (ASSOC 1))))
+(assert (=> (=(obligation1 1) true) (= (ASSIGN* 2) (ASSIGN* 1))))
+(assert (=> (=(obligation1 1) true) (= (ASSIGN 2) (ASSIGN 1))))
+(assert (=> (= (obligation1 1) true)(= (ASSOC 2) (setminus(union(union(ASSOC 1)(singleton(mkTuple 2 29 15)))(singleton(mkTuple 2 26 15)))(singleton(mkTuple 14 27 obligation1T_1))))))
 
 
 
 
-(assert (=> (= (obligation3 1) true)(= (ASSIGN* 2) (union (join (join (union (singleton (mkTuple 8 8)) (join (ASSIGN* 1) (singleton (mkTuple 8 8)))) (singleton (mkTuple 8 11))) (union (singleton (mkTuple 11 11)) (join (singleton (mkTuple 11 11)) (ASSIGN* 1) ))) (ASSIGN* 1)))))
-(assert (=> (= (obligation3 1) true)(= (ASSIGN 2)( union (ASSIGN 1) (singleton (mkTuple 8 11))))))
-
-(assert (=> (=(obligation3 1) true) (= (ASSOC 2) (ASSOC 1))))
-
+(assert (=> (=(obligation2 1) true) (= (ASSIGN* 2) (ASSIGN* 1))))
+(assert (=> (=(obligation2 1) true) (= (ASSIGN 2) (ASSIGN 1))))
+(assert (=> (= (obligation2 1) true)(= (ASSOC 2) (setminus(setminus(union(union(ASSOC 1)(singleton(mkTuple 7 29 15)))(singleton(mkTuple 7 26 15)))(singleton(mkTuple 2 29 15)))(singleton(mkTuple 2 26 15))))))
 
 
 
-(assert (=> (= (obligation5 1) true)(= (ASSIGN* 2)(setminus (ASSIGN* 1) (setminus (setminus (union (singleton (mkTuple 11 5)) (join (singleton (mkTuple 11 5)) (ASSIGN* 1))) (join (join (intersection (join (union  (singleton (mkTuple 11 11)) (join (ASSIGN* 1)  (singleton (mkTuple 11 11)))) (transpose (union  (singleton (mkTuple 11 11)) (join (ASSIGN* 1)  (singleton (mkTuple 11 11)))))) NODES) (setminus (ASSIGN 1) (singleton (mkTuple 11 5)))) (ASSIGN* 1))) (join (join (intersection (join (union  (singleton (mkTuple 11 11)) (join (ASSIGN* 1)  (singleton (mkTuple 11 11)))) (transpose (union  (singleton (mkTuple 11 11)) (join (ASSIGN* 1)  (singleton (mkTuple 11 11)))))) NODES) (setminus (ASSIGN 1) (singleton (mkTuple 11 5)))) (ASSIGN* 1)))))))
-(assert (=> (= (obligation5 1) true)(= (ASSIGN 2) (setminus (ASSIGN 1) (singleton (mkTuple 11 5))))))
 
-(assert (=> (=(obligation5 1) true) (= (ASSOC 2) (ASSOC 1))))
+(assert (=> (=(obligation3 1) true) (= (ASSIGN* 2) (ASSIGN* 1))))
+(assert (=> (=(obligation3 1) true) (= (ASSIGN 2) (ASSIGN 1))))
+(assert (=> (= (obligation3 1) true)(= (ASSOC 2) (setminus(setminus(union(union(ASSOC 1)(singleton(mkTuple 9 29 15)))(singleton(mkTuple 9 26 15)))(singleton(mkTuple 7 29 15)))(singleton(mkTuple 7 26 15))))))
+
+
+
+
+(assert (=> (=(obligation4 1) true) (= (ASSIGN* 2) (ASSIGN* 1))))
+(assert (=> (=(obligation4 1) true) (= (ASSIGN 2) (ASSIGN 1))))
+(assert (=> (= (obligation4 1) true)(= (ASSOC 2) (setminus(setminus(union(ASSOC 1)(singleton(mkTuple 10 27 15)))(singleton(mkTuple 9 29 15)))(singleton(mkTuple 9 26 15))))))
+
+
+
+
+(assert (=> (=(obligation5 1) true) (= (ASSIGN* 2) (ASSIGN* 1))))
+(assert (=> (=(obligation5 1) true) (= (ASSIGN 2) (ASSIGN 1))))
+(assert (=> (= (obligation5 1) true)(= (ASSOC 2) (setminus(union(ASSOC 1)(singleton(mkTuple 12 28 15)))(singleton(mkTuple 10 27 15))))))
+
+
+
+
+(assert (=> (=(obligation6 1) true) (= (ASSIGN* 2) (ASSIGN* 1))))
+(assert (=> (=(obligation6 1) true) (= (ASSIGN 2) (ASSIGN 1))))
+(assert (=> (= (obligation6 1) true)(= (ASSOC 2) (setminus(union(ASSOC 1)(singleton(mkTuple 2 29 15)))(singleton(mkTuple 12 28 15))))))
 
 
 
@@ -412,17 +539,17 @@
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 2) (ASSIGN* 1))
 (or 
-(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation1 1) true))))
+(= (obligation6 1) true)(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true))))
 (assert (=> (distinct (ASSIGN 2) (ASSIGN 1))
-(or (= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation1 1) true))))
+(or (= (obligation6 1) true)(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true))))
 (assert (=> (distinct (ASSOC 2) (ASSOC 1))
 (or 
-(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation1 1) true))))
+(= (obligation6 1) true)(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation1 1) true)))
+(assert (or(= (obligation6 1) true)(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -440,11 +567,10 @@
 (assert (>= obligation1UA_2 0))
 (assert (>= obligation1AT_2 0))
 (assert (>= obligation1UO_2 0))
-(assert (or (= obligation1ar_2 20)
- (= obligation1ar_2 17)
+(assert (or (= obligation1ar_2 27)
 ))
-(assert (= obligation1S_2 5))
-(assert (= obligation1T_2 1))
+(assert (= obligation1S_2 14))
+(assert (= obligation1T_2 15))
 (assert (=> (= (obligation1 2) true) (and
  (member (mkTuple  obligation1U_2 obligation1S_2) (ASSIGN* 2))
  (member (mkTuple  obligation1U_2 obligation1UA_2) (ASSIGN* 2))
@@ -466,10 +592,10 @@
 (assert (>= obligation2UA_2 0))
 (assert (>= obligation2AT_2 0))
 (assert (>= obligation2UO_2 0))
-(assert (or (= obligation2ar_2 20)
+(assert (or (= obligation2ar_2 29)
 ))
-(assert (= obligation2S_2 9))
-(assert (= obligation2T_2 1))
+(assert (>= obligation2S_2 0))
+(assert (= obligation2T_2 15))
 (assert (=> (= (obligation2 2) true) (and
  (member (mkTuple  obligation2U_2 obligation2S_2) (ASSIGN* 2))
  (member (mkTuple  obligation2U_2 obligation2UA_2) (ASSIGN* 2))
@@ -491,10 +617,10 @@
 (assert (>= obligation3UA_2 0))
 (assert (>= obligation3AT_2 0))
 (assert (>= obligation3UO_2 0))
-(assert (or (= obligation3ar_2 20)
+(assert (or (= obligation3ar_2 29)
 ))
-(assert (= obligation3S_2 11))
-(assert (= obligation3T_2 1))
+(assert (= obligation3S_2 7))
+(assert (= obligation3T_2 15))
 (assert (=> (= (obligation3 2) true) (and
  (member (mkTuple  obligation3U_2 obligation3S_2) (ASSIGN* 2))
  (member (mkTuple  obligation3U_2 obligation3UA_2) (ASSIGN* 2))
@@ -502,6 +628,31 @@
  (member (mkTuple  obligation3UO_2 obligation3T_2) (ASSIGN* 2))
  (member (mkTuple  obligation3UO_2 obligation3AT_2) (ASSIGN* 2))
  (member (mkTuple  obligation3U_2 obligation3U_2) USERS)
+)))
+
+
+(declare-fun obligation4U_2 () Int)
+(declare-fun obligation4UA_2 () Int)
+(declare-fun obligation4AT_2 () Int)
+(declare-fun obligation4UO_2 () Int)
+(declare-fun obligation4ar_2 () Int)
+(declare-fun obligation4S_2 () Int)
+(declare-fun obligation4T_2 () Int)
+(assert (>= obligation4U_2 0))
+(assert (>= obligation4UA_2 0))
+(assert (>= obligation4AT_2 0))
+(assert (>= obligation4UO_2 0))
+(assert (or (= obligation4ar_2 29)
+))
+(assert (= obligation4S_2 9))
+(assert (= obligation4T_2 15))
+(assert (=> (= (obligation4 2) true) (and
+ (member (mkTuple  obligation4U_2 obligation4S_2) (ASSIGN* 2))
+ (member (mkTuple  obligation4U_2 obligation4UA_2) (ASSIGN* 2))
+(member (mkTuple obligation4UA_2 obligation4ar_2 obligation4AT_2) (ASSOC 2))
+ (member (mkTuple  obligation4UO_2 obligation4T_2) (ASSIGN* 2))
+ (member (mkTuple  obligation4UO_2 obligation4AT_2) (ASSIGN* 2))
+ (member (mkTuple  obligation4U_2 obligation4U_2) USERS)
 )))
 
 
@@ -516,10 +667,10 @@
 (assert (>= obligation5UA_2 0))
 (assert (>= obligation5AT_2 0))
 (assert (>= obligation5UO_2 0))
-(assert (or (= obligation5ar_2 20)
+(assert (or (= obligation5ar_2 27)
 ))
-(assert (= obligation5S_2 5))
-(assert (= obligation5T_2 1))
+(assert (= obligation5S_2 10))
+(assert (= obligation5T_2 15))
 (assert (=> (= (obligation5 2) true) (and
  (member (mkTuple  obligation5U_2 obligation5S_2) (ASSIGN* 2))
  (member (mkTuple  obligation5U_2 obligation5UA_2) (ASSIGN* 2))
@@ -530,39 +681,74 @@
 )))
 
 
+(declare-fun obligation6U_2 () Int)
+(declare-fun obligation6UA_2 () Int)
+(declare-fun obligation6AT_2 () Int)
+(declare-fun obligation6UO_2 () Int)
+(declare-fun obligation6ar_2 () Int)
+(declare-fun obligation6S_2 () Int)
+(declare-fun obligation6T_2 () Int)
+(assert (>= obligation6U_2 0))
+(assert (>= obligation6UA_2 0))
+(assert (>= obligation6AT_2 0))
+(assert (>= obligation6UO_2 0))
+(assert (or (= obligation6ar_2 28)
+))
+(assert (= obligation6S_2 12))
+(assert (= obligation6T_2 15))
+(assert (=> (= (obligation6 2) true) (and
+ (member (mkTuple  obligation6U_2 obligation6S_2) (ASSIGN* 2))
+ (member (mkTuple  obligation6U_2 obligation6UA_2) (ASSIGN* 2))
+(member (mkTuple obligation6UA_2 obligation6ar_2 obligation6AT_2) (ASSOC 2))
+ (member (mkTuple  obligation6UO_2 obligation6T_2) (ASSIGN* 2))
+ (member (mkTuple  obligation6UO_2 obligation6AT_2) (ASSIGN* 2))
+ (member (mkTuple  obligation6U_2 obligation6U_2) USERS)
+)))
+
+
 
 
 ; 5.2 a->Eff
 
 
-(assert (=> (= (obligation1 2) true)(= (ASSIGN* 3) (union (join (join (union (singleton (mkTuple 9 9)) (join (ASSIGN* 2) (singleton (mkTuple 9 9)))) (singleton (mkTuple 9 5))) (union (singleton (mkTuple 5 5)) (join (singleton (mkTuple 5 5)) (ASSIGN* 2) ))) (ASSIGN* 2)))))
-(assert (=> (= (obligation1 2) true)(= (ASSIGN 3)( union (ASSIGN 2) (singleton (mkTuple 9 5))))))
-
-(assert (=> (=(obligation1 2) true) (= (ASSOC 3) (ASSOC 2))))
-
-
-
-
-(assert (=> (= (obligation2 2) true)(= (ASSIGN* 3) (union (join (join (union (singleton (mkTuple 11 11)) (join (ASSIGN* 2) (singleton (mkTuple 11 11)))) (singleton (mkTuple 11 9))) (union (singleton (mkTuple 9 9)) (join (singleton (mkTuple 9 9)) (ASSIGN* 2) ))) (ASSIGN* 2)))))
-(assert (=> (= (obligation2 2) true)(= (ASSIGN 3)( union (ASSIGN 2) (singleton (mkTuple 11 9))))))
-
-(assert (=> (=(obligation2 2) true) (= (ASSOC 3) (ASSOC 2))))
+(assert (=> (=(obligation1 2) true) (= (ASSIGN* 3) (ASSIGN* 2))))
+(assert (=> (=(obligation1 2) true) (= (ASSIGN 3) (ASSIGN 2))))
+(assert (=> (= (obligation1 2) true)(= (ASSOC 3) (setminus(union(union(ASSOC 2)(singleton(mkTuple 2 29 15)))(singleton(mkTuple 2 26 15)))(singleton(mkTuple 14 27 obligation1T_2))))))
 
 
 
 
-(assert (=> (= (obligation3 2) true)(= (ASSIGN* 3) (union (join (join (union (singleton (mkTuple 8 8)) (join (ASSIGN* 2) (singleton (mkTuple 8 8)))) (singleton (mkTuple 8 11))) (union (singleton (mkTuple 11 11)) (join (singleton (mkTuple 11 11)) (ASSIGN* 2) ))) (ASSIGN* 2)))))
-(assert (=> (= (obligation3 2) true)(= (ASSIGN 3)( union (ASSIGN 2) (singleton (mkTuple 8 11))))))
-
-(assert (=> (=(obligation3 2) true) (= (ASSOC 3) (ASSOC 2))))
-
+(assert (=> (=(obligation2 2) true) (= (ASSIGN* 3) (ASSIGN* 2))))
+(assert (=> (=(obligation2 2) true) (= (ASSIGN 3) (ASSIGN 2))))
+(assert (=> (= (obligation2 2) true)(= (ASSOC 3) (setminus(setminus(union(union(ASSOC 2)(singleton(mkTuple 7 29 15)))(singleton(mkTuple 7 26 15)))(singleton(mkTuple 2 29 15)))(singleton(mkTuple 2 26 15))))))
 
 
 
-(assert (=> (= (obligation5 2) true)(= (ASSIGN* 3)(setminus (ASSIGN* 2) (setminus (setminus (union (singleton (mkTuple 11 5)) (join (singleton (mkTuple 11 5)) (ASSIGN* 2))) (join (join (intersection (join (union  (singleton (mkTuple 11 11)) (join (ASSIGN* 2)  (singleton (mkTuple 11 11)))) (transpose (union  (singleton (mkTuple 11 11)) (join (ASSIGN* 2)  (singleton (mkTuple 11 11)))))) NODES) (setminus (ASSIGN 2) (singleton (mkTuple 11 5)))) (ASSIGN* 2))) (join (join (intersection (join (union  (singleton (mkTuple 11 11)) (join (ASSIGN* 2)  (singleton (mkTuple 11 11)))) (transpose (union  (singleton (mkTuple 11 11)) (join (ASSIGN* 2)  (singleton (mkTuple 11 11)))))) NODES) (setminus (ASSIGN 2) (singleton (mkTuple 11 5)))) (ASSIGN* 2)))))))
-(assert (=> (= (obligation5 2) true)(= (ASSIGN 3) (setminus (ASSIGN 2) (singleton (mkTuple 11 5))))))
 
-(assert (=> (=(obligation5 2) true) (= (ASSOC 3) (ASSOC 2))))
+(assert (=> (=(obligation3 2) true) (= (ASSIGN* 3) (ASSIGN* 2))))
+(assert (=> (=(obligation3 2) true) (= (ASSIGN 3) (ASSIGN 2))))
+(assert (=> (= (obligation3 2) true)(= (ASSOC 3) (setminus(setminus(union(union(ASSOC 2)(singleton(mkTuple 9 29 15)))(singleton(mkTuple 9 26 15)))(singleton(mkTuple 7 29 15)))(singleton(mkTuple 7 26 15))))))
+
+
+
+
+(assert (=> (=(obligation4 2) true) (= (ASSIGN* 3) (ASSIGN* 2))))
+(assert (=> (=(obligation4 2) true) (= (ASSIGN 3) (ASSIGN 2))))
+(assert (=> (= (obligation4 2) true)(= (ASSOC 3) (setminus(setminus(union(ASSOC 2)(singleton(mkTuple 10 27 15)))(singleton(mkTuple 9 29 15)))(singleton(mkTuple 9 26 15))))))
+
+
+
+
+(assert (=> (=(obligation5 2) true) (= (ASSIGN* 3) (ASSIGN* 2))))
+(assert (=> (=(obligation5 2) true) (= (ASSIGN 3) (ASSIGN 2))))
+(assert (=> (= (obligation5 2) true)(= (ASSOC 3) (setminus(union(ASSOC 2)(singleton(mkTuple 12 28 15)))(singleton(mkTuple 10 27 15))))))
+
+
+
+
+(assert (=> (=(obligation6 2) true) (= (ASSIGN* 3) (ASSIGN* 2))))
+(assert (=> (=(obligation6 2) true) (= (ASSIGN 3) (ASSIGN 2))))
+(assert (=> (= (obligation6 2) true)(= (ASSOC 3) (setminus(union(ASSOC 2)(singleton(mkTuple 2 29 15)))(singleton(mkTuple 12 28 15))))))
 
 
 
@@ -570,35 +756,34 @@
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 3) (ASSIGN* 2))
 (or 
-(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation1 2) true))))
+(= (obligation6 2) true)(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true))))
 (assert (=> (distinct (ASSIGN 3) (ASSIGN 2))
-(or (= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation1 2) true))))
+(or (= (obligation6 2) true)(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true))))
 (assert (=> (distinct (ASSOC 3) (ASSOC 2))
 (or 
-(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation1 2) true))))
+(= (obligation6 2) true)(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation1 2) true)))
+(assert (or(= (obligation6 2) true)(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true)))
 
 ;PRE PROPERTY
-(declare-fun queryVARuser1 () Int)
-(declare-fun queryVARar () Int)
-(declare-fun queryVARo () Int)
-(assert 
-(and (= (obligation2 1) true)
- (= obligation2U_1 queryVARuser1 ) (= obligation2ar_1 queryVARar ) (= obligation2T_1 queryVARo )))
+(declare-fun queryVARuser () Int)
+(assert (not 
+(member (mkTuple queryVARuser  2  ) (ASSIGN* 2))
+))
 
 ;POST PROPERTY
-(declare-fun queryVARuser2 () Int)
 (assert 
-(and (= (obligation5 2) true)
- (= obligation5U_2 queryVARuser2 ) (= obligation5ar_2 queryVARar ) (= obligation5T_2 queryVARo )))
+(and (= (obligation4 2) true)
+ (= obligation4U_2 queryVARuser ) (= obligation4ar_2 29 ) (= obligation4T_2 15 )))
 (check-sat)
+(get-value (obligation6))
 (get-value (obligation3))
 (get-value (obligation2))
 (get-value (obligation5))
+(get-value (obligation4))
 (get-value (obligation1))
 (get-value (obligation1U_0))
 (get-value (obligation1UA_0))
@@ -621,6 +806,13 @@
 (get-value (obligation3S_0))
 (get-value (obligation3T_0))
 (get-value (obligation3ar_0))
+(get-value (obligation4U_0))
+(get-value (obligation4UA_0))
+(get-value (obligation4AT_0))
+(get-value (obligation4UO_0))
+(get-value (obligation4S_0))
+(get-value (obligation4T_0))
+(get-value (obligation4ar_0))
 (get-value (obligation5U_0))
 (get-value (obligation5UA_0))
 (get-value (obligation5AT_0))
@@ -628,6 +820,13 @@
 (get-value (obligation5S_0))
 (get-value (obligation5T_0))
 (get-value (obligation5ar_0))
+(get-value (obligation6U_0))
+(get-value (obligation6UA_0))
+(get-value (obligation6AT_0))
+(get-value (obligation6UO_0))
+(get-value (obligation6S_0))
+(get-value (obligation6T_0))
+(get-value (obligation6ar_0))
 (get-value (obligation1U_0))
 (get-value (obligation1UA_0))
 (get-value (obligation1AT_0))
@@ -649,6 +848,13 @@
 (get-value (obligation3S_0))
 (get-value (obligation3T_0))
 (get-value (obligation3ar_0))
+(get-value (obligation4U_0))
+(get-value (obligation4UA_0))
+(get-value (obligation4AT_0))
+(get-value (obligation4UO_0))
+(get-value (obligation4S_0))
+(get-value (obligation4T_0))
+(get-value (obligation4ar_0))
 (get-value (obligation5U_0))
 (get-value (obligation5UA_0))
 (get-value (obligation5AT_0))
@@ -656,6 +862,13 @@
 (get-value (obligation5S_0))
 (get-value (obligation5T_0))
 (get-value (obligation5ar_0))
+(get-value (obligation6U_0))
+(get-value (obligation6UA_0))
+(get-value (obligation6AT_0))
+(get-value (obligation6UO_0))
+(get-value (obligation6S_0))
+(get-value (obligation6T_0))
+(get-value (obligation6ar_0))
 (get-value (obligation1U_1))
 (get-value (obligation1UA_1))
 (get-value (obligation1AT_1))
@@ -677,6 +890,13 @@
 (get-value (obligation3S_1))
 (get-value (obligation3T_1))
 (get-value (obligation3ar_1))
+(get-value (obligation4U_1))
+(get-value (obligation4UA_1))
+(get-value (obligation4AT_1))
+(get-value (obligation4UO_1))
+(get-value (obligation4S_1))
+(get-value (obligation4T_1))
+(get-value (obligation4ar_1))
 (get-value (obligation5U_1))
 (get-value (obligation5UA_1))
 (get-value (obligation5AT_1))
@@ -684,6 +904,13 @@
 (get-value (obligation5S_1))
 (get-value (obligation5T_1))
 (get-value (obligation5ar_1))
+(get-value (obligation6U_1))
+(get-value (obligation6UA_1))
+(get-value (obligation6AT_1))
+(get-value (obligation6UO_1))
+(get-value (obligation6S_1))
+(get-value (obligation6T_1))
+(get-value (obligation6ar_1))
 (get-value (obligation1U_0))
 (get-value (obligation1UA_0))
 (get-value (obligation1AT_0))
@@ -705,6 +932,13 @@
 (get-value (obligation3S_0))
 (get-value (obligation3T_0))
 (get-value (obligation3ar_0))
+(get-value (obligation4U_0))
+(get-value (obligation4UA_0))
+(get-value (obligation4AT_0))
+(get-value (obligation4UO_0))
+(get-value (obligation4S_0))
+(get-value (obligation4T_0))
+(get-value (obligation4ar_0))
 (get-value (obligation5U_0))
 (get-value (obligation5UA_0))
 (get-value (obligation5AT_0))
@@ -712,6 +946,13 @@
 (get-value (obligation5S_0))
 (get-value (obligation5T_0))
 (get-value (obligation5ar_0))
+(get-value (obligation6U_0))
+(get-value (obligation6UA_0))
+(get-value (obligation6AT_0))
+(get-value (obligation6UO_0))
+(get-value (obligation6S_0))
+(get-value (obligation6T_0))
+(get-value (obligation6ar_0))
 (get-value (obligation1U_1))
 (get-value (obligation1UA_1))
 (get-value (obligation1AT_1))
@@ -733,6 +974,13 @@
 (get-value (obligation3S_1))
 (get-value (obligation3T_1))
 (get-value (obligation3ar_1))
+(get-value (obligation4U_1))
+(get-value (obligation4UA_1))
+(get-value (obligation4AT_1))
+(get-value (obligation4UO_1))
+(get-value (obligation4S_1))
+(get-value (obligation4T_1))
+(get-value (obligation4ar_1))
 (get-value (obligation5U_1))
 (get-value (obligation5UA_1))
 (get-value (obligation5AT_1))
@@ -740,6 +988,13 @@
 (get-value (obligation5S_1))
 (get-value (obligation5T_1))
 (get-value (obligation5ar_1))
+(get-value (obligation6U_1))
+(get-value (obligation6UA_1))
+(get-value (obligation6AT_1))
+(get-value (obligation6UO_1))
+(get-value (obligation6S_1))
+(get-value (obligation6T_1))
+(get-value (obligation6ar_1))
 (get-value (obligation1U_2))
 (get-value (obligation1UA_2))
 (get-value (obligation1AT_2))
@@ -761,6 +1016,13 @@
 (get-value (obligation3S_2))
 (get-value (obligation3T_2))
 (get-value (obligation3ar_2))
+(get-value (obligation4U_2))
+(get-value (obligation4UA_2))
+(get-value (obligation4AT_2))
+(get-value (obligation4UO_2))
+(get-value (obligation4S_2))
+(get-value (obligation4T_2))
+(get-value (obligation4ar_2))
 (get-value (obligation5U_2))
 (get-value (obligation5UA_2))
 (get-value (obligation5AT_2))
@@ -768,7 +1030,11 @@
 (get-value (obligation5S_2))
 (get-value (obligation5T_2))
 (get-value (obligation5ar_2))
-(get-value (queryVARuser1))
-(get-value (queryVARar))
-(get-value (queryVARo))
-(get-value (queryVARuser2))
+(get-value (obligation6U_2))
+(get-value (obligation6UA_2))
+(get-value (obligation6AT_2))
+(get-value (obligation6UO_2))
+(get-value (obligation6S_2))
+(get-value (obligation6T_2))
+(get-value (obligation6ar_2))
+(get-value (queryVARuser))

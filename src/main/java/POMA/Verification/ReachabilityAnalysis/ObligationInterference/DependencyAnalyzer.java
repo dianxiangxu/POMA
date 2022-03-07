@@ -46,17 +46,17 @@ public class DependencyAnalyzer {
         AddGrantAddAssignmentAction,
         AddGrantDeleteAssignmentAction,
         AddGrantDeletePEAction,
-        AddGrantCreatePEAction, 
-        AddAssignmentDeleteGrantAction, 
+        AddGrantCreatePEAction,
+        AddAssignmentDeleteGrantAction,
         CreatePEAddAssignmentAction,
-        CreatePECreatePEAction, 
-        CreatePEDeleteGrantAction, 
-        CreatePEDeleteAssignmentAction, 
-        CreatePEDeletePEAction, 
-        DeletePEDeletePEAction, 
-        DeletePEDeleteAssignmentAction, 
-        DeletePEDeleteGrantAction, 
-        DeletePECreatePEAction, 
+        CreatePECreatePEAction,
+        CreatePEDeleteGrantAction,
+        CreatePEDeleteAssignmentAction,
+        CreatePEDeletePEAction,
+        DeletePEDeletePEAction,
+        DeletePEDeleteAssignmentAction,
+        DeletePEDeleteGrantAction,
+        DeletePECreatePEAction,
         DeletePEAddAssignmentAction,
         DirtyAssociation,
         DirtyCycle,
@@ -434,6 +434,7 @@ public class DependencyAnalyzer {
 
     private Solution getSolution(String label1, String label2) throws Exception {
         ObligationChecker checker = new ObligationChecker(graph, obligation);
+        System.out.println("Getting solution for: " + label1 + " : " + label2);
         checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
         checker.setBound(2);
         checker.enableSMTOutput(false);
@@ -502,34 +503,36 @@ public class DependencyAnalyzer {
     }
 
     public static void main(String[] args) throws Exception {
-        // Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+        // Graph graph =
+        // Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
         // String yml = new String(
-        //         Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+        // Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
         Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoBug2/Graph.json");
         String yml = new String(
-                Files.readAllBytes(Paths.get("Policies/ForBMC/LeoBug2/Obligations.yml")));        
+                Files.readAllBytes(Paths.get("Policies/ForBMC/LeoBug2/Obligations.yml")));
         Obligation obligation = EVRParser.parse(yml);
         EPPOptions eppOptions = new EPPOptions();
 
-        PDP pdp = new PDP(new PAP(graph, null, new MemObligations()), eppOptions);
-//        if (graph.exists("super_pc_rep")) {
-//            graph.deleteNode("super_pc_rep");
-//        }
-        PReviewDecider decider = new PReviewDecider(graph);
-        pdp.getPAP().getObligationsPAP().add(obligation, true);
-        System.out.println(decider.list("PI", "", "PDSWhole"));
-        System.out.println(decider.list("Chair", "", "PDSWhole"));
-        pdp.getEPP().processEvent(new EventContext("submit", graph.getNode("PDSWhole")), "Vlad", "");
-         System.out.println(decider.list("Chair", "", "PDSWhole"));
+        // PDP pdp = new PDP(new PAP(graph, null, new MemObligations()), eppOptions);
+        // // if (graph.exists("super_pc_rep")) {
+        // // graph.deleteNode("super_pc_rep");
+        // // }
+        // PReviewDecider decider = new PReviewDecider(graph);
+        // pdp.getPAP().getObligationsPAP().add(obligation, true);
+        // System.out.println(decider.list("PI", "", "PDSWhole"));
+        // System.out.println(decider.list("Chair", "", "PDSWhole"));
+        // pdp.getEPP().processEvent(new EventContext("submit",
+        // graph.getNode("PDSWhole")), "Vlad", "");
+        // System.out.println(decider.list("Chair", "", "PDSWhole"));
 
-         System.out.println(decider.list("BM", "", "PDSWhole"));
+        // System.out.println(decider.list("BM", "", "PDSWhole"));
 
-        pdp.getEPP().processEvent(new EventContext("approve", graph.getNode("PDSWhole")), "UChair", "");
-        System.out.println(decider.list("BM", "", "PDSWhole"));
+        // pdp.getEPP().processEvent(new EventContext("approve",
+        // graph.getNode("PDSWhole")), "UChair", "");
+        // System.out.println(decider.list("BM", "", "PDSWhole"));
 
-        //DependencyAnalyzer da = new DependencyAnalyzer(graph, obligation);
-        //da.analyzeDependencies();
+        DependencyAnalyzer da = new DependencyAnalyzer(graph, obligation);
+        da.analyzeDependencies();
     }
-
 
 }

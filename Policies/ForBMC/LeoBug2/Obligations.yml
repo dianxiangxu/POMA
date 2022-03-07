@@ -29,16 +29,13 @@ rules:
                   name: PI
                   type: UA
                 operations:
-                  - approve
-                  - disapprove   
+                  - submit   
                 target:
                   function:
                     name: current_target                                                                                                     
   - label: obligation2
     event:
       subject:
-        anyUser: 
-          - "Chair"
       operations:
         - approve
       target:
@@ -197,7 +194,7 @@ rules:
       actions:
         - grant:
              subject:
-               name: UChair
+               name: Chair
                type: UA
              operations:
                - approve               
