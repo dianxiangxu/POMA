@@ -160,7 +160,7 @@
 (assert (>= obligation2UO_0 0))
 (assert (or (= obligation2ar_0 29)
 ))
-(assert (= obligation2S_0 2))
+(assert (>= obligation2S_0 0))
 (assert (= obligation2T_0 15))
 (assert (=> (= (obligation2 0) true) (and
  (member (mkTuple  obligation2U_0 obligation2S_0) (ASSIGN* 0))
@@ -279,7 +279,7 @@
 
 (assert (=> (=(obligation1 0) true) (= (ASSIGN* 1) (ASSIGN* 0))))
 (assert (=> (=(obligation1 0) true) (= (ASSIGN 1) (ASSIGN 0))))
-(assert (=> (= (obligation1 0) true)(= (ASSOC 1) (setminus(setminus(union(union(ASSOC 0)(singleton(mkTuple 2 29 15)))(singleton(mkTuple 2 26 15)))(singleton(mkTuple 14 29 obligation1T_0)))(singleton(mkTuple 14 26 obligation1T_0))))))
+(assert (=> (= (obligation1 0) true)(= (ASSOC 1) (setminus(union(union(ASSOC 0)(singleton(mkTuple 2 29 15)))(singleton(mkTuple 2 26 15)))(singleton(mkTuple 14 27 obligation1T_0))))))
 
 
 
@@ -314,7 +314,7 @@
 
 (assert (=> (=(obligation6 0) true) (= (ASSIGN* 1) (ASSIGN* 0))))
 (assert (=> (=(obligation6 0) true) (= (ASSIGN 1) (ASSIGN 0))))
-(assert (=> (= (obligation6 0) true)(= (ASSOC 1) (setminus(union(ASSOC 0)(singleton(mkTuple 17 29 15)))(singleton(mkTuple 12 28 15))))))
+(assert (=> (= (obligation6 0) true)(= (ASSOC 1) (setminus(union(ASSOC 0)(singleton(mkTuple 2 29 15)))(singleton(mkTuple 12 28 15))))))
 
 
 
@@ -377,7 +377,7 @@
 (assert (>= obligation2UO_1 0))
 (assert (or (= obligation2ar_1 29)
 ))
-(assert (= obligation2S_1 2))
+(assert (>= obligation2S_1 0))
 (assert (= obligation2T_1 15))
 (assert (=> (= (obligation2 1) true) (and
  (member (mkTuple  obligation2U_1 obligation2S_1) (ASSIGN* 1))
@@ -496,7 +496,7 @@
 
 (assert (=> (=(obligation1 1) true) (= (ASSIGN* 2) (ASSIGN* 1))))
 (assert (=> (=(obligation1 1) true) (= (ASSIGN 2) (ASSIGN 1))))
-(assert (=> (= (obligation1 1) true)(= (ASSOC 2) (setminus(setminus(union(union(ASSOC 1)(singleton(mkTuple 2 29 15)))(singleton(mkTuple 2 26 15)))(singleton(mkTuple 14 29 obligation1T_1)))(singleton(mkTuple 14 26 obligation1T_1))))))
+(assert (=> (= (obligation1 1) true)(= (ASSOC 2) (setminus(union(union(ASSOC 1)(singleton(mkTuple 2 29 15)))(singleton(mkTuple 2 26 15)))(singleton(mkTuple 14 27 obligation1T_1))))))
 
 
 
@@ -531,7 +531,7 @@
 
 (assert (=> (=(obligation6 1) true) (= (ASSIGN* 2) (ASSIGN* 1))))
 (assert (=> (=(obligation6 1) true) (= (ASSIGN 2) (ASSIGN 1))))
-(assert (=> (= (obligation6 1) true)(= (ASSOC 2) (setminus(union(ASSOC 1)(singleton(mkTuple 17 29 15)))(singleton(mkTuple 12 28 15))))))
+(assert (=> (= (obligation6 1) true)(= (ASSOC 2) (setminus(union(ASSOC 1)(singleton(mkTuple 2 29 15)))(singleton(mkTuple 12 28 15))))))
 
 
 
@@ -552,41 +552,15 @@
 (assert (or(= (obligation6 1) true)(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true)))
 
 ;PRE PROPERTY
-(declare-fun queryVARu () Int)
-(declare-fun queryCONSTPERMITUA_BM_approve_PDSWhole_1 () Int)
-(declare-fun queryCONSTPERMITAT_BM_approve_PDSWhole_1 () Int)
-(declare-fun queryCONSTPERMITUA_BM_disapprove_PDSWhole_1 () Int)
-(declare-fun queryCONSTPERMITAT_BM_disapprove_PDSWhole_1 () Int)
-(declare-fun queryVARs () Int)
-(declare-fun queryVARat () Int)
-(assert (and 
-(member (mkTuple queryVARu  2  ) (ASSIGN* 1))
- (or (or (or (not 
-(and(member (mkTuple  7  queryCONSTPERMITUA_BM_approve_PDSWhole_1 ) (ASSIGN* 1))(member (mkTuple  queryCONSTPERMITUA_BM_approve_PDSWhole_1 29  queryCONSTPERMITAT_BM_approve_PDSWhole_1 ) (ASSOC 1))(member (mkTuple  15  queryCONSTPERMITAT_BM_approve_PDSWhole_1 ) (ASSIGN* 1)))
-) (not 
-(and(member (mkTuple  7  queryCONSTPERMITUA_BM_disapprove_PDSWhole_1 ) (ASSIGN* 1))(member (mkTuple  queryCONSTPERMITUA_BM_disapprove_PDSWhole_1 26  queryCONSTPERMITAT_BM_disapprove_PDSWhole_1 ) (ASSOC 1))(member (mkTuple  15  queryCONSTPERMITAT_BM_disapprove_PDSWhole_1 ) (ASSIGN* 1)))
-)) (and (and (and 
-(member (mkTuple  2  29  15 ) (ASSOC 1))
- (not 
-(member (mkTuple  queryVARs  29  queryVARat ) (ASSOC 1))
-)) 
-(member (mkTuple  2  queryVARs ) (setminus (ASSIGN* 1)(ASSIGN 1)))
-) 
-(member (mkTuple  15  queryVARat ) (setminus (ASSIGN* 1)(ASSIGN 1)))
-)) (and (and (and 
-(member (mkTuple  2  26  15 ) (ASSOC 1))
- (not 
-(member (mkTuple  queryVARs  26  queryVARat ) (ASSOC 1))
-)) 
-(member (mkTuple  2  queryVARs ) (setminus (ASSIGN* 1)(ASSIGN 1)))
-) 
-(member (mkTuple  15  queryVARat ) (setminus (ASSIGN* 1)(ASSIGN 1)))
-))))
+(declare-fun queryVARuser () Int)
+(assert (not 
+(member (mkTuple queryVARuser  2  ) (ASSIGN* 1))
+))
 
 ;POST PROPERTY
 (assert 
-(and (= (obligation2 1) true)
- (= obligation2U_1 queryVARu ) (= obligation2ar_1 29 ) (= obligation2T_1 15 )))
+(and (= (obligation4 1) true)
+ (= obligation4U_1 queryVARuser ) (= obligation4ar_1 29 ) (= obligation4T_1 15 )))
 (check-sat)
 (get-value (obligation6))
 (get-value (obligation3))
@@ -720,6 +694,4 @@
 (get-value (obligation6S_1))
 (get-value (obligation6T_1))
 (get-value (obligation6ar_1))
-(get-value (queryVARu))
-(get-value (queryVARs))
-(get-value (queryVARat))
+(get-value (queryVARuser))

@@ -688,6 +688,27 @@ public class ObligationTranslator {
 		}
 		sb.append("))");
 		sb.append(System.lineSeparator());
+
+		// // AT MOST ONE
+		// sb.append(System.lineSeparator());
+		// sb.append(System.lineSeparator());
+		// sb.append("; AT MOST ONE");
+		// for (String tuple : labelTuples) {
+		// 	String[] tupleArray = tuple.split(":");
+		// 	sb.append(System.lineSeparator());
+		// 	sb.append("(assert (not (and (= (" + tupleArray[0] + " " + (k - 1) + ") true) (= (" + tupleArray[1] + " "
+		// 			+ (k - 1) + ") true))))");
+		// }
+		// sb.append(System.lineSeparator());
+		// sb.append(System.lineSeparator());
+		// sb.append("; AT LEAST ONE");
+		// sb.append(System.lineSeparator());
+		// sb.append("(assert (or");
+		// for (String label : ruleLabels) {
+		// 	sb.append("(= (" + label + " " + (k - 1) + ") true)");
+		// }
+		// sb.append("))");
+		// sb.append(System.lineSeparator());
 		return sb.toString();
 	}
 

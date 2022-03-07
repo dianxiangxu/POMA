@@ -81,34 +81,38 @@ public class Solver {
 			for (String label : obligationLabels) {
 				if (isContain(line, label)) {
 					String[] splittedLine = line.split(" ");
-					String stepNumber = splittedLine[splittedLine.length - 1];
-					if (Boolean.parseBoolean(stepNumber)) {
-						stepNumber = "0";
-					}
-					if (Character.isDigit(stepNumber.charAt(0))) {
-						ObligationFiring step = new ObligationFiring();
-						step.setObligationLabel(label);
-						for (String line2 : output) {
-							String[] splittedLine2 = line2.split(" ");
-							String varAssignment = splittedLine2[splittedLine2.length - 1];
-							if (isContain(line2, label + "U_" + stepNumber)) {
-								int varAssignmentInt = Integer.parseInt(varAssignment);
-								step.setSubject(getKeyFromValue(varAssignmentInt, mapOfIDs));
-							} else if (isContain(line2, label + "UO_" + stepNumber)) {
-								int varAssignmentInt = Integer.parseInt(varAssignment);
-								step.setObject(getKeyFromValue(varAssignmentInt, mapOfIDs));
-							} else if (isContain(line2, label + "ar_" + stepNumber)) {
-								int varAssignmentInt = Integer.parseInt(varAssignment);
-								step.setEvent(getKeyFromValue(varAssignmentInt, mapOfIDs));
-							} else if (isContain(line2, label + "S_" + stepNumber)) {
-								int varAssignmentInt = Integer.parseInt(varAssignment);
-								step.setSource(getKeyFromValue(varAssignmentInt, mapOfIDs));
-							} else if (isContain(line2, label + "T_" + stepNumber)) {
-								int varAssignmentInt = Integer.parseInt(varAssignment);
-								step.setTarget(getKeyFromValue(varAssignmentInt, mapOfIDs));
+					for (String stepNumber : splittedLine) {
+						
+						//String stepNumber = splittedLine[splittedLine.length - 1];
+						// if (Boolean.parseBoolean("True")) {
+						// stepNumber = "0";
+						// }
+
+						if (Character.isDigit(stepNumber.charAt(0))) {
+							ObligationFiring step = new ObligationFiring();
+							step.setObligationLabel(label);
+							for (String line2 : output) {
+								String[] splittedLine2 = line2.split(" ");
+								String varAssignment = splittedLine2[splittedLine2.length - 1];
+								if (isContain(line2, label + "U_" + stepNumber)) {
+									int varAssignmentInt = Integer.parseInt(varAssignment);
+									step.setSubject(getKeyFromValue(varAssignmentInt, mapOfIDs));
+								} else if (isContain(line2, label + "UO_" + stepNumber)) {
+									int varAssignmentInt = Integer.parseInt(varAssignment);
+									step.setObject(getKeyFromValue(varAssignmentInt, mapOfIDs));
+								} else if (isContain(line2, label + "ar_" + stepNumber)) {
+									int varAssignmentInt = Integer.parseInt(varAssignment);
+									step.setEvent(getKeyFromValue(varAssignmentInt, mapOfIDs));
+								} else if (isContain(line2, label + "S_" + stepNumber)) {
+									int varAssignmentInt = Integer.parseInt(varAssignment);
+									step.setSource(getKeyFromValue(varAssignmentInt, mapOfIDs));
+								} else if (isContain(line2, label + "T_" + stepNumber)) {
+									int varAssignmentInt = Integer.parseInt(varAssignment);
+									step.setTarget(getKeyFromValue(varAssignmentInt, mapOfIDs));
+								}
 							}
+							arrayOfSteps[Integer.parseInt(stepNumber)] = step;
 						}
-						arrayOfSteps[Integer.parseInt(stepNumber)] = step;
 					}
 				}
 			}
@@ -118,11 +122,12 @@ public class Solver {
 					String[] splittedLineWithVars = line.split(" ");
 					int varAssignment = Integer.parseInt(splittedLineWithVars[splittedLineWithVars.length - 1]);
 					String variableName = var.replace("queryVAR", "");
-					variablesList.add(new Variable(variableName,getKeyFromValue(varAssignment, mapOfIDs)));
+					variablesList.add(new Variable(variableName, getKeyFromValue(varAssignment, mapOfIDs)));
 				}
 			}
 		}
-		return new Solution(Arrays.asList(arrayOfSteps).stream().filter(Objects::nonNull).collect(Collectors.toList()), new Variables(variablesList));
+		return new Solution(Arrays.asList(arrayOfSteps).stream().filter(Objects::nonNull).collect(Collectors.toList()),
+				new Variables(variablesList));
 	}
 
 	private static boolean isContain(String source, String subItem) {
