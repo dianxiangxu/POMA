@@ -553,14 +553,44 @@
 
 ;PRE PROPERTY
 (declare-fun queryVARuser () Int)
-(assert (not 
+(declare-fun queryVARs () Int)
+(declare-fun queryVARat () Int)
+(assert (and (not 
 (member (mkTuple queryVARuser  2  ) (ASSIGN* 1))
-))
+) (or (or (or 
+(not (member (mkTuple  7  29  15 ) (join (join (join NODES (ASSIGN* 1)) (ASSOC 1)) (transpose (join NODES (ASSIGN* 1))))))
+ 
+(not (member (mkTuple  7  26  15 ) (join (join (join NODES (ASSIGN* 1)) (ASSOC 1)) (transpose (join NODES (ASSIGN* 1))))))
+) (and 
+(member (mkTuple  2  29  15 ) (ASSOC 1))
+ (not (and (and 
+(member (mkTuple  queryVARs  29  queryVARat ) (ASSOC 1))
+ 
+(member (mkTuple  2  queryVARs ) (setminus (ASSIGN* 1)(ASSIGN 1)))
+) 
+(member (mkTuple  15  queryVARat ) (setminus (ASSIGN* 1)(ASSIGN 1)))
+)))) (and 
+(member (mkTuple  2  26  15 ) (ASSOC 1))
+ (not (and (and 
+(member (mkTuple  queryVARs  26  queryVARat ) (ASSOC 1))
+ 
+(member (mkTuple  2  queryVARs ) (setminus (ASSIGN* 1)(ASSIGN 1)))
+) 
+(member (mkTuple  15  queryVARat ) (setminus (ASSIGN* 1)(ASSIGN 1)))
+))))))
 
 ;POST PROPERTY
-(assert 
-(and (= (obligation4 1) true)
- (= obligation4U_1 queryVARuser ) (= obligation4ar_1 29 ) (= obligation4T_1 15 )))
+(assert (and (or (and 
+(member (mkTuple  7  29  15 ) (ASSOC 2))
+ 
+(member (mkTuple  7  26  15 ) (ASSOC 2))
+) (or (not 
+(member (mkTuple  2  29  15 ) (ASSOC 2))
+) (not 
+(member (mkTuple  2  26  15 ) (ASSOC 2))
+))) 
+(and (= (obligation2 1) true)
+ (= obligation2U_1 queryVARuser ) (= obligation2ar_1 29 ) (= obligation2T_1 15 ))))
 (check-sat)
 (get-value (obligation6))
 (get-value (obligation3))
@@ -695,3 +725,5 @@
 (get-value (obligation6T_1))
 (get-value (obligation6ar_1))
 (get-value (queryVARuser))
+(get-value (queryVARs))
+(get-value (queryVARat))
