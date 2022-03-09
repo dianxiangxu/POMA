@@ -72,10 +72,9 @@ public class ObligationChecker extends Planner {
 		long start = System.currentTimeMillis();
 		checker.setBound(5);
 		checker.enableSMTOutput(true);
-		String precondition = "NOT(ASSIGN(?user,Chair));";
+		String precondition = "(NOT(ASSIGN(?user,Chair)) AND (((DENY(BM,approve,PDSWhole) OR DENY(BM,disapprove,PDSWhole)) OR (ASSOCIATE(Chair,approve,PDSWhole) AND NOT(((ASSOCIATE(?s,approve,?at) AND IMPLICITASSIGN(Chair,?s)) AND IMPLICITASSIGN(PDSWhole,?at))))) OR (ASSOCIATE(Chair,disapprove,PDSWhole) AND NOT(((ASSOCIATE(?s,disapprove,?at) AND IMPLICITASSIGN(Chair,?s)) AND IMPLICITASSIGN(PDSWhole,?at))))));";
 
-		//String postcondition = "((ASSOCIATE(BM,approve,PDSWhole) OR (NOT(ASSOCIATE(Chair,approve,PDSWhole)) OR NOT(ASSOCIATE(Chair,disapprove,PDSWhole)))) AND OBLIGATIONLABEL(obligation2,?u,approve,PDSWhole));";
-		String postcondition = "OBLIGATIONLABEL(obligation4,?user,approve,PDSWhole);";
+		String postcondition = "(((ASSOCIATE(BM,approve,PDSWhole) AND ASSOCIATE(BM,disapprove,PDSWhole)) OR (NOT(ASSOCIATE(Chair,approve,PDSWhole)) OR NOT(ASSOCIATE(Chair,disapprove,PDSWhole)))) AND OBLIGATIONLABEL(obligation2,?user,approve,PDSWhole));";
 
 		Solution solution = checker.solveConstraint(precondition, postcondition);
 		

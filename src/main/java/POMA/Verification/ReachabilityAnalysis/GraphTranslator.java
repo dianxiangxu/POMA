@@ -82,20 +82,27 @@ class GraphTranslator {
 
 		int index = 1;
 		for (Node node : nodes) {
+			if(mapOfIDs.containsValue(node.getName())) continue;
 			mapOfIDs.put(node.getName(), index);
 			index++;
 		}
 		for (String nodeName : addedNodesFromObligationsUA_U) {
+			if (mapOfIDs.containsValue(nodeName))
+				continue;
+
 			mapOfIDs.put(nodeName, index);
 			index++;
 		}
 		for (String nodeName : addedNodesFromObligationsOA_O) {
+			if (mapOfIDs.containsValue(nodeName)) continue;
 			mapOfIDs.put(nodeName, index);
 			index++;
 		}
 		OperationSet os = Utils.getAllAccessRights(graph);
 
 		for (String ar : os) {
+			if (mapOfIDs.containsValue(ar))
+				continue;
 			mapOfIDs.put(ar, index);
 			index++;
 		}
