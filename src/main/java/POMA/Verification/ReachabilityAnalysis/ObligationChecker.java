@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import POMA.Utils;
+import POMA.Verification.ReachabilityAnalysis.ObligationInterference.SolutionSimulator;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 import POMA.Verification.TranslationWithSets.AssociationRelation;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -49,11 +50,14 @@ public class ObligationChecker extends Planner {
 		// "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
 
 		// Create with objects
-		// Graph graph =
-		// Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json");
-		// String yml = new String(
-		// Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
-
+//		 Graph graph =
+//		 Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+//		 String yml = new String(
+//		 Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+//         Graph graph =
+//         Utils.readAnyGraph("Policies/SolverVerification/GPMS/Graph.json");
+//         String yml = new String(
+//         Files.readAllBytes(Paths.get("Policies/SolverVerification/GPMS/Obligations.yml")));
 		// Graph graph =
 		// Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/LawFirmPolicy.json");
 		// String yml = new String(
@@ -103,7 +107,7 @@ public class ObligationChecker extends Planner {
 		System.out.println("The job took: " + sec + " seconds");
 
 		SolutionSimulator ss = new SolutionSimulator(solution, graph, obligation);
-		//ss.simulate();
+		ss.simulate();
 	}
 
 	public ObligationChecker() throws Exception {
@@ -168,7 +172,7 @@ public class ObligationChecker extends Planner {
 		return obligationLabels;
 	}
 
-	public String generateTailCode(List<String> queryVARS) {
+	public String generateTailCode(List<String> queryVARS, int k) {
 		obligationEventVariables.addAll(ot.getObligationEventVariables());
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += "(check-sat)";
@@ -183,6 +187,14 @@ public class ObligationChecker extends Planner {
 		}
 		for(String udVar : queryVARS) {
 			smtlibv2Code += "(get-value (" + udVar + "))";
+			smtlibv2Code += System.lineSeparator();
+		}
+		for(int i = 0; i <= k; i++) {
+			smtlibv2Code += "(get-value (" + "ASSIGN" + " "+i+"))";
+			smtlibv2Code += System.lineSeparator();
+		}
+		for(int i = 0; i <= k; i++) {
+			smtlibv2Code += "(get-value (" + "ASSOC" + " "+i+"))";
 			smtlibv2Code += System.lineSeparator();
 		}
 		return smtlibv2Code;

@@ -4,11 +4,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-
+import java.util.stream.IntStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import gov.nist.csd.pm.pip.obligations.MemObligations;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.EventPattern;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
@@ -23,12 +22,10 @@ import gov.nist.csd.pm.pip.obligations.model.actions.DeleteAction;
 
 import POMA.Utils;
 import POMA.Verification.ReachabilityAnalysis.ObligationChecker;
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.IFormula;
+import POMA.Verification.ReachabilityAnalysis.model.ObligationFiring;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 import gov.nist.csd.pm.epp.EPPOptions;
-import gov.nist.csd.pm.epp.events.EventContext;
-import gov.nist.csd.pm.pap.PAP;
-import gov.nist.csd.pm.pdp.PDP;
-import gov.nist.csd.pm.pdp.decider.PReviewDecider;
 import gov.nist.csd.pm.pip.graph.Graph;
 
 public class DependencyAnalyzer {
@@ -470,14 +467,31 @@ public class DependencyAnalyzer {
                     if (solution == null) {
                         continue;
                     }
-                    String obligationLabelA = solution.getObligationFirings().get(0).getObligationLabel();
-                    String obligationLabelB = solution.getObligationFirings().get(1).getObligationLabel();
+                    List<ObligationFiring> obligationFirings = solution.getObligationFirings();
+
+                    Integer obligationLabelAIndex = IntStream.range(0, obligationFirings.size())
+                            .filter(i -> obligationFirings.get(i).getObligationLabel().equals(label1))
+                            .findFirst()
+                            .orElse(-1);
+                    Integer obligationLabelBIndex = IntStream.range(0, obligationFirings.size())
+                            .filter(i -> obligationFirings.get(i).getObligationLabel().equals(
+                                    label2))
+                            .findFirst()
+                            .orElse(-1); // TODO: multiple obligations run with the same label
+                    if (obligationLabelAIndex.equals(-1) || obligationLabelBIndex.equals(-1)) {
+                        continue;
+                    }
+                    String obligationLabelA = solution.getObligationFirings().get(
+                            obligationLabelAIndex).getObligationLabel();
+                    String obligationLabelB = solution.getObligationFirings().get(
+                            obligationLabelBIndex).getObligationLabel();
                     findConflicts(obligation, obligationLabelA, obligationLabelB, conflicts);
                 }
             }
         }
         System.out.println(conflicts);
     }
+
 
     private void analyzeDependencies() throws Exception {
         long start = System.currentTimeMillis();
@@ -503,13 +517,17 @@ public class DependencyAnalyzer {
     }
 
     public static void main(String[] args) throws Exception {
-        // Graph graph =
-        // Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
-        // String yml = new String(
-        // Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
-        Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoBug2/Graph.json");
-        String yml = new String(
-                Files.readAllBytes(Paths.get("Policies/ForBMC/LeoBug2/Obligations.yml")));
+//         Graph graph =
+//         Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+//         String yml = new String(
+//         Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+         Graph graph =
+         Utils.readAnyGraph("Policies/SolverVerification/GPMS/Graph.json");
+         String yml = new String(
+         Files.readAllBytes(Paths.get("Policies/SolverVerification/GPMS/Obligations.yml")));
+//        Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoBug2/Graph.json");
+//        String yml = new String(
+//                Files.readAllBytes(Paths.get("Policies/ForBMC/LeoBug2/Obligations.yml")));
         Obligation obligation = EVRParser.parse(yml);
         EPPOptions eppOptions = new EPPOptions();
 

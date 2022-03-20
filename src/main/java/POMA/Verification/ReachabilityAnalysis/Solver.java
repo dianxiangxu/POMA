@@ -83,10 +83,9 @@ public class Solver {
 					String[] splittedLine = line.split(" ");
 					for (String stepNumber : splittedLine) {
 						
-						//String stepNumber = splittedLine[splittedLine.length - 1];
-						// if (Boolean.parseBoolean("True")) {
-						// stepNumber = "0";
-						// }
+						 if (Boolean.parseBoolean(stepNumber)) {
+						 stepNumber = "0";
+						 }
 
 						if (Character.isDigit(stepNumber.charAt(0))) {
 							ObligationFiring step = new ObligationFiring();
