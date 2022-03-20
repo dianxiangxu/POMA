@@ -1,7 +1,8 @@
-package POMA.Verification.ReachabilityAnalysis;
+package POMA.Verification.ReachabilityAnalysis.ObligationInterference;
 
 import java.util.List;
 
+import POMA.Verification.ReachabilityAnalysis.FOLparser.model.IFormula;
 import POMA.Verification.ReachabilityAnalysis.model.ObligationFiring;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 import gov.nist.csd.pm.epp.EPPOptions;
@@ -12,6 +13,7 @@ import gov.nist.csd.pm.pdp.decider.PReviewDecider;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.MemObligations;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
+import POMA.Verification.ReachabilityAnalysis.model.Solution;
 
 public class SolutionSimulator {
     private Solution solution;
@@ -50,6 +52,11 @@ public class SolutionSimulator {
         System.out.println("The event " + event + "at step: " + i + " was simulated successfully");
     }
 
+//   private void SimulateWithPredicated(String pre, String post) {
+//       IFormula formulaPre = pre.isEmpty() ? null : parseQuery(pre);
+//		IFormula formulaPost = post.isEmpty() ? null : parseQuery(post);
+//   } 
+    
     static PDP getPDP(Graph graph, Obligation obligation) throws Exception {
         EPPOptions eppOptions = new EPPOptions();
 

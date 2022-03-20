@@ -15,7 +15,7 @@ import POMA.Verification.ReachabilityAnalysis.FOLparser.model.*;
 import POMA.Verification.ReachabilityAnalysis.FOLparser.parser.FOLGrammar;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 
-abstract class Planner {
+public abstract class Planner {
 
 	private Solver solver = Solver.CVC4;
 	private int bound = 8;
@@ -38,7 +38,7 @@ abstract class Planner {
 
 	abstract String generateHeadCode() throws Exception;
 
-	abstract String generateTailCode(List<String> queryVARS);
+	abstract String generateTailCode(List<String> queryVARS, int i);
 
 	abstract String generateIterationCode(int k);
 
@@ -97,7 +97,7 @@ abstract class Planner {
 					+ ";POST PROPERTY";
 			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1), queryVARS, queryConst) : "";
 			System.out.println("Time horizon " + k + " processing...");
-			smtlibv2Code += generateTailCode(queryVARS);
+			smtlibv2Code += generateTailCode(queryVARS, k);
 			if (k == bound) {
 				// System.out.println(smtlibv2Code);
 			}
@@ -122,7 +122,7 @@ abstract class Planner {
 		return null;
 	}
 
-	private IFormula parseQuery(String query) {
+	public IFormula parseQuery(String query) {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(query.getBytes());
 		if (parser == null) {
 			parser = new FOLGrammar(inputStream);
@@ -145,7 +145,7 @@ abstract class Planner {
 		return null;
 	}
 
-	private String generateProperty(IFormula f, int k, List<String> queryVARS, List<String> queryConst)
+	public String generateProperty(IFormula f, int k, List<String> queryVARS, List<String> queryConst)
 			throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());

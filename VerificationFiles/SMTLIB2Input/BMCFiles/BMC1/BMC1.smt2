@@ -426,3 +426,7 @@
 (get-value (queryVARuser))
 (get-value (queryVARs))
 (get-value (queryVARat))
+(get-value (ASSIGN 0))
+(get-value (ASSIGN 1))
+(get-value (ASSOC 0))
+(get-value (ASSOC 1))
