@@ -439,7 +439,7 @@ public class DependencyAnalyzer {
 
         String postcondition = "OBLIGATIONLABEL(" + label2 + ", ?user2, ?ar, ?o);";
 
-        return checker.solveConstraint(precondition, postcondition);
+        return checker.solveConstraint(precondition, postcondition, graph);
     }
 
     private void groupObligationsByAccessEvent(List<Rule> rules, Map<String, List<String>> groupedObligations) {

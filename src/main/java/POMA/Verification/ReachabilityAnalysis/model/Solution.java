@@ -3,9 +3,16 @@ package POMA.Verification.ReachabilityAnalysis.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.nist.csd.pm.pip.graph.Graph;
+
 public class Solution {
 
 	private List<ObligationFiring> obligationFirings = new ArrayList<ObligationFiring>();
+	private List<Graph> listOfConfigurations = new ArrayList<Graph>();
+
+	public List<Graph> getListOfConfigurations() {
+		return listOfConfigurations;
+	}
 
 	public void setObligationFirings(List<ObligationFiring> obligationFirings) {
 		this.obligationFirings = obligationFirings;
@@ -17,9 +24,10 @@ public class Solution {
 		return obligationFirings;
 	}
 
-	public Solution(List<ObligationFiring> obligationFirings, Variables variables) {
+	public Solution(List<ObligationFiring> obligationFirings, Variables variables, List<Graph> listOfConfigurations) {
 		this.obligationFirings = obligationFirings;
 		this.variables = variables;
+		this.listOfConfigurations = listOfConfigurations;
 	}
 
 	public Variables getVariables() {
@@ -37,6 +45,7 @@ public class Solution {
 		}
 		sb.append("] ");
 		sb.append(System.lineSeparator() + variables);
+		
 		return sb.toString();
 	}
 }

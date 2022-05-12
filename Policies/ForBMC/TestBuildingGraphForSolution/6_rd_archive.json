@@ -1,0 +1,239 @@
+{
+  "nodes": [
+    {
+      "name": "Kate",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "CoPI",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Chair",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Alice",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "CoPIEligible",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Nick",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "PDSEditing",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "Amy",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "RA",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "RD",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Erin",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Bob",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Chris",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "PI",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "SPEligible",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "PDSWhole",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "EditingPolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "Anne",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "SP",
+      "type": "UA",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "PI",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Dean",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Anne",
+      "target": "RD"
+    },
+    {
+      "source": "Kate",
+      "target": "BM"
+    },
+    {
+      "source": "Chair",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "RD",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "PI",
+      "target": "CoPI"
+    },
+    {
+      "source": "PDSEditing",
+      "target": "PDSWhole"
+    },
+    {
+      "source": "PDSEditing",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "RA",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Chris",
+      "target": "SPEligible"
+    },
+    {
+      "source": "CoPI",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "BM",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Bob",
+      "target": "CoPIEligible"
+    },
+    {
+      "source": "Alice",
+      "target": "PI"
+    },
+    {
+      "source": "SPEligible",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "CoPIEligible",
+      "target": "SPEligible"
+    },
+    {
+      "source": "SP",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Amy",
+      "target": "Dean"
+    },
+    {
+      "source": "Nick",
+      "target": "Chair"
+    },
+    {
+      "source": "Erin",
+      "target": "RA"
+    },
+    {
+      "source": "PDSWhole",
+      "target": "EditingPolicy"
+    }
+  ],
+  "associations": [
+    {
+      "source": "PI",
+      "target": "CoPI",
+      "operations": [
+        "delete-copi",
+        "add-copi"
+      ]
+    },
+    {
+      "source": "CoPI",
+      "target": "PDSWhole",
+      "operations": [
+        "edit"
+      ]
+    },
+    {
+      "source": "PI",
+      "target": "PDSWhole",
+      "operations": [
+        "create",
+        "delete"
+      ]
+    },
+    {
+      "source": "SP",
+      "target": "PDSWhole",
+      "operations": [
+        "read"
+      ]
+    },
+    {
+      "source": "CoPI",
+      "target": "SP",
+      "operations": [
+        "delete-sp",
+        "add-sp"
+      ]
+    }
+  ]
+}

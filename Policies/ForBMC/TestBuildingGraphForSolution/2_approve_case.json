@@ -1,61 +1,13 @@
 {
   "nodes": [
     {
-      "name": "LawFirmPolicy",
-      "type": "PC",
-      "properties": {}
-    },
-    {
-      "name": "LeadAttorneys",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "AvailableAttorneys",
-      "type": "UA",
+      "name": "Ann",
+      "type": "U",
       "properties": {}
     },
     {
       "name": "Nick",
       "type": "U",
-      "properties": {
-        "canAccept": "true"
-      }
-    },
-    {
-      "name": "Amy",
-      "type": "U",
-      "properties": {
-        "canAccept": "true"
-      }
-    },
-    {
-      "name": "Chris",
-      "type": "U",
-      "properties": {
-        "isLeadAttorneys": "true"
-      }
-    },
-    {
-      "name": "Ann",
-      "type": "U",
-      "properties": {
-        "isLeadAttorneys": "true"
-      }
-    },
-    {
-      "name": "NewCases",
-      "type": "OA",
-      "properties": {}
-    },
-    {
-      "name": "AcceptedCases",
-      "type": "OA",
-      "properties": {}
-    },
-    {
-      "name": "CR7",
-      "type": "O",
       "properties": {}
     },
     {
@@ -69,12 +21,51 @@
       "properties": {}
     },
     {
+      "name": "CR7",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "AvailableAttorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "LeadAttorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "AcceptedCases",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "Chris",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "LawFirmPolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "NewCases",
+      "type": "OA",
+      "properties": {}
+    },
+    {
       "name": "CV2",
       "type": "O",
       "properties": {}
     }
   ],
   "assignments": [
+    {
+      "source": "NewCases",
+      "target": "AcceptedCases"
+    },
     {
       "source": "AvailableAttorneys",
       "target": "LawFirmPolicy"
@@ -84,19 +75,15 @@
       "target": "LawFirmPolicy"
     },
     {
-      "source": "AcceptedCases",
-      "target": "LawFirmPolicy"
+      "source": "CR7",
+      "target": "NewCases"
     },
     {
-      "source": "LeadAttorneys",
-      "target": "AvailableAttorneys"
+      "source": "CR8",
+      "target": "NewCases"
     },
     {
       "source": "Chris",
-      "target": "LeadAttorneys"
-    },
-    {
-      "source": "Ann",
       "target": "LeadAttorneys"
     },
     {
@@ -104,24 +91,24 @@
       "target": "AvailableAttorneys"
     },
     {
-      "source": "Amy",
-      "target": "AvailableAttorneys"
-    },
-    {
-      "source": "CR7",
-      "target": "NewCases"
-    },
-    {
-      "source": "CV16",
-      "target": "NewCases"
+      "source": "AcceptedCases",
+      "target": "LawFirmPolicy"
     },
     {
       "source": "CV2",
       "target": "NewCases"
     },
     {
-      "source": "CR8",
+      "source": "Ann",
+      "target": "LeadAttorneys"
+    },
+    {
+      "source": "CV16",
       "target": "NewCases"
+    },
+    {
+      "source": "LeadAttorneys",
+      "target": "AvailableAttorneys"
     }
   ],
   "associations": [
@@ -129,8 +116,15 @@
       "source": "AvailableAttorneys",
       "target": "NewCases",
       "operations": [
-        "accept",
-        "refuse"
+        "refuse",
+        "accept"
+      ]
+    },
+    {
+      "source": "LeadAttorneys",
+      "target": "AvailableAttorneys",
+      "operations": [
+        "remove"
       ]
     },
     {

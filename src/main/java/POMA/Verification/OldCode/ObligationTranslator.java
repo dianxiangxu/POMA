@@ -219,7 +219,6 @@ public class ObligationTranslator {
 		int ancestorId = mapOfIDs.get(ancestor);
 		int descendantId = mapOfIDs.get(descendant);
 		return "(member (mkTuple " + ancestorId + " " + descendantId + ") (ASSIGN* " + (k - 1) + "))";
-
 	}
 
 	private void translateObligationRules() {

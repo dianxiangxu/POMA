@@ -19,6 +19,7 @@ import gov.nist.csd.pm.pip.graph.dag.searcher.DepthFirstSearcher;
 import gov.nist.csd.pm.pip.graph.dag.searcher.Direction;
 import gov.nist.csd.pm.pip.graph.dag.visitor.Visitor;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
+import gov.nist.csd.pm.pip.graph.model.nodes.NodeType;
 
 class GraphTranslator {
 
@@ -36,6 +37,11 @@ class GraphTranslator {
 	private List<String> addedNodesFromObligationsOA_O;
 	private List<String> obligationLabels;
 	private Map<String, String> eventMembers;
+	private List<Node> listOfNodes = new ArrayList<Node>();
+
+	public List<Node> getListOfNodes() {
+		return listOfNodes;
+	}
 
 	Graph graph;
 
@@ -82,9 +88,13 @@ class GraphTranslator {
 
 		int index = 1;
 		for (Node node : nodes) {
-			if(mapOfIDs.containsValue(node.getName())) continue;
+			if (mapOfIDs.containsValue(node.getName()))
+				continue;
 			mapOfIDs.put(node.getName(), index);
 			index++;
+			if (!Utils.nodeExistsInList(listOfNodes, node.getName())) {
+				listOfNodes.add(new Node(node.getName(), node.getType()));
+			}
 		}
 		for (String nodeName : addedNodesFromObligationsUA_U) {
 			if (mapOfIDs.containsValue(nodeName))
@@ -94,7 +104,8 @@ class GraphTranslator {
 			index++;
 		}
 		for (String nodeName : addedNodesFromObligationsOA_O) {
-			if (mapOfIDs.containsValue(nodeName)) continue;
+			if (mapOfIDs.containsValue(nodeName))
+				continue;
 			mapOfIDs.put(nodeName, index);
 			index++;
 		}
@@ -285,9 +296,8 @@ class GraphTranslator {
 			if (entry.getKey() != "") {
 				int userID = mapOfIDs.get(entry.getKey());
 				// int targetID = mapOfIDs.get(entry.getValue());
-				flattenedTuples
-						.add(new AssignmentRelation(Integer.toString(userID), Integer.toString(userID))
-								.toStringNoQuotes());
+				flattenedTuples.add(
+						new AssignmentRelation(Integer.toString(userID), Integer.toString(userID)).toStringNoQuotes());
 				// tuples.add(new AssignmentRelation(Integer.toString(targetID),
 				// Integer.toString(
 				// targetID)).toStringNoQuotes());
@@ -428,11 +438,12 @@ class GraphTranslator {
 
 	String translateHeadCode(List<AssociationRelation> listOfAddedAssociationsFromObligations,
 			List<String> listOfAddedNodesUA_U, List<String> listOfAddedNodesOA_O, List<String> obligationLabels,
-			Map<String, String> eventMembers) throws Exception {
+			Map<String, String> eventMembers, List<Node> listOfNodes) throws Exception {
 		StringBuilder headcode = new StringBuilder();
 		associationsFromObligations = listOfAddedAssociationsFromObligations;
 		addedNodesFromObligationsUA_U = listOfAddedNodesUA_U;
 		addedNodesFromObligationsOA_O = listOfAddedNodesOA_O;
+		this.listOfNodes = listOfNodes;
 		this.eventMembers = eventMembers;
 		this.obligationLabels = obligationLabels;
 		getGraphElements();

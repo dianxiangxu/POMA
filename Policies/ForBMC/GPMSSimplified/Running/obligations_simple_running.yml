@@ -1,0 +1,410 @@
+label: GPMS Obligations
+rules:
+  - label: submit_proposal
+    event:
+      subject:
+        anyUser: 
+          - "PI"
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: Chair
+               type: UA
+             operations:
+               - approve
+             target:
+               name: PDSWhole
+               type: OA  
+        - grant:
+             subject:
+               name: Chair
+               type: UA
+             operations:
+               - disapprove               
+             target:
+               name: PDSWhole
+               type: OA                                     
+        - delete:
+            associations:
+              - subject:
+                  name: PI
+                  type: UA
+                operations:
+                  - submit
+                target:
+                  name: PDSWhole
+                  type: OA    
+  - label: add_copi
+    event:
+      subject:
+        anyUser: 
+          - "PI"
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - assign:
+            - what:
+                name: Bob
+                type: U
+              where:
+                name: CoPI
+                type: UA  
+  - label: add_sp
+    event:
+      subject:
+        anyUser: 
+          - "PI"
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - assign:
+            - what:
+                name: Chris
+                type: U
+              where:
+                name: SP
+                type: UA                    
+  - label: chair_approve
+    event:
+      subject:
+        anyUser: 
+          - "Chair"
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: BM
+               type: UA
+             operations:
+               - approve
+             target:
+               name: PDSWhole
+               type: OA  
+        - grant:
+             subject:
+               name: BM
+               type: UA
+             operations:
+               - disapprove               
+             target:
+               name: PDSWhole
+               type: OA                 
+        - delete:
+            associations:
+              - subject:
+                  name: Chair
+                  type: UA
+                operations:
+                  - approve
+                target:
+                  name: PDSWhole
+                  type: OA    
+        - delete:
+            associations:
+              - subject:
+                  name: Chair
+                  type: UA
+                operations:
+                  - disapprove                   
+                target:
+                  name: PDSWhole
+                  type: OA     
+  - label: chair_disapprove
+    event:
+      subject:
+        anyUser: 
+          - "Chair"
+      operations:
+        - disapprove
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:      
+        - delete:
+            associations:
+              - subject:
+                  name: Chair
+                  type: UA
+                operations:
+                  - approve
+                target:
+                  name: PDSWhole
+                  type: OA    
+        - delete:
+            associations:
+              - subject:
+                  name: Chair
+                  type: UA
+                operations:
+                  - disapprove                   
+                target:
+                  name: PDSWhole
+                  type: OA  
+        - grant:
+             subject:
+               name: PI
+               type: UA
+             operations:
+               - submit               
+             target:
+               name: PDSWhole
+               type: OA                                     
+                                                                   
+  - label: bm_approve
+    event:
+      subject:
+        anyUser: 
+          - "BM"
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: Dean
+               type: UA
+             operations:
+               - approve
+             target:
+               name: PDSWhole
+               type: OA   
+        - grant:
+             subject:
+               name: Dean
+               type: UA
+             operations:
+               - disapprove               
+             target:
+               name: PDSWhole
+               type: OA                 
+        - delete:
+            associations:
+              - subject:
+                  name: BM
+                  type: UA
+                operations:
+                  - approve
+                target:
+                  name: PDSWhole
+                  type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: BM
+                  type: UA
+                operations:
+                  - disapprove                     
+                target:
+                  name: PDSWhole
+                  type: OA 
+  - label: bm_disapprove
+    event:
+      subject:
+        anyUser: 
+          - "BM"
+      operations:
+        - disapprove
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:      
+        - delete:
+            associations:
+              - subject:
+                  name: BM
+                  type: UA
+                operations:
+                  - approve
+                target:
+                  name: PDSWhole
+                  type: OA    
+        - delete:
+            associations:
+              - subject:
+                  name: BM
+                  type: UA
+                operations:
+                  - disapprove                   
+                target:
+                  name: PDSWhole
+                  type: OA  
+        - grant:
+             subject:
+               name: PI
+               type: UA
+             operations:
+               - submit               
+             target:
+               name: PDSWhole
+               type: OA                                                                        
+  - label: dean_approve
+    event:
+      subject:
+        anyUser: 
+          - "Dean"
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: RA
+               type: UA
+             operations:
+               - submit               
+             target:
+               name: PDSWhole
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: Dean
+                  type: UA
+                operations:
+                  - approve
+                target:
+                  name: PDSWhole
+                  type: OA      
+        - delete:
+            associations:
+              - subject:
+                  name: Dean
+                  type: UA
+                operations:
+                  - disapprove                     
+                target:
+                  name: PDSWhole
+                  type: OA    
+  - label: dean_disapprove
+    event:
+      subject:
+        anyUser: 
+          - "Dean"
+      operations:
+        - disapprove
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:      
+        - delete:
+            associations:
+              - subject:
+                  name: Dean
+                  type: UA
+                operations:
+                  - approve
+                target:
+                  name: PDSWhole
+                  type: OA    
+        - delete:
+            associations:
+              - subject:
+                  name: Dean
+                  type: UA
+                operations:
+                  - disapprove                   
+                target:
+                  name: PDSWhole
+                  type: OA  
+        - grant:
+             subject:
+               name: PI
+               type: UA
+             operations:
+               - submit               
+             target:
+               name: PDSWhole
+               type: OA                                                                                        
+  - label: ra_submit
+    event:
+      subject:
+        anyUser: 
+          - "RA"
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:
+        - grant:
+             subject:
+               name: RD
+               type: UA
+             operations:
+               - archive               
+             target:
+               name: PDSWhole
+               type: OA   
+        - delete:
+            associations:
+              - subject:
+                  name: RA
+                  type: UA
+                operations:
+                  - submit                     
+                target:
+                  name: PDSWhole
+                  type: UA    
+  - label: rd_archive
+    event:
+      subject:
+        anyUser: 
+          - "RD"
+      operations:
+        - archive
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA
+    response:      
+      actions:  
+        - delete:
+            associations:
+              - subject:
+                  name: RD
+                  type: UA
+                operations:
+                  - archive                     
+                target:
+                  name: PDSWhole
+                  type: OA     
+

@@ -635,14 +635,14 @@ static private int jjMoveNfa_0(int startState, int curPos)
             {
                case 1:
                case 0:
-                  if ((0x7fffffe07fffffeL & l) == 0L)
+                  if ((0x7fffffe87fffffeL & l) == 0L)
                      break;
                   if (kind > 22)
                      kind = 22;
                   jjCheckNAdd(0);
                   break;
                case 2:
-                  if ((0x7fffffe07fffffeL & l) == 0L)
+                  if ((0x7fffffe87fffffeL & l) == 0L)
                      break;
                   if (kind > 23)
                      kind = 23;
