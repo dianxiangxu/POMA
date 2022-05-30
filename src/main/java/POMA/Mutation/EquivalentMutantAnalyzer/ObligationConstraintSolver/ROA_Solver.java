@@ -39,6 +39,7 @@ public class ROA_Solver extends MutantTester {
 		String changeType;
 		int i = 0;//index of mutant
 		List<Action> newActions = new ArrayList<>();
+		int index = 0;
 		
 		List<Rule> rules = Utils.createObligationCopy().getRules();
 		for (Rule rule : rules) {
@@ -50,6 +51,7 @@ public class ROA_Solver extends MutantTester {
 			EventPattern eventPattern = rule.getEventPattern();
 			ResponsePattern responsePattern = rule.getResponsePattern();
 			List<Action> actions = responsePattern.getActions();
+			index = 0;
 
 			//this mutant is included in ROB
 			if (actions.size() <= 1)
@@ -62,6 +64,7 @@ public class ROA_Solver extends MutantTester {
 				for (Action action : actions) {
 					newActions.add(action);
 				}
+				System.out.println("Action to delete:" + index);
 				newActions.remove(actionToDelete); 
 				mutant = updateActions(mutant, ruleLabel, newActions);
 				Utils.setObligationMutant(mutant);
@@ -71,29 +74,46 @@ public class ROA_Solver extends MutantTester {
 				Utils.setObligationMutant(obM);
 				
 				//generate RConstraint
-				RConstraint = null;
-				for (String subject : Utils.getAllSubject(eventPattern)) {
-					for (String operation : eventPattern.getOperations()) {
-						for (String target : Utils.getAllTarget(eventPattern)) {
-							String a = "PERMIT(?user,"+operation+","+target+")";
-							String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
-							String c = "ASSIGN(?user,"+subject+")";
-							String all = Utils.andP(Utils.andP(a, b), c);
-							if (RConstraint == null)
-								RConstraint = all;
-							else
-								RConstraint = Utils.orP(RConstraint, all);
-						}
-					}
-				}
+//				RConstraint = null;
+//				for (String subject : Utils.getAllSubject(eventPattern)) {
+//					for (String operation : eventPattern.getOperations()) {
+//						for (String target : Utils.getAllTarget(eventPattern)) {
+//							String a = "PERMIT(?user,"+operation+","+target+")";
+//							String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
+//							String c = "ASSIGN(?user,"+subject+")";
+//							String all = Utils.andP(Utils.andP(a, b), c);
+//							if (RConstraint == null)
+//								RConstraint = all;
+//							else
+//								RConstraint = Utils.orP(RConstraint, all);
+//						}
+//					}
+//				}
 				
 				//generate Pconstraint
 				PConstraint = Utils.generatePConstraintOneAction(actionToDelete);
 				//generate preConstraint
-				preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
+//				preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
+				preConstraint = PConstraint + ";";
 				System.out.println(i + "Pre:" + preConstraint);
 				//generate postConstraint
 				postConstraint = Utils.generatePostConstraint(responsePattern);
+				String tmpS = null;
+//				for (String subject : Utils.getAllSubject(eventPattern)) {
+					for (String operation : eventPattern.getOperations()) {
+						for (String target : Utils.getAllTarget(eventPattern)) {
+							String a = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
+//							String b = "ASSIGN(?user,"+subject+")";
+//							String all = Utils.andP(a, b);
+							String all = a;
+							if (tmpS == null)
+								tmpS = all;
+							else
+								tmpS = Utils.orP(tmpS, all);
+						}
+					}
+//				}
+				postConstraint = Utils.andP(postConstraint, tmpS) + ";"; 
 				System.out.println(i + "Post:" + postConstraint);
 				
 //				Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
@@ -105,6 +125,7 @@ public class ROA_Solver extends MutantTester {
 					System.out.println("Mutant not killed!");
 				setNumberOfMutants(getNumberOfMutants() + 1);
 				i++;
+				index++;
 			}
 		}
 	}

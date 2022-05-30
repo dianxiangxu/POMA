@@ -60,13 +60,16 @@ public class MutationController {
 		
 //        String initialGraphConfig = "Policies/SimpleGraph/simpleGraphToSMT.json";
 //        String initialGraphConfig = "Policies/GPMS/Graph.json";
-        initialGraphConfig = "Policies/LawUseCase/Graph.json";
+//        initialGraphConfig = "Policies/LawUseCase/Graph.json";
 //		initialProhibitionConfig = "Policies/LawUseCase/prohibitions.json";
 //        String initialGraphConfig = "Policies/BankPolicy/Complex/bank_policy_config.json";
 //        String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/graph.json";
 //        String initialProhibitionConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA/prohibitionsx1.json";
 //		initialGraphConfig = "Policies/ForBMC/LawFirmSimplified/CasePolicy.json";
-
+		
+		initialGraphConfig = "Policies/SolverVerification/LawFirm/Graph.json";
+//		initialGraphConfig = "Policies/SolverVerification/GPMS/Graph.json";
+		
         
         
 		File folder = new File(initialGraphConfig).getParentFile();

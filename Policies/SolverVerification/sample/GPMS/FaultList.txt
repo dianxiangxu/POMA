@@ -1,0 +1,64 @@
+
+fault1: in obligation6, action 1, change PDSWhole to PDSEditing(CTG)
+	Event sequence:
+	(Vlad,submit,PDSWhole)
+	(UChair,approve,PDSWhole)
+	(UBM,approve,PDSWhole)
+	(UDean,approve,PDSWhole)
+	(URA,submit,PDSWhole)
+	(URD,archive,PDSWhole)
+	Assert request:(UChair,approve,PDSWhole)
+	
+fault2: in obligation5, Change PE from: PDSWhole to BM(CET)
+	Event sequence:
+	(Vlad,submit,PDSWhole)
+	(UChair,approve,PDSWhole)
+	(UBM,approve,PDSWhole)
+	(UDean,approve,PDSWhole)
+	(URA,submit,PDSWhole)
+	Assert request:(URA,submit,PDSWhole)
+	
+fault3: in obligation4, delete action2(ROA)
+	Event sequence:
+	(Vlad,submit,PDSWhole)
+	(UChair,approve,PDSWhole)
+	(UBM,approve,PDSWhole)
+	(UDean,approve,PDSWhole)
+	Assert request:(UDean,approve,PDSWhole)
+	
+fault4: in obligation3, change from BM to PI(CEU)
+	Event sequence:
+	(Vlad,submit,PDSWhole)
+	(UChair,approve,PDSWhole)
+	(UBM,approve,PDSWhole)
+	Assert request:(UBM,approve,PDSWhole)
+	
+fault5: in obligation3, subject be removed:BM(REU)
+	Event sequence:
+	(Vlad,submit,PDSWhole)
+	(UChair,approve,PDSWhole)
+	Assert request:(UBM,approve,PDSWhole)
+	
+fault6: in obligation1, change operation:[submit] to [edit](CEO)
+	Event sequence:
+	(Vlad,submit,PDSWhole)
+	Assert request:(Vlad,submit,PDSWhole)
+	
+fault7: in obligation6, delete action 1(ROA)
+	Event sequence:
+	(Vlad,submit,PDSWhole)
+	(UChair,approve,PDSWhole)
+	(UBM,approve,PDSWhole)
+	(UDean,approve,PDSWhole)
+	(URA,submit,PDSWhole)
+	(URD,archive,PDSWhole)
+	Assert request:(UChair,approve,PDSWhole)
+
+fault8: in obligation5, change from RA to BM(CEU)
+	Event sequence:
+	(Vlad,submit,PDSWhole)
+	(UChair,approve,PDSWhole)
+	(UBM,approve,PDSWhole)
+	(UDean,approve,PDSWhole)
+	(URA,submit,PDSWhole)
+	Assert request:(URA,submit,PDSWhole)

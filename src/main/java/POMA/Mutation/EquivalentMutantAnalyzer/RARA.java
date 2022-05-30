@@ -77,15 +77,19 @@ public class RARA extends MutantTester {
 		
 		for (String ascendant : ascendantListA) {
 			Graph mutant = createCopy();
-			PReviewDecider decider = new PReviewDecider(mutant, prohibitions);
-			Map<String, Set<String>> CapabilityList = decider.getCapabilityList(ascendant, null);
+			PReviewDecider deciderO = new PReviewDecider(mutant, prohibitions);
+			Map<String, Set<String>> CapabilityList = deciderO.getCapabilityList(ascendant, null);
 
 			removeAccessRightFromAssociate(mutant, SourceName, targetName, accessRights, accessRight);
 			
-			decider = new PReviewDecider(mutant, prohibitions);
-			Map<String, Set<String>> CapabilityListMutant = decider.getCapabilityList(ascendant, null);
+			PReviewDecider deciderM = new PReviewDecider(mutant, prohibitions);
+			Map<String, Set<String>> CapabilityListMutant = deciderM.getCapabilityList(ascendant, null);
 			
-			AccessRequest q = CapabilityList.size() >= CapabilityListMutant.size() ? 
+			AccessRequest q = Utils.pretestArlist(deciderO, deciderM, arList);
+			if (q != null)
+				return q;
+			
+			q = CapabilityList.size() >= CapabilityListMutant.size() ? 
 				Utils.compareTwoLists(CapabilityList, CapabilityListMutant, "UA") :
 				Utils.compareTwoLists(CapabilityListMutant, CapabilityList, "UA");
 
@@ -97,10 +101,11 @@ public class RARA extends MutantTester {
 		Utils.getAllAscendant(targetName, ascendantListB, graph);
 		ascendantListB.add(targetName);
 		for (String ascendant : ascendantListB) {
-			Graph mutant = createCopy();
-			PReviewDecider decider = new PReviewDecider(mutant, prohibitions);
+			
+			PReviewDecider decider = new PReviewDecider(createCopy(), prohibitions);
 			Map<String, Set<String>> ACL = decider.generateACL(ascendant, null);
 			
+			Graph mutant = createCopy();
 			removeAccessRightFromAssociate(mutant, SourceName, targetName, accessRights, accessRight);
 			
 			decider = new PReviewDecider(mutant, prohibitions);

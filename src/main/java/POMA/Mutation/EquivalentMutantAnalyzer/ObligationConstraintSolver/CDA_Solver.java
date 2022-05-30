@@ -31,9 +31,9 @@ import POMA.Mutation.EquivalentMutantAnalyzer.MutantTester;
 import POMA.Mutation.EquivalentMutantAnalyzer.Utils;
 //import prohibition interfaces
 
-public class IAA_Solver extends MutantTester {
+public class CDA_Solver extends MutantTester {
 	static Graph g;
-	public IAA_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath, List<AccessRequest> arList) throws GraphDoesNotMatchTestSuitException {
+	public CDA_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath, List<AccessRequest> arList) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph, prohibitions, obligationPath, arList);
 	}
 
@@ -105,7 +105,7 @@ public class IAA_Solver extends MutantTester {
 							continue;
 						where = new EvrNode(newWhere.getName(), newWhere.getType().toString(), newWhere.getProperties());
 						
-						System.out.println("(IAA_Solver) " + ruleLabel + "|actionIndex:" + index);
+						System.out.println("(CDA_Solver) " + ruleLabel + "|actionIndex:" + index);
 						System.out.println("What:" + what.getName() + "|" + what.getType());
 						System.out.println("Old where:" + as.getWhere().getName() + "|" + as.getWhere().getType());
 						System.out.println("New where:" + where.getName() + "|" + where.getType());
@@ -144,7 +144,7 @@ public class IAA_Solver extends MutantTester {
 //						}
 						
 						//generate Pconstraint
-						PConstraint = Utils.getPropagationConstraintIAA(what.getName(), oldWhere.getName(), where.getName());
+						PConstraint = Utils.getPropagationConstraintCDA(what.getName(), oldWhere.getName(), where.getName());
 						//generate preConstraint
 //						preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
 						preConstraint = PConstraint + ";";

@@ -60,9 +60,9 @@ import POMA.Mutation.EquivalentMutantAnalyzer.Utils;
 //import prohibition interfaces
 import POMA.Mutation.ProhibitionMutationOperators.ProhibitionMutation;
 
-public class REPE_Solver extends MutantTester {
+public class CET_Solver extends MutantTester {
 	static Graph g;
-	public REPE_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath, List<AccessRequest> arList) throws GraphDoesNotMatchTestSuitException {
+	public CET_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath, List<AccessRequest> arList) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph, prohibitions, obligationPath, arList);
 	}
 
@@ -75,103 +75,119 @@ public class REPE_Solver extends MutantTester {
 		String fireObligation = "";
 		int i = 0; //index of mutant
 		
+		List<Node> UAsOAs = Utils.getUAsInGraph(graph);
+		UAsOAs.addAll(Utils.getOAsInGraph(graph));
+		
+		getAllEvrNodes(Utils.createObligationCopy());
 		List<Rule> rules = Utils.createObligationCopy().getRules();
 		for (Rule rule : rules) {
 			String ruleLabel = rule.getLabel();
 			if (ruleLabel.equals("obligation4") && Utils.createObligationCopy().getLabel().equals("LawUseCase Obligations") )
 				continue;
-			
 			EventPattern eventPattern = rule.getEventPattern();
 			Target target = eventPattern.getTarget();
+			
 			List<EvrNode> policyElements = target.getPolicyElements();
-			for (EvrNode peToDelete : policyElements) {
-				//generate mutant
-				System.out.println("Remove PE: " + peToDelete.getName() + " in rule: " + ruleLabel);
-				Obligation mutant = Utils.createObligationCopy();
-				mutant = removeEventPolicyElement(mutant, ruleLabel, peToDelete);
-				Utils.setObligationMutant(mutant);
-				
-				Obligation obM = Utils.createObligationWithCondtionCopy();
-				obM = removeEventPolicyElement(obM, ruleLabel, peToDelete);
-				Utils.setObligationMutant(obM);
-				
-				//generate TargetConstraint
-				TargetConstraint = null;
-				if (policyElements.size() == 1) {
-					TargetConstraint = "NOT(ASSIGN(?object,"+peToDelete.getName()+"))";
-				} else {
+//			System.out.println(ruleLabel + "|" + getNumberOfMutants());
+			for (EvrNode originPolicyElement : policyElements) {
+				for (Node changeToPolicyElement : UAsOAs) {
+					if (originPolicyElement.getName().equals(changeToPolicyElement.getName())) {
+						continue;
+					}
+					if (policyElements.contains(changeToPolicyElement)) {
+						continue;
+					}
+					//generate mutant
+					System.out.println("Change PE from: " + originPolicyElement.getName() + " to " + changeToPolicyElement.getName());
+					Obligation mutant = Utils.createObligationCopy();
+					mutant = changeEventPolicyElement(mutant, ruleLabel, originPolicyElement, changeToPolicyElement);
+					Utils.setObligationMutant(mutant);
+					
+					Obligation obM = Utils.createObligationWithCondtionCopy();
+					obM = changeEventPolicyElement(obM, ruleLabel, originPolicyElement, changeToPolicyElement);
+					Utils.setObligationMutant(obM);
+					
+					//generate TargetConstraint
+					TargetConstraint = null;
 					for (String t : Utils.getAllTarget(eventPattern)) {
-						if (!t.equals(peToDelete.getName())) {
+						if (!t.equals(originPolicyElement.getName())) {
 							if (TargetConstraint == null)
 								TargetConstraint = "NOT(ASSIGN(?object,"+t+"))";
 							else
 								TargetConstraint = Utils.andP(TargetConstraint, "NOT(ASSIGN(?object,"+t+"))");
 						} else {
+//							String tmp1 = Utils.andP("ASSIGN(?object,"+t+")", "NOT(ASSIGN(?object,"+changeToPolicyElement.getName()+"))");
+//							String tmp2 = Utils.andP("NOT(ASSIGN(?object,"+t+"))", "ASSIGN(?object,"+changeToPolicyElement.getName()+")");
+							String tmp1 = Utils.andP("ASSIGN(?object,"+t+")", "ASSIGN(" + t + ",?object)");
+							String tmp2 = Utils.andP("ASSIGN(?object,"+changeToPolicyElement.getName()+")", "ASSIGN(" + changeToPolicyElement.getName() + ",?object)");
 							if (TargetConstraint == null)
-								TargetConstraint = "ASSIGN(?object,"+peToDelete.getName()+")";
+								TargetConstraint = Utils.orP(tmp1, tmp2);
 							else
-								TargetConstraint = Utils.andP(TargetConstraint, "NOT(ASSIGN(?object,"+peToDelete.getName()+"))");
+								TargetConstraint = Utils.andP(TargetConstraint, Utils.orP(tmp1, tmp2));
 						}
 					}
-				}
-				
-				//generate RConstraint
-//				RConstraint = null;
-//				for (String subject : Utils.getAllSubject(eventPattern)) {
-//					for (String operation : eventPattern.getOperations()) {
-//						String a = "PERMIT(?user,"+operation+",?object)";
-//						String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+",?object)";
-//						String c = "ASSIGN(?user,"+subject+")";
-//						String all = Utils.andP(Utils.andP(a, b), c);
-//						if (RConstraint == null)
-//							RConstraint = all;
-//						else
-//							RConstraint = Utils.orP(RConstraint, all);
+					
+					//generate RConstraint
+//					RConstraint = null;
+//					for (String subject : Utils.getAllTarget(eventPattern)) {
+//						for (String operation : eventPattern.getOperations()) {
+//							String a = "PERMIT("+subject+","+operation+",?object)";
+//							String b = "ASSIGN(?user,"+ subject +")";
+//							String all = Utils.andP(a, b);
+//							if (RConstraint == null)
+//								RConstraint = all;
+//							else
+//								RConstraint = Utils.orP(RConstraint, all);
+//						}
 //					}
-//				}
-//				RConstraint = Utils.andP(TargetConstraint, RConstraint);
-				RConstraint = TargetConstraint;
-				
-				ResponsePattern responsePattern = rule.getResponsePattern();
-				//generate Pconstraint
-				PConstraint = Utils.generatePConstraint(responsePattern);
-				//generate preConstraint
-				if (RConstraint == null)
-					preConstraint = PConstraint + ";";
-				else
+//					RConstraint = Utils.andP(TargetConstraint, RConstraint);
+					RConstraint = TargetConstraint;
+					
+					ResponsePattern responsePattern = rule.getResponsePattern();
+					//generate Pconstraint
+					PConstraint = Utils.generatePConstraint(responsePattern);
+					//generate preConstraint
 					preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
-				System.out.println(i + "Pre:" + preConstraint);
-				//generate postConstraint
-				postConstraint = Utils.generatePostConstraint(responsePattern);
-				String tmpS = null;
-				for (String subject : Utils.getAllSubject(eventPattern)) {
-					for (String operation : eventPattern.getOperations()) {
-						String a = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+",?object)";
-						String b = "ASSIGN(?user,"+subject+")";
-						String all = Utils.andP(a, b);
-						if (tmpS == null)
-							tmpS = all;
-						else
-							tmpS = Utils.orP(tmpS, all);
+					System.out.println(i + "Pre:" + preConstraint);
+					if (i == 7)
+						System.out.println("debug");
+					//generate postConstraint
+					postConstraint = Utils.generatePostConstraint(responsePattern);
+					String tmpS = null;
+//					for (String subject : Utils.getAllSubject(eventPattern)) {
+						for (String operation : eventPattern.getOperations()) {
+//							String a = "PERMIT("+subject+","+operation+",?object)";
+//							String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+",?object)";
+//							String c = "ASSIGN(?user,"+ subject +")";
+//							String all = Utils.andP(Utils.andP(a, b), c);
+							String a = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+",?object)";
+							String all = a;
+							if (tmpS == null)
+								tmpS = all;
+							else
+								tmpS = Utils.orP(tmpS, all);
+						}
+//					}
+					postConstraint = Utils.andP(postConstraint, tmpS) + ";"; 
+					System.out.println(i + "Post:" + postConstraint);
+					
+					if (i == 7) {
+						System.out.print("debug");
 					}
+//					Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+					Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
+					if (res) {
+						setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
+					}
+					setNumberOfMutants(getNumberOfMutants() + 1);
+					i++;
 				}
-				postConstraint = Utils.andP(postConstraint, tmpS) + ";"; 
-				System.out.println(i + "Post:" + postConstraint);
-				
-//				Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
-				Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
-				if (res) {
-					System.out.println("Mutant killed!");
-					setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
-				} else
-					System.out.println("Mutant not killed!");
-				setNumberOfMutants(getNumberOfMutants() + 1);
-				i++;
 			}
+			
 		}
 	}
 	
-	private Obligation removeEventPolicyElement(Obligation obligation, String ruleLabel, EvrNode peToDelete) {
+	private Obligation changeEventPolicyElement(Obligation obligation, String ruleLabel, EvrNode originPE, Node changeToPE) {
 		if (ruleLabel == null)
 			return null;
 		List<Rule> rules = obligation.getRules();
@@ -182,24 +198,18 @@ public class REPE_Solver extends MutantTester {
 				EventPattern eventPattern = newRule.getEventPattern();
 				Target target = eventPattern.getTarget();
 				List<EvrNode> policyElements = target.getPolicyElements();
-				if (policyElements.size() == 1) {
-//					target.setPolicyElements(null);
-//					eventPattern.setTarget(target);	
-					eventPattern.setTarget(null);	
-					newRule.setEventPattern(eventPattern);
-				} else {
-					List<EvrNode> newPEs = new ArrayList<>();
-					for (EvrNode node : policyElements) {
-						if (node.getName().equals(peToDelete.getName())) {
-							continue;
-						}
+				List<EvrNode> newPEs = new ArrayList<>();
+				for (EvrNode node : policyElements) {
+					if (node.getName().equals(originPE.getName())) {
+						newPEs.add(new EvrNode(changeToPE.getName(), changeToPE.getType().toString(), changeToPE.getProperties()));
+					} else {
 						newPEs.add(node);
 					}
-					
-					target.setPolicyElements(newPEs);
-					eventPattern.setTarget(target);	
-					newRule.setEventPattern(eventPattern);
 				}
+				
+				target.setPolicyElements(newPEs);
+				eventPattern.setTarget(target);;				
+				newRule.setEventPattern(eventPattern);
 			}
 				
 			newRules.add(newRule);

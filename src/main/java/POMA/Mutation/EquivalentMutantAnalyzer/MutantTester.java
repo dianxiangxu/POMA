@@ -59,8 +59,8 @@ public class MutantTester {
 //	public String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA";
 	
 	//BMC
-	public String initialGraphConfig = "Policies/ForBMC/LawFirmSimplified/";
-//	public String initialGraphConfig = "Policies/ForBMC/GPMSSimplified/";
+	public String initialGraphConfig = "Policies/SolverVerification/LawFirm/";
+//	public String initialGraphConfig = "Policies/SolverVerification/GPMS/";
 
 	static List<String> Us;
 	protected static List<Node> UAs;
@@ -68,9 +68,8 @@ public class MutantTester {
 	static List<Node> UAsPCs;
 	static List<Node> UAsPCsOAs;
 	protected static List<EvrNode> EvrNodes;
+	static List<AccessRequest> arList = new ArrayList<AccessRequest>();
 	
-	static List<AccessRequest> arList;
-
 	public MutantTester(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath, List<AccessRequest> ARList) throws GraphDoesNotMatchTestSuitException {
 		this.testMethod = testMethod;
 		this.graph = graph;
@@ -78,7 +77,9 @@ public class MutantTester {
 		this.obligationFilePath = obligationPath;
 		//FIXME: below only for Law Firm example
 		this.obligationWithConditionFilePath = "Policies/SolverVerification/LawFirm/ObligationsWithCondition.yml";
-		this.arList = ARList;
+		arList = new ArrayList<AccessRequest>();
+		arList.addAll(ARList);
+		
 		try {
 			//graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
 //			if (!Utils.verifyTestSuitIsForGraph(graph, getTestSuitPathByMethod(testMethod))) {

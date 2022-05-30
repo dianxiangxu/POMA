@@ -29,9 +29,9 @@ import POMA.Mutation.EquivalentMutantAnalyzer.MutantTester;
 import POMA.Mutation.EquivalentMutantAnalyzer.Utils;
 //import prohibition interfaces
 
-public class IGA_Solver extends MutantTester {
+public class CTG_Solver extends MutantTester {
 	static Graph g;
-	public IGA_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath, List<AccessRequest> arList) throws GraphDoesNotMatchTestSuitException {
+	public CTG_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath, List<AccessRequest> arList) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph, prohibitions, obligationPath, arList);
 	}
 
@@ -104,29 +104,45 @@ public class IGA_Solver extends MutantTester {
 					Utils.setObligationMutant(mutant);
 					
 					//generate RConstraint
-					RConstraint = null;
-					for (String s : Utils.getAllSubject(event)) {
-						for (String operation : event.getOperations()) {
-							for (String t : Utils.getAllTarget(event)) {
-								String a = "PERMIT(?user,"+operation+","+t+")";
-								String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+t+")";
-								String c = "ASSIGN(?user,"+s+")";
-								String all = Utils.andP(Utils.andP(a, b), c);
-								if (RConstraint == null)
-									RConstraint = all;
-								else
-									RConstraint = Utils.orP(RConstraint, all);
-							}
-						}
-					}
+//					RConstraint = null;
+//					for (String s : Utils.getAllSubject(event)) {
+//						for (String operation : event.getOperations()) {
+//							for (String t : Utils.getAllTarget(event)) {
+//								String a = "PERMIT(?user,"+operation+","+t+")";
+//								String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+t+")";
+//								String c = "ASSIGN(?user,"+s+")";
+//								String all = Utils.andP(Utils.andP(a, b), c);
+//								if (RConstraint == null)
+//									RConstraint = all;
+//								else
+//									RConstraint = Utils.orP(RConstraint, all);
+//							}
+//						}
+//					}
 					
 					//generate Pconstraint
-					PConstraint = Utils.getPropagationConstraintIGA(subject.getName(), oldTarget.getName(), target.getName(), newAction.getOperations());
+					PConstraint = Utils.getPropagationConstraintCTG(subject.getName(), oldTarget.getName(), target.getName(), newAction.getOperations());
 					//generate preConstraint
-					preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
+//					preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
+					preConstraint = PConstraint + ";";
 					System.out.println(i + "Pre:" + preConstraint);
 					//generate postConstraint
 					postConstraint = Utils.generatePostConstraint(responsePattern);
+					String tmpS = null;
+					for (String s : Utils.getAllSubject(event)) {
+						for (String operation : event.getOperations()) {
+							for (String t : Utils.getAllTarget(event)) {
+								String a = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+t+")";
+								String b = "ASSIGN(?user,"+s+")";
+								String all = Utils.andP(a, b);
+								if (tmpS == null)
+									tmpS = all;
+								else
+									tmpS = Utils.orP(tmpS, all);
+							}
+						}
+					}
+					postConstraint = Utils.andP(postConstraint, tmpS) + ";"; 
 					System.out.println(i + "Post:" + postConstraint);
 					
 					Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);

@@ -101,14 +101,7 @@ rules:
                   - disapprove                     
                 target:
                   name: PDSWhole
-                  type: UA 
-        # - assign:
-        #     - what:
-        #         name: Vlad
-        #         type: UA
-        #       where:
-        #         name: CoPI
-        #         type: UA                                      
+                  type: UA                                    
   - label: obligation4
     event:
       subject:
@@ -141,20 +134,12 @@ rules:
                   - disapprove                     
                 target:
                   name: PDSWhole
-                  type: UA      
-        # - delete:
-        #     assignments:
-        #       - what:
-        #           name: Vlad
-        #           type: UA                          
-        #         where:
-        #           name: CoPI
-        #           type: UA                                                      
+                  type: UA                                                      
   - label: obligation5
     event:
       subject:
         anyUser: 
-          - "RA"
+          - "BM"
       operations:
         - submit
       target:
@@ -194,16 +179,7 @@ rules:
           - name: PDSWhole
             type: OA
     response:      
-      actions:
-        - grant:
-             subject:
-               name: Chair
-               type: UA
-             operations:
-               - approve               
-             target:
-               name: PDSWhole
-               type: OA   
+      actions:  
         - delete:
             associations:
               - subject:

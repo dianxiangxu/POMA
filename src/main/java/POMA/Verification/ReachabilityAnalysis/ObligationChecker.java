@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import POMA.Utils;
-import POMA.Verification.ReachabilityAnalysis.ObligationInterference.SolutionSimulator;
+//import POMA.Verification.ReachabilityAnalysis.ObligationInterference.SolutionSimulator;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 import POMA.Verification.TranslationWithSets.AssociationRelation;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -106,8 +106,8 @@ public class ObligationChecker extends Planner {
 		float sec = (end - start) / 1000F;
 		System.out.println("The job took: " + sec + " seconds");
 
-		SolutionSimulator ss = new SolutionSimulator(solution, graph, obligation);
-		ss.simulate();
+//		SolutionSimulator ss = new SolutionSimulator(solution, graph, obligation);
+//		ss.simulate();
 	}
 
 	public ObligationChecker() throws Exception {

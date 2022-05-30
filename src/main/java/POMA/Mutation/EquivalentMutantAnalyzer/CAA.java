@@ -93,16 +93,20 @@ public class CAA extends MutantTester {
 			ascendantList.add(nodeC.getName());
 			
 			for (String ascendant : ascendantList) {
-				Graph mutant = createCopy();
-				PReviewDecider decider = new PReviewDecider(mutant, prohibitions);
-				Map<String, Set<String>> CapabilityList = decider.getCapabilityList(ascendant, null);
 				
+				PReviewDecider deciderO = new PReviewDecider(createCopy(), prohibitions);
+				Map<String, Set<String>> CapabilityList = deciderO.getCapabilityList(ascendant, null);
+				
+				Graph mutant = createCopy();
 				mutant.deassign(nodeA.getName(), nodeB.getName());
 				mutant.assign(nodeC.getName(), nodeB.getName());
-				decider = new PReviewDecider(mutant, prohibitions);
-				Map<String, Set<String>> CapabilityListMutant = decider.getCapabilityList(ascendant, null);
+				PReviewDecider deciderM = new PReviewDecider(mutant, prohibitions);
+				Map<String, Set<String>> CapabilityListMutant = deciderM.getCapabilityList(ascendant, null);
 				
-				AccessRequest q;
+				AccessRequest q = Utils.pretestArlist(deciderO, deciderM, arList);
+				if (q != null)
+					return q;
+				
 				q = CapabilityList.size() >= CapabilityListMutant.size() ? 
 					Utils.compareTwoLists(CapabilityList, CapabilityListMutant, "UA") :
 					Utils.compareTwoLists(CapabilityListMutant, CapabilityList, "UA");
