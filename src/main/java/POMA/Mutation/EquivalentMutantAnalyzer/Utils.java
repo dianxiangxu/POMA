@@ -23,38 +23,38 @@ import java.util.Set;
 
 import com.opencsv.CSVReader;
 
-import CaseStudies.LawUseCase.customEvents.AcceptEvent;
-import CaseStudies.gpms.customFunctions.IsNodeInListExecutor;
-
-//import CaseStudies.gpms.Constants;
-//import CaseStudies.gpms.customEvents.AddCoPIEvent;
-//import CaseStudies.gpms.customEvents.AddSPEvent;
-//import CaseStudies.gpms.customEvents.ApproveEvent;
-//import CaseStudies.gpms.customEvents.ArchiveEvent;
-//import CaseStudies.gpms.customEvents.CreateEvent;
-//import CaseStudies.gpms.customEvents.DeleteCoPIEvent;
-//import CaseStudies.gpms.customEvents.DeleteSPEvent;
-//import CaseStudies.gpms.customEvents.DisapproveEvent;
-//import CaseStudies.gpms.customEvents.SubmitEvent;
-//import CaseStudies.gpms.customEvents.SubmitRAEvent;
-//import CaseStudies.gpms.customFunctions.AddPropertiesToNodeExecutor;
-//import CaseStudies.gpms.customFunctions.AllChildrenHavePropertiesExecutor;
-//import CaseStudies.gpms.customFunctions.CoPIToAddExecutor;
-//import CaseStudies.gpms.customFunctions.CoPIToDeleteExecutor;
-//import CaseStudies.gpms.customFunctions.CompareNodeNamesExecutor;
-//import CaseStudies.gpms.customFunctions.ConcatExecutor;
-//import CaseStudies.gpms.customFunctions.CreateNodeExecutor1;
-//import CaseStudies.gpms.customFunctions.DeleteNodeExecutor;
-//import CaseStudies.gpms.customFunctions.GetAncestorInPCExecutor;
-//import CaseStudies.gpms.customFunctions.GetAncestorsInPCExecutor;
-//import CaseStudies.gpms.customFunctions.GetChildExecutor;
-//import CaseStudies.gpms.customFunctions.GetChildInPCExecutor;
-//import CaseStudies.gpms.customFunctions.GetChildrenUsersInPolicyClassExecutor;
-//import CaseStudies.gpms.customFunctions.IRBApprovalRequired;
+//import CaseStudies.LawUseCase.customEvents.AcceptEvent;
 //import CaseStudies.gpms.customFunctions.IsNodeInListExecutor;
-//import CaseStudies.gpms.customFunctions.RemovePropertyFromChildrenExecutor;
-//import CaseStudies.gpms.customFunctions.SPToAddExecutor;
-//import CaseStudies.gpms.customFunctions.SPToDeleteExecutor;
+
+import CaseStudies.gpms.Constants;
+import CaseStudies.gpms.customEvents.AddCoPIEvent;
+import CaseStudies.gpms.customEvents.AddSPEvent;
+import CaseStudies.gpms.customEvents.ApproveEvent;
+import CaseStudies.gpms.customEvents.ArchiveEvent;
+import CaseStudies.gpms.customEvents.CreateEvent;
+import CaseStudies.gpms.customEvents.DeleteCoPIEvent;
+import CaseStudies.gpms.customEvents.DeleteSPEvent;
+import CaseStudies.gpms.customEvents.DisapproveEvent;
+import CaseStudies.gpms.customEvents.SubmitEvent;
+import CaseStudies.gpms.customEvents.SubmitRAEvent;
+import CaseStudies.gpms.customFunctions.AddPropertiesToNodeExecutor;
+import CaseStudies.gpms.customFunctions.AllChildrenHavePropertiesExecutor;
+import CaseStudies.gpms.customFunctions.CoPIToAddExecutor;
+import CaseStudies.gpms.customFunctions.CoPIToDeleteExecutor;
+import CaseStudies.gpms.customFunctions.CompareNodeNamesExecutor;
+import CaseStudies.gpms.customFunctions.ConcatExecutor;
+import CaseStudies.gpms.customFunctions.CreateNodeExecutor1;
+import CaseStudies.gpms.customFunctions.DeleteNodeExecutor;
+import CaseStudies.gpms.customFunctions.GetAncestorInPCExecutor;
+import CaseStudies.gpms.customFunctions.GetAncestorsInPCExecutor;
+import CaseStudies.gpms.customFunctions.GetChildExecutor;
+import CaseStudies.gpms.customFunctions.GetChildInPCExecutor;
+import CaseStudies.gpms.customFunctions.GetChildrenUsersInPolicyClassExecutor;
+import CaseStudies.gpms.customFunctions.IRBApprovalRequired;
+import CaseStudies.gpms.customFunctions.IsNodeInListExecutor;
+import CaseStudies.gpms.customFunctions.RemovePropertyFromChildrenExecutor;
+import CaseStudies.gpms.customFunctions.SPToAddExecutor;
+import CaseStudies.gpms.customFunctions.SPToDeleteExecutor;
 
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Verification.ReachabilityAnalysis.ObligationChecker;
@@ -1376,22 +1376,93 @@ public class Utils extends MutantTester {
 		return orP(tmpConstraints1,tmpConstraints2);
 	}
 	
+	//a:old what, b:old where, c:new what
+	public static String getPropagationConstraintCASA (String a, String b, String c) {
+		String tmpConstraints1;
+		String tmpConstraints2;
+		
+		String tmp1 = "PERMIT(" + b + ",?ar,?at)";
+		tmp1 = andP(tmp1,"DENY(" + a + ",?at,?at)");
+		String tmp2 = "PERMIT(?s,?ar," + b + ")";
+		tmp2 = andP(tmp2,"DENY(?s,?ar," + a + ")");
+		tmpConstraints1 =  orP(tmp1,tmp2);
+		
+		tmp1 = "PERMIT(" + b + ",?ar,?at)";
+		tmp1 = andP(tmp1,"DENY(" + c + ",?at,?at)");
+		tmp2 = "PERMIT(?s,?ar," + b + ")";
+		tmp2 = andP(tmp2,"DENY(?s,?ar," + c + ")");
+		tmpConstraints2 =  orP(tmp1,tmp2);
+		
+		return orP(tmpConstraints1,tmpConstraints2);
+	}
+		
+	//a:what, b:where; (a,b)->(b,a)
+	public static String getPropagationConstraintRDA (String a, String b) {
+		String tmpConstraints1;
+		String tmpConstraints2;
+		
+		String tmp1 = "PERMIT(" + b + ",?ar,?at)";
+		tmp1 = andP(tmp1,"DENY(" + a + ",?at,?at)");
+		String tmp2 = "PERMIT(?s,?ar," + b + ")";
+		tmp2 = andP(tmp2,"DENY(?s,?ar," + a + ")");
+		tmpConstraints1 =  orP(tmp1,tmp2);
+
+		tmp1 = "PERMIT(" + a + ",?ar,?at)";
+		tmp1 = andP(tmp1,"DENY(" + b + ",?at,?at)");
+		tmp2 = "PERMIT(?s,?ar," + a + ")";
+		tmp2 = andP(tmp2,"DENY(?s,?ar," + b + ")");
+		tmpConstraints2 =  orP(tmp1,tmp2);
+		
+		return orP(tmpConstraints1,tmpConstraints2);
+	}		
+	
 	//a:old what, b:old where, c:new where
-		public static String getPropagationConstraintCTG (String a, String b, String c, List<String> operations) {
-			String tmpConstraint = null;
-			
-			for (String op : operations) {
-				String tmp1 = "PERMIT("+ a +"," + op + "," + b + ")";
-				tmp1 = andP(tmp1,"DENY("+ a +"," + op + "," + c + ")");
-				String tmp2 = "DENY(" + a + "," + op + "," + b + ")";
-				tmp2 = andP(tmp2,"NOT(IMPLICITASSIGN(" + b + "," + c + "))");
-				if (tmpConstraint == null)
-					tmpConstraint = orP(tmp1,tmp2);
-				else
-					tmpConstraint = orP(tmpConstraint, orP(tmp1,tmp2));
-			}
-			return tmpConstraint;
+	public static String getPropagationConstraintCTG (String a, String b, String c, List<String> operations) {
+		String tmpConstraint = null;
+		
+		for (String op : operations) {
+			String tmp1 = "PERMIT("+ a +"," + op + "," + b + ")";
+			tmp1 = andP(tmp1,"DENY("+ a +"," + op + "," + c + ")");
+			String tmp2 = "DENY(" + a + "," + op + "," + b + ")";
+			tmp2 = andP(tmp2,"NOT(IMPLICITASSIGN(" + b + "," + c + "))");
+			if (tmpConstraint == null)
+				tmpConstraint = orP(tmp1,tmp2);
+			else
+				tmpConstraint = orP(tmpConstraint, orP(tmp1,tmp2));
 		}
+		return tmpConstraint;
+	}
+	
+	//a:subject, b:target, c:new subject
+	public static String getPropagationConstraintCSG (String a, String b, String c, List<String> operations) {
+		String tmpConstraint = null;
+		
+		for (String op : operations) {
+			String tmp1 = "PERMIT("+ a +"," + op + "," + b + ")";
+			tmp1 = andP(tmp1,"DENY("+ c +"," + op + "," + b + ")");
+			String tmp2 = "DENY(" + a + "," + op + "," + b + ")";
+			tmp2 = andP(tmp2,"NOT(IMPLICITASSIGN(" + a + "," + c + "))");
+			if (tmpConstraint == null)
+				tmpConstraint = orP(tmp1,tmp2);
+			else
+				tmpConstraint = orP(tmpConstraint, orP(tmp1,tmp2));
+		}
+		return tmpConstraint;
+	}	
+	
+	public static String getPropagationConstraintCARG (String a, String b, String oldAr, String newAr) {
+		String tmpConstraint1 = "DENY("+ a +"," + oldAr + "," + b + ")";
+		String tmpConstraint2 = "DENY("+ a +"," + newAr + "," + b + ")";
+		return orP(tmpConstraint1, tmpConstraint2);
+	}		
+	
+	public static String getPropagationConstraintAARG (String a, String b, String newAr) {
+		return "DENY("+ a +"," + newAr + "," + b + ")";
+	}
+	
+	public static String getPropagationConstraintRARG (String a, String b, String ar) {
+		return "DENY("+ a +"," + ar + "," + b + ")";
+	}	
 	
 	public static List<AccessRequest> sendToSolver (Graph g, Prohibitions p, Obligation ob, String preConstraints, String postConstraint) throws Exception {
 		//FIXME:ob here is the version W/O condition, the original ob ignored/ only in LAWFIRM example
@@ -1489,11 +1560,11 @@ public class Utils extends MutantTester {
 		for (AccessRequest q : eventList) {
 			if (obligation.getLabel().equals("LawUseCase Obligations")) {
 				switch (q.getAR()) {
-				case "accept":
-					pdpI.getEPP().processEvent(new AcceptEvent(graphI.getNode(q.getTA())), q.getSA(), "Accept");
-					pdpM.getEPP().processEvent(new AcceptEvent(graphM.getNode(q.getTA())), q.getSA(), "Accept");
-					System.out.println(q.getSA() + "||" + q.getTA());
-					break;
+//				case "accept":
+//					pdpI.getEPP().processEvent(new AcceptEvent(graphI.getNode(q.getTA())), q.getSA(), "Accept");
+//					pdpM.getEPP().processEvent(new AcceptEvent(graphM.getNode(q.getTA())), q.getSA(), "Accept");
+//					System.out.println(q.getSA() + "||" + q.getTA());
+//					break;
 //				case "create":
 //					pdp.getEPP().processEvent(new CreateEvent(graphI.getNode(q.getTA())), q.getSA(), "Create");
 //					break;
@@ -1519,36 +1590,36 @@ public class Utils extends MutantTester {
 					break;
 				}
 			} else if (obligation.getLabel().equals("GPMS Obligations")) {
-//				switch (q.getAR()) {
-//				case "submit":
-//					pdpI.getEPP().processEvent(new SubmitEvent(graphI.getNode(q.getTA()), true),q.getSA(), "Submit");
-//					pdpM.getEPP().processEvent(new SubmitEvent(graphM.getNode(q.getTA()), true),q.getSA(), "Submit");
-//					break;
-//				case "approve":
-//					pdpI.getEPP().processEvent(new ApproveEvent(graphI.getNode(q.getTA())), q.getSA(), "Approve");
-//					pdpM.getEPP().processEvent(new ApproveEvent(graphM.getNode(q.getTA())), q.getSA(), "Approve");
-//					break;
-//				case "archive":
-//					pdpI.getEPP().processEvent(new ArchiveEvent(graphI.getNode(q.getTA())), q.getSA(), "Archive");
-//					pdpM.getEPP().processEvent(new ArchiveEvent(graphM.getNode(q.getTA())), q.getSA(), "Archive");
-//					break;
-//				case "create":
-//					break;
-//				case "add-copi":
-//					break;
-//				case "add-sp":
-//					break;
-//				case "delete-copi":
-//					break;
-//				case "delete-sp":
-//					break;
-//				case "disapprove":
-//					break;
-//				case "RAsubmit":
-//					break;
-//				default:
-//					break;
-//				}
+				switch (q.getAR()) {
+				case "submit":
+					pdpI.getEPP().processEvent(new SubmitEvent(graphI.getNode(q.getTA()), true),q.getSA(), "Submit");
+					pdpM.getEPP().processEvent(new SubmitEvent(graphM.getNode(q.getTA()), true),q.getSA(), "Submit");
+					break;
+				case "approve":
+					pdpI.getEPP().processEvent(new ApproveEvent(graphI.getNode(q.getTA())), q.getSA(), "Approve");
+					pdpM.getEPP().processEvent(new ApproveEvent(graphM.getNode(q.getTA())), q.getSA(), "Approve");
+					break;
+				case "archive":
+					pdpI.getEPP().processEvent(new ArchiveEvent(graphI.getNode(q.getTA())), q.getSA(), "Archive");
+					pdpM.getEPP().processEvent(new ArchiveEvent(graphM.getNode(q.getTA())), q.getSA(), "Archive");
+					break;
+				case "create":
+					break;
+				case "add-copi":
+					break;
+				case "add-sp":
+					break;
+				case "delete-copi":
+					break;
+				case "delete-sp":
+					break;
+				case "disapprove":
+					break;
+				case "RAsubmit":
+					break;
+				default:
+					break;
+				}
 			}
 //			System.out.println(GraphSerializer.toJson(graphI));
 //			System.out.println(GraphSerializer.toJson(graphM));
@@ -1873,8 +1944,8 @@ public class Utils extends MutantTester {
 		for (AccessRequest q : eventList) {
 			switch (q.getAR()) {
 			case "accept":
-			pdpI.getEPP().processEvent(new AcceptEvent(graphI.getNode(q.getTA())), q.getSA(), "Accept");
-			pdpM.getEPP().processEvent(new AcceptEvent(graphM.getNode(q.getTA())), q.getSA(), "Accept");
+//			pdpI.getEPP().processEvent(new AcceptEvent(graphI.getNode(q.getTA())), q.getSA(), "Accept");
+//			pdpM.getEPP().processEvent(new AcceptEvent(graphM.getNode(q.getTA())), q.getSA(), "Accept");
 			System.out.println(q.getSA() + "||" + q.getTA());
 			break;
 				default:

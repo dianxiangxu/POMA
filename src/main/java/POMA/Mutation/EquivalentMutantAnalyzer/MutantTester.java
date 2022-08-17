@@ -59,8 +59,8 @@ public class MutantTester {
 //	public String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA";
 	
 	//BMC
-	public String initialGraphConfig = "Policies/SolverVerification/LawFirm/";
-//	public String initialGraphConfig = "Policies/SolverVerification/GPMS/";
+//	public String initialGraphConfig = "Policies/SolverVerification/LawFirm/";
+	public String initialGraphConfig = "Policies/SolverVerification/GPMS/";
 
 	static List<String> Us;
 	protected static List<Node> UAs;
