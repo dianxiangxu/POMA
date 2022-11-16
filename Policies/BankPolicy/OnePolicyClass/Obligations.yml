@@ -1,0 +1,605 @@
+label: Bank Obligations
+rules:
+  - label: create_account
+    event:
+      subject:
+        anyUser:
+          - "teller"
+      policyClass: 
+        policyClass: bank
+      operations:
+        - create
+      target:
+        policyElements:
+          - name: accounts
+            type: OA
+    response:
+      actions:  
+        - assign:
+            - what:
+                  name: a1
+                  type: O
+              where:
+                  name: accounts
+                  type: OA
+        - function:
+            name: add_properties_to_node
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - a1
+                    - O
+              - function:
+                  name: to_props
+                  args:
+                    - loan=false
+        - function:
+            name: add_properties_to_node
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - a1
+                    - O
+              - function:
+                  name: to_props
+                  args:
+                    - active=none
+        - function:
+            name: add_properties_to_node
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - a1
+                    - O
+              - function:
+                  name: to_props
+                  args:
+                    - loan-process=none                    
+        - grant:
+            subject:
+              name: teller
+              type: UA
+            operations:
+              - review
+              - apply-loan
+            target:
+              name: accounts
+              type: OA               
+  - label: apply_loan
+    event:
+      subject:
+        anyUser:
+          - "teller"
+      policyClass: 
+        policyClass: bank
+      operations:
+        - apply-loan
+      target:
+        policyElements:
+          - name: accounts
+            type: OA
+    response:
+      actions:
+        - condition:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - a1
+                        - O 
+                  - function:
+                      name: get_node
+                      args:
+                        - accounts
+                        - OA
+            - function:
+                name: has_properties
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - a1
+                        - O 
+                  - function:
+                      name: to_props
+                      args:
+                        - active=true
+            - function:
+                name: has_properties
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - a1
+                        - O 
+                  - function:
+                      name: to_props
+                      args:
+                        - loan=false 
+          assign:
+            - what:
+                  name: a1
+                  type: O
+              where:
+                  name: loans
+                  type: OA    
+        - grant:
+            subject:
+              name: loan-officer
+              type: UA
+            operations:
+              - review
+              - approve
+              - disapprove
+            target:
+              name: loans
+              type: OA                        
+  - label: approve_loan
+    event:
+      subject:
+        anyUser:
+          - "loan-officer"
+      policyClass: 
+        policyClass: bank
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: loans
+            type: OA
+    response:
+      condition:
+        - function:
+            name: has_properties
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - a1
+                    - O
+              - function:
+                  name: to_props
+                  args:
+                    - loan=false
+        - function:
+            name: has_properties
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - a1
+                    - O
+              - function:
+                  name: to_props
+                  args:
+                    - loan-process=true
+      actions:
+        - function:
+            name: add_properties_to_node
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - a1
+                    - O
+              - function:
+                  name: to_props
+                  args:
+                    - loan=true
+        - grant:
+            subject:
+              name: teller
+              type: UA
+            operations:
+              - pay-loan
+            target:
+              name: accounts
+              type: OA                    
+        - deny:
+            label: deny_delete
+            subject: 
+              name: teller-supervisor
+              type: UA
+            operations:
+              - "delete"
+            target:
+              containers:
+                - name: a1
+                  type: O
+  - label: disapprove_loan
+    event:
+      subject:
+        anyUser:
+          - "loan-officer"
+      policyClass: 
+        policyClass: bank
+      operations:
+        - disapprove
+      target:
+        policyElements:
+          - name: loans
+            type: OA
+    response:
+      actions:
+        - condition:
+          - function:
+              name: has_properties
+              args:
+                - function:
+                    name: get_node
+                    args:
+                    - a1
+                    - O
+                - function:
+                    name: to_props
+                    args:
+                    - loan=false
+          - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - a1
+                        - O 
+                  - function:
+                      name: get_node
+                      args:
+                        - loans
+                        - OA
+          delete:
+            assignments:
+              - what:
+                  name: a1
+                  type: O 
+                where:
+                  name: loans
+                  type: OA
+        - condition!:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - a1
+                        - O 
+                  - function:
+                      name: get_node
+                      args:
+                        - loans
+                        - OA     
+          delete:
+            associations:
+              - subject:
+                  name: loan-officer
+                  type: UA
+                target:
+                  name: loans
+                  type: OA                   
+  - label: pay_loan
+    event:
+      subject:
+        anyUser:
+          - "teller"
+      policyClass: 
+        policyClass: bank
+      operations:
+        - pay-loan
+      target:
+        policyElements:
+          - name: accounts
+            type: OA
+    response:
+      condition:
+          - function:
+              name: has_properties
+              args:
+                - function:
+                    name: get_node
+                    args:
+                      - a1
+                      - O
+                - function:
+                    name: to_props
+                    args:
+                    - loan=true 
+      actions:
+        - function:
+            name: add_properties_to_node
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - a1
+                    - O
+              - function:
+                  name: to_props
+                  args:
+                    - loan=false
+        - delete:
+            assignments:
+              - what:
+                  function:
+                    name: get_node
+                    args:
+                      - a1
+                      - O
+                where:
+                  name: loans
+                  type: OA
+        - delete:
+            associations:
+              - subject:
+                  name: loan-officer
+                  type: UA
+                target:
+                  name: loans
+                  type: OA                  
+        - delete:
+            prohibitions:
+              - deny_delete                  
+  - label: delete_account
+    event:
+      subject:
+        anyUser:
+          - "teller-supervisor"
+      policyClass: 
+        policyClass: bank
+      operations:
+        - delete
+      target:
+        policyElements:
+          - name: accounts
+            type: OA
+    response:
+      condition:
+          - function:
+              name: has_properties
+              args:
+                - function:
+                    name: get_node
+                    args:
+                      - a1
+                      - O
+                - function:
+                    name: to_props
+                    args:
+                    - loan=false 
+      actions:
+        - condition:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - a1
+                        - O 
+                  - function:
+                      name: get_node
+                      args:
+                        - accounts
+                        - OA     
+          grant:
+            subject:
+              name: teller
+              type: UA
+            operations:
+              - create
+            target:
+              name: accounts
+              type: OA     
+        - delete:
+            assignments:
+              - what:
+                  function:
+                    name: get_node
+                    args:
+                      - a1
+                      - O
+                where:
+                  name: accounts
+                  type: OA
+        - condition:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - a1
+                        - O 
+                  - function:
+                      name: get_node
+                      args:
+                        - loans
+                        - OA 
+          delete:
+            associations:
+              - subject:
+                  name: loan-officer
+                  type: UA
+                target:
+                  name: loans
+                  type: OA                        
+        - delete:
+            assignments:
+              - what:
+                  function:
+                    name: get_node
+                    args:
+                      - a1
+                      - O
+                where:
+                  name: loans
+                  type: OA             
+  - label: online_loans
+    event:
+      subject:
+        anyUser:
+          - "data-steward"
+      policyClass: 
+        policyClass: bank
+      operations:
+        - online
+      target:
+        policyElements:
+          - name: loans
+            type: OA      
+    response:
+      actions:
+        - condition:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - a1
+                        - O 
+                  - function:
+                      name: get_node
+                      args:
+                        - loans
+                        - OA 
+          function:
+            name: add_properties_to_node
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - a1
+                    - O
+              - function:
+                  name: to_props
+                  args:
+                    - loan-process=true 
+  - label: offline_loans
+    event:
+      subject:
+        anyUser:
+          - "data-steward"
+      policyClass: 
+        policyClass: bank
+      operations:
+        - offline
+      target:
+        policyElements:
+          - name: loans
+            type: OA      
+    response:
+      actions:
+        - condition:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - a1
+                        - O 
+                  - function:
+                      name: get_node
+                      args:
+                        - loans
+                        - OA 
+          function:
+            name: add_properties_to_node
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - a1
+                    - O
+              - function:
+                  name: to_props
+                  args:
+                    - loan-process=false
+  - label: online_accounts
+    event:
+      subject:
+        anyUser:
+          - "data-steward"
+      policyClass: 
+        policyClass: bank
+      operations:
+        - online
+      target:
+        policyElements:
+          - name: accounts
+            type: OA      
+    response:
+      actions:
+        - condition:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - a1
+                        - O 
+                  - function:
+                      name: get_node
+                      args:
+                        - accounts
+                        - OA
+          function:
+            name: add_properties_to_node
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - a1
+                    - O
+              - function:
+                  name: to_props
+                  args:
+                    - active=true                         
+  - label: offline_accounts
+    event:
+      subject:
+        anyUser:
+          - "data-steward"
+      policyClass: 
+        policyClass: bank
+      operations:
+        - offline
+      target:
+        policyElements:
+          - name: accounts
+            type: OA      
+    response:
+      actions:
+        - condition:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - a1
+                        - O 
+                  - function:
+                      name: get_node
+                      args:
+                        - accounts
+                        - OA
+          function:
+            name: add_properties_to_node
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - a1
+                    - O
+              - function:
+                  name: to_props
+                  args:
+                    - active=false  

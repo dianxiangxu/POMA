@@ -1,0 +1,142 @@
+{
+	"nodes": [
+		{
+			"name": "ds1",
+			"type": "U",
+			"properties": {}
+		},
+		{
+			"name": "teller1",
+			"type": "U",
+			"properties": {}
+		},
+		{
+			"name": "lo1",
+			"type": "U",
+			"properties": {}
+		},
+		{
+			"name": "ts1",
+			"type": "U",
+			"properties": {}
+		},
+		{
+			"name": "teller",
+			"type": "UA",
+			"properties": {}
+		},
+		{
+			"name": "loan-officer",
+			"type": "UA",
+			"properties": {}
+		},
+		{
+			"name": "data-steward",
+			"type": "UA",
+			"properties": {}
+		},
+		{
+			"name": "teller-supervisor",
+			"type": "UA",
+			"properties": {}
+		},
+		{
+			"name": "bank",
+			"type": "PC",
+			"properties": {}
+		},
+		{
+			"name": "a1",
+			"type": "OA",
+			"properties": {}
+		},
+		{
+			"name": "loans",
+			"type": "OA",
+			"properties": {}
+		},
+		{
+			"name": "accounts",
+			"type": "OA",
+			"properties": {}
+		}
+	],
+	"assignments": [
+		{
+			"source": "teller1",
+			"target": "teller"
+		},
+		{
+			"source": "lo1",
+			"target": "loan-officer"
+		},
+		{
+			"source": "ds1",
+			"target": "data-steward"
+		},
+		{
+			"source": "ts1",
+			"target": "teller-supervisor"
+		},
+		{
+			"source": "teller-supervisor",
+			"target": "teller"
+		},
+		{
+			"source": "teller",
+			"target": "bank"
+		},
+		{
+			"source": "loan-officer",
+			"target": "bank"
+		},
+		{
+			"source": "data-steward",
+			"target": "bank"
+		},
+		{
+			"source": "loans",
+			"target": "bank"
+		},
+		{
+			"source": "accounts",
+			"target": "bank"
+		},
+		{
+			"source": "a1",
+			"target": "bank"
+		}
+	],
+	"associations": [
+		{
+			"source": "teller",
+			"target": "accounts",
+			"operations": [
+				"create"
+			]
+		},
+		{
+			"source": "teller-supervisor",
+			"target": "accounts",
+			"operations": [
+				"delete"
+			]
+		},
+		{
+			"source": "data-steward",
+			"target": "accounts",
+			"operations": [
+				"online",
+				"offline"
+			]
+		},
+		{
+			"source": "data-steward",
+			"target": "loans",
+			"operations": [
+				"online",
+				"offline"
+			]
+		}
+	]
+}

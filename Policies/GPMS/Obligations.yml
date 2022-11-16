@@ -603,35 +603,6 @@ rules:
                                   args:
                                     - AcademicUnitsPolicyClass
                                     - PC  
-            - function:
-                name: compare_node_names
-                args:
-                  - function:
-                      name: get_node_name
-                      args:
-                        - function:
-                            name: get_child_user_in_policy_class
-                            args: 
-                              - function:
-                                  name: get_ancestor_in_policy_class
-                                  args: 
-                                    - function:
-                                        name: copi_to_delete
-                                    - function:
-                                        name: get_node
-                                        args:
-                                          - AcademicUnitsPolicyClass
-                                          - PC
-                                    - "2"
-                              - function:
-                                  name: get_node
-                                  args:
-                                    - AcademicUnitsPolicyClass
-                                    - PC 
-                  - function:
-                      name: get_child
-                      args:
-                        - "PI"
           delete:
             assignments:
               - what:
@@ -749,35 +720,6 @@ rules:
                                   args:
                                     - AcademicUnitsPolicyClass
                                     - PC  
-            - function:
-                name: compare_node_names
-                args:
-                  - function:
-                      name: get_node_name
-                      args:
-                        - function:
-                            name: get_child_user_in_policy_class
-                            args: 
-                              - function:
-                                  name: get_ancestor_in_policy_class
-                                  args: 
-                                    - function:
-                                        name: copi_to_delete
-                                    - function:
-                                        name: get_node
-                                        args:
-                                          - AcademicUnitsPolicyClass
-                                          - PC
-                                    - "4"
-                              - function:
-                                  name: get_node
-                                  args:
-                                    - AcademicUnitsPolicyClass
-                                    - PC 
-                  - function:
-                      name: get_child
-                      args:
-                        - "PI"
           delete:
             assignments:
               - what:
@@ -895,35 +837,6 @@ rules:
                                   args:
                                     - AcademicUnitsPolicyClass
                                     - PC  
-            - function:
-                name: compare_node_names
-                args:
-                  - function:
-                      name: get_node_name
-                      args:
-                        - function:
-                            name: get_child_user_in_policy_class
-                            args: 
-                              - function:
-                                  name: get_ancestor_in_policy_class
-                                  args: 
-                                    - function:
-                                        name: copi_to_delete
-                                    - function:
-                                        name: get_node
-                                        args:
-                                          - AcademicUnitsPolicyClass
-                                          - PC
-                                    - "3"
-                              - function:
-                                  name: get_node
-                                  args:
-                                    - AcademicUnitsPolicyClass
-                                    - PC 
-                  - function:
-                      name: get_child
-                      args:
-                        - "PI"
           delete:
             assignments:
               - what:
