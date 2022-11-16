@@ -47,7 +47,13 @@ public class AddPropertiesToNodeExecutor implements FunctionExecutor {
             props = (Map) functionEvaluator.evalMap(eventCtx, user, process, pdp, propsArg.getFunction());
         }
         
-        pdp.getPAP().getGraphPAP().updateNode(node.getName(), props);
+        Map<String, String> tmpMap = pdp.getPAP().getGraphPAP().getNode(node.getName()).getProperties();
+        for (String k : props.keySet()) {
+        	if (tmpMap.containsKey(k))
+        		tmpMap.remove(k);
+        	tmpMap.put(k, props.get(k));
+        }
+        pdp.getPAP().getGraphPAP().updateNode(node.getName(), tmpMap);
         //System.out.println(pdp.getPAP().getGraphPAP().getNode(node.getName()));
 
         return pdp.getPAP().getGraphPAP().getNode(node.getName());
