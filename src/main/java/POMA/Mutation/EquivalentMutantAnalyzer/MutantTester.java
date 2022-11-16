@@ -59,8 +59,9 @@ public class MutantTester {
 //	public String initialGraphConfig = "Policies/ProhibitionExample/ProhibitionsMedicalExampleOA";
 	
 	//BMC
-//	public String initialGraphConfig = "Policies/SolverVerification/LawFirm/";
-	public String initialGraphConfig = "Policies/SolverVerification/GPMS/";
+//	public String initialGraphConfig = "Policies/LawUseCase/";
+//	public String initialGraphConfig = "Policies/GPMS/";
+	public String initialGraphConfig = "Policies/BankPolicy/OnePolicyClass/";
 
 	static List<String> Us;
 	protected static List<Node> UAs;
@@ -366,6 +367,22 @@ public class MutantTester {
 
 		GraphSerializer.fromJson(mutant, json);
 		return mutant;
+	}
+	
+	public static void setObligationMutant(Obligation obligation){
+		obligationMutant.setEnabled(obligation.isEnabled());
+		obligationMutant.setLabel(obligation.getLabel());
+		obligationMutant.setRules(obligation.getRules());
+		obligationMutant.setSource(obligation.getSource());
+	}
+	
+	public static Obligation getObligationMutantCopy() { 
+		Obligation obligation = new Obligation();
+		obligation.setEnabled(obligationMutant.isEnabled());
+		obligation.setLabel(obligationMutant.getLabel());
+		obligation.setRules(obligationMutant.getRules());
+		obligation.setSource(obligationMutant.getSource());
+		return obligation;
 	}
 
 	public String getMutationMethod() {

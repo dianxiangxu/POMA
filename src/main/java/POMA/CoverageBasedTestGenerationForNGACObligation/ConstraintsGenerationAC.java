@@ -27,7 +27,7 @@ import gov.nist.csd.pm.pip.obligations.model.functions.Function;
 import gov.nist.csd.pm.pip.prohibitions.MemProhibitions;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
-public class ConstraintsGeneration {
+public class ConstraintsGenerationAC {
 	static Graph graph;
 	
 	public static void main(String[] args) throws Exception {
@@ -74,7 +74,7 @@ public class ConstraintsGeneration {
 //			if (targetSet.size() == 0) {
 //				targetSet = POMA.Utils.getOAsInGraph(graph);
 //			}
-			if (rn.equals("dean_approve")) {
+			if (rn.equals("delete_copi")) {
 				System.out.println("debug");
 			}
 			if (subjectSet.size() == 0) {
