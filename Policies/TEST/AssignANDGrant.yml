@@ -1,0 +1,46 @@
+label: Assign
+rules:
+  - label: assign
+    event:
+      subject:
+        anyUser: 
+          - "C-Suit"     
+      operations:
+        - assignandgrant
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - assign:
+            - what:
+                name: UBM
+                type: U
+              where:
+                name: BM
+                type: UA    
+
+  - label: grant
+    event:
+      subject:
+        anyUser: 
+          - "C-Suit"     
+      operations:
+        - assignandgrant
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - grant:
+             subject:
+               name: BM
+               type: UA
+             operations:
+               - approve
+               - withdraw
+             target:
+               name: PDSWhole
+               type: OA                                             

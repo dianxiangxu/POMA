@@ -69,9 +69,23 @@ rules:
         policyElements:
           - name: Case3Info
             type: OA
-    response:      
-      actions:
-        - assign:
+    response: 
+      actions:           
+        - condition:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - Attorneys1
+                        - U    
+                  - function:
+                      name: get_node
+                      args:
+                        - Attorneys
+                        - UA                                
+          assign:
             - what:
                 name: Attorneys3
                 type: UA

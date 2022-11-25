@@ -1,33 +1,23 @@
 {
   "nodes": [
     {
-      "name": "Ann",
-      "type": "U",
+      "name": "Case3Info",
+      "type": "OA",
       "properties": {}
     },
     {
-      "name": "Nick",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "CV16",
-      "type": "O",
-      "properties": {}
-    },
-    {
-      "name": "CR8",
-      "type": "O",
-      "properties": {}
-    },
-    {
-      "name": "CR7",
-      "type": "O",
-      "properties": {}
-    },
-    {
-      "name": "AvailableAttorneys",
+      "name": "LeadAttorneysU",
       "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Attorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "AttorneysU",
+      "type": "U",
       "properties": {}
     },
     {
@@ -36,107 +26,135 @@
       "properties": {}
     },
     {
-      "name": "Amy",
-      "type": "U",
+      "name": "AttorneysMain",
+      "type": "UA",
       "properties": {}
     },
     {
-      "name": "AcceptedCases",
-      "type": "OA",
+      "name": "Attorneys3",
+      "type": "UA",
       "properties": {}
     },
     {
-      "name": "Chris",
-      "type": "U",
+      "name": "Attorneys1",
+      "type": "UA",
       "properties": {}
     },
     {
-      "name": "LawFirmPolicy",
+      "name": "CasePolicy",
       "type": "PC",
       "properties": {}
     },
     {
-      "name": "NewCases",
-      "type": "OA",
+      "name": "Attorneys2",
+      "type": "UA",
       "properties": {}
     },
     {
-      "name": "CV2",
-      "type": "O",
+      "name": "Attorneys3U",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Attorneys2U",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Attorneys1U",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Case3",
+      "type": "OA",
       "properties": {}
     }
   ],
   "assignments": [
     {
-      "source": "AvailableAttorneys",
-      "target": "LawFirmPolicy"
+      "source": "Attorneys1U",
+      "target": "Attorneys1"
     },
     {
-      "source": "NewCases",
-      "target": "LawFirmPolicy"
-    },
-    {
-      "source": "CR7",
-      "target": "NewCases"
-    },
-    {
-      "source": "CR8",
-      "target": "NewCases"
-    },
-    {
-      "source": "Chris",
-      "target": "LeadAttorneys"
-    },
-    {
-      "source": "Amy",
-      "target": "AvailableAttorneys"
-    },
-    {
-      "source": "Nick",
-      "target": "AvailableAttorneys"
-    },
-    {
-      "source": "AcceptedCases",
-      "target": "LawFirmPolicy"
-    },
-    {
-      "source": "CV2",
-      "target": "NewCases"
-    },
-    {
-      "source": "Ann",
-      "target": "LeadAttorneys"
-    },
-    {
-      "source": "CV16",
-      "target": "NewCases"
+      "source": "Attorneys2U",
+      "target": "Attorneys2"
     },
     {
       "source": "LeadAttorneys",
-      "target": "AvailableAttorneys"
+      "target": "CasePolicy"
+    },
+    {
+      "source": "LeadAttorneys",
+      "target": "Attorneys"
+    },
+    {
+      "source": "Attorneys2U",
+      "target": "Attorneys"
+    },
+    {
+      "source": "Attorneys3U",
+      "target": "Attorneys3"
+    },
+    {
+      "source": "AttorneysMain",
+      "target": "CasePolicy"
+    },
+    {
+      "source": "Attorneys",
+      "target": "AttorneysMain"
+    },
+    {
+      "source": "Attorneys2",
+      "target": "CasePolicy"
+    },
+    {
+      "source": "Attorneys1",
+      "target": "CasePolicy"
+    },
+    {
+      "source": "Case3Info",
+      "target": "Case3"
+    },
+    {
+      "source": "Attorneys3",
+      "target": "CasePolicy"
+    },
+    {
+      "source": "AttorneysU",
+      "target": "Attorneys"
+    },
+    {
+      "source": "Case3",
+      "target": "CasePolicy"
+    },
+    {
+      "source": "LeadAttorneysU",
+      "target": "LeadAttorneys"
     }
   ],
   "associations": [
     {
-      "source": "LeadAttorneys",
-      "target": "AcceptedCases",
+      "source": "Attorneys",
+      "target": "Case3",
       "operations": [
-        "approve"
-      ]
-    },
-    {
-      "source": "AvailableAttorneys",
-      "target": "NewCases",
-      "operations": [
-        "refuse",
-        "accept"
+        "refuse"
       ]
     },
     {
       "source": "LeadAttorneys",
-      "target": "NewCases",
+      "target": "Case3",
       "operations": [
+        "approve",
+        "disapprove",
         "withdraw"
+      ]
+    },
+    {
+      "source": "AttorneysMain",
+      "target": "Case3",
+      "operations": [
+        "accept"
       ]
     }
   ]

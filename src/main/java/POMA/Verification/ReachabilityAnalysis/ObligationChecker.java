@@ -33,30 +33,30 @@ public class ObligationChecker extends Planner {
 
 	public static void main(String[] args) throws Exception {
 
-		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmRunning/LawFirmPolicy.json");
-		 String yml = new String(
-		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmRunning/Obligations_built_in_functions.yml")));
-//		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/Running/EditingPolicyRunning.json");
+//		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmRunning/LawFirmPolicy.json");
 //		 String yml = new String(
-//		 		Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Running/obligations_simple_running.yml")));
+//		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmRunning/Obligations_built_in_functions.yml")));
+		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/ConflictLawFirm/LawFirmPolicy.json");
+		 String yml = new String(
+		 		Files.readAllBytes(Paths.get("Policies/ForBMC/ConflictLawFirm/Obligations_simple_hardcoded.yml")));
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		checker.setBound(6);
+		checker.setBound(2);
 		checker.enableSMTOutput(true);
 
 	
-		//String precondition = "";
-		//String postcondition = "OBLIGATIONLABEL(remove_available_attorney, ?u, ?ar, ?at);";
+		String precondition = "PERMIT(?u,?ar, PendingCases);";
+		String postcondition = "";//"OBLIGATIONLABEL(accept_case, ?u, ?ar, PendingCases);";
 
 		//Solution solution = checker.solveConstraint(precondition, postcondition, graph);
 		//String precondition = "";
 				//String postcondition = "OBLIGATIONLABEL(remove_available_attorney, ?u, ?ar, ?at);";
 
-				//Solution solution = checker.solveConstraint(precondition, postcondition, graph);
-		checker.solveConstraint("PERMIT(LeadAttorneys,approve,AcceptedCases);", graph);
-	//	System.out.println(solution);
+		Solution solution = checker.solveConstraint(precondition, postcondition, graph);
+		//checker.solveConstraint("PERMIT(LeadAttorneys,approve,AcceptedCases);", graph);
+		System.out.println(solution);
 		System.out.println(checker.mapOfIDs);
 		long end = System.currentTimeMillis();
 		float sec = (end - start) / 1000F;

@@ -1,0 +1,23 @@
+label: DeleteAssign
+rules:
+  - label: deleteassign
+    event:
+      subject:
+        anyUser: 
+          - "C-Suit"     
+      operations:
+        - deleteassign
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions:   
+        - delete:
+            assignments:
+              - what:
+                  name: UBM
+                  type: U
+                where:
+                  name: BM 
+                  type: UA                                             

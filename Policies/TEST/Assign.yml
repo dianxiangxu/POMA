@@ -1,0 +1,23 @@
+label: Assign
+rules:
+  - label: assign
+    event:
+      subject:
+        anyUser: 
+          - "C-Suit"     
+      operations:
+        - assign
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - assign:
+            - what:
+                name: UBM
+                type: U
+              where:
+                name: BM
+                type: UA         
+                                       

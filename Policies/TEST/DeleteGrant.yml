@@ -1,0 +1,26 @@
+label: DeleteGrant
+rules:
+  - label: deletegrant
+    event:
+      subject:
+        anyUser: 
+          - "C-Suit"     
+      operations:
+        - deletegrant
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions:   
+        - delete:
+            associations:
+              - subject:
+                  name: BM
+                  type: UA
+                operations:
+                  - approve
+                  - withdraw                  
+                target:
+                  name: PDSWhole
+                  type: OA                                                

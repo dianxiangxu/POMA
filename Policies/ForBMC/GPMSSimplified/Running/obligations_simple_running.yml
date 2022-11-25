@@ -47,16 +47,24 @@ rules:
         anyUser: 
           - "PI"
       operations:
-        - submit
+        - add-copi
       target:
-        policyElements:
-          - name: PDSWhole
-            type: OA
-    response:      
-      actions:
+    response:   
+      condition:
+      - function:
+          name: is_node_contained_in
+          args:
+            - function:
+                name: current_target
+            - function:
+                name: get_node
+                args:
+                  - CoPIEligible
+                  - UA    
+      actions:     
         - assign:
             - what:
-                name: Bob
+                name: current_target
                 type: U
               where:
                 name: CoPI

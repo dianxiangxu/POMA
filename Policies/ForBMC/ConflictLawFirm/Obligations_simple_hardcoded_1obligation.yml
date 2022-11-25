@@ -1,0 +1,57 @@
+label: LawUseCase Obligations
+rules:
+  - label: accept_case
+    event:
+      subject:
+        anyUser: 
+          - "AvailableAttorneys"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: PendingCases
+            type: OA
+    response:  
+      condition:       
+      actions:
+        - function:
+            name: is_node_contained_in
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - Case1
+                    - O     
+              - function:
+                  name: get_node
+                  args:
+                    - PendingCases
+                    - OA     
+          assign:
+            - what:
+                name: Case1
+                type: O
+              where:
+                name: AcceptedCases
+                type: OA   
+        - function:
+            name: is_node_contained_in
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - Amy
+                    - U     
+              - function:
+                  name: get_node
+                  args:
+                    - AvailableAttorneys
+                    - UA                    
+          assign:
+            - what:
+                name: Amy
+                type: U
+              where:
+                name: BusyAttorneys
+                type: UA                         
+                                   

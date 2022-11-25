@@ -217,7 +217,7 @@
     },
     {
       "source": "CoPI",
-      "target": "SP",
+      "target": "SPEligible",
       "operations": [
         "delete-sp",
         "add-sp"
@@ -232,7 +232,7 @@
     },
     {
       "source": "PI",
-      "target": "CoPI",
+      "target": "CoPIEligible",
       "operations": [
         "delete-copi",
         "add-copi"

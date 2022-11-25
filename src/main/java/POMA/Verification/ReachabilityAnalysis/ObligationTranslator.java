@@ -200,7 +200,7 @@ public class ObligationTranslator {
 			processVariables(obligationU, obligationUA, obligationAT, obligationUO, obligationS, obligationT,
 					obligationAR, sb, subjectID, targetID, arIds);
 			
-			String condition = processEventCondition(r, k,obligationU,obligationT);
+			String condition = processEventCondition(r, k,obligationU,obligationUO);
 			
 			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true) (and\r\n" + " (member (mkTuple  "
 					+ obligationU + " " + obligationS + ") (ASSIGN* " + (k - 1) + "))\r\n" + " (member (mkTuple  "
@@ -210,7 +210,8 @@ public class ObligationTranslator {
 					+ " (member (mkTuple  " + obligationUO + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationU + " " + obligationU + ") USERS)\r\n"
 					 + " (distinct " + obligationS + " " + obligationU + ")\r\n"
-					 + " (distinct " + obligationUO + " " + obligationT + ")\r\n" +condition
+					// + " (distinct " + obligationUO + " " + obligationT + ")\r\n" 
+					 +condition
 					+ ")))");
 			sb.append(System.lineSeparator());
 			sb.append(System.lineSeparator());

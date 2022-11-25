@@ -96,9 +96,14 @@
 (declare-fun remove_available_attorney (Int) Bool)
 (declare-fun queryCONSTPERMITUA_LeadAttorneys_approve_AcceptedCases_0 () Int)
 (declare-fun queryCONSTPERMITAT_LeadAttorneys_approve_AcceptedCases_0 () Int)
+
 (assert 
-(and(member (mkTuple  7  queryCONSTPERMITUA_LeadAttorneys_approve_AcceptedCases_0 ) (ASSIGN* 0))(member (mkTuple  queryCONSTPERMITUA_LeadAttorneys_approve_AcceptedCases_0 15  queryCONSTPERMITAT_LeadAttorneys_approve_AcceptedCases_0 ) (ASSOC 0))(member (mkTuple  9  queryCONSTPERMITAT_LeadAttorneys_approve_AcceptedCases_0 ) (ASSIGN* 0)))
+(and
+	(member (mkTuple  7  queryCONSTPERMITUA_LeadAttorneys_approve_AcceptedCases_0 ) (ASSIGN* 0))
+	(member (mkTuple  queryCONSTPERMITUA_LeadAttorneys_approve_AcceptedCases_0 15  queryCONSTPERMITAT_LeadAttorneys_approve_AcceptedCases_0 ) (ASSOC 0))
+	(member (mkTuple  9  queryCONSTPERMITAT_LeadAttorneys_approve_AcceptedCases_0 ) (ASSIGN* 0)))
 )
+
 (check-sat)
 (get-value (accept_case))
 (get-value (withdraw_case))
