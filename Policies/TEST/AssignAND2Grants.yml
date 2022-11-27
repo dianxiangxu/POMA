@@ -1,4 +1,4 @@
-label: Assign
+label: Assign1
 rules:
   - label: assign1
     event:
@@ -20,6 +20,26 @@ rules:
               where:
                 name: BM
                 type: UA    
+  - label: assign2
+    event:
+      subject:
+        anyUser: 
+          - "C-Suit"     
+      operations:
+        - assignandgrant
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - assign:
+            - what:
+                name: UBM
+                type: U
+              where:
+                name: BM
+                type: UA                 
 
   - label: grant1
     event:

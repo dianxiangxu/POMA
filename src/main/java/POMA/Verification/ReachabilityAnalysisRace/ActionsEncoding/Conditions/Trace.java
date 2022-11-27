@@ -2,51 +2,54 @@ package POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Conditions;
 
 public class Trace {
 	public enum TraceType {
-		CONDITION, 
-		PRECONDITION, 
-		POSTCONDITIONASSIGN,
-		POSTCONDITIONASSOCIATE
+		ASSIGN, ASSOCIATE, NEGATEDPRECONDITION, CONDITIONANDPRECONDITION, CONDITIONANDNEGATEDPRECONDITION, NEGATEDCONDITION
 	}
-	
-	private String obligationLabel;
 
-	private String trace;
-	private String traceFlattened;
-	
+	private String obligationLabel = "";
+	private String inputCondition = "";
+	private String outputCondition = "";
+	private String outputConditionFlattened = "";
+
 	private TraceType traceType;
 
-	
-	public Trace(String obligationLabel, String trace, String traceFlattened, TraceType traceType) {
+	public Trace(String obligationLabel, String inputCondition, String outputCondition, String outputConditionFlattened,
+			TraceType traceType) {
 		this.obligationLabel = obligationLabel;
-		this.trace = trace;
-		this.traceFlattened = traceFlattened;
+		this.inputCondition = inputCondition;
+		this.outputCondition = outputCondition;
+		this.outputConditionFlattened = outputConditionFlattened;
 		this.traceType = traceType;
 	}
 
-	public Trace(String obligationLabel, String trace, TraceType traceType) {
+	public Trace(String obligationLabel, String inputCondition, String outputCondition, TraceType traceType) {
 		this.obligationLabel = obligationLabel;
-		this.trace = trace;
+		this.inputCondition = inputCondition;
+		this.outputCondition = outputCondition;
 		this.traceType = traceType;
 	}
-	
+
 	public String getObligationLabel() {
 		return obligationLabel;
 	}
 
-	public String getTrace() {
-		return trace;
+	public String getInputCondition() {
+		return inputCondition;
 	}
-	
-	public String getTraceFlattened() {
-		return traceFlattened;
+
+	public String getOutputCondition() {
+		return outputCondition;
+	}
+
+	public String getOutputConditionFlattened() {
+		return outputConditionFlattened;
 	}
 
 	public TraceType getTraceType() {
 		return traceType;
 	}
-	
+
 	public boolean affectsConfiguration() {
-		return traceType==TraceType.POSTCONDITIONASSIGN || traceType==TraceType.POSTCONDITIONASSOCIATE;
+		return !outputCondition.isBlank();
 	}
-	
+
 }

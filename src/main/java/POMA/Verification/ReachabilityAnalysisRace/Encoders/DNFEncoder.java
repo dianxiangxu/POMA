@@ -43,59 +43,37 @@ public class DNFEncoder {
 					continue;
 				}
 
-				System.out.println(label1 + ":" + label2);
-
 				List<Trace> traces2 = groupedObligationsTraces.get(label2);
-				sb.append(encodeTraceConjunction(traces1, traces2));
+				sb.append(encodeTraceConjunctions(traces1, traces2));
 			}
 		}
 		sb.append(")");
 		return sb.toString();
 	}
 
-	private String encodeTraceConjunction(List<Trace> traces1, List<Trace> traces2) {
+	private String encodeTraceConjunctions(List<Trace> traces1, List<Trace> traces2) {
 		StringBuilder sb = new StringBuilder();
 
 		for (Trace t1 : traces1) {
-			if (t1.getTrace().isEmpty())
-				continue;
 			for (Trace t2 : traces2) {
-				if (t2.getTrace().isEmpty())
-					continue;
-
 				if (!t1.affectsConfiguration() && !t2.affectsConfiguration())
 					continue;
+				sb.append(System.lineSeparator());
 
 				TraceType t1TraceType = t1.getTraceType();
 				TraceType t2TraceType = t2.getTraceType();
-				if (t1TraceType == TraceType.POSTCONDITIONASSIGN && t2TraceType == TraceType.POSTCONDITIONASSIGN) {
+				if (t1TraceType == TraceType.ASSIGN && t2TraceType == TraceType.ASSIGN) {
 					sb.append(processBothTracesAssign(t1, t2));
 					continue;
 				}
 
-				if (t1TraceType == TraceType.POSTCONDITIONASSOCIATE
-						&& t2TraceType == TraceType.POSTCONDITIONASSOCIATE) {
+				if (t1TraceType == TraceType.ASSOCIATE && t2TraceType == TraceType.ASSOCIATE) {
 					sb.append(processBothTracesAssociate(t1, t2));
 					continue;
 				}
 				sb.append("(and ");
-				sb.append(System.lineSeparator());
-				if (t1TraceType == TraceType.POSTCONDITIONASSIGN) {
-					sb.append(processTraceAssign(t1));
-				} else if (t1TraceType == TraceType.POSTCONDITIONASSOCIATE) {
-					sb.append(processTraceAssociate(t1));
-				} else {
-					sb.append(processTraceCondition(t1));
-				}
-
-				sb.append(System.lineSeparator());
-				if (t2TraceType == TraceType.POSTCONDITIONASSIGN) {
-					sb.append(processTraceAssign(t2));
-				} else if (t2TraceType == TraceType.POSTCONDITIONASSOCIATE) {
-					sb.append(processTraceAssociate(t2));
-				} else {
-					sb.append(processTraceCondition(t2));
-				}
+				processTrace(sb, t1);
+				processTrace(sb, t2);
 
 				sb.append(")");
 				sb.append(System.lineSeparator());
@@ -106,31 +84,56 @@ public class DNFEncoder {
 		return sb.toString();
 	}
 
+	private void processTrace(StringBuilder sb, Trace t) {
+		sb.append(System.lineSeparator());
+		if (t.getTraceType() == TraceType.ASSIGN) {
+			sb.append(processTraceAssign(t));
+		} else if (t.getTraceType() == TraceType.ASSOCIATE) {
+			sb.append(processTraceAssociate(t));
+		} else {
+			sb.append(processTraceCondition(t));
+		}
+	}
+
 	private String processTraceAssign(Trace t) {
 		return ";" + t.getTraceType() + ":" + t.getObligationLabel() + System.lineSeparator() + "(and"
-				+ System.lineSeparator() + "(= (ASSIGN {k}) " + t.getTrace() + ")" + System.lineSeparator()
-				+ "(= (ASSIGN* {k}) " + t.getTraceFlattened() + "))";
+				+ System.lineSeparator() + t.getInputCondition() + System.lineSeparator() + System.lineSeparator()
+				+ "(= (ASSIGN {k}) " + t.getOutputCondition() + ")" + System.lineSeparator() + "(= (ASSIGN* {k}) "
+				+ t.getOutputConditionFlattened() + "))" + System.lineSeparator();
 	}
 
 	private String processTraceAssociate(Trace t) {
-		return ";" + t.getTraceType() + ":" + t.getObligationLabel() + System.lineSeparator() + "(= (ASSOC {k}) "
-				+ t.getTrace() + ")";
+		return ";" + t.getTraceType() + ":" + t.getObligationLabel() + System.lineSeparator() + "(and"
+				+ System.lineSeparator() + t.getInputCondition() + System.lineSeparator() + "(= (ASSOC {k}) "
+				+ t.getOutputCondition() + ")" + System.lineSeparator() + ")";
 	}
 
 	private String processTraceCondition(Trace t) {
-		return ";" + t.getTraceType() + ":" + t.getObligationLabel() + System.lineSeparator() + t.getTrace();
+		return ";" + t.getTraceType() + ":" + t.getObligationLabel() + System.lineSeparator() + t.getInputCondition()
+				+ System.lineSeparator();
 	}
 
 	private String processBothTracesAssign(Trace t1, Trace t2) {
-		return "";
+		String combinedASSIGN = t1.getOutputCondition().replaceFirst("\\(ASSIGN \\{k-1\\}\\)", t2.getOutputCondition());
+		String combinedASSIGNFlattened = t1.getOutputConditionFlattened().replaceFirst("\\(ASSIGN* \\{k-1\\}\\)",
+				t2.getOutputConditionFlattened()) + System.lineSeparator();
+
+		return ";" + t1.getTraceType() + ":" + t1.getObligationLabel() + System.lineSeparator() + ";"
+				+ t2.getTraceType() + ":" + t2.getObligationLabel() + System.lineSeparator() + "(and"
+				+ System.lineSeparator() + t1.getInputCondition() + System.lineSeparator() + System.lineSeparator()
+				+ t2.getInputCondition() + System.lineSeparator() + System.lineSeparator() + "(= (ASSIGN {k}) "
+				+ combinedASSIGN + ")" + System.lineSeparator() + "(= (ASSIGN* {k}) " + combinedASSIGNFlattened + "))"
+				+ System.lineSeparator();
 	}
 
 	private String processBothTracesAssociate(Trace t1, Trace t2) {
-		
-		String combinedAssociate = t1.getTrace().replaceFirst("\\(ASSOC \\{k-1\\}\\)", t2.getTrace());
-		return ";" + t1.getTraceType() + ":" + t1.getObligationLabel() 
-		+ System.lineSeparator()+ ";" + t2.getTraceType()+ ":" + t2.getObligationLabel()
-		+ System.lineSeparator() + combinedAssociate;
+		String combinedASSOCIATE = t1.getOutputCondition().replaceFirst("\\(ASSOC \\{k-1\\}\\)",
+				t2.getOutputCondition());
+
+		return ";" + t1.getTraceType() + ":" + t1.getObligationLabel() + System.lineSeparator() + ";"
+				+ t2.getTraceType() + ":" + t2.getObligationLabel() + System.lineSeparator() + "(and"
+				+ System.lineSeparator() + t1.getInputCondition() + System.lineSeparator() + System.lineSeparator()
+				+ t2.getInputCondition() + System.lineSeparator() + combinedASSOCIATE + System.lineSeparator() + ")";
 
 	}
 
@@ -157,17 +160,26 @@ public class DNFEncoder {
 				} else {
 					continue;
 				}
-				traces.add(new Trace(label, encoder.getCondition(), TraceType.CONDITION));
-				traces.add(new Trace(label, encoder.getPrecondition(), TraceType.PRECONDITION));
 
 				if (encoder.getRelationType() == RelationType.ASSIGN) {
-					traces.add(new Trace(label, encoder.getPostcondition(), encoder.getPostconditionFlatten(),
-							TraceType.POSTCONDITIONASSIGN));
+					traces.add(new Trace(label, encoder.getPrecondition(), encoder.getPostcondition(),
+							encoder.getPostconditionFlatten(), TraceType.ASSIGN));
 				}
 
 				if (encoder.getRelationType() == RelationType.ASSOCIATE) {
-					traces.add(new Trace(label, encoder.getPostcondition(), TraceType.POSTCONDITIONASSOCIATE));
-					continue;
+					traces.add(new Trace(label, encoder.getPrecondition(), encoder.getPostcondition(),
+							TraceType.ASSOCIATE));
+				}
+				if (encoder.getCondition().isBlank()) {
+					traces.add(new Trace(label, encoder.getNegatedPrecondition(), "", TraceType.NEGATEDPRECONDITION)); // precondition
+																														// cannot
+																														// be
+																														// blank
+				} else {
+					traces.add(new Trace(label,
+							"(and" + encoder.getCondition() + " " + encoder.getNegatedPrecondition() + ")", "",
+							TraceType.CONDITIONANDNEGATEDPRECONDITION));
+					traces.add(new Trace(label, encoder.getNegatedCondition(), "", TraceType.NEGATEDCONDITION));
 				}
 
 			}
@@ -185,6 +197,12 @@ public class DNFEncoder {
 		return true;
 	}
 
+	private String replaceKWithValue(String encoding, int k) throws Exception {
+		if (k < 1)
+			throw new Exception("k cannot be less then 1");
+		return encoding.replace("{k}", Integer.toString(k)).replace("{k-1}", Integer.toString((k - 1)));
+	}
+
 	public static void main(String[] args) throws Exception {
 
 		DNFEncoder encoder = new DNFEncoder();
@@ -198,8 +216,9 @@ public class DNFEncoder {
 		HashMap<String, List<Trace>> groupedObligationsTraces = encoder.groupTracesByObligations(obligation.getRules(),
 				mapOfIDs);
 		String dnfencoding = encoder.encodeDNF(groupedObligationsTraces);
-
+		dnfencoding = encoder.replaceKWithValue(dnfencoding, 1);
 		System.out.println(dnfencoding);
+		System.out.println(mapOfIDs);
 	}
 
 }

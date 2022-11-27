@@ -25,7 +25,7 @@ public class SMTComposer extends Planner {
 	private Map<String, String> eventMembers = new HashMap<String, String>();
 	private List<String> obligationEventVariables = new ArrayList<String>();
 	String pathToGraph;
-
+	public String headCode = "";
 
 	ConfigurationEncoder gt;
 	ObligationEncoder ot;
@@ -35,9 +35,9 @@ public class SMTComposer extends Planner {
 //		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmRunning/LawFirmPolicy.json");
 //		 String yml = new String(
 //		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmRunning/Obligations_built_in_functions.yml")));
-		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/ConflictLawFirm/LawFirmPolicy.json");
+		 Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");
 		 String yml = new String(
-		 		Files.readAllBytes(Paths.get("Policies/ForBMC/ConflictLawFirm/Obligations_simple_hardcoded.yml")));
+		 		Files.readAllBytes(Paths.get("Policies/TEST/AssignAndGrant.yml")));
 		Obligation obligation = EVRParser.parse(yml);
 		SMTComposer checker = new SMTComposer(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
@@ -99,7 +99,7 @@ public class SMTComposer extends Planner {
 
 	public SMTComposer(Graph graph, Obligation obligations) throws Exception {
 		gt = new ConfigurationEncoder(graph);
-		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels, eventMembers, listOfNodes);
+		//gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels, eventMembers, listOfNodes);
 		ot = new ObligationEncoder(mapOfIDs, obligations, listOfNodes);
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());
@@ -109,7 +109,7 @@ public class SMTComposer extends Planner {
 		listOfAddedNodesUA_U.addAll(ot.getListOfCreatedNodesUA_U());
 		listOfAddedNodesOA_O.addAll(ot.getListOfCreatedNodesOA_O());
 		obligationLabels.addAll(ot.getRuleLabels());
-		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels, eventMembers, listOfNodes);
+		headCode = gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels, eventMembers, listOfNodes);
 		mapOfIDs = gt.getMapOfIDs();
 		eventMembers.putAll(ot.getEventMembers());
 	}

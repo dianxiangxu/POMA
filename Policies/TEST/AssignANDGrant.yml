@@ -1,12 +1,12 @@
 label: Assign
 rules:
-  - label: assign
+  - label: ASSIGN1
     event:
       subject:
         anyUser: 
-          - "C-Suit"     
+          - "PI"     
       operations:
-        - assignandgrant
+        - submit
       target:
         policyElements:
           - name: PDSWhole
@@ -21,13 +21,13 @@ rules:
                 name: BM
                 type: UA    
 
-  - label: grant
+  - label: GRANT1
     event:
       subject:
         anyUser: 
-          - "C-Suit"     
+          - "PI"     
       operations:
-        - assignandgrant
+        - submit
       target:
         policyElements:
           - name: PDSWhole

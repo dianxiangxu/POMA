@@ -22,7 +22,9 @@ public class DeleteAssignActionEncoder extends ActionEncoder {
 		encodeActionPrecondition();
 		encodeActionPostcondition();
 		encodeActionPostconditionFlatten();
-		encodeCondition(deleteAction);		
+		encodeCondition(deleteAction);	
+		encodeNegatedCondition();
+		encodeNegatedPrecondition();		
 	}
 
 	protected void encodeActionPrecondition() {

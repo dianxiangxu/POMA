@@ -23,7 +23,9 @@ public class DeleteGrantActionEncoder extends ActionEncoder {
 		encodeActionPrecondition();
 		encodeActionPostcondition();
 		encodeActionPostconditionFlatten();
-		encodeCondition(deleteGrantAction);		
+		encodeCondition(deleteGrantAction);	
+		encodeNegatedCondition();
+		encodeNegatedPrecondition();
 	}
 
 	protected void encodeActionPrecondition() {

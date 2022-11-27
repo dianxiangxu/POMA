@@ -20,7 +20,9 @@ public class CreateActionEncoder extends ActionEncoder {
 		encodeActionPrecondition();
 		encodeActionPostcondition();
 		encodeActionPostconditionFlatten();
-		encodeCondition(createAction);		
+		encodeCondition(createAction);	
+		encodeNegatedCondition();
+		encodeNegatedPrecondition();		
 	}
 
 	protected void encodeActionPrecondition() {

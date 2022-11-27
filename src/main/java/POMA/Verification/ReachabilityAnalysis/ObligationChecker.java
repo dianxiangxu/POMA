@@ -36,9 +36,9 @@ public class ObligationChecker extends Planner {
 //		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmRunning/LawFirmPolicy.json");
 //		 String yml = new String(
 //		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmRunning/Obligations_built_in_functions.yml")));
-		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/ConflictLawFirm/LawFirmPolicy.json");
+		 Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");
 		 String yml = new String(
-		 		Files.readAllBytes(Paths.get("Policies/ForBMC/ConflictLawFirm/Obligations_simple_hardcoded.yml")));
+		 		Files.readAllBytes(Paths.get("Policies/TEST/AssignAndGrant.yml")));
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");

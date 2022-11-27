@@ -22,9 +22,17 @@ public class GrantActionEncoder extends ActionEncoder {
 		encodeActionPostcondition();
 		encodeActionPostconditionFlatten();
 		encodeCondition(grantAction);
+		encodeNegatedCondition();
+		encodeNegatedPrecondition();
 	}
 
 	protected void encodeActionPrecondition() {
+		List<Integer> ops = association.getOps();
+		if(ops.size()==1) {
+			setPrecondition("(not (member (mkTuple " + association.getSubject() + " " + ops.get(0) + " "
+					+ association.getTarget() + ") (ASSOC {k-1})))");
+			return;
+		}
 		String precondition = "(and ";
 		for (Integer op : association.getOps()) {
 			precondition += "(not (member (mkTuple " + association.getSubject() + " " + op + " "
@@ -48,7 +56,7 @@ public class GrantActionEncoder extends ActionEncoder {
 			return "(union " + "(ASSOC " + "{k-1}" + ")" + "(singleton(mkTuple " + association.getSubject() + " " + ar
 					+ " " + association.getTarget() + ")))";
 		} else {
-			return "(union " + innerAction + "(singleton(mkTuple " + association.getSubject() + " "
+			return "(union " + innerAction + "(singleton(mkTuple " + association.getSubject() + " " + ar + " "
 					+ association.getTarget() + ")))";
 		}
 	}
