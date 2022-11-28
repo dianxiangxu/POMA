@@ -24,7 +24,7 @@ import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 
 public class DNFEncoder {
 
-	List<String> handledObligationPairs = new ArrayList<String>();
+	List<String> handledActionPairs = new ArrayList<String>();
 
 	private String encodeDNF(HashMap<String, List<Trace>> groupedObligationsTraces) {
 		StringBuilder sb = new StringBuilder();
@@ -62,12 +62,12 @@ public class DNFEncoder {
 
 				TraceType t1TraceType = t1.getTraceType();
 				TraceType t2TraceType = t2.getTraceType();
-				if (t1TraceType == TraceType.ASSIGN && t2TraceType == TraceType.ASSIGN) {
+				if (t1TraceType == TraceType.ASSIGNOUTPUT && t2TraceType == TraceType.ASSIGNOUTPUT) {
 					sb.append(processBothTracesAssign(t1, t2));
 					continue;
 				}
 
-				if (t1TraceType == TraceType.ASSOCIATE && t2TraceType == TraceType.ASSOCIATE) {
+				if (t1TraceType == TraceType.ASSOCIATEOUTPUT && t2TraceType == TraceType.ASSOCIATEOUTPUT) {
 					sb.append(processBothTracesAssociate(t1, t2));
 					continue;
 				}
@@ -86,9 +86,9 @@ public class DNFEncoder {
 
 	private void processTrace(StringBuilder sb, Trace t) {
 		sb.append(System.lineSeparator());
-		if (t.getTraceType() == TraceType.ASSIGN) {
+		if (t.getTraceType() == TraceType.ASSIGNOUTPUT) {
 			sb.append(processTraceAssign(t));
-		} else if (t.getTraceType() == TraceType.ASSOCIATE) {
+		} else if (t.getTraceType() == TraceType.ASSOCIATEOUTPUT) {
 			sb.append(processTraceAssociate(t));
 		} else {
 			sb.append(processTraceCondition(t));
@@ -137,15 +137,15 @@ public class DNFEncoder {
 
 	}
 
-	private HashMap<String, List<Trace>> groupTracesByObligations(List<Rule> obligations,
-			HashMap<String, Integer> mapOfIDs) {
-		HashMap<String, List<Trace>> groupedObligationsTraces = new HashMap<String, List<Trace>>();
+	private HashMap<String, List<Trace>> groupTracesByActions(HashMap<String, Integer> mapOfIDs, Rule... obligations) {
+		HashMap<String, List<Trace>> groupedActionsTraces = new HashMap<String, List<Trace>>();
 
 		for (Rule obligation : obligations) {
 			List<Trace> traces = new ArrayList<>();
 			String label = obligation.getLabel();
 			List<Action> actions = obligation.getResponsePattern().getActions();
 			for (Action action : actions) {
+				String actionId = label+action.getClass().getSimpleName() + java.util.UUID.randomUUID(); 
 				ActionEncoder encoder;
 				if (action instanceof CreateAction) {
 					encoder = new CreateActionEncoder((CreateAction) action, mapOfIDs);
@@ -162,36 +162,35 @@ public class DNFEncoder {
 				}
 
 				if (encoder.getRelationType() == RelationType.ASSIGN) {
-					traces.add(new Trace(label, encoder.getPrecondition(), encoder.getPostcondition(),
-							encoder.getPostconditionFlatten(), TraceType.ASSIGN));
+					traces.add(new Trace(actionId, encoder.getPrecondition(), encoder.getPostcondition(),
+							encoder.getPostconditionFlatten(), TraceType.ASSIGNOUTPUT));
 				}
 
 				if (encoder.getRelationType() == RelationType.ASSOCIATE) {
-					traces.add(new Trace(label, encoder.getPrecondition(), encoder.getPostcondition(),
-							TraceType.ASSOCIATE));
+					traces.add(new Trace(actionId, encoder.getPrecondition(), encoder.getPostcondition(),
+							TraceType.ASSOCIATEOUTPUT));
 				}
 				if (encoder.getCondition().isBlank()) {
-					traces.add(new Trace(label, encoder.getNegatedPrecondition(), "", TraceType.NEGATEDPRECONDITION)); // precondition
+					traces.add(new Trace(actionId, encoder.getNegatedPrecondition(), "", TraceType.NEGATEDPRECONDITION)); // precondition
 																														// cannot
 																														// be
 																														// blank
 				} else {
-					traces.add(new Trace(label,
+					traces.add(new Trace(actionId,
 							"(and" + encoder.getCondition() + " " + encoder.getNegatedPrecondition() + ")", "",
 							TraceType.CONDITIONANDNEGATEDPRECONDITION));
-					traces.add(new Trace(label, encoder.getNegatedCondition(), "", TraceType.NEGATEDCONDITION));
+					traces.add(new Trace(actionId, encoder.getNegatedCondition(), "", TraceType.NEGATEDCONDITION));
 				}
-
+				groupedActionsTraces.put(actionId, traces);
 			}
-			groupedObligationsTraces.put(label, traces);
 		}
-		return groupedObligationsTraces;
+		return groupedActionsTraces;
 	}
 
 	private boolean isPairProcessed(String label1, String label2) {
-		if (!handledObligationPairs.contains(label1 + ":" + label2)
-				&& !handledObligationPairs.contains(label2 + ":" + label1)) {
-			handledObligationPairs.add(label1 + ":" + label2);
+		if (!handledActionPairs.contains(label1 + ":" + label2)
+				&& !handledActionPairs.contains(label2 + ":" + label1)) {
+			handledActionPairs.add(label1 + ":" + label2);
 			return false;
 		}
 		return true;
@@ -207,15 +206,15 @@ public class DNFEncoder {
 
 		DNFEncoder encoder = new DNFEncoder();
 		Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");
-		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/AssignAND2Grants.yml")));
+		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/AssignANDGrant.yml")));
 		Obligation obligation = EVRParser.parse(yml);
 
 		SMTComposer composer = new SMTComposer(graph, obligation);
 		HashMap<String, Integer> mapOfIDs = composer.getMapOfIDs();
 
-		HashMap<String, List<Trace>> groupedObligationsTraces = encoder.groupTracesByObligations(obligation.getRules(),
-				mapOfIDs);
-		String dnfencoding = encoder.encodeDNF(groupedObligationsTraces);
+		HashMap<String, List<Trace>> groupedActionsTraces = encoder.groupTracesByActions(mapOfIDs, obligation.getRules().toArray(Rule[]::new));
+		
+		String dnfencoding = encoder.encodeDNF(groupedActionsTraces);
 		dnfencoding = encoder.replaceKWithValue(dnfencoding, 1);
 		System.out.println(dnfencoding);
 		System.out.println(mapOfIDs);

@@ -1,6 +1,6 @@
 label: Assign1
 rules:
-  - label: assign1
+  - label: obligation1
     event:
       subject:
         anyUser: 
@@ -20,7 +20,7 @@ rules:
               where:
                 name: BM
                 type: UA    
-  - label: assign2
+  - label: obligation2
     event:
       subject:
         anyUser: 
@@ -41,7 +41,7 @@ rules:
                 name: BM
                 type: UA                 
 
-  - label: grant1
+  - label: obligation3
     event:
       subject:
         anyUser: 
@@ -65,7 +65,7 @@ rules:
              target:
                name: PDSWhole
                type: OA
-  - label: grant2
+  - label: obligation4
     event:
       subject:
         anyUser: 

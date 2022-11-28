@@ -1,6 +1,6 @@
 label: Assign
 rules:
-  - label: ASSIGN1
+  - label: obligation1
     event:
       subject:
         anyUser: 
@@ -21,7 +21,7 @@ rules:
                 name: BM
                 type: UA    
 
-  - label: GRANT1
+  - label: obligation2
     event:
       subject:
         anyUser: 
