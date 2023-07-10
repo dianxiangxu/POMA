@@ -1,10 +1,10 @@
 label: Assign
 rules:
-  - label: assign
+  - label: obligation1
     event:
       subject:
         anyUser: 
-          - "C-Suit"     
+          - "BM"     
       operations:
         - assign
       target:
@@ -19,5 +19,38 @@ rules:
                 type: U
               where:
                 name: BM
-                type: UA         
-                                       
+                type: UA          
+        # - assign:
+        #     - what:
+        #         name: URA
+        #         type: U
+        #       where:
+        #         name: RA
+        #         type: UA  
+        # - assign:
+        #     - what:
+        #         name: URA
+        #         type: U
+        #       where:
+        #         name: RA
+        #         type: UA                         
+        - grant:
+             subject:
+               name: BM
+               type: UA
+             operations:
+               - approve
+               - withdraw
+             target:
+               name: PDSWhole
+               type: OA                              
+        #- grant:
+        #     subject:
+        #       name: BM
+         #      type: UA
+         #    operations:
+        #       - approve
+         #      - withdraw
+         #    target:
+         #      name: PDSWhole
+          #     type: OA                                                         

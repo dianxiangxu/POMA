@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Relations.AssociationCustom;
+import POMA.Verification.ReachabilityAnalysisRace.Encoders.ActionEncoder.ActionType;
 import POMA.Verification.ReachabilityAnalysisRace.Encoders.ActionEncoder.RelationType;
 import gov.nist.csd.pm.pip.obligations.model.EvrNode;
 import gov.nist.csd.pm.pip.obligations.model.actions.DeleteAction;
@@ -17,10 +18,10 @@ public class DeleteGrantActionEncoder extends ActionEncoder {
 	private AssociationCustom association;
 	
 	public DeleteGrantActionEncoder(DeleteAction action, HashMap<String, Integer> mapOfIDs) {
-		super(mapOfIDs, RelationType.ASSOCIATE);
+		super(mapOfIDs, RelationType.ASSOCIATE, ActionType.REMOVE);
 		deleteGrantAction = action;
 		retrieveActionPolicyElements();
-		encodeActionPrecondition();
+		encodeActionPreconditions();
 		encodeActionPostcondition();
 		encodeActionPostconditionFlatten();
 		encodeCondition(deleteGrantAction);	
@@ -28,7 +29,7 @@ public class DeleteGrantActionEncoder extends ActionEncoder {
 		encodeNegatedPrecondition();
 	}
 
-	protected void encodeActionPrecondition() {
+	protected void encodeActionPreconditions() {
 		String precondition = "(and ";
 		for(Integer op: association.getOps()) {
 			precondition +="(member (mkTuple " + association.getSubject() + " " + op + " " + association.getTarget()+") (ASSOC {k-1}))"; //have to check every access right
@@ -62,6 +63,7 @@ public class DeleteGrantActionEncoder extends ActionEncoder {
 		List<String> ops = deleteGrantAction.getAssociations().get(0).getOperations();
 		String what = whatNode.getFunction() != null ? whatNode.getFunction().getName() : whatNode.getName();
 		String where = whereNode.getFunction() != null ? whereNode.getFunction().getName() : whereNode.getName();
+		String whereType = whereNode.getFunction() != null ? "" : whereNode.getType();
 		String whatID = "";
 		String whereID = "";
 		
@@ -85,7 +87,7 @@ public class DeleteGrantActionEncoder extends ActionEncoder {
 		for (String op : ops) {
 			mappedOps.add(mapOfIDs.get(op));
 		}				
-		this.association = new AssociationCustom(whatID, whereID, mappedOps);
+		this.association = new AssociationCustom(whatID, whereID, whereType, mappedOps);
 	}
 	
 	protected void encodeActionPostconditionFlatten() {

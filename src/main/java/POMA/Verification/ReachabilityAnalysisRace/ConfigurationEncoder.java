@@ -136,9 +136,9 @@ class ConfigurationEncoder {
 				// System.out.println(node.getName()+" : "+visitorNode.getName());
 				int descendantID = mapOfIDs.get(visitorNode.getName());
 				flattenedTuples.add(
-						new AssignmentRelation(Integer.toString(nodeID), Integer.toString(nodeID)).toStringNoQuotes());
+						new AssignmentRelation(Integer.toString(nodeID), Integer.toString(nodeID)).toStringCVC5());
 				flattenedTuples.add(new AssignmentRelation(Integer.toString(nodeID), Integer.toString(descendantID))
-						.toStringNoQuotes());
+						.toStringCVC5());
 			};
 			dfs.traverse(node, (c, p) -> {
 			}, visitor, Direction.PARENTS);
@@ -154,32 +154,32 @@ class ConfigurationEncoder {
 				if (node.getType().toString().equals("UA") || node.getType().toString().equals("OA")) { // comment if
 																										// needed.
 					flattenedTuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
-							.toStringNoQuotes());
+							.toStringCVC5());
 					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
-							.toStringNoQuotes());
+							.toStringCVC5());
 				}
 				if (node.getType().toString().equals("UA") || node.getType().toString().equals("U")) {
 					// tuplesForUACheck.add(new AssignmentRelation(Integer.toString(childID),
 					// Integer.toString(childID))
-					// .toStringNoQuotes());
+					// .toStringCVC5());
 					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
-							.toStringNoQuotes());
+							.toStringCVC5());
 				}
 				if (node.getType().toString().equals("OA") || node.getType().toString().equals("O")) {
 					// tuplesForOACheck.add(new AssignmentRelation(Integer.toString(childID),
 					// Integer.toString(childID))
-					// .toStringNoQuotes());
+					// .toStringCVC5());
 					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
-							.toStringNoQuotes());
+							.toStringCVC5());
 				}
 				if (node.getType().toString().equals("U")) {
 					tuplesUsers.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(childID))
-							.toStringNoQuotes());
+							.toStringCVC5());
 				}
 				for (String parent : graph.getParents(node.getName())) {
 					int parentID = mapOfIDs.get(parent);
 					tuples.add(new AssignmentRelation(Integer.toString(childID), Integer.toString(parentID))
-							.toStringNoQuotes()); // comment
+							.toStringCVC5()); // comment
 													// when
 													// needed
 													// flatten
@@ -195,17 +195,17 @@ class ConfigurationEncoder {
 	// int ua_uID = mapOfIDs.get(UA_U);
 	// tuplesForUACheck
 	// .add(new AssignmentRelation(Integer.toString(ua_uID),
-	// Integer.toString(ua_uID)).toStringNoQuotes());
+	// Integer.toString(ua_uID)).toStringCVC5());
 	// }
 	// StringBuilder sb = new StringBuilder();
 	// sb.append("(declare-fun SetToCheckUA () (Set (Tuple Int Int)))");
 	// sb.append(System.lineSeparator());
-	// sb.append("(assert (= SetToCheckUA (insert ");
+	// sb.append("(assert (= SetToCheckUA (set.insert ");
 	// for (Iterator<String> iterator = tuplesForUACheck.iterator();
 	// iterator.hasNext();) {
 	// String tuple = iterator.next();
 	// if (!iterator.hasNext()) {
-	// sb.append("(singleton " + tuple + "))))" + System.lineSeparator());
+	// sb.append("(set.singleton " + tuple + "))))" + System.lineSeparator());
 	// } else {
 	// sb.append(tuple + " " + System.lineSeparator());
 	// }
@@ -218,17 +218,17 @@ class ConfigurationEncoder {
 	// int oa_oID = mapOfIDs.get(OA_O);
 	// tuplesForOACheck
 	// .add(new AssignmentRelation(Integer.toString(oa_oID),
-	// Integer.toString(oa_oID)).toStringNoQuotes());
+	// Integer.toString(oa_oID)).toStringCVC5());
 	// }
 	// StringBuilder sb = new StringBuilder();
 	// sb.append("(declare-fun SetToCheckAT () (Set (Tuple Int Int)))");
 	// sb.append(System.lineSeparator());
-	// sb.append("(assert (= SetToCheckAT (insert ");
+	// sb.append("(assert (= SetToCheckAT (set.insert ");
 	// for (Iterator<String> iterator = tuplesForOACheck.iterator();
 	// iterator.hasNext();) {
 	// String tuple = iterator.next();
 	// if (!iterator.hasNext()) {
-	// sb.append("(singleton " + tuple + "))))" + System.lineSeparator());
+	// sb.append("(set.singleton " + tuple + "))))" + System.lineSeparator());
 	// } else {
 	// sb.append(tuple + " " + System.lineSeparator());
 	// }
@@ -241,11 +241,11 @@ class ConfigurationEncoder {
 		sb.append("(declare-fun USERS () (Set (Tuple Int Int)))");
 		sb.append(System.lineSeparator());
 		if (tuplesUsers.size() != 0) {
-			sb.append("(assert (= USERS (insert ");
+			sb.append("(assert (= USERS (set.insert ");
 			for (Iterator<String> iterator = tuplesUsers.iterator(); iterator.hasNext();) {
 				String tuple = iterator.next();
 				if (!iterator.hasNext()) {
-					sb.append("(singleton " + tuple + "))))" + System.lineSeparator());
+					sb.append("(set.singleton " + tuple + "))))" + System.lineSeparator());
 				} else {
 					sb.append(tuple + " " + System.lineSeparator());
 				}
@@ -258,11 +258,11 @@ class ConfigurationEncoder {
 		StringBuilder sb = new StringBuilder();
 		sb.append("(declare-fun ASSIGN* (Int) (Set (Tuple Int Int)))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= (ASSIGN* 0) (insert ");
+		sb.append("(assert (= (ASSIGN* 0) (set.insert ");
 		for (Iterator<String> iterator = flattenedTuples.iterator(); iterator.hasNext();) {
 			String tuple = iterator.next();
 			if (!iterator.hasNext()) {
-				sb.append("(singleton " + tuple + "))))" + System.lineSeparator());
+				sb.append("(set.singleton " + tuple + "))))" + System.lineSeparator());
 			} else {
 				sb.append(tuple + " " + System.lineSeparator());
 			}
@@ -274,11 +274,11 @@ class ConfigurationEncoder {
 		StringBuilder sb = new StringBuilder();
 		sb.append("(declare-fun ASSIGN (Int) (Set (Tuple Int Int)))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= (ASSIGN 0) (insert ");
+		sb.append("(assert (= (ASSIGN 0) (set.insert ");
 		for (Iterator<String> iterator = tuples.iterator(); iterator.hasNext();) {
 			String tuple = iterator.next();
 			if (!iterator.hasNext()) {
-				sb.append("(singleton " + tuple + "))))" + System.lineSeparator());
+				sb.append("(set.singleton " + tuple + "))))" + System.lineSeparator());
 			} else {
 				sb.append(tuple + " " + System.lineSeparator());
 			}
@@ -297,10 +297,10 @@ class ConfigurationEncoder {
 				int userID = mapOfIDs.get(entry.getKey());
 				// int targetID = mapOfIDs.get(entry.getValue());
 				flattenedTuples.add(
-						new AssignmentRelation(Integer.toString(userID), Integer.toString(userID)).toStringNoQuotes());
+						new AssignmentRelation(Integer.toString(userID), Integer.toString(userID)).toStringCVC5());
 				// tuples.add(new AssignmentRelation(Integer.toString(targetID),
 				// Integer.toString(
-				// targetID)).toStringNoQuotes());
+				// targetID)).toStringCVC5());
 			}
 		}
 		// System.out.println("ASSIGNMENTS SIZE: " + flattenedTuples.size());
@@ -329,7 +329,7 @@ class ConfigurationEncoder {
 		sb.append("(declare-fun ASSOC (Int) (Set (Tuple Int Int Int)))");
 		sb.append(System.lineSeparator());
 		if (listOfAssociations.size() != 1) {
-			sb.append(System.lineSeparator() + "(assert (= (ASSOC 0) (insert");
+			sb.append(System.lineSeparator() + "(assert (= (ASSOC 0) (set.insert");
 		} else {
 			sb.append(System.lineSeparator() + "(assert (= (ASSOC 0) ( ");
 			for (Iterator<AssociationRelation> iterator = listOfAssociations.iterator(); iterator.hasNext();) {
@@ -341,9 +341,9 @@ class ConfigurationEncoder {
 					int uaID = mapOfIDs.get(ua);
 					int arID = mapOfIDs.get(iteratorAR.next());
 					int atID = mapOfIDs.get(at);
-					String assoc = "(mkTuple " + uaID + " " + arID + " " + atID + ")" + System.lineSeparator();
+					String assoc = "(tuple " + uaID + " " + arID + " " + atID + ")" + System.lineSeparator();
 					if (!iterator.hasNext() && !iteratorAR.hasNext()) {
-						sb.append("singleton " + assoc + ")))" + System.lineSeparator());
+						sb.append("set.singleton " + assoc + ")))" + System.lineSeparator());
 					} else {
 						sb.append(assoc + " ");
 					}
@@ -361,9 +361,9 @@ class ConfigurationEncoder {
 				int uaID = mapOfIDs.get(ua);
 				int arID = mapOfIDs.get(iteratorAR.next());
 				int atID = mapOfIDs.get(at);
-				String assoc = "(mkTuple " + uaID + " " + arID + " " + atID + ")";
+				String assoc = "(tuple " + uaID + " " + arID + " " + atID + ")";
 				if (!iterator.hasNext() && !iteratorAR.hasNext()) {
-					sb.append("(singleton " + assoc + "))))" + System.lineSeparator());
+					sb.append("(set.singleton " + assoc + "))))" + System.lineSeparator());
 				} else {
 					sb.append(assoc + " " + System.lineSeparator());
 				}
@@ -379,15 +379,15 @@ class ConfigurationEncoder {
 		sb.append(System.lineSeparator());
 		sb.append("(declare-fun NODES () (Set (Tuple Int Int)))");
 		sb.append(System.lineSeparator());
-		sb.append("(assert (= NODES (insert ");
+		sb.append("(assert (= NODES (set.insert ");
 		for (Iterator<Node> iterator = nodes.iterator(); iterator.hasNext();) {
 			Node node = iterator.next();
 			int nodeID = mapOfIDs.get(node.getName());
 
 			if (!iterator.hasNext()) {
-				sb.append("(singleton " + "(mkTuple " + nodeID + " " + nodeID + "))))) " + System.lineSeparator());
+				sb.append("(set.singleton " + "(tuple " + nodeID + " " + nodeID + "))))) " + System.lineSeparator());
 			} else {
-				sb.append("(mkTuple " + nodeID + " " + nodeID + ") " + System.lineSeparator());
+				sb.append("(tuple " + nodeID + " " + nodeID + ") " + System.lineSeparator());
 			}
 		}
 		sb.append(System.lineSeparator());

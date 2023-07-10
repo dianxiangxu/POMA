@@ -2,8 +2,9 @@ package POMA.Verification.ReachabilityAnalysisRace.Encoders;
 
 import java.util.HashMap;
 
+import POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Conditions.ConditionCustom;
+import POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Conditions.ConditionCustom.ConditionType;
 import POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Relations.AssignmentCustom;
-import POMA.Verification.ReachabilityAnalysisRace.Encoders.ActionEncoder.RelationType;
 import gov.nist.csd.pm.pip.obligations.model.EvrNode;
 import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction.Assignment;
@@ -16,10 +17,18 @@ public class DeleteAssignActionEncoder extends ActionEncoder {
 	private AssignmentCustom assignment;
 	
 	public DeleteAssignActionEncoder(DeleteAction action, HashMap<String, Integer> mapOfIDs) {
-		super(mapOfIDs, RelationType.ASSIGN);
+		super(mapOfIDs, RelationType.ASSIGN, ActionType.REMOVE);
 		deleteAction = action;
 		retrieveActionPolicyElements();
-		encodeActionPrecondition();
+		if(assignment.getWhatType().equals("UA") || assignment.getWhatType().equals("U")) {
+			setPreconditionHierarchyType(HierarchyType.UA);
+			setPostconditionHierarchyType(HierarchyType.UA);
+		}
+		if(assignment.getWhatType().equals("OA") || assignment.getWhatType().equals("O")) {
+			setPreconditionHierarchyType(HierarchyType.OA);
+			setPostconditionHierarchyType(HierarchyType.OA);
+		}
+		encodeActionPreconditions();
 		encodeActionPostcondition();
 		encodeActionPostconditionFlatten();
 		encodeCondition(deleteAction);	
@@ -27,12 +36,16 @@ public class DeleteAssignActionEncoder extends ActionEncoder {
 		encodeNegatedPrecondition();		
 	}
 
-	protected void encodeActionPrecondition() {
-		setPrecondition("(member (mkTuple " + assignment.getWhat() + " "+assignment.getWhere()+") (ASSIGN {k-1}))"); //does it exist?				
+	protected void encodeActionPreconditions() {
+		conditions.add(new ConditionCustom(
+				"(set.member (tuple " + assignment.getWhat() + " " + assignment.getWhere() + ") (ASSIGN {k-1}))",
+				"(set.singleton(tuple " + assignment.getWhat() + " " + assignment.getWhere() + "))",
+				this.getConditionHierarchyType(), ConditionType.INCLUSIVE));
+		setPrecondition("(set.member (tuple " + assignment.getWhat() + " "+assignment.getWhere()+") (ASSIGN {k-1}))"); //does it exist?				
 	}
     
 	protected void encodeActionPostcondition() {
-		setPostcondition("(setminus (ASSIGN {k-1}) (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhere() + ")))");
+		setPostcondition("(set.setminus (ASSIGN {k-1}) (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere() + ")))");
 	}	
 	
 	protected void encodeActionPostconditionFlatten() {
@@ -45,25 +58,25 @@ public class DeleteAssignActionEncoder extends ActionEncoder {
 	}		
 	
 	private String getATATEncoding() {
-		return "(setminus (ASSIGN* " + "{k-1}" + ") (setminus (setminus (union (singleton (mkTuple " + assignment.getWhat() + " "
-				+ assignment.getWhere() + ")) (join (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhere() + ")) (ASSIGN* " + "{k-1}"
-				+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhat()
-				+ ")) (join (ASSIGN* " + "{k-1}" + ")  (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhat()
-				+ ")))) (transpose (union  (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhat() + ")) (join (ASSIGN* "
-				+ "{k-1}" + ")  (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhat() + ")))))) NODES) (setminus (ASSIGN "
-				+ "{k-1}" + ") (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhere() + ")))) (ASSIGN* " + "{k-1}"
-				+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhat()
-				+ ")) (join (ASSIGN* " + "{k-1}" + ")  (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhat()
-				+ ")))) (transpose (union  (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhat() + ")) (join (ASSIGN* "
-				+ "{k-1}" + ")  (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhat() + ")))))) NODES) (setminus (ASSIGN "
-				+ "{k-1}" + ") (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhere() + ")))) (ASSIGN* " + "{k-1}" + "))))";
+		return "(set.setminus (ASSIGN* " + "{k-1}" + ") (set.setminus (set.setminus (set.union (set.singleton (tuple " + assignment.getWhat() + " "
+				+ assignment.getWhere() + ")) (rel.join (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere() + ")) (ASSIGN* " + "{k-1}"
+				+ "))) (rel.join (rel.join (intersection (rel.join (set.union  (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhat()
+				+ ")) (rel.join (ASSIGN* " + "{k-1}" + ")  (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhat()
+				+ ")))) (set.transpose (set.union  (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhat() + ")) (rel.join (ASSIGN* "
+				+ "{k-1}" + ")  (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhat() + ")))))) NODES) (set.setminus (ASSIGN "
+				+ "{k-1}" + ") (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere() + ")))) (ASSIGN* " + "{k-1}"
+				+ "))) (rel.join (rel.join (intersection (rel.join (set.union  (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhat()
+				+ ")) (rel.join (ASSIGN* " + "{k-1}" + ")  (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhat()
+				+ ")))) (set.transpose (set.union  (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhat() + ")) (rel.join (ASSIGN* "
+				+ "{k-1}" + ")  (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhat() + ")))))) NODES) (set.setminus (ASSIGN "
+				+ "{k-1}" + ") (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere() + ")))) (ASSIGN* " + "{k-1}" + "))))";
 	}
 	
 	private String getPEATEncoding() {
-		return "(setminus (ASSIGN* " + "{k-1}" + ") (setminus (join (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhere()
-		+ ")) (ASSIGN* " + "{k-1}" + ")) (join (join (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhat()
-		+ ")) (setminus (setminus (ASSIGN " + "{k-1}" + ") (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhere()
-		+ "))) (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhat() + ")))) (ASSIGN* " + "{k-1}" + "))))";
+		return "(set.setminus (ASSIGN* " + "{k-1}" + ") (set.setminus (rel.join (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere()
+		+ ")) (ASSIGN* " + "{k-1}" + ")) (rel.join (rel.join (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhat()
+		+ ")) (set.setminus (set.setminus (ASSIGN " + "{k-1}" + ") (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere()
+		+ "))) (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhat() + ")))) (ASSIGN* " + "{k-1}" + "))))";
 	}
 	protected void retrieveActionPolicyElements() {
 		Assignment assignment = deleteAction.getAssignments().getAssignments().get(0);

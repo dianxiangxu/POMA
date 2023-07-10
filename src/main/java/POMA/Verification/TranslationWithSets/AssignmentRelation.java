@@ -51,4 +51,9 @@ public class AssignmentRelation {
 
 		return "(mkTuple " + child + " " + parent + ")";
 	}
+	
+	public String toStringCVC5() {
+
+		return "(tuple " + child + " " + parent + ")";
+	}
 }

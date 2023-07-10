@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Conditions;
+package POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Relations;
 
 public class Trace {
 	public enum TraceType {

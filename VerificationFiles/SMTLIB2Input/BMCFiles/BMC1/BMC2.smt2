@@ -88,6 +88,10 @@
 (declare-fun ASSOC (Int) (Set (Tuple Int Int Int)))
 
 (assert (= (ASSOC 0) (insert(mkTuple 4 20 15) 
+(mkTuple 14 19 15) 
+(mkTuple 4 20 15) 
+(mkTuple 14 19 15) 
+(mkTuple 4 20 15) 
 (singleton (mkTuple 14 19 15)))))
 
 (declare-fun NODES () (Set (Tuple Int Int)))
@@ -111,61 +115,61 @@
 (singleton (mkTuple 18 18))))) 
 
 
-(declare-fun grant (Int) Bool)
-(declare-fun assign (Int) Bool)
+(declare-fun obligation2 (Int) Bool)
+(declare-fun obligation1 (Int) Bool)
 ;--------------------------------------------------------------------------------------------------------------------
 ;STEP1
 
 ; 5.1 a->PRE
-(declare-fun assignU_0 () Int)
-(declare-fun assignUA_0 () Int)
-(declare-fun assignAT_0 () Int)
-(declare-fun assignUO_0 () Int)
-(declare-fun assignar_0 () Int)
-(declare-fun assignS_0 () Int)
-(declare-fun assignT_0 () Int)
-(assert (>= assignU_0 0))
-(assert (>= assignUA_0 0))
-(assert (>= assignAT_0 0))
-(assert (>= assignUO_0 0))
-(assert (or (= assignar_0 19)
+(declare-fun obligation1U_0 () Int)
+(declare-fun obligation1UA_0 () Int)
+(declare-fun obligation1AT_0 () Int)
+(declare-fun obligation1UO_0 () Int)
+(declare-fun obligation1ar_0 () Int)
+(declare-fun obligation1S_0 () Int)
+(declare-fun obligation1T_0 () Int)
+(assert (>= obligation1U_0 0))
+(assert (>= obligation1UA_0 0))
+(assert (>= obligation1AT_0 0))
+(assert (>= obligation1UO_0 0))
+(assert (or (= obligation1ar_0 19)
 ))
-(assert (= assignS_0 14))
-(assert (= assignT_0 15))
-(assert (=> (= (assign 0) true) (and
- (member (mkTuple  assignU_0 assignS_0) (ASSIGN* 0))
- (member (mkTuple  assignU_0 assignUA_0) (ASSIGN* 0))
-(member (mkTuple assignUA_0 assignar_0 assignAT_0) (ASSOC 0))
- (member (mkTuple  assignUO_0 assignT_0) (ASSIGN* 0))
- (member (mkTuple  assignUO_0 assignAT_0) (ASSIGN* 0))
- (member (mkTuple  assignU_0 assignU_0) USERS)
- (distinct assignS_0 assignU_0)
+(assert (= obligation1S_0 14))
+(assert (= obligation1T_0 15))
+(assert (=> (= (obligation1 0) true) (and
+ (member (mkTuple  obligation1U_0 obligation1S_0) (ASSIGN* 0))
+ (member (mkTuple  obligation1U_0 obligation1UA_0) (ASSIGN* 0))
+(member (mkTuple obligation1UA_0 obligation1ar_0 obligation1AT_0) (ASSOC 0))
+ (member (mkTuple  obligation1UO_0 obligation1T_0) (ASSIGN* 0))
+ (member (mkTuple  obligation1UO_0 obligation1AT_0) (ASSIGN* 0))
+ (member (mkTuple  obligation1U_0 obligation1U_0) USERS)
+ (distinct obligation1S_0 obligation1U_0)
 )))
 
 
-(declare-fun grantU_0 () Int)
-(declare-fun grantUA_0 () Int)
-(declare-fun grantAT_0 () Int)
-(declare-fun grantUO_0 () Int)
-(declare-fun grantar_0 () Int)
-(declare-fun grantS_0 () Int)
-(declare-fun grantT_0 () Int)
-(assert (>= grantU_0 0))
-(assert (>= grantUA_0 0))
-(assert (>= grantAT_0 0))
-(assert (>= grantUO_0 0))
-(assert (or (= grantar_0 19)
+(declare-fun obligation2U_0 () Int)
+(declare-fun obligation2UA_0 () Int)
+(declare-fun obligation2AT_0 () Int)
+(declare-fun obligation2UO_0 () Int)
+(declare-fun obligation2ar_0 () Int)
+(declare-fun obligation2S_0 () Int)
+(declare-fun obligation2T_0 () Int)
+(assert (>= obligation2U_0 0))
+(assert (>= obligation2UA_0 0))
+(assert (>= obligation2AT_0 0))
+(assert (>= obligation2UO_0 0))
+(assert (or (= obligation2ar_0 19)
 ))
-(assert (= grantS_0 14))
-(assert (= grantT_0 15))
-(assert (=> (= (grant 0) true) (and
- (member (mkTuple  grantU_0 grantS_0) (ASSIGN* 0))
- (member (mkTuple  grantU_0 grantUA_0) (ASSIGN* 0))
-(member (mkTuple grantUA_0 grantar_0 grantAT_0) (ASSOC 0))
- (member (mkTuple  grantUO_0 grantT_0) (ASSIGN* 0))
- (member (mkTuple  grantUO_0 grantAT_0) (ASSIGN* 0))
- (member (mkTuple  grantU_0 grantU_0) USERS)
- (distinct grantS_0 grantU_0)
+(assert (= obligation2S_0 14))
+(assert (= obligation2T_0 15))
+(assert (=> (= (obligation2 0) true) (and
+ (member (mkTuple  obligation2U_0 obligation2S_0) (ASSIGN* 0))
+ (member (mkTuple  obligation2U_0 obligation2UA_0) (ASSIGN* 0))
+(member (mkTuple obligation2UA_0 obligation2ar_0 obligation2AT_0) (ASSOC 0))
+ (member (mkTuple  obligation2UO_0 obligation2T_0) (ASSIGN* 0))
+ (member (mkTuple  obligation2UO_0 obligation2AT_0) (ASSIGN* 0))
+ (member (mkTuple  obligation2U_0 obligation2U_0) USERS)
+ (distinct obligation2S_0 obligation2U_0)
 )))
 
 
@@ -174,17 +178,17 @@
 ; 5.2 a->Eff
 
 
-(assert (=> (= (assign 0) true)(= (ASSIGN* 1)(union (singleton (mkTuple 1 7)) (union (join (singleton (mkTuple 1 7)) (join (singleton (mkTuple 7 7)) (ASSIGN* 0))) (ASSIGN* 0))))))
-(assert (=> (= (assign 0) true)(= (ASSIGN 1)( union (ASSIGN 0) (singleton (mkTuple 1 7))))))
+(assert (=> (= (obligation1 0) true)(= (ASSIGN* 1)(union (singleton (mkTuple 1 7)) (union (join (singleton (mkTuple 1 7)) (join (singleton (mkTuple 7 7)) (ASSIGN* 0))) (ASSIGN* 0))))))
+(assert (=> (= (obligation1 0) true)(= (ASSIGN 1)( union (ASSIGN 0) (singleton (mkTuple 1 7))))))
 
-(assert (=> (=(assign 0) true) (= (ASSOC 1) (ASSOC 0))))
-
-
+(assert (=> (=(obligation1 0) true) (= (ASSOC 1) (ASSOC 0))))
 
 
-(assert (=> (=(grant 0) true) (= (ASSIGN* 1) (ASSIGN* 0))))
-(assert (=> (=(grant 0) true) (= (ASSIGN 1) (ASSIGN 0))))
-(assert (=> (= (grant 0) true)(= (ASSOC 1) (union(union(ASSOC 0)(singleton(mkTuple 7 21 15)))(singleton(mkTuple 7 22 15))))))
+
+
+(assert (=> (=(obligation2 0) true) (= (ASSIGN* 1) (ASSIGN* 0))))
+(assert (=> (=(obligation2 0) true) (= (ASSIGN 1) (ASSIGN 0))))
+(assert (=> (= (obligation2 0) true)(= (ASSOC 1) (union(union(ASSOC 0)(singleton(mkTuple 7 21 15)))(singleton(mkTuple 7 22 15))))))
 
 
 
@@ -192,72 +196,72 @@
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 1) (ASSIGN* 0))
 (or 
-(= (grant 0) true)(= (assign 0) true))))
+(= (obligation2 0) true)(= (obligation1 0) true))))
 (assert (=> (distinct (ASSIGN 1) (ASSIGN 0))
-(or (= (grant 0) true)(= (assign 0) true))))
+(or (= (obligation2 0) true)(= (obligation1 0) true))))
 (assert (=> (distinct (ASSOC 1) (ASSOC 0))
 (or 
-(= (grant 0) true)(= (assign 0) true))))
+(= (obligation2 0) true)(= (obligation1 0) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (grant 0) true)(= (assign 0) true)))
+(assert (or(= (obligation2 0) true)(= (obligation1 0) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
 ;STEP2
 
 ; 5.1 a->PRE
-(declare-fun assignU_1 () Int)
-(declare-fun assignUA_1 () Int)
-(declare-fun assignAT_1 () Int)
-(declare-fun assignUO_1 () Int)
-(declare-fun assignar_1 () Int)
-(declare-fun assignS_1 () Int)
-(declare-fun assignT_1 () Int)
-(assert (>= assignU_1 0))
-(assert (>= assignUA_1 0))
-(assert (>= assignAT_1 0))
-(assert (>= assignUO_1 0))
-(assert (or (= assignar_1 19)
+(declare-fun obligation1U_1 () Int)
+(declare-fun obligation1UA_1 () Int)
+(declare-fun obligation1AT_1 () Int)
+(declare-fun obligation1UO_1 () Int)
+(declare-fun obligation1ar_1 () Int)
+(declare-fun obligation1S_1 () Int)
+(declare-fun obligation1T_1 () Int)
+(assert (>= obligation1U_1 0))
+(assert (>= obligation1UA_1 0))
+(assert (>= obligation1AT_1 0))
+(assert (>= obligation1UO_1 0))
+(assert (or (= obligation1ar_1 19)
 ))
-(assert (= assignS_1 14))
-(assert (= assignT_1 15))
-(assert (=> (= (assign 1) true) (and
- (member (mkTuple  assignU_1 assignS_1) (ASSIGN* 1))
- (member (mkTuple  assignU_1 assignUA_1) (ASSIGN* 1))
-(member (mkTuple assignUA_1 assignar_1 assignAT_1) (ASSOC 1))
- (member (mkTuple  assignUO_1 assignT_1) (ASSIGN* 1))
- (member (mkTuple  assignUO_1 assignAT_1) (ASSIGN* 1))
- (member (mkTuple  assignU_1 assignU_1) USERS)
- (distinct assignS_1 assignU_1)
+(assert (= obligation1S_1 14))
+(assert (= obligation1T_1 15))
+(assert (=> (= (obligation1 1) true) (and
+ (member (mkTuple  obligation1U_1 obligation1S_1) (ASSIGN* 1))
+ (member (mkTuple  obligation1U_1 obligation1UA_1) (ASSIGN* 1))
+(member (mkTuple obligation1UA_1 obligation1ar_1 obligation1AT_1) (ASSOC 1))
+ (member (mkTuple  obligation1UO_1 obligation1T_1) (ASSIGN* 1))
+ (member (mkTuple  obligation1UO_1 obligation1AT_1) (ASSIGN* 1))
+ (member (mkTuple  obligation1U_1 obligation1U_1) USERS)
+ (distinct obligation1S_1 obligation1U_1)
 )))
 
 
-(declare-fun grantU_1 () Int)
-(declare-fun grantUA_1 () Int)
-(declare-fun grantAT_1 () Int)
-(declare-fun grantUO_1 () Int)
-(declare-fun grantar_1 () Int)
-(declare-fun grantS_1 () Int)
-(declare-fun grantT_1 () Int)
-(assert (>= grantU_1 0))
-(assert (>= grantUA_1 0))
-(assert (>= grantAT_1 0))
-(assert (>= grantUO_1 0))
-(assert (or (= grantar_1 19)
+(declare-fun obligation2U_1 () Int)
+(declare-fun obligation2UA_1 () Int)
+(declare-fun obligation2AT_1 () Int)
+(declare-fun obligation2UO_1 () Int)
+(declare-fun obligation2ar_1 () Int)
+(declare-fun obligation2S_1 () Int)
+(declare-fun obligation2T_1 () Int)
+(assert (>= obligation2U_1 0))
+(assert (>= obligation2UA_1 0))
+(assert (>= obligation2AT_1 0))
+(assert (>= obligation2UO_1 0))
+(assert (or (= obligation2ar_1 19)
 ))
-(assert (= grantS_1 14))
-(assert (= grantT_1 15))
-(assert (=> (= (grant 1) true) (and
- (member (mkTuple  grantU_1 grantS_1) (ASSIGN* 1))
- (member (mkTuple  grantU_1 grantUA_1) (ASSIGN* 1))
-(member (mkTuple grantUA_1 grantar_1 grantAT_1) (ASSOC 1))
- (member (mkTuple  grantUO_1 grantT_1) (ASSIGN* 1))
- (member (mkTuple  grantUO_1 grantAT_1) (ASSIGN* 1))
- (member (mkTuple  grantU_1 grantU_1) USERS)
- (distinct grantS_1 grantU_1)
+(assert (= obligation2S_1 14))
+(assert (= obligation2T_1 15))
+(assert (=> (= (obligation2 1) true) (and
+ (member (mkTuple  obligation2U_1 obligation2S_1) (ASSIGN* 1))
+ (member (mkTuple  obligation2U_1 obligation2UA_1) (ASSIGN* 1))
+(member (mkTuple obligation2UA_1 obligation2ar_1 obligation2AT_1) (ASSOC 1))
+ (member (mkTuple  obligation2UO_1 obligation2T_1) (ASSIGN* 1))
+ (member (mkTuple  obligation2UO_1 obligation2AT_1) (ASSIGN* 1))
+ (member (mkTuple  obligation2U_1 obligation2U_1) USERS)
+ (distinct obligation2S_1 obligation2U_1)
 )))
 
 
@@ -266,17 +270,17 @@
 ; 5.2 a->Eff
 
 
-(assert (=> (= (assign 1) true)(= (ASSIGN* 2)(union (singleton (mkTuple 1 7)) (union (join (singleton (mkTuple 1 7)) (join (singleton (mkTuple 7 7)) (ASSIGN* 1))) (ASSIGN* 1))))))
-(assert (=> (= (assign 1) true)(= (ASSIGN 2)( union (ASSIGN 1) (singleton (mkTuple 1 7))))))
+(assert (=> (= (obligation1 1) true)(= (ASSIGN* 2)(union (singleton (mkTuple 1 7)) (union (join (singleton (mkTuple 1 7)) (join (singleton (mkTuple 7 7)) (ASSIGN* 1))) (ASSIGN* 1))))))
+(assert (=> (= (obligation1 1) true)(= (ASSIGN 2)( union (ASSIGN 1) (singleton (mkTuple 1 7))))))
 
-(assert (=> (=(assign 1) true) (= (ASSOC 2) (ASSOC 1))))
-
-
+(assert (=> (=(obligation1 1) true) (= (ASSOC 2) (ASSOC 1))))
 
 
-(assert (=> (=(grant 1) true) (= (ASSIGN* 2) (ASSIGN* 1))))
-(assert (=> (=(grant 1) true) (= (ASSIGN 2) (ASSIGN 1))))
-(assert (=> (= (grant 1) true)(= (ASSOC 2) (union(union(ASSOC 1)(singleton(mkTuple 7 21 15)))(singleton(mkTuple 7 22 15))))))
+
+
+(assert (=> (=(obligation2 1) true) (= (ASSIGN* 2) (ASSIGN* 1))))
+(assert (=> (=(obligation2 1) true) (= (ASSIGN 2) (ASSIGN 1))))
+(assert (=> (= (obligation2 1) true)(= (ASSOC 2) (union(union(ASSOC 1)(singleton(mkTuple 7 21 15)))(singleton(mkTuple 7 22 15))))))
 
 
 
@@ -284,17 +288,17 @@
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 2) (ASSIGN* 1))
 (or 
-(= (grant 1) true)(= (assign 1) true))))
+(= (obligation2 1) true)(= (obligation1 1) true))))
 (assert (=> (distinct (ASSIGN 2) (ASSIGN 1))
-(or (= (grant 1) true)(= (assign 1) true))))
+(or (= (obligation2 1) true)(= (obligation1 1) true))))
 (assert (=> (distinct (ASSOC 2) (ASSOC 1))
 (or 
-(= (grant 1) true)(= (assign 1) true))))
+(= (obligation2 1) true)(= (obligation1 1) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (grant 1) true)(= (assign 1) true)))
+(assert (or(= (obligation2 1) true)(= (obligation1 1) true)))
 
 ;PRE PROPERTY
 (declare-fun queryVARu () Int)
@@ -307,50 +311,50 @@
 
 ;POST PROPERTY
 (check-sat)
-(get-value (grant))
-(get-value (assign))
-(get-value (assignU_0))
-(get-value (assignUA_0))
-(get-value (assignAT_0))
-(get-value (assignUO_0))
-(get-value (assignS_0))
-(get-value (assignT_0))
-(get-value (assignar_0))
-(get-value (grantU_0))
-(get-value (grantUA_0))
-(get-value (grantAT_0))
-(get-value (grantUO_0))
-(get-value (grantS_0))
-(get-value (grantT_0))
-(get-value (grantar_0))
-(get-value (assignU_0))
-(get-value (assignUA_0))
-(get-value (assignAT_0))
-(get-value (assignUO_0))
-(get-value (assignS_0))
-(get-value (assignT_0))
-(get-value (assignar_0))
-(get-value (grantU_0))
-(get-value (grantUA_0))
-(get-value (grantAT_0))
-(get-value (grantUO_0))
-(get-value (grantS_0))
-(get-value (grantT_0))
-(get-value (grantar_0))
-(get-value (assignU_1))
-(get-value (assignUA_1))
-(get-value (assignAT_1))
-(get-value (assignUO_1))
-(get-value (assignS_1))
-(get-value (assignT_1))
-(get-value (assignar_1))
-(get-value (grantU_1))
-(get-value (grantUA_1))
-(get-value (grantAT_1))
-(get-value (grantUO_1))
-(get-value (grantS_1))
-(get-value (grantT_1))
-(get-value (grantar_1))
+(get-value (obligation2))
+(get-value (obligation1))
+(get-value (obligation1U_0))
+(get-value (obligation1UA_0))
+(get-value (obligation1AT_0))
+(get-value (obligation1UO_0))
+(get-value (obligation1S_0))
+(get-value (obligation1T_0))
+(get-value (obligation1ar_0))
+(get-value (obligation2U_0))
+(get-value (obligation2UA_0))
+(get-value (obligation2AT_0))
+(get-value (obligation2UO_0))
+(get-value (obligation2S_0))
+(get-value (obligation2T_0))
+(get-value (obligation2ar_0))
+(get-value (obligation1U_0))
+(get-value (obligation1UA_0))
+(get-value (obligation1AT_0))
+(get-value (obligation1UO_0))
+(get-value (obligation1S_0))
+(get-value (obligation1T_0))
+(get-value (obligation1ar_0))
+(get-value (obligation2U_0))
+(get-value (obligation2UA_0))
+(get-value (obligation2AT_0))
+(get-value (obligation2UO_0))
+(get-value (obligation2S_0))
+(get-value (obligation2T_0))
+(get-value (obligation2ar_0))
+(get-value (obligation1U_1))
+(get-value (obligation1UA_1))
+(get-value (obligation1AT_1))
+(get-value (obligation1UO_1))
+(get-value (obligation1S_1))
+(get-value (obligation1T_1))
+(get-value (obligation1ar_1))
+(get-value (obligation2U_1))
+(get-value (obligation2UA_1))
+(get-value (obligation2AT_1))
+(get-value (obligation2UO_1))
+(get-value (obligation2S_1))
+(get-value (obligation2T_1))
+(get-value (obligation2ar_1))
 (get-value (queryVARu))
 (get-value (queryVARar))
 (get-value ((ASSIGN 0)))

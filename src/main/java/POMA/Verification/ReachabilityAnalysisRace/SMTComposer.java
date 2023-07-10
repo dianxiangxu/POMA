@@ -25,7 +25,6 @@ public class SMTComposer extends Planner {
 	private Map<String, String> eventMembers = new HashMap<String, String>();
 	private List<String> obligationEventVariables = new ArrayList<String>();
 	String pathToGraph;
-	public String headCode = "";
 
 	ConfigurationEncoder gt;
 	ObligationEncoder ot;
@@ -99,7 +98,8 @@ public class SMTComposer extends Planner {
 
 	public SMTComposer(Graph graph, Obligation obligations) throws Exception {
 		gt = new ConfigurationEncoder(graph);
-		//gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels, eventMembers, listOfNodes);
+		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels, eventMembers, listOfNodes);
+		mapOfIDs = gt.getMapOfIDs();
 		ot = new ObligationEncoder(mapOfIDs, obligations, listOfNodes);
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());
@@ -109,7 +109,7 @@ public class SMTComposer extends Planner {
 		listOfAddedNodesUA_U.addAll(ot.getListOfCreatedNodesUA_U());
 		listOfAddedNodesOA_O.addAll(ot.getListOfCreatedNodesOA_O());
 		obligationLabels.addAll(ot.getRuleLabels());
-		headCode = gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels, eventMembers, listOfNodes);
+		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels, eventMembers, listOfNodes);
 		mapOfIDs = gt.getMapOfIDs();
 		eventMembers.putAll(ot.getEventMembers());
 	}
@@ -134,7 +134,7 @@ public class SMTComposer extends Planner {
 		return obligationLabels;
 	}
 
-	public String generateTailCode(List<String> queryVARS, int k) {
+	protected String generateTailCode(List<String> queryVARS, int k) {
 		obligationEventVariables.addAll(ot.getObligationEventVariables());
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += "(check-sat)";

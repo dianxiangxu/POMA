@@ -1,64 +1,113 @@
 package POMA.Verification.ReachabilityAnalysisRace.Encoders;
 
 import java.util.HashMap;
+import java.util.List;
 
+import POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Conditions.ConditionCustom;
+import POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Conditions.ConditionCustom.ConditionType;
 import POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Relations.AssignmentCustom;
+import POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Relations.Prerequisite;
+import POMA.Verification.ReachabilityAnalysisRace.Encoders.ActionEncoder.HierarchyType;
 import gov.nist.csd.pm.pip.obligations.model.EvrNode;
 import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction.Assignment;
-
 
 public class AssignActionEncoder extends ActionEncoder {
 
 	private AssignAction assignAction;
 	private AssignmentCustom assignment;
-	
+
 	public AssignActionEncoder(AssignAction action, HashMap<String, Integer> mapOfIDs) {
-		super(mapOfIDs, RelationType.ASSIGN);
+		super(mapOfIDs, RelationType.ASSIGN, ActionType.ADD);
 		assignAction = action;
 		retrieveActionPolicyElements();
-		encodeActionPrecondition();
+		if (assignment.getWhatType().equals("UA") || assignment.getWhatType().equals("U")) {
+			setPreconditionHierarchyType(HierarchyType.UA);
+			setPostconditionHierarchyType(HierarchyType.UA);
+		}
+		if (assignment.getWhatType().equals("OA") || assignment.getWhatType().equals("O")) {
+			setPreconditionHierarchyType(HierarchyType.UA);
+			setPostconditionHierarchyType(HierarchyType.OA);
+		}
+		encodeActionPreconditions();
 		encodeActionPostcondition();
 		encodeActionPostconditionFlatten();
 		encodeCondition(assignAction);
 		encodeNegatedCondition();
-		encodeNegatedPrecondition();		
+		encodeNegatedPrecondition();
 	}
 
-	protected void encodeActionPrecondition() {
-		setPrecondition("(and"
-						+ "(not (member (mkTuple " + assignment.getWhat() + " "+assignment.getWhere()+") (ASSIGN {k-1})))" //duplicate
-						+ "(not (= " + assignment.getWhat() + " " + assignment.getWhere() + "))" //x=y: cycle						
-						+ "(not (member (mkTuple " + assignment.getWhere() + " " + assignment.getWhat() + ") (ASSIGN* {k})))" //ensure that no assignment results in creating a cycle							
-						+ ")");
+	protected void encodeActionPreconditions() {
+		conditions.add(new ConditionCustom(
+				"(not (set.member (tuple " + assignment.getWhat() + " " + assignment.getWhere() + ") (ASSIGN {k-1})))",
+				"(set.singleton(tuple " + assignment.getWhat() + " " + assignment.getWhere() + "))",
+				this.getConditionHierarchyType(), ConditionType.EXCLUSIVE));
+		conditions.add(new ConditionCustom(
+				"(not (set.member (tuple " + assignment.getWhere() + " " + assignment.getWhat() + ") (ASSIGN {k-1})))",
+				"(set.singleton(tuple " + assignment.getWhere() + " " + assignment.getWhat() + "))",
+				this.getConditionHierarchyType(), ConditionType.EXCLUSIVE));
+
+		setPrecondition("(and" + "(not (set.member (tuple " + assignment.getWhat() + " " + assignment.getWhere()
+				+ ") (ASSIGN {k-1})))" // duplicate
+				+ "(not (= " + assignment.getWhat() + " " + assignment.getWhere() + "))" // x=y: cycle
+				+ "(not (set.member (tuple " + assignment.getWhere() + " " + assignment.getWhat() + ") (ASSIGN* {k-1})))" // ensure
+																														// that
+																														// no
+																														// assignment
+																														// results
+																														// in
+																														// creating
+																														// a
+																														// cycle
+				+ ")");
+		setPreconditionSet("(set.union (set.singleton(tuple " + assignment.getWhat() + " " + assignment.getWhere() + ")))");
 	}
-    
+
 	protected void encodeActionPostcondition() {
-		setPostcondition("(union (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhere() + ")) (ASSIGN {k-1}))");
-	}	
-	
+		setPostcondition("(set.union (ASSIGN {k-1}) (set.singleton (tuple " + assignment.getWhat() + " "
+				+ assignment.getWhere() + ")))");
+		setPostconditionSet("(set.singleton( tuple " + assignment.getWhat() + " " + assignment.getWhere() + "))");
+	}
+
 	protected void encodeActionPostconditionFlatten() {
-		if(assignment.getWhatType().equals("UA") || assignment.getWhereType().equals("OA") || assignment.getWhereType().isBlank()){
+		if (assignment.getWhatType().equals("UA")) {
 			setPostconditionFlatten(getATATEncoding());
-		}
-		else if(assignment.getWhatType().equals("U") || assignment.getWhatType().equals("O")) {
+		} else if (assignment.getWhatType().equals("OA")) {
+			setPostconditionFlatten(getATATEncoding());
+		} else if (assignment.getWhatType().equals("U")) {
+			setPostconditionFlatten(getPEATEncoding());
+		} else if (assignment.getWhatType().equals("O")) {
 			setPostconditionFlatten(getPEATEncoding());
 		}
-	}		
-	
+	}
+
 	private String getATATEncoding() {
-		return "(union (ASSIGN* " + "{k-1}" + ") (join (join (union (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhat() + ")) (join (ASSIGN* "
-				+ "{k-1}" + ") (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhat() + ")))) (singleton (mkTuple " + assignment.getWhat()
-				+ " " + assignment.getWhere() + "))) (union (singleton (mkTuple " + assignment.getWhere() + " " + assignment.getWhere()
-				+ ")) (join (singleton (mkTuple " + assignment.getWhere() + " " + assignment.getWhere() + ")) (ASSIGN* " + "{k-1}"
-				+ ")))))";
+		setPostconditionFlattenSet("(rel.join (rel.join (set.union (set.singleton (tuple " + assignment.getWhat() + " "
+				+ assignment.getWhat() + ")) (rel.join (ASSIGN* " + "{k-1}" + ") (set.singleton (tuple "
+				+ assignment.getWhat() + " " + assignment.getWhat() + ")))) (set.singleton (tuple " + assignment.getWhat()
+				+ " " + assignment.getWhere() + "))) (set.union (set.singleton (tuple " + assignment.getWhere() + " "
+				+ assignment.getWhere() + ")) (rel.join (set.singleton (tuple " + assignment.getWhere() + " "
+				+ assignment.getWhere() + ")) (ASSIGN* " + "{k-1}" + "))))");
+
+		return "(set.union (ASSIGN* " + "{k-1}" + ") (rel.join (rel.join (set.union (set.singleton (tuple " + assignment.getWhat() + " "
+				+ assignment.getWhat() + ")) (rel.join (ASSIGN* " + "{k-1}" + ") (set.singleton (tuple "
+				+ assignment.getWhat() + " " + assignment.getWhat() + ")))) (set.singleton (tuple " + assignment.getWhat()
+				+ " " + assignment.getWhere() + "))) (set.union (set.singleton (tuple " + assignment.getWhere() + " "
+				+ assignment.getWhere() + ")) (rel.join (set.singleton (tuple " + assignment.getWhere() + " "
+				+ assignment.getWhere() + ")) (ASSIGN* " + "{k-1}" + ")))))";
 	}
-	
+
 	private String getPEATEncoding() {
-		return "(union (singleton (mkTuple " + assignment.getWhat() + " " + assignment.getWhere() + ")) (union (join (singleton (mkTuple "
-				+ assignment.getWhat() + " " + assignment.getWhere() + ")) (join (singleton (mkTuple " + assignment.getWhere() + " " + assignment.getWhere()
-				+ ")) (ASSIGN* " + "{k-1}" + "))) (ASSIGN* " + "{k-1}" + ")))";
+		setPostconditionFlattenSet("(set.union (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere()
+				+ ")) (rel.join (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere()
+				+ ")) (rel.join (set.singleton (tuple " + assignment.getWhere() + " " + assignment.getWhere() + ")) (ASSIGN* "
+				+ "{k-1}" + "))))");
+		return "(set.union (ASSIGN* {k-1}) (set.union (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere()
+				+ ")) (rel.join (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere()
+				+ ")) (rel.join (set.singleton (tuple " + assignment.getWhere() + " " + assignment.getWhere() + ")) (ASSIGN* "
+				+ "{k-1}" + ")))))";
 	}
+
 	protected void retrieveActionPolicyElements() {
 		Assignment assignment = assignAction.getAssignments().get(0);
 
@@ -71,7 +120,7 @@ public class AssignActionEncoder extends ActionEncoder {
 		String whereID = "";
 		String whatType = "";
 		String whereType = "";
-		
+
 		if (what.equals("current_user")) {
 			whatID = "{user}";
 		} else if (what.equals("current_target")) {
@@ -89,7 +138,9 @@ public class AssignActionEncoder extends ActionEncoder {
 			whereID = mapOfIDs.get(where).toString();
 			whereType = whereNode.getType();
 		}
-				
+
 		this.assignment = new AssignmentCustom(whatID, whereID, whatType, whereType);
 	}
+
+	
 }

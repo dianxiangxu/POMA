@@ -9,8 +9,8 @@ import java.util.Set;
 
 import POMA.Utils;
 import POMA.Verification.ReachabilityAnalysisRace.SMTComposer;
-import POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Conditions.Trace;
-import POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Conditions.Trace.TraceType;
+import POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Relations.Trace;
+import POMA.Verification.ReachabilityAnalysisRace.ActionsEncoding.Relations.Trace.TraceType;
 import POMA.Verification.ReachabilityAnalysisRace.Encoders.ActionEncoder.RelationType;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
@@ -39,7 +39,7 @@ public class DNFEncoder {
 				if (label1.equals(label2)) {
 					continue;
 				}
-				if (isPairProcessed(label1, label2)) {
+				if (isActionPairProcessed(label1, label2)) {
 					continue;
 				}
 
@@ -98,7 +98,7 @@ public class DNFEncoder {
 	private String processTraceAssign(Trace t) {
 		return ";" + t.getTraceType() + ":" + t.getObligationLabel() + System.lineSeparator() + "(and"
 				+ System.lineSeparator() + t.getInputCondition() + System.lineSeparator() + System.lineSeparator()
-				+ "(= (ASSIGN {k}) " + t.getOutputCondition() + ")" + System.lineSeparator() + "(= (ASSIGN* {k}) "
+				+ "(= (ASSIGN {k}) " + t.getOutputCondition() + ")" + System.lineSeparator() + "(= (ASSIGN\\* {k}) "
 				+ t.getOutputConditionFlattened() + "))" + System.lineSeparator();
 	}
 
@@ -115,14 +115,14 @@ public class DNFEncoder {
 
 	private String processBothTracesAssign(Trace t1, Trace t2) {
 		String combinedASSIGN = t1.getOutputCondition().replaceFirst("\\(ASSIGN \\{k-1\\}\\)", t2.getOutputCondition());
-		String combinedASSIGNFlattened = t1.getOutputConditionFlattened().replaceFirst("\\(ASSIGN* \\{k-1\\}\\)",
+		String combinedASSIGNFlattened = t1.getOutputConditionFlattened().replaceFirst("\\(ASSIGN\\* \\{k-1\\}\\)",
 				t2.getOutputConditionFlattened()) + System.lineSeparator();
 
 		return ";" + t1.getTraceType() + ":" + t1.getObligationLabel() + System.lineSeparator() + ";"
 				+ t2.getTraceType() + ":" + t2.getObligationLabel() + System.lineSeparator() + "(and"
 				+ System.lineSeparator() + t1.getInputCondition() + System.lineSeparator() + System.lineSeparator()
 				+ t2.getInputCondition() + System.lineSeparator() + System.lineSeparator() + "(= (ASSIGN {k}) "
-				+ combinedASSIGN + ")" + System.lineSeparator() + "(= (ASSIGN* {k}) " + combinedASSIGNFlattened + "))"
+				+ combinedASSIGN + ")" + System.lineSeparator() + "(= (ASSIGN\\* {k}) " + combinedASSIGNFlattened + "))"
 				+ System.lineSeparator();
 	}
 
@@ -187,19 +187,13 @@ public class DNFEncoder {
 		return groupedActionsTraces;
 	}
 
-	private boolean isPairProcessed(String label1, String label2) {
+	private boolean isActionPairProcessed(String label1, String label2) {
 		if (!handledActionPairs.contains(label1 + ":" + label2)
 				&& !handledActionPairs.contains(label2 + ":" + label1)) {
 			handledActionPairs.add(label1 + ":" + label2);
 			return false;
 		}
 		return true;
-	}
-
-	private String replaceKWithValue(String encoding, int k) throws Exception {
-		if (k < 1)
-			throw new Exception("k cannot be less then 1");
-		return encoding.replace("{k}", Integer.toString(k)).replace("{k-1}", Integer.toString((k - 1)));
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -215,7 +209,7 @@ public class DNFEncoder {
 		HashMap<String, List<Trace>> groupedActionsTraces = encoder.groupTracesByActions(mapOfIDs, obligation.getRules().toArray(Rule[]::new));
 		
 		String dnfencoding = encoder.encodeDNF(groupedActionsTraces);
-		dnfencoding = encoder.replaceKWithValue(dnfencoding, 1);
+		dnfencoding = ActionEncoder.replaceKWithValue(dnfencoding, 1);
 		System.out.println(dnfencoding);
 		System.out.println(mapOfIDs);
 	}
