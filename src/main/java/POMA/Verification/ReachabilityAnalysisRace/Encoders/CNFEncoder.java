@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysisSequential.Encoders;
+package POMA.Verification.ReachabilityAnalysisRace.Encoders;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,6 +9,9 @@ import java.util.List;
 
 import POMA.Utils;
 import POMA.Verification.ReachabilityAnalysisSequential.SMTComposer;
+import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder;
+import POMA.Verification.ReachabilityAnalysisSequential.Encoders.AssignActionEncoder;
+import POMA.Verification.ReachabilityAnalysisSequential.Encoders.GrantActionEncoder;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;

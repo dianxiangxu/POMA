@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysisSequential.Encoders;
+package POMA.Verification.ReachabilityAnalysisRace.Encoders;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -11,7 +11,12 @@ import POMA.Utils;
 import POMA.Verification.ReachabilityAnalysisSequential.SMTComposer;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Relations.Trace;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Relations.Trace.TraceType;
+import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder;
 import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.RelationType;
+import POMA.Verification.ReachabilityAnalysisSequential.Encoders.AssignActionEncoder;
+import POMA.Verification.ReachabilityAnalysisSequential.Encoders.CreateActionEncoder;
+import POMA.Verification.ReachabilityAnalysisSequential.Encoders.DeleteAssignActionEncoder;
+import POMA.Verification.ReachabilityAnalysisSequential.Encoders.GrantActionEncoder;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;

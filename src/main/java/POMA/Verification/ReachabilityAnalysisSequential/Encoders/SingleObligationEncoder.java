@@ -278,11 +278,6 @@ public class SingleObligationEncoder {
 				+ System.lineSeparator() + "))";
 	}	
 	
-	
-	private static String operationAnd(String inner) {
-		return "(and" + System.lineSeparator() + inner + System.lineSeparator() + ")";
-	}
-
 	public static void main(String[] args) throws Exception {
 		Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");
 //		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/1O2Grants.yml")));
