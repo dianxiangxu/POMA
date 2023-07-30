@@ -1,5 +1,6 @@
-package POMA.Verification.ReachabilityAnalysis;
+package POMA.Verification.Translator;
 
+import POMA.Verification.ReachabilityAnalysis.AssignmentRelation;
 import gov.nist.csd.pm.operations.OperationSet;
 
 public class AssociationRelation {

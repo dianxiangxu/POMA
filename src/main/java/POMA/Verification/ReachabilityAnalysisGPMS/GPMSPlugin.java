@@ -13,7 +13,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import POMA.Verification.ReachabilityAnalysis.AssociationRelation;
+import POMA.Verification.Translator.AssociationRelation;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 

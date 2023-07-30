@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import POMA.Utils;
-import POMA.Verification.ReachabilityAnalysis.AssociationRelation;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
+import POMA.Verification.Translator.AssociationRelation;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;

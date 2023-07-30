@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
 import org.jdesktop.swingx.prompt.PromptSupport;
 import org.jdesktop.swingx.prompt.PromptSupport.FocusBehavior;
 import POMA.Utils;
-import POMA.Verification.TranslationWithSets.Translator;
+import POMA.Verification.Translator.Translator;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;

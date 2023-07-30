@@ -72,7 +72,7 @@ public abstract class Planner {
 //		}
 //		return null;
 	}
-	public Solution solveConstraint( String property, Graph initialGraph) throws Exception {
+	public Solution solveConstraint(String property, Graph initialGraph) throws Exception {
 //		try {
 			Solution s = check(property, initialGraph);
 			return s;

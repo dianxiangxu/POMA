@@ -28,7 +28,7 @@ import org.jgrapht.DirectedGraph;
 import org.jgrapht.ext.JGraphXAdapter;
 
 import POMA.Utils;
-import POMA.Verification.TranslationWithSets.SimpleTestGraph;
+import POMA.Verification.Translator.SimpleTestGraph;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.MemGraph;
 import gov.nist.csd.pm.pip.graph.model.relationships.Relationship;
