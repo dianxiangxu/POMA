@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysisGPMS;
+package POMA.Verification.ReachabilityAnalysisSequential;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 import gov.nist.csd.pm.pip.prohibitions.ProhibitionsSerializer;
 import gov.nist.csd.pm.pip.prohibitions.model.Prohibition;
 
-public class ProhibitionTranslator {
+public class ProhibitionEncoder {
     private Set<String> tuples_prohibitions = new HashSet<String>();
     private Graph graph;
     HashMap<String, Integer> mapOfIDs;
@@ -35,7 +35,7 @@ public class ProhibitionTranslator {
     String pathToProhibitions = "Policies/ForBMC/LawFirmSimplified/prohibitions1.json";
     Prohibitions prohibitions;
 
-    ProhibitionTranslator(Graph graph, HashMap<String, Integer> mapOfIDs){
+    ProhibitionEncoder(Graph graph, HashMap<String, Integer> mapOfIDs){
         this.graph = graph;
         this.mapOfIDs = mapOfIDs;
         try {

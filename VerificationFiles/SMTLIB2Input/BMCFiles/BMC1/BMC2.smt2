@@ -88,10 +88,6 @@
 (declare-fun ASSOC (Int) (Set (Tuple Int Int Int)))
 
 (assert (= (ASSOC 0) (insert(mkTuple 4 20 15) 
-(mkTuple 14 19 15) 
-(mkTuple 4 20 15) 
-(mkTuple 14 19 15) 
-(mkTuple 4 20 15) 
 (singleton (mkTuple 14 19 15)))))
 
 (declare-fun NODES () (Set (Tuple Int Int)))

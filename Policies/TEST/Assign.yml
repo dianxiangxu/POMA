@@ -20,20 +20,20 @@ rules:
               where:
                 name: BM
                 type: UA          
-        # - assign:
-        #     - what:
-        #         name: URA
-        #         type: U
-        #       where:
-        #         name: RA
-        #         type: UA  
-        # - assign:
-        #     - what:
-        #         name: URA
-        #         type: U
-        #       where:
-        #         name: RA
-        #         type: UA                         
+        - assign:
+            - what:
+                name: URA
+                type: U
+              where:
+                name: RA
+                type: UA  
+        - assign:
+            - what:
+                name: UChair
+                type: U
+              where:
+                name: Chair
+                type: UA                         
         - grant:
              subject:
                name: BM

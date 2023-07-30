@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 import POMA.Utils;
-import POMA.Verification.TranslationWithSets.AssignmentRelation;
-import POMA.Verification.TranslationWithSets.AssociationRelation;
+import POMA.Verification.ReachabilityAnalysis.AssignmentRelation;
+import POMA.Verification.ReachabilityAnalysis.AssociationRelation;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;

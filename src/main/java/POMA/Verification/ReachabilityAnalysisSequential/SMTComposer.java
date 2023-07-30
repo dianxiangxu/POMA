@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysis;
+package POMA.Verification.ReachabilityAnalysisSequential;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import POMA.Utils;
-import POMA.Verification.ReachabilityAnalysis.ObligationInterference.SolutionSimulator;
+import POMA.Verification.ReachabilityAnalysis.AssociationRelation;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
 
-public class ObligationChecker extends Planner {
+public class SMTComposer extends Planner {
 
 	private List<String> obligationsResponse = new ArrayList<String>();
 	private List<String> obligationsEvents = new ArrayList<String>();
@@ -26,9 +26,8 @@ public class ObligationChecker extends Planner {
 	private List<String> obligationEventVariables = new ArrayList<String>();
 	String pathToGraph;
 
-
-	GraphTranslator gt;
-	ObligationTranslator ot;
+	ConfigurationEncoder gt;
+	ObligationEncoder ot;
 
 	public static void main(String[] args) throws Exception {
 
@@ -39,7 +38,7 @@ public class ObligationChecker extends Planner {
 		 String yml = new String(
 		 		Files.readAllBytes(Paths.get("Policies/TEST/AssignAndGrant.yml")));
 		Obligation obligation = EVRParser.parse(yml);
-		ObligationChecker checker = new ObligationChecker(graph, obligation);
+		SMTComposer checker = new SMTComposer(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
 		checker.setBound(2);
@@ -65,10 +64,10 @@ public class ObligationChecker extends Planner {
 		//ss.simulate();
 	}
 
-	public ObligationChecker() throws Exception {
-		gt = new GraphTranslator(pathToGraph);
+	public SMTComposer() throws Exception {
+		gt = new ConfigurationEncoder(pathToGraph);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator(mapOfIDs, listOfNodes);
+		ot = new ObligationEncoder(mapOfIDs, listOfNodes);
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
@@ -80,11 +79,12 @@ public class ObligationChecker extends Planner {
 		eventMembers.putAll(ot.getEventMembers());
 	}
 
-	public ObligationChecker(String pathToGraph, String pathToObligations) throws Exception {
+	public SMTComposer(String pathToGraph, String pathToObligations) throws Exception {
 		this.pathToGraph = pathToGraph;
-		gt = new GraphTranslator(pathToGraph);
+		gt = new ConfigurationEncoder(pathToGraph);
+		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels, eventMembers, listOfNodes);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator(mapOfIDs, pathToObligations, listOfNodes);
+		ot = new ObligationEncoder(mapOfIDs, pathToObligations, listOfNodes);
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
@@ -96,10 +96,11 @@ public class ObligationChecker extends Planner {
 		eventMembers.putAll(ot.getEventMembers());
 	}
 
-	public ObligationChecker(Graph graph, Obligation obligations) throws Exception {
-		gt = new GraphTranslator(graph);
+	public SMTComposer(Graph graph, Obligation obligations) throws Exception {
+		gt = new ConfigurationEncoder(graph);
+		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels, eventMembers, listOfNodes);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator(mapOfIDs, obligations, listOfNodes);
+		ot = new ObligationEncoder(mapOfIDs, obligations, listOfNodes);
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
@@ -108,10 +109,12 @@ public class ObligationChecker extends Planner {
 		listOfAddedNodesUA_U.addAll(ot.getListOfCreatedNodesUA_U());
 		listOfAddedNodesOA_O.addAll(ot.getListOfCreatedNodesOA_O());
 		obligationLabels.addAll(ot.getRuleLabels());
+		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels, eventMembers, listOfNodes);
+		mapOfIDs = gt.getMapOfIDs();
 		eventMembers.putAll(ot.getEventMembers());
 	}
 
-	public ObligationChecker(Solver solver, int bound, int amount) {
+	public SMTComposer(Solver solver, int bound, int amount) {
 		super.setSolver(solver);
 		super.setBound(bound);
 	}
@@ -131,7 +134,7 @@ public class ObligationChecker extends Planner {
 		return obligationLabels;
 	}
 
-	public String generateTailCode(List<String> queryVARS, int k) {
+	protected String generateTailCode(List<String> queryVARS, int k) {
 		obligationEventVariables.addAll(ot.getObligationEventVariables());
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += "(check-sat)";

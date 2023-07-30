@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysis;
+package POMA.Verification.ReachabilityAnalysisSequential;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import POMA.Utils;
+import POMA.Verification.ReachabilityAnalysis.AssociationRelation;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.graph.model.nodes.NodeType;
@@ -30,7 +31,7 @@ import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 import gov.nist.csd.pm.pip.obligations.model.functions.Arg;
 import gov.nist.csd.pm.pip.obligations.model.functions.Function;
 
-public class ObligationTranslator {
+public class ObligationEncoder {
 
 	// String pathToObligations =
 	// "Policies/ForBMC/LawFirmSimplified/Obligations.yml";
@@ -62,7 +63,7 @@ public class ObligationTranslator {
 		return listOfNodes;
 	}
 
-	public ObligationTranslator(HashMap<String, Integer> mapOfIDs, List<Node> listOfNodes) {
+	public ObligationEncoder(HashMap<String, Integer> mapOfIDs, List<Node> listOfNodes) {
 		this.mapOfIDs = mapOfIDs;
 		this.listOfNodes = listOfNodes;
 		try {
@@ -75,7 +76,7 @@ public class ObligationTranslator {
 		translateObligationRules();
 	}
 
-	public ObligationTranslator(HashMap<String, Integer> mapOfIDs, String pathToObligations, List<Node> listOfNodes) {
+	public ObligationEncoder(HashMap<String, Integer> mapOfIDs, String pathToObligations, List<Node> listOfNodes) {
 		this.mapOfIDs = mapOfIDs;
 		this.pathToObligations = pathToObligations;
 		this.listOfNodes = listOfNodes;
@@ -89,7 +90,7 @@ public class ObligationTranslator {
 		translateObligationRules();
 	}
 
-	public ObligationTranslator(HashMap<String, Integer> mapOfIDs, Obligation obligation, List<Node> listOfNodes) {
+	public ObligationEncoder(HashMap<String, Integer> mapOfIDs, Obligation obligation, List<Node> listOfNodes) {
 		this.mapOfIDs = mapOfIDs;
 		this.obligation = obligation;
 		this.listOfNodes = listOfNodes;

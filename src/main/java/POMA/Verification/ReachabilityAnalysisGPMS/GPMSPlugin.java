@@ -12,9 +12,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
+
+import POMA.Verification.ReachabilityAnalysis.AssociationRelation;
+
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import POMA.Verification.TranslationWithSets.AssociationRelation;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.obligations.evr.EVRException;
