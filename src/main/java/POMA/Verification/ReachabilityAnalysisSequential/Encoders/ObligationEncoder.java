@@ -28,10 +28,10 @@ import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 
 public class ObligationEncoder {
 
-	List<String> _operationSetsAssignAdd = new ArrayList<String>();
-	List<String> _operationSetsAssociateAdd = new ArrayList<String>();
-	List<String> _operationSetsAssignRemove = new ArrayList<String>();
-	List<String> _operationSetsAssociateRemove = new ArrayList<String>();
+	List<String> _actionSetsAssignAdd = new ArrayList<String>();
+	List<String> _actionSetsAssociateAdd = new ArrayList<String>();
+	List<String> _actionSetsAssignRemove = new ArrayList<String>();
+	List<String> _actionSetsAssociateRemove = new ArrayList<String>();
 
 	private List<ActionEncoder> preprocessActions(List<Action> actions, HashMap<String, Integer> mapOfIDs,
 			String label) {
@@ -46,12 +46,12 @@ public class ObligationEncoder {
 				actionEncoder = new AssignActionEncoder((AssignAction) action, mapOfIDs);
 				String operationSet = label + "_" + "AssignAction_{k}_" + i;
 				actionEncoder.operationSet = operationSet;
-				_operationSetsAssignAdd.add(operationSet);
+				_actionSetsAssignAdd.add(operationSet);
 			} else if (action instanceof GrantAction) {
 				actionEncoder = new GrantActionEncoder((GrantAction) action, mapOfIDs);
 				String operationSet = label + "_" + "GrantAction_{k}_" + i;
 				actionEncoder.operationSet = operationSet;
-				_operationSetsAssociateAdd.add(operationSet);
+				_actionSetsAssociateAdd.add(operationSet);
 			} else {
 				continue;
 			}
@@ -78,14 +78,14 @@ public class ObligationEncoder {
 				.collect(Collectors.toList());
 	}
 
-	private String initializeOperatingSets() {
+	private String initializeActionSets() {
 		String operatingSetsDeclaration = "";
 		List<String> operationSetsAssign = new ArrayList<String>();
-		operationSetsAssign.addAll(_operationSetsAssignAdd);
-		operationSetsAssign.addAll(_operationSetsAssignRemove);
+		operationSetsAssign.addAll(_actionSetsAssignAdd);
+		operationSetsAssign.addAll(_actionSetsAssignRemove);
 		List<String> operationSetsAssociate = new ArrayList<String>();
-		operationSetsAssociate.addAll(_operationSetsAssociateAdd);
-		operationSetsAssociate.addAll(_operationSetsAssociateRemove);
+		operationSetsAssociate.addAll(_actionSetsAssociateAdd);
+		operationSetsAssociate.addAll(_actionSetsAssociateRemove);
 
 		for (String name : operationSetsAssign) {
 			operatingSetsDeclaration += System.lineSeparator() + "(declare-fun " + name + " () (Set (Tuple Int Int)))"
@@ -107,7 +107,7 @@ public class ObligationEncoder {
 				.collect(Collectors.toList());
 		encodeConflictingActions(sb, conflictingActions);
 
-		return initializeOperatingSets() + System.lineSeparator() + "(assert (=> (= ( " + label + " {k}) true)"
+		return initializeActionSets() + System.lineSeparator() + "(assert (=> (= ( " + label + " {k}) true)"
 				+ System.lineSeparator() + "(and" + System.lineSeparator() + sb.toString()
 				+ encodeIndependentActions(independentActions) + ")" + System.lineSeparator() + ")"
 				+ System.lineSeparator() + ")" + System.lineSeparator() + encodeRelationTransition()
@@ -207,30 +207,30 @@ public class ObligationEncoder {
 		String assign = "";
 		String operationSetEncodingPlus = "";
 
-		for (int i = 0; i < _operationSetsAssignAdd.size(); i++) {
-			String operationSet = _operationSetsAssignAdd.get(i);
+		for (int i = 0; i < _actionSetsAssignAdd.size(); i++) {
+			String operationSet = _actionSetsAssignAdd.get(i);
 			if (i == 0) {
 				operationSetEncodingPlus += " " + operationSet;
 				continue;
 			}
 
 			operationSetEncodingPlus = "(set.union " + operationSet + " " + operationSetEncodingPlus + ")";
-			_operationSetsAssignAdd.get(i);
+			_actionSetsAssignAdd.get(i);
 		}
 
 		assign = "\t(set.union (ASSIGN {k-1}) " + operationSetEncodingPlus + ")";
-		if (_operationSetsAssignRemove.size() == 0) {
+		if (_actionSetsAssignRemove.size() == 0) {
 			return "(assert (= (ASSIGN {k}) " + System.lineSeparator() + assign + System.lineSeparator() + "))";
 		}
 		String operationSetEncodingMinus = "";
-		for (int i = 0; i < _operationSetsAssignRemove.size(); i++) {
-			String operationSet = _operationSetsAssignRemove.get(i);
+		for (int i = 0; i < _actionSetsAssignRemove.size(); i++) {
+			String operationSet = _actionSetsAssignRemove.get(i);
 			if (i == 0) {
 				operationSetEncodingMinus += " " + operationSet;
 				continue;
 			}
 			operationSetEncodingMinus = "\t(set.union " + operationSet + " " + operationSetEncodingMinus + ")";
-			_operationSetsAssignRemove.get(i);
+			_actionSetsAssignRemove.get(i);
 		}
 
 		return "(assert (= (ASSIGN {k}) " + System.lineSeparator() + "\t(set.minus " + System.lineSeparator() + assign
@@ -242,30 +242,30 @@ public class ObligationEncoder {
 		String associate = "";
 		String operationSetEncodingPlus = "";
 
-		for (int i = 0; i < _operationSetsAssociateAdd.size(); i++) {
-			String operationSet = _operationSetsAssociateAdd.get(i);
+		for (int i = 0; i < _actionSetsAssociateAdd.size(); i++) {
+			String operationSet = _actionSetsAssociateAdd.get(i);
 			if (i == 0) {
 				operationSetEncodingPlus += " " + operationSet;
 				continue;
 			}
 
 			operationSetEncodingPlus = "(set.union " + operationSet + " " + operationSetEncodingPlus + ")";
-			_operationSetsAssociateAdd.get(i);
+			_actionSetsAssociateAdd.get(i);
 		}
 
 		associate = "\t(set.union (ASSOC {k-1}) " + operationSetEncodingPlus + ")";
-		if (_operationSetsAssociateRemove.size() == 0) {
+		if (_actionSetsAssociateRemove.size() == 0) {
 			return "(assert (= (ASSOC {k}) " + System.lineSeparator() + associate + System.lineSeparator() + "))";
 		}
 		String operationSetEncodingMinus = "";
-		for (int i = 0; i < _operationSetsAssignRemove.size(); i++) {
-			String operationSet = _operationSetsAssignRemove.get(i);
+		for (int i = 0; i < _actionSetsAssignRemove.size(); i++) {
+			String operationSet = _actionSetsAssignRemove.get(i);
 			if (i == 0) {
 				operationSetEncodingMinus += " " + operationSet;
 				continue;
 			}
 			operationSetEncodingMinus = "\t(set.union " + operationSet + " " + operationSetEncodingMinus + ")";
-			_operationSetsAssignRemove.get(i);
+			_actionSetsAssignRemove.get(i);
 		}
 
 		return "(assert (= (ASSOC {k}) " + System.lineSeparator() + "\t(set.minus " + System.lineSeparator() + associate
