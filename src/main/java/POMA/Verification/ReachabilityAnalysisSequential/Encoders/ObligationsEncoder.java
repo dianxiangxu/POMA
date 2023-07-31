@@ -19,7 +19,9 @@ import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.graph.model.nodes.NodeType;
 import gov.nist.csd.pm.pip.obligations.evr.EVRException;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
+import gov.nist.csd.pm.pip.obligations.model.EventPattern;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
+import gov.nist.csd.pm.pip.obligations.model.ResponsePattern;
 import gov.nist.csd.pm.pip.obligations.model.Rule;
 import gov.nist.csd.pm.pip.obligations.model.actions.Action;
 import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction;
@@ -71,7 +73,7 @@ public class ObligationsEncoder {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		translateObligationRules();
+		preprocessObligationRules();
 	}
 
 	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, String pathToObligations, List<Node> listOfNodes) {
@@ -85,14 +87,14 @@ public class ObligationsEncoder {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		translateObligationRules();
+		preprocessObligationRules();
 	}
 
 	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, Obligation obligation, List<Node> listOfNodes) {
 		this.mapOfIDs = mapOfIDs;
 		this.obligation = obligation;
 		this.listOfNodes = listOfNodes;
-		translateObligationRules();
+		preprocessObligationRules();
 	}
 
 	public List<String> getProcessedObligations() {
@@ -200,13 +202,13 @@ public class ObligationsEncoder {
 			
 			String condition = processEventCondition(r, k,obligationU,obligationUO);
 			
-			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true) (and\r\n" + " (member (mkTuple  "
-					+ obligationU + " " + obligationS + ") (ASSIGN* " + (k - 1) + "))\r\n" + " (member (mkTuple  "
-					+ obligationU + " " + obligationUA + ") (ASSIGN* " + (k - 1) + "))\r\n" + "(member (mkTuple "
+			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true) (and\r\n" + " (set.member (tuple  "
+					+ obligationU + " " + obligationS + ") (ASSIGN* " + (k - 1) + "))\r\n" + " (set.member (tuple  "
+					+ obligationU + " " + obligationUA + ") (ASSIGN* " + (k - 1) + "))\r\n" + "(set.member (tuple "
 					+ obligationUA + " " + obligationAR + " " + obligationAT + ") (ASSOC " + (k - 1) + "))\r\n"
-					+ " (member (mkTuple  " + obligationUO + " " + obligationT + ") (ASSIGN* " + (k - 1) + "))\r\n"
-					+ " (member (mkTuple  " + obligationUO + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"
-					+ " (member (mkTuple  " + obligationU + " " + obligationU + ") USERS)\r\n"
+					+ " (set.member (tuple  " + obligationUO + " " + obligationT + ") (ASSIGN* " + (k - 1) + "))\r\n"
+					+ " (set.member (tuple  " + obligationUO + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"
+					+ " (set.member (tuple  " + obligationU + " " + obligationU + ") USERS)\r\n"
 					 + " (distinct " + obligationS + " " + obligationU + ")\r\n"
 					// + " (distinct " + obligationUO + " " + obligationT + ")\r\n" 
 					 +condition
@@ -293,10 +295,10 @@ public class ObligationsEncoder {
 			int descendantId = mapOfIDs.get(descendant);
 			descendant = Integer.toString(descendantId);
 		}
-		return "(member (mkTuple " + ancestor + " " + descendant + ") (ASSIGN* " + (k - 1) + "))";
+		return "(member (tuple " + ancestor + " " + descendant + ") (ASSIGN* " + (k - 1) + "))";
 	}
 
-	private void translateObligationRules() {
+	private void preprocessObligationRules() {
 		processedObligations.add("");
 		processedObligationsEventLabels.add("");
 		for (Rule r : obligation.getRules()) {
@@ -315,450 +317,7 @@ public class ObligationsEncoder {
 			processedObligationsEventLabels.addAll(getEvents(r));
 		}
 	}
-
-	private String processAssignmentRelatedAction(int k, String obligationLabel, List<Action> actions) {
-		StringBuilder sb = new StringBuilder();
-
-		AssignAction assignAction;
-		DeleteAction deleteAction;
-		CreateAction createAction;
-
-		String what = "";
-		String where = "";
-		String innerAction = "";
-		String innerActionNoFlatten = "";
-
-		for (int i = 0; i < actions.size(); i++) {
-			Action action = actions.get(i);
-			if (action instanceof AssignAction) {
-				assignAction = (AssignAction) action;
-				what = assignAction.getAssignments().get(0).getWhat().getFunction() != null
-						? assignAction.getAssignments().get(0).getWhat().getFunction().getName()
-						: assignAction.getAssignments().get(0).getWhat().getName();
-				where = assignAction.getAssignments().get(0).getWhere().getFunction() != null
-						? assignAction.getAssignments().get(0).getWhere().getFunction().getName()
-						: assignAction.getAssignments().get(0).getWhere().getName();
-
-				if ((assignAction.getAssignments().get(0).getWhat().getType().equals("U")
-						&& assignAction.getAssignments().get(0).getWhere().getType().equals("UA"))
-						|| (assignAction.getAssignments().get(0).getWhat().getType().equals("O")
-								&& assignAction.getAssignments().get(0).getWhere().getType().equals("OA"))) {
-					innerAction = handleAddAssignmentActionUUA(k, what, where, obligationLabel, innerAction);
-				} else if ((assignAction.getAssignments().get(0).getWhat().getType().equals("UA")
-						&& assignAction.getAssignments().get(0).getWhere().getType().equals("UA"))
-						|| (assignAction.getAssignments().get(0).getWhat().getType().equals("OA")
-								&& assignAction.getAssignments().get(0).getWhere().getType().equals("OA"))) {
-					innerAction = handleAddAssignmentActionUAUA(k, what, where, obligationLabel, innerAction);
-				}
-				innerActionNoFlatten = handleAddAssignmentNoFlattenAction(k, what, where, obligationLabel,
-						innerActionNoFlatten);
-			}
-			if (action instanceof DeleteAction) {
-				deleteAction = (DeleteAction) action;
-				if (deleteAction.getAssignments() != null) {
-					what = deleteAction.getAssignments().getAssignments().get(0).getWhat().getFunction() != null
-							? deleteAction.getAssignments().getAssignments().get(0).getWhat().getFunction().getName()
-							: deleteAction.getAssignments().getAssignments().get(0).getWhat().getName();
-
-					where = deleteAction.getAssignments().getAssignments().get(0).getWhere().getFunction() != null
-							? deleteAction.getAssignments().getAssignments().get(0).getWhere().getFunction().getName()
-							: deleteAction.getAssignments().getAssignments().get(0).getWhere().getName();
-
-					if ((deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("U")
-							&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType().equals("UA"))
-							|| (deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("O")
-									&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType()
-											.equals("OA"))) {
-						innerAction = handleDeleteAssignmentActionUUA(k, what, where, obligationLabel, innerAction);
-					}
-					if ((deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("UA")
-							&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType().equals("UA"))
-							|| (deleteAction.getAssignments().getAssignments().get(0).getWhat().getType().equals("OA")
-									&& deleteAction.getAssignments().getAssignments().get(0).getWhere().getType()
-											.equals("OA"))) {
-						innerAction = handleDeleteAssignmentActionUAUA(k, what, where, obligationLabel, innerAction);
-					}
-				}
-				innerActionNoFlatten = handleDeleteAssignmentNoFlattenAction(k, what, where, obligationLabel,
-						innerActionNoFlatten);
-			}
-			if (action instanceof CreateAction) {
-				createAction = (CreateAction) action;
-				if (createAction.getCreateNodesList().get(0) != null) {
-					what = createAction.getCreateNodesList().get(0).getWhat().getFunction() != null
-							? createAction.getCreateNodesList().get(0).getWhat().getFunction().getName()
-							: createAction.getCreateNodesList().get(0).getWhat().getName();
-					where = createAction.getCreateNodesList().get(0).getWhere().getFunction() != null
-							? createAction.getCreateNodesList().get(0).getWhere().getFunction().getName()
-							: createAction.getCreateNodesList().get(0).getWhere().getName();
-
-					if ((createAction.getCreateNodesList().get(0).getWhat().getType().equals("U")
-							&& createAction.getCreateNodesList().get(0).getWhere().getType().equals("UA"))
-							|| (createAction.getCreateNodesList().get(0).getWhat().getType().equals("O")
-									&& createAction.getCreateNodesList().get(0).getWhere().getType().equals("OA"))) {
-						innerAction = handleAddAssignmentActionUUA(k, what, where, obligationLabel, innerAction);
-					}
-					if ((createAction.getCreateNodesList().get(0).getWhat().getType().equals("UA")
-							&& createAction.getCreateNodesList().get(0).getWhere().getType().equals("UA"))
-							|| (createAction.getCreateNodesList().get(0).getWhat().getType().equals("OA")
-									&& createAction.getCreateNodesList().get(0).getWhere().getType().equals("OA"))) {
-						innerAction = handleAddAssignmentActionUAUA(k, what, where, obligationLabel, innerAction);
-					}
-				}
-				innerActionNoFlatten = handleAddAssignmentNoFlattenAction(k, what, where, obligationLabel,
-						innerActionNoFlatten);
-			}
-		}
-		sb.append(System.lineSeparator());
-		sb.append(finishHandlingAssignmentAction(k, obligationLabel, innerAction));
-		sb.append(System.lineSeparator());
-		sb.append(finishHandlingAssignmentActionNoFlatten(k, obligationLabel, innerActionNoFlatten));
-		sb.append(System.lineSeparator());
-		return sb.toString();
-	}
-
-	private String handleDeleteAssignmentActionUUA(int k, String what, String where, String obligationLabel,
-			String innerAction) {
-		String obligationU = obligationLabel + "U" + "_" + (k - 1);
-		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-		String whatID = "";
-		String whereID = "";
-
-		if(what.equals("current_user")) {
-			whatID = obligationU;
-		}
-		else if(what.equals("current_target")) {
-			whatID = obligationT;
-		}
-		else {
-			whatID = mapOfIDs.get(what).toString();
-		}
-		
-		if(where.equals("current_user")) {
-			whereID = obligationU;
-		}
-		else if(where.equals("current_target")) {
-			whereID = obligationT;
-		}
-		else {
-			whereID = mapOfIDs.get(where).toString();
-		}
-		if (innerAction.isEmpty()) {
-			return " (setminus (ASSIGN* " + (k - 1) + ") (setminus (join (singleton (mkTuple " + whatID + " " + whereID
-					+ ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
-					+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
-					+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + "))))";
-		} else {
-			return " (setminus " + innerAction + " (setminus (join (singleton (mkTuple " + whatID + " " + whereID
-					+ ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
-					+ ")) (setminus (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID
-					+ "))) (singleton (mkTuple " + whatID + " " + whatID + ")))) (ASSIGN* " + (k - 1) + "))))";
-		}
-	}
-
-	private String handleDeleteAssignmentActionUAUA(int k, String what, String where, String obligationLabel,
-			String innerAction) {
-		String obligationU = obligationLabel + "U" + "_" + (k - 1);
-		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-		String whatID = "";
-		String whereID = "";
-
-		if(what.equals("current_user")) {
-			whatID = obligationU;
-		}
-		else if(what.equals("current_target")) {
-			whatID = obligationT;
-		}
-		else {
-			whatID = mapOfIDs.get(what).toString();
-		}
-		
-		if(where.equals("current_user")) {
-			whereID = obligationU;
-		}
-		else if(where.equals("current_target")) {
-			whereID = obligationT;
-		}
-		else {
-			whereID = mapOfIDs.get(where).toString();
-		}
-		if (innerAction.isEmpty()) {
-			return "(setminus (ASSIGN* " + (k - 1) + ") (setminus (setminus (union (singleton (mkTuple " + whatID + " "
-					+ whereID + ")) (join (singleton (mkTuple " + whatID + " " + whereID + ")) (ASSIGN* " + (k - 1)
-					+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
-					+ ")) (join (ASSIGN* " + (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID
-					+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
-					+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
-					+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1)
-					+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
-					+ ")) (join (ASSIGN* " + (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID
-					+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
-					+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
-					+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1) + "))))";
-		} else {
-			return "(setminus " + innerAction + " (setminus (setminus (union (singleton (mkTuple " + whatID + " "
-					+ whereID + ")) (join (singleton (mkTuple " + whatID + " " + whereID + ")) (ASSIGN* " + (k - 1)
-					+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
-					+ ")) (join (ASSIGN* " + (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID
-					+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
-					+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
-					+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1)
-					+ "))) (join (join (intersection (join (union  (singleton (mkTuple " + whatID + " " + whatID
-					+ ")) (join (ASSIGN* " + (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID
-					+ ")))) (transpose (union  (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
-					+ (k - 1) + ")  (singleton (mkTuple " + whatID + " " + whatID + ")))))) NODES) (setminus (ASSIGN "
-					+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))) (ASSIGN* " + (k - 1) + "))))";
-		}
-	}
-
-	private String handleDeleteAssignmentNoFlattenAction(int k, String what, String where, String obligationLabel,
-			String innerAction) {
-		String obligationU = obligationLabel + "U" + "_" + (k - 1);
-		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-		String whatID = "";
-		String whereID = "";
-
-		if(what.equals("current_user")) {
-			whatID = obligationU;
-		}
-		else if(what.equals("current_target")) {
-			whatID = obligationT;
-		}
-		else {
-			whatID = mapOfIDs.get(what).toString();
-		}
-		
-		if(where.equals("current_user")) {
-			whereID = obligationU;
-		}
-		else if(where.equals("current_target")) {
-			whereID = obligationT;
-		}
-		else {
-			whereID = mapOfIDs.get(where).toString();
-		}
-		if (innerAction.isEmpty()) {
-			return " (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))";
-		} else {
-			return " (setminus " + innerAction + " (singleton (mkTuple " + whatID + " " + whereID + ")))";
-		}
-	}
-
-	private String handleAddAssignmentActionUUA(int k, String what, String where, String obligationLabel,
-			String innerAction) {
-		String obligationU = obligationLabel + "U" + "_" + (k - 1);
-		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-		String whatID = "";
-		String whereID = "";
-
-		if(what.equals("current_user")) {
-			whatID = obligationU;
-		}
-		else if(what.equals("current_target")) {
-			whatID = obligationT;
-		}
-		else {
-			whatID = mapOfIDs.get(what).toString();
-		}
-		
-		if(where.equals("current_user")) {
-			whereID = obligationU;
-		}
-		else if(where.equals("current_target")) {
-			whereID = obligationT;
-		}
-		else {
-			whereID = mapOfIDs.get(where).toString();
-		}
-
-		if (innerAction.isEmpty()) {
-			return "(union (singleton (mkTuple " + whatID + " " + whereID + ")) (union (join (singleton (mkTuple "
-					+ whatID + " " + whereID + ")) (join (singleton (mkTuple " + whereID + " " + whereID
-					+ ")) (ASSIGN* " + (k - 1) + "))) (ASSIGN* " + (k - 1) + ")))";
-		} else {
-			return "(union (singleton (mkTuple " + whatID + " " + whereID + ")) (union (join (singleton (mkTuple "
-					+ whatID + " " + whereID + ")) (join (singleton (mkTuple " + whereID + " " + whereID
-					+ ")) (ASSIGN* " + (k - 1) + ")))" + innerAction + "))";
-		}
-	}
-
-	private String handleAddAssignmentActionUAUA(int k, String what, String where, String obligationLabel,
-			String innerAction) {
-		String obligationU = obligationLabel + "U" + "_" + (k - 1);
-		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-		String whatID = "";
-		String whereID = "";
-
-		if(what.equals("current_user")) {
-			whatID = obligationU;
-		}
-		else if(what.equals("current_target")) {
-			whatID = obligationT;
-		}
-		else {
-			whatID = mapOfIDs.get(what).toString();
-		}
-		
-		if(where.equals("current_user")) {
-			whereID = obligationU;
-		}
-		else if(where.equals("current_target")) {
-			whereID = obligationT;
-		}
-		else {
-			whereID = mapOfIDs.get(where).toString();
-		}
-		if (innerAction.isEmpty()) {
-
-			return " (union (join (join (union (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
-					+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whatID + ")))) (singleton (mkTuple " + whatID
-					+ " " + whereID + "))) (union (singleton (mkTuple " + whereID + " " + whereID
-					+ ")) (join (singleton (mkTuple " + whereID + " " + whereID + ")) (ASSIGN* " + (k - 1)
-					+ ") ))) (ASSIGN* " + (k - 1) + "))";
-		} else {
-			return " (union (join (join (union (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
-					+ (k - 1) + ") (singleton (mkTuple " + whatID + " " + whatID + ")))) (singleton (mkTuple " + whatID
-					+ " " + whereID + "))) (union (singleton (mkTuple " + whereID + " " + whereID
-					+ ")) (join (singleton (mkTuple " + whereID + " " + whereID + ")) (ASSIGN* " + (k - 1) + ") )))"
-					+ innerAction + ")";
-		}
-	}
-
-	private String handleAddAssignmentNoFlattenAction(int k, String what, String where, String obligationLabel,
-			String innerAction) {
-		String obligationU = obligationLabel + "U" + "_" + (k - 1);
-		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-		String whatID = "";
-		String whereID = "";
-
-		if(what.equals("current_user")) {
-			whatID = obligationU;
-		}
-		else if(what.equals("current_target")) {
-			whatID = obligationT;
-		}
-		else {
-			whatID = mapOfIDs.get(what).toString();
-		}
-		
-		if(where.equals("current_user")) {
-			whereID = obligationU;
-		}
-		else if(where.equals("current_target")) {
-			whereID = obligationT;
-		}
-		else {
-			whereID = mapOfIDs.get(where).toString();
-		}
-		if (innerAction.isEmpty()) {
-			return "( union (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))";
-		} else {
-			return "( union " + innerAction + " (singleton (mkTuple " + whatID + " " + whereID + ")))";
-		}
-	}
-
-	private String finishHandlingAssignmentAction(int k, String obligationLabel, String completePlanningAction) {
-		return "(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(= " + "(ASSIGN* " + k + ")"
-				+ completePlanningAction + ")))";
-	}
-
-	private String finishHandlingAssignmentActionNoFlatten(int k, String obligationLabel,
-			String completePlanningAction) {
-		return "(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(= " + "(ASSIGN " + k + ")"
-				+ completePlanningAction + ")))";
-	}
-
-	private String processAssociationRelatedActions(int k, String obligationLabel, List<Action> actions) {
-		StringBuilder sb_associations = new StringBuilder();
-		GrantAction grantAction;
-		DeleteAction deleteAction;
-		String what = "";
-		String where = "";
-		List<String> ops = new ArrayList<String>();
-		String SMTAction = "";
-		String innerAction = "";
-		for (int i = 0; i < actions.size(); i++) {
-			Action action = actions.get(i);
-			if (action instanceof GrantAction) {// TODO: add multiple ars
-				grantAction = (GrantAction) action;
-				what = grantAction.getSubject().getName();
-				where = grantAction.getTarget().getName();
-				ops = grantAction.getOperations();
-				SMTAction = "union";
-			} else if (action instanceof DeleteAction) {
-				deleteAction = (DeleteAction) action;
-				what = deleteAction.getAssociations().get(0).getSubject().getFunction() != null
-						? deleteAction.getAssociations().get(0).getSubject().getFunction().getName()
-						: deleteAction.getAssociations().get(0).getSubject().getName();
-
-				where = deleteAction.getAssociations().get(0).getTarget().getFunction() != null
-						? deleteAction.getAssociations().get(0).getTarget().getFunction().getName()
-						: deleteAction.getAssociations().get(0).getTarget().getName();
-				ops = deleteAction.getAssociations().get(0).getOperations();
-				SMTAction = "setminus";
-			}
-			for (String op : ops) {
-				innerAction = handleAssociationAction(k, sb_associations, what, where, op, SMTAction, obligationLabel,
-						innerAction);
-			}
-		}
-		innerAction = finishHandlingAssociationAction(k, obligationLabel, innerAction);
-		return innerAction;
-	}
-
-	private String handleAssociationAction(int k, StringBuilder sb_associations, String what, String where, String op,
-			String SMTAction, String obligationLabel, String innerAction) {
-		String obligationU = obligationLabel + "U" + "_" + (k - 1);
-		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-
-		String whatID = "";
-		String whereID = "";
-
-		if(what.equals("current_user")) {
-			whatID = obligationU;
-		}
-		else if(what.equals("current_target")) {
-			whatID = obligationT;
-		}
-		else {
-			whatID = mapOfIDs.get(what).toString();
-		}
-		
-		if(where.equals("current_user")) {
-			whereID = obligationU;
-		}
-		else if(where.equals("current_target")) {
-			whereID = obligationT;
-		}
-		else {
-			whereID = mapOfIDs.get(where).toString();
-		}
-		String arID = mapOfIDs.get(op).toString();
-
-		if (innerAction.isEmpty()) {
-			return "(" + SMTAction + "(ASSOC " + (k - 1) + ")" + "(singleton(mkTuple " + whatID + " " + arID + " "
-					+ whereID + ")))";
-		} else {
-			return "(" + SMTAction + innerAction + "(singleton(mkTuple " + whatID + " " + arID + " " + whereID + ")))";
-		}
-	}
-
-	private String finishHandlingAssociationAction(int k, String obligationLabel, String completePlanningAction) {
-		return "(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true)" + "(= (ASSOC " + k + ") "
-				+ completePlanningAction + ")))";
-	}
-
-	private void separateActions(List<Action> actions, List<Action> assignActions, List<Action> associateActions) {
-		for (Action a : actions) {
-			if (isActionAssignmentRelated(a)) {
-				assignActions.add(a);
-			} else if (isActionAssociationRelated(a)) {
-				associateActions.add(a);
-			}
-		}
-
-	}
-
+	
 	// 5.2
 	String processEffects(int k) {
 
@@ -766,39 +325,10 @@ public class ObligationsEncoder {
 		sb.append(System.lineSeparator());
 		sb.append(System.lineSeparator());
 		sb.append("; 5.2 a->Eff");
-		sb.append(System.lineSeparator());
 		for (Rule rule : obligation.getRules()) {
-			List<Action> assignActions = new ArrayList<Action>();
-			List<Action> associateActions = new ArrayList<Action>();
-			String obligationLabel = rule.getLabel();
-			separateActions(rule.getResponsePattern().getActions(), assignActions, associateActions);
-
-			boolean assignRelatedActionExists = assignActions.size() > 0;
-			boolean associateRelatedActionExists = associateActions.size() > 0;
-
 			sb.append(System.lineSeparator());
-			if (!assignRelatedActionExists) {
-				sb.append(System.lineSeparator());
-				sb.append("(assert (=> (=(" + obligationLabel + " " + (k - 1) + ") true) (= (ASSIGN* " + k
-						+ ") (ASSIGN* " + (k - 1) + "))))");
-				sb.append(System.lineSeparator());
-				sb.append("(assert (=> (=(" + obligationLabel + " " + (k - 1) + ") true) (= (ASSIGN " + k + ") (ASSIGN "
-						+ (k - 1) + "))))");
-				sb.append(System.lineSeparator());
-			} else {
-				sb.append(processAssignmentRelatedAction(k, obligationLabel, assignActions));
-			}
-			if (!associateRelatedActionExists) {
-				sb.append(System.lineSeparator());
-				sb.append("(assert (=> (=(" + obligationLabel + " " + (k - 1) + ") true) (= (ASSOC " + k + ") (ASSOC "
-						+ (k - 1) + "))))");
-				sb.append(System.lineSeparator());
-			} else {
-				sb.append(processAssociationRelatedActions(k, obligationLabel, associateActions));
-				sb.append(System.lineSeparator());
-			}
-			sb.append(System.lineSeparator());
-
+			ObligationEncoder oe = new ObligationEncoder();
+			sb.append(oe.encodeObligation(rule, mapOfIDs,  k));
 			sb.append(System.lineSeparator());
 		}
 		sb.append(System.lineSeparator());
@@ -913,19 +443,6 @@ public class ObligationsEncoder {
 			return true;
 		}
 		return false;
-	}
-
-	String processActionCondition(Rule r, int k) {
-		if (r.getResponsePattern().getActions().get(0).getCondition() == null)
-			return "";
-		List<Function> conditions = r.getResponsePattern().getActions().get(0).getCondition().getCondition();
-		List<Arg> args = conditions.get(0).getArgs();
-		String ancestor = args.get(0).getFunction().getArgs().get(0).getValue();
-		String descendant = args.get(1).getFunction().getArgs().get(0).getValue();
-		int ancestorId = mapOfIDs.get(ancestor);
-		int descendantId = mapOfIDs.get(descendant);
-		return "(member (mkTuple " + ancestorId + " " + descendantId + ") (ASSIGN* " + (k - 1) + "))";
-
 	}
 
 	List<AssociationRelation> getListOfAddedAssociations() {

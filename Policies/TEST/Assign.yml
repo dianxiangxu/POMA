@@ -4,9 +4,9 @@ rules:
     event:
       subject:
         anyUser: 
-          - "BM"     
+          - "PI"     
       operations:
-        - assign
+        - submit
       target:
         policyElements:
           - name: PDSWhole

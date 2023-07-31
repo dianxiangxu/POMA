@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import POMA.Utils;
-import POMA.Verification.ReachabilityAnalysisSequential.SMTComposer;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.AssignActionEncoder;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.GrantActionEncoder;
@@ -206,7 +205,9 @@ public class ObligationEncoder {
 	private String encodeAssignmentTransition() {
 		String assign = "";
 		String operationSetEncodingPlus = "";
-
+		if(_actionSetsAssignAdd.size() + _actionSetsAssignRemove.size() == 0) {
+			return "(assert (= (ASSIGN {k}) (ASSIGN {k-1})))";
+		}
 		for (int i = 0; i < _actionSetsAssignAdd.size(); i++) {
 			String operationSet = _actionSetsAssignAdd.get(i);
 			if (i == 0) {
@@ -241,7 +242,9 @@ public class ObligationEncoder {
 	private String encodeAssociationTransition() {
 		String associate = "";
 		String operationSetEncodingPlus = "";
-
+		if(_actionSetsAssociateAdd.size() + _actionSetsAssociateRemove.size() == 0) {
+			return "(assert (= (ASSOC {k}) (ASSOC {k-1})))";
+		}
 		for (int i = 0; i < _actionSetsAssociateAdd.size(); i++) {
 			String operationSet = _actionSetsAssociateAdd.get(i);
 			if (i == 0) {
@@ -278,7 +281,7 @@ public class ObligationEncoder {
 		List<ActionEncoder> convertedActions = soe.preprocessActions(obligation.getResponsePattern().getActions(),
 				mapOfIDs, obligation.getLabel());
 		try {
-			return ActionEncoder.replaceKWithValue(soe.encodeObligation(convertedActions, obligation.getLabel()), 1);
+			return ActionEncoder.replaceKWithValue(soe.encodeObligation(convertedActions, obligation.getLabel()), k);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
