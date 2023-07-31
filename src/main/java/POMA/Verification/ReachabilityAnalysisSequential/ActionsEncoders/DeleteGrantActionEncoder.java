@@ -1,12 +1,12 @@
-package POMA.Verification.ReachabilityAnalysisSequential.Encoders;
+package POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Relations.AssociationCustom;
-import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.ActionType;
-import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.RelationType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.ActionType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.RelationType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.AssociationCustom;
 import gov.nist.csd.pm.pip.obligations.model.EvrNode;
 import gov.nist.csd.pm.pip.obligations.model.actions.DeleteAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;

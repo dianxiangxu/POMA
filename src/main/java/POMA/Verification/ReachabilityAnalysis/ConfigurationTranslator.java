@@ -20,7 +20,7 @@ import gov.nist.csd.pm.pip.graph.dag.visitor.Visitor;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.graph.model.nodes.NodeType;
 
-class GraphTranslator {
+class ConfigurationTranslator {
 
 	HashMap<String, Integer> mapOfIDs = new HashMap<String, Integer>();
 	private Set<String> flattenedTuples = new HashSet<String>();
@@ -48,7 +48,7 @@ class GraphTranslator {
 		return mapOfIDs;
 	}
 
-	GraphTranslator(String pathToGraph) {
+	ConfigurationTranslator(String pathToGraph) {
 		try {
 			graph = Utils.readAnyGraph(pathToGraph);
 		} catch (PMException e) {
@@ -58,7 +58,7 @@ class GraphTranslator {
 		}
 	}
 
-	GraphTranslator(Graph graph) {
+	ConfigurationTranslator(Graph graph) {
 		this.graph = graph;
 	}
 

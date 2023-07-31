@@ -1,6 +1,6 @@
-package POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Conditions;
+package POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Conditions;
 
-import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.HierarchyType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.HierarchyType;
 
 public class ConditionCustom {
 	private HierarchyType conditionHierarchyType;

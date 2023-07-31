@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Relations;
+package POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations;
 
 import java.util.List;
 

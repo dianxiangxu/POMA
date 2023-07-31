@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysis;
+package POMA.Verification.ReachabilityAnalysisSequential.Encoders;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import POMA.Utils;
-import POMA.Verification.ReachabilityAnalysis.ObligationInterference.SolutionSimulator;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 import POMA.Verification.Translator.AssociationRelation;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -28,8 +27,8 @@ public class ObligationChecker extends Planner {
 	String pathToGraph;
 
 
-	ConfigurationTranslator gt;
-	ObligationTranslator ot;
+	ConfigurationEncoder gt;
+	ObligationsEncoder ot;
 
 	public static void main(String[] args) throws Exception {
 
@@ -67,9 +66,9 @@ public class ObligationChecker extends Planner {
 	}
 
 	public ObligationChecker() throws Exception {
-		gt = new ConfigurationTranslator(pathToGraph);
+		gt = new ConfigurationEncoder(pathToGraph);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator(mapOfIDs, listOfNodes);
+		ot = new ObligationsEncoder(mapOfIDs, listOfNodes);
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
@@ -83,9 +82,9 @@ public class ObligationChecker extends Planner {
 
 	public ObligationChecker(String pathToGraph, String pathToObligations) throws Exception {
 		this.pathToGraph = pathToGraph;
-		gt = new ConfigurationTranslator(pathToGraph);
+		gt = new ConfigurationEncoder(pathToGraph);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator(mapOfIDs, pathToObligations, listOfNodes);
+		ot = new ObligationsEncoder(mapOfIDs, pathToObligations, listOfNodes);
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
@@ -98,9 +97,9 @@ public class ObligationChecker extends Planner {
 	}
 
 	public ObligationChecker(Graph graph, Obligation obligations) throws Exception {
-		gt = new ConfigurationTranslator(graph);
+		gt = new ConfigurationEncoder(graph);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator(mapOfIDs, obligations, listOfNodes);
+		ot = new ObligationsEncoder(mapOfIDs, obligations, listOfNodes);
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());

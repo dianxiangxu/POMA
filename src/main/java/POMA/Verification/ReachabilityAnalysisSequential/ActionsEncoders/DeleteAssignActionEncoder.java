@@ -1,10 +1,10 @@
-package POMA.Verification.ReachabilityAnalysisSequential.Encoders;
+package POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders;
 
 import java.util.HashMap;
 
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Conditions.ConditionCustom;
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Conditions.ConditionCustom.ConditionType;
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Relations.AssignmentCustom;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Conditions.ConditionCustom;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Conditions.ConditionCustom.ConditionType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.AssignmentCustom;
 import gov.nist.csd.pm.pip.obligations.model.EvrNode;
 import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction.Assignment;

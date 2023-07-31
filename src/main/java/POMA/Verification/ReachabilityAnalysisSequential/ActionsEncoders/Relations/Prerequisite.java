@@ -1,8 +1,8 @@
-package POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Relations;
+package POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations;
 
-import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.ActionType;
-import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.HierarchyType;
-import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.RelationType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.ActionType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.HierarchyType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.RelationType;
 
 public class Prerequisite {
 

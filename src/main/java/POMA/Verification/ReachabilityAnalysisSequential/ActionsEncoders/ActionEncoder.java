@@ -1,13 +1,13 @@
-package POMA.Verification.ReachabilityAnalysisSequential.Encoders;
+package POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Conditions.ConditionCustom;
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Conditions.ConditionCustom.ConditionType;
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Relations.Prerequisite;
-import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.ActionType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.ActionType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Conditions.ConditionCustom;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Conditions.ConditionCustom.ConditionType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.Prerequisite;
 import gov.nist.csd.pm.pip.obligations.model.actions.Action;
 import gov.nist.csd.pm.pip.obligations.model.functions.Arg;
 
@@ -17,16 +17,16 @@ public abstract class ActionEncoder {
 	protected String negatedCondition = "";
 	protected HierarchyType conditionHierarchyType;
 
-	protected String precondition = "";
-	protected String negatedPrecondition = "";
+	public String precondition = "";
+	public String negatedPrecondition = "";
 	protected HierarchyType preconditionHierarchyType;
 
 	protected String postcondition = "";
 	protected String postconditionFlatten = "";
 
 	protected String preconditionSet = "";
-	protected String postconditionSet = "";
-	protected String negatedPostconditionSet = "";
+	public String postconditionSet = "";
+	public String negatedPostconditionSet = "";
 
 
 	protected String postconditionFlattenSet = "";
@@ -38,7 +38,7 @@ public abstract class ActionEncoder {
 
 	public String operationSet = "";
 	
-	List<Prerequisite> prerequisites;
+	public List<Prerequisite> prerequisites;
 
 	List<ConditionCustom> conditions = new ArrayList<ConditionCustom>();
 

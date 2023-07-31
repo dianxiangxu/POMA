@@ -1,39 +1,38 @@
-package POMA.Verification.ReachabilityAnalysisSequential.Encoders;
+package POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders;
 
 import java.util.HashMap;
 import java.util.List;
 
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Conditions.ConditionCustom;
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Conditions.ConditionCustom.ConditionType;
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Relations.AssignmentCustom;
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Relations.Prerequisite;
-import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.ActionType;
-import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.HierarchyType;
-import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.RelationType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.HierarchyType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Conditions.ConditionCustom;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Conditions.ConditionCustom.ConditionType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.AssignmentCustom;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.Prerequisite;
 import gov.nist.csd.pm.pip.obligations.model.EvrNode;
-import gov.nist.csd.pm.pip.obligations.model.actions.CreateAction;
+import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction;
+import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction.Assignment;
 
-public class CreateActionEncoder extends ActionEncoder {
+public class AssignActionEncoder extends ActionEncoder {
 
-	private CreateAction createAction;
+	private AssignAction assignAction;
 	private AssignmentCustom assignment;
 
-	public CreateActionEncoder(CreateAction action, HashMap<String, Integer> mapOfIDs) {
+	public AssignActionEncoder(AssignAction action, HashMap<String, Integer> mapOfIDs) {
 		super(mapOfIDs, RelationType.ASSIGN, ActionType.ADD);
-		createAction = action;
+		assignAction = action;
 		retrieveActionPolicyElements();
 		if (assignment.getWhatType().equals("UA") || assignment.getWhatType().equals("U")) {
 			setPreconditionHierarchyType(HierarchyType.UA);
 			setPostconditionHierarchyType(HierarchyType.UA);
 		}
 		if (assignment.getWhatType().equals("OA") || assignment.getWhatType().equals("O")) {
-			setPreconditionHierarchyType(HierarchyType.OA);
+			setPreconditionHierarchyType(HierarchyType.UA);
 			setPostconditionHierarchyType(HierarchyType.OA);
 		}
 		encodeActionPreconditions();
 		encodeActionPostcondition();
 		encodeActionPostconditionFlatten();
-		encodeCondition(createAction);
+		encodeCondition(assignAction);
 		encodeNegatedCondition();
 		encodeNegatedPrecondition();
 	}
@@ -47,28 +46,38 @@ public class CreateActionEncoder extends ActionEncoder {
 				"(not (set.member (tuple " + assignment.getWhere() + " " + assignment.getWhat() + ") (ASSIGN {k-1})))",
 				"(set.singleton(tuple " + assignment.getWhere() + " " + assignment.getWhat() + "))",
 				this.getConditionHierarchyType(), ConditionType.EXCLUSIVE));
-		
+
 		setPrecondition("(and" + "(not (set.member (tuple " + assignment.getWhat() + " " + assignment.getWhere()
 				+ ") (ASSIGN {k-1})))" // duplicate
 				+ "(not (= " + assignment.getWhat() + " " + assignment.getWhere() + "))" // x=y: cycle
-				// ensure that no assignment results in creating a cycle
-				+ "(not (set.member (tuple " + assignment.getWhere() + " " + assignment.getWhat() + ") (ASSIGN* {k})))"
+				+ "(not (set.member (tuple " + assignment.getWhere() + " " + assignment.getWhat() + ") (ASSIGN* {k-1})))" // ensure
+																														// that
+																														// no
+																														// assignment
+																														// results
+																														// in
+																														// creating
+																														// a
+																														// cycle
 				+ ")");
-		setPreconditionSet("(set.union (set.singleton(tuple " + assignment.getWhat() + " " + assignment.getWhere() + ")))");	
+		setPreconditionSet("(set.singleton(tuple " + assignment.getWhat() + " " + assignment.getWhere() + "))");
 	}
 
 	protected void encodeActionPostcondition() {
-		setPostcondition("( set.union (ASSIGN {k-1}) (set.singleton (tuple " + assignment.getWhat() + " "
+		setPostcondition("(set.union (ASSIGN {k-1}) (set.singleton (tuple " + assignment.getWhat() + " "
 				+ assignment.getWhere() + ")))");
-		setPostconditionSet("(set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere() + "))");
+		setPostconditionSet("(set.singleton( tuple " + assignment.getWhat() + " " + assignment.getWhere() + "))");
 		setNegatedPostconditionSet("(as set.empty (Set (Tuple Int Int)))");
 	}
 
 	protected void encodeActionPostconditionFlatten() {
-		if (assignment.getWhatType().equals("UA") || assignment.getWhereType().equals("OA")
-				|| assignment.getWhereType().isBlank()) {
+		if (assignment.getWhatType().equals("UA")) {
 			setPostconditionFlatten(getATATEncoding());
-		} else if (assignment.getWhatType().equals("U") || assignment.getWhatType().equals("O")) {
+		} else if (assignment.getWhatType().equals("OA")) {
+			setPostconditionFlatten(getATATEncoding());
+		} else if (assignment.getWhatType().equals("U")) {
+			setPostconditionFlatten(getPEATEncoding());
+		} else if (assignment.getWhatType().equals("O")) {
 			setPostconditionFlatten(getPEATEncoding());
 		}
 	}
@@ -80,6 +89,7 @@ public class CreateActionEncoder extends ActionEncoder {
 				+ " " + assignment.getWhere() + "))) (set.union (set.singleton (tuple " + assignment.getWhere() + " "
 				+ assignment.getWhere() + ")) (rel.join (set.singleton (tuple " + assignment.getWhere() + " "
 				+ assignment.getWhere() + ")) (ASSIGN* " + "{k-1}" + "))))");
+
 		return "(set.union (ASSIGN* " + "{k-1}" + ") (rel.join (rel.join (set.union (set.singleton (tuple " + assignment.getWhat() + " "
 				+ assignment.getWhat() + ")) (rel.join (ASSIGN* " + "{k-1}" + ") (set.singleton (tuple "
 				+ assignment.getWhat() + " " + assignment.getWhat() + ")))) (set.singleton (tuple " + assignment.getWhat()
@@ -100,8 +110,10 @@ public class CreateActionEncoder extends ActionEncoder {
 	}
 
 	protected void retrieveActionPolicyElements() {
-		EvrNode whatNode = createAction.getCreateNodesList().get(0).getWhat();
-		EvrNode whereNode = createAction.getCreateNodesList().get(0).getWhere();
+		Assignment assignment = assignAction.getAssignments().get(0);
+
+		EvrNode whatNode = assignment.getWhat();
+		EvrNode whereNode = assignment.getWhere();
 
 		String what = whatNode.getFunction() != null ? whatNode.getFunction().getName() : whatNode.getName();
 		String where = whereNode.getFunction() != null ? whereNode.getFunction().getName() : whereNode.getName();
@@ -130,4 +142,6 @@ public class CreateActionEncoder extends ActionEncoder {
 
 		this.assignment = new AssignmentCustom(whatID, whereID, whatType, whereType);
 	}
+
+	
 }

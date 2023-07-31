@@ -1,4 +1,4 @@
-package POMA.Verification.ReachabilityAnalysisSequential.Encoders;
+package POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

@@ -5,20 +5,17 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 
 import POMA.Utils;
 import POMA.Verification.ReachabilityAnalysisSequential.SMTComposer;
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Relations.Prerequisite;
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Relations.Trace;
-import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoding.Relations.Trace.TraceType;
-import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.HierarchyType;
-import POMA.Verification.ReachabilityAnalysisSequential.Encoders.ActionEncoder.RelationType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.AssignActionEncoder;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.GrantActionEncoder;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.HierarchyType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.RelationType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.Prerequisite;
+
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
@@ -29,14 +26,13 @@ import gov.nist.csd.pm.pip.obligations.model.actions.CreateAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.DeleteAction;
 import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 
-public class SingleObligationEncoder {
+public class ObligationEncoder {
 
 	List<String> _operationSetsAssignAdd = new ArrayList<String>();
 	List<String> _operationSetsAssociateAdd = new ArrayList<String>();
 	List<String> _operationSetsAssignRemove = new ArrayList<String>();
 	List<String> _operationSetsAssociateRemove = new ArrayList<String>();
 
-	
 	private List<ActionEncoder> preprocessActions(List<Action> actions, HashMap<String, Integer> mapOfIDs,
 			String label) {
 
@@ -82,7 +78,6 @@ public class SingleObligationEncoder {
 				.collect(Collectors.toList());
 	}
 
-
 	private String initializeOperatingSets() {
 		String operatingSetsDeclaration = "";
 		List<String> operationSetsAssign = new ArrayList<String>();
@@ -124,9 +119,9 @@ public class SingleObligationEncoder {
 		encoding += "\t(and" + System.lineSeparator();
 		for (ActionEncoder action : actionsNoConflict) {
 
-			encoding += System.lineSeparator() + "\t\t;ACTION: " + action.operationSet + System.lineSeparator() + "\t\t(=>"
-					+ action.precondition + " (= " + action.operationSet + " " + action.postconditionSet + "))"
-					+ System.lineSeparator();
+			encoding += System.lineSeparator() + "\t\t;ACTION: " + action.operationSet + System.lineSeparator()
+					+ "\t\t(=>" + action.precondition + " (= " + action.operationSet + " " + action.postconditionSet
+					+ "))" + System.lineSeparator();
 			encoding += System.lineSeparator() + "\t\t(=>" + action.negatedPrecondition + " (= " + action.operationSet
 					+ " " + action.negatedPostconditionSet + "))" + System.lineSeparator();
 		}
@@ -197,8 +192,8 @@ public class SingleObligationEncoder {
 	}
 
 	private void encodePostcondition(StringBuilder sb, ActionEncoder encoder) {
-		sb.append("\t;POSTCONDITION: " + encoder.operationSet + System.lineSeparator() + "\t(= "
-				+ encoder.operationSet + " " + encoder.postconditionSet + ")");
+		sb.append("\t;POSTCONDITION: " + encoder.operationSet + System.lineSeparator() + "\t(= " + encoder.operationSet
+				+ " " + encoder.postconditionSet + ")");
 	}
 
 	private String encodeRelationTransition() {
@@ -276,29 +271,35 @@ public class SingleObligationEncoder {
 		return "(assert (= (ASSOC {k}) " + System.lineSeparator() + "\t(set.minus " + System.lineSeparator() + associate
 				+ " " + System.lineSeparator() + operationSetEncodingMinus + System.lineSeparator() + ")"
 				+ System.lineSeparator() + "))";
-	}	
-	
+	}
+
+	public String encodeObligation(Rule obligation, HashMap<String, Integer> mapOfIDs, int k) {
+		ObligationEncoder soe = new ObligationEncoder();
+		List<ActionEncoder> convertedActions = soe.preprocessActions(obligation.getResponsePattern().getActions(),
+				mapOfIDs, obligation.getLabel());
+		try {
+			return ActionEncoder.replaceKWithValue(soe.encodeObligation(convertedActions, obligation.getLabel()), 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public static void main(String[] args) throws Exception {
 		Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");
-//		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/1O2Grants.yml")));
 		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/Assign.yml")));
 		Obligation obligation = EVRParser.parse(yml);
 		SMTComposer composer = new SMTComposer(graph, obligation);
 		HashMap<String, Integer> mapOfIDs = composer.getMapOfIDs();
-		SingleObligationEncoder soe = new SingleObligationEncoder();
-		List<ActionEncoder> convertedActions = soe.preprocessActions(
+		ObligationEncoder oe = new ObligationEncoder();
+		List<ActionEncoder> convertedActions = oe.preprocessActions(
 				obligation.getRules().get(0).getResponsePattern().getActions(), mapOfIDs,
 				obligation.getRules().get(0).getLabel());
 
-//		 System.out.println(soe.encodeTraces(convertedActions));
-
 		System.out.println(composer.generateHeadCode());
 
-//		soe.encodeObligation(convertedActions, obligation.getRules().get(0).getLabel());
-//		System.out.println(soe.encodeObligation(convertedActions, obligation.getRules().get(0).getLabel()));
-
 		System.out.println(ActionEncoder
-				.replaceKWithValue(soe.encodeObligation(convertedActions, obligation.getRules().get(0).getLabel()), 1));
+				.replaceKWithValue(oe.encodeObligation(convertedActions, obligation.getRules().get(0).getLabel()), 1));
 	}
 
 }
