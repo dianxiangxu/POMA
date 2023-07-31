@@ -44,13 +44,12 @@ public class SMTComposer extends Planner {
 		checker.enableSMTOutput(true);
 
 		String precondition = "PERMIT(?u,?ar, PendingCases);";
-		String postcondition = "";// "OBLIGATIONLABEL(accept_case, ?u, ?ar, PendingCases);";
+//		String postcondition = "";// "OBLIGATIONLABEL(accept_case, ?u, ?ar, PendingCases);";
 
 		// Solution solution = checker.solveConstraint(precondition, postcondition,
 		// graph);
 		// String precondition = "";
-		// String postcondition = "OBLIGATIONLABEL(remove_available_attorney, ?u, ?ar,
-		// ?at);";
+		String postcondition = "OBLIGATIONLABEL(obligation1, Nazmul, ?ar,?at);";
 
 		Solution solution = checker.solveConstraint(precondition, postcondition, graph);
 		// checker.solveConstraint("PERMIT(LeadAttorneys,approve,AcceptedCases);",

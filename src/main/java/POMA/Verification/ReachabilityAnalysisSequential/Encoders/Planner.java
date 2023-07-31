@@ -107,10 +107,10 @@ public abstract class Planner {
 
 //			smtlibv2Code += ";PRE PROPERTY";
 //			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k - 2), queryVARS, queryConst) : "";
-//			smtlibv2Code += System.lineSeparator()
-//					+ System.lineSeparator()
-//					+ ";POST PROPERTY";
-//			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1), queryVARS, queryConst) : "";
+			smtlibv2Code += System.lineSeparator()
+					+ System.lineSeparator()
+					+ ";POST PROPERTY";
+			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1), queryVARS, queryConst) : "";
 			System.out.println("Time horizon " + k + " processing...");
 			smtlibv2Code += generateTailCode(queryVARS, k);
 			

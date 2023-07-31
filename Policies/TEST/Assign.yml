@@ -1,5 +1,25 @@
 label: Assign
 rules:
+  - label: obligation0
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - assign:
+            - what:
+                name: Nazmul
+                type: U
+              where:
+                name: PI
+                type: UA   
   - label: obligation1
     event:
       subject:
@@ -15,10 +35,10 @@ rules:
       actions: 
         - assign:
             - what:
-                name: UBM
+                name: Nazmul
                 type: U
               where:
-                name: BM
+                name: PI
                 type: UA          
         # - assign:
         #     - what:
