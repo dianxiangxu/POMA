@@ -29,7 +29,7 @@ public abstract class ActionEncoder {
 	public String negatedPostconditionSet = "";
 
 
-	protected String postconditionFlattenSet = "";
+	public String postconditionFlattenSet = "";
 
 	protected HierarchyType postconditionHierarchyType;
 
@@ -37,7 +37,8 @@ public abstract class ActionEncoder {
 	protected ActionType actionType;
 
 	public String operationSet = "";
-	
+	public String operationSetFlat = "";
+
 	public List<Prerequisite> prerequisites;
 
 	List<ConditionCustom> conditions = new ArrayList<ConditionCustom>();

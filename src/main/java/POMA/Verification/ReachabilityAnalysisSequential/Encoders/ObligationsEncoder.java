@@ -204,7 +204,7 @@ public class ObligationsEncoder {
 			
 			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true) (and\r\n" + " (set.member (tuple  "
 					+ obligationU + " " + obligationS + ") (ASSIGN* " + (k - 1) + "))\r\n" + " (set.member (tuple  "
-					+ obligationU + " " + obligationUA + ") (ASSIGN* " + (k - 1) + "))\r\n" + "(set.member (tuple "
+					+ obligationU + " " + obligationUA + ") (ASSIGN* " + (k - 1) + "))\r\n" + " (set.member (tuple "
 					+ obligationUA + " " + obligationAR + " " + obligationAT + ") (ASSOC " + (k - 1) + "))\r\n"
 					+ " (set.member (tuple  " + obligationUO + " " + obligationT + ") (ASSIGN* " + (k - 1) + "))\r\n"
 					+ " (set.member (tuple  " + obligationUO + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"

@@ -69,22 +69,12 @@ public abstract class Planner {
 	abstract List<String> getObligationEventVariables();
 
 	public Solution solveConstraint(String pre, String post, Graph initialGraph) throws Exception {
-//		try {
 			Solution s = check(pre, post, initialGraph);
 			return s;
-//		} catch (Exception e) {
-//			System.out.println(e);
-//		}
-//		return null;
 	}
 	public Solution solveConstraint( String property, Graph initialGraph) throws Exception {
-//		try {
 			Solution s = check(property, initialGraph);
 			return s;
-//		} catch (Exception e) {
-//			System.out.println(e);
-//		}
-//		return null;
 	}
 	public Solution check(String pre, String post, Graph initialGraph) throws Exception {
 
@@ -105,19 +95,19 @@ public abstract class Planner {
 			List<String> queryVARS = new ArrayList<String>();
 			List<String> queryConst = new ArrayList<String>();
 
-//			smtlibv2Code += ";PRE PROPERTY";
-//			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k - 2), queryVARS, queryConst) : "";
+			smtlibv2Code += ";PRE PROPERTY";
+//			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k-2), queryVARS, queryConst) : "";
 			smtlibv2Code += System.lineSeparator()
 					+ System.lineSeparator()
 					+ ";POST PROPERTY";
-			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1), queryVARS, queryConst) : "";
+			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k-1), queryVARS, queryConst) : "";
 			System.out.println("Time horizon " + k + " processing...");
 			smtlibv2Code += generateTailCode(queryVARS, k);
 			
 			String pathToFile = smtCodeFilePath + k + ".smt2";
 			saveCodeToFile(smtlibv2Code, pathToFile);
-			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
-					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes);
+//			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
+//					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes);
 			solved = solution == null ? false : true;
 			if (!solved) {
 				System.out.println("Solution not found with time horizon: " + k);

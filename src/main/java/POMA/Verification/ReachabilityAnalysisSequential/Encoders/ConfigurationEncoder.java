@@ -74,7 +74,7 @@ class ConfigurationEncoder {
 
 	private String setCVC4Options() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("(set-logic ALL)");
+		sb.append("(set-logic QF_ALL)");
 		sb.append(System.lineSeparator());
 		sb.append("(set-option :produce-models true)");
 		sb.append(System.lineSeparator());

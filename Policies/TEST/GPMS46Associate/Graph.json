@@ -162,6 +162,14 @@
       "target": "PICreate"
     },
     {
+      "source": "Vlad",
+      "target": "PI"
+    },
+     {
+      "source": "Vlad",
+      "target": "PISubmit"
+    },
+    {
       "source": "Bob",
       "target": "BM"
     },
@@ -172,6 +180,10 @@
     {
       "source": "CoPI",
       "target": "EditingPolicy"
+    },
+    {
+      "source": "Vlad",
+      "target": "CoPI"
     },
     {
       "source": "BM",
@@ -190,6 +202,10 @@
       "target": "EditingPolicy"
     },
     {
+      "source": "Vlad",
+      "target": "SP"
+    },
+    {
       "source": "URD",
       "target": "RD"
     },
@@ -204,51 +220,18 @@
     {
       "source": "PIDelete",
       "target": "EditingPolicy"
+    },
+    {
+      "source": "Vlad",
+      "target": "PIDelete"
     }
   ],
   "associations": [
-    {
-      "source": "CoPI",
-      "target": "PDSWhole",
-      "operations": [
-        "edit"
-      ]
-    },
-        {
-      "source": "SP",
-      "target": "PDSWhole",
-      "operations": [
-        "read"
-      ]
-    },
-    {
+  	{
       "source": "PI",
       "target": "PDSWhole",
       "operations": [
-        "submit"
-      ]
-    },
-    {
-      "source": "PISubmit",
-      "target": "PDSWhole",
-      "operations": [
-        "submit"
-      ]
-    }
-    ,
-    {
-      "source": "PIDelete",
-      "target": "PDSWhole",
-      "operations": [
-        "delete"
-      ]
-    }
-    ,
-    {
-      "source": "PICreate",
-      "target": "PDSWhole",
-      "operations": [
-        "create"
+        "add"
       ]
     }
   ]
