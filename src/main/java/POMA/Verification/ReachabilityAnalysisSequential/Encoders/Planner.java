@@ -106,8 +106,8 @@ public abstract class Planner {
 			
 			String pathToFile = smtCodeFilePath + k + ".smt2";
 			saveCodeToFile(smtlibv2Code, pathToFile);
-//			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
-//					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes);
+			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
+					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes);
 			solved = solution == null ? false : true;
 			if (!solved) {
 				System.out.println("Solution not found with time horizon: " + k);

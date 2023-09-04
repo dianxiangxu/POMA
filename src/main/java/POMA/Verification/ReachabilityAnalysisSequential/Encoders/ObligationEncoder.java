@@ -29,12 +29,14 @@ import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 
 public class ObligationEncoder {
 
-	List<String> _actionSetsAssignAdd = new ArrayList<String>();
-	List<String> _actionSetsAssignAddFlat = new ArrayList<String>();
-	List<String> _actionSetsAssociateAdd = new ArrayList<String>();
-	List<String> _actionSetsAssociateRemove = new ArrayList<String>();
-	List<String> _actionSetsAssignRemove = new ArrayList<String>();
-	List<String> _actionSetsAssignRemoveFlat = new ArrayList<String>();
+	 List<String> _actionSetsAssignAdd = new ArrayList<String>();
+	 List<String> _actionSetsAssignAddFlat = new ArrayList<String>();
+	 List<String> _actionSetsAssociateAdd = new ArrayList<String>();
+	 List<String> _actionSetsAssociateRemove = new ArrayList<String>();
+	 List<String> _actionSetsAssignRemove = new ArrayList<String>();
+	 List<String> _actionSetsAssignRemoveFlat = new ArrayList<String>();
+	 boolean isAssignRelated = false;
+	 boolean isAssociateRelated = false;
 
 	private List<ActionEncoder> preprocessActions(List<Action> actions, HashMap<String, Integer> mapOfIDs,
 			String label) {
@@ -44,6 +46,12 @@ public class ObligationEncoder {
 
 		for (int i = 0; i < actions.size(); i++) {
 			Action action = actions.get(i);
+			if(isActionAssignmentRelated(action)) {
+				isAssignRelated = true;
+			}
+			if(isActionAssociationRelated(action)) {
+				isAssociateRelated = true;
+			}
 			ActionEncoder actionEncoder;
 			if (action instanceof AssignAction) {
 				actionEncoder = new AssignActionEncoder((AssignAction) action, mapOfIDs);
@@ -139,8 +147,33 @@ public class ObligationEncoder {
 		return initializeActionSets() + System.lineSeparator() + "(assert (=> (= ( " + label + " {k-1}) true)"
 				+ System.lineSeparator() + "(and" + System.lineSeparator() + sb.toString()
 				+ encodeIndependentActions(independentActions) + ")" + System.lineSeparator() + ")"
-				+ System.lineSeparator() + ")" + System.lineSeparator() + encodeRelationTransition()
+				+ System.lineSeparator() + ")"  
+				+ encodeEventNegation(label)
+//				+ System.lineSeparator() 
+//				+encodeRelationTransition()
 				+ System.lineSeparator();
+	}
+
+	private String encodeEventNegation(String label) {
+		String eventNegation = "(assert (=> (= ( " + label + " {k-1}) false) (and";
+		List<String> operationSetsAssign = new ArrayList<String>();
+		List<String> operationSetsAssociate = new ArrayList<String>();
+
+		operationSetsAssign.addAll(_actionSetsAssignAdd);
+		operationSetsAssign.addAll(_actionSetsAssignRemove);
+		operationSetsAssign.addAll(_actionSetsAssignAddFlat);
+		operationSetsAssign.addAll(_actionSetsAssignRemoveFlat);
+		operationSetsAssociate.addAll(_actionSetsAssociateAdd);
+		operationSetsAssociate.addAll(_actionSetsAssociateRemove);
+		for(String operationSet : operationSetsAssign) {
+			eventNegation += "(= " +operationSet+ " (as set.empty (Set (Tuple Int Int))))";
+		}
+		for(String operationSet : operationSetsAssociate) {
+			eventNegation += "(= " +operationSet+ " (as set.empty (Set (Tuple Int Int Int))))";
+		}		
+		
+		eventNegation += ")))";
+		return eventNegation;
 	}
 
 	private String encodeIndependentActions(List<ActionEncoder> actionsNoConflict) {
@@ -233,138 +266,41 @@ public class ObligationEncoder {
 	private void encodePostcondition(StringBuilder sb, ActionEncoder encoder) {
 		sb.append("\t;POSTCONDITION: " + encoder.operationSet + System.lineSeparator() + "\t(= " + encoder.operationSet
 				+ " " + encoder.postconditionSet + ")");
-	}
-
-	private String encodeRelationTransition() {
-		String assign = encodeAssignmentTransition();
-		String assignflat = encodeFlatAssignmentTransition();
-		String assoc = encodeAssociationTransition();
-		return System.lineSeparator() + ";RELATION TRANSITION ENCODING" + System.lineSeparator() + assign
-				+ System.lineSeparator() + assignflat + System.lineSeparator() + assoc;
-	}
-
-	private String encodeAssignmentTransition() {
-		String assign = "";
-		String operationSetEncodingPlus = "";
-		if (_actionSetsAssignAdd.size() + _actionSetsAssignRemove.size() == 0) {
-			return "(assert (= (ASSIGN {k}) (ASSIGN {k-1})))";
-		}
-		for (int i = 0; i < _actionSetsAssignAdd.size(); i++) {
-			String operationSet = _actionSetsAssignAdd.get(i);
-			if (i == 0) {
-				operationSetEncodingPlus += " " + operationSet;
-				continue;
-			}
-
-			operationSetEncodingPlus = "(set.union " + operationSet + " " + operationSetEncodingPlus + ")";
-			_actionSetsAssignAdd.get(i);
-		}
-
-		assign = "\t(set.union (ASSIGN {k-1}) " + operationSetEncodingPlus + ")";
-		if (_actionSetsAssignRemove.size() == 0) {
-			return "(assert (= (ASSIGN {k}) " + System.lineSeparator() + assign + System.lineSeparator() + "))";
-		}
-		String operationSetEncodingMinus = "";
-		for (int i = 0; i < _actionSetsAssignRemove.size(); i++) {
-			String operationSet = _actionSetsAssignRemove.get(i);
-			if (i == 0) {
-				operationSetEncodingMinus += " " + operationSet;
-				continue;
-			}
-			operationSetEncodingMinus = "\t(set.union " + operationSet + " " + operationSetEncodingMinus + ")";
-			_actionSetsAssignRemove.get(i);
-		}
-
-		return "(assert (= (ASSIGN {k}) " + System.lineSeparator() + "\t(set.minus " + System.lineSeparator() + assign
-				+ " " + System.lineSeparator() + operationSetEncodingMinus + System.lineSeparator() + ")"
-				+ System.lineSeparator() + "))";
-	}
-
-	private String encodeFlatAssignmentTransition() {
-		String assign = "";
-		String operationSetEncodingPlus = "";
-		if (_actionSetsAssignAddFlat.size() + _actionSetsAssignRemoveFlat.size() == 0) {
-			return "(assert (= (ASSIGN* {k}) (ASSIGN* {k-1})))";
-		}
-		for (int i = 0; i < _actionSetsAssignAddFlat.size(); i++) {
-			String operationSet = _actionSetsAssignAddFlat.get(i);
-			if (i == 0) {
-				operationSetEncodingPlus += " " + operationSet;
-				continue;
-			}
-
-			operationSetEncodingPlus = "(set.union " + operationSet + " " + operationSetEncodingPlus + ")";
-			_actionSetsAssignAddFlat.get(i);
-		}
-
-		assign = "\t(set.union (ASSIGN* {k-1}) " + operationSetEncodingPlus + ")";
-		if (_actionSetsAssignRemoveFlat.size() == 0) {
-			return "(assert (= (ASSIGN* {k}) " + System.lineSeparator() + assign + System.lineSeparator() + "))";
-		}
-		String operationSetEncodingMinus = "";
-		for (int i = 0; i < _actionSetsAssignRemoveFlat.size(); i++) {
-			String operationSet = _actionSetsAssignRemoveFlat.get(i);
-			if (i == 0) {
-				operationSetEncodingMinus += " " + operationSet;
-				continue;
-			}
-			operationSetEncodingMinus = "\t(set.union " + operationSet + " " + operationSetEncodingMinus + ")";
-			_actionSetsAssignRemoveFlat.get(i);
-		}
-
-		return "(assert (= (ASSIGN* {k}) " + System.lineSeparator() + "\t(set.minus " + System.lineSeparator() + assign
-				+ " " + System.lineSeparator() + operationSetEncodingMinus + System.lineSeparator() + ")"
-				+ System.lineSeparator() + "))";
-	}
-
-	private String encodeAssociationTransition() {
-		String associate = "";
-		String operationSetEncodingPlus = "";
-		if (_actionSetsAssociateAdd.size() + _actionSetsAssociateRemove.size() == 0) {
-			return "(assert (= (ASSOC {k}) (ASSOC {k-1})))";
-		}
-		for (int i = 0; i < _actionSetsAssociateAdd.size(); i++) {
-			String operationSet = _actionSetsAssociateAdd.get(i);
-			if (i == 0) {
-				operationSetEncodingPlus += " " + operationSet;
-				continue;
-			}
-
-			operationSetEncodingPlus = "(set.union " + operationSet + " " + operationSetEncodingPlus + ")";
-			_actionSetsAssociateAdd.get(i);
-		}
-
-		associate = "\t(set.union (ASSOC {k-1}) " + operationSetEncodingPlus + ")";
-		if (_actionSetsAssociateRemove.size() == 0) {
-			return "(assert (= (ASSOC {k}) " + System.lineSeparator() + associate + System.lineSeparator() + "))";
-		}
-		String operationSetEncodingMinus = "";
-		for (int i = 0; i < _actionSetsAssignRemove.size(); i++) {
-			String operationSet = _actionSetsAssignRemove.get(i);
-			if (i == 0) {
-				operationSetEncodingMinus += " " + operationSet;
-				continue;
-			}
-			operationSetEncodingMinus = "\t(set.union " + operationSet + " " + operationSetEncodingMinus + ")";
-			_actionSetsAssignRemove.get(i);
-		}
-
-		return "(assert (= (ASSOC {k}) " + System.lineSeparator() + "\t(set.minus " + System.lineSeparator() + associate
-				+ " " + System.lineSeparator() + operationSetEncodingMinus + System.lineSeparator() + ")"
-				+ System.lineSeparator() + "))";
+		sb.append("\t;POSTCONDITION FLATTEN: " + encoder.operationSetFlat + System.lineSeparator() + "\t(= " + encoder.operationSetFlat
+				+ " " + encoder.postconditionFlattenSet + ")");
 	}
 
 	public String encodeObligation(Rule obligation, HashMap<String, Integer> mapOfIDs, int k) {
-		ObligationEncoder soe = new ObligationEncoder();
-		List<ActionEncoder> convertedActions = soe.preprocessActions(obligation.getResponsePattern().getActions(),
+		List<ActionEncoder> convertedActions = preprocessActions(obligation.getResponsePattern().getActions(),
 				mapOfIDs, obligation.getLabel());
 		try {
-			return ActionEncoder.replaceKWithValue(soe.encodeObligation(convertedActions, obligation.getLabel()), k);
+			return ActionEncoder.replaceKWithValue(encodeObligation(convertedActions, obligation.getLabel()), k);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
+	
+	boolean isActionAssignmentRelated(Action a) {
+		if (a instanceof AssignAction || a instanceof CreateAction) {
+			return true;
+		}
+		if (a instanceof DeleteAction && ((DeleteAction) a).getAssignments() != null) {
+			return true;
+		}
+		return false;
+	}
+
+	boolean isActionAssociationRelated(Action a) {
+		if (a instanceof GrantAction) {
+			return true;
+		}
+		if (a instanceof DeleteAction && ((DeleteAction) a).getAssociations() != null) {
+			return true;
+		}
+		return false;
+	}
+
 
 	public static void main(String[] args) throws Exception {
 		Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");

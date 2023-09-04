@@ -157,7 +157,9 @@
 (declare-fun obligation13 (Int) Bool)
 (declare-fun obligation7 (Int) Bool)
 (declare-fun obligation6 (Int) Bool)
+(declare-fun obligation19 (Int) Bool)
 (declare-fun obligation9 (Int) Bool)
+(declare-fun obligation18 (Int) Bool)
 (declare-fun obligation8 (Int) Bool)
 (declare-fun obligation17 (Int) Bool)
 (declare-fun obligation3 (Int) Bool)
@@ -641,6 +643,58 @@
 )))
 
 
+(declare-fun obligation18U_0 () Int)
+(declare-fun obligation18UA_0 () Int)
+(declare-fun obligation18AT_0 () Int)
+(declare-fun obligation18UO_0 () Int)
+(declare-fun obligation18ar_0 () Int)
+(declare-fun obligation18S_0 () Int)
+(declare-fun obligation18T_0 () Int)
+(assert (>= obligation18U_0 0))
+(assert (>= obligation18UA_0 0))
+(assert (>= obligation18AT_0 0))
+(assert (>= obligation18UO_0 0))
+(assert (or (= obligation18ar_0 42)
+))
+(assert (= obligation18S_0 13))
+(assert (= obligation18T_0 20))
+(assert (=> (= (obligation18 0) true) (and
+ (set.member (tuple  obligation18U_0 obligation18S_0) (ASSIGN* 0))
+ (set.member (tuple  obligation18U_0 obligation18UA_0) (ASSIGN* 0))
+ (set.member (tuple obligation18UA_0 obligation18ar_0 obligation18AT_0) (ASSOC 0))
+ (set.member (tuple  obligation18UO_0 obligation18T_0) (ASSIGN* 0))
+ (set.member (tuple  obligation18UO_0 obligation18AT_0) (ASSIGN* 0))
+ (set.member (tuple  obligation18U_0 obligation18U_0) USERS)
+ (distinct obligation18S_0 obligation18U_0)
+)))
+
+
+(declare-fun obligation19U_0 () Int)
+(declare-fun obligation19UA_0 () Int)
+(declare-fun obligation19AT_0 () Int)
+(declare-fun obligation19UO_0 () Int)
+(declare-fun obligation19ar_0 () Int)
+(declare-fun obligation19S_0 () Int)
+(declare-fun obligation19T_0 () Int)
+(assert (>= obligation19U_0 0))
+(assert (>= obligation19UA_0 0))
+(assert (>= obligation19AT_0 0))
+(assert (>= obligation19UO_0 0))
+(assert (or (= obligation19ar_0 44)
+))
+(assert (= obligation19S_0 11))
+(assert (= obligation19T_0 20))
+(assert (=> (= (obligation19 0) true) (and
+ (set.member (tuple  obligation19U_0 obligation19S_0) (ASSIGN* 0))
+ (set.member (tuple  obligation19U_0 obligation19UA_0) (ASSIGN* 0))
+ (set.member (tuple obligation19UA_0 obligation19ar_0 obligation19AT_0) (ASSOC 0))
+ (set.member (tuple  obligation19UO_0 obligation19T_0) (ASSIGN* 0))
+ (set.member (tuple  obligation19UO_0 obligation19AT_0) (ASSIGN* 0))
+ (set.member (tuple  obligation19U_0 obligation19U_0) USERS)
+ (distinct obligation19S_0 obligation19U_0)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -661,14 +715,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation0_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation0 0) false) (and(= obligation0_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -688,14 +735,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation1_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation1 0) false) (and(= obligation1_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -715,14 +755,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation2_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation2 0) false) (and(= obligation2_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -742,14 +775,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation3_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation3 0) false) (and(= obligation3_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -769,14 +795,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation4_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation4 0) false) (and(= obligation4_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -796,14 +815,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation5_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation5 0) false) (and(= obligation5_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -823,14 +835,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation6_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation6 0) false) (and(= obligation6_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -850,14 +855,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation7_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation7 0) false) (and(= obligation7_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -877,14 +875,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation8_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation8 0) false) (and(= obligation8_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -904,14 +895,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation9_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation9 0) false) (and(= obligation9_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -931,14 +915,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation10_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation10 0) false) (and(= obligation10_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -958,14 +935,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation11_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation11 0) false) (and(= obligation11_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -985,14 +955,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation12_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation12 0) false) (and(= obligation12_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1012,14 +975,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation13_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation13 0) false) (and(= obligation13_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1039,14 +995,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation14_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation14 0) false) (and(= obligation14_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1066,14 +1015,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation15_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation15 0) false) (and(= obligation15_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1093,14 +1035,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) (ASSIGN 0)))
-(assert (= (ASSIGN* 1) (ASSIGN* 0)))
-(assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation16_GrantAction_1_0)
-))
+)(assert (=> (= ( obligation16 0) false) (and(= obligation16_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1120,31 +1055,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 0) false) (and(= obligation17_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_1_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 0) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_1_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 0))) (= obligation18_GrantAction_1_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 0)))) (= obligation18_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 0) false) (and(= obligation18_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_1_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 0) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_1_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 0))) (= obligation19_GrantAction_1_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 0)))) (= obligation19_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 0) false) (and(= obligation19_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 1) (ASSIGN 0)))
 (assert (= (ASSIGN* 1) (ASSIGN* 0)))
 (assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  obligation17_GrantAction_1_0)
+	(set.union (ASSOC 0) (set.union obligation19_GrantAction_1_0 (set.union obligation18_GrantAction_1_0 (set.union obligation17_GrantAction_1_0 (set.union obligation16_GrantAction_1_0 (set.union obligation15_GrantAction_1_0 (set.union obligation14_GrantAction_1_0 (set.union obligation13_GrantAction_1_0 (set.union obligation12_GrantAction_1_0 (set.union obligation11_GrantAction_1_0 (set.union obligation10_GrantAction_1_0 (set.union obligation9_GrantAction_1_0 (set.union obligation8_GrantAction_1_0 (set.union obligation7_GrantAction_1_0 (set.union obligation6_GrantAction_1_0 (set.union obligation5_GrantAction_1_0 (set.union obligation4_GrantAction_1_0 (set.union obligation3_GrantAction_1_0 (set.union obligation2_GrantAction_1_0 (set.union obligation1_GrantAction_1_0  obligation0_GrantAction_1_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 1) (ASSIGN* 0))
 (or 
-(= (obligation16 0) true)(= (obligation15 0) true)(= (obligation14 0) true)(= (obligation13 0) true)(= (obligation7 0) true)(= (obligation6 0) true)(= (obligation9 0) true)(= (obligation8 0) true)(= (obligation17 0) true)(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true)(= (obligation0 0) true)(= (obligation12 0) true)(= (obligation11 0) true)(= (obligation10 0) true))))
+)))
 (assert (=> (distinct (ASSIGN 1) (ASSIGN 0))
-(or (= (obligation16 0) true)(= (obligation15 0) true)(= (obligation14 0) true)(= (obligation13 0) true)(= (obligation7 0) true)(= (obligation6 0) true)(= (obligation9 0) true)(= (obligation8 0) true)(= (obligation17 0) true)(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true)(= (obligation0 0) true)(= (obligation12 0) true)(= (obligation11 0) true)(= (obligation10 0) true))))
+(or )))
 (assert (=> (distinct (ASSOC 1) (ASSOC 0))
 (or 
-(= (obligation16 0) true)(= (obligation15 0) true)(= (obligation14 0) true)(= (obligation13 0) true)(= (obligation7 0) true)(= (obligation6 0) true)(= (obligation9 0) true)(= (obligation8 0) true)(= (obligation17 0) true)(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true)(= (obligation0 0) true)(= (obligation12 0) true)(= (obligation11 0) true)(= (obligation10 0) true))))
+(= (obligation0 0) true)(= (obligation1 0) true)(= (obligation2 0) true)(= (obligation3 0) true)(= (obligation4 0) true)(= (obligation5 0) true)(= (obligation6 0) true)(= (obligation7 0) true)(= (obligation8 0) true)(= (obligation9 0) true)(= (obligation10 0) true)(= (obligation11 0) true)(= (obligation12 0) true)(= (obligation13 0) true)(= (obligation14 0) true)(= (obligation15 0) true)(= (obligation16 0) true)(= (obligation17 0) true)(= (obligation18 0) true)(= (obligation19 0) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 0) true)(= (obligation15 0) true)(= (obligation14 0) true)(= (obligation13 0) true)(= (obligation7 0) true)(= (obligation6 0) true)(= (obligation9 0) true)(= (obligation8 0) true)(= (obligation17 0) true)(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true)(= (obligation0 0) true)(= (obligation12 0) true)(= (obligation11 0) true)(= (obligation10 0) true)))
+(assert (or(= (obligation16 0) true)(= (obligation15 0) true)(= (obligation14 0) true)(= (obligation13 0) true)(= (obligation7 0) true)(= (obligation6 0) true)(= (obligation19 0) true)(= (obligation9 0) true)(= (obligation18 0) true)(= (obligation8 0) true)(= (obligation17 0) true)(= (obligation3 0) true)(= (obligation2 0) true)(= (obligation5 0) true)(= (obligation4 0) true)(= (obligation1 0) true)(= (obligation0 0) true)(= (obligation12 0) true)(= (obligation11 0) true)(= (obligation10 0) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -1619,6 +1594,58 @@
 )))
 
 
+(declare-fun obligation18U_1 () Int)
+(declare-fun obligation18UA_1 () Int)
+(declare-fun obligation18AT_1 () Int)
+(declare-fun obligation18UO_1 () Int)
+(declare-fun obligation18ar_1 () Int)
+(declare-fun obligation18S_1 () Int)
+(declare-fun obligation18T_1 () Int)
+(assert (>= obligation18U_1 0))
+(assert (>= obligation18UA_1 0))
+(assert (>= obligation18AT_1 0))
+(assert (>= obligation18UO_1 0))
+(assert (or (= obligation18ar_1 42)
+))
+(assert (= obligation18S_1 13))
+(assert (= obligation18T_1 20))
+(assert (=> (= (obligation18 1) true) (and
+ (set.member (tuple  obligation18U_1 obligation18S_1) (ASSIGN* 1))
+ (set.member (tuple  obligation18U_1 obligation18UA_1) (ASSIGN* 1))
+ (set.member (tuple obligation18UA_1 obligation18ar_1 obligation18AT_1) (ASSOC 1))
+ (set.member (tuple  obligation18UO_1 obligation18T_1) (ASSIGN* 1))
+ (set.member (tuple  obligation18UO_1 obligation18AT_1) (ASSIGN* 1))
+ (set.member (tuple  obligation18U_1 obligation18U_1) USERS)
+ (distinct obligation18S_1 obligation18U_1)
+)))
+
+
+(declare-fun obligation19U_1 () Int)
+(declare-fun obligation19UA_1 () Int)
+(declare-fun obligation19AT_1 () Int)
+(declare-fun obligation19UO_1 () Int)
+(declare-fun obligation19ar_1 () Int)
+(declare-fun obligation19S_1 () Int)
+(declare-fun obligation19T_1 () Int)
+(assert (>= obligation19U_1 0))
+(assert (>= obligation19UA_1 0))
+(assert (>= obligation19AT_1 0))
+(assert (>= obligation19UO_1 0))
+(assert (or (= obligation19ar_1 44)
+))
+(assert (= obligation19S_1 11))
+(assert (= obligation19T_1 20))
+(assert (=> (= (obligation19 1) true) (and
+ (set.member (tuple  obligation19U_1 obligation19S_1) (ASSIGN* 1))
+ (set.member (tuple  obligation19U_1 obligation19UA_1) (ASSIGN* 1))
+ (set.member (tuple obligation19UA_1 obligation19ar_1 obligation19AT_1) (ASSOC 1))
+ (set.member (tuple  obligation19UO_1 obligation19T_1) (ASSIGN* 1))
+ (set.member (tuple  obligation19UO_1 obligation19AT_1) (ASSIGN* 1))
+ (set.member (tuple  obligation19U_1 obligation19U_1) USERS)
+ (distinct obligation19S_1 obligation19U_1)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -1639,14 +1666,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation0_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation0 1) false) (and(= obligation0_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1666,14 +1686,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation1_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation1 1) false) (and(= obligation1_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1693,14 +1706,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation2_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation2 1) false) (and(= obligation2_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1720,14 +1726,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation3_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation3 1) false) (and(= obligation3_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1747,14 +1746,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation4_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation4 1) false) (and(= obligation4_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1774,14 +1766,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation5_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation5 1) false) (and(= obligation5_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1801,14 +1786,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation6_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation6 1) false) (and(= obligation6_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1828,14 +1806,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation7_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation7 1) false) (and(= obligation7_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1855,14 +1826,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation8_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation8 1) false) (and(= obligation8_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1882,14 +1846,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation9_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation9 1) false) (and(= obligation9_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1909,14 +1866,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation10_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation10 1) false) (and(= obligation10_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1936,14 +1886,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation11_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation11 1) false) (and(= obligation11_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1963,14 +1906,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation12_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation12 1) false) (and(= obligation12_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -1990,14 +1926,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation13_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation13 1) false) (and(= obligation13_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2017,14 +1946,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation14_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation14 1) false) (and(= obligation14_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2044,14 +1966,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation15_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation15 1) false) (and(= obligation15_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2071,14 +1986,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 2) (ASSIGN 1)))
-(assert (= (ASSIGN* 2) (ASSIGN* 1)))
-(assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation16_GrantAction_2_0)
-))
+)(assert (=> (= ( obligation16 1) false) (and(= obligation16_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2098,31 +2006,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 1) false) (and(= obligation17_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_2_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 1) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_2_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 1))) (= obligation18_GrantAction_2_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 1)))) (= obligation18_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 1) false) (and(= obligation18_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_2_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 1) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_2_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 1))) (= obligation19_GrantAction_2_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 1)))) (= obligation19_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 1) false) (and(= obligation19_GrantAction_2_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 2) (ASSIGN 1)))
 (assert (= (ASSIGN* 2) (ASSIGN* 1)))
 (assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  obligation17_GrantAction_2_0)
+	(set.union (ASSOC 1) (set.union obligation19_GrantAction_2_0 (set.union obligation18_GrantAction_2_0 (set.union obligation17_GrantAction_2_0 (set.union obligation16_GrantAction_2_0 (set.union obligation15_GrantAction_2_0 (set.union obligation14_GrantAction_2_0 (set.union obligation13_GrantAction_2_0 (set.union obligation12_GrantAction_2_0 (set.union obligation11_GrantAction_2_0 (set.union obligation10_GrantAction_2_0 (set.union obligation9_GrantAction_2_0 (set.union obligation8_GrantAction_2_0 (set.union obligation7_GrantAction_2_0 (set.union obligation6_GrantAction_2_0 (set.union obligation5_GrantAction_2_0 (set.union obligation4_GrantAction_2_0 (set.union obligation3_GrantAction_2_0 (set.union obligation2_GrantAction_2_0 (set.union obligation1_GrantAction_2_0  obligation0_GrantAction_2_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 2) (ASSIGN* 1))
 (or 
-(= (obligation16 1) true)(= (obligation15 1) true)(= (obligation14 1) true)(= (obligation13 1) true)(= (obligation7 1) true)(= (obligation6 1) true)(= (obligation9 1) true)(= (obligation8 1) true)(= (obligation17 1) true)(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true)(= (obligation0 1) true)(= (obligation12 1) true)(= (obligation11 1) true)(= (obligation10 1) true))))
+)))
 (assert (=> (distinct (ASSIGN 2) (ASSIGN 1))
-(or (= (obligation16 1) true)(= (obligation15 1) true)(= (obligation14 1) true)(= (obligation13 1) true)(= (obligation7 1) true)(= (obligation6 1) true)(= (obligation9 1) true)(= (obligation8 1) true)(= (obligation17 1) true)(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true)(= (obligation0 1) true)(= (obligation12 1) true)(= (obligation11 1) true)(= (obligation10 1) true))))
+(or )))
 (assert (=> (distinct (ASSOC 2) (ASSOC 1))
 (or 
-(= (obligation16 1) true)(= (obligation15 1) true)(= (obligation14 1) true)(= (obligation13 1) true)(= (obligation7 1) true)(= (obligation6 1) true)(= (obligation9 1) true)(= (obligation8 1) true)(= (obligation17 1) true)(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true)(= (obligation0 1) true)(= (obligation12 1) true)(= (obligation11 1) true)(= (obligation10 1) true))))
+(= (obligation0 1) true)(= (obligation1 1) true)(= (obligation2 1) true)(= (obligation3 1) true)(= (obligation4 1) true)(= (obligation5 1) true)(= (obligation6 1) true)(= (obligation7 1) true)(= (obligation8 1) true)(= (obligation9 1) true)(= (obligation10 1) true)(= (obligation11 1) true)(= (obligation12 1) true)(= (obligation13 1) true)(= (obligation14 1) true)(= (obligation15 1) true)(= (obligation16 1) true)(= (obligation17 1) true)(= (obligation18 1) true)(= (obligation19 1) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 1) true)(= (obligation15 1) true)(= (obligation14 1) true)(= (obligation13 1) true)(= (obligation7 1) true)(= (obligation6 1) true)(= (obligation9 1) true)(= (obligation8 1) true)(= (obligation17 1) true)(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true)(= (obligation0 1) true)(= (obligation12 1) true)(= (obligation11 1) true)(= (obligation10 1) true)))
+(assert (or(= (obligation16 1) true)(= (obligation15 1) true)(= (obligation14 1) true)(= (obligation13 1) true)(= (obligation7 1) true)(= (obligation6 1) true)(= (obligation19 1) true)(= (obligation9 1) true)(= (obligation18 1) true)(= (obligation8 1) true)(= (obligation17 1) true)(= (obligation3 1) true)(= (obligation2 1) true)(= (obligation5 1) true)(= (obligation4 1) true)(= (obligation1 1) true)(= (obligation0 1) true)(= (obligation12 1) true)(= (obligation11 1) true)(= (obligation10 1) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -2597,6 +2545,58 @@
 )))
 
 
+(declare-fun obligation18U_2 () Int)
+(declare-fun obligation18UA_2 () Int)
+(declare-fun obligation18AT_2 () Int)
+(declare-fun obligation18UO_2 () Int)
+(declare-fun obligation18ar_2 () Int)
+(declare-fun obligation18S_2 () Int)
+(declare-fun obligation18T_2 () Int)
+(assert (>= obligation18U_2 0))
+(assert (>= obligation18UA_2 0))
+(assert (>= obligation18AT_2 0))
+(assert (>= obligation18UO_2 0))
+(assert (or (= obligation18ar_2 42)
+))
+(assert (= obligation18S_2 13))
+(assert (= obligation18T_2 20))
+(assert (=> (= (obligation18 2) true) (and
+ (set.member (tuple  obligation18U_2 obligation18S_2) (ASSIGN* 2))
+ (set.member (tuple  obligation18U_2 obligation18UA_2) (ASSIGN* 2))
+ (set.member (tuple obligation18UA_2 obligation18ar_2 obligation18AT_2) (ASSOC 2))
+ (set.member (tuple  obligation18UO_2 obligation18T_2) (ASSIGN* 2))
+ (set.member (tuple  obligation18UO_2 obligation18AT_2) (ASSIGN* 2))
+ (set.member (tuple  obligation18U_2 obligation18U_2) USERS)
+ (distinct obligation18S_2 obligation18U_2)
+)))
+
+
+(declare-fun obligation19U_2 () Int)
+(declare-fun obligation19UA_2 () Int)
+(declare-fun obligation19AT_2 () Int)
+(declare-fun obligation19UO_2 () Int)
+(declare-fun obligation19ar_2 () Int)
+(declare-fun obligation19S_2 () Int)
+(declare-fun obligation19T_2 () Int)
+(assert (>= obligation19U_2 0))
+(assert (>= obligation19UA_2 0))
+(assert (>= obligation19AT_2 0))
+(assert (>= obligation19UO_2 0))
+(assert (or (= obligation19ar_2 44)
+))
+(assert (= obligation19S_2 11))
+(assert (= obligation19T_2 20))
+(assert (=> (= (obligation19 2) true) (and
+ (set.member (tuple  obligation19U_2 obligation19S_2) (ASSIGN* 2))
+ (set.member (tuple  obligation19U_2 obligation19UA_2) (ASSIGN* 2))
+ (set.member (tuple obligation19UA_2 obligation19ar_2 obligation19AT_2) (ASSOC 2))
+ (set.member (tuple  obligation19UO_2 obligation19T_2) (ASSIGN* 2))
+ (set.member (tuple  obligation19UO_2 obligation19AT_2) (ASSIGN* 2))
+ (set.member (tuple  obligation19U_2 obligation19U_2) USERS)
+ (distinct obligation19S_2 obligation19U_2)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -2617,14 +2617,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation0_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation0 2) false) (and(= obligation0_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2644,14 +2637,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation1_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation1 2) false) (and(= obligation1_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2671,14 +2657,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation2_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation2 2) false) (and(= obligation2_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2698,14 +2677,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation3_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation3 2) false) (and(= obligation3_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2725,14 +2697,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation4_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation4 2) false) (and(= obligation4_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2752,14 +2717,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation5_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation5 2) false) (and(= obligation5_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2779,14 +2737,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation6_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation6 2) false) (and(= obligation6_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2806,14 +2757,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation7_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation7 2) false) (and(= obligation7_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2833,14 +2777,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation8_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation8 2) false) (and(= obligation8_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2860,14 +2797,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation9_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation9 2) false) (and(= obligation9_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2887,14 +2817,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation10_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation10 2) false) (and(= obligation10_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2914,14 +2837,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation11_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation11 2) false) (and(= obligation11_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2941,14 +2857,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation12_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation12 2) false) (and(= obligation12_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2968,14 +2877,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation13_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation13 2) false) (and(= obligation13_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -2995,14 +2897,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation14_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation14 2) false) (and(= obligation14_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3022,14 +2917,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation15_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation15 2) false) (and(= obligation15_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3049,14 +2937,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 3) (ASSIGN 2)))
-(assert (= (ASSIGN* 3) (ASSIGN* 2)))
-(assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation16_GrantAction_3_0)
-))
+)(assert (=> (= ( obligation16 2) false) (and(= obligation16_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3076,31 +2957,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 2) false) (and(= obligation17_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_3_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 2) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_3_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 2))) (= obligation18_GrantAction_3_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 2)))) (= obligation18_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 2) false) (and(= obligation18_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_3_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 2) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_3_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 2))) (= obligation19_GrantAction_3_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 2)))) (= obligation19_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 2) false) (and(= obligation19_GrantAction_3_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 3) (ASSIGN 2)))
 (assert (= (ASSIGN* 3) (ASSIGN* 2)))
 (assert (= (ASSOC 3) 
-	(set.union (ASSOC 2)  obligation17_GrantAction_3_0)
+	(set.union (ASSOC 2) (set.union obligation19_GrantAction_3_0 (set.union obligation18_GrantAction_3_0 (set.union obligation17_GrantAction_3_0 (set.union obligation16_GrantAction_3_0 (set.union obligation15_GrantAction_3_0 (set.union obligation14_GrantAction_3_0 (set.union obligation13_GrantAction_3_0 (set.union obligation12_GrantAction_3_0 (set.union obligation11_GrantAction_3_0 (set.union obligation10_GrantAction_3_0 (set.union obligation9_GrantAction_3_0 (set.union obligation8_GrantAction_3_0 (set.union obligation7_GrantAction_3_0 (set.union obligation6_GrantAction_3_0 (set.union obligation5_GrantAction_3_0 (set.union obligation4_GrantAction_3_0 (set.union obligation3_GrantAction_3_0 (set.union obligation2_GrantAction_3_0 (set.union obligation1_GrantAction_3_0  obligation0_GrantAction_3_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 3) (ASSIGN* 2))
 (or 
-(= (obligation16 2) true)(= (obligation15 2) true)(= (obligation14 2) true)(= (obligation13 2) true)(= (obligation7 2) true)(= (obligation6 2) true)(= (obligation9 2) true)(= (obligation8 2) true)(= (obligation17 2) true)(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true)(= (obligation0 2) true)(= (obligation12 2) true)(= (obligation11 2) true)(= (obligation10 2) true))))
+)))
 (assert (=> (distinct (ASSIGN 3) (ASSIGN 2))
-(or (= (obligation16 2) true)(= (obligation15 2) true)(= (obligation14 2) true)(= (obligation13 2) true)(= (obligation7 2) true)(= (obligation6 2) true)(= (obligation9 2) true)(= (obligation8 2) true)(= (obligation17 2) true)(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true)(= (obligation0 2) true)(= (obligation12 2) true)(= (obligation11 2) true)(= (obligation10 2) true))))
+(or )))
 (assert (=> (distinct (ASSOC 3) (ASSOC 2))
 (or 
-(= (obligation16 2) true)(= (obligation15 2) true)(= (obligation14 2) true)(= (obligation13 2) true)(= (obligation7 2) true)(= (obligation6 2) true)(= (obligation9 2) true)(= (obligation8 2) true)(= (obligation17 2) true)(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true)(= (obligation0 2) true)(= (obligation12 2) true)(= (obligation11 2) true)(= (obligation10 2) true))))
+(= (obligation0 2) true)(= (obligation1 2) true)(= (obligation2 2) true)(= (obligation3 2) true)(= (obligation4 2) true)(= (obligation5 2) true)(= (obligation6 2) true)(= (obligation7 2) true)(= (obligation8 2) true)(= (obligation9 2) true)(= (obligation10 2) true)(= (obligation11 2) true)(= (obligation12 2) true)(= (obligation13 2) true)(= (obligation14 2) true)(= (obligation15 2) true)(= (obligation16 2) true)(= (obligation17 2) true)(= (obligation18 2) true)(= (obligation19 2) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 2) true)(= (obligation15 2) true)(= (obligation14 2) true)(= (obligation13 2) true)(= (obligation7 2) true)(= (obligation6 2) true)(= (obligation9 2) true)(= (obligation8 2) true)(= (obligation17 2) true)(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true)(= (obligation0 2) true)(= (obligation12 2) true)(= (obligation11 2) true)(= (obligation10 2) true)))
+(assert (or(= (obligation16 2) true)(= (obligation15 2) true)(= (obligation14 2) true)(= (obligation13 2) true)(= (obligation7 2) true)(= (obligation6 2) true)(= (obligation19 2) true)(= (obligation9 2) true)(= (obligation18 2) true)(= (obligation8 2) true)(= (obligation17 2) true)(= (obligation3 2) true)(= (obligation2 2) true)(= (obligation5 2) true)(= (obligation4 2) true)(= (obligation1 2) true)(= (obligation0 2) true)(= (obligation12 2) true)(= (obligation11 2) true)(= (obligation10 2) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -3575,6 +3496,58 @@
 )))
 
 
+(declare-fun obligation18U_3 () Int)
+(declare-fun obligation18UA_3 () Int)
+(declare-fun obligation18AT_3 () Int)
+(declare-fun obligation18UO_3 () Int)
+(declare-fun obligation18ar_3 () Int)
+(declare-fun obligation18S_3 () Int)
+(declare-fun obligation18T_3 () Int)
+(assert (>= obligation18U_3 0))
+(assert (>= obligation18UA_3 0))
+(assert (>= obligation18AT_3 0))
+(assert (>= obligation18UO_3 0))
+(assert (or (= obligation18ar_3 42)
+))
+(assert (= obligation18S_3 13))
+(assert (= obligation18T_3 20))
+(assert (=> (= (obligation18 3) true) (and
+ (set.member (tuple  obligation18U_3 obligation18S_3) (ASSIGN* 3))
+ (set.member (tuple  obligation18U_3 obligation18UA_3) (ASSIGN* 3))
+ (set.member (tuple obligation18UA_3 obligation18ar_3 obligation18AT_3) (ASSOC 3))
+ (set.member (tuple  obligation18UO_3 obligation18T_3) (ASSIGN* 3))
+ (set.member (tuple  obligation18UO_3 obligation18AT_3) (ASSIGN* 3))
+ (set.member (tuple  obligation18U_3 obligation18U_3) USERS)
+ (distinct obligation18S_3 obligation18U_3)
+)))
+
+
+(declare-fun obligation19U_3 () Int)
+(declare-fun obligation19UA_3 () Int)
+(declare-fun obligation19AT_3 () Int)
+(declare-fun obligation19UO_3 () Int)
+(declare-fun obligation19ar_3 () Int)
+(declare-fun obligation19S_3 () Int)
+(declare-fun obligation19T_3 () Int)
+(assert (>= obligation19U_3 0))
+(assert (>= obligation19UA_3 0))
+(assert (>= obligation19AT_3 0))
+(assert (>= obligation19UO_3 0))
+(assert (or (= obligation19ar_3 44)
+))
+(assert (= obligation19S_3 11))
+(assert (= obligation19T_3 20))
+(assert (=> (= (obligation19 3) true) (and
+ (set.member (tuple  obligation19U_3 obligation19S_3) (ASSIGN* 3))
+ (set.member (tuple  obligation19U_3 obligation19UA_3) (ASSIGN* 3))
+ (set.member (tuple obligation19UA_3 obligation19ar_3 obligation19AT_3) (ASSOC 3))
+ (set.member (tuple  obligation19UO_3 obligation19T_3) (ASSIGN* 3))
+ (set.member (tuple  obligation19UO_3 obligation19AT_3) (ASSIGN* 3))
+ (set.member (tuple  obligation19U_3 obligation19U_3) USERS)
+ (distinct obligation19S_3 obligation19U_3)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -3595,14 +3568,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation0_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation0 3) false) (and(= obligation0_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3622,14 +3588,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation1_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation1 3) false) (and(= obligation1_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3649,14 +3608,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation2_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation2 3) false) (and(= obligation2_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3676,14 +3628,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation3_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation3 3) false) (and(= obligation3_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3703,14 +3648,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation4_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation4 3) false) (and(= obligation4_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3730,14 +3668,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation5_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation5 3) false) (and(= obligation5_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3757,14 +3688,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation6_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation6 3) false) (and(= obligation6_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3784,14 +3708,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation7_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation7 3) false) (and(= obligation7_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3811,14 +3728,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation8_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation8 3) false) (and(= obligation8_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3838,14 +3748,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation9_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation9 3) false) (and(= obligation9_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3865,14 +3768,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation10_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation10 3) false) (and(= obligation10_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3892,14 +3788,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation11_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation11 3) false) (and(= obligation11_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3919,14 +3808,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation12_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation12 3) false) (and(= obligation12_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3946,14 +3828,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation13_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation13 3) false) (and(= obligation13_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -3973,14 +3848,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation14_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation14 3) false) (and(= obligation14_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4000,14 +3868,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation15_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation15 3) false) (and(= obligation15_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4027,14 +3888,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 4) (ASSIGN 3)))
-(assert (= (ASSIGN* 4) (ASSIGN* 3)))
-(assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation16_GrantAction_4_0)
-))
+)(assert (=> (= ( obligation16 3) false) (and(= obligation16_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4054,31 +3908,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 3) false) (and(= obligation17_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_4_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 3) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_4_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 3))) (= obligation18_GrantAction_4_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 3)))) (= obligation18_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 3) false) (and(= obligation18_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_4_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 3) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_4_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 3))) (= obligation19_GrantAction_4_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 3)))) (= obligation19_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 3) false) (and(= obligation19_GrantAction_4_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 4) (ASSIGN 3)))
 (assert (= (ASSIGN* 4) (ASSIGN* 3)))
 (assert (= (ASSOC 4) 
-	(set.union (ASSOC 3)  obligation17_GrantAction_4_0)
+	(set.union (ASSOC 3) (set.union obligation19_GrantAction_4_0 (set.union obligation18_GrantAction_4_0 (set.union obligation17_GrantAction_4_0 (set.union obligation16_GrantAction_4_0 (set.union obligation15_GrantAction_4_0 (set.union obligation14_GrantAction_4_0 (set.union obligation13_GrantAction_4_0 (set.union obligation12_GrantAction_4_0 (set.union obligation11_GrantAction_4_0 (set.union obligation10_GrantAction_4_0 (set.union obligation9_GrantAction_4_0 (set.union obligation8_GrantAction_4_0 (set.union obligation7_GrantAction_4_0 (set.union obligation6_GrantAction_4_0 (set.union obligation5_GrantAction_4_0 (set.union obligation4_GrantAction_4_0 (set.union obligation3_GrantAction_4_0 (set.union obligation2_GrantAction_4_0 (set.union obligation1_GrantAction_4_0  obligation0_GrantAction_4_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 4) (ASSIGN* 3))
 (or 
-(= (obligation16 3) true)(= (obligation15 3) true)(= (obligation14 3) true)(= (obligation13 3) true)(= (obligation7 3) true)(= (obligation6 3) true)(= (obligation9 3) true)(= (obligation8 3) true)(= (obligation17 3) true)(= (obligation3 3) true)(= (obligation2 3) true)(= (obligation5 3) true)(= (obligation4 3) true)(= (obligation1 3) true)(= (obligation0 3) true)(= (obligation12 3) true)(= (obligation11 3) true)(= (obligation10 3) true))))
+)))
 (assert (=> (distinct (ASSIGN 4) (ASSIGN 3))
-(or (= (obligation16 3) true)(= (obligation15 3) true)(= (obligation14 3) true)(= (obligation13 3) true)(= (obligation7 3) true)(= (obligation6 3) true)(= (obligation9 3) true)(= (obligation8 3) true)(= (obligation17 3) true)(= (obligation3 3) true)(= (obligation2 3) true)(= (obligation5 3) true)(= (obligation4 3) true)(= (obligation1 3) true)(= (obligation0 3) true)(= (obligation12 3) true)(= (obligation11 3) true)(= (obligation10 3) true))))
+(or )))
 (assert (=> (distinct (ASSOC 4) (ASSOC 3))
 (or 
-(= (obligation16 3) true)(= (obligation15 3) true)(= (obligation14 3) true)(= (obligation13 3) true)(= (obligation7 3) true)(= (obligation6 3) true)(= (obligation9 3) true)(= (obligation8 3) true)(= (obligation17 3) true)(= (obligation3 3) true)(= (obligation2 3) true)(= (obligation5 3) true)(= (obligation4 3) true)(= (obligation1 3) true)(= (obligation0 3) true)(= (obligation12 3) true)(= (obligation11 3) true)(= (obligation10 3) true))))
+(= (obligation0 3) true)(= (obligation1 3) true)(= (obligation2 3) true)(= (obligation3 3) true)(= (obligation4 3) true)(= (obligation5 3) true)(= (obligation6 3) true)(= (obligation7 3) true)(= (obligation8 3) true)(= (obligation9 3) true)(= (obligation10 3) true)(= (obligation11 3) true)(= (obligation12 3) true)(= (obligation13 3) true)(= (obligation14 3) true)(= (obligation15 3) true)(= (obligation16 3) true)(= (obligation17 3) true)(= (obligation18 3) true)(= (obligation19 3) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 3) true)(= (obligation15 3) true)(= (obligation14 3) true)(= (obligation13 3) true)(= (obligation7 3) true)(= (obligation6 3) true)(= (obligation9 3) true)(= (obligation8 3) true)(= (obligation17 3) true)(= (obligation3 3) true)(= (obligation2 3) true)(= (obligation5 3) true)(= (obligation4 3) true)(= (obligation1 3) true)(= (obligation0 3) true)(= (obligation12 3) true)(= (obligation11 3) true)(= (obligation10 3) true)))
+(assert (or(= (obligation16 3) true)(= (obligation15 3) true)(= (obligation14 3) true)(= (obligation13 3) true)(= (obligation7 3) true)(= (obligation6 3) true)(= (obligation19 3) true)(= (obligation9 3) true)(= (obligation18 3) true)(= (obligation8 3) true)(= (obligation17 3) true)(= (obligation3 3) true)(= (obligation2 3) true)(= (obligation5 3) true)(= (obligation4 3) true)(= (obligation1 3) true)(= (obligation0 3) true)(= (obligation12 3) true)(= (obligation11 3) true)(= (obligation10 3) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -4553,6 +4447,58 @@
 )))
 
 
+(declare-fun obligation18U_4 () Int)
+(declare-fun obligation18UA_4 () Int)
+(declare-fun obligation18AT_4 () Int)
+(declare-fun obligation18UO_4 () Int)
+(declare-fun obligation18ar_4 () Int)
+(declare-fun obligation18S_4 () Int)
+(declare-fun obligation18T_4 () Int)
+(assert (>= obligation18U_4 0))
+(assert (>= obligation18UA_4 0))
+(assert (>= obligation18AT_4 0))
+(assert (>= obligation18UO_4 0))
+(assert (or (= obligation18ar_4 42)
+))
+(assert (= obligation18S_4 13))
+(assert (= obligation18T_4 20))
+(assert (=> (= (obligation18 4) true) (and
+ (set.member (tuple  obligation18U_4 obligation18S_4) (ASSIGN* 4))
+ (set.member (tuple  obligation18U_4 obligation18UA_4) (ASSIGN* 4))
+ (set.member (tuple obligation18UA_4 obligation18ar_4 obligation18AT_4) (ASSOC 4))
+ (set.member (tuple  obligation18UO_4 obligation18T_4) (ASSIGN* 4))
+ (set.member (tuple  obligation18UO_4 obligation18AT_4) (ASSIGN* 4))
+ (set.member (tuple  obligation18U_4 obligation18U_4) USERS)
+ (distinct obligation18S_4 obligation18U_4)
+)))
+
+
+(declare-fun obligation19U_4 () Int)
+(declare-fun obligation19UA_4 () Int)
+(declare-fun obligation19AT_4 () Int)
+(declare-fun obligation19UO_4 () Int)
+(declare-fun obligation19ar_4 () Int)
+(declare-fun obligation19S_4 () Int)
+(declare-fun obligation19T_4 () Int)
+(assert (>= obligation19U_4 0))
+(assert (>= obligation19UA_4 0))
+(assert (>= obligation19AT_4 0))
+(assert (>= obligation19UO_4 0))
+(assert (or (= obligation19ar_4 44)
+))
+(assert (= obligation19S_4 11))
+(assert (= obligation19T_4 20))
+(assert (=> (= (obligation19 4) true) (and
+ (set.member (tuple  obligation19U_4 obligation19S_4) (ASSIGN* 4))
+ (set.member (tuple  obligation19U_4 obligation19UA_4) (ASSIGN* 4))
+ (set.member (tuple obligation19UA_4 obligation19ar_4 obligation19AT_4) (ASSOC 4))
+ (set.member (tuple  obligation19UO_4 obligation19T_4) (ASSIGN* 4))
+ (set.member (tuple  obligation19UO_4 obligation19AT_4) (ASSIGN* 4))
+ (set.member (tuple  obligation19U_4 obligation19U_4) USERS)
+ (distinct obligation19S_4 obligation19U_4)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -4573,14 +4519,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation0_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation0 4) false) (and(= obligation0_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4600,14 +4539,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation1_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation1 4) false) (and(= obligation1_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4627,14 +4559,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation2_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation2 4) false) (and(= obligation2_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4654,14 +4579,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation3_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation3 4) false) (and(= obligation3_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4681,14 +4599,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation4_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation4 4) false) (and(= obligation4_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4708,14 +4619,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation5_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation5 4) false) (and(= obligation5_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4735,14 +4639,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation6_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation6 4) false) (and(= obligation6_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4762,14 +4659,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation7_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation7 4) false) (and(= obligation7_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4789,14 +4679,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation8_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation8 4) false) (and(= obligation8_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4816,14 +4699,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation9_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation9 4) false) (and(= obligation9_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4843,14 +4719,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation10_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation10 4) false) (and(= obligation10_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4870,14 +4739,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation11_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation11 4) false) (and(= obligation11_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4897,14 +4759,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation12_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation12 4) false) (and(= obligation12_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4924,14 +4779,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation13_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation13 4) false) (and(= obligation13_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4951,14 +4799,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation14_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation14 4) false) (and(= obligation14_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -4978,14 +4819,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation15_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation15 4) false) (and(= obligation15_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5005,14 +4839,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 5) (ASSIGN 4)))
-(assert (= (ASSIGN* 5) (ASSIGN* 4)))
-(assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation16_GrantAction_5_0)
-))
+)(assert (=> (= ( obligation16 4) false) (and(= obligation16_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5032,31 +4859,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 4) false) (and(= obligation17_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_5_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 4) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_5_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 4))) (= obligation18_GrantAction_5_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 4)))) (= obligation18_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 4) false) (and(= obligation18_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_5_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 4) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_5_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 4))) (= obligation19_GrantAction_5_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 4)))) (= obligation19_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 4) false) (and(= obligation19_GrantAction_5_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 5) (ASSIGN 4)))
 (assert (= (ASSIGN* 5) (ASSIGN* 4)))
 (assert (= (ASSOC 5) 
-	(set.union (ASSOC 4)  obligation17_GrantAction_5_0)
+	(set.union (ASSOC 4) (set.union obligation19_GrantAction_5_0 (set.union obligation18_GrantAction_5_0 (set.union obligation17_GrantAction_5_0 (set.union obligation16_GrantAction_5_0 (set.union obligation15_GrantAction_5_0 (set.union obligation14_GrantAction_5_0 (set.union obligation13_GrantAction_5_0 (set.union obligation12_GrantAction_5_0 (set.union obligation11_GrantAction_5_0 (set.union obligation10_GrantAction_5_0 (set.union obligation9_GrantAction_5_0 (set.union obligation8_GrantAction_5_0 (set.union obligation7_GrantAction_5_0 (set.union obligation6_GrantAction_5_0 (set.union obligation5_GrantAction_5_0 (set.union obligation4_GrantAction_5_0 (set.union obligation3_GrantAction_5_0 (set.union obligation2_GrantAction_5_0 (set.union obligation1_GrantAction_5_0  obligation0_GrantAction_5_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 5) (ASSIGN* 4))
 (or 
-(= (obligation16 4) true)(= (obligation15 4) true)(= (obligation14 4) true)(= (obligation13 4) true)(= (obligation7 4) true)(= (obligation6 4) true)(= (obligation9 4) true)(= (obligation8 4) true)(= (obligation17 4) true)(= (obligation3 4) true)(= (obligation2 4) true)(= (obligation5 4) true)(= (obligation4 4) true)(= (obligation1 4) true)(= (obligation0 4) true)(= (obligation12 4) true)(= (obligation11 4) true)(= (obligation10 4) true))))
+)))
 (assert (=> (distinct (ASSIGN 5) (ASSIGN 4))
-(or (= (obligation16 4) true)(= (obligation15 4) true)(= (obligation14 4) true)(= (obligation13 4) true)(= (obligation7 4) true)(= (obligation6 4) true)(= (obligation9 4) true)(= (obligation8 4) true)(= (obligation17 4) true)(= (obligation3 4) true)(= (obligation2 4) true)(= (obligation5 4) true)(= (obligation4 4) true)(= (obligation1 4) true)(= (obligation0 4) true)(= (obligation12 4) true)(= (obligation11 4) true)(= (obligation10 4) true))))
+(or )))
 (assert (=> (distinct (ASSOC 5) (ASSOC 4))
 (or 
-(= (obligation16 4) true)(= (obligation15 4) true)(= (obligation14 4) true)(= (obligation13 4) true)(= (obligation7 4) true)(= (obligation6 4) true)(= (obligation9 4) true)(= (obligation8 4) true)(= (obligation17 4) true)(= (obligation3 4) true)(= (obligation2 4) true)(= (obligation5 4) true)(= (obligation4 4) true)(= (obligation1 4) true)(= (obligation0 4) true)(= (obligation12 4) true)(= (obligation11 4) true)(= (obligation10 4) true))))
+(= (obligation0 4) true)(= (obligation1 4) true)(= (obligation2 4) true)(= (obligation3 4) true)(= (obligation4 4) true)(= (obligation5 4) true)(= (obligation6 4) true)(= (obligation7 4) true)(= (obligation8 4) true)(= (obligation9 4) true)(= (obligation10 4) true)(= (obligation11 4) true)(= (obligation12 4) true)(= (obligation13 4) true)(= (obligation14 4) true)(= (obligation15 4) true)(= (obligation16 4) true)(= (obligation17 4) true)(= (obligation18 4) true)(= (obligation19 4) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 4) true)(= (obligation15 4) true)(= (obligation14 4) true)(= (obligation13 4) true)(= (obligation7 4) true)(= (obligation6 4) true)(= (obligation9 4) true)(= (obligation8 4) true)(= (obligation17 4) true)(= (obligation3 4) true)(= (obligation2 4) true)(= (obligation5 4) true)(= (obligation4 4) true)(= (obligation1 4) true)(= (obligation0 4) true)(= (obligation12 4) true)(= (obligation11 4) true)(= (obligation10 4) true)))
+(assert (or(= (obligation16 4) true)(= (obligation15 4) true)(= (obligation14 4) true)(= (obligation13 4) true)(= (obligation7 4) true)(= (obligation6 4) true)(= (obligation19 4) true)(= (obligation9 4) true)(= (obligation18 4) true)(= (obligation8 4) true)(= (obligation17 4) true)(= (obligation3 4) true)(= (obligation2 4) true)(= (obligation5 4) true)(= (obligation4 4) true)(= (obligation1 4) true)(= (obligation0 4) true)(= (obligation12 4) true)(= (obligation11 4) true)(= (obligation10 4) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -5531,6 +5398,58 @@
 )))
 
 
+(declare-fun obligation18U_5 () Int)
+(declare-fun obligation18UA_5 () Int)
+(declare-fun obligation18AT_5 () Int)
+(declare-fun obligation18UO_5 () Int)
+(declare-fun obligation18ar_5 () Int)
+(declare-fun obligation18S_5 () Int)
+(declare-fun obligation18T_5 () Int)
+(assert (>= obligation18U_5 0))
+(assert (>= obligation18UA_5 0))
+(assert (>= obligation18AT_5 0))
+(assert (>= obligation18UO_5 0))
+(assert (or (= obligation18ar_5 42)
+))
+(assert (= obligation18S_5 13))
+(assert (= obligation18T_5 20))
+(assert (=> (= (obligation18 5) true) (and
+ (set.member (tuple  obligation18U_5 obligation18S_5) (ASSIGN* 5))
+ (set.member (tuple  obligation18U_5 obligation18UA_5) (ASSIGN* 5))
+ (set.member (tuple obligation18UA_5 obligation18ar_5 obligation18AT_5) (ASSOC 5))
+ (set.member (tuple  obligation18UO_5 obligation18T_5) (ASSIGN* 5))
+ (set.member (tuple  obligation18UO_5 obligation18AT_5) (ASSIGN* 5))
+ (set.member (tuple  obligation18U_5 obligation18U_5) USERS)
+ (distinct obligation18S_5 obligation18U_5)
+)))
+
+
+(declare-fun obligation19U_5 () Int)
+(declare-fun obligation19UA_5 () Int)
+(declare-fun obligation19AT_5 () Int)
+(declare-fun obligation19UO_5 () Int)
+(declare-fun obligation19ar_5 () Int)
+(declare-fun obligation19S_5 () Int)
+(declare-fun obligation19T_5 () Int)
+(assert (>= obligation19U_5 0))
+(assert (>= obligation19UA_5 0))
+(assert (>= obligation19AT_5 0))
+(assert (>= obligation19UO_5 0))
+(assert (or (= obligation19ar_5 44)
+))
+(assert (= obligation19S_5 11))
+(assert (= obligation19T_5 20))
+(assert (=> (= (obligation19 5) true) (and
+ (set.member (tuple  obligation19U_5 obligation19S_5) (ASSIGN* 5))
+ (set.member (tuple  obligation19U_5 obligation19UA_5) (ASSIGN* 5))
+ (set.member (tuple obligation19UA_5 obligation19ar_5 obligation19AT_5) (ASSOC 5))
+ (set.member (tuple  obligation19UO_5 obligation19T_5) (ASSIGN* 5))
+ (set.member (tuple  obligation19UO_5 obligation19AT_5) (ASSIGN* 5))
+ (set.member (tuple  obligation19U_5 obligation19U_5) USERS)
+ (distinct obligation19S_5 obligation19U_5)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -5551,14 +5470,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation0_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation0 5) false) (and(= obligation0_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5578,14 +5490,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation1_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation1 5) false) (and(= obligation1_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5605,14 +5510,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation2_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation2 5) false) (and(= obligation2_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5632,14 +5530,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation3_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation3 5) false) (and(= obligation3_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5659,14 +5550,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation4_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation4 5) false) (and(= obligation4_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5686,14 +5570,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation5_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation5 5) false) (and(= obligation5_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5713,14 +5590,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation6_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation6 5) false) (and(= obligation6_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5740,14 +5610,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation7_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation7 5) false) (and(= obligation7_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5767,14 +5630,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation8_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation8 5) false) (and(= obligation8_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5794,14 +5650,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation9_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation9 5) false) (and(= obligation9_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5821,14 +5670,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation10_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation10 5) false) (and(= obligation10_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5848,14 +5690,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation11_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation11 5) false) (and(= obligation11_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5875,14 +5710,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation12_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation12 5) false) (and(= obligation12_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5902,14 +5730,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation13_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation13 5) false) (and(= obligation13_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5929,14 +5750,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation14_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation14 5) false) (and(= obligation14_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5956,14 +5770,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation15_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation15 5) false) (and(= obligation15_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -5983,14 +5790,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 6) (ASSIGN 5)))
-(assert (= (ASSIGN* 6) (ASSIGN* 5)))
-(assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation16_GrantAction_6_0)
-))
+)(assert (=> (= ( obligation16 5) false) (and(= obligation16_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6010,31 +5810,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 5) false) (and(= obligation17_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_6_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 5) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_6_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 5))) (= obligation18_GrantAction_6_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 5)))) (= obligation18_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 5) false) (and(= obligation18_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_6_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 5) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_6_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 5))) (= obligation19_GrantAction_6_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 5)))) (= obligation19_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 5) false) (and(= obligation19_GrantAction_6_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 6) (ASSIGN 5)))
 (assert (= (ASSIGN* 6) (ASSIGN* 5)))
 (assert (= (ASSOC 6) 
-	(set.union (ASSOC 5)  obligation17_GrantAction_6_0)
+	(set.union (ASSOC 5) (set.union obligation19_GrantAction_6_0 (set.union obligation18_GrantAction_6_0 (set.union obligation17_GrantAction_6_0 (set.union obligation16_GrantAction_6_0 (set.union obligation15_GrantAction_6_0 (set.union obligation14_GrantAction_6_0 (set.union obligation13_GrantAction_6_0 (set.union obligation12_GrantAction_6_0 (set.union obligation11_GrantAction_6_0 (set.union obligation10_GrantAction_6_0 (set.union obligation9_GrantAction_6_0 (set.union obligation8_GrantAction_6_0 (set.union obligation7_GrantAction_6_0 (set.union obligation6_GrantAction_6_0 (set.union obligation5_GrantAction_6_0 (set.union obligation4_GrantAction_6_0 (set.union obligation3_GrantAction_6_0 (set.union obligation2_GrantAction_6_0 (set.union obligation1_GrantAction_6_0  obligation0_GrantAction_6_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 6) (ASSIGN* 5))
 (or 
-(= (obligation16 5) true)(= (obligation15 5) true)(= (obligation14 5) true)(= (obligation13 5) true)(= (obligation7 5) true)(= (obligation6 5) true)(= (obligation9 5) true)(= (obligation8 5) true)(= (obligation17 5) true)(= (obligation3 5) true)(= (obligation2 5) true)(= (obligation5 5) true)(= (obligation4 5) true)(= (obligation1 5) true)(= (obligation0 5) true)(= (obligation12 5) true)(= (obligation11 5) true)(= (obligation10 5) true))))
+)))
 (assert (=> (distinct (ASSIGN 6) (ASSIGN 5))
-(or (= (obligation16 5) true)(= (obligation15 5) true)(= (obligation14 5) true)(= (obligation13 5) true)(= (obligation7 5) true)(= (obligation6 5) true)(= (obligation9 5) true)(= (obligation8 5) true)(= (obligation17 5) true)(= (obligation3 5) true)(= (obligation2 5) true)(= (obligation5 5) true)(= (obligation4 5) true)(= (obligation1 5) true)(= (obligation0 5) true)(= (obligation12 5) true)(= (obligation11 5) true)(= (obligation10 5) true))))
+(or )))
 (assert (=> (distinct (ASSOC 6) (ASSOC 5))
 (or 
-(= (obligation16 5) true)(= (obligation15 5) true)(= (obligation14 5) true)(= (obligation13 5) true)(= (obligation7 5) true)(= (obligation6 5) true)(= (obligation9 5) true)(= (obligation8 5) true)(= (obligation17 5) true)(= (obligation3 5) true)(= (obligation2 5) true)(= (obligation5 5) true)(= (obligation4 5) true)(= (obligation1 5) true)(= (obligation0 5) true)(= (obligation12 5) true)(= (obligation11 5) true)(= (obligation10 5) true))))
+(= (obligation0 5) true)(= (obligation1 5) true)(= (obligation2 5) true)(= (obligation3 5) true)(= (obligation4 5) true)(= (obligation5 5) true)(= (obligation6 5) true)(= (obligation7 5) true)(= (obligation8 5) true)(= (obligation9 5) true)(= (obligation10 5) true)(= (obligation11 5) true)(= (obligation12 5) true)(= (obligation13 5) true)(= (obligation14 5) true)(= (obligation15 5) true)(= (obligation16 5) true)(= (obligation17 5) true)(= (obligation18 5) true)(= (obligation19 5) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 5) true)(= (obligation15 5) true)(= (obligation14 5) true)(= (obligation13 5) true)(= (obligation7 5) true)(= (obligation6 5) true)(= (obligation9 5) true)(= (obligation8 5) true)(= (obligation17 5) true)(= (obligation3 5) true)(= (obligation2 5) true)(= (obligation5 5) true)(= (obligation4 5) true)(= (obligation1 5) true)(= (obligation0 5) true)(= (obligation12 5) true)(= (obligation11 5) true)(= (obligation10 5) true)))
+(assert (or(= (obligation16 5) true)(= (obligation15 5) true)(= (obligation14 5) true)(= (obligation13 5) true)(= (obligation7 5) true)(= (obligation6 5) true)(= (obligation19 5) true)(= (obligation9 5) true)(= (obligation18 5) true)(= (obligation8 5) true)(= (obligation17 5) true)(= (obligation3 5) true)(= (obligation2 5) true)(= (obligation5 5) true)(= (obligation4 5) true)(= (obligation1 5) true)(= (obligation0 5) true)(= (obligation12 5) true)(= (obligation11 5) true)(= (obligation10 5) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -6509,6 +6349,58 @@
 )))
 
 
+(declare-fun obligation18U_6 () Int)
+(declare-fun obligation18UA_6 () Int)
+(declare-fun obligation18AT_6 () Int)
+(declare-fun obligation18UO_6 () Int)
+(declare-fun obligation18ar_6 () Int)
+(declare-fun obligation18S_6 () Int)
+(declare-fun obligation18T_6 () Int)
+(assert (>= obligation18U_6 0))
+(assert (>= obligation18UA_6 0))
+(assert (>= obligation18AT_6 0))
+(assert (>= obligation18UO_6 0))
+(assert (or (= obligation18ar_6 42)
+))
+(assert (= obligation18S_6 13))
+(assert (= obligation18T_6 20))
+(assert (=> (= (obligation18 6) true) (and
+ (set.member (tuple  obligation18U_6 obligation18S_6) (ASSIGN* 6))
+ (set.member (tuple  obligation18U_6 obligation18UA_6) (ASSIGN* 6))
+ (set.member (tuple obligation18UA_6 obligation18ar_6 obligation18AT_6) (ASSOC 6))
+ (set.member (tuple  obligation18UO_6 obligation18T_6) (ASSIGN* 6))
+ (set.member (tuple  obligation18UO_6 obligation18AT_6) (ASSIGN* 6))
+ (set.member (tuple  obligation18U_6 obligation18U_6) USERS)
+ (distinct obligation18S_6 obligation18U_6)
+)))
+
+
+(declare-fun obligation19U_6 () Int)
+(declare-fun obligation19UA_6 () Int)
+(declare-fun obligation19AT_6 () Int)
+(declare-fun obligation19UO_6 () Int)
+(declare-fun obligation19ar_6 () Int)
+(declare-fun obligation19S_6 () Int)
+(declare-fun obligation19T_6 () Int)
+(assert (>= obligation19U_6 0))
+(assert (>= obligation19UA_6 0))
+(assert (>= obligation19AT_6 0))
+(assert (>= obligation19UO_6 0))
+(assert (or (= obligation19ar_6 44)
+))
+(assert (= obligation19S_6 11))
+(assert (= obligation19T_6 20))
+(assert (=> (= (obligation19 6) true) (and
+ (set.member (tuple  obligation19U_6 obligation19S_6) (ASSIGN* 6))
+ (set.member (tuple  obligation19U_6 obligation19UA_6) (ASSIGN* 6))
+ (set.member (tuple obligation19UA_6 obligation19ar_6 obligation19AT_6) (ASSOC 6))
+ (set.member (tuple  obligation19UO_6 obligation19T_6) (ASSIGN* 6))
+ (set.member (tuple  obligation19UO_6 obligation19AT_6) (ASSIGN* 6))
+ (set.member (tuple  obligation19U_6 obligation19U_6) USERS)
+ (distinct obligation19S_6 obligation19U_6)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -6529,14 +6421,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation0_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation0 6) false) (and(= obligation0_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6556,14 +6441,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation1_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation1 6) false) (and(= obligation1_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6583,14 +6461,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation2_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation2 6) false) (and(= obligation2_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6610,14 +6481,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation3_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation3 6) false) (and(= obligation3_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6637,14 +6501,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation4_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation4 6) false) (and(= obligation4_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6664,14 +6521,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation5_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation5 6) false) (and(= obligation5_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6691,14 +6541,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation6_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation6 6) false) (and(= obligation6_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6718,14 +6561,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation7_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation7 6) false) (and(= obligation7_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6745,14 +6581,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation8_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation8 6) false) (and(= obligation8_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6772,14 +6601,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation9_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation9 6) false) (and(= obligation9_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6799,14 +6621,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation10_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation10 6) false) (and(= obligation10_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6826,14 +6641,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation11_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation11 6) false) (and(= obligation11_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6853,14 +6661,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation12_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation12 6) false) (and(= obligation12_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6880,14 +6681,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation13_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation13 6) false) (and(= obligation13_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6907,14 +6701,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation14_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation14 6) false) (and(= obligation14_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6934,14 +6721,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation15_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation15 6) false) (and(= obligation15_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6961,14 +6741,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 7) (ASSIGN 6)))
-(assert (= (ASSIGN* 7) (ASSIGN* 6)))
-(assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation16_GrantAction_7_0)
-))
+)(assert (=> (= ( obligation16 6) false) (and(= obligation16_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -6988,31 +6761,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 6) false) (and(= obligation17_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_7_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 6) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_7_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 6))) (= obligation18_GrantAction_7_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 6)))) (= obligation18_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 6) false) (and(= obligation18_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_7_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 6) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_7_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 6))) (= obligation19_GrantAction_7_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 6)))) (= obligation19_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 6) false) (and(= obligation19_GrantAction_7_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 7) (ASSIGN 6)))
 (assert (= (ASSIGN* 7) (ASSIGN* 6)))
 (assert (= (ASSOC 7) 
-	(set.union (ASSOC 6)  obligation17_GrantAction_7_0)
+	(set.union (ASSOC 6) (set.union obligation19_GrantAction_7_0 (set.union obligation18_GrantAction_7_0 (set.union obligation17_GrantAction_7_0 (set.union obligation16_GrantAction_7_0 (set.union obligation15_GrantAction_7_0 (set.union obligation14_GrantAction_7_0 (set.union obligation13_GrantAction_7_0 (set.union obligation12_GrantAction_7_0 (set.union obligation11_GrantAction_7_0 (set.union obligation10_GrantAction_7_0 (set.union obligation9_GrantAction_7_0 (set.union obligation8_GrantAction_7_0 (set.union obligation7_GrantAction_7_0 (set.union obligation6_GrantAction_7_0 (set.union obligation5_GrantAction_7_0 (set.union obligation4_GrantAction_7_0 (set.union obligation3_GrantAction_7_0 (set.union obligation2_GrantAction_7_0 (set.union obligation1_GrantAction_7_0  obligation0_GrantAction_7_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 7) (ASSIGN* 6))
 (or 
-(= (obligation16 6) true)(= (obligation15 6) true)(= (obligation14 6) true)(= (obligation13 6) true)(= (obligation7 6) true)(= (obligation6 6) true)(= (obligation9 6) true)(= (obligation8 6) true)(= (obligation17 6) true)(= (obligation3 6) true)(= (obligation2 6) true)(= (obligation5 6) true)(= (obligation4 6) true)(= (obligation1 6) true)(= (obligation0 6) true)(= (obligation12 6) true)(= (obligation11 6) true)(= (obligation10 6) true))))
+)))
 (assert (=> (distinct (ASSIGN 7) (ASSIGN 6))
-(or (= (obligation16 6) true)(= (obligation15 6) true)(= (obligation14 6) true)(= (obligation13 6) true)(= (obligation7 6) true)(= (obligation6 6) true)(= (obligation9 6) true)(= (obligation8 6) true)(= (obligation17 6) true)(= (obligation3 6) true)(= (obligation2 6) true)(= (obligation5 6) true)(= (obligation4 6) true)(= (obligation1 6) true)(= (obligation0 6) true)(= (obligation12 6) true)(= (obligation11 6) true)(= (obligation10 6) true))))
+(or )))
 (assert (=> (distinct (ASSOC 7) (ASSOC 6))
 (or 
-(= (obligation16 6) true)(= (obligation15 6) true)(= (obligation14 6) true)(= (obligation13 6) true)(= (obligation7 6) true)(= (obligation6 6) true)(= (obligation9 6) true)(= (obligation8 6) true)(= (obligation17 6) true)(= (obligation3 6) true)(= (obligation2 6) true)(= (obligation5 6) true)(= (obligation4 6) true)(= (obligation1 6) true)(= (obligation0 6) true)(= (obligation12 6) true)(= (obligation11 6) true)(= (obligation10 6) true))))
+(= (obligation0 6) true)(= (obligation1 6) true)(= (obligation2 6) true)(= (obligation3 6) true)(= (obligation4 6) true)(= (obligation5 6) true)(= (obligation6 6) true)(= (obligation7 6) true)(= (obligation8 6) true)(= (obligation9 6) true)(= (obligation10 6) true)(= (obligation11 6) true)(= (obligation12 6) true)(= (obligation13 6) true)(= (obligation14 6) true)(= (obligation15 6) true)(= (obligation16 6) true)(= (obligation17 6) true)(= (obligation18 6) true)(= (obligation19 6) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 6) true)(= (obligation15 6) true)(= (obligation14 6) true)(= (obligation13 6) true)(= (obligation7 6) true)(= (obligation6 6) true)(= (obligation9 6) true)(= (obligation8 6) true)(= (obligation17 6) true)(= (obligation3 6) true)(= (obligation2 6) true)(= (obligation5 6) true)(= (obligation4 6) true)(= (obligation1 6) true)(= (obligation0 6) true)(= (obligation12 6) true)(= (obligation11 6) true)(= (obligation10 6) true)))
+(assert (or(= (obligation16 6) true)(= (obligation15 6) true)(= (obligation14 6) true)(= (obligation13 6) true)(= (obligation7 6) true)(= (obligation6 6) true)(= (obligation19 6) true)(= (obligation9 6) true)(= (obligation18 6) true)(= (obligation8 6) true)(= (obligation17 6) true)(= (obligation3 6) true)(= (obligation2 6) true)(= (obligation5 6) true)(= (obligation4 6) true)(= (obligation1 6) true)(= (obligation0 6) true)(= (obligation12 6) true)(= (obligation11 6) true)(= (obligation10 6) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -7487,6 +7300,58 @@
 )))
 
 
+(declare-fun obligation18U_7 () Int)
+(declare-fun obligation18UA_7 () Int)
+(declare-fun obligation18AT_7 () Int)
+(declare-fun obligation18UO_7 () Int)
+(declare-fun obligation18ar_7 () Int)
+(declare-fun obligation18S_7 () Int)
+(declare-fun obligation18T_7 () Int)
+(assert (>= obligation18U_7 0))
+(assert (>= obligation18UA_7 0))
+(assert (>= obligation18AT_7 0))
+(assert (>= obligation18UO_7 0))
+(assert (or (= obligation18ar_7 42)
+))
+(assert (= obligation18S_7 13))
+(assert (= obligation18T_7 20))
+(assert (=> (= (obligation18 7) true) (and
+ (set.member (tuple  obligation18U_7 obligation18S_7) (ASSIGN* 7))
+ (set.member (tuple  obligation18U_7 obligation18UA_7) (ASSIGN* 7))
+ (set.member (tuple obligation18UA_7 obligation18ar_7 obligation18AT_7) (ASSOC 7))
+ (set.member (tuple  obligation18UO_7 obligation18T_7) (ASSIGN* 7))
+ (set.member (tuple  obligation18UO_7 obligation18AT_7) (ASSIGN* 7))
+ (set.member (tuple  obligation18U_7 obligation18U_7) USERS)
+ (distinct obligation18S_7 obligation18U_7)
+)))
+
+
+(declare-fun obligation19U_7 () Int)
+(declare-fun obligation19UA_7 () Int)
+(declare-fun obligation19AT_7 () Int)
+(declare-fun obligation19UO_7 () Int)
+(declare-fun obligation19ar_7 () Int)
+(declare-fun obligation19S_7 () Int)
+(declare-fun obligation19T_7 () Int)
+(assert (>= obligation19U_7 0))
+(assert (>= obligation19UA_7 0))
+(assert (>= obligation19AT_7 0))
+(assert (>= obligation19UO_7 0))
+(assert (or (= obligation19ar_7 44)
+))
+(assert (= obligation19S_7 11))
+(assert (= obligation19T_7 20))
+(assert (=> (= (obligation19 7) true) (and
+ (set.member (tuple  obligation19U_7 obligation19S_7) (ASSIGN* 7))
+ (set.member (tuple  obligation19U_7 obligation19UA_7) (ASSIGN* 7))
+ (set.member (tuple obligation19UA_7 obligation19ar_7 obligation19AT_7) (ASSOC 7))
+ (set.member (tuple  obligation19UO_7 obligation19T_7) (ASSIGN* 7))
+ (set.member (tuple  obligation19UO_7 obligation19AT_7) (ASSIGN* 7))
+ (set.member (tuple  obligation19U_7 obligation19U_7) USERS)
+ (distinct obligation19S_7 obligation19U_7)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -7507,14 +7372,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation0_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation0 7) false) (and(= obligation0_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7534,14 +7392,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation1_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation1 7) false) (and(= obligation1_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7561,14 +7412,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation2_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation2 7) false) (and(= obligation2_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7588,14 +7432,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation3_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation3 7) false) (and(= obligation3_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7615,14 +7452,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation4_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation4 7) false) (and(= obligation4_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7642,14 +7472,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation5_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation5 7) false) (and(= obligation5_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7669,14 +7492,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation6_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation6 7) false) (and(= obligation6_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7696,14 +7512,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation7_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation7 7) false) (and(= obligation7_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7723,14 +7532,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation8_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation8 7) false) (and(= obligation8_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7750,14 +7552,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation9_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation9 7) false) (and(= obligation9_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7777,14 +7572,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation10_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation10 7) false) (and(= obligation10_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7804,14 +7592,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation11_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation11 7) false) (and(= obligation11_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7831,14 +7612,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation12_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation12 7) false) (and(= obligation12_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7858,14 +7632,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation13_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation13 7) false) (and(= obligation13_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7885,14 +7652,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation14_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation14 7) false) (and(= obligation14_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7912,14 +7672,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation15_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation15 7) false) (and(= obligation15_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7939,14 +7692,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 8) (ASSIGN 7)))
-(assert (= (ASSIGN* 8) (ASSIGN* 7)))
-(assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation16_GrantAction_8_0)
-))
+)(assert (=> (= ( obligation16 7) false) (and(= obligation16_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -7966,31 +7712,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 7) false) (and(= obligation17_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_8_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 7) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_8_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 7))) (= obligation18_GrantAction_8_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 7)))) (= obligation18_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 7) false) (and(= obligation18_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_8_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 7) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_8_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 7))) (= obligation19_GrantAction_8_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 7)))) (= obligation19_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 7) false) (and(= obligation19_GrantAction_8_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 8) (ASSIGN 7)))
 (assert (= (ASSIGN* 8) (ASSIGN* 7)))
 (assert (= (ASSOC 8) 
-	(set.union (ASSOC 7)  obligation17_GrantAction_8_0)
+	(set.union (ASSOC 7) (set.union obligation19_GrantAction_8_0 (set.union obligation18_GrantAction_8_0 (set.union obligation17_GrantAction_8_0 (set.union obligation16_GrantAction_8_0 (set.union obligation15_GrantAction_8_0 (set.union obligation14_GrantAction_8_0 (set.union obligation13_GrantAction_8_0 (set.union obligation12_GrantAction_8_0 (set.union obligation11_GrantAction_8_0 (set.union obligation10_GrantAction_8_0 (set.union obligation9_GrantAction_8_0 (set.union obligation8_GrantAction_8_0 (set.union obligation7_GrantAction_8_0 (set.union obligation6_GrantAction_8_0 (set.union obligation5_GrantAction_8_0 (set.union obligation4_GrantAction_8_0 (set.union obligation3_GrantAction_8_0 (set.union obligation2_GrantAction_8_0 (set.union obligation1_GrantAction_8_0  obligation0_GrantAction_8_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 8) (ASSIGN* 7))
 (or 
-(= (obligation16 7) true)(= (obligation15 7) true)(= (obligation14 7) true)(= (obligation13 7) true)(= (obligation7 7) true)(= (obligation6 7) true)(= (obligation9 7) true)(= (obligation8 7) true)(= (obligation17 7) true)(= (obligation3 7) true)(= (obligation2 7) true)(= (obligation5 7) true)(= (obligation4 7) true)(= (obligation1 7) true)(= (obligation0 7) true)(= (obligation12 7) true)(= (obligation11 7) true)(= (obligation10 7) true))))
+)))
 (assert (=> (distinct (ASSIGN 8) (ASSIGN 7))
-(or (= (obligation16 7) true)(= (obligation15 7) true)(= (obligation14 7) true)(= (obligation13 7) true)(= (obligation7 7) true)(= (obligation6 7) true)(= (obligation9 7) true)(= (obligation8 7) true)(= (obligation17 7) true)(= (obligation3 7) true)(= (obligation2 7) true)(= (obligation5 7) true)(= (obligation4 7) true)(= (obligation1 7) true)(= (obligation0 7) true)(= (obligation12 7) true)(= (obligation11 7) true)(= (obligation10 7) true))))
+(or )))
 (assert (=> (distinct (ASSOC 8) (ASSOC 7))
 (or 
-(= (obligation16 7) true)(= (obligation15 7) true)(= (obligation14 7) true)(= (obligation13 7) true)(= (obligation7 7) true)(= (obligation6 7) true)(= (obligation9 7) true)(= (obligation8 7) true)(= (obligation17 7) true)(= (obligation3 7) true)(= (obligation2 7) true)(= (obligation5 7) true)(= (obligation4 7) true)(= (obligation1 7) true)(= (obligation0 7) true)(= (obligation12 7) true)(= (obligation11 7) true)(= (obligation10 7) true))))
+(= (obligation0 7) true)(= (obligation1 7) true)(= (obligation2 7) true)(= (obligation3 7) true)(= (obligation4 7) true)(= (obligation5 7) true)(= (obligation6 7) true)(= (obligation7 7) true)(= (obligation8 7) true)(= (obligation9 7) true)(= (obligation10 7) true)(= (obligation11 7) true)(= (obligation12 7) true)(= (obligation13 7) true)(= (obligation14 7) true)(= (obligation15 7) true)(= (obligation16 7) true)(= (obligation17 7) true)(= (obligation18 7) true)(= (obligation19 7) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 7) true)(= (obligation15 7) true)(= (obligation14 7) true)(= (obligation13 7) true)(= (obligation7 7) true)(= (obligation6 7) true)(= (obligation9 7) true)(= (obligation8 7) true)(= (obligation17 7) true)(= (obligation3 7) true)(= (obligation2 7) true)(= (obligation5 7) true)(= (obligation4 7) true)(= (obligation1 7) true)(= (obligation0 7) true)(= (obligation12 7) true)(= (obligation11 7) true)(= (obligation10 7) true)))
+(assert (or(= (obligation16 7) true)(= (obligation15 7) true)(= (obligation14 7) true)(= (obligation13 7) true)(= (obligation7 7) true)(= (obligation6 7) true)(= (obligation19 7) true)(= (obligation9 7) true)(= (obligation18 7) true)(= (obligation8 7) true)(= (obligation17 7) true)(= (obligation3 7) true)(= (obligation2 7) true)(= (obligation5 7) true)(= (obligation4 7) true)(= (obligation1 7) true)(= (obligation0 7) true)(= (obligation12 7) true)(= (obligation11 7) true)(= (obligation10 7) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -8465,6 +8251,58 @@
 )))
 
 
+(declare-fun obligation18U_8 () Int)
+(declare-fun obligation18UA_8 () Int)
+(declare-fun obligation18AT_8 () Int)
+(declare-fun obligation18UO_8 () Int)
+(declare-fun obligation18ar_8 () Int)
+(declare-fun obligation18S_8 () Int)
+(declare-fun obligation18T_8 () Int)
+(assert (>= obligation18U_8 0))
+(assert (>= obligation18UA_8 0))
+(assert (>= obligation18AT_8 0))
+(assert (>= obligation18UO_8 0))
+(assert (or (= obligation18ar_8 42)
+))
+(assert (= obligation18S_8 13))
+(assert (= obligation18T_8 20))
+(assert (=> (= (obligation18 8) true) (and
+ (set.member (tuple  obligation18U_8 obligation18S_8) (ASSIGN* 8))
+ (set.member (tuple  obligation18U_8 obligation18UA_8) (ASSIGN* 8))
+ (set.member (tuple obligation18UA_8 obligation18ar_8 obligation18AT_8) (ASSOC 8))
+ (set.member (tuple  obligation18UO_8 obligation18T_8) (ASSIGN* 8))
+ (set.member (tuple  obligation18UO_8 obligation18AT_8) (ASSIGN* 8))
+ (set.member (tuple  obligation18U_8 obligation18U_8) USERS)
+ (distinct obligation18S_8 obligation18U_8)
+)))
+
+
+(declare-fun obligation19U_8 () Int)
+(declare-fun obligation19UA_8 () Int)
+(declare-fun obligation19AT_8 () Int)
+(declare-fun obligation19UO_8 () Int)
+(declare-fun obligation19ar_8 () Int)
+(declare-fun obligation19S_8 () Int)
+(declare-fun obligation19T_8 () Int)
+(assert (>= obligation19U_8 0))
+(assert (>= obligation19UA_8 0))
+(assert (>= obligation19AT_8 0))
+(assert (>= obligation19UO_8 0))
+(assert (or (= obligation19ar_8 44)
+))
+(assert (= obligation19S_8 11))
+(assert (= obligation19T_8 20))
+(assert (=> (= (obligation19 8) true) (and
+ (set.member (tuple  obligation19U_8 obligation19S_8) (ASSIGN* 8))
+ (set.member (tuple  obligation19U_8 obligation19UA_8) (ASSIGN* 8))
+ (set.member (tuple obligation19UA_8 obligation19ar_8 obligation19AT_8) (ASSOC 8))
+ (set.member (tuple  obligation19UO_8 obligation19T_8) (ASSIGN* 8))
+ (set.member (tuple  obligation19UO_8 obligation19AT_8) (ASSIGN* 8))
+ (set.member (tuple  obligation19U_8 obligation19U_8) USERS)
+ (distinct obligation19S_8 obligation19U_8)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -8485,14 +8323,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation0_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation0 8) false) (and(= obligation0_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8512,14 +8343,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation1_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation1 8) false) (and(= obligation1_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8539,14 +8363,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation2_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation2 8) false) (and(= obligation2_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8566,14 +8383,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation3_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation3 8) false) (and(= obligation3_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8593,14 +8403,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation4_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation4 8) false) (and(= obligation4_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8620,14 +8423,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation5_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation5 8) false) (and(= obligation5_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8647,14 +8443,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation6_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation6 8) false) (and(= obligation6_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8674,14 +8463,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation7_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation7 8) false) (and(= obligation7_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8701,14 +8483,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation8_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation8 8) false) (and(= obligation8_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8728,14 +8503,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation9_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation9 8) false) (and(= obligation9_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8755,14 +8523,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation10_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation10 8) false) (and(= obligation10_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8782,14 +8543,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation11_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation11 8) false) (and(= obligation11_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8809,14 +8563,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation12_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation12 8) false) (and(= obligation12_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8836,14 +8583,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation13_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation13 8) false) (and(= obligation13_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8863,14 +8603,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation14_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation14 8) false) (and(= obligation14_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8890,14 +8623,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation15_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation15 8) false) (and(= obligation15_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8917,14 +8643,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 9) (ASSIGN 8)))
-(assert (= (ASSIGN* 9) (ASSIGN* 8)))
-(assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation16_GrantAction_9_0)
-))
+)(assert (=> (= ( obligation16 8) false) (and(= obligation16_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -8944,31 +8663,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 8) false) (and(= obligation17_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_9_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 8) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_9_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 8))) (= obligation18_GrantAction_9_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 8)))) (= obligation18_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 8) false) (and(= obligation18_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_9_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 8) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_9_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 8))) (= obligation19_GrantAction_9_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 8)))) (= obligation19_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 8) false) (and(= obligation19_GrantAction_9_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 9) (ASSIGN 8)))
 (assert (= (ASSIGN* 9) (ASSIGN* 8)))
 (assert (= (ASSOC 9) 
-	(set.union (ASSOC 8)  obligation17_GrantAction_9_0)
+	(set.union (ASSOC 8) (set.union obligation19_GrantAction_9_0 (set.union obligation18_GrantAction_9_0 (set.union obligation17_GrantAction_9_0 (set.union obligation16_GrantAction_9_0 (set.union obligation15_GrantAction_9_0 (set.union obligation14_GrantAction_9_0 (set.union obligation13_GrantAction_9_0 (set.union obligation12_GrantAction_9_0 (set.union obligation11_GrantAction_9_0 (set.union obligation10_GrantAction_9_0 (set.union obligation9_GrantAction_9_0 (set.union obligation8_GrantAction_9_0 (set.union obligation7_GrantAction_9_0 (set.union obligation6_GrantAction_9_0 (set.union obligation5_GrantAction_9_0 (set.union obligation4_GrantAction_9_0 (set.union obligation3_GrantAction_9_0 (set.union obligation2_GrantAction_9_0 (set.union obligation1_GrantAction_9_0  obligation0_GrantAction_9_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 9) (ASSIGN* 8))
 (or 
-(= (obligation16 8) true)(= (obligation15 8) true)(= (obligation14 8) true)(= (obligation13 8) true)(= (obligation7 8) true)(= (obligation6 8) true)(= (obligation9 8) true)(= (obligation8 8) true)(= (obligation17 8) true)(= (obligation3 8) true)(= (obligation2 8) true)(= (obligation5 8) true)(= (obligation4 8) true)(= (obligation1 8) true)(= (obligation0 8) true)(= (obligation12 8) true)(= (obligation11 8) true)(= (obligation10 8) true))))
+)))
 (assert (=> (distinct (ASSIGN 9) (ASSIGN 8))
-(or (= (obligation16 8) true)(= (obligation15 8) true)(= (obligation14 8) true)(= (obligation13 8) true)(= (obligation7 8) true)(= (obligation6 8) true)(= (obligation9 8) true)(= (obligation8 8) true)(= (obligation17 8) true)(= (obligation3 8) true)(= (obligation2 8) true)(= (obligation5 8) true)(= (obligation4 8) true)(= (obligation1 8) true)(= (obligation0 8) true)(= (obligation12 8) true)(= (obligation11 8) true)(= (obligation10 8) true))))
+(or )))
 (assert (=> (distinct (ASSOC 9) (ASSOC 8))
 (or 
-(= (obligation16 8) true)(= (obligation15 8) true)(= (obligation14 8) true)(= (obligation13 8) true)(= (obligation7 8) true)(= (obligation6 8) true)(= (obligation9 8) true)(= (obligation8 8) true)(= (obligation17 8) true)(= (obligation3 8) true)(= (obligation2 8) true)(= (obligation5 8) true)(= (obligation4 8) true)(= (obligation1 8) true)(= (obligation0 8) true)(= (obligation12 8) true)(= (obligation11 8) true)(= (obligation10 8) true))))
+(= (obligation0 8) true)(= (obligation1 8) true)(= (obligation2 8) true)(= (obligation3 8) true)(= (obligation4 8) true)(= (obligation5 8) true)(= (obligation6 8) true)(= (obligation7 8) true)(= (obligation8 8) true)(= (obligation9 8) true)(= (obligation10 8) true)(= (obligation11 8) true)(= (obligation12 8) true)(= (obligation13 8) true)(= (obligation14 8) true)(= (obligation15 8) true)(= (obligation16 8) true)(= (obligation17 8) true)(= (obligation18 8) true)(= (obligation19 8) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 8) true)(= (obligation15 8) true)(= (obligation14 8) true)(= (obligation13 8) true)(= (obligation7 8) true)(= (obligation6 8) true)(= (obligation9 8) true)(= (obligation8 8) true)(= (obligation17 8) true)(= (obligation3 8) true)(= (obligation2 8) true)(= (obligation5 8) true)(= (obligation4 8) true)(= (obligation1 8) true)(= (obligation0 8) true)(= (obligation12 8) true)(= (obligation11 8) true)(= (obligation10 8) true)))
+(assert (or(= (obligation16 8) true)(= (obligation15 8) true)(= (obligation14 8) true)(= (obligation13 8) true)(= (obligation7 8) true)(= (obligation6 8) true)(= (obligation19 8) true)(= (obligation9 8) true)(= (obligation18 8) true)(= (obligation8 8) true)(= (obligation17 8) true)(= (obligation3 8) true)(= (obligation2 8) true)(= (obligation5 8) true)(= (obligation4 8) true)(= (obligation1 8) true)(= (obligation0 8) true)(= (obligation12 8) true)(= (obligation11 8) true)(= (obligation10 8) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -9443,6 +9202,58 @@
 )))
 
 
+(declare-fun obligation18U_9 () Int)
+(declare-fun obligation18UA_9 () Int)
+(declare-fun obligation18AT_9 () Int)
+(declare-fun obligation18UO_9 () Int)
+(declare-fun obligation18ar_9 () Int)
+(declare-fun obligation18S_9 () Int)
+(declare-fun obligation18T_9 () Int)
+(assert (>= obligation18U_9 0))
+(assert (>= obligation18UA_9 0))
+(assert (>= obligation18AT_9 0))
+(assert (>= obligation18UO_9 0))
+(assert (or (= obligation18ar_9 42)
+))
+(assert (= obligation18S_9 13))
+(assert (= obligation18T_9 20))
+(assert (=> (= (obligation18 9) true) (and
+ (set.member (tuple  obligation18U_9 obligation18S_9) (ASSIGN* 9))
+ (set.member (tuple  obligation18U_9 obligation18UA_9) (ASSIGN* 9))
+ (set.member (tuple obligation18UA_9 obligation18ar_9 obligation18AT_9) (ASSOC 9))
+ (set.member (tuple  obligation18UO_9 obligation18T_9) (ASSIGN* 9))
+ (set.member (tuple  obligation18UO_9 obligation18AT_9) (ASSIGN* 9))
+ (set.member (tuple  obligation18U_9 obligation18U_9) USERS)
+ (distinct obligation18S_9 obligation18U_9)
+)))
+
+
+(declare-fun obligation19U_9 () Int)
+(declare-fun obligation19UA_9 () Int)
+(declare-fun obligation19AT_9 () Int)
+(declare-fun obligation19UO_9 () Int)
+(declare-fun obligation19ar_9 () Int)
+(declare-fun obligation19S_9 () Int)
+(declare-fun obligation19T_9 () Int)
+(assert (>= obligation19U_9 0))
+(assert (>= obligation19UA_9 0))
+(assert (>= obligation19AT_9 0))
+(assert (>= obligation19UO_9 0))
+(assert (or (= obligation19ar_9 44)
+))
+(assert (= obligation19S_9 11))
+(assert (= obligation19T_9 20))
+(assert (=> (= (obligation19 9) true) (and
+ (set.member (tuple  obligation19U_9 obligation19S_9) (ASSIGN* 9))
+ (set.member (tuple  obligation19U_9 obligation19UA_9) (ASSIGN* 9))
+ (set.member (tuple obligation19UA_9 obligation19ar_9 obligation19AT_9) (ASSOC 9))
+ (set.member (tuple  obligation19UO_9 obligation19T_9) (ASSIGN* 9))
+ (set.member (tuple  obligation19UO_9 obligation19AT_9) (ASSIGN* 9))
+ (set.member (tuple  obligation19U_9 obligation19U_9) USERS)
+ (distinct obligation19S_9 obligation19U_9)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -9463,14 +9274,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation0_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation0 9) false) (and(= obligation0_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9490,14 +9294,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation1_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation1 9) false) (and(= obligation1_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9517,14 +9314,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation2_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation2 9) false) (and(= obligation2_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9544,14 +9334,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation3_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation3 9) false) (and(= obligation3_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9571,14 +9354,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation4_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation4 9) false) (and(= obligation4_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9598,14 +9374,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation5_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation5 9) false) (and(= obligation5_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9625,14 +9394,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation6_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation6 9) false) (and(= obligation6_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9652,14 +9414,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation7_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation7 9) false) (and(= obligation7_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9679,14 +9434,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation8_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation8 9) false) (and(= obligation8_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9706,14 +9454,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation9_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation9 9) false) (and(= obligation9_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9733,14 +9474,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation10_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation10 9) false) (and(= obligation10_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9760,14 +9494,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation11_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation11 9) false) (and(= obligation11_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9787,14 +9514,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation12_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation12 9) false) (and(= obligation12_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9814,14 +9534,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation13_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation13 9) false) (and(= obligation13_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9841,14 +9554,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation14_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation14 9) false) (and(= obligation14_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9868,14 +9574,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation15_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation15 9) false) (and(= obligation15_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9895,14 +9594,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 10) (ASSIGN 9)))
-(assert (= (ASSIGN* 10) (ASSIGN* 9)))
-(assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation16_GrantAction_10_0)
-))
+)(assert (=> (= ( obligation16 9) false) (and(= obligation16_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -9922,31 +9614,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 9) false) (and(= obligation17_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_10_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 9) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_10_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 9))) (= obligation18_GrantAction_10_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 9)))) (= obligation18_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 9) false) (and(= obligation18_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_10_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 9) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_10_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 9))) (= obligation19_GrantAction_10_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 9)))) (= obligation19_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 9) false) (and(= obligation19_GrantAction_10_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 10) (ASSIGN 9)))
 (assert (= (ASSIGN* 10) (ASSIGN* 9)))
 (assert (= (ASSOC 10) 
-	(set.union (ASSOC 9)  obligation17_GrantAction_10_0)
+	(set.union (ASSOC 9) (set.union obligation19_GrantAction_10_0 (set.union obligation18_GrantAction_10_0 (set.union obligation17_GrantAction_10_0 (set.union obligation16_GrantAction_10_0 (set.union obligation15_GrantAction_10_0 (set.union obligation14_GrantAction_10_0 (set.union obligation13_GrantAction_10_0 (set.union obligation12_GrantAction_10_0 (set.union obligation11_GrantAction_10_0 (set.union obligation10_GrantAction_10_0 (set.union obligation9_GrantAction_10_0 (set.union obligation8_GrantAction_10_0 (set.union obligation7_GrantAction_10_0 (set.union obligation6_GrantAction_10_0 (set.union obligation5_GrantAction_10_0 (set.union obligation4_GrantAction_10_0 (set.union obligation3_GrantAction_10_0 (set.union obligation2_GrantAction_10_0 (set.union obligation1_GrantAction_10_0  obligation0_GrantAction_10_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 10) (ASSIGN* 9))
 (or 
-(= (obligation16 9) true)(= (obligation15 9) true)(= (obligation14 9) true)(= (obligation13 9) true)(= (obligation7 9) true)(= (obligation6 9) true)(= (obligation9 9) true)(= (obligation8 9) true)(= (obligation17 9) true)(= (obligation3 9) true)(= (obligation2 9) true)(= (obligation5 9) true)(= (obligation4 9) true)(= (obligation1 9) true)(= (obligation0 9) true)(= (obligation12 9) true)(= (obligation11 9) true)(= (obligation10 9) true))))
+)))
 (assert (=> (distinct (ASSIGN 10) (ASSIGN 9))
-(or (= (obligation16 9) true)(= (obligation15 9) true)(= (obligation14 9) true)(= (obligation13 9) true)(= (obligation7 9) true)(= (obligation6 9) true)(= (obligation9 9) true)(= (obligation8 9) true)(= (obligation17 9) true)(= (obligation3 9) true)(= (obligation2 9) true)(= (obligation5 9) true)(= (obligation4 9) true)(= (obligation1 9) true)(= (obligation0 9) true)(= (obligation12 9) true)(= (obligation11 9) true)(= (obligation10 9) true))))
+(or )))
 (assert (=> (distinct (ASSOC 10) (ASSOC 9))
 (or 
-(= (obligation16 9) true)(= (obligation15 9) true)(= (obligation14 9) true)(= (obligation13 9) true)(= (obligation7 9) true)(= (obligation6 9) true)(= (obligation9 9) true)(= (obligation8 9) true)(= (obligation17 9) true)(= (obligation3 9) true)(= (obligation2 9) true)(= (obligation5 9) true)(= (obligation4 9) true)(= (obligation1 9) true)(= (obligation0 9) true)(= (obligation12 9) true)(= (obligation11 9) true)(= (obligation10 9) true))))
+(= (obligation0 9) true)(= (obligation1 9) true)(= (obligation2 9) true)(= (obligation3 9) true)(= (obligation4 9) true)(= (obligation5 9) true)(= (obligation6 9) true)(= (obligation7 9) true)(= (obligation8 9) true)(= (obligation9 9) true)(= (obligation10 9) true)(= (obligation11 9) true)(= (obligation12 9) true)(= (obligation13 9) true)(= (obligation14 9) true)(= (obligation15 9) true)(= (obligation16 9) true)(= (obligation17 9) true)(= (obligation18 9) true)(= (obligation19 9) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 9) true)(= (obligation15 9) true)(= (obligation14 9) true)(= (obligation13 9) true)(= (obligation7 9) true)(= (obligation6 9) true)(= (obligation9 9) true)(= (obligation8 9) true)(= (obligation17 9) true)(= (obligation3 9) true)(= (obligation2 9) true)(= (obligation5 9) true)(= (obligation4 9) true)(= (obligation1 9) true)(= (obligation0 9) true)(= (obligation12 9) true)(= (obligation11 9) true)(= (obligation10 9) true)))
+(assert (or(= (obligation16 9) true)(= (obligation15 9) true)(= (obligation14 9) true)(= (obligation13 9) true)(= (obligation7 9) true)(= (obligation6 9) true)(= (obligation19 9) true)(= (obligation9 9) true)(= (obligation18 9) true)(= (obligation8 9) true)(= (obligation17 9) true)(= (obligation3 9) true)(= (obligation2 9) true)(= (obligation5 9) true)(= (obligation4 9) true)(= (obligation1 9) true)(= (obligation0 9) true)(= (obligation12 9) true)(= (obligation11 9) true)(= (obligation10 9) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -10421,6 +10153,58 @@
 )))
 
 
+(declare-fun obligation18U_10 () Int)
+(declare-fun obligation18UA_10 () Int)
+(declare-fun obligation18AT_10 () Int)
+(declare-fun obligation18UO_10 () Int)
+(declare-fun obligation18ar_10 () Int)
+(declare-fun obligation18S_10 () Int)
+(declare-fun obligation18T_10 () Int)
+(assert (>= obligation18U_10 0))
+(assert (>= obligation18UA_10 0))
+(assert (>= obligation18AT_10 0))
+(assert (>= obligation18UO_10 0))
+(assert (or (= obligation18ar_10 42)
+))
+(assert (= obligation18S_10 13))
+(assert (= obligation18T_10 20))
+(assert (=> (= (obligation18 10) true) (and
+ (set.member (tuple  obligation18U_10 obligation18S_10) (ASSIGN* 10))
+ (set.member (tuple  obligation18U_10 obligation18UA_10) (ASSIGN* 10))
+ (set.member (tuple obligation18UA_10 obligation18ar_10 obligation18AT_10) (ASSOC 10))
+ (set.member (tuple  obligation18UO_10 obligation18T_10) (ASSIGN* 10))
+ (set.member (tuple  obligation18UO_10 obligation18AT_10) (ASSIGN* 10))
+ (set.member (tuple  obligation18U_10 obligation18U_10) USERS)
+ (distinct obligation18S_10 obligation18U_10)
+)))
+
+
+(declare-fun obligation19U_10 () Int)
+(declare-fun obligation19UA_10 () Int)
+(declare-fun obligation19AT_10 () Int)
+(declare-fun obligation19UO_10 () Int)
+(declare-fun obligation19ar_10 () Int)
+(declare-fun obligation19S_10 () Int)
+(declare-fun obligation19T_10 () Int)
+(assert (>= obligation19U_10 0))
+(assert (>= obligation19UA_10 0))
+(assert (>= obligation19AT_10 0))
+(assert (>= obligation19UO_10 0))
+(assert (or (= obligation19ar_10 44)
+))
+(assert (= obligation19S_10 11))
+(assert (= obligation19T_10 20))
+(assert (=> (= (obligation19 10) true) (and
+ (set.member (tuple  obligation19U_10 obligation19S_10) (ASSIGN* 10))
+ (set.member (tuple  obligation19U_10 obligation19UA_10) (ASSIGN* 10))
+ (set.member (tuple obligation19UA_10 obligation19ar_10 obligation19AT_10) (ASSOC 10))
+ (set.member (tuple  obligation19UO_10 obligation19T_10) (ASSIGN* 10))
+ (set.member (tuple  obligation19UO_10 obligation19AT_10) (ASSIGN* 10))
+ (set.member (tuple  obligation19U_10 obligation19U_10) USERS)
+ (distinct obligation19S_10 obligation19U_10)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -10441,14 +10225,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation0_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation0 10) false) (and(= obligation0_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10468,14 +10245,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation1_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation1 10) false) (and(= obligation1_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10495,14 +10265,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation2_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation2 10) false) (and(= obligation2_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10522,14 +10285,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation3_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation3 10) false) (and(= obligation3_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10549,14 +10305,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation4_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation4 10) false) (and(= obligation4_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10576,14 +10325,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation5_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation5 10) false) (and(= obligation5_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10603,14 +10345,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation6_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation6 10) false) (and(= obligation6_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10630,14 +10365,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation7_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation7 10) false) (and(= obligation7_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10657,14 +10385,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation8_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation8 10) false) (and(= obligation8_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10684,14 +10405,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation9_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation9 10) false) (and(= obligation9_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10711,14 +10425,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation10_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation10 10) false) (and(= obligation10_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10738,14 +10445,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation11_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation11 10) false) (and(= obligation11_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10765,14 +10465,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation12_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation12 10) false) (and(= obligation12_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10792,14 +10485,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation13_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation13 10) false) (and(= obligation13_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10819,14 +10505,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation14_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation14 10) false) (and(= obligation14_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10846,14 +10525,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation15_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation15 10) false) (and(= obligation15_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10873,14 +10545,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 11) (ASSIGN 10)))
-(assert (= (ASSIGN* 11) (ASSIGN* 10)))
-(assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation16_GrantAction_11_0)
-))
+)(assert (=> (= ( obligation16 10) false) (and(= obligation16_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -10900,31 +10565,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 10) false) (and(= obligation17_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_11_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 10) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_11_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 10))) (= obligation18_GrantAction_11_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 10)))) (= obligation18_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 10) false) (and(= obligation18_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_11_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 10) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_11_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 10))) (= obligation19_GrantAction_11_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 10)))) (= obligation19_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 10) false) (and(= obligation19_GrantAction_11_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 11) (ASSIGN 10)))
 (assert (= (ASSIGN* 11) (ASSIGN* 10)))
 (assert (= (ASSOC 11) 
-	(set.union (ASSOC 10)  obligation17_GrantAction_11_0)
+	(set.union (ASSOC 10) (set.union obligation19_GrantAction_11_0 (set.union obligation18_GrantAction_11_0 (set.union obligation17_GrantAction_11_0 (set.union obligation16_GrantAction_11_0 (set.union obligation15_GrantAction_11_0 (set.union obligation14_GrantAction_11_0 (set.union obligation13_GrantAction_11_0 (set.union obligation12_GrantAction_11_0 (set.union obligation11_GrantAction_11_0 (set.union obligation10_GrantAction_11_0 (set.union obligation9_GrantAction_11_0 (set.union obligation8_GrantAction_11_0 (set.union obligation7_GrantAction_11_0 (set.union obligation6_GrantAction_11_0 (set.union obligation5_GrantAction_11_0 (set.union obligation4_GrantAction_11_0 (set.union obligation3_GrantAction_11_0 (set.union obligation2_GrantAction_11_0 (set.union obligation1_GrantAction_11_0  obligation0_GrantAction_11_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 11) (ASSIGN* 10))
 (or 
-(= (obligation16 10) true)(= (obligation15 10) true)(= (obligation14 10) true)(= (obligation13 10) true)(= (obligation7 10) true)(= (obligation6 10) true)(= (obligation9 10) true)(= (obligation8 10) true)(= (obligation17 10) true)(= (obligation3 10) true)(= (obligation2 10) true)(= (obligation5 10) true)(= (obligation4 10) true)(= (obligation1 10) true)(= (obligation0 10) true)(= (obligation12 10) true)(= (obligation11 10) true)(= (obligation10 10) true))))
+)))
 (assert (=> (distinct (ASSIGN 11) (ASSIGN 10))
-(or (= (obligation16 10) true)(= (obligation15 10) true)(= (obligation14 10) true)(= (obligation13 10) true)(= (obligation7 10) true)(= (obligation6 10) true)(= (obligation9 10) true)(= (obligation8 10) true)(= (obligation17 10) true)(= (obligation3 10) true)(= (obligation2 10) true)(= (obligation5 10) true)(= (obligation4 10) true)(= (obligation1 10) true)(= (obligation0 10) true)(= (obligation12 10) true)(= (obligation11 10) true)(= (obligation10 10) true))))
+(or )))
 (assert (=> (distinct (ASSOC 11) (ASSOC 10))
 (or 
-(= (obligation16 10) true)(= (obligation15 10) true)(= (obligation14 10) true)(= (obligation13 10) true)(= (obligation7 10) true)(= (obligation6 10) true)(= (obligation9 10) true)(= (obligation8 10) true)(= (obligation17 10) true)(= (obligation3 10) true)(= (obligation2 10) true)(= (obligation5 10) true)(= (obligation4 10) true)(= (obligation1 10) true)(= (obligation0 10) true)(= (obligation12 10) true)(= (obligation11 10) true)(= (obligation10 10) true))))
+(= (obligation0 10) true)(= (obligation1 10) true)(= (obligation2 10) true)(= (obligation3 10) true)(= (obligation4 10) true)(= (obligation5 10) true)(= (obligation6 10) true)(= (obligation7 10) true)(= (obligation8 10) true)(= (obligation9 10) true)(= (obligation10 10) true)(= (obligation11 10) true)(= (obligation12 10) true)(= (obligation13 10) true)(= (obligation14 10) true)(= (obligation15 10) true)(= (obligation16 10) true)(= (obligation17 10) true)(= (obligation18 10) true)(= (obligation19 10) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 10) true)(= (obligation15 10) true)(= (obligation14 10) true)(= (obligation13 10) true)(= (obligation7 10) true)(= (obligation6 10) true)(= (obligation9 10) true)(= (obligation8 10) true)(= (obligation17 10) true)(= (obligation3 10) true)(= (obligation2 10) true)(= (obligation5 10) true)(= (obligation4 10) true)(= (obligation1 10) true)(= (obligation0 10) true)(= (obligation12 10) true)(= (obligation11 10) true)(= (obligation10 10) true)))
+(assert (or(= (obligation16 10) true)(= (obligation15 10) true)(= (obligation14 10) true)(= (obligation13 10) true)(= (obligation7 10) true)(= (obligation6 10) true)(= (obligation19 10) true)(= (obligation9 10) true)(= (obligation18 10) true)(= (obligation8 10) true)(= (obligation17 10) true)(= (obligation3 10) true)(= (obligation2 10) true)(= (obligation5 10) true)(= (obligation4 10) true)(= (obligation1 10) true)(= (obligation0 10) true)(= (obligation12 10) true)(= (obligation11 10) true)(= (obligation10 10) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -11399,6 +11104,58 @@
 )))
 
 
+(declare-fun obligation18U_11 () Int)
+(declare-fun obligation18UA_11 () Int)
+(declare-fun obligation18AT_11 () Int)
+(declare-fun obligation18UO_11 () Int)
+(declare-fun obligation18ar_11 () Int)
+(declare-fun obligation18S_11 () Int)
+(declare-fun obligation18T_11 () Int)
+(assert (>= obligation18U_11 0))
+(assert (>= obligation18UA_11 0))
+(assert (>= obligation18AT_11 0))
+(assert (>= obligation18UO_11 0))
+(assert (or (= obligation18ar_11 42)
+))
+(assert (= obligation18S_11 13))
+(assert (= obligation18T_11 20))
+(assert (=> (= (obligation18 11) true) (and
+ (set.member (tuple  obligation18U_11 obligation18S_11) (ASSIGN* 11))
+ (set.member (tuple  obligation18U_11 obligation18UA_11) (ASSIGN* 11))
+ (set.member (tuple obligation18UA_11 obligation18ar_11 obligation18AT_11) (ASSOC 11))
+ (set.member (tuple  obligation18UO_11 obligation18T_11) (ASSIGN* 11))
+ (set.member (tuple  obligation18UO_11 obligation18AT_11) (ASSIGN* 11))
+ (set.member (tuple  obligation18U_11 obligation18U_11) USERS)
+ (distinct obligation18S_11 obligation18U_11)
+)))
+
+
+(declare-fun obligation19U_11 () Int)
+(declare-fun obligation19UA_11 () Int)
+(declare-fun obligation19AT_11 () Int)
+(declare-fun obligation19UO_11 () Int)
+(declare-fun obligation19ar_11 () Int)
+(declare-fun obligation19S_11 () Int)
+(declare-fun obligation19T_11 () Int)
+(assert (>= obligation19U_11 0))
+(assert (>= obligation19UA_11 0))
+(assert (>= obligation19AT_11 0))
+(assert (>= obligation19UO_11 0))
+(assert (or (= obligation19ar_11 44)
+))
+(assert (= obligation19S_11 11))
+(assert (= obligation19T_11 20))
+(assert (=> (= (obligation19 11) true) (and
+ (set.member (tuple  obligation19U_11 obligation19S_11) (ASSIGN* 11))
+ (set.member (tuple  obligation19U_11 obligation19UA_11) (ASSIGN* 11))
+ (set.member (tuple obligation19UA_11 obligation19ar_11 obligation19AT_11) (ASSOC 11))
+ (set.member (tuple  obligation19UO_11 obligation19T_11) (ASSIGN* 11))
+ (set.member (tuple  obligation19UO_11 obligation19AT_11) (ASSIGN* 11))
+ (set.member (tuple  obligation19U_11 obligation19U_11) USERS)
+ (distinct obligation19S_11 obligation19U_11)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -11419,14 +11176,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation0_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation0 11) false) (and(= obligation0_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11446,14 +11196,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation1_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation1 11) false) (and(= obligation1_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11473,14 +11216,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation2_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation2 11) false) (and(= obligation2_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11500,14 +11236,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation3_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation3 11) false) (and(= obligation3_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11527,14 +11256,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation4_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation4 11) false) (and(= obligation4_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11554,14 +11276,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation5_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation5 11) false) (and(= obligation5_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11581,14 +11296,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation6_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation6 11) false) (and(= obligation6_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11608,14 +11316,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation7_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation7 11) false) (and(= obligation7_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11635,14 +11336,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation8_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation8 11) false) (and(= obligation8_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11662,14 +11356,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation9_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation9 11) false) (and(= obligation9_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11689,14 +11376,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation10_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation10 11) false) (and(= obligation10_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11716,14 +11396,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation11_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation11 11) false) (and(= obligation11_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11743,14 +11416,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation12_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation12 11) false) (and(= obligation12_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11770,14 +11436,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation13_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation13 11) false) (and(= obligation13_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11797,14 +11456,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation14_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation14 11) false) (and(= obligation14_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11824,14 +11476,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation15_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation15 11) false) (and(= obligation15_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11851,14 +11496,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 12) (ASSIGN 11)))
-(assert (= (ASSIGN* 12) (ASSIGN* 11)))
-(assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation16_GrantAction_12_0)
-))
+)(assert (=> (= ( obligation16 11) false) (and(= obligation16_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -11878,31 +11516,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 11) false) (and(= obligation17_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_12_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 11) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_12_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 11))) (= obligation18_GrantAction_12_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 11)))) (= obligation18_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 11) false) (and(= obligation18_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_12_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 11) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_12_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 11))) (= obligation19_GrantAction_12_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 11)))) (= obligation19_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 11) false) (and(= obligation19_GrantAction_12_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 12) (ASSIGN 11)))
 (assert (= (ASSIGN* 12) (ASSIGN* 11)))
 (assert (= (ASSOC 12) 
-	(set.union (ASSOC 11)  obligation17_GrantAction_12_0)
+	(set.union (ASSOC 11) (set.union obligation19_GrantAction_12_0 (set.union obligation18_GrantAction_12_0 (set.union obligation17_GrantAction_12_0 (set.union obligation16_GrantAction_12_0 (set.union obligation15_GrantAction_12_0 (set.union obligation14_GrantAction_12_0 (set.union obligation13_GrantAction_12_0 (set.union obligation12_GrantAction_12_0 (set.union obligation11_GrantAction_12_0 (set.union obligation10_GrantAction_12_0 (set.union obligation9_GrantAction_12_0 (set.union obligation8_GrantAction_12_0 (set.union obligation7_GrantAction_12_0 (set.union obligation6_GrantAction_12_0 (set.union obligation5_GrantAction_12_0 (set.union obligation4_GrantAction_12_0 (set.union obligation3_GrantAction_12_0 (set.union obligation2_GrantAction_12_0 (set.union obligation1_GrantAction_12_0  obligation0_GrantAction_12_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 12) (ASSIGN* 11))
 (or 
-(= (obligation16 11) true)(= (obligation15 11) true)(= (obligation14 11) true)(= (obligation13 11) true)(= (obligation7 11) true)(= (obligation6 11) true)(= (obligation9 11) true)(= (obligation8 11) true)(= (obligation17 11) true)(= (obligation3 11) true)(= (obligation2 11) true)(= (obligation5 11) true)(= (obligation4 11) true)(= (obligation1 11) true)(= (obligation0 11) true)(= (obligation12 11) true)(= (obligation11 11) true)(= (obligation10 11) true))))
+)))
 (assert (=> (distinct (ASSIGN 12) (ASSIGN 11))
-(or (= (obligation16 11) true)(= (obligation15 11) true)(= (obligation14 11) true)(= (obligation13 11) true)(= (obligation7 11) true)(= (obligation6 11) true)(= (obligation9 11) true)(= (obligation8 11) true)(= (obligation17 11) true)(= (obligation3 11) true)(= (obligation2 11) true)(= (obligation5 11) true)(= (obligation4 11) true)(= (obligation1 11) true)(= (obligation0 11) true)(= (obligation12 11) true)(= (obligation11 11) true)(= (obligation10 11) true))))
+(or )))
 (assert (=> (distinct (ASSOC 12) (ASSOC 11))
 (or 
-(= (obligation16 11) true)(= (obligation15 11) true)(= (obligation14 11) true)(= (obligation13 11) true)(= (obligation7 11) true)(= (obligation6 11) true)(= (obligation9 11) true)(= (obligation8 11) true)(= (obligation17 11) true)(= (obligation3 11) true)(= (obligation2 11) true)(= (obligation5 11) true)(= (obligation4 11) true)(= (obligation1 11) true)(= (obligation0 11) true)(= (obligation12 11) true)(= (obligation11 11) true)(= (obligation10 11) true))))
+(= (obligation0 11) true)(= (obligation1 11) true)(= (obligation2 11) true)(= (obligation3 11) true)(= (obligation4 11) true)(= (obligation5 11) true)(= (obligation6 11) true)(= (obligation7 11) true)(= (obligation8 11) true)(= (obligation9 11) true)(= (obligation10 11) true)(= (obligation11 11) true)(= (obligation12 11) true)(= (obligation13 11) true)(= (obligation14 11) true)(= (obligation15 11) true)(= (obligation16 11) true)(= (obligation17 11) true)(= (obligation18 11) true)(= (obligation19 11) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 11) true)(= (obligation15 11) true)(= (obligation14 11) true)(= (obligation13 11) true)(= (obligation7 11) true)(= (obligation6 11) true)(= (obligation9 11) true)(= (obligation8 11) true)(= (obligation17 11) true)(= (obligation3 11) true)(= (obligation2 11) true)(= (obligation5 11) true)(= (obligation4 11) true)(= (obligation1 11) true)(= (obligation0 11) true)(= (obligation12 11) true)(= (obligation11 11) true)(= (obligation10 11) true)))
+(assert (or(= (obligation16 11) true)(= (obligation15 11) true)(= (obligation14 11) true)(= (obligation13 11) true)(= (obligation7 11) true)(= (obligation6 11) true)(= (obligation19 11) true)(= (obligation9 11) true)(= (obligation18 11) true)(= (obligation8 11) true)(= (obligation17 11) true)(= (obligation3 11) true)(= (obligation2 11) true)(= (obligation5 11) true)(= (obligation4 11) true)(= (obligation1 11) true)(= (obligation0 11) true)(= (obligation12 11) true)(= (obligation11 11) true)(= (obligation10 11) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -12377,6 +12055,58 @@
 )))
 
 
+(declare-fun obligation18U_12 () Int)
+(declare-fun obligation18UA_12 () Int)
+(declare-fun obligation18AT_12 () Int)
+(declare-fun obligation18UO_12 () Int)
+(declare-fun obligation18ar_12 () Int)
+(declare-fun obligation18S_12 () Int)
+(declare-fun obligation18T_12 () Int)
+(assert (>= obligation18U_12 0))
+(assert (>= obligation18UA_12 0))
+(assert (>= obligation18AT_12 0))
+(assert (>= obligation18UO_12 0))
+(assert (or (= obligation18ar_12 42)
+))
+(assert (= obligation18S_12 13))
+(assert (= obligation18T_12 20))
+(assert (=> (= (obligation18 12) true) (and
+ (set.member (tuple  obligation18U_12 obligation18S_12) (ASSIGN* 12))
+ (set.member (tuple  obligation18U_12 obligation18UA_12) (ASSIGN* 12))
+ (set.member (tuple obligation18UA_12 obligation18ar_12 obligation18AT_12) (ASSOC 12))
+ (set.member (tuple  obligation18UO_12 obligation18T_12) (ASSIGN* 12))
+ (set.member (tuple  obligation18UO_12 obligation18AT_12) (ASSIGN* 12))
+ (set.member (tuple  obligation18U_12 obligation18U_12) USERS)
+ (distinct obligation18S_12 obligation18U_12)
+)))
+
+
+(declare-fun obligation19U_12 () Int)
+(declare-fun obligation19UA_12 () Int)
+(declare-fun obligation19AT_12 () Int)
+(declare-fun obligation19UO_12 () Int)
+(declare-fun obligation19ar_12 () Int)
+(declare-fun obligation19S_12 () Int)
+(declare-fun obligation19T_12 () Int)
+(assert (>= obligation19U_12 0))
+(assert (>= obligation19UA_12 0))
+(assert (>= obligation19AT_12 0))
+(assert (>= obligation19UO_12 0))
+(assert (or (= obligation19ar_12 44)
+))
+(assert (= obligation19S_12 11))
+(assert (= obligation19T_12 20))
+(assert (=> (= (obligation19 12) true) (and
+ (set.member (tuple  obligation19U_12 obligation19S_12) (ASSIGN* 12))
+ (set.member (tuple  obligation19U_12 obligation19UA_12) (ASSIGN* 12))
+ (set.member (tuple obligation19UA_12 obligation19ar_12 obligation19AT_12) (ASSOC 12))
+ (set.member (tuple  obligation19UO_12 obligation19T_12) (ASSIGN* 12))
+ (set.member (tuple  obligation19UO_12 obligation19AT_12) (ASSIGN* 12))
+ (set.member (tuple  obligation19U_12 obligation19U_12) USERS)
+ (distinct obligation19S_12 obligation19U_12)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -12397,14 +12127,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation0_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation0 12) false) (and(= obligation0_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12424,14 +12147,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation1_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation1 12) false) (and(= obligation1_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12451,14 +12167,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation2_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation2 12) false) (and(= obligation2_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12478,14 +12187,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation3_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation3 12) false) (and(= obligation3_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12505,14 +12207,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation4_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation4 12) false) (and(= obligation4_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12532,14 +12227,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation5_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation5 12) false) (and(= obligation5_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12559,14 +12247,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation6_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation6 12) false) (and(= obligation6_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12586,14 +12267,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation7_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation7 12) false) (and(= obligation7_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12613,14 +12287,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation8_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation8 12) false) (and(= obligation8_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12640,14 +12307,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation9_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation9 12) false) (and(= obligation9_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12667,14 +12327,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation10_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation10 12) false) (and(= obligation10_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12694,14 +12347,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation11_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation11 12) false) (and(= obligation11_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12721,14 +12367,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation12_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation12 12) false) (and(= obligation12_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12748,14 +12387,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation13_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation13 12) false) (and(= obligation13_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12775,14 +12407,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation14_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation14 12) false) (and(= obligation14_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12802,14 +12427,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation15_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation15 12) false) (and(= obligation15_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12829,14 +12447,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 13) (ASSIGN 12)))
-(assert (= (ASSIGN* 13) (ASSIGN* 12)))
-(assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation16_GrantAction_13_0)
-))
+)(assert (=> (= ( obligation16 12) false) (and(= obligation16_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -12856,31 +12467,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 12) false) (and(= obligation17_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_13_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 12) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_13_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 12))) (= obligation18_GrantAction_13_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 12)))) (= obligation18_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 12) false) (and(= obligation18_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_13_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 12) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_13_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 12))) (= obligation19_GrantAction_13_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 12)))) (= obligation19_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 12) false) (and(= obligation19_GrantAction_13_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 13) (ASSIGN 12)))
 (assert (= (ASSIGN* 13) (ASSIGN* 12)))
 (assert (= (ASSOC 13) 
-	(set.union (ASSOC 12)  obligation17_GrantAction_13_0)
+	(set.union (ASSOC 12) (set.union obligation19_GrantAction_13_0 (set.union obligation18_GrantAction_13_0 (set.union obligation17_GrantAction_13_0 (set.union obligation16_GrantAction_13_0 (set.union obligation15_GrantAction_13_0 (set.union obligation14_GrantAction_13_0 (set.union obligation13_GrantAction_13_0 (set.union obligation12_GrantAction_13_0 (set.union obligation11_GrantAction_13_0 (set.union obligation10_GrantAction_13_0 (set.union obligation9_GrantAction_13_0 (set.union obligation8_GrantAction_13_0 (set.union obligation7_GrantAction_13_0 (set.union obligation6_GrantAction_13_0 (set.union obligation5_GrantAction_13_0 (set.union obligation4_GrantAction_13_0 (set.union obligation3_GrantAction_13_0 (set.union obligation2_GrantAction_13_0 (set.union obligation1_GrantAction_13_0  obligation0_GrantAction_13_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 13) (ASSIGN* 12))
 (or 
-(= (obligation16 12) true)(= (obligation15 12) true)(= (obligation14 12) true)(= (obligation13 12) true)(= (obligation7 12) true)(= (obligation6 12) true)(= (obligation9 12) true)(= (obligation8 12) true)(= (obligation17 12) true)(= (obligation3 12) true)(= (obligation2 12) true)(= (obligation5 12) true)(= (obligation4 12) true)(= (obligation1 12) true)(= (obligation0 12) true)(= (obligation12 12) true)(= (obligation11 12) true)(= (obligation10 12) true))))
+)))
 (assert (=> (distinct (ASSIGN 13) (ASSIGN 12))
-(or (= (obligation16 12) true)(= (obligation15 12) true)(= (obligation14 12) true)(= (obligation13 12) true)(= (obligation7 12) true)(= (obligation6 12) true)(= (obligation9 12) true)(= (obligation8 12) true)(= (obligation17 12) true)(= (obligation3 12) true)(= (obligation2 12) true)(= (obligation5 12) true)(= (obligation4 12) true)(= (obligation1 12) true)(= (obligation0 12) true)(= (obligation12 12) true)(= (obligation11 12) true)(= (obligation10 12) true))))
+(or )))
 (assert (=> (distinct (ASSOC 13) (ASSOC 12))
 (or 
-(= (obligation16 12) true)(= (obligation15 12) true)(= (obligation14 12) true)(= (obligation13 12) true)(= (obligation7 12) true)(= (obligation6 12) true)(= (obligation9 12) true)(= (obligation8 12) true)(= (obligation17 12) true)(= (obligation3 12) true)(= (obligation2 12) true)(= (obligation5 12) true)(= (obligation4 12) true)(= (obligation1 12) true)(= (obligation0 12) true)(= (obligation12 12) true)(= (obligation11 12) true)(= (obligation10 12) true))))
+(= (obligation0 12) true)(= (obligation1 12) true)(= (obligation2 12) true)(= (obligation3 12) true)(= (obligation4 12) true)(= (obligation5 12) true)(= (obligation6 12) true)(= (obligation7 12) true)(= (obligation8 12) true)(= (obligation9 12) true)(= (obligation10 12) true)(= (obligation11 12) true)(= (obligation12 12) true)(= (obligation13 12) true)(= (obligation14 12) true)(= (obligation15 12) true)(= (obligation16 12) true)(= (obligation17 12) true)(= (obligation18 12) true)(= (obligation19 12) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 12) true)(= (obligation15 12) true)(= (obligation14 12) true)(= (obligation13 12) true)(= (obligation7 12) true)(= (obligation6 12) true)(= (obligation9 12) true)(= (obligation8 12) true)(= (obligation17 12) true)(= (obligation3 12) true)(= (obligation2 12) true)(= (obligation5 12) true)(= (obligation4 12) true)(= (obligation1 12) true)(= (obligation0 12) true)(= (obligation12 12) true)(= (obligation11 12) true)(= (obligation10 12) true)))
+(assert (or(= (obligation16 12) true)(= (obligation15 12) true)(= (obligation14 12) true)(= (obligation13 12) true)(= (obligation7 12) true)(= (obligation6 12) true)(= (obligation19 12) true)(= (obligation9 12) true)(= (obligation18 12) true)(= (obligation8 12) true)(= (obligation17 12) true)(= (obligation3 12) true)(= (obligation2 12) true)(= (obligation5 12) true)(= (obligation4 12) true)(= (obligation1 12) true)(= (obligation0 12) true)(= (obligation12 12) true)(= (obligation11 12) true)(= (obligation10 12) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -13355,6 +13006,58 @@
 )))
 
 
+(declare-fun obligation18U_13 () Int)
+(declare-fun obligation18UA_13 () Int)
+(declare-fun obligation18AT_13 () Int)
+(declare-fun obligation18UO_13 () Int)
+(declare-fun obligation18ar_13 () Int)
+(declare-fun obligation18S_13 () Int)
+(declare-fun obligation18T_13 () Int)
+(assert (>= obligation18U_13 0))
+(assert (>= obligation18UA_13 0))
+(assert (>= obligation18AT_13 0))
+(assert (>= obligation18UO_13 0))
+(assert (or (= obligation18ar_13 42)
+))
+(assert (= obligation18S_13 13))
+(assert (= obligation18T_13 20))
+(assert (=> (= (obligation18 13) true) (and
+ (set.member (tuple  obligation18U_13 obligation18S_13) (ASSIGN* 13))
+ (set.member (tuple  obligation18U_13 obligation18UA_13) (ASSIGN* 13))
+ (set.member (tuple obligation18UA_13 obligation18ar_13 obligation18AT_13) (ASSOC 13))
+ (set.member (tuple  obligation18UO_13 obligation18T_13) (ASSIGN* 13))
+ (set.member (tuple  obligation18UO_13 obligation18AT_13) (ASSIGN* 13))
+ (set.member (tuple  obligation18U_13 obligation18U_13) USERS)
+ (distinct obligation18S_13 obligation18U_13)
+)))
+
+
+(declare-fun obligation19U_13 () Int)
+(declare-fun obligation19UA_13 () Int)
+(declare-fun obligation19AT_13 () Int)
+(declare-fun obligation19UO_13 () Int)
+(declare-fun obligation19ar_13 () Int)
+(declare-fun obligation19S_13 () Int)
+(declare-fun obligation19T_13 () Int)
+(assert (>= obligation19U_13 0))
+(assert (>= obligation19UA_13 0))
+(assert (>= obligation19AT_13 0))
+(assert (>= obligation19UO_13 0))
+(assert (or (= obligation19ar_13 44)
+))
+(assert (= obligation19S_13 11))
+(assert (= obligation19T_13 20))
+(assert (=> (= (obligation19 13) true) (and
+ (set.member (tuple  obligation19U_13 obligation19S_13) (ASSIGN* 13))
+ (set.member (tuple  obligation19U_13 obligation19UA_13) (ASSIGN* 13))
+ (set.member (tuple obligation19UA_13 obligation19ar_13 obligation19AT_13) (ASSOC 13))
+ (set.member (tuple  obligation19UO_13 obligation19T_13) (ASSIGN* 13))
+ (set.member (tuple  obligation19UO_13 obligation19AT_13) (ASSIGN* 13))
+ (set.member (tuple  obligation19U_13 obligation19U_13) USERS)
+ (distinct obligation19S_13 obligation19U_13)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -13375,14 +13078,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation0_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation0 13) false) (and(= obligation0_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13402,14 +13098,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation1_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation1 13) false) (and(= obligation1_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13429,14 +13118,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation2_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation2 13) false) (and(= obligation2_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13456,14 +13138,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation3_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation3 13) false) (and(= obligation3_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13483,14 +13158,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation4_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation4 13) false) (and(= obligation4_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13510,14 +13178,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation5_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation5 13) false) (and(= obligation5_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13537,14 +13198,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation6_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation6 13) false) (and(= obligation6_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13564,14 +13218,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation7_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation7 13) false) (and(= obligation7_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13591,14 +13238,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation8_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation8 13) false) (and(= obligation8_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13618,14 +13258,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation9_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation9 13) false) (and(= obligation9_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13645,14 +13278,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation10_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation10 13) false) (and(= obligation10_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13672,14 +13298,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation11_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation11 13) false) (and(= obligation11_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13699,14 +13318,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation12_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation12 13) false) (and(= obligation12_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13726,14 +13338,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation13_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation13 13) false) (and(= obligation13_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13753,14 +13358,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation14_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation14 13) false) (and(= obligation14_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13780,14 +13378,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation15_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation15 13) false) (and(= obligation15_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13807,14 +13398,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 14) (ASSIGN 13)))
-(assert (= (ASSIGN* 14) (ASSIGN* 13)))
-(assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation16_GrantAction_14_0)
-))
+)(assert (=> (= ( obligation16 13) false) (and(= obligation16_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -13834,31 +13418,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 13) false) (and(= obligation17_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_14_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 13) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_14_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 13))) (= obligation18_GrantAction_14_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 13)))) (= obligation18_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 13) false) (and(= obligation18_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_14_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 13) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_14_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 13))) (= obligation19_GrantAction_14_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 13)))) (= obligation19_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 13) false) (and(= obligation19_GrantAction_14_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 14) (ASSIGN 13)))
 (assert (= (ASSIGN* 14) (ASSIGN* 13)))
 (assert (= (ASSOC 14) 
-	(set.union (ASSOC 13)  obligation17_GrantAction_14_0)
+	(set.union (ASSOC 13) (set.union obligation19_GrantAction_14_0 (set.union obligation18_GrantAction_14_0 (set.union obligation17_GrantAction_14_0 (set.union obligation16_GrantAction_14_0 (set.union obligation15_GrantAction_14_0 (set.union obligation14_GrantAction_14_0 (set.union obligation13_GrantAction_14_0 (set.union obligation12_GrantAction_14_0 (set.union obligation11_GrantAction_14_0 (set.union obligation10_GrantAction_14_0 (set.union obligation9_GrantAction_14_0 (set.union obligation8_GrantAction_14_0 (set.union obligation7_GrantAction_14_0 (set.union obligation6_GrantAction_14_0 (set.union obligation5_GrantAction_14_0 (set.union obligation4_GrantAction_14_0 (set.union obligation3_GrantAction_14_0 (set.union obligation2_GrantAction_14_0 (set.union obligation1_GrantAction_14_0  obligation0_GrantAction_14_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 14) (ASSIGN* 13))
 (or 
-(= (obligation16 13) true)(= (obligation15 13) true)(= (obligation14 13) true)(= (obligation13 13) true)(= (obligation7 13) true)(= (obligation6 13) true)(= (obligation9 13) true)(= (obligation8 13) true)(= (obligation17 13) true)(= (obligation3 13) true)(= (obligation2 13) true)(= (obligation5 13) true)(= (obligation4 13) true)(= (obligation1 13) true)(= (obligation0 13) true)(= (obligation12 13) true)(= (obligation11 13) true)(= (obligation10 13) true))))
+)))
 (assert (=> (distinct (ASSIGN 14) (ASSIGN 13))
-(or (= (obligation16 13) true)(= (obligation15 13) true)(= (obligation14 13) true)(= (obligation13 13) true)(= (obligation7 13) true)(= (obligation6 13) true)(= (obligation9 13) true)(= (obligation8 13) true)(= (obligation17 13) true)(= (obligation3 13) true)(= (obligation2 13) true)(= (obligation5 13) true)(= (obligation4 13) true)(= (obligation1 13) true)(= (obligation0 13) true)(= (obligation12 13) true)(= (obligation11 13) true)(= (obligation10 13) true))))
+(or )))
 (assert (=> (distinct (ASSOC 14) (ASSOC 13))
 (or 
-(= (obligation16 13) true)(= (obligation15 13) true)(= (obligation14 13) true)(= (obligation13 13) true)(= (obligation7 13) true)(= (obligation6 13) true)(= (obligation9 13) true)(= (obligation8 13) true)(= (obligation17 13) true)(= (obligation3 13) true)(= (obligation2 13) true)(= (obligation5 13) true)(= (obligation4 13) true)(= (obligation1 13) true)(= (obligation0 13) true)(= (obligation12 13) true)(= (obligation11 13) true)(= (obligation10 13) true))))
+(= (obligation0 13) true)(= (obligation1 13) true)(= (obligation2 13) true)(= (obligation3 13) true)(= (obligation4 13) true)(= (obligation5 13) true)(= (obligation6 13) true)(= (obligation7 13) true)(= (obligation8 13) true)(= (obligation9 13) true)(= (obligation10 13) true)(= (obligation11 13) true)(= (obligation12 13) true)(= (obligation13 13) true)(= (obligation14 13) true)(= (obligation15 13) true)(= (obligation16 13) true)(= (obligation17 13) true)(= (obligation18 13) true)(= (obligation19 13) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 13) true)(= (obligation15 13) true)(= (obligation14 13) true)(= (obligation13 13) true)(= (obligation7 13) true)(= (obligation6 13) true)(= (obligation9 13) true)(= (obligation8 13) true)(= (obligation17 13) true)(= (obligation3 13) true)(= (obligation2 13) true)(= (obligation5 13) true)(= (obligation4 13) true)(= (obligation1 13) true)(= (obligation0 13) true)(= (obligation12 13) true)(= (obligation11 13) true)(= (obligation10 13) true)))
+(assert (or(= (obligation16 13) true)(= (obligation15 13) true)(= (obligation14 13) true)(= (obligation13 13) true)(= (obligation7 13) true)(= (obligation6 13) true)(= (obligation19 13) true)(= (obligation9 13) true)(= (obligation18 13) true)(= (obligation8 13) true)(= (obligation17 13) true)(= (obligation3 13) true)(= (obligation2 13) true)(= (obligation5 13) true)(= (obligation4 13) true)(= (obligation1 13) true)(= (obligation0 13) true)(= (obligation12 13) true)(= (obligation11 13) true)(= (obligation10 13) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -14333,6 +13957,58 @@
 )))
 
 
+(declare-fun obligation18U_14 () Int)
+(declare-fun obligation18UA_14 () Int)
+(declare-fun obligation18AT_14 () Int)
+(declare-fun obligation18UO_14 () Int)
+(declare-fun obligation18ar_14 () Int)
+(declare-fun obligation18S_14 () Int)
+(declare-fun obligation18T_14 () Int)
+(assert (>= obligation18U_14 0))
+(assert (>= obligation18UA_14 0))
+(assert (>= obligation18AT_14 0))
+(assert (>= obligation18UO_14 0))
+(assert (or (= obligation18ar_14 42)
+))
+(assert (= obligation18S_14 13))
+(assert (= obligation18T_14 20))
+(assert (=> (= (obligation18 14) true) (and
+ (set.member (tuple  obligation18U_14 obligation18S_14) (ASSIGN* 14))
+ (set.member (tuple  obligation18U_14 obligation18UA_14) (ASSIGN* 14))
+ (set.member (tuple obligation18UA_14 obligation18ar_14 obligation18AT_14) (ASSOC 14))
+ (set.member (tuple  obligation18UO_14 obligation18T_14) (ASSIGN* 14))
+ (set.member (tuple  obligation18UO_14 obligation18AT_14) (ASSIGN* 14))
+ (set.member (tuple  obligation18U_14 obligation18U_14) USERS)
+ (distinct obligation18S_14 obligation18U_14)
+)))
+
+
+(declare-fun obligation19U_14 () Int)
+(declare-fun obligation19UA_14 () Int)
+(declare-fun obligation19AT_14 () Int)
+(declare-fun obligation19UO_14 () Int)
+(declare-fun obligation19ar_14 () Int)
+(declare-fun obligation19S_14 () Int)
+(declare-fun obligation19T_14 () Int)
+(assert (>= obligation19U_14 0))
+(assert (>= obligation19UA_14 0))
+(assert (>= obligation19AT_14 0))
+(assert (>= obligation19UO_14 0))
+(assert (or (= obligation19ar_14 44)
+))
+(assert (= obligation19S_14 11))
+(assert (= obligation19T_14 20))
+(assert (=> (= (obligation19 14) true) (and
+ (set.member (tuple  obligation19U_14 obligation19S_14) (ASSIGN* 14))
+ (set.member (tuple  obligation19U_14 obligation19UA_14) (ASSIGN* 14))
+ (set.member (tuple obligation19UA_14 obligation19ar_14 obligation19AT_14) (ASSOC 14))
+ (set.member (tuple  obligation19UO_14 obligation19T_14) (ASSIGN* 14))
+ (set.member (tuple  obligation19UO_14 obligation19AT_14) (ASSIGN* 14))
+ (set.member (tuple  obligation19U_14 obligation19U_14) USERS)
+ (distinct obligation19S_14 obligation19U_14)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -14353,14 +14029,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation0_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation0 14) false) (and(= obligation0_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14380,14 +14049,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation1_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation1 14) false) (and(= obligation1_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14407,14 +14069,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation2_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation2 14) false) (and(= obligation2_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14434,14 +14089,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation3_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation3 14) false) (and(= obligation3_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14461,14 +14109,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation4_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation4 14) false) (and(= obligation4_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14488,14 +14129,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation5_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation5 14) false) (and(= obligation5_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14515,14 +14149,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation6_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation6 14) false) (and(= obligation6_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14542,14 +14169,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation7_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation7 14) false) (and(= obligation7_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14569,14 +14189,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation8_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation8 14) false) (and(= obligation8_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14596,14 +14209,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation9_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation9 14) false) (and(= obligation9_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14623,14 +14229,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation10_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation10 14) false) (and(= obligation10_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14650,14 +14249,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation11_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation11 14) false) (and(= obligation11_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14677,14 +14269,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation12_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation12 14) false) (and(= obligation12_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14704,14 +14289,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation13_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation13 14) false) (and(= obligation13_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14731,14 +14309,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation14_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation14 14) false) (and(= obligation14_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14758,14 +14329,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation15_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation15 14) false) (and(= obligation15_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14785,14 +14349,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 15) (ASSIGN 14)))
-(assert (= (ASSIGN* 15) (ASSIGN* 14)))
-(assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation16_GrantAction_15_0)
-))
+)(assert (=> (= ( obligation16 14) false) (and(= obligation16_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -14812,31 +14369,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 14) false) (and(= obligation17_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_15_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 14) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_15_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 14))) (= obligation18_GrantAction_15_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 14)))) (= obligation18_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 14) false) (and(= obligation18_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_15_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 14) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_15_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 14))) (= obligation19_GrantAction_15_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 14)))) (= obligation19_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 14) false) (and(= obligation19_GrantAction_15_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 15) (ASSIGN 14)))
 (assert (= (ASSIGN* 15) (ASSIGN* 14)))
 (assert (= (ASSOC 15) 
-	(set.union (ASSOC 14)  obligation17_GrantAction_15_0)
+	(set.union (ASSOC 14) (set.union obligation19_GrantAction_15_0 (set.union obligation18_GrantAction_15_0 (set.union obligation17_GrantAction_15_0 (set.union obligation16_GrantAction_15_0 (set.union obligation15_GrantAction_15_0 (set.union obligation14_GrantAction_15_0 (set.union obligation13_GrantAction_15_0 (set.union obligation12_GrantAction_15_0 (set.union obligation11_GrantAction_15_0 (set.union obligation10_GrantAction_15_0 (set.union obligation9_GrantAction_15_0 (set.union obligation8_GrantAction_15_0 (set.union obligation7_GrantAction_15_0 (set.union obligation6_GrantAction_15_0 (set.union obligation5_GrantAction_15_0 (set.union obligation4_GrantAction_15_0 (set.union obligation3_GrantAction_15_0 (set.union obligation2_GrantAction_15_0 (set.union obligation1_GrantAction_15_0  obligation0_GrantAction_15_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 15) (ASSIGN* 14))
 (or 
-(= (obligation16 14) true)(= (obligation15 14) true)(= (obligation14 14) true)(= (obligation13 14) true)(= (obligation7 14) true)(= (obligation6 14) true)(= (obligation9 14) true)(= (obligation8 14) true)(= (obligation17 14) true)(= (obligation3 14) true)(= (obligation2 14) true)(= (obligation5 14) true)(= (obligation4 14) true)(= (obligation1 14) true)(= (obligation0 14) true)(= (obligation12 14) true)(= (obligation11 14) true)(= (obligation10 14) true))))
+)))
 (assert (=> (distinct (ASSIGN 15) (ASSIGN 14))
-(or (= (obligation16 14) true)(= (obligation15 14) true)(= (obligation14 14) true)(= (obligation13 14) true)(= (obligation7 14) true)(= (obligation6 14) true)(= (obligation9 14) true)(= (obligation8 14) true)(= (obligation17 14) true)(= (obligation3 14) true)(= (obligation2 14) true)(= (obligation5 14) true)(= (obligation4 14) true)(= (obligation1 14) true)(= (obligation0 14) true)(= (obligation12 14) true)(= (obligation11 14) true)(= (obligation10 14) true))))
+(or )))
 (assert (=> (distinct (ASSOC 15) (ASSOC 14))
 (or 
-(= (obligation16 14) true)(= (obligation15 14) true)(= (obligation14 14) true)(= (obligation13 14) true)(= (obligation7 14) true)(= (obligation6 14) true)(= (obligation9 14) true)(= (obligation8 14) true)(= (obligation17 14) true)(= (obligation3 14) true)(= (obligation2 14) true)(= (obligation5 14) true)(= (obligation4 14) true)(= (obligation1 14) true)(= (obligation0 14) true)(= (obligation12 14) true)(= (obligation11 14) true)(= (obligation10 14) true))))
+(= (obligation0 14) true)(= (obligation1 14) true)(= (obligation2 14) true)(= (obligation3 14) true)(= (obligation4 14) true)(= (obligation5 14) true)(= (obligation6 14) true)(= (obligation7 14) true)(= (obligation8 14) true)(= (obligation9 14) true)(= (obligation10 14) true)(= (obligation11 14) true)(= (obligation12 14) true)(= (obligation13 14) true)(= (obligation14 14) true)(= (obligation15 14) true)(= (obligation16 14) true)(= (obligation17 14) true)(= (obligation18 14) true)(= (obligation19 14) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 14) true)(= (obligation15 14) true)(= (obligation14 14) true)(= (obligation13 14) true)(= (obligation7 14) true)(= (obligation6 14) true)(= (obligation9 14) true)(= (obligation8 14) true)(= (obligation17 14) true)(= (obligation3 14) true)(= (obligation2 14) true)(= (obligation5 14) true)(= (obligation4 14) true)(= (obligation1 14) true)(= (obligation0 14) true)(= (obligation12 14) true)(= (obligation11 14) true)(= (obligation10 14) true)))
+(assert (or(= (obligation16 14) true)(= (obligation15 14) true)(= (obligation14 14) true)(= (obligation13 14) true)(= (obligation7 14) true)(= (obligation6 14) true)(= (obligation19 14) true)(= (obligation9 14) true)(= (obligation18 14) true)(= (obligation8 14) true)(= (obligation17 14) true)(= (obligation3 14) true)(= (obligation2 14) true)(= (obligation5 14) true)(= (obligation4 14) true)(= (obligation1 14) true)(= (obligation0 14) true)(= (obligation12 14) true)(= (obligation11 14) true)(= (obligation10 14) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -15311,6 +14908,58 @@
 )))
 
 
+(declare-fun obligation18U_15 () Int)
+(declare-fun obligation18UA_15 () Int)
+(declare-fun obligation18AT_15 () Int)
+(declare-fun obligation18UO_15 () Int)
+(declare-fun obligation18ar_15 () Int)
+(declare-fun obligation18S_15 () Int)
+(declare-fun obligation18T_15 () Int)
+(assert (>= obligation18U_15 0))
+(assert (>= obligation18UA_15 0))
+(assert (>= obligation18AT_15 0))
+(assert (>= obligation18UO_15 0))
+(assert (or (= obligation18ar_15 42)
+))
+(assert (= obligation18S_15 13))
+(assert (= obligation18T_15 20))
+(assert (=> (= (obligation18 15) true) (and
+ (set.member (tuple  obligation18U_15 obligation18S_15) (ASSIGN* 15))
+ (set.member (tuple  obligation18U_15 obligation18UA_15) (ASSIGN* 15))
+ (set.member (tuple obligation18UA_15 obligation18ar_15 obligation18AT_15) (ASSOC 15))
+ (set.member (tuple  obligation18UO_15 obligation18T_15) (ASSIGN* 15))
+ (set.member (tuple  obligation18UO_15 obligation18AT_15) (ASSIGN* 15))
+ (set.member (tuple  obligation18U_15 obligation18U_15) USERS)
+ (distinct obligation18S_15 obligation18U_15)
+)))
+
+
+(declare-fun obligation19U_15 () Int)
+(declare-fun obligation19UA_15 () Int)
+(declare-fun obligation19AT_15 () Int)
+(declare-fun obligation19UO_15 () Int)
+(declare-fun obligation19ar_15 () Int)
+(declare-fun obligation19S_15 () Int)
+(declare-fun obligation19T_15 () Int)
+(assert (>= obligation19U_15 0))
+(assert (>= obligation19UA_15 0))
+(assert (>= obligation19AT_15 0))
+(assert (>= obligation19UO_15 0))
+(assert (or (= obligation19ar_15 44)
+))
+(assert (= obligation19S_15 11))
+(assert (= obligation19T_15 20))
+(assert (=> (= (obligation19 15) true) (and
+ (set.member (tuple  obligation19U_15 obligation19S_15) (ASSIGN* 15))
+ (set.member (tuple  obligation19U_15 obligation19UA_15) (ASSIGN* 15))
+ (set.member (tuple obligation19UA_15 obligation19ar_15 obligation19AT_15) (ASSOC 15))
+ (set.member (tuple  obligation19UO_15 obligation19T_15) (ASSIGN* 15))
+ (set.member (tuple  obligation19UO_15 obligation19AT_15) (ASSIGN* 15))
+ (set.member (tuple  obligation19U_15 obligation19U_15) USERS)
+ (distinct obligation19S_15 obligation19U_15)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -15331,14 +14980,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation0_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation0 15) false) (and(= obligation0_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15358,14 +15000,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation1_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation1 15) false) (and(= obligation1_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15385,14 +15020,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation2_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation2 15) false) (and(= obligation2_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15412,14 +15040,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation3_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation3 15) false) (and(= obligation3_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15439,14 +15060,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation4_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation4 15) false) (and(= obligation4_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15466,14 +15080,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation5_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation5 15) false) (and(= obligation5_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15493,14 +15100,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation6_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation6 15) false) (and(= obligation6_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15520,14 +15120,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation7_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation7 15) false) (and(= obligation7_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15547,14 +15140,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation8_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation8 15) false) (and(= obligation8_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15574,14 +15160,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation9_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation9 15) false) (and(= obligation9_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15601,14 +15180,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation10_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation10 15) false) (and(= obligation10_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15628,14 +15200,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation11_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation11 15) false) (and(= obligation11_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15655,14 +15220,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation12_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation12 15) false) (and(= obligation12_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15682,14 +15240,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation13_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation13 15) false) (and(= obligation13_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15709,14 +15260,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation14_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation14 15) false) (and(= obligation14_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15736,14 +15280,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation15_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation15 15) false) (and(= obligation15_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15763,14 +15300,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 16) (ASSIGN 15)))
-(assert (= (ASSIGN* 16) (ASSIGN* 15)))
-(assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation16_GrantAction_16_0)
-))
+)(assert (=> (= ( obligation16 15) false) (and(= obligation16_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -15790,31 +15320,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 15) false) (and(= obligation17_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_16_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 15) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_16_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 15))) (= obligation18_GrantAction_16_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 15)))) (= obligation18_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 15) false) (and(= obligation18_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_16_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 15) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_16_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 15))) (= obligation19_GrantAction_16_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 15)))) (= obligation19_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 15) false) (and(= obligation19_GrantAction_16_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 16) (ASSIGN 15)))
 (assert (= (ASSIGN* 16) (ASSIGN* 15)))
 (assert (= (ASSOC 16) 
-	(set.union (ASSOC 15)  obligation17_GrantAction_16_0)
+	(set.union (ASSOC 15) (set.union obligation19_GrantAction_16_0 (set.union obligation18_GrantAction_16_0 (set.union obligation17_GrantAction_16_0 (set.union obligation16_GrantAction_16_0 (set.union obligation15_GrantAction_16_0 (set.union obligation14_GrantAction_16_0 (set.union obligation13_GrantAction_16_0 (set.union obligation12_GrantAction_16_0 (set.union obligation11_GrantAction_16_0 (set.union obligation10_GrantAction_16_0 (set.union obligation9_GrantAction_16_0 (set.union obligation8_GrantAction_16_0 (set.union obligation7_GrantAction_16_0 (set.union obligation6_GrantAction_16_0 (set.union obligation5_GrantAction_16_0 (set.union obligation4_GrantAction_16_0 (set.union obligation3_GrantAction_16_0 (set.union obligation2_GrantAction_16_0 (set.union obligation1_GrantAction_16_0  obligation0_GrantAction_16_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 16) (ASSIGN* 15))
 (or 
-(= (obligation16 15) true)(= (obligation15 15) true)(= (obligation14 15) true)(= (obligation13 15) true)(= (obligation7 15) true)(= (obligation6 15) true)(= (obligation9 15) true)(= (obligation8 15) true)(= (obligation17 15) true)(= (obligation3 15) true)(= (obligation2 15) true)(= (obligation5 15) true)(= (obligation4 15) true)(= (obligation1 15) true)(= (obligation0 15) true)(= (obligation12 15) true)(= (obligation11 15) true)(= (obligation10 15) true))))
+)))
 (assert (=> (distinct (ASSIGN 16) (ASSIGN 15))
-(or (= (obligation16 15) true)(= (obligation15 15) true)(= (obligation14 15) true)(= (obligation13 15) true)(= (obligation7 15) true)(= (obligation6 15) true)(= (obligation9 15) true)(= (obligation8 15) true)(= (obligation17 15) true)(= (obligation3 15) true)(= (obligation2 15) true)(= (obligation5 15) true)(= (obligation4 15) true)(= (obligation1 15) true)(= (obligation0 15) true)(= (obligation12 15) true)(= (obligation11 15) true)(= (obligation10 15) true))))
+(or )))
 (assert (=> (distinct (ASSOC 16) (ASSOC 15))
 (or 
-(= (obligation16 15) true)(= (obligation15 15) true)(= (obligation14 15) true)(= (obligation13 15) true)(= (obligation7 15) true)(= (obligation6 15) true)(= (obligation9 15) true)(= (obligation8 15) true)(= (obligation17 15) true)(= (obligation3 15) true)(= (obligation2 15) true)(= (obligation5 15) true)(= (obligation4 15) true)(= (obligation1 15) true)(= (obligation0 15) true)(= (obligation12 15) true)(= (obligation11 15) true)(= (obligation10 15) true))))
+(= (obligation0 15) true)(= (obligation1 15) true)(= (obligation2 15) true)(= (obligation3 15) true)(= (obligation4 15) true)(= (obligation5 15) true)(= (obligation6 15) true)(= (obligation7 15) true)(= (obligation8 15) true)(= (obligation9 15) true)(= (obligation10 15) true)(= (obligation11 15) true)(= (obligation12 15) true)(= (obligation13 15) true)(= (obligation14 15) true)(= (obligation15 15) true)(= (obligation16 15) true)(= (obligation17 15) true)(= (obligation18 15) true)(= (obligation19 15) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 15) true)(= (obligation15 15) true)(= (obligation14 15) true)(= (obligation13 15) true)(= (obligation7 15) true)(= (obligation6 15) true)(= (obligation9 15) true)(= (obligation8 15) true)(= (obligation17 15) true)(= (obligation3 15) true)(= (obligation2 15) true)(= (obligation5 15) true)(= (obligation4 15) true)(= (obligation1 15) true)(= (obligation0 15) true)(= (obligation12 15) true)(= (obligation11 15) true)(= (obligation10 15) true)))
+(assert (or(= (obligation16 15) true)(= (obligation15 15) true)(= (obligation14 15) true)(= (obligation13 15) true)(= (obligation7 15) true)(= (obligation6 15) true)(= (obligation19 15) true)(= (obligation9 15) true)(= (obligation18 15) true)(= (obligation8 15) true)(= (obligation17 15) true)(= (obligation3 15) true)(= (obligation2 15) true)(= (obligation5 15) true)(= (obligation4 15) true)(= (obligation1 15) true)(= (obligation0 15) true)(= (obligation12 15) true)(= (obligation11 15) true)(= (obligation10 15) true)))
 
 
 ;--------------------------------------------------------------------------------------------------------------------
@@ -16289,6 +15859,58 @@
 )))
 
 
+(declare-fun obligation18U_16 () Int)
+(declare-fun obligation18UA_16 () Int)
+(declare-fun obligation18AT_16 () Int)
+(declare-fun obligation18UO_16 () Int)
+(declare-fun obligation18ar_16 () Int)
+(declare-fun obligation18S_16 () Int)
+(declare-fun obligation18T_16 () Int)
+(assert (>= obligation18U_16 0))
+(assert (>= obligation18UA_16 0))
+(assert (>= obligation18AT_16 0))
+(assert (>= obligation18UO_16 0))
+(assert (or (= obligation18ar_16 42)
+))
+(assert (= obligation18S_16 13))
+(assert (= obligation18T_16 20))
+(assert (=> (= (obligation18 16) true) (and
+ (set.member (tuple  obligation18U_16 obligation18S_16) (ASSIGN* 16))
+ (set.member (tuple  obligation18U_16 obligation18UA_16) (ASSIGN* 16))
+ (set.member (tuple obligation18UA_16 obligation18ar_16 obligation18AT_16) (ASSOC 16))
+ (set.member (tuple  obligation18UO_16 obligation18T_16) (ASSIGN* 16))
+ (set.member (tuple  obligation18UO_16 obligation18AT_16) (ASSIGN* 16))
+ (set.member (tuple  obligation18U_16 obligation18U_16) USERS)
+ (distinct obligation18S_16 obligation18U_16)
+)))
+
+
+(declare-fun obligation19U_16 () Int)
+(declare-fun obligation19UA_16 () Int)
+(declare-fun obligation19AT_16 () Int)
+(declare-fun obligation19UO_16 () Int)
+(declare-fun obligation19ar_16 () Int)
+(declare-fun obligation19S_16 () Int)
+(declare-fun obligation19T_16 () Int)
+(assert (>= obligation19U_16 0))
+(assert (>= obligation19UA_16 0))
+(assert (>= obligation19AT_16 0))
+(assert (>= obligation19UO_16 0))
+(assert (or (= obligation19ar_16 44)
+))
+(assert (= obligation19S_16 11))
+(assert (= obligation19T_16 20))
+(assert (=> (= (obligation19 16) true) (and
+ (set.member (tuple  obligation19U_16 obligation19S_16) (ASSIGN* 16))
+ (set.member (tuple  obligation19U_16 obligation19UA_16) (ASSIGN* 16))
+ (set.member (tuple obligation19UA_16 obligation19ar_16 obligation19AT_16) (ASSOC 16))
+ (set.member (tuple  obligation19UO_16 obligation19T_16) (ASSIGN* 16))
+ (set.member (tuple  obligation19UO_16 obligation19AT_16) (ASSIGN* 16))
+ (set.member (tuple  obligation19U_16 obligation19U_16) USERS)
+ (distinct obligation19S_16 obligation19U_16)
+)))
+
+
 
 
 ; 5.2 a->Eff
@@ -16309,14 +15931,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation0_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation0 16) false) (and(= obligation0_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16336,14 +15951,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation1_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation1 16) false) (and(= obligation1_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16363,14 +15971,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation2_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation2 16) false) (and(= obligation2_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16390,14 +15991,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation3_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation3 16) false) (and(= obligation3_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16417,14 +16011,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation4_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation4 16) false) (and(= obligation4_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16444,14 +16031,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation5_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation5 16) false) (and(= obligation5_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16471,14 +16051,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation6_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation6 16) false) (and(= obligation6_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16498,14 +16071,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation7_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation7 16) false) (and(= obligation7_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16525,14 +16091,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation8_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation8 16) false) (and(= obligation8_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16552,14 +16111,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation9_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation9 16) false) (and(= obligation9_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16579,14 +16131,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation10_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation10 16) false) (and(= obligation10_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16606,14 +16151,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation11_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation11 16) false) (and(= obligation11_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16633,14 +16171,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation12_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation12 16) false) (and(= obligation12_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16660,14 +16191,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation13_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation13 16) false) (and(= obligation13_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16687,14 +16211,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation14_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation14 16) false) (and(= obligation14_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16714,14 +16231,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation15_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation15 16) false) (and(= obligation15_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16741,14 +16251,7 @@
 	)
 )
 )
-)
-
-;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 17) (ASSIGN 16)))
-(assert (= (ASSIGN* 17) (ASSIGN* 16)))
-(assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation16_GrantAction_17_0)
-))
+)(assert (=> (= ( obligation16 16) false) (and(= obligation16_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
@@ -16768,31 +16271,71 @@
 	)
 )
 )
+)(assert (=> (= ( obligation17 16) false) (and(= obligation17_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation18_GrantAction_17_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation18 16) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation18_GrantAction_17_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 16))) (= obligation18_GrantAction_17_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 16)))) (= obligation18_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
 )
+)
+)(assert (=> (= ( obligation18 16) false) (and(= obligation18_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+
+(declare-fun obligation19_GrantAction_17_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( obligation19 16) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: obligation19_GrantAction_17_0
+		(=>(not (set.member (tuple 11 44 20) (ASSOC 16))) (= obligation19_GrantAction_17_0 (set.singleton(tuple 11 44 20))))
+
+		(=>(not (not (set.member (tuple 11 44 20) (ASSOC 16)))) (= obligation19_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( obligation19 16) false) (and(= obligation19_GrantAction_17_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 17) (ASSIGN 16)))
 (assert (= (ASSIGN* 17) (ASSIGN* 16)))
 (assert (= (ASSOC 17) 
-	(set.union (ASSOC 16)  obligation17_GrantAction_17_0)
+	(set.union (ASSOC 16) (set.union obligation19_GrantAction_17_0 (set.union obligation18_GrantAction_17_0 (set.union obligation17_GrantAction_17_0 (set.union obligation16_GrantAction_17_0 (set.union obligation15_GrantAction_17_0 (set.union obligation14_GrantAction_17_0 (set.union obligation13_GrantAction_17_0 (set.union obligation12_GrantAction_17_0 (set.union obligation11_GrantAction_17_0 (set.union obligation10_GrantAction_17_0 (set.union obligation9_GrantAction_17_0 (set.union obligation8_GrantAction_17_0 (set.union obligation7_GrantAction_17_0 (set.union obligation6_GrantAction_17_0 (set.union obligation5_GrantAction_17_0 (set.union obligation4_GrantAction_17_0 (set.union obligation3_GrantAction_17_0 (set.union obligation2_GrantAction_17_0 (set.union obligation1_GrantAction_17_0  obligation0_GrantAction_17_0))))))))))))))))))))
 ))
-
-
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 17) (ASSIGN* 16))
 (or 
-(= (obligation16 16) true)(= (obligation15 16) true)(= (obligation14 16) true)(= (obligation13 16) true)(= (obligation7 16) true)(= (obligation6 16) true)(= (obligation9 16) true)(= (obligation8 16) true)(= (obligation17 16) true)(= (obligation3 16) true)(= (obligation2 16) true)(= (obligation5 16) true)(= (obligation4 16) true)(= (obligation1 16) true)(= (obligation0 16) true)(= (obligation12 16) true)(= (obligation11 16) true)(= (obligation10 16) true))))
+)))
 (assert (=> (distinct (ASSIGN 17) (ASSIGN 16))
-(or (= (obligation16 16) true)(= (obligation15 16) true)(= (obligation14 16) true)(= (obligation13 16) true)(= (obligation7 16) true)(= (obligation6 16) true)(= (obligation9 16) true)(= (obligation8 16) true)(= (obligation17 16) true)(= (obligation3 16) true)(= (obligation2 16) true)(= (obligation5 16) true)(= (obligation4 16) true)(= (obligation1 16) true)(= (obligation0 16) true)(= (obligation12 16) true)(= (obligation11 16) true)(= (obligation10 16) true))))
+(or )))
 (assert (=> (distinct (ASSOC 17) (ASSOC 16))
 (or 
-(= (obligation16 16) true)(= (obligation15 16) true)(= (obligation14 16) true)(= (obligation13 16) true)(= (obligation7 16) true)(= (obligation6 16) true)(= (obligation9 16) true)(= (obligation8 16) true)(= (obligation17 16) true)(= (obligation3 16) true)(= (obligation2 16) true)(= (obligation5 16) true)(= (obligation4 16) true)(= (obligation1 16) true)(= (obligation0 16) true)(= (obligation12 16) true)(= (obligation11 16) true)(= (obligation10 16) true))))
+(= (obligation0 16) true)(= (obligation1 16) true)(= (obligation2 16) true)(= (obligation3 16) true)(= (obligation4 16) true)(= (obligation5 16) true)(= (obligation6 16) true)(= (obligation7 16) true)(= (obligation8 16) true)(= (obligation9 16) true)(= (obligation10 16) true)(= (obligation11 16) true)(= (obligation12 16) true)(= (obligation13 16) true)(= (obligation14 16) true)(= (obligation15 16) true)(= (obligation16 16) true)(= (obligation17 16) true)(= (obligation18 16) true)(= (obligation19 16) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation16 16) true)(= (obligation15 16) true)(= (obligation14 16) true)(= (obligation13 16) true)(= (obligation7 16) true)(= (obligation6 16) true)(= (obligation9 16) true)(= (obligation8 16) true)(= (obligation17 16) true)(= (obligation3 16) true)(= (obligation2 16) true)(= (obligation5 16) true)(= (obligation4 16) true)(= (obligation1 16) true)(= (obligation0 16) true)(= (obligation12 16) true)(= (obligation11 16) true)(= (obligation10 16) true)))
+(assert (or(= (obligation16 16) true)(= (obligation15 16) true)(= (obligation14 16) true)(= (obligation13 16) true)(= (obligation7 16) true)(= (obligation6 16) true)(= (obligation19 16) true)(= (obligation9 16) true)(= (obligation18 16) true)(= (obligation8 16) true)(= (obligation17 16) true)(= (obligation3 16) true)(= (obligation2 16) true)(= (obligation5 16) true)(= (obligation4 16) true)(= (obligation1 16) true)(= (obligation0 16) true)(= (obligation12 16) true)(= (obligation11 16) true)(= (obligation10 16) true)))
 
 ;PRE PROPERTY
 
@@ -16801,8 +16344,8 @@
 (declare-fun queryVARar2 () Int)
 (declare-fun queryVARat2 () Int)
 (assert 
-(and (= (obligation16 16) true)
- (= obligation16U_16 queryVARu2 ) (= obligation16ar_16 queryVARar2 ) (= obligation16T_16 queryVARat2 )))
+(and (= (obligation18 16) true)
+ (= obligation18U_16 queryVARu2 ) (= obligation18ar_16 queryVARar2 ) (= obligation18T_16 queryVARat2 )))
 (check-sat)
 (get-value (obligation16))
 (get-value (obligation15))
@@ -16810,7 +16353,9 @@
 (get-value (obligation13))
 (get-value (obligation7))
 (get-value (obligation6))
+(get-value (obligation19))
 (get-value (obligation9))
+(get-value (obligation18))
 (get-value (obligation8))
 (get-value (obligation17))
 (get-value (obligation3))
@@ -16948,6 +16493,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -17074,6 +16633,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -17200,6 +16773,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -17326,6 +16913,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -17452,6 +17053,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -17578,6 +17193,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -17704,6 +17333,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -17830,6 +17473,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -17956,6 +17613,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -18082,6 +17753,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -18208,6 +17893,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -18334,6 +18033,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -18460,6 +18173,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -18586,6 +18313,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -18712,6 +18453,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -18838,6 +18593,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -18964,6 +18733,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -19090,6 +18873,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -19216,6 +19013,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -19342,6 +19153,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_5))
 (get-value (obligation0UA_5))
 (get-value (obligation0AT_5))
@@ -19468,6 +19293,20 @@
 (get-value (obligation17S_5))
 (get-value (obligation17T_5))
 (get-value (obligation17ar_5))
+(get-value (obligation18U_5))
+(get-value (obligation18UA_5))
+(get-value (obligation18AT_5))
+(get-value (obligation18UO_5))
+(get-value (obligation18S_5))
+(get-value (obligation18T_5))
+(get-value (obligation18ar_5))
+(get-value (obligation19U_5))
+(get-value (obligation19UA_5))
+(get-value (obligation19AT_5))
+(get-value (obligation19UO_5))
+(get-value (obligation19S_5))
+(get-value (obligation19T_5))
+(get-value (obligation19ar_5))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -19594,6 +19433,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -19720,6 +19573,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -19846,6 +19713,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -19972,6 +19853,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -20098,6 +19993,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_5))
 (get-value (obligation0UA_5))
 (get-value (obligation0AT_5))
@@ -20224,6 +20133,20 @@
 (get-value (obligation17S_5))
 (get-value (obligation17T_5))
 (get-value (obligation17ar_5))
+(get-value (obligation18U_5))
+(get-value (obligation18UA_5))
+(get-value (obligation18AT_5))
+(get-value (obligation18UO_5))
+(get-value (obligation18S_5))
+(get-value (obligation18T_5))
+(get-value (obligation18ar_5))
+(get-value (obligation19U_5))
+(get-value (obligation19UA_5))
+(get-value (obligation19AT_5))
+(get-value (obligation19UO_5))
+(get-value (obligation19S_5))
+(get-value (obligation19T_5))
+(get-value (obligation19ar_5))
 (get-value (obligation0U_6))
 (get-value (obligation0UA_6))
 (get-value (obligation0AT_6))
@@ -20350,6 +20273,20 @@
 (get-value (obligation17S_6))
 (get-value (obligation17T_6))
 (get-value (obligation17ar_6))
+(get-value (obligation18U_6))
+(get-value (obligation18UA_6))
+(get-value (obligation18AT_6))
+(get-value (obligation18UO_6))
+(get-value (obligation18S_6))
+(get-value (obligation18T_6))
+(get-value (obligation18ar_6))
+(get-value (obligation19U_6))
+(get-value (obligation19UA_6))
+(get-value (obligation19AT_6))
+(get-value (obligation19UO_6))
+(get-value (obligation19S_6))
+(get-value (obligation19T_6))
+(get-value (obligation19ar_6))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -20476,6 +20413,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -20602,6 +20553,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -20728,6 +20693,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -20854,6 +20833,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -20980,6 +20973,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_5))
 (get-value (obligation0UA_5))
 (get-value (obligation0AT_5))
@@ -21106,6 +21113,20 @@
 (get-value (obligation17S_5))
 (get-value (obligation17T_5))
 (get-value (obligation17ar_5))
+(get-value (obligation18U_5))
+(get-value (obligation18UA_5))
+(get-value (obligation18AT_5))
+(get-value (obligation18UO_5))
+(get-value (obligation18S_5))
+(get-value (obligation18T_5))
+(get-value (obligation18ar_5))
+(get-value (obligation19U_5))
+(get-value (obligation19UA_5))
+(get-value (obligation19AT_5))
+(get-value (obligation19UO_5))
+(get-value (obligation19S_5))
+(get-value (obligation19T_5))
+(get-value (obligation19ar_5))
 (get-value (obligation0U_6))
 (get-value (obligation0UA_6))
 (get-value (obligation0AT_6))
@@ -21232,6 +21253,20 @@
 (get-value (obligation17S_6))
 (get-value (obligation17T_6))
 (get-value (obligation17ar_6))
+(get-value (obligation18U_6))
+(get-value (obligation18UA_6))
+(get-value (obligation18AT_6))
+(get-value (obligation18UO_6))
+(get-value (obligation18S_6))
+(get-value (obligation18T_6))
+(get-value (obligation18ar_6))
+(get-value (obligation19U_6))
+(get-value (obligation19UA_6))
+(get-value (obligation19AT_6))
+(get-value (obligation19UO_6))
+(get-value (obligation19S_6))
+(get-value (obligation19T_6))
+(get-value (obligation19ar_6))
 (get-value (obligation0U_7))
 (get-value (obligation0UA_7))
 (get-value (obligation0AT_7))
@@ -21358,6 +21393,20 @@
 (get-value (obligation17S_7))
 (get-value (obligation17T_7))
 (get-value (obligation17ar_7))
+(get-value (obligation18U_7))
+(get-value (obligation18UA_7))
+(get-value (obligation18AT_7))
+(get-value (obligation18UO_7))
+(get-value (obligation18S_7))
+(get-value (obligation18T_7))
+(get-value (obligation18ar_7))
+(get-value (obligation19U_7))
+(get-value (obligation19UA_7))
+(get-value (obligation19AT_7))
+(get-value (obligation19UO_7))
+(get-value (obligation19S_7))
+(get-value (obligation19T_7))
+(get-value (obligation19ar_7))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -21484,6 +21533,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -21610,6 +21673,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -21736,6 +21813,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -21862,6 +21953,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -21988,6 +22093,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_5))
 (get-value (obligation0UA_5))
 (get-value (obligation0AT_5))
@@ -22114,6 +22233,20 @@
 (get-value (obligation17S_5))
 (get-value (obligation17T_5))
 (get-value (obligation17ar_5))
+(get-value (obligation18U_5))
+(get-value (obligation18UA_5))
+(get-value (obligation18AT_5))
+(get-value (obligation18UO_5))
+(get-value (obligation18S_5))
+(get-value (obligation18T_5))
+(get-value (obligation18ar_5))
+(get-value (obligation19U_5))
+(get-value (obligation19UA_5))
+(get-value (obligation19AT_5))
+(get-value (obligation19UO_5))
+(get-value (obligation19S_5))
+(get-value (obligation19T_5))
+(get-value (obligation19ar_5))
 (get-value (obligation0U_6))
 (get-value (obligation0UA_6))
 (get-value (obligation0AT_6))
@@ -22240,6 +22373,20 @@
 (get-value (obligation17S_6))
 (get-value (obligation17T_6))
 (get-value (obligation17ar_6))
+(get-value (obligation18U_6))
+(get-value (obligation18UA_6))
+(get-value (obligation18AT_6))
+(get-value (obligation18UO_6))
+(get-value (obligation18S_6))
+(get-value (obligation18T_6))
+(get-value (obligation18ar_6))
+(get-value (obligation19U_6))
+(get-value (obligation19UA_6))
+(get-value (obligation19AT_6))
+(get-value (obligation19UO_6))
+(get-value (obligation19S_6))
+(get-value (obligation19T_6))
+(get-value (obligation19ar_6))
 (get-value (obligation0U_7))
 (get-value (obligation0UA_7))
 (get-value (obligation0AT_7))
@@ -22366,6 +22513,20 @@
 (get-value (obligation17S_7))
 (get-value (obligation17T_7))
 (get-value (obligation17ar_7))
+(get-value (obligation18U_7))
+(get-value (obligation18UA_7))
+(get-value (obligation18AT_7))
+(get-value (obligation18UO_7))
+(get-value (obligation18S_7))
+(get-value (obligation18T_7))
+(get-value (obligation18ar_7))
+(get-value (obligation19U_7))
+(get-value (obligation19UA_7))
+(get-value (obligation19AT_7))
+(get-value (obligation19UO_7))
+(get-value (obligation19S_7))
+(get-value (obligation19T_7))
+(get-value (obligation19ar_7))
 (get-value (obligation0U_8))
 (get-value (obligation0UA_8))
 (get-value (obligation0AT_8))
@@ -22492,6 +22653,20 @@
 (get-value (obligation17S_8))
 (get-value (obligation17T_8))
 (get-value (obligation17ar_8))
+(get-value (obligation18U_8))
+(get-value (obligation18UA_8))
+(get-value (obligation18AT_8))
+(get-value (obligation18UO_8))
+(get-value (obligation18S_8))
+(get-value (obligation18T_8))
+(get-value (obligation18ar_8))
+(get-value (obligation19U_8))
+(get-value (obligation19UA_8))
+(get-value (obligation19AT_8))
+(get-value (obligation19UO_8))
+(get-value (obligation19S_8))
+(get-value (obligation19T_8))
+(get-value (obligation19ar_8))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -22618,6 +22793,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -22744,6 +22933,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -22870,6 +23073,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -22996,6 +23213,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -23122,6 +23353,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_5))
 (get-value (obligation0UA_5))
 (get-value (obligation0AT_5))
@@ -23248,6 +23493,20 @@
 (get-value (obligation17S_5))
 (get-value (obligation17T_5))
 (get-value (obligation17ar_5))
+(get-value (obligation18U_5))
+(get-value (obligation18UA_5))
+(get-value (obligation18AT_5))
+(get-value (obligation18UO_5))
+(get-value (obligation18S_5))
+(get-value (obligation18T_5))
+(get-value (obligation18ar_5))
+(get-value (obligation19U_5))
+(get-value (obligation19UA_5))
+(get-value (obligation19AT_5))
+(get-value (obligation19UO_5))
+(get-value (obligation19S_5))
+(get-value (obligation19T_5))
+(get-value (obligation19ar_5))
 (get-value (obligation0U_6))
 (get-value (obligation0UA_6))
 (get-value (obligation0AT_6))
@@ -23374,6 +23633,20 @@
 (get-value (obligation17S_6))
 (get-value (obligation17T_6))
 (get-value (obligation17ar_6))
+(get-value (obligation18U_6))
+(get-value (obligation18UA_6))
+(get-value (obligation18AT_6))
+(get-value (obligation18UO_6))
+(get-value (obligation18S_6))
+(get-value (obligation18T_6))
+(get-value (obligation18ar_6))
+(get-value (obligation19U_6))
+(get-value (obligation19UA_6))
+(get-value (obligation19AT_6))
+(get-value (obligation19UO_6))
+(get-value (obligation19S_6))
+(get-value (obligation19T_6))
+(get-value (obligation19ar_6))
 (get-value (obligation0U_7))
 (get-value (obligation0UA_7))
 (get-value (obligation0AT_7))
@@ -23500,6 +23773,20 @@
 (get-value (obligation17S_7))
 (get-value (obligation17T_7))
 (get-value (obligation17ar_7))
+(get-value (obligation18U_7))
+(get-value (obligation18UA_7))
+(get-value (obligation18AT_7))
+(get-value (obligation18UO_7))
+(get-value (obligation18S_7))
+(get-value (obligation18T_7))
+(get-value (obligation18ar_7))
+(get-value (obligation19U_7))
+(get-value (obligation19UA_7))
+(get-value (obligation19AT_7))
+(get-value (obligation19UO_7))
+(get-value (obligation19S_7))
+(get-value (obligation19T_7))
+(get-value (obligation19ar_7))
 (get-value (obligation0U_8))
 (get-value (obligation0UA_8))
 (get-value (obligation0AT_8))
@@ -23626,6 +23913,20 @@
 (get-value (obligation17S_8))
 (get-value (obligation17T_8))
 (get-value (obligation17ar_8))
+(get-value (obligation18U_8))
+(get-value (obligation18UA_8))
+(get-value (obligation18AT_8))
+(get-value (obligation18UO_8))
+(get-value (obligation18S_8))
+(get-value (obligation18T_8))
+(get-value (obligation18ar_8))
+(get-value (obligation19U_8))
+(get-value (obligation19UA_8))
+(get-value (obligation19AT_8))
+(get-value (obligation19UO_8))
+(get-value (obligation19S_8))
+(get-value (obligation19T_8))
+(get-value (obligation19ar_8))
 (get-value (obligation0U_9))
 (get-value (obligation0UA_9))
 (get-value (obligation0AT_9))
@@ -23752,6 +24053,20 @@
 (get-value (obligation17S_9))
 (get-value (obligation17T_9))
 (get-value (obligation17ar_9))
+(get-value (obligation18U_9))
+(get-value (obligation18UA_9))
+(get-value (obligation18AT_9))
+(get-value (obligation18UO_9))
+(get-value (obligation18S_9))
+(get-value (obligation18T_9))
+(get-value (obligation18ar_9))
+(get-value (obligation19U_9))
+(get-value (obligation19UA_9))
+(get-value (obligation19AT_9))
+(get-value (obligation19UO_9))
+(get-value (obligation19S_9))
+(get-value (obligation19T_9))
+(get-value (obligation19ar_9))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -23878,6 +24193,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -24004,6 +24333,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -24130,6 +24473,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -24256,6 +24613,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -24382,6 +24753,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_5))
 (get-value (obligation0UA_5))
 (get-value (obligation0AT_5))
@@ -24508,6 +24893,20 @@
 (get-value (obligation17S_5))
 (get-value (obligation17T_5))
 (get-value (obligation17ar_5))
+(get-value (obligation18U_5))
+(get-value (obligation18UA_5))
+(get-value (obligation18AT_5))
+(get-value (obligation18UO_5))
+(get-value (obligation18S_5))
+(get-value (obligation18T_5))
+(get-value (obligation18ar_5))
+(get-value (obligation19U_5))
+(get-value (obligation19UA_5))
+(get-value (obligation19AT_5))
+(get-value (obligation19UO_5))
+(get-value (obligation19S_5))
+(get-value (obligation19T_5))
+(get-value (obligation19ar_5))
 (get-value (obligation0U_6))
 (get-value (obligation0UA_6))
 (get-value (obligation0AT_6))
@@ -24634,6 +25033,20 @@
 (get-value (obligation17S_6))
 (get-value (obligation17T_6))
 (get-value (obligation17ar_6))
+(get-value (obligation18U_6))
+(get-value (obligation18UA_6))
+(get-value (obligation18AT_6))
+(get-value (obligation18UO_6))
+(get-value (obligation18S_6))
+(get-value (obligation18T_6))
+(get-value (obligation18ar_6))
+(get-value (obligation19U_6))
+(get-value (obligation19UA_6))
+(get-value (obligation19AT_6))
+(get-value (obligation19UO_6))
+(get-value (obligation19S_6))
+(get-value (obligation19T_6))
+(get-value (obligation19ar_6))
 (get-value (obligation0U_7))
 (get-value (obligation0UA_7))
 (get-value (obligation0AT_7))
@@ -24760,6 +25173,20 @@
 (get-value (obligation17S_7))
 (get-value (obligation17T_7))
 (get-value (obligation17ar_7))
+(get-value (obligation18U_7))
+(get-value (obligation18UA_7))
+(get-value (obligation18AT_7))
+(get-value (obligation18UO_7))
+(get-value (obligation18S_7))
+(get-value (obligation18T_7))
+(get-value (obligation18ar_7))
+(get-value (obligation19U_7))
+(get-value (obligation19UA_7))
+(get-value (obligation19AT_7))
+(get-value (obligation19UO_7))
+(get-value (obligation19S_7))
+(get-value (obligation19T_7))
+(get-value (obligation19ar_7))
 (get-value (obligation0U_8))
 (get-value (obligation0UA_8))
 (get-value (obligation0AT_8))
@@ -24886,6 +25313,20 @@
 (get-value (obligation17S_8))
 (get-value (obligation17T_8))
 (get-value (obligation17ar_8))
+(get-value (obligation18U_8))
+(get-value (obligation18UA_8))
+(get-value (obligation18AT_8))
+(get-value (obligation18UO_8))
+(get-value (obligation18S_8))
+(get-value (obligation18T_8))
+(get-value (obligation18ar_8))
+(get-value (obligation19U_8))
+(get-value (obligation19UA_8))
+(get-value (obligation19AT_8))
+(get-value (obligation19UO_8))
+(get-value (obligation19S_8))
+(get-value (obligation19T_8))
+(get-value (obligation19ar_8))
 (get-value (obligation0U_9))
 (get-value (obligation0UA_9))
 (get-value (obligation0AT_9))
@@ -25012,6 +25453,20 @@
 (get-value (obligation17S_9))
 (get-value (obligation17T_9))
 (get-value (obligation17ar_9))
+(get-value (obligation18U_9))
+(get-value (obligation18UA_9))
+(get-value (obligation18AT_9))
+(get-value (obligation18UO_9))
+(get-value (obligation18S_9))
+(get-value (obligation18T_9))
+(get-value (obligation18ar_9))
+(get-value (obligation19U_9))
+(get-value (obligation19UA_9))
+(get-value (obligation19AT_9))
+(get-value (obligation19UO_9))
+(get-value (obligation19S_9))
+(get-value (obligation19T_9))
+(get-value (obligation19ar_9))
 (get-value (obligation0U_10))
 (get-value (obligation0UA_10))
 (get-value (obligation0AT_10))
@@ -25138,6 +25593,20 @@
 (get-value (obligation17S_10))
 (get-value (obligation17T_10))
 (get-value (obligation17ar_10))
+(get-value (obligation18U_10))
+(get-value (obligation18UA_10))
+(get-value (obligation18AT_10))
+(get-value (obligation18UO_10))
+(get-value (obligation18S_10))
+(get-value (obligation18T_10))
+(get-value (obligation18ar_10))
+(get-value (obligation19U_10))
+(get-value (obligation19UA_10))
+(get-value (obligation19AT_10))
+(get-value (obligation19UO_10))
+(get-value (obligation19S_10))
+(get-value (obligation19T_10))
+(get-value (obligation19ar_10))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -25264,6 +25733,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -25390,6 +25873,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -25516,6 +26013,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -25642,6 +26153,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -25768,6 +26293,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_5))
 (get-value (obligation0UA_5))
 (get-value (obligation0AT_5))
@@ -25894,6 +26433,20 @@
 (get-value (obligation17S_5))
 (get-value (obligation17T_5))
 (get-value (obligation17ar_5))
+(get-value (obligation18U_5))
+(get-value (obligation18UA_5))
+(get-value (obligation18AT_5))
+(get-value (obligation18UO_5))
+(get-value (obligation18S_5))
+(get-value (obligation18T_5))
+(get-value (obligation18ar_5))
+(get-value (obligation19U_5))
+(get-value (obligation19UA_5))
+(get-value (obligation19AT_5))
+(get-value (obligation19UO_5))
+(get-value (obligation19S_5))
+(get-value (obligation19T_5))
+(get-value (obligation19ar_5))
 (get-value (obligation0U_6))
 (get-value (obligation0UA_6))
 (get-value (obligation0AT_6))
@@ -26020,6 +26573,20 @@
 (get-value (obligation17S_6))
 (get-value (obligation17T_6))
 (get-value (obligation17ar_6))
+(get-value (obligation18U_6))
+(get-value (obligation18UA_6))
+(get-value (obligation18AT_6))
+(get-value (obligation18UO_6))
+(get-value (obligation18S_6))
+(get-value (obligation18T_6))
+(get-value (obligation18ar_6))
+(get-value (obligation19U_6))
+(get-value (obligation19UA_6))
+(get-value (obligation19AT_6))
+(get-value (obligation19UO_6))
+(get-value (obligation19S_6))
+(get-value (obligation19T_6))
+(get-value (obligation19ar_6))
 (get-value (obligation0U_7))
 (get-value (obligation0UA_7))
 (get-value (obligation0AT_7))
@@ -26146,6 +26713,20 @@
 (get-value (obligation17S_7))
 (get-value (obligation17T_7))
 (get-value (obligation17ar_7))
+(get-value (obligation18U_7))
+(get-value (obligation18UA_7))
+(get-value (obligation18AT_7))
+(get-value (obligation18UO_7))
+(get-value (obligation18S_7))
+(get-value (obligation18T_7))
+(get-value (obligation18ar_7))
+(get-value (obligation19U_7))
+(get-value (obligation19UA_7))
+(get-value (obligation19AT_7))
+(get-value (obligation19UO_7))
+(get-value (obligation19S_7))
+(get-value (obligation19T_7))
+(get-value (obligation19ar_7))
 (get-value (obligation0U_8))
 (get-value (obligation0UA_8))
 (get-value (obligation0AT_8))
@@ -26272,6 +26853,20 @@
 (get-value (obligation17S_8))
 (get-value (obligation17T_8))
 (get-value (obligation17ar_8))
+(get-value (obligation18U_8))
+(get-value (obligation18UA_8))
+(get-value (obligation18AT_8))
+(get-value (obligation18UO_8))
+(get-value (obligation18S_8))
+(get-value (obligation18T_8))
+(get-value (obligation18ar_8))
+(get-value (obligation19U_8))
+(get-value (obligation19UA_8))
+(get-value (obligation19AT_8))
+(get-value (obligation19UO_8))
+(get-value (obligation19S_8))
+(get-value (obligation19T_8))
+(get-value (obligation19ar_8))
 (get-value (obligation0U_9))
 (get-value (obligation0UA_9))
 (get-value (obligation0AT_9))
@@ -26398,6 +26993,20 @@
 (get-value (obligation17S_9))
 (get-value (obligation17T_9))
 (get-value (obligation17ar_9))
+(get-value (obligation18U_9))
+(get-value (obligation18UA_9))
+(get-value (obligation18AT_9))
+(get-value (obligation18UO_9))
+(get-value (obligation18S_9))
+(get-value (obligation18T_9))
+(get-value (obligation18ar_9))
+(get-value (obligation19U_9))
+(get-value (obligation19UA_9))
+(get-value (obligation19AT_9))
+(get-value (obligation19UO_9))
+(get-value (obligation19S_9))
+(get-value (obligation19T_9))
+(get-value (obligation19ar_9))
 (get-value (obligation0U_10))
 (get-value (obligation0UA_10))
 (get-value (obligation0AT_10))
@@ -26524,6 +27133,20 @@
 (get-value (obligation17S_10))
 (get-value (obligation17T_10))
 (get-value (obligation17ar_10))
+(get-value (obligation18U_10))
+(get-value (obligation18UA_10))
+(get-value (obligation18AT_10))
+(get-value (obligation18UO_10))
+(get-value (obligation18S_10))
+(get-value (obligation18T_10))
+(get-value (obligation18ar_10))
+(get-value (obligation19U_10))
+(get-value (obligation19UA_10))
+(get-value (obligation19AT_10))
+(get-value (obligation19UO_10))
+(get-value (obligation19S_10))
+(get-value (obligation19T_10))
+(get-value (obligation19ar_10))
 (get-value (obligation0U_11))
 (get-value (obligation0UA_11))
 (get-value (obligation0AT_11))
@@ -26650,6 +27273,20 @@
 (get-value (obligation17S_11))
 (get-value (obligation17T_11))
 (get-value (obligation17ar_11))
+(get-value (obligation18U_11))
+(get-value (obligation18UA_11))
+(get-value (obligation18AT_11))
+(get-value (obligation18UO_11))
+(get-value (obligation18S_11))
+(get-value (obligation18T_11))
+(get-value (obligation18ar_11))
+(get-value (obligation19U_11))
+(get-value (obligation19UA_11))
+(get-value (obligation19AT_11))
+(get-value (obligation19UO_11))
+(get-value (obligation19S_11))
+(get-value (obligation19T_11))
+(get-value (obligation19ar_11))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -26776,6 +27413,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -26902,6 +27553,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -27028,6 +27693,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -27154,6 +27833,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -27280,6 +27973,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_5))
 (get-value (obligation0UA_5))
 (get-value (obligation0AT_5))
@@ -27406,6 +28113,20 @@
 (get-value (obligation17S_5))
 (get-value (obligation17T_5))
 (get-value (obligation17ar_5))
+(get-value (obligation18U_5))
+(get-value (obligation18UA_5))
+(get-value (obligation18AT_5))
+(get-value (obligation18UO_5))
+(get-value (obligation18S_5))
+(get-value (obligation18T_5))
+(get-value (obligation18ar_5))
+(get-value (obligation19U_5))
+(get-value (obligation19UA_5))
+(get-value (obligation19AT_5))
+(get-value (obligation19UO_5))
+(get-value (obligation19S_5))
+(get-value (obligation19T_5))
+(get-value (obligation19ar_5))
 (get-value (obligation0U_6))
 (get-value (obligation0UA_6))
 (get-value (obligation0AT_6))
@@ -27532,6 +28253,20 @@
 (get-value (obligation17S_6))
 (get-value (obligation17T_6))
 (get-value (obligation17ar_6))
+(get-value (obligation18U_6))
+(get-value (obligation18UA_6))
+(get-value (obligation18AT_6))
+(get-value (obligation18UO_6))
+(get-value (obligation18S_6))
+(get-value (obligation18T_6))
+(get-value (obligation18ar_6))
+(get-value (obligation19U_6))
+(get-value (obligation19UA_6))
+(get-value (obligation19AT_6))
+(get-value (obligation19UO_6))
+(get-value (obligation19S_6))
+(get-value (obligation19T_6))
+(get-value (obligation19ar_6))
 (get-value (obligation0U_7))
 (get-value (obligation0UA_7))
 (get-value (obligation0AT_7))
@@ -27658,6 +28393,20 @@
 (get-value (obligation17S_7))
 (get-value (obligation17T_7))
 (get-value (obligation17ar_7))
+(get-value (obligation18U_7))
+(get-value (obligation18UA_7))
+(get-value (obligation18AT_7))
+(get-value (obligation18UO_7))
+(get-value (obligation18S_7))
+(get-value (obligation18T_7))
+(get-value (obligation18ar_7))
+(get-value (obligation19U_7))
+(get-value (obligation19UA_7))
+(get-value (obligation19AT_7))
+(get-value (obligation19UO_7))
+(get-value (obligation19S_7))
+(get-value (obligation19T_7))
+(get-value (obligation19ar_7))
 (get-value (obligation0U_8))
 (get-value (obligation0UA_8))
 (get-value (obligation0AT_8))
@@ -27784,6 +28533,20 @@
 (get-value (obligation17S_8))
 (get-value (obligation17T_8))
 (get-value (obligation17ar_8))
+(get-value (obligation18U_8))
+(get-value (obligation18UA_8))
+(get-value (obligation18AT_8))
+(get-value (obligation18UO_8))
+(get-value (obligation18S_8))
+(get-value (obligation18T_8))
+(get-value (obligation18ar_8))
+(get-value (obligation19U_8))
+(get-value (obligation19UA_8))
+(get-value (obligation19AT_8))
+(get-value (obligation19UO_8))
+(get-value (obligation19S_8))
+(get-value (obligation19T_8))
+(get-value (obligation19ar_8))
 (get-value (obligation0U_9))
 (get-value (obligation0UA_9))
 (get-value (obligation0AT_9))
@@ -27910,6 +28673,20 @@
 (get-value (obligation17S_9))
 (get-value (obligation17T_9))
 (get-value (obligation17ar_9))
+(get-value (obligation18U_9))
+(get-value (obligation18UA_9))
+(get-value (obligation18AT_9))
+(get-value (obligation18UO_9))
+(get-value (obligation18S_9))
+(get-value (obligation18T_9))
+(get-value (obligation18ar_9))
+(get-value (obligation19U_9))
+(get-value (obligation19UA_9))
+(get-value (obligation19AT_9))
+(get-value (obligation19UO_9))
+(get-value (obligation19S_9))
+(get-value (obligation19T_9))
+(get-value (obligation19ar_9))
 (get-value (obligation0U_10))
 (get-value (obligation0UA_10))
 (get-value (obligation0AT_10))
@@ -28036,6 +28813,20 @@
 (get-value (obligation17S_10))
 (get-value (obligation17T_10))
 (get-value (obligation17ar_10))
+(get-value (obligation18U_10))
+(get-value (obligation18UA_10))
+(get-value (obligation18AT_10))
+(get-value (obligation18UO_10))
+(get-value (obligation18S_10))
+(get-value (obligation18T_10))
+(get-value (obligation18ar_10))
+(get-value (obligation19U_10))
+(get-value (obligation19UA_10))
+(get-value (obligation19AT_10))
+(get-value (obligation19UO_10))
+(get-value (obligation19S_10))
+(get-value (obligation19T_10))
+(get-value (obligation19ar_10))
 (get-value (obligation0U_11))
 (get-value (obligation0UA_11))
 (get-value (obligation0AT_11))
@@ -28162,6 +28953,20 @@
 (get-value (obligation17S_11))
 (get-value (obligation17T_11))
 (get-value (obligation17ar_11))
+(get-value (obligation18U_11))
+(get-value (obligation18UA_11))
+(get-value (obligation18AT_11))
+(get-value (obligation18UO_11))
+(get-value (obligation18S_11))
+(get-value (obligation18T_11))
+(get-value (obligation18ar_11))
+(get-value (obligation19U_11))
+(get-value (obligation19UA_11))
+(get-value (obligation19AT_11))
+(get-value (obligation19UO_11))
+(get-value (obligation19S_11))
+(get-value (obligation19T_11))
+(get-value (obligation19ar_11))
 (get-value (obligation0U_12))
 (get-value (obligation0UA_12))
 (get-value (obligation0AT_12))
@@ -28288,6 +29093,20 @@
 (get-value (obligation17S_12))
 (get-value (obligation17T_12))
 (get-value (obligation17ar_12))
+(get-value (obligation18U_12))
+(get-value (obligation18UA_12))
+(get-value (obligation18AT_12))
+(get-value (obligation18UO_12))
+(get-value (obligation18S_12))
+(get-value (obligation18T_12))
+(get-value (obligation18ar_12))
+(get-value (obligation19U_12))
+(get-value (obligation19UA_12))
+(get-value (obligation19AT_12))
+(get-value (obligation19UO_12))
+(get-value (obligation19S_12))
+(get-value (obligation19T_12))
+(get-value (obligation19ar_12))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -28414,6 +29233,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -28540,6 +29373,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -28666,6 +29513,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -28792,6 +29653,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -28918,6 +29793,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_5))
 (get-value (obligation0UA_5))
 (get-value (obligation0AT_5))
@@ -29044,6 +29933,20 @@
 (get-value (obligation17S_5))
 (get-value (obligation17T_5))
 (get-value (obligation17ar_5))
+(get-value (obligation18U_5))
+(get-value (obligation18UA_5))
+(get-value (obligation18AT_5))
+(get-value (obligation18UO_5))
+(get-value (obligation18S_5))
+(get-value (obligation18T_5))
+(get-value (obligation18ar_5))
+(get-value (obligation19U_5))
+(get-value (obligation19UA_5))
+(get-value (obligation19AT_5))
+(get-value (obligation19UO_5))
+(get-value (obligation19S_5))
+(get-value (obligation19T_5))
+(get-value (obligation19ar_5))
 (get-value (obligation0U_6))
 (get-value (obligation0UA_6))
 (get-value (obligation0AT_6))
@@ -29170,6 +30073,20 @@
 (get-value (obligation17S_6))
 (get-value (obligation17T_6))
 (get-value (obligation17ar_6))
+(get-value (obligation18U_6))
+(get-value (obligation18UA_6))
+(get-value (obligation18AT_6))
+(get-value (obligation18UO_6))
+(get-value (obligation18S_6))
+(get-value (obligation18T_6))
+(get-value (obligation18ar_6))
+(get-value (obligation19U_6))
+(get-value (obligation19UA_6))
+(get-value (obligation19AT_6))
+(get-value (obligation19UO_6))
+(get-value (obligation19S_6))
+(get-value (obligation19T_6))
+(get-value (obligation19ar_6))
 (get-value (obligation0U_7))
 (get-value (obligation0UA_7))
 (get-value (obligation0AT_7))
@@ -29296,6 +30213,20 @@
 (get-value (obligation17S_7))
 (get-value (obligation17T_7))
 (get-value (obligation17ar_7))
+(get-value (obligation18U_7))
+(get-value (obligation18UA_7))
+(get-value (obligation18AT_7))
+(get-value (obligation18UO_7))
+(get-value (obligation18S_7))
+(get-value (obligation18T_7))
+(get-value (obligation18ar_7))
+(get-value (obligation19U_7))
+(get-value (obligation19UA_7))
+(get-value (obligation19AT_7))
+(get-value (obligation19UO_7))
+(get-value (obligation19S_7))
+(get-value (obligation19T_7))
+(get-value (obligation19ar_7))
 (get-value (obligation0U_8))
 (get-value (obligation0UA_8))
 (get-value (obligation0AT_8))
@@ -29422,6 +30353,20 @@
 (get-value (obligation17S_8))
 (get-value (obligation17T_8))
 (get-value (obligation17ar_8))
+(get-value (obligation18U_8))
+(get-value (obligation18UA_8))
+(get-value (obligation18AT_8))
+(get-value (obligation18UO_8))
+(get-value (obligation18S_8))
+(get-value (obligation18T_8))
+(get-value (obligation18ar_8))
+(get-value (obligation19U_8))
+(get-value (obligation19UA_8))
+(get-value (obligation19AT_8))
+(get-value (obligation19UO_8))
+(get-value (obligation19S_8))
+(get-value (obligation19T_8))
+(get-value (obligation19ar_8))
 (get-value (obligation0U_9))
 (get-value (obligation0UA_9))
 (get-value (obligation0AT_9))
@@ -29548,6 +30493,20 @@
 (get-value (obligation17S_9))
 (get-value (obligation17T_9))
 (get-value (obligation17ar_9))
+(get-value (obligation18U_9))
+(get-value (obligation18UA_9))
+(get-value (obligation18AT_9))
+(get-value (obligation18UO_9))
+(get-value (obligation18S_9))
+(get-value (obligation18T_9))
+(get-value (obligation18ar_9))
+(get-value (obligation19U_9))
+(get-value (obligation19UA_9))
+(get-value (obligation19AT_9))
+(get-value (obligation19UO_9))
+(get-value (obligation19S_9))
+(get-value (obligation19T_9))
+(get-value (obligation19ar_9))
 (get-value (obligation0U_10))
 (get-value (obligation0UA_10))
 (get-value (obligation0AT_10))
@@ -29674,6 +30633,20 @@
 (get-value (obligation17S_10))
 (get-value (obligation17T_10))
 (get-value (obligation17ar_10))
+(get-value (obligation18U_10))
+(get-value (obligation18UA_10))
+(get-value (obligation18AT_10))
+(get-value (obligation18UO_10))
+(get-value (obligation18S_10))
+(get-value (obligation18T_10))
+(get-value (obligation18ar_10))
+(get-value (obligation19U_10))
+(get-value (obligation19UA_10))
+(get-value (obligation19AT_10))
+(get-value (obligation19UO_10))
+(get-value (obligation19S_10))
+(get-value (obligation19T_10))
+(get-value (obligation19ar_10))
 (get-value (obligation0U_11))
 (get-value (obligation0UA_11))
 (get-value (obligation0AT_11))
@@ -29800,6 +30773,20 @@
 (get-value (obligation17S_11))
 (get-value (obligation17T_11))
 (get-value (obligation17ar_11))
+(get-value (obligation18U_11))
+(get-value (obligation18UA_11))
+(get-value (obligation18AT_11))
+(get-value (obligation18UO_11))
+(get-value (obligation18S_11))
+(get-value (obligation18T_11))
+(get-value (obligation18ar_11))
+(get-value (obligation19U_11))
+(get-value (obligation19UA_11))
+(get-value (obligation19AT_11))
+(get-value (obligation19UO_11))
+(get-value (obligation19S_11))
+(get-value (obligation19T_11))
+(get-value (obligation19ar_11))
 (get-value (obligation0U_12))
 (get-value (obligation0UA_12))
 (get-value (obligation0AT_12))
@@ -29926,6 +30913,20 @@
 (get-value (obligation17S_12))
 (get-value (obligation17T_12))
 (get-value (obligation17ar_12))
+(get-value (obligation18U_12))
+(get-value (obligation18UA_12))
+(get-value (obligation18AT_12))
+(get-value (obligation18UO_12))
+(get-value (obligation18S_12))
+(get-value (obligation18T_12))
+(get-value (obligation18ar_12))
+(get-value (obligation19U_12))
+(get-value (obligation19UA_12))
+(get-value (obligation19AT_12))
+(get-value (obligation19UO_12))
+(get-value (obligation19S_12))
+(get-value (obligation19T_12))
+(get-value (obligation19ar_12))
 (get-value (obligation0U_13))
 (get-value (obligation0UA_13))
 (get-value (obligation0AT_13))
@@ -30052,6 +31053,20 @@
 (get-value (obligation17S_13))
 (get-value (obligation17T_13))
 (get-value (obligation17ar_13))
+(get-value (obligation18U_13))
+(get-value (obligation18UA_13))
+(get-value (obligation18AT_13))
+(get-value (obligation18UO_13))
+(get-value (obligation18S_13))
+(get-value (obligation18T_13))
+(get-value (obligation18ar_13))
+(get-value (obligation19U_13))
+(get-value (obligation19UA_13))
+(get-value (obligation19AT_13))
+(get-value (obligation19UO_13))
+(get-value (obligation19S_13))
+(get-value (obligation19T_13))
+(get-value (obligation19ar_13))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -30178,6 +31193,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -30304,6 +31333,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -30430,6 +31473,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -30556,6 +31613,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -30682,6 +31753,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_5))
 (get-value (obligation0UA_5))
 (get-value (obligation0AT_5))
@@ -30808,6 +31893,20 @@
 (get-value (obligation17S_5))
 (get-value (obligation17T_5))
 (get-value (obligation17ar_5))
+(get-value (obligation18U_5))
+(get-value (obligation18UA_5))
+(get-value (obligation18AT_5))
+(get-value (obligation18UO_5))
+(get-value (obligation18S_5))
+(get-value (obligation18T_5))
+(get-value (obligation18ar_5))
+(get-value (obligation19U_5))
+(get-value (obligation19UA_5))
+(get-value (obligation19AT_5))
+(get-value (obligation19UO_5))
+(get-value (obligation19S_5))
+(get-value (obligation19T_5))
+(get-value (obligation19ar_5))
 (get-value (obligation0U_6))
 (get-value (obligation0UA_6))
 (get-value (obligation0AT_6))
@@ -30934,6 +32033,20 @@
 (get-value (obligation17S_6))
 (get-value (obligation17T_6))
 (get-value (obligation17ar_6))
+(get-value (obligation18U_6))
+(get-value (obligation18UA_6))
+(get-value (obligation18AT_6))
+(get-value (obligation18UO_6))
+(get-value (obligation18S_6))
+(get-value (obligation18T_6))
+(get-value (obligation18ar_6))
+(get-value (obligation19U_6))
+(get-value (obligation19UA_6))
+(get-value (obligation19AT_6))
+(get-value (obligation19UO_6))
+(get-value (obligation19S_6))
+(get-value (obligation19T_6))
+(get-value (obligation19ar_6))
 (get-value (obligation0U_7))
 (get-value (obligation0UA_7))
 (get-value (obligation0AT_7))
@@ -31060,6 +32173,20 @@
 (get-value (obligation17S_7))
 (get-value (obligation17T_7))
 (get-value (obligation17ar_7))
+(get-value (obligation18U_7))
+(get-value (obligation18UA_7))
+(get-value (obligation18AT_7))
+(get-value (obligation18UO_7))
+(get-value (obligation18S_7))
+(get-value (obligation18T_7))
+(get-value (obligation18ar_7))
+(get-value (obligation19U_7))
+(get-value (obligation19UA_7))
+(get-value (obligation19AT_7))
+(get-value (obligation19UO_7))
+(get-value (obligation19S_7))
+(get-value (obligation19T_7))
+(get-value (obligation19ar_7))
 (get-value (obligation0U_8))
 (get-value (obligation0UA_8))
 (get-value (obligation0AT_8))
@@ -31186,6 +32313,20 @@
 (get-value (obligation17S_8))
 (get-value (obligation17T_8))
 (get-value (obligation17ar_8))
+(get-value (obligation18U_8))
+(get-value (obligation18UA_8))
+(get-value (obligation18AT_8))
+(get-value (obligation18UO_8))
+(get-value (obligation18S_8))
+(get-value (obligation18T_8))
+(get-value (obligation18ar_8))
+(get-value (obligation19U_8))
+(get-value (obligation19UA_8))
+(get-value (obligation19AT_8))
+(get-value (obligation19UO_8))
+(get-value (obligation19S_8))
+(get-value (obligation19T_8))
+(get-value (obligation19ar_8))
 (get-value (obligation0U_9))
 (get-value (obligation0UA_9))
 (get-value (obligation0AT_9))
@@ -31312,6 +32453,20 @@
 (get-value (obligation17S_9))
 (get-value (obligation17T_9))
 (get-value (obligation17ar_9))
+(get-value (obligation18U_9))
+(get-value (obligation18UA_9))
+(get-value (obligation18AT_9))
+(get-value (obligation18UO_9))
+(get-value (obligation18S_9))
+(get-value (obligation18T_9))
+(get-value (obligation18ar_9))
+(get-value (obligation19U_9))
+(get-value (obligation19UA_9))
+(get-value (obligation19AT_9))
+(get-value (obligation19UO_9))
+(get-value (obligation19S_9))
+(get-value (obligation19T_9))
+(get-value (obligation19ar_9))
 (get-value (obligation0U_10))
 (get-value (obligation0UA_10))
 (get-value (obligation0AT_10))
@@ -31438,6 +32593,20 @@
 (get-value (obligation17S_10))
 (get-value (obligation17T_10))
 (get-value (obligation17ar_10))
+(get-value (obligation18U_10))
+(get-value (obligation18UA_10))
+(get-value (obligation18AT_10))
+(get-value (obligation18UO_10))
+(get-value (obligation18S_10))
+(get-value (obligation18T_10))
+(get-value (obligation18ar_10))
+(get-value (obligation19U_10))
+(get-value (obligation19UA_10))
+(get-value (obligation19AT_10))
+(get-value (obligation19UO_10))
+(get-value (obligation19S_10))
+(get-value (obligation19T_10))
+(get-value (obligation19ar_10))
 (get-value (obligation0U_11))
 (get-value (obligation0UA_11))
 (get-value (obligation0AT_11))
@@ -31564,6 +32733,20 @@
 (get-value (obligation17S_11))
 (get-value (obligation17T_11))
 (get-value (obligation17ar_11))
+(get-value (obligation18U_11))
+(get-value (obligation18UA_11))
+(get-value (obligation18AT_11))
+(get-value (obligation18UO_11))
+(get-value (obligation18S_11))
+(get-value (obligation18T_11))
+(get-value (obligation18ar_11))
+(get-value (obligation19U_11))
+(get-value (obligation19UA_11))
+(get-value (obligation19AT_11))
+(get-value (obligation19UO_11))
+(get-value (obligation19S_11))
+(get-value (obligation19T_11))
+(get-value (obligation19ar_11))
 (get-value (obligation0U_12))
 (get-value (obligation0UA_12))
 (get-value (obligation0AT_12))
@@ -31690,6 +32873,20 @@
 (get-value (obligation17S_12))
 (get-value (obligation17T_12))
 (get-value (obligation17ar_12))
+(get-value (obligation18U_12))
+(get-value (obligation18UA_12))
+(get-value (obligation18AT_12))
+(get-value (obligation18UO_12))
+(get-value (obligation18S_12))
+(get-value (obligation18T_12))
+(get-value (obligation18ar_12))
+(get-value (obligation19U_12))
+(get-value (obligation19UA_12))
+(get-value (obligation19AT_12))
+(get-value (obligation19UO_12))
+(get-value (obligation19S_12))
+(get-value (obligation19T_12))
+(get-value (obligation19ar_12))
 (get-value (obligation0U_13))
 (get-value (obligation0UA_13))
 (get-value (obligation0AT_13))
@@ -31816,6 +33013,20 @@
 (get-value (obligation17S_13))
 (get-value (obligation17T_13))
 (get-value (obligation17ar_13))
+(get-value (obligation18U_13))
+(get-value (obligation18UA_13))
+(get-value (obligation18AT_13))
+(get-value (obligation18UO_13))
+(get-value (obligation18S_13))
+(get-value (obligation18T_13))
+(get-value (obligation18ar_13))
+(get-value (obligation19U_13))
+(get-value (obligation19UA_13))
+(get-value (obligation19AT_13))
+(get-value (obligation19UO_13))
+(get-value (obligation19S_13))
+(get-value (obligation19T_13))
+(get-value (obligation19ar_13))
 (get-value (obligation0U_14))
 (get-value (obligation0UA_14))
 (get-value (obligation0AT_14))
@@ -31942,6 +33153,20 @@
 (get-value (obligation17S_14))
 (get-value (obligation17T_14))
 (get-value (obligation17ar_14))
+(get-value (obligation18U_14))
+(get-value (obligation18UA_14))
+(get-value (obligation18AT_14))
+(get-value (obligation18UO_14))
+(get-value (obligation18S_14))
+(get-value (obligation18T_14))
+(get-value (obligation18ar_14))
+(get-value (obligation19U_14))
+(get-value (obligation19UA_14))
+(get-value (obligation19AT_14))
+(get-value (obligation19UO_14))
+(get-value (obligation19S_14))
+(get-value (obligation19T_14))
+(get-value (obligation19ar_14))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -32068,6 +33293,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -32194,6 +33433,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -32320,6 +33573,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -32446,6 +33713,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -32572,6 +33853,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_5))
 (get-value (obligation0UA_5))
 (get-value (obligation0AT_5))
@@ -32698,6 +33993,20 @@
 (get-value (obligation17S_5))
 (get-value (obligation17T_5))
 (get-value (obligation17ar_5))
+(get-value (obligation18U_5))
+(get-value (obligation18UA_5))
+(get-value (obligation18AT_5))
+(get-value (obligation18UO_5))
+(get-value (obligation18S_5))
+(get-value (obligation18T_5))
+(get-value (obligation18ar_5))
+(get-value (obligation19U_5))
+(get-value (obligation19UA_5))
+(get-value (obligation19AT_5))
+(get-value (obligation19UO_5))
+(get-value (obligation19S_5))
+(get-value (obligation19T_5))
+(get-value (obligation19ar_5))
 (get-value (obligation0U_6))
 (get-value (obligation0UA_6))
 (get-value (obligation0AT_6))
@@ -32824,6 +34133,20 @@
 (get-value (obligation17S_6))
 (get-value (obligation17T_6))
 (get-value (obligation17ar_6))
+(get-value (obligation18U_6))
+(get-value (obligation18UA_6))
+(get-value (obligation18AT_6))
+(get-value (obligation18UO_6))
+(get-value (obligation18S_6))
+(get-value (obligation18T_6))
+(get-value (obligation18ar_6))
+(get-value (obligation19U_6))
+(get-value (obligation19UA_6))
+(get-value (obligation19AT_6))
+(get-value (obligation19UO_6))
+(get-value (obligation19S_6))
+(get-value (obligation19T_6))
+(get-value (obligation19ar_6))
 (get-value (obligation0U_7))
 (get-value (obligation0UA_7))
 (get-value (obligation0AT_7))
@@ -32950,6 +34273,20 @@
 (get-value (obligation17S_7))
 (get-value (obligation17T_7))
 (get-value (obligation17ar_7))
+(get-value (obligation18U_7))
+(get-value (obligation18UA_7))
+(get-value (obligation18AT_7))
+(get-value (obligation18UO_7))
+(get-value (obligation18S_7))
+(get-value (obligation18T_7))
+(get-value (obligation18ar_7))
+(get-value (obligation19U_7))
+(get-value (obligation19UA_7))
+(get-value (obligation19AT_7))
+(get-value (obligation19UO_7))
+(get-value (obligation19S_7))
+(get-value (obligation19T_7))
+(get-value (obligation19ar_7))
 (get-value (obligation0U_8))
 (get-value (obligation0UA_8))
 (get-value (obligation0AT_8))
@@ -33076,6 +34413,20 @@
 (get-value (obligation17S_8))
 (get-value (obligation17T_8))
 (get-value (obligation17ar_8))
+(get-value (obligation18U_8))
+(get-value (obligation18UA_8))
+(get-value (obligation18AT_8))
+(get-value (obligation18UO_8))
+(get-value (obligation18S_8))
+(get-value (obligation18T_8))
+(get-value (obligation18ar_8))
+(get-value (obligation19U_8))
+(get-value (obligation19UA_8))
+(get-value (obligation19AT_8))
+(get-value (obligation19UO_8))
+(get-value (obligation19S_8))
+(get-value (obligation19T_8))
+(get-value (obligation19ar_8))
 (get-value (obligation0U_9))
 (get-value (obligation0UA_9))
 (get-value (obligation0AT_9))
@@ -33202,6 +34553,20 @@
 (get-value (obligation17S_9))
 (get-value (obligation17T_9))
 (get-value (obligation17ar_9))
+(get-value (obligation18U_9))
+(get-value (obligation18UA_9))
+(get-value (obligation18AT_9))
+(get-value (obligation18UO_9))
+(get-value (obligation18S_9))
+(get-value (obligation18T_9))
+(get-value (obligation18ar_9))
+(get-value (obligation19U_9))
+(get-value (obligation19UA_9))
+(get-value (obligation19AT_9))
+(get-value (obligation19UO_9))
+(get-value (obligation19S_9))
+(get-value (obligation19T_9))
+(get-value (obligation19ar_9))
 (get-value (obligation0U_10))
 (get-value (obligation0UA_10))
 (get-value (obligation0AT_10))
@@ -33328,6 +34693,20 @@
 (get-value (obligation17S_10))
 (get-value (obligation17T_10))
 (get-value (obligation17ar_10))
+(get-value (obligation18U_10))
+(get-value (obligation18UA_10))
+(get-value (obligation18AT_10))
+(get-value (obligation18UO_10))
+(get-value (obligation18S_10))
+(get-value (obligation18T_10))
+(get-value (obligation18ar_10))
+(get-value (obligation19U_10))
+(get-value (obligation19UA_10))
+(get-value (obligation19AT_10))
+(get-value (obligation19UO_10))
+(get-value (obligation19S_10))
+(get-value (obligation19T_10))
+(get-value (obligation19ar_10))
 (get-value (obligation0U_11))
 (get-value (obligation0UA_11))
 (get-value (obligation0AT_11))
@@ -33454,6 +34833,20 @@
 (get-value (obligation17S_11))
 (get-value (obligation17T_11))
 (get-value (obligation17ar_11))
+(get-value (obligation18U_11))
+(get-value (obligation18UA_11))
+(get-value (obligation18AT_11))
+(get-value (obligation18UO_11))
+(get-value (obligation18S_11))
+(get-value (obligation18T_11))
+(get-value (obligation18ar_11))
+(get-value (obligation19U_11))
+(get-value (obligation19UA_11))
+(get-value (obligation19AT_11))
+(get-value (obligation19UO_11))
+(get-value (obligation19S_11))
+(get-value (obligation19T_11))
+(get-value (obligation19ar_11))
 (get-value (obligation0U_12))
 (get-value (obligation0UA_12))
 (get-value (obligation0AT_12))
@@ -33580,6 +34973,20 @@
 (get-value (obligation17S_12))
 (get-value (obligation17T_12))
 (get-value (obligation17ar_12))
+(get-value (obligation18U_12))
+(get-value (obligation18UA_12))
+(get-value (obligation18AT_12))
+(get-value (obligation18UO_12))
+(get-value (obligation18S_12))
+(get-value (obligation18T_12))
+(get-value (obligation18ar_12))
+(get-value (obligation19U_12))
+(get-value (obligation19UA_12))
+(get-value (obligation19AT_12))
+(get-value (obligation19UO_12))
+(get-value (obligation19S_12))
+(get-value (obligation19T_12))
+(get-value (obligation19ar_12))
 (get-value (obligation0U_13))
 (get-value (obligation0UA_13))
 (get-value (obligation0AT_13))
@@ -33706,6 +35113,20 @@
 (get-value (obligation17S_13))
 (get-value (obligation17T_13))
 (get-value (obligation17ar_13))
+(get-value (obligation18U_13))
+(get-value (obligation18UA_13))
+(get-value (obligation18AT_13))
+(get-value (obligation18UO_13))
+(get-value (obligation18S_13))
+(get-value (obligation18T_13))
+(get-value (obligation18ar_13))
+(get-value (obligation19U_13))
+(get-value (obligation19UA_13))
+(get-value (obligation19AT_13))
+(get-value (obligation19UO_13))
+(get-value (obligation19S_13))
+(get-value (obligation19T_13))
+(get-value (obligation19ar_13))
 (get-value (obligation0U_14))
 (get-value (obligation0UA_14))
 (get-value (obligation0AT_14))
@@ -33832,6 +35253,20 @@
 (get-value (obligation17S_14))
 (get-value (obligation17T_14))
 (get-value (obligation17ar_14))
+(get-value (obligation18U_14))
+(get-value (obligation18UA_14))
+(get-value (obligation18AT_14))
+(get-value (obligation18UO_14))
+(get-value (obligation18S_14))
+(get-value (obligation18T_14))
+(get-value (obligation18ar_14))
+(get-value (obligation19U_14))
+(get-value (obligation19UA_14))
+(get-value (obligation19AT_14))
+(get-value (obligation19UO_14))
+(get-value (obligation19S_14))
+(get-value (obligation19T_14))
+(get-value (obligation19ar_14))
 (get-value (obligation0U_15))
 (get-value (obligation0UA_15))
 (get-value (obligation0AT_15))
@@ -33958,6 +35393,20 @@
 (get-value (obligation17S_15))
 (get-value (obligation17T_15))
 (get-value (obligation17ar_15))
+(get-value (obligation18U_15))
+(get-value (obligation18UA_15))
+(get-value (obligation18AT_15))
+(get-value (obligation18UO_15))
+(get-value (obligation18S_15))
+(get-value (obligation18T_15))
+(get-value (obligation18ar_15))
+(get-value (obligation19U_15))
+(get-value (obligation19UA_15))
+(get-value (obligation19AT_15))
+(get-value (obligation19UO_15))
+(get-value (obligation19S_15))
+(get-value (obligation19T_15))
+(get-value (obligation19ar_15))
 (get-value (obligation0U_0))
 (get-value (obligation0UA_0))
 (get-value (obligation0AT_0))
@@ -34084,6 +35533,20 @@
 (get-value (obligation17S_0))
 (get-value (obligation17T_0))
 (get-value (obligation17ar_0))
+(get-value (obligation18U_0))
+(get-value (obligation18UA_0))
+(get-value (obligation18AT_0))
+(get-value (obligation18UO_0))
+(get-value (obligation18S_0))
+(get-value (obligation18T_0))
+(get-value (obligation18ar_0))
+(get-value (obligation19U_0))
+(get-value (obligation19UA_0))
+(get-value (obligation19AT_0))
+(get-value (obligation19UO_0))
+(get-value (obligation19S_0))
+(get-value (obligation19T_0))
+(get-value (obligation19ar_0))
 (get-value (obligation0U_1))
 (get-value (obligation0UA_1))
 (get-value (obligation0AT_1))
@@ -34210,6 +35673,20 @@
 (get-value (obligation17S_1))
 (get-value (obligation17T_1))
 (get-value (obligation17ar_1))
+(get-value (obligation18U_1))
+(get-value (obligation18UA_1))
+(get-value (obligation18AT_1))
+(get-value (obligation18UO_1))
+(get-value (obligation18S_1))
+(get-value (obligation18T_1))
+(get-value (obligation18ar_1))
+(get-value (obligation19U_1))
+(get-value (obligation19UA_1))
+(get-value (obligation19AT_1))
+(get-value (obligation19UO_1))
+(get-value (obligation19S_1))
+(get-value (obligation19T_1))
+(get-value (obligation19ar_1))
 (get-value (obligation0U_2))
 (get-value (obligation0UA_2))
 (get-value (obligation0AT_2))
@@ -34336,6 +35813,20 @@
 (get-value (obligation17S_2))
 (get-value (obligation17T_2))
 (get-value (obligation17ar_2))
+(get-value (obligation18U_2))
+(get-value (obligation18UA_2))
+(get-value (obligation18AT_2))
+(get-value (obligation18UO_2))
+(get-value (obligation18S_2))
+(get-value (obligation18T_2))
+(get-value (obligation18ar_2))
+(get-value (obligation19U_2))
+(get-value (obligation19UA_2))
+(get-value (obligation19AT_2))
+(get-value (obligation19UO_2))
+(get-value (obligation19S_2))
+(get-value (obligation19T_2))
+(get-value (obligation19ar_2))
 (get-value (obligation0U_3))
 (get-value (obligation0UA_3))
 (get-value (obligation0AT_3))
@@ -34462,6 +35953,20 @@
 (get-value (obligation17S_3))
 (get-value (obligation17T_3))
 (get-value (obligation17ar_3))
+(get-value (obligation18U_3))
+(get-value (obligation18UA_3))
+(get-value (obligation18AT_3))
+(get-value (obligation18UO_3))
+(get-value (obligation18S_3))
+(get-value (obligation18T_3))
+(get-value (obligation18ar_3))
+(get-value (obligation19U_3))
+(get-value (obligation19UA_3))
+(get-value (obligation19AT_3))
+(get-value (obligation19UO_3))
+(get-value (obligation19S_3))
+(get-value (obligation19T_3))
+(get-value (obligation19ar_3))
 (get-value (obligation0U_4))
 (get-value (obligation0UA_4))
 (get-value (obligation0AT_4))
@@ -34588,6 +36093,20 @@
 (get-value (obligation17S_4))
 (get-value (obligation17T_4))
 (get-value (obligation17ar_4))
+(get-value (obligation18U_4))
+(get-value (obligation18UA_4))
+(get-value (obligation18AT_4))
+(get-value (obligation18UO_4))
+(get-value (obligation18S_4))
+(get-value (obligation18T_4))
+(get-value (obligation18ar_4))
+(get-value (obligation19U_4))
+(get-value (obligation19UA_4))
+(get-value (obligation19AT_4))
+(get-value (obligation19UO_4))
+(get-value (obligation19S_4))
+(get-value (obligation19T_4))
+(get-value (obligation19ar_4))
 (get-value (obligation0U_5))
 (get-value (obligation0UA_5))
 (get-value (obligation0AT_5))
@@ -34714,6 +36233,20 @@
 (get-value (obligation17S_5))
 (get-value (obligation17T_5))
 (get-value (obligation17ar_5))
+(get-value (obligation18U_5))
+(get-value (obligation18UA_5))
+(get-value (obligation18AT_5))
+(get-value (obligation18UO_5))
+(get-value (obligation18S_5))
+(get-value (obligation18T_5))
+(get-value (obligation18ar_5))
+(get-value (obligation19U_5))
+(get-value (obligation19UA_5))
+(get-value (obligation19AT_5))
+(get-value (obligation19UO_5))
+(get-value (obligation19S_5))
+(get-value (obligation19T_5))
+(get-value (obligation19ar_5))
 (get-value (obligation0U_6))
 (get-value (obligation0UA_6))
 (get-value (obligation0AT_6))
@@ -34840,6 +36373,20 @@
 (get-value (obligation17S_6))
 (get-value (obligation17T_6))
 (get-value (obligation17ar_6))
+(get-value (obligation18U_6))
+(get-value (obligation18UA_6))
+(get-value (obligation18AT_6))
+(get-value (obligation18UO_6))
+(get-value (obligation18S_6))
+(get-value (obligation18T_6))
+(get-value (obligation18ar_6))
+(get-value (obligation19U_6))
+(get-value (obligation19UA_6))
+(get-value (obligation19AT_6))
+(get-value (obligation19UO_6))
+(get-value (obligation19S_6))
+(get-value (obligation19T_6))
+(get-value (obligation19ar_6))
 (get-value (obligation0U_7))
 (get-value (obligation0UA_7))
 (get-value (obligation0AT_7))
@@ -34966,6 +36513,20 @@
 (get-value (obligation17S_7))
 (get-value (obligation17T_7))
 (get-value (obligation17ar_7))
+(get-value (obligation18U_7))
+(get-value (obligation18UA_7))
+(get-value (obligation18AT_7))
+(get-value (obligation18UO_7))
+(get-value (obligation18S_7))
+(get-value (obligation18T_7))
+(get-value (obligation18ar_7))
+(get-value (obligation19U_7))
+(get-value (obligation19UA_7))
+(get-value (obligation19AT_7))
+(get-value (obligation19UO_7))
+(get-value (obligation19S_7))
+(get-value (obligation19T_7))
+(get-value (obligation19ar_7))
 (get-value (obligation0U_8))
 (get-value (obligation0UA_8))
 (get-value (obligation0AT_8))
@@ -35092,6 +36653,20 @@
 (get-value (obligation17S_8))
 (get-value (obligation17T_8))
 (get-value (obligation17ar_8))
+(get-value (obligation18U_8))
+(get-value (obligation18UA_8))
+(get-value (obligation18AT_8))
+(get-value (obligation18UO_8))
+(get-value (obligation18S_8))
+(get-value (obligation18T_8))
+(get-value (obligation18ar_8))
+(get-value (obligation19U_8))
+(get-value (obligation19UA_8))
+(get-value (obligation19AT_8))
+(get-value (obligation19UO_8))
+(get-value (obligation19S_8))
+(get-value (obligation19T_8))
+(get-value (obligation19ar_8))
 (get-value (obligation0U_9))
 (get-value (obligation0UA_9))
 (get-value (obligation0AT_9))
@@ -35218,6 +36793,20 @@
 (get-value (obligation17S_9))
 (get-value (obligation17T_9))
 (get-value (obligation17ar_9))
+(get-value (obligation18U_9))
+(get-value (obligation18UA_9))
+(get-value (obligation18AT_9))
+(get-value (obligation18UO_9))
+(get-value (obligation18S_9))
+(get-value (obligation18T_9))
+(get-value (obligation18ar_9))
+(get-value (obligation19U_9))
+(get-value (obligation19UA_9))
+(get-value (obligation19AT_9))
+(get-value (obligation19UO_9))
+(get-value (obligation19S_9))
+(get-value (obligation19T_9))
+(get-value (obligation19ar_9))
 (get-value (obligation0U_10))
 (get-value (obligation0UA_10))
 (get-value (obligation0AT_10))
@@ -35344,6 +36933,20 @@
 (get-value (obligation17S_10))
 (get-value (obligation17T_10))
 (get-value (obligation17ar_10))
+(get-value (obligation18U_10))
+(get-value (obligation18UA_10))
+(get-value (obligation18AT_10))
+(get-value (obligation18UO_10))
+(get-value (obligation18S_10))
+(get-value (obligation18T_10))
+(get-value (obligation18ar_10))
+(get-value (obligation19U_10))
+(get-value (obligation19UA_10))
+(get-value (obligation19AT_10))
+(get-value (obligation19UO_10))
+(get-value (obligation19S_10))
+(get-value (obligation19T_10))
+(get-value (obligation19ar_10))
 (get-value (obligation0U_11))
 (get-value (obligation0UA_11))
 (get-value (obligation0AT_11))
@@ -35470,6 +37073,20 @@
 (get-value (obligation17S_11))
 (get-value (obligation17T_11))
 (get-value (obligation17ar_11))
+(get-value (obligation18U_11))
+(get-value (obligation18UA_11))
+(get-value (obligation18AT_11))
+(get-value (obligation18UO_11))
+(get-value (obligation18S_11))
+(get-value (obligation18T_11))
+(get-value (obligation18ar_11))
+(get-value (obligation19U_11))
+(get-value (obligation19UA_11))
+(get-value (obligation19AT_11))
+(get-value (obligation19UO_11))
+(get-value (obligation19S_11))
+(get-value (obligation19T_11))
+(get-value (obligation19ar_11))
 (get-value (obligation0U_12))
 (get-value (obligation0UA_12))
 (get-value (obligation0AT_12))
@@ -35596,6 +37213,20 @@
 (get-value (obligation17S_12))
 (get-value (obligation17T_12))
 (get-value (obligation17ar_12))
+(get-value (obligation18U_12))
+(get-value (obligation18UA_12))
+(get-value (obligation18AT_12))
+(get-value (obligation18UO_12))
+(get-value (obligation18S_12))
+(get-value (obligation18T_12))
+(get-value (obligation18ar_12))
+(get-value (obligation19U_12))
+(get-value (obligation19UA_12))
+(get-value (obligation19AT_12))
+(get-value (obligation19UO_12))
+(get-value (obligation19S_12))
+(get-value (obligation19T_12))
+(get-value (obligation19ar_12))
 (get-value (obligation0U_13))
 (get-value (obligation0UA_13))
 (get-value (obligation0AT_13))
@@ -35722,6 +37353,20 @@
 (get-value (obligation17S_13))
 (get-value (obligation17T_13))
 (get-value (obligation17ar_13))
+(get-value (obligation18U_13))
+(get-value (obligation18UA_13))
+(get-value (obligation18AT_13))
+(get-value (obligation18UO_13))
+(get-value (obligation18S_13))
+(get-value (obligation18T_13))
+(get-value (obligation18ar_13))
+(get-value (obligation19U_13))
+(get-value (obligation19UA_13))
+(get-value (obligation19AT_13))
+(get-value (obligation19UO_13))
+(get-value (obligation19S_13))
+(get-value (obligation19T_13))
+(get-value (obligation19ar_13))
 (get-value (obligation0U_14))
 (get-value (obligation0UA_14))
 (get-value (obligation0AT_14))
@@ -35848,6 +37493,20 @@
 (get-value (obligation17S_14))
 (get-value (obligation17T_14))
 (get-value (obligation17ar_14))
+(get-value (obligation18U_14))
+(get-value (obligation18UA_14))
+(get-value (obligation18AT_14))
+(get-value (obligation18UO_14))
+(get-value (obligation18S_14))
+(get-value (obligation18T_14))
+(get-value (obligation18ar_14))
+(get-value (obligation19U_14))
+(get-value (obligation19UA_14))
+(get-value (obligation19AT_14))
+(get-value (obligation19UO_14))
+(get-value (obligation19S_14))
+(get-value (obligation19T_14))
+(get-value (obligation19ar_14))
 (get-value (obligation0U_15))
 (get-value (obligation0UA_15))
 (get-value (obligation0AT_15))
@@ -35974,6 +37633,20 @@
 (get-value (obligation17S_15))
 (get-value (obligation17T_15))
 (get-value (obligation17ar_15))
+(get-value (obligation18U_15))
+(get-value (obligation18UA_15))
+(get-value (obligation18AT_15))
+(get-value (obligation18UO_15))
+(get-value (obligation18S_15))
+(get-value (obligation18T_15))
+(get-value (obligation18ar_15))
+(get-value (obligation19U_15))
+(get-value (obligation19UA_15))
+(get-value (obligation19AT_15))
+(get-value (obligation19UO_15))
+(get-value (obligation19S_15))
+(get-value (obligation19T_15))
+(get-value (obligation19ar_15))
 (get-value (obligation0U_16))
 (get-value (obligation0UA_16))
 (get-value (obligation0AT_16))
@@ -36100,6 +37773,20 @@
 (get-value (obligation17S_16))
 (get-value (obligation17T_16))
 (get-value (obligation17ar_16))
+(get-value (obligation18U_16))
+(get-value (obligation18UA_16))
+(get-value (obligation18AT_16))
+(get-value (obligation18UO_16))
+(get-value (obligation18S_16))
+(get-value (obligation18T_16))
+(get-value (obligation18ar_16))
+(get-value (obligation19U_16))
+(get-value (obligation19UA_16))
+(get-value (obligation19AT_16))
+(get-value (obligation19UO_16))
+(get-value (obligation19S_16))
+(get-value (obligation19T_16))
+(get-value (obligation19ar_16))
 (get-value (queryVARu2))
 (get-value (queryVARar2))
 (get-value (queryVARat2))

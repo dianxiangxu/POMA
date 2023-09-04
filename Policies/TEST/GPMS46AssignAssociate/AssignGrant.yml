@@ -1,94 +1,6 @@
-label: Grant
+label: Assign
 rules:
-  - label: obligation0
-    event:
-      subject:
-        anyUser: 
-          - "PI"     
-      operations:
-        - add
-      target:
-        policyElements:
-          - name: PDSWhole
-            type: O        
-    response:      
-      actions: 
-        - grant:
-             subject:
-               name: PISubmit
-               type: UA
-             operations:
-               - submit
-             target:
-               name: PDSWhole
-               type: OA  
   - label: obligation1
-    event:
-      subject:
-        anyUser: 
-          - "PISubmit"     
-      operations:
-        - submit
-      target:
-        policyElements:
-          - name: PDSWhole
-            type: O        
-    response:      
-      actions: 
-        - grant:
-             subject:
-               name: CoPI
-               type: UA
-             operations:
-               - edit
-             target:
-               name: PDSWhole
-               type: OA    
-  - label: obligation2
-    event:
-      subject:
-        anyUser: 
-          - "CoPI"     
-      operations:
-        - edit
-      target:
-        policyElements:
-          - name: PDSWhole
-            type: O        
-    response:      
-      actions: 
-        - grant:
-             subject:
-               name: SP
-               type: UA
-             operations:
-               - read
-             target:
-               name: PDSWhole
-               type: OA 
-  - label: obligation3
-    event:
-      subject:
-        anyUser: 
-          - "SP"     
-      operations:
-        - read
-      target:
-        policyElements:
-          - name: PDSWhole
-            type: O        
-    response:      
-      actions: 
-        - grant:
-             subject:
-               name: PICreate
-               type: UA
-             operations:
-               - create
-             target:
-               name: PDSWhole
-               type: OA        
-  - label: obligation4
     event:
       subject:
         anyUser: 
@@ -101,22 +13,40 @@ rules:
             type: O        
     response:      
       actions: 
-        - grant:
-             subject:
-               name: PIDelete
-               type: UA
-             operations:
-               - delete
-             target:
-               name: PDSWhole
-               type: OA      
-  - label: obligation5
+        - assign:
+            - what:
+                name: Nazmul
+                type: U
+              where:
+                name: PISubmit
+                type: UA                   
+  - label: obligation2
     event:
       subject:
         anyUser: 
-          - "PIDelete"     
+          - "PISubmit"     
       operations:
-        - delete
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions:        
+        - assign:
+            - what:
+                name: Bob
+                type: U
+              where:
+                name: PI
+                type: UA   
+  - label: obligation3
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - add-copi
       target:
         policyElements:
           - name: PDSWhole
@@ -131,8 +61,8 @@ rules:
                - approve
              target:
                name: PDSWhole
-               type: OA
-  - label: obligation6
+               type: OA    
+  - label: obligation4
     event:
       subject:
         anyUser: 
@@ -150,17 +80,17 @@ rules:
                name: BM
                type: UA
              operations:
-               - disapprove
+               - approve
              target:
                name: PDSWhole
-               type: OA     
-  - label: obligation7
+               type: OA   
+  - label: obligation5
     event:
       subject:
         anyUser: 
           - "BM"     
       operations:
-        - disapprove
+        - approve
       target:
         policyElements:
           - name: PDSWhole
@@ -172,17 +102,17 @@ rules:
                name: Dean
                type: UA
              operations:
-               - submit
+               - approve
              target:
                name: PDSWhole
-               type: OA     
-  - label: obligation8
+               type: OA   
+  - label: obligation6
     event:
       subject:
         anyUser: 
           - "Dean"     
       operations:
-        - submit
+        - approve
       target:
         policyElements:
           - name: PDSWhole
@@ -197,8 +127,8 @@ rules:
                - accept
              target:
                name: PDSWhole
-               type: OA 
-  - label: obligation9
+               type: OA          
+  - label: obligation7
     event:
       subject:
         anyUser: 
@@ -219,8 +149,8 @@ rules:
                - archive
              target:
                name: PDSWhole
-               type: OA    
-  - label: obligation10
+               type: OA  
+  - label: obligation8
     event:
       subject:
         anyUser: 
@@ -241,8 +171,8 @@ rules:
                - delete
              target:
                name: PDSWhole
-               type: OA    
-  - label: obligation11
+               type: OA         
+  - label: obligation9
     event:
       subject:
         anyUser: 
@@ -263,8 +193,8 @@ rules:
                - test1
              target:
                name: PDSWhole
-               type: OA        
-  - label: obligation12
+               type: OA      
+  - label: obligation10
     event:
       subject:
         anyUser: 
@@ -285,8 +215,8 @@ rules:
                - test2
              target:
                name: PDSWhole
-               type: OA   
-  - label: obligation13
+               type: OA    
+  - label: obligation11
     event:
       subject:
         anyUser: 
@@ -307,8 +237,8 @@ rules:
                - test3
              target:
                name: PDSWhole
-               type: OA  
-  - label: obligation14
+               type: OA        
+  - label: obligation12
     event:
       subject:
         anyUser: 
@@ -329,8 +259,8 @@ rules:
                - test4
              target:
                name: PDSWhole
-               type: OA    
-  - label: obligation15
+               type: OA   
+  - label: obligation13
     event:
       subject:
         anyUser: 
@@ -351,8 +281,8 @@ rules:
                - test5
              target:
                name: PDSWhole
-               type: OA     
-  - label: obligation16
+               type: OA        
+  - label: obligation14
     event:
       subject:
         anyUser: 
@@ -373,8 +303,8 @@ rules:
                - test6
              target:
                name: PDSWhole
-               type: OA     
-  - label: obligation17
+               type: OA  
+  - label: obligation15
     event:
       subject:
         anyUser: 
@@ -395,48 +325,4 @@ rules:
                - test7
              target:
                name: PDSWhole
-               type: OA     
-  - label: obligation18
-    event:
-      subject:
-        anyUser: 
-          - "RD"     
-      operations:
-        - test7
-      target:
-        policyElements:
-          - name: PDSWhole
-            type: OA      
-    response:      
-      actions: 
-        - grant:
-             subject:
-               name: RA
-               type: UA
-             operations:
-               - test8
-             target:
-               name: PDSWhole
-               type: OA  
-  - label: obligation19
-    event:
-      subject:
-        anyUser: 
-          - "RA"     
-      operations:
-        - test8
-      target:
-        policyElements:
-          - name: PDSWhole
-            type: OA      
-    response:      
-      actions: 
-        - grant:
-             subject:
-               name: RA
-               type: UA
-             operations:
-               - test8
-             target:
-               name: PDSWhole
-               type: OA                                                                                                                                                                                                                                                                                                    
+               type: OA                                                                                                                                                                                                                          
