@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import POMA.Utils;
-import POMA.Verification.ReachabilityAnalysis.model.Solution;
+import POMA.Verification.ReachabilityAnalysisSequential.model.Solution;
 import POMA.Verification.Translator.AssociationRelation;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
@@ -34,8 +34,8 @@ public class SMTComposer extends Planner {
 //		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmRunning/LawFirmPolicy.json");
 //		 String yml = new String(
 //		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmRunning/Obligations_built_in_functions.yml")));
-		Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");
-		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/Assign.yml")));
+		Graph graph = Utils.readAnyGraph("Policies/SequencesTestEnabling/Graph.json");
+		String yml = new String(Files.readAllBytes(Paths.get("Policies/SequencesTestEnabling/2Grants.yml")));
 		Obligation obligation = EVRParser.parse(yml);
 		SMTComposer checker = new SMTComposer(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
@@ -44,7 +44,7 @@ public class SMTComposer extends Planner {
 		checker.enableSMTOutput(true);
 
 		String precondition = "OBLIGATIONLABEL(obligation0, ?u1, ?ar1,?at1);";
-		String postcondition = "";// "OBLIGATIONLABEL(accept_case, ?u, ?ar, PendingCases);";
+		String postcondition = "OBLIGATIONLABEL(obligation0, ?u1, ?ar1,?at1);";// "OBLIGATIONLABEL(accept_case, ?u, ?ar, PendingCases);";
 
 	 Solution solution = checker.solveConstraint(precondition, postcondition,
 	 graph);

@@ -1,0 +1,29 @@
+label: Assign
+rules:
+  - label: obligation1
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - assign:
+            - what:
+                name: CoPI
+                type: UA
+              where:
+                name: PI
+                type: UA    
+        - assign:
+            - what:
+                name: PI
+                type: UA
+              where:
+                name: CoPI
+                type: UA                                           

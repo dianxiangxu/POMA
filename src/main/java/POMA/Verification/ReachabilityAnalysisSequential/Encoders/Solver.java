@@ -15,10 +15,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import POMA.Utils;
-import POMA.Verification.ReachabilityAnalysis.model.ObligationFiring;
-import POMA.Verification.ReachabilityAnalysis.model.Solution;
-import POMA.Verification.ReachabilityAnalysis.model.Variable;
-import POMA.Verification.ReachabilityAnalysis.model.Variables;
+import POMA.Verification.ReachabilityAnalysisSequential.model.ObligationFiring;
+import POMA.Verification.ReachabilityAnalysisSequential.model.Solution;
+import POMA.Verification.ReachabilityAnalysisSequential.model.Variable;
+import POMA.Verification.ReachabilityAnalysisSequential.model.Variables;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.graph.Graph;

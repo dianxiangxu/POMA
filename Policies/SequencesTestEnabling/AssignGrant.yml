@@ -1,0 +1,32 @@
+label: Assign
+rules:
+  - label: obligation1
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - assign:
+            - what:
+                name: UBM
+                type: U
+              where:
+                name: BM
+                type: UA    
+        - grant:
+             subject:
+               name: BM
+               type: UA
+             operations:
+               - approve
+               - withdraw
+             target:
+               name: PDSWhole
+               type: OA                                             

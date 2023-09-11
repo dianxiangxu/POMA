@@ -12,9 +12,9 @@ import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.obligations.Obligations;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
-import POMA.Verification.ReachabilityAnalysis.FOLparser.model.*;
-import POMA.Verification.ReachabilityAnalysis.FOLparser.parser.FOLGrammar;
-import POMA.Verification.ReachabilityAnalysis.model.Solution;
+import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.*;
+import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.parser.FOLGrammar;
+import POMA.Verification.ReachabilityAnalysisSequential.model.Solution;
 
 public abstract class Planner {
 

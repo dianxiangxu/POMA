@@ -1,0 +1,64 @@
+package POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.predicates;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.terms.Constant;
+import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.terms.ITerm;
+
+public class PermitPredicate implements IPredicate {
+
+	List<ITerm> tuple = new ArrayList<ITerm>();
+
+	public PermitPredicate() {
+
+	}
+
+	public List<ITerm> getTuple() {
+		return tuple;
+	}
+
+	public void setTuple(List<ITerm> tuple) {
+		this.tuple = tuple;
+	}
+
+	@Override
+	public String toString() {
+		return "PermitPredicate [tuple=" + tuple + "]";
+	}
+
+	public String toSMT() throws Exception {
+		if (tuple.size() != 3) {
+			throw new Exception(
+					"Incorrect PERMIT predictate format. Please use the following format: PERMIT(source, ar, target)");
+		}
+		String smtlibv2Code = "";
+		String s = tuple.get(0) instanceof Constant ? tuple.get(0).getElement() : null;
+		String accessright = tuple.get(1) instanceof Constant ? tuple.get(1).getElement() : null;
+		String t = tuple.get(2) instanceof Constant ? tuple.get(2).getElement() : null;
+
+		String uVar = " queryVAR" + tuple.get(0).getElement().replace("?", "") + " ";// UDV
+		String arVar = " queryVAR" + tuple.get(1).getElement().replace("?", "") + " ";// UDV
+		String uoVar = " queryVAR" + tuple.get(2).getElement().replace("?", "") + " ";// UDV
+
+		String uaVar = " queryCONSTPERMITUA_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
+				+ tuple.get(2).getElement() + "_" + "{(k + 1)} ";
+		String atVar = " queryCONSTPERMITAT_" + tuple.get(0).getElement() + "_" + tuple.get(1).getElement() + "_"
+				+ tuple.get(2).getElement() + "_" + "{(k + 1)} ";
+
+		String userSpec = s != null ? "(set.member (tuple  [" + s + "] " + uaVar + ") (ASSIGN* " + "{(k + 1)}" + "))"
+				: "(set.member (tuple" + uVar + uaVar + ") (ASSIGN* " + "{(k + 1)}" + "))";
+		String targetSpec = t != null ? "(set.member (tuple  [" + t + "] " + atVar + ") (ASSIGN* " + "{(k + 1)}" + "))"
+				: "(set.member (tuple" + uoVar + atVar + ") (ASSIGN* " + "{(k + 1)}" + "))";
+
+		smtlibv2Code += System.lineSeparator();
+		smtlibv2Code += accessright != null
+				? "(and" + userSpec + "(set.member (tuple " + uaVar + "[" + accessright + "] " + atVar + ") (ASSOC "
+						+ "{(k + 1)}" + "))" + targetSpec + ")"
+				: "(and" + userSpec + "(set.member (tuple " + uaVar + arVar + atVar + ") (ASSOC " + "{(k + 1)}" + "))"
+						+ targetSpec + ")";
+
+		smtlibv2Code += System.lineSeparator();
+		return smtlibv2Code;
+	}
+}
