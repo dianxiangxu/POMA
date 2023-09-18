@@ -29,14 +29,14 @@ import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
 
 public class ObligationEncoder {
 
-	 List<String> _actionSetsAssignAdd = new ArrayList<String>();
-	 List<String> _actionSetsAssignAddFlat = new ArrayList<String>();
-	 List<String> _actionSetsAssociateAdd = new ArrayList<String>();
-	 List<String> _actionSetsAssociateRemove = new ArrayList<String>();
-	 List<String> _actionSetsAssignRemove = new ArrayList<String>();
-	 List<String> _actionSetsAssignRemoveFlat = new ArrayList<String>();
-	 boolean isAssignRelated = false;
-	 boolean isAssociateRelated = false;
+	List<String> _actionSetsAssignAdd = new ArrayList<String>();
+	List<String> _actionSetsAssignAddFlat = new ArrayList<String>();
+	List<String> _actionSetsAssociateAdd = new ArrayList<String>();
+	List<String> _actionSetsAssociateRemove = new ArrayList<String>();
+	List<String> _actionSetsAssignRemove = new ArrayList<String>();
+	List<String> _actionSetsAssignRemoveFlat = new ArrayList<String>();
+	boolean isAssignRelated = false;
+	boolean isAssociateRelated = false;
 
 	private List<ActionEncoder> preprocessActions(List<Action> actions, HashMap<String, Integer> mapOfIDs,
 			String label) {
@@ -46,10 +46,10 @@ public class ObligationEncoder {
 
 		for (int i = 0; i < actions.size(); i++) {
 			Action action = actions.get(i);
-			if(isActionAssignmentRelated(action)) {
+			if (isActionAssignmentRelated(action)) {
 				isAssignRelated = true;
 			}
-			if(isActionAssociationRelated(action)) {
+			if (isActionAssociationRelated(action)) {
 				isAssociateRelated = true;
 			}
 			ActionEncoder actionEncoder;
@@ -147,8 +147,7 @@ public class ObligationEncoder {
 		return initializeActionSets() + System.lineSeparator() + "(assert (=> (= ( " + label + " {k-1}) true)"
 				+ System.lineSeparator() + "(and" + System.lineSeparator() + sb.toString()
 				+ encodeIndependentActions(independentActions) + ")" + System.lineSeparator() + ")"
-				+ System.lineSeparator() + ")"  
-				+ encodeEventNegation(label)
+				+ System.lineSeparator() + ")" + encodeEventNegation(label)
 //				+ System.lineSeparator() 
 //				+encodeRelationTransition()
 				+ System.lineSeparator();
@@ -165,13 +164,13 @@ public class ObligationEncoder {
 		operationSetsAssign.addAll(_actionSetsAssignRemoveFlat);
 		operationSetsAssociate.addAll(_actionSetsAssociateAdd);
 		operationSetsAssociate.addAll(_actionSetsAssociateRemove);
-		for(String operationSet : operationSetsAssign) {
-			eventNegation += "(= " +operationSet+ " (as set.empty (Set (Tuple Int Int))))";
+		for (String operationSet : operationSetsAssign) {
+			eventNegation += "(= " + operationSet + " (as set.empty (Set (Tuple Int Int))))";
 		}
-		for(String operationSet : operationSetsAssociate) {
-			eventNegation += "(= " +operationSet+ " (as set.empty (Set (Tuple Int Int Int))))";
-		}		
-		
+		for (String operationSet : operationSetsAssociate) {
+			eventNegation += "(= " + operationSet + " (as set.empty (Set (Tuple Int Int Int))))";
+		}
+
 		eventNegation += ")))";
 		return eventNegation;
 	}
@@ -266,13 +265,15 @@ public class ObligationEncoder {
 	private void encodePostcondition(StringBuilder sb, ActionEncoder encoder) {
 		sb.append("\t;POSTCONDITION: " + encoder.operationSet + System.lineSeparator() + "\t(= " + encoder.operationSet
 				+ " " + encoder.postconditionSet + ")");
-		sb.append("\t;POSTCONDITION FLATTEN: " + encoder.operationSetFlat + System.lineSeparator() + "\t(= " + encoder.operationSetFlat
-				+ " " + encoder.postconditionFlattenSet + ")");
+		if (!encoder.postconditionFlattenSet.isEmpty()) {
+			sb.append("\t;POSTCONDITION FLATTEN: " + encoder.operationSetFlat + System.lineSeparator() + "\t(= "
+					+ encoder.operationSetFlat + " " + encoder.postconditionFlattenSet + ")");
+		}
 	}
 
 	public String encodeObligation(Rule obligation, HashMap<String, Integer> mapOfIDs, int k) {
-		List<ActionEncoder> convertedActions = preprocessActions(obligation.getResponsePattern().getActions(),
-				mapOfIDs, obligation.getLabel());
+		List<ActionEncoder> convertedActions = preprocessActions(obligation.getResponsePattern().getActions(), mapOfIDs,
+				obligation.getLabel());
 		try {
 			return ActionEncoder.replaceKWithValue(encodeObligation(convertedActions, obligation.getLabel()), k);
 		} catch (Exception e) {
@@ -280,7 +281,7 @@ public class ObligationEncoder {
 			return null;
 		}
 	}
-	
+
 	boolean isActionAssignmentRelated(Action a) {
 		if (a instanceof AssignAction || a instanceof CreateAction) {
 			return true;
@@ -300,7 +301,6 @@ public class ObligationEncoder {
 		}
 		return false;
 	}
-
 
 	public static void main(String[] args) throws Exception {
 		Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");

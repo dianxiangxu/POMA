@@ -7,6 +7,8 @@ import java.util.List;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.ActionType;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.HierarchyType;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.RelationType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Conditions.ConditionCustom;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Conditions.ConditionCustom.ConditionType;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.AssociationCustom;
 import gov.nist.csd.pm.pip.obligations.model.EvrNode;
 import gov.nist.csd.pm.pip.obligations.model.actions.GrantAction;
@@ -41,6 +43,10 @@ public class GrantActionEncoder extends ActionEncoder {
 		if(ops.size()==1) {
 			setPrecondition("(not (set.member (tuple " + association.getSubject() + " " + ops.get(0) + " "
 					+ association.getTarget() + ") (ASSOC {k-1})))");
+			conditions.add(new ConditionCustom(
+					precondition,
+					"(set.singleton(tuple " + association.getSubject() + " " + ops.get(0) + " " + association.getTarget() +"))",
+					this.getConditionHierarchyType(), ConditionType.EXCLUSIVE));
 			return;
 		}
 		String precondition = "(and ";
@@ -50,6 +56,11 @@ public class GrantActionEncoder extends ActionEncoder {
 		}
 		precondition += ")";
 		setPrecondition(precondition); // duplicate
+		
+		conditions.add(new ConditionCustom(
+				precondition,
+				"(set.singleton(tuple " + association.getSubject() + " " + ops.get(0) + " " + association.getTarget() +"))",
+				this.getConditionHierarchyType(), ConditionType.EXCLUSIVE));
 
 	}
 

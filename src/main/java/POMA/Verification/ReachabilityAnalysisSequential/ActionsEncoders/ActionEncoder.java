@@ -106,15 +106,28 @@ public abstract class ActionEncoder {
 								&& conditionType.equals(ConditionType.INCLUSIVE))) {
 					sb.append("\t\t" +"(and " +System.lineSeparator()+ "\t\t\t" + condition.getCondition() + " ");
 					sb.append(System.lineSeparator());
+					if(!prerequisite.getActionSetFlatten().isEmpty()) {
 					sb.append("\t\t\t" +"(not (set.subset " + condition.getConditionElements() + " "
 							+ prerequisite.getActionSetFlatten() + " )"+"\t\t" +")");
+					}
+					else {
+						sb.append("\t\t\t" +"(not (set.subset " + condition.getConditionElements() + " "
+								+ prerequisite.getActionSet() + " )"+"\t\t" +")");
+					}
 				}
 				if ((prerequisiteType.equals(ActionType.REMOVE) && conditionType.equals(ConditionType.EXCLUSIVE))
 						|| (prerequisiteType.equals(ActionType.ADD) && conditionType.equals(ConditionType.INCLUSIVE))) {
 					sb.append("(or " + condition.getCondition() + " ");
 					sb.append(System.lineSeparator());
-					sb.append("(set.subset " + condition.getConditionElements() + " " + prerequisite.getActionSetFlatten()
-					+ "\t\t" +")");
+					if(!prerequisite.getActionSetFlatten().isEmpty()) {
+						sb.append("(set.subset " + condition.getConditionElements() + " " + prerequisite.getActionSetFlatten()
+						+ "\t\t" +")");
+					}
+					else {
+						sb.append("(set.subset " + condition.getConditionElements() + " " + prerequisite.getActionSet()
+						+ "\t\t" +")");
+					}
+					
 				}
 				sb.append(System.lineSeparator()+"\t\t"+")");
 				sb.append(System.lineSeparator());

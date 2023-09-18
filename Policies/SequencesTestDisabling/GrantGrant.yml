@@ -4,9 +4,9 @@ rules:
     event:
       subject:
         anyUser: 
-          - "C-Suit"     
+          - "Chair"     
       operations:
-        - twogrants
+        - submit
       target:
         policyElements:
           - name: PDSWhole
@@ -30,4 +30,5 @@ rules:
                - approve
              target:
                name: PDSWhole
-               type: OA                                                                          
+               type: OA            
+                                                                                

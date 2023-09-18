@@ -26,4 +26,11 @@ rules:
                 type: U
               where:
                 name: BM
-                type: UA                                           
+                type: UA   
+        - assign:
+            - what:
+                name: UBM
+                type: U
+              where:
+                name: BM
+                type: UA                                                         

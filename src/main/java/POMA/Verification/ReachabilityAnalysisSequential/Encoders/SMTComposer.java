@@ -35,7 +35,9 @@ public class SMTComposer extends Planner {
 //		 String yml = new String(
 //		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmRunning/Obligations_built_in_functions.yml")));
 		Graph graph = Utils.readAnyGraph("Policies/SequencesTestEnabling/Graph.json");
-		String yml = new String(Files.readAllBytes(Paths.get("Policies/SequencesTestEnabling/2Grants.yml")));
+		String yml = new String(Files.readAllBytes(Paths.get("Policies/SequencesTestDisabling/GrantGrant.yml")));
+//		String yml = new String(Files.readAllBytes(Paths.get("Policies/SequencesTestEnabling/AssignAssign.yml")));
+
 		Obligation obligation = EVRParser.parse(yml);
 		SMTComposer checker = new SMTComposer(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
