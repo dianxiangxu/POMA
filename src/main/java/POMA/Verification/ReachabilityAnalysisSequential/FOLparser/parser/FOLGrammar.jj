@@ -1,0 +1,273 @@
+options
+{
+  static = true;
+}
+
+PARSER_BEGIN(FOLGrammar)
+package POMA.Verification.ReachabilityAnalysisSequential.FOLparser.parser;
+import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.connectives.*;
+import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.predicates.*;
+import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.terms.*;
+import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.IFormula;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Parser for queries NGAC.
+ * 
+ * Syntax: variables start with ?, predicates and constants
+ * with either letters or digits. 
+ * The binary operators "AND", "OR" must be put in parentheses; Predicates have parentheses for parameters.
+ * The negation operator is "NOT". Comma is used as a delimiter for predicate parameters
+ * The input has to end with ";"
+ * 
+ * < formula > ::=  < predicate > | < binary > | <negation> {, formula} ";"
+ * < binary > :==  "(" < formula > "AND" < formula > ")"
+ *          		| "(" < formula > "OR" < formula > ")"
+ * < negation > :== "NOT" "(" < formula > ")"
+ * < predicate > ::=  < PERMIT > | < ASSOCIATE > | < DENY > | < IMPLICITASSIGN > | < EXPLICITASSIGN > | < HIERARCHY > | < ASSIGN > | < NODEEXISTS >
+ * < PERMIT >  ::=  "PERMIT" "("< term > < term > < term >")"
+ * < ASSOCIATE > ::=  "ASSOCIATE""(" < term > < term > < term >")"
+ * < DENY > ::= "DENY""(" < term > < term > < term >")"
+ * < EXPLICITASSIGN > "EXPLICITASSIGN""("< term > < term >")"
+ * < IMPLICITASSIGN > "IMPLICITASSIGN""("< term > < term >")"
+ * < ASSIGN > ::=  "ASSIGN""("< term > < term >")"
+ * < HIERARCHY > ::= "HIERARCHY""(" < term > < term >")"
+ * < NODEEXISTS > ::=  "NODEEXISTS""("< term >")"
+ * < term >  ::= CONST | VAR
+ *
+ * @author Vladislav Dubrovenski
+ */
+
+public class FOLGrammar
+{
+  public static void main(String args []) throws ParseException
+  {
+    FOLGrammar parser = new FOLGrammar(System.in);
+    while (true)
+    {
+      System.out.println("Reading from standard input...");
+      System.out.print("Enter an expression: ");
+      try
+      {
+        IFormula f = FOLGrammar.parse();
+        System.out.println(f);
+      }
+      catch (Exception e)
+      {
+        System.out.println("NOK.");
+        System.out.println(e.getMessage());
+        FOLGrammar.ReInit(System.in);
+      }
+      catch (Error e)
+      {
+        System.out.println("Oops.");
+        System.out.println(e.getMessage());
+        break;
+      }
+    }
+  }
+}
+
+PARSER_END(FOLGrammar)
+
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+| "\n"
+}
+
+//punctuation
+TOKEN :
+{
+  < OPEN : "(" >
+| < CLOSE : ")" >
+| < COMMA : "," >
+| < QUESTION : "?" >
+}
+
+//built-in predicates
+TOKEN :
+{
+  < PERMIT : "PERMIT" >
+| < DENY : "DENY" >
+| < EXPLICITASSIGN : "EXPLICITASSIGN" >
+| < IMPLICITASSIGN : "IMPLICITASSIGN" >
+| < ASSIGN : "ASSIGN" >
+| < ASSOCIATE : "ASSOCIATE" >
+| < HIERARCHY : "HIERARCHY" >
+| < OBLIGATIONLABEL : "OBLIGATIONLABEL" >
+| < NODEEXISTS : "NODEEXISTS" >
+| < EQUALS : "EQUALS" >
+
+}
+
+//logical connectives
+TOKEN :
+{
+  < OR : "OR" >
+| < AND : "AND" >
+| < NOT : "NOT" >
+}
+
+//terms
+TOKEN :
+{
+  < CONST : (< IDENTIFIER >)+ >
+| < VAR : < QUESTION > (< IDENTIFIER >)+ >
+| < #IDENTIFIER : [ "a"-"z", "A"-"Z", "0"-"9", "_" ] >
+}
+
+IFormula parse() :
+{
+  IFormula f;
+}
+{
+  f = formula() ";"
+  {
+    return f;
+  }
+}
+
+ITerm term() :
+{
+}
+{
+  < CONST >
+  {
+    return new Constant(token.image);
+  }
+| < VAR >
+  {
+    return new Variable(token.image);
+  }
+}
+
+IPredicate getPredicate() :
+{
+}
+{
+  < PERMIT >
+  {
+    return new PermitPredicate();
+  }
+| < DENY >
+  {
+    return new DenyPredicate();
+  }
+| < EXPLICITASSIGN >
+  {
+    return new ExplicitAssignPredicate();
+  }
+| < IMPLICITASSIGN >
+  {
+    return new ImplicitAssignPredicate();
+  }
+| < ASSIGN >
+  {
+    return new AssignPredicate();
+  }
+| < ASSOCIATE >
+  {
+    return new AssociatePredicate();
+  }
+| < HIERARCHY >
+  {
+    return new HierarchyPredicate();
+  }
+| < OBLIGATIONLABEL >
+{
+  return new ObligationLabelPredicate();
+}
+| < NODEEXISTS >
+{
+  return new NodeExistsPredicate();
+}
+| < EQUALS >
+{
+  return new EqualsPredicate();
+}
+}
+
+IPredicate predicate() :
+{
+  List < ITerm > tuple = new ArrayList < ITerm > ();
+  IPredicate predicate;
+  ITerm t;
+}
+{
+  predicate = getPredicate()
+  {
+  }
+  < OPEN > 
+  t = term()
+  {
+    tuple.add(t);
+  }
+  (
+    < COMMA > t = term()
+    {
+      tuple.add(t);
+    }
+  )*
+  < CLOSE >
+  {
+    predicate.setTuple(tuple);
+    return predicate;
+  }
+}
+
+IFormula binary() :
+{
+  IFormula subformulaA, subformulaB;
+}
+{
+  < OPEN > 
+  subformulaA = formula()
+  (
+    < OR > 
+    subformulaB = formula() 
+    < CLOSE >
+    {
+      return new Disjunctive(subformulaA, subformulaB);
+    }
+  | 
+    < AND > 
+    subformulaB = formula() 
+    < CLOSE >
+    {
+      return new Conjunctive(subformulaA, subformulaB);
+    }
+  )
+}
+
+IFormula negation() :
+{
+  IFormula subformula;
+}
+{
+  < NOT > 
+  < OPEN > 
+  subformula = formula() 
+  < CLOSE >
+  {
+    return new Negation(subformula);
+  }
+}
+
+IFormula formula() :
+{
+  IFormula form;
+}
+{
+  (
+    form = predicate()
+  | form = binary()
+  | form = negation()
+  )
+  {
+    return form;
+  }
+}

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import gov.nist.csd.pm.pip.graph.Graph;
+import gov.nist.csd.pm.pip.graph.model.nodes.Node;
 import gov.nist.csd.pm.pip.obligations.Obligations;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 import POMA.Verification.ReachabilityAnalysis.FOLparser.model.*;
@@ -21,9 +22,14 @@ public abstract class Planner {
 	private int bound = 8;
 	private String smtCodeFilePath = "";
 	HashMap<String, Integer> mapOfIDs;
+	protected List<Node> listOfNodes = new ArrayList<Node>();
+	
+	public List<Node> getListOfNodes() {
+		return listOfNodes;
+	}
+
 	boolean showSMTOutput = false;
 	static FOLGrammar parser = null;
-
 	void setSolver(Solver solver) {
 		this.solver = solver;
 	}
@@ -57,17 +63,25 @@ public abstract class Planner {
 
 	abstract List<String> getObligationEventVariables();
 
-	public Solution solveConstraint(String pre, String post) throws Exception {
-		try {
-			Solution s = check(pre, post);
+	public Solution solveConstraint(String pre, String post, Graph initialGraph) throws Exception {
+//		try {
+			Solution s = check(pre, post, initialGraph);
 			return s;
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		return null;
+//		} catch (Exception e) {
+//			System.out.println(e);
+//		}
+//		return null;
 	}
-
-	public Solution check(String pre, String post) throws Exception {
+	public Solution solveConstraint(String property, Graph initialGraph) throws Exception {
+//		try {
+			Solution s = check(property, initialGraph);
+			return s;
+//		} catch (Exception e) {
+//			System.out.println(e);
+//		}
+//		return null;
+	}
+	public Solution check(String pre, String post, Graph initialGraph) throws Exception {
 
 		List<String> obligationLabels = getObligationLabels();
 		List<String> confirmedObligations = new ArrayList<String>();
@@ -82,7 +96,7 @@ public abstract class Planner {
 
 		String headCode = generateHeadCode();
 		String iterationCode = "";
-
+		
 		Solution solution = null;
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
@@ -104,7 +118,7 @@ public abstract class Planner {
 			String pathToFile = smtCodeFilePath + k + ".smt2";
 			saveCodeToFile(smtlibv2Code, pathToFile);
 			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
-					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS);
+					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes);
 			solved = solution == null ? false : true;
 			if (!solved) {
 				System.out.println("Solution not found with time horizon: " + k);
@@ -116,6 +130,29 @@ public abstract class Planner {
 		return solution;
 	}
 
+	public Solution check(String property, Graph initialGraph) throws Exception {
+
+		int count = 0;
+
+		boolean solved = false;
+		IFormula formulaProperty = property.isEmpty() ? null : parseQuery(property);
+		List<String> queryVARS = new ArrayList<String>();
+		List<String> queryConst = new ArrayList<String>();
+		String headCode = generateHeadCode();			
+		String smtlibv2Code = headCode;
+
+		String iterationCode = "";
+		smtlibv2Code += formulaProperty != null ? generateProperty(formulaProperty, -1, queryVARS, queryConst) : "";
+
+		smtlibv2Code += generateTailCode(queryVARS, 0);
+		String pathToFile = smtCodeFilePath + 0 + ".smt2";
+		saveCodeToFile(smtlibv2Code, pathToFile);
+		solver.runSolver(pathToFile,0,
+				 mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes);
+		Solution solution = null;
+		return solution;
+	}
+	
 	public Solution solveConstraint(Graph graph, Prohibitions prohibitions, // not now
 			Obligations obligations, String constraint) {
 

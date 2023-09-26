@@ -1,0 +1,132 @@
+label: LawUseCase Obligations
+rules:
+  - label: accept_case
+    event:
+      subject:
+        anyUser: 
+          - "AvailableAttorneys"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: NewCases
+            type: OA
+    response:      
+      actions:
+        - assign:
+            - what:
+                name: current_target
+                type: O
+              where:
+                name: AcceptedCases
+                type: OA   
+        - delete:
+            assignments:
+              - what:
+                  name: current_target
+                  type: O
+                where:
+                  name: NewCases
+                  type: OA                 
+                                       
+  - label: approve_case
+    event:
+      subject:
+        anyUser: 
+          - "LeadAttorneys"
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: AcceptedCases
+            type: OA
+    response:      
+      actions:
+        - delete:
+            assignments:
+              - what:
+                  name: current_target
+                  type: O
+                where:
+                  name: AcceptedCases
+                  type: OA   
+        - delete:
+            assignments:
+              - what:
+                  name: Amy
+                  type: U
+                where:
+                  name: AvailableAttorneys
+                  type: UA    
+        - grant:
+            subject:
+              name: LeadAttorneys
+              type: UA
+            operations:
+              - remove
+            target:
+              name: AvailableAttorneys
+              type: UA                  
+  - label: remove_available_attorney
+    event:
+      subject:
+        anyUser: 
+          - "LeadAttorneys"
+      operations:
+        - remove
+      target:
+        policyElements:
+          - name: AvailableAttorneys
+            type: UA
+    response:
+      condition:
+        - function:
+            name: is_node_contained_in
+            args:
+              - function:
+                  name: current_target
+              - function:
+                  name: get_node
+                  args:
+                    - AvailableAttorneys
+                    - UA            
+      actions:
+        - delete:
+            assignments:
+              - what:
+                  name: current_target
+                  type: U
+                where:
+                  name: AvailableAttorneys
+                  type: UA   
+        - delete:
+            associations:
+              - subject:
+                  name: LeadAttorneys
+                  type: UA
+                operations:
+                  - remove
+                target:
+                  name: AvailableAttorneys
+                  type: UA                                                                          
+  - label: withdraw_case
+    event:
+      subject:
+        anyUser: 
+          - "LeadAttorneys"
+      operations:
+        - withdraw
+      target:
+        policyElements:
+          - name: NewCases
+            type: OA
+    response:      
+      actions:
+        - assign:
+            - what:
+                name: current_target
+                type: O
+              where:
+                name: NewCases
+                type: OA                 
+                                                                     

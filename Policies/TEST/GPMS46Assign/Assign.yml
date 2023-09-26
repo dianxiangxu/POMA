@@ -1,0 +1,163 @@
+label: Assign
+rules:
+  - label: obligation0
+    event:
+      subject:
+        anyUser: 
+          - "PICreate"     
+      operations:
+        - create
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - assign:
+            - what:
+                name: Nazmul
+                type: U
+              where:
+                name: PISubmit
+                type: UA                   
+  - label: obligation1
+    event:
+      subject:
+        anyUser: 
+          - "PISubmit"     
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions:        
+        - assign:
+            - what:
+                name: Bob
+                type: U
+              where:
+                name: PI
+                type: UA                            
+  - label: obligation2
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions:        
+        - assign:
+            - what:
+                name: Alice
+                type: U
+              where:
+                name: SP
+                type: UA     
+  - label: obligation3
+    event:
+      subject:
+        anyUser: 
+          - "SP"     
+      operations:
+        - read
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - assign:
+            - what:
+                name: Alice
+                type: U
+              where:
+                name: CoPI
+                type: UA      
+  - label: obligation4
+    event:
+      subject:
+        anyUser: 
+          - "CoPI"     
+      operations:
+        - edit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - assign:
+            - what:
+                name: Alice
+                type: U
+              where:
+                name: PIDelete
+                type: UA 
+  - label: obligation5
+    event:
+      subject:
+        anyUser: 
+          - "PIDelete"     
+      operations:
+        - delete
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - assign:
+            - what:
+                name: Alice
+                type: U
+              where:
+                name: PI
+                type: UA                                                                             
+  # - label: obligation2
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "PICreate"     
+  #     operations:
+  #       - create
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - assign:
+  #           - what:
+  #               name: Steven
+  #               type: U
+  #             where:
+  #               name: PIDelete
+  #               type: UA           
+              
+  # - label: obligation4
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "CoPI"     
+  #     operations:
+  #       - edit
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - assign:
+  #           - what:
+  #               name: Alice
+  #               type: U
+  #             where:
+  #               name: PI
+  #               type: UA                                 

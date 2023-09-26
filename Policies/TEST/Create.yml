@@ -1,0 +1,22 @@
+label: Create
+rules:
+  - label: create
+    event:
+      subject:
+        anyUser: 
+          - "C-Suit"     
+      operations:
+        - create
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions:      
+        - create:
+            - what:
+                name: UBM
+                type: U
+              where:
+                name: BM
+                type: UA                                          

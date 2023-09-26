@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import POMA.Utils;
-import POMA.Verification.TranslationWithSets.AssociationRelation;
+import POMA.Verification.Translator.AssociationRelation;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;

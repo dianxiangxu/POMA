@@ -1,0 +1,34 @@
+label: TwoGrants
+rules:
+  - label: obligation1
+    event:
+      subject:
+        anyUser: 
+          - "Chair"     
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - grant:
+             subject:
+               name: Chair
+               type: UA
+             operations:
+               - approve
+             target:
+               name: PDSWhole
+               type: OA       
+        - grant:
+             subject:
+               name: Chair
+               type: UA
+             operations:
+               - approve
+             target:
+               name: PDSWhole
+               type: OA            
+                                                                                

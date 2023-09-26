@@ -12,8 +12,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import POMA.Verification.TranslationWithSets.AssociationRelation;
+import POMA.Utils;
+import POMA.Verification.Translator.AssociationRelation;
 import gov.nist.csd.pm.operations.OperationSet;
+import gov.nist.csd.pm.pip.graph.model.nodes.Node;
+import gov.nist.csd.pm.pip.graph.model.nodes.NodeType;
 import gov.nist.csd.pm.pip.obligations.evr.EVRException;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.EventPattern;
@@ -54,9 +57,15 @@ public class ObligationTranslator {
 
 	Obligation obligation;
 	HashMap<String, Integer> mapOfIDs;
+	List<Node> listOfNodes;
 
-	public ObligationTranslator(HashMap<String, Integer> mapOfIDs) {
+	public List<Node> getListOfNodes() {
+		return listOfNodes;
+	}
+
+	public ObligationTranslator(HashMap<String, Integer> mapOfIDs, List<Node> listOfNodes) {
 		this.mapOfIDs = mapOfIDs;
+		this.listOfNodes = listOfNodes;
 		try {
 			obligation = readObligations();
 		} catch (EVRException e) {
@@ -67,9 +76,10 @@ public class ObligationTranslator {
 		translateObligationRules();
 	}
 
-	public ObligationTranslator(HashMap<String, Integer> mapOfIDs, String pathToObligations) {
+	public ObligationTranslator(HashMap<String, Integer> mapOfIDs, String pathToObligations, List<Node> listOfNodes) {
 		this.mapOfIDs = mapOfIDs;
 		this.pathToObligations = pathToObligations;
+		this.listOfNodes = listOfNodes;
 		try {
 			obligation = readObligations();
 		} catch (EVRException e) {
@@ -80,9 +90,10 @@ public class ObligationTranslator {
 		translateObligationRules();
 	}
 
-	public ObligationTranslator(HashMap<String, Integer> mapOfIDs, Obligation obligation) {
+	public ObligationTranslator(HashMap<String, Integer> mapOfIDs, Obligation obligation, List<Node> listOfNodes) {
 		this.mapOfIDs = mapOfIDs;
 		this.obligation = obligation;
+		this.listOfNodes = listOfNodes;
 		translateObligationRules();
 	}
 
@@ -125,6 +136,13 @@ public class ObligationTranslator {
 					if (type.equals("O") || type.equals("OA")) {
 						listOfCreatedNodesOA.add(what);
 					}
+					try {
+						if (!Utils.nodeExistsInList(listOfNodes, what)) {
+							listOfNodes.add(new Node(what, NodeType.valueOf(type)));
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -140,6 +158,8 @@ public class ObligationTranslator {
 		sb.append(System.lineSeparator());
 		sb.append("; 5.1 a->PRE");
 		for (Rule r : obligation.getRules()) {
+			
+			
 			String subject = "";
 			if (r.getEventPattern().getSubject().getAnyUser() != null) {
 				subject = r.getEventPattern().getSubject().getAnyUser().get(0);
@@ -149,6 +169,7 @@ public class ObligationTranslator {
 					&& r.getEventPattern().getTarget().getPolicyElements() != null) {
 				target = r.getEventPattern().getTarget().getPolicyElements().get(0).getName();
 			}
+			
 			String obligationLabel = r.getLabel();
 
 			Integer subjectID = null;
@@ -178,7 +199,9 @@ public class ObligationTranslator {
 			sb.append(System.lineSeparator());
 			processVariables(obligationU, obligationUA, obligationAT, obligationUO, obligationS, obligationT,
 					obligationAR, sb, subjectID, targetID, arIds);
-
+			
+			String condition = processEventCondition(r, k,obligationU,obligationUO);
+			
 			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true) (and\r\n" + " (member (mkTuple  "
 					+ obligationU + " " + obligationS + ") (ASSIGN* " + (k - 1) + "))\r\n" + " (member (mkTuple  "
 					+ obligationU + " " + obligationUA + ") (ASSIGN* " + (k - 1) + "))\r\n" + "(member (mkTuple "
@@ -186,8 +209,9 @@ public class ObligationTranslator {
 					+ " (member (mkTuple  " + obligationUO + " " + obligationT + ") (ASSIGN* " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationUO + " " + obligationAT + ") (ASSIGN* " + (k - 1) + "))\r\n"
 					+ " (member (mkTuple  " + obligationU + " " + obligationU + ") USERS)\r\n"
-					// + " (distinct " + obligationS + " " + obligationU + ")\r\n"
-					// + " (distinct " + obligationUO + " " + obligationT + ")\r\n"
+					 + " (distinct " + obligationS + " " + obligationU + ")\r\n"
+					// + " (distinct " + obligationUO + " " + obligationT + ")\r\n" 
+					 +condition
 					+ ")))");
 			sb.append(System.lineSeparator());
 			sb.append(System.lineSeparator());
@@ -242,17 +266,36 @@ public class ObligationTranslator {
 		sb.append(System.lineSeparator());
 	}
 
-	String processEventCondition(Rule r, int k) {
+	String processEventCondition(Rule r, int k, String subject, String target) {
 		if (r.getResponsePattern().getCondition() == null)
 			return "";
 		List<Function> conditions = r.getResponsePattern().getCondition().getCondition();
 		List<Arg> args = conditions.get(0).getArgs();
-		String ancestor = args.get(0).getFunction().getArgs().get(0).getValue();
-		String descendant = args.get(1).getFunction().getArgs().get(0).getValue();
-		int ancestorId = mapOfIDs.get(ancestor);
-		int descendantId = mapOfIDs.get(descendant);
-		return "(member (mkTuple " + ancestorId + " " + descendantId + ") (ASSIGN* " + (k - 1) + "))";
-
+		String ancestor = "";
+		String descendant ="";
+		if(args.get(0).getFunction().getName().equals("current_target")) {
+			ancestor = target;
+		}
+		else if(args.get(0).getFunction().getName().equals("current_user")) {
+			ancestor = subject;
+		}
+		else {
+			ancestor = args.get(0).getFunction().getArgs().get(0).getValue();
+			int ancestorId = mapOfIDs.get(ancestor);
+			ancestor = Integer.toString(ancestorId);
+		}
+		if(args.get(1).getFunction().getName().equals("current_target")) {
+			descendant = target;
+		}
+		else if(args.get(1).getFunction().getName().equals("current_user")) {
+			descendant = subject;
+		}
+		else {
+			descendant = args.get(1).getFunction().getArgs().get(0).getValue();
+			int descendantId = mapOfIDs.get(descendant);
+			descendant = Integer.toString(descendantId);
+		}
+		return "(member (mkTuple " + ancestor + " " + descendant + ") (ASSIGN* " + (k - 1) + "))";
 	}
 
 	private void translateObligationRules() {
@@ -380,8 +423,28 @@ public class ObligationTranslator {
 			String innerAction) {
 		String obligationU = obligationLabel + "U" + "_" + (k - 1);
 		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
-		String whereID = what.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
+		String whatID = "";
+		String whereID = "";
+
+		if(what.equals("current_user")) {
+			whatID = obligationU;
+		}
+		else if(what.equals("current_target")) {
+			whatID = obligationT;
+		}
+		else {
+			whatID = mapOfIDs.get(what).toString();
+		}
+		
+		if(where.equals("current_user")) {
+			whereID = obligationU;
+		}
+		else if(where.equals("current_target")) {
+			whereID = obligationT;
+		}
+		else {
+			whereID = mapOfIDs.get(where).toString();
+		}
 		if (innerAction.isEmpty()) {
 			return " (setminus (ASSIGN* " + (k - 1) + ") (setminus (join (singleton (mkTuple " + whatID + " " + whereID
 					+ ")) (ASSIGN* " + (k - 1) + ")) (join (join (singleton (mkTuple " + whatID + " " + whatID
@@ -399,8 +462,28 @@ public class ObligationTranslator {
 			String innerAction) {
 		String obligationU = obligationLabel + "U" + "_" + (k - 1);
 		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
-		String whereID = what.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
+		String whatID = "";
+		String whereID = "";
+
+		if(what.equals("current_user")) {
+			whatID = obligationU;
+		}
+		else if(what.equals("current_target")) {
+			whatID = obligationT;
+		}
+		else {
+			whatID = mapOfIDs.get(what).toString();
+		}
+		
+		if(where.equals("current_user")) {
+			whereID = obligationU;
+		}
+		else if(where.equals("current_target")) {
+			whereID = obligationT;
+		}
+		else {
+			whereID = mapOfIDs.get(where).toString();
+		}
 		if (innerAction.isEmpty()) {
 			return "(setminus (ASSIGN* " + (k - 1) + ") (setminus (setminus (union (singleton (mkTuple " + whatID + " "
 					+ whereID + ")) (join (singleton (mkTuple " + whatID + " " + whereID + ")) (ASSIGN* " + (k - 1)
@@ -434,8 +517,28 @@ public class ObligationTranslator {
 			String innerAction) {
 		String obligationU = obligationLabel + "U" + "_" + (k - 1);
 		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
-		String whereID = what.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
+		String whatID = "";
+		String whereID = "";
+
+		if(what.equals("current_user")) {
+			whatID = obligationU;
+		}
+		else if(what.equals("current_target")) {
+			whatID = obligationT;
+		}
+		else {
+			whatID = mapOfIDs.get(what).toString();
+		}
+		
+		if(where.equals("current_user")) {
+			whereID = obligationU;
+		}
+		else if(where.equals("current_target")) {
+			whereID = obligationT;
+		}
+		else {
+			whereID = mapOfIDs.get(where).toString();
+		}
 		if (innerAction.isEmpty()) {
 			return " (setminus (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))";
 		} else {
@@ -447,8 +550,29 @@ public class ObligationTranslator {
 			String innerAction) {
 		String obligationU = obligationLabel + "U" + "_" + (k - 1);
 		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
-		String whereID = what.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
+		String whatID = "";
+		String whereID = "";
+
+		if(what.equals("current_user")) {
+			whatID = obligationU;
+		}
+		else if(what.equals("current_target")) {
+			whatID = obligationT;
+		}
+		else {
+			whatID = mapOfIDs.get(what).toString();
+		}
+		
+		if(where.equals("current_user")) {
+			whereID = obligationU;
+		}
+		else if(where.equals("current_target")) {
+			whereID = obligationT;
+		}
+		else {
+			whereID = mapOfIDs.get(where).toString();
+		}
+
 		if (innerAction.isEmpty()) {
 			return "(union (singleton (mkTuple " + whatID + " " + whereID + ")) (union (join (singleton (mkTuple "
 					+ whatID + " " + whereID + ")) (join (singleton (mkTuple " + whereID + " " + whereID
@@ -464,8 +588,28 @@ public class ObligationTranslator {
 			String innerAction) {
 		String obligationU = obligationLabel + "U" + "_" + (k - 1);
 		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
-		String whereID = what.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
+		String whatID = "";
+		String whereID = "";
+
+		if(what.equals("current_user")) {
+			whatID = obligationU;
+		}
+		else if(what.equals("current_target")) {
+			whatID = obligationT;
+		}
+		else {
+			whatID = mapOfIDs.get(what).toString();
+		}
+		
+		if(where.equals("current_user")) {
+			whereID = obligationU;
+		}
+		else if(where.equals("current_target")) {
+			whereID = obligationT;
+		}
+		else {
+			whereID = mapOfIDs.get(where).toString();
+		}
 		if (innerAction.isEmpty()) {
 
 			return " (union (join (join (union (singleton (mkTuple " + whatID + " " + whatID + ")) (join (ASSIGN* "
@@ -486,8 +630,28 @@ public class ObligationTranslator {
 			String innerAction) {
 		String obligationU = obligationLabel + "U" + "_" + (k - 1);
 		String obligationT = obligationLabel + "T" + "_" + (k - 1);
-		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
-		String whereID = what.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
+		String whatID = "";
+		String whereID = "";
+
+		if(what.equals("current_user")) {
+			whatID = obligationU;
+		}
+		else if(what.equals("current_target")) {
+			whatID = obligationT;
+		}
+		else {
+			whatID = mapOfIDs.get(what).toString();
+		}
+		
+		if(where.equals("current_user")) {
+			whereID = obligationU;
+		}
+		else if(where.equals("current_target")) {
+			whereID = obligationT;
+		}
+		else {
+			whereID = mapOfIDs.get(where).toString();
+		}
 		if (innerAction.isEmpty()) {
 			return "( union (ASSIGN " + (k - 1) + ") (singleton (mkTuple " + whatID + " " + whereID + ")))";
 		} else {
@@ -549,8 +713,28 @@ public class ObligationTranslator {
 		String obligationU = obligationLabel + "U" + "_" + (k - 1);
 		String obligationT = obligationLabel + "T" + "_" + (k - 1);
 
-		String whatID = what.equals("current_user") ? obligationU : mapOfIDs.get(what).toString();
-		String whereID = where.equals("current_target") ? obligationT : mapOfIDs.get(where).toString();
+		String whatID = "";
+		String whereID = "";
+
+		if(what.equals("current_user")) {
+			whatID = obligationU;
+		}
+		else if(what.equals("current_target")) {
+			whatID = obligationT;
+		}
+		else {
+			whatID = mapOfIDs.get(what).toString();
+		}
+		
+		if(where.equals("current_user")) {
+			whereID = obligationU;
+		}
+		else if(where.equals("current_target")) {
+			whereID = obligationT;
+		}
+		else {
+			whereID = mapOfIDs.get(where).toString();
+		}
 		String arID = mapOfIDs.get(op).toString();
 
 		if (innerAction.isEmpty()) {
@@ -694,10 +878,11 @@ public class ObligationTranslator {
 		// sb.append(System.lineSeparator());
 		// sb.append("; AT MOST ONE");
 		// for (String tuple : labelTuples) {
-		// 	String[] tupleArray = tuple.split(":");
-		// 	sb.append(System.lineSeparator());
-		// 	sb.append("(assert (not (and (= (" + tupleArray[0] + " " + (k - 1) + ") true) (= (" + tupleArray[1] + " "
-		// 			+ (k - 1) + ") true))))");
+		// String[] tupleArray = tuple.split(":");
+		// sb.append(System.lineSeparator());
+		// sb.append("(assert (not (and (= (" + tupleArray[0] + " " + (k - 1) + ") true)
+		// (= (" + tupleArray[1] + " "
+		// + (k - 1) + ") true))))");
 		// }
 		// sb.append(System.lineSeparator());
 		// sb.append(System.lineSeparator());
@@ -705,7 +890,7 @@ public class ObligationTranslator {
 		// sb.append(System.lineSeparator());
 		// sb.append("(assert (or");
 		// for (String label : ruleLabels) {
-		// 	sb.append("(= (" + label + " " + (k - 1) + ") true)");
+		// sb.append("(= (" + label + " " + (k - 1) + ") true)");
 		// }
 		// sb.append("))");
 		// sb.append(System.lineSeparator());

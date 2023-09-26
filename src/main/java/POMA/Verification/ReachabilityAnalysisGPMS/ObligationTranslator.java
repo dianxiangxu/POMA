@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import POMA.Verification.TranslationWithSets.AssociationRelation;
+import POMA.Verification.Translator.AssociationRelation;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pip.obligations.evr.EVRException;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;

@@ -1,0 +1,35 @@
+label: Grant
+rules:
+  - label: grant
+    event:
+      subject:
+        anyUser: 
+          - "C-Suit"     
+      operations:
+        - grant
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - grant:
+             subject:
+               name: BM
+               type: UA
+             operations:
+               - approve
+               - withdraw
+             target:
+               name: PDSWhole
+               type: OA   
+        - grant:
+             subject:
+               name: BM
+               type: UA
+             operations:
+               - approve
+               - withdraw
+             target:
+               name: PDSWhole
+               type: OA                                                

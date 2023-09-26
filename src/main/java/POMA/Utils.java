@@ -153,7 +153,6 @@ public class Utils {
 		return PCs;
 	}
 
-	
 	public static void saveDataToFile(String data, String path) throws PMException, IOException {
 		File file = new File(path);
 		FileWriter myWriter = new FileWriter(file);
@@ -165,34 +164,34 @@ public class Utils {
 	public String readTextFile(String path) {
 		StringBuilder sb = new StringBuilder();
 		try {
-		      File myObj = new File(path);
-		      Scanner myReader = new Scanner(myObj);
-		      while (myReader.hasNextLine()) {
-		    	  sb.append(myReader.nextLine());
-		    	  sb.append(System.lineSeparator());
-		      }
-		      myReader.close();
-		    } catch (FileNotFoundException e) {
-		    //  e.printStackTrace();
-		    }
+			File myObj = new File(path);
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine()) {
+				sb.append(myReader.nextLine());
+				sb.append(System.lineSeparator());
+			}
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			// e.printStackTrace();
+		}
 		return sb.toString();
 	}
-	
-public static Graph combineGraphs() throws PMException, IOException {
-    File file1 = new File("Policies/GPMS/AcademicUnitsPolicyClass.json");
-    File file2 = new File("Policies/GPMS/AdministrationUnitsPolicyClass.json");
-    File file3 = new File("Policies/GPMS/EditingPolicyClass.json");
-    File file4 = new File("Policies/GPMS/EligibilityPolicyClass.json");
-    String policy1 = new String(Files.readAllBytes(Paths.get(file1.getAbsolutePath())));
-    String policy2 = new String(Files.readAllBytes(Paths.get(file2.getAbsolutePath())));
-    String policy3 = new String(Files.readAllBytes(Paths.get(file3.getAbsolutePath())));
-    String policy4 = new String(Files.readAllBytes(Paths.get(file4.getAbsolutePath())));
-    Graph ngacGraph = new MemGraph();
-    GraphSerializer.fromJson(ngacGraph, policy1);
-    GraphSerializer.fromJson(ngacGraph, policy2);
-    GraphSerializer.fromJson(ngacGraph, policy3);
-    GraphSerializer.fromJson(ngacGraph, policy4);
-    
+
+	public static Graph combineGraphs() throws PMException, IOException {
+		File file1 = new File("Policies/GPMS/AcademicUnitsPolicyClass.json");
+		File file2 = new File("Policies/GPMS/AdministrationUnitsPolicyClass.json");
+		File file3 = new File("Policies/GPMS/EditingPolicyClass.json");
+		File file4 = new File("Policies/GPMS/EligibilityPolicyClass.json");
+		String policy1 = new String(Files.readAllBytes(Paths.get(file1.getAbsolutePath())));
+		String policy2 = new String(Files.readAllBytes(Paths.get(file2.getAbsolutePath())));
+		String policy3 = new String(Files.readAllBytes(Paths.get(file3.getAbsolutePath())));
+		String policy4 = new String(Files.readAllBytes(Paths.get(file4.getAbsolutePath())));
+		Graph ngacGraph = new MemGraph();
+		GraphSerializer.fromJson(ngacGraph, policy1);
+		GraphSerializer.fromJson(ngacGraph, policy2);
+		GraphSerializer.fromJson(ngacGraph, policy3);
+		GraphSerializer.fromJson(ngacGraph, policy4);
+
 //    File file1 = new File("Policies/LawUseCase/CasePolicy.json");
 //    File file2 = new File("Policies/LawUseCase/LawFirmPolicy.json");
 //    File file3 = new File("Policies/LawUseCase/ValueTypePolicy.json");
@@ -203,11 +202,11 @@ public static Graph combineGraphs() throws PMException, IOException {
 //    GraphSerializer.fromJson(ngacGraph, policy1);
 //    GraphSerializer.fromJson(ngacGraph, policy2);
 //    GraphSerializer.fromJson(ngacGraph, policy3);
-    
-   // System.out.println(GraphSerializer.toJson(ngacGraph));
-    return ngacGraph;
-}
-	
+
+		// System.out.println(GraphSerializer.toJson(ngacGraph));
+		return ngacGraph;
+	}
+
 	public static Graph readAnyGraph(String path) throws PMException, IOException {
 		File graphFile = new File(path);
 
@@ -236,15 +235,13 @@ public static Graph combineGraphs() throws PMException, IOException {
 		Prohibitions prohibitions = new MemProhibitions();
 
 		ProhibitionsSerializer.fromJson(prohibitions, prohibitionsJSON);
-		
 
 		return prohibitions;
 	}
-	
-	
+
 	public MemGraph readAnyMemGraph(String path) throws PMException, IOException {
 		File graphFile = new File(path);
-		if(graphFile.isDirectory()) {
+		if (graphFile.isDirectory()) {
 			MemGraph ngacGraph = readAllFilesInFolderToGraph(graphFile);
 			return ngacGraph;
 		}
@@ -256,7 +253,7 @@ public static Graph combineGraphs() throws PMException, IOException {
 
 		return ngacGraph;
 	}
-	
+
 	public static Graph readGPMSGraph() throws PMException, IOException {
 		File file_eligibility_policy = new File("Policies/GPMS/EligibilityPolicyClass.json");
 		File file_org = new File("Policies/GPMS/AcademicUnitsPolicyClass.json");
@@ -379,8 +376,8 @@ public static Graph combineGraphs() throws PMException, IOException {
 		try {
 			GraphSerializer.fromJson(graph, JSON);
 		} catch (Exception e) {
-			//System.out.println(e);
-			//e.printStackTrace();
+			// System.out.println(e);
+			// e.printStackTrace();
 		}
 
 	}
@@ -392,19 +389,17 @@ public static Graph combineGraphs() throws PMException, IOException {
 				continue;
 			}
 			try {
-				 Prohibitions prohibition = readProhibitions(fileEntry.getPath());
-				 continue;
-			}
-			catch(Exception ex) {
+				Prohibitions prohibition = readProhibitions(fileEntry.getPath());
+				continue;
+			} catch (Exception ex) {
 			}
 			addJSONToGraph(graph, fileEntry.getAbsolutePath());
 		}
 		return graph;
 	}
-	
-	
+
 	public static ConfigTuple readAllFilesInFolderToConfig(final File folder) {
-		
+
 		MemGraph graph = new MemGraph();
 		ConfigTuple ct = new ConfigTuple();
 		for (final File fileEntry : folder.listFiles()) {
@@ -412,21 +407,37 @@ public static Graph combineGraphs() throws PMException, IOException {
 				continue;
 			}
 			try {
-				 Prohibitions prohibitions = readProhibitions(fileEntry.getPath());
-				 ct.setProhibitions(prohibitions);
-				 continue;
-			}
-			catch(Exception ex) {
+				Prohibitions prohibitions = readProhibitions(fileEntry.getPath());
+				ct.setProhibitions(prohibitions);
+				continue;
+			} catch (Exception ex) {
 			}
 			addJSONToGraph(graph, fileEntry.getAbsolutePath());
 		}
 		ct.setGraph(graph);
 		return ct;
 	}
-	
+
 	public static JApplet getGraphVisualization(MemGraph graph) {
 		GraphVisualizer gui = new GraphVisualizer(graph);
 		gui.init();
-		return gui.returnPane();	
+		return gui.returnPane();
+	}
+
+	public static void saveGraph(Graph graph, String path) throws Exception {
+		String json = GraphSerializer.toJson(graph);
+		saveDataToFile(json, path);
+	}
+
+	public static boolean nodeExistsInList(List<Node> listOfNodes, String name) throws Exception {
+		return (listOfNodes.stream().filter(node -> node.getName().equals(name)).collect(Collectors.toList()))
+				.size() == 0 ? false : true;
+	}
+
+	public static Node findNodeInList(List<Node> listOfNodes, String name) throws Exception {
+		List<Node> nodesFound = listOfNodes.stream().filter(node -> node.getName().equals(name))
+				.collect(Collectors.toList());
+
+		return nodesFound.size() == 0 ? null : nodesFound.get(0);
 	}
 }

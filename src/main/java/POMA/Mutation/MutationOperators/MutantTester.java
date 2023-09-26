@@ -25,7 +25,7 @@ import POMA.GlobalVariables;
 import POMA.Utils;
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
 import POMA.Exceptions.NoTypeProvidedException;
-import POMA.Verification.TranslationWithSets.AssociationRelation;
+import POMA.Verification.Translator.AssociationRelation;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.operations.OperationSet;
 import gov.nist.csd.pm.pdp.decider.PReviewDecider;

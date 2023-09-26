@@ -1,0 +1,131 @@
+{
+  "nodes": [
+    {
+      "name": "LawFirmPolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "AvailableAttorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "LeadAttorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BusyAttorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Nick",
+      "type": "U",
+      "properties": {
+    	}
+    },
+    {
+      "name": "Amy",
+      "type": "U",
+      "properties": {
+      }
+    },
+    {
+      "name": "Chris",
+      "type": "U",
+      "properties": {
+      }
+    },
+    {
+      "name": "Ann",
+      "type": "U",
+      "properties": {
+      }
+    },
+    {
+      "name": "PendingCases",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "AcceptedCases",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "InitiatedCases",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "Case1",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "Case2",
+      "type": "O",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "AvailableAttorneys",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "LeadAttorneys",
+      "target": "LawFirmPolicy"
+    },
+	{
+      "source": "BusyAttorneys",
+      "target": "LawFirmPolicy"
+    },    
+    {
+      "source": "PendingCases",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "AcceptedCases",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "InitiatedCases",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "Nick",
+      "target": "LeadAttorneys"
+    },
+    {
+      "source": "Amy",
+      "target": "AvailableAttorneys"
+    },
+    {
+      "source": "Case1",
+      "target": "PendingCases"
+    },
+    {
+      "source": "Case2",
+      "target": "AcceptedCases"
+    }
+  ],
+  "associations": [
+    {
+      "source": "AvailableAttorneys",
+      "target": "PendingCases",
+      "operations": [
+        "accept"
+      ]
+    },
+     {
+      "source": "LeadAttorneys",
+      "target": "PendingCases",
+      "operations": [
+        "initiate"
+      ]
+    }
+  ]
+}

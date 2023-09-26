@@ -11,6 +11,18 @@
       "containers": {
         "Case3": false
       }
+    },
+    {
+      "name": "prohibition5",
+      "subject": "Lead",
+      "ops": [
+        "disapprove",
+        "accept"
+      ],
+      "intersection": false,
+      "containers": {
+        "Case3": false
+      }
     }
   ]
 }

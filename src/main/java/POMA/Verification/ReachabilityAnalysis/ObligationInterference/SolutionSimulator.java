@@ -49,7 +49,7 @@ public class SolutionSimulator {
         
         pdp.getEPP().processEvent(new EventContext(event, graph.getNode(target)), subject, "");
 
-        System.out.println("The event " + event + "at step: " + i + " was simulated successfully");
+        System.out.println("The event " + event + " at step: " + i + " was simulated successfully");
     }
 
 //   private void SimulateWithPredicated(String pre, String post) {

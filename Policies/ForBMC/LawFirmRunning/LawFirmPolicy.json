@@ -6,12 +6,12 @@
       "properties": {}
     },
     {
-      "name": "Lead",
+      "name": "LeadAttorneys",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "Attorneys",
+      "name": "AvailableAttorneys",
       "type": "UA",
       "properties": {}
     },
@@ -33,14 +33,14 @@
       "name": "Chris",
       "type": "U",
       "properties": {
-        "isLead": "true"
+        "isLeadAttorneys": "true"
       }
     },
     {
       "name": "Ann",
       "type": "U",
       "properties": {
-        "isLead": "true"
+        "isLeadAttorneys": "true"
       }
     },
     {
@@ -49,7 +49,7 @@
       "properties": {}
     },
     {
-      "name": "Accepted",
+      "name": "AcceptedCases",
       "type": "OA",
       "properties": {}
     },
@@ -76,7 +76,7 @@
   ],
   "assignments": [
     {
-      "source": "Attorneys",
+      "source": "AvailableAttorneys",
       "target": "LawFirmPolicy"
     },
     {
@@ -84,28 +84,28 @@
       "target": "LawFirmPolicy"
     },
     {
-      "source": "Accepted",
+      "source": "AcceptedCases",
       "target": "LawFirmPolicy"
     },
     {
-      "source": "Lead",
-      "target": "LawFirmPolicy"
+      "source": "LeadAttorneys",
+      "target": "AvailableAttorneys"
     },
     {
       "source": "Chris",
-      "target": "Lead"
+      "target": "LeadAttorneys"
     },
     {
       "source": "Ann",
-      "target": "Lead"
+      "target": "LeadAttorneys"
     },
     {
       "source": "Nick",
-      "target": "Attorneys"
+      "target": "AvailableAttorneys"
     },
     {
       "source": "Amy",
-      "target": "Attorneys"
+      "target": "AvailableAttorneys"
     },
     {
       "source": "CR7",
@@ -117,16 +117,16 @@
     },
     {
       "source": "CV2",
-      "target": "Accepted"
+      "target": "NewCases"
     },
     {
       "source": "CR8",
-      "target": "Accepted"
+      "target": "NewCases"
     }
   ],
   "associations": [
     {
-      "source": "Attorneys",
+      "source": "AvailableAttorneys",
       "target": "NewCases",
       "operations": [
         "accept",
@@ -134,17 +134,16 @@
       ]
     },
     {
-      "source": "Lead",
-      "target": "Accepted",
+      "source": "LeadAttorneys",
+      "target": "AcceptedCases",
       "operations": [
         "approve"
       ]
     },
     {
-      "source": "Lead",
+      "source": "LeadAttorneys",
       "target": "NewCases",
       "operations": [
-        "accept",
         "withdraw"
       ]
     }

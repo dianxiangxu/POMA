@@ -10,7 +10,7 @@ import java.util.Map;
 import POMA.Utils;
 //import POMA.Verification.ReachabilityAnalysis.ObligationInterference.SolutionSimulator;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
-import POMA.Verification.TranslationWithSets.AssociationRelation;
+import POMA.Verification.Translator.AssociationRelation;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
@@ -25,96 +25,54 @@ public class ObligationChecker extends Planner {
 	private List<String> obligationLabels = new ArrayList<String>();
 	private Map<String, String> eventMembers = new HashMap<String, String>();
 	private List<String> obligationEventVariables = new ArrayList<String>();
-
-	// String pathToGraph =
-	// "Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json"; // +++++++
 	String pathToGraph;
-	// String pathToGraph = "Policies/ForBMC/LawFirmSimplified/CasePolicyLess.json";
 
-	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy125.json";
-	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy265.json";
-	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy500.json";
-	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy750.json";
 
-	// String pathToObligations =
-	// "Policies/ForBMC/GPMSSimplified/Obligations_simple.yml"; // +++
-	// String pathToGraph = "Policies/ForBMC/GPMSSimplified/EditingPolicy37.json";
-
-	GraphTranslator gt;
+	ConfigurationTranslator gt;
 	ObligationTranslator ot;
 
 	public static void main(String[] args) throws Exception {
-		// Create with paths
-		// ObligationChecker checker = new
-		// ObligationChecker("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers.json",
-		// "Policies/ForBMC/LawFirmSimplified/Obligations_simple.yml");
 
-		// Create with objects
-//		 Graph graph =
-//		 Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
+//		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmRunning/LawFirmPolicy.json");
 //		 String yml = new String(
-//		 Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
-//         Graph graph =
-//         Utils.readAnyGraph("Policies/SolverVerification/GPMS/Graph.json");
-//         String yml = new String(
-//         Files.readAllBytes(Paths.get("Policies/SolverVerification/GPMS/Obligations.yml")));
-		// Graph graph =
-		// Utils.readAnyGraph("Policies/ForBMC/GPMSSimplified/LawFirmPolicy.json");
-		// String yml = new String(
-		// Files.readAllBytes(Paths.get("Policies/ForBMC/GPMSSimplified/Obligations_simple3.yml")));
-
-		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LeoBug2/Graph.json");
+//		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmRunning/Obligations_built_in_functions.yml")));
+		 Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");
 		 String yml = new String(
-		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LeoBug2/Obligations.yml")));
-		// Graph graph =
-		// Utils.readAnyGraph("Policies/ForBMC/LawFirmSimplified/CasePolicyUsers2.json");
-		// String yml = new String(
-		// Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmSimplified/Obligations_simple2.yml")));
+		 		Files.readAllBytes(Paths.get("Policies/TEST/AssignAndGrant.yml")));
 		Obligation obligation = EVRParser.parse(yml);
 		ObligationChecker checker = new ObligationChecker(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		checker.setBound(5);
+		checker.setBound(2);
 		checker.enableSMTOutput(true);
-		String precondition = "(NOT(ASSIGN(?user,Chair)) AND (((DENY(BM,approve,PDSWhole) OR DENY(BM,disapprove,PDSWhole)) OR (ASSOCIATE(Chair,approve,PDSWhole) AND NOT(((ASSOCIATE(?s,approve,?at) AND IMPLICITASSIGN(Chair,?s)) AND IMPLICITASSIGN(PDSWhole,?at))))) OR (ASSOCIATE(Chair,disapprove,PDSWhole) AND NOT(((ASSOCIATE(?s,disapprove,?at) AND IMPLICITASSIGN(Chair,?s)) AND IMPLICITASSIGN(PDSWhole,?at))))));";
 
-		String postcondition = "(((ASSOCIATE(BM,approve,PDSWhole) AND ASSOCIATE(BM,disapprove,PDSWhole)) OR (NOT(ASSOCIATE(Chair,approve,PDSWhole)) OR NOT(ASSOCIATE(Chair,disapprove,PDSWhole)))) AND OBLIGATIONLABEL(obligation2,?user,approve,PDSWhole));";
+	
+		String precondition = "PERMIT(?u,?ar, PendingCases);";
+		String postcondition = "";//"OBLIGATIONLABEL(accept_case, ?u, ?ar, PendingCases);";
 
-		Solution solution = checker.solveConstraint(precondition, postcondition);
-		
-		// ObligationChecker checker2 = new ObligationChecker(graph, obligation);
+		//Solution solution = checker.solveConstraint(precondition, postcondition, graph);
+		//String precondition = "";
+				//String postcondition = "OBLIGATIONLABEL(remove_available_attorney, ?u, ?ar, ?at);";
 
-		// Solution solution21 = checker2.solveConstraint(precondition, postcondition);
-		// checker.setBound(3);
-		// checker.enableSMTOutput(true);
-
-		// Solution solution = checker
-		// .solveConstraint("EXISTS(AttorneysMain);");
-
-		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC2/BMC");
-		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC3/BMC");
-		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC4/BMC");
-		// checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC5/BMC");
-
-		// Solution solution = checker.solveConstraint("(PERMIT(Attorneys2U, accept,
-		// Case3Info) OR PERMIT(Attorneys2U, accept, Case3Info));");
-		// Solution solution = checker.solveConstraint("OBLIGATIONLABEL(Attorneys2,
-		// Attorneys1);");
+		Solution solution = checker.solveConstraint(precondition, postcondition, graph);
+		//checker.solveConstraint("PERMIT(LeadAttorneys,approve,AcceptedCases);", graph);
 		System.out.println(solution);
 		System.out.println(checker.mapOfIDs);
 		long end = System.currentTimeMillis();
 		float sec = (end - start) / 1000F;
 		System.out.println("The job took: " + sec + " seconds");
 
-//		SolutionSimulator ss = new SolutionSimulator(solution, graph, obligation);
-//		ss.simulate();
+		//SolutionSimulator ss = new SolutionSimulator(solution, graph, obligation);
+		//ss.simulate();
+
 	}
 
 	public ObligationChecker() throws Exception {
-		gt = new GraphTranslator(pathToGraph);
+		gt = new ConfigurationTranslator(pathToGraph);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator(mapOfIDs);
+		ot = new ObligationTranslator(mapOfIDs, listOfNodes);
 		ot.findAllAbsentElements();
+		listOfNodes.addAll(ot.getListOfNodes());
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
 		obligationsResponse.addAll(ot.getProcessedObligations());
 		listOfAddedAssociations.addAll(ot.getListOfAddedAssociations());
@@ -126,10 +84,11 @@ public class ObligationChecker extends Planner {
 
 	public ObligationChecker(String pathToGraph, String pathToObligations) throws Exception {
 		this.pathToGraph = pathToGraph;
-		gt = new GraphTranslator(pathToGraph);
+		gt = new ConfigurationTranslator(pathToGraph);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator(mapOfIDs, pathToObligations);
+		ot = new ObligationTranslator(mapOfIDs, pathToObligations, listOfNodes);
 		ot.findAllAbsentElements();
+		listOfNodes.addAll(ot.getListOfNodes());
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
 		obligationsResponse.addAll(ot.getProcessedObligations());
 		listOfAddedAssociations.addAll(ot.getListOfAddedAssociations());
@@ -140,10 +99,11 @@ public class ObligationChecker extends Planner {
 	}
 
 	public ObligationChecker(Graph graph, Obligation obligations) throws Exception {
-		gt = new GraphTranslator(graph);
+		gt = new ConfigurationTranslator(graph);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationTranslator(mapOfIDs, obligations);
+		ot = new ObligationTranslator(mapOfIDs, obligations, listOfNodes);
 		ot.findAllAbsentElements();
+		listOfNodes.addAll(ot.getListOfNodes());
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
 		obligationsResponse.addAll(ot.getProcessedObligations());
 		listOfAddedAssociations.addAll(ot.getListOfAddedAssociations());
@@ -164,7 +124,8 @@ public class ObligationChecker extends Planner {
 
 	public String generateHeadCode() throws Exception {
 		String headcode = gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O,
-				obligationLabels, eventMembers);
+				obligationLabels, eventMembers, listOfNodes);
+		listOfNodes= gt.getListOfNodes();
 		return headcode;
 	}
 
@@ -190,11 +151,11 @@ public class ObligationChecker extends Planner {
 			smtlibv2Code += System.lineSeparator();
 		}
 		for(int i = 0; i <= k; i++) {
-			smtlibv2Code += "(get-value (" + "ASSIGN" + " "+i+"))";
+			smtlibv2Code += "(get-value ((" + "ASSIGN" + " "+i+")))";
 			smtlibv2Code += System.lineSeparator();
 		}
 		for(int i = 0; i <= k; i++) {
-			smtlibv2Code += "(get-value (" + "ASSOC" + " "+i+"))";
+			smtlibv2Code += "(get-value ((" + "ASSOC" + " "+i+")))";
 			smtlibv2Code += System.lineSeparator();
 		}
 		return smtlibv2Code;

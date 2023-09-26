@@ -1,0 +1,143 @@
+{
+  "nodes": [
+    {
+      "name": "Ann",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "VacantAttorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Nick",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "CV16",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "CR8",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "CR7",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "Amy",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Accepted",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "Chris",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "LawFirmPolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "Lead",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "NewCases",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "CV2",
+      "type": "O",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "Chris",
+      "target": "Lead"
+    },
+    {
+      "source": "NewCases",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "CR7",
+      "target": "NewCases"
+    },
+    {
+      "source": "VacantAttorneys",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "CR8",
+      "target": "NewCases"
+    },
+    {
+      "source": "Nick",
+      "target": "VacantAttorneys"
+    },
+    {
+      "source": "CV2",
+      "target": "NewCases"
+    },
+    {
+      "source": "CV16",
+      "target": "NewCases"
+    },
+    {
+      "source": "Amy",
+      "target": "VacantAttorneys"
+    },
+    {
+      "source": "Accepted",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "Ann",
+      "target": "Lead"
+    },
+    {
+      "source": "Lead",
+      "target": "VacantAttorneys"
+    }
+  ],
+  "associations": [
+    {
+      "source": "Lead",
+      "target": "Accepted",
+      "operations": [
+        "approve"
+      ]
+    },
+    {
+      "source": "Lead",
+      "target": "NewCases",
+      "operations": [
+        "withdraw"
+      ]
+    },
+    {
+      "source": "VacantAttorneys",
+      "target": "NewCases",
+      "operations": [
+        "refuse",
+        "accept"
+      ]
+    }
+  ]
+}

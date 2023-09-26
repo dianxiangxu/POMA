@@ -1,0 +1,101 @@
+{
+    "nodes": [
+        {
+            "name": "o",
+            "type": "O",
+            "properties": {}
+        },
+        {
+            "name": "oa1",
+            "type": "OA",
+            "properties": {}
+        },
+        {
+            "name": "oa2",
+            "type": "OA",
+            "properties": {}
+        },{
+            "name": "oa3",
+            "type": "OA",
+            "properties": {}
+        },
+        {
+            "name": "u",
+            "type": "U",
+            "properties": {}
+        },
+        {
+            "name": "ua1",
+            "type": "UA",
+            "properties": {}
+        },{
+            "name": "ua2",
+            "type": "UA",
+            "properties": {}
+        },
+        {
+            "name": "ua3",
+            "type": "UA",
+            "properties": {}
+        },
+        {
+            "name": "pc",
+            "type": "PC",
+            "properties": {}
+        }
+    ],
+    "assignments": [
+        {
+            "source": "u",
+            "target": "ua1"
+        },
+        {
+            "source": "ua1",
+            "target": "ua2"
+        },
+        {
+            "source": "ua2",
+            "target": "ua3"
+        },
+        {
+            "source": "ua3",
+            "target": "pc"
+        },
+        {
+            "source": "o",
+            "target": "oa1"
+        },
+        {
+            "source": "oa1",
+            "target": "oa2"
+        }, {
+            "source": "oa2",
+            "target": "oa3"
+        },
+        {
+            "source": "oa3",
+            "target": "pc"
+        }
+    ],
+    "associations": [
+        {
+            "source": "ua3",
+            "target": "oa3",
+            "operations": [
+                "r3"
+            ]
+        }, {
+            "source": "ua2",
+            "target": "oa3",
+            "operations": [
+                "r2"
+            ]
+        }, {
+            "source": "ua1",
+            "target": "oa1",
+            "operations": [
+                "r1"
+            ]
+        }
+    ]
+}

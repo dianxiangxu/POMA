@@ -1497,7 +1497,7 @@ public class Utils extends MutantTester {
 		checker.setBound(7);
 //		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		//constraint example"(PERMIT(Attorneys2U, accept, Case3Info) OR PERMIT(Attorneys2U, accept, Case3Info));"
-		Solution solution = checker.solveConstraint(preConstraints, postConstraint);
+		Solution solution = checker.solveConstraint(preConstraints, postConstraint, g);
 		if (solution == null)
 			return null;
 		System.out.println(solution);

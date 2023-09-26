@@ -1,0 +1,89 @@
+label: LawUseCase Obligations
+rules:
+  - label: accept_case
+    event:
+      subject:
+        anyUser: 
+          - "AvailableAttorneys"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: PendingCases
+            type: OA
+    response:  
+      condition:
+        - function:
+            name: is_node_contained_in
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - Case1
+                    - O     
+              - function:
+                  name: get_node
+                  args:
+                    - PendingCases
+                    - OA            
+      actions:
+        - assign:
+            - what:
+                name: Case1
+                type: O
+              where:
+                name: AcceptedCases
+                type: OA   
+        - delete:
+            assignments:
+              - what:
+                  name: Case1
+                  type: O
+                where:
+                  name: PendingCases
+                  type: OA       
+                            
+  - label: check_availability
+    event:
+      subject:
+        anyUser: 
+          - "AvailableAttorneys"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: PendingCases
+            type: OA
+    response:
+      condition:
+        - function:
+            name: is_node_contained_in
+            args:
+              - function:
+                  name: get_node
+                  args:
+                    - Case1
+                    - OA  
+              - function:
+                  name: get_node
+                  args:
+                    - PendingCases
+                    - OA            
+      actions:
+        - assign:
+            - what:
+                name: Amy
+                type: U
+              where:
+                name: BusyAttorneys
+                type: UA   
+        - delete:
+            assignments:
+              - what:
+                  name: Amy
+                  type: U
+                where:
+                  name: AvailableAttorneys
+                  type: UA 
+
+                                   

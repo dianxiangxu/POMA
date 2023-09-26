@@ -1,0 +1,145 @@
+{
+  "nodes": [
+    {
+      "name": "Ann",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Nick",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "CV16",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "CR8",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "CR7",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "AvailableAttorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "LeadAttorneys",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "AcceptedCases",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "Chris",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "LawFirmPolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "NewCases",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "CV2",
+      "type": "O",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "NewCases",
+      "target": "AcceptedCases"
+    },
+    {
+      "source": "AvailableAttorneys",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "NewCases",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "CR7",
+      "target": "NewCases"
+    },
+    {
+      "source": "CR8",
+      "target": "NewCases"
+    },
+    {
+      "source": "Chris",
+      "target": "LeadAttorneys"
+    },
+    {
+      "source": "Nick",
+      "target": "AvailableAttorneys"
+    },
+    {
+      "source": "AcceptedCases",
+      "target": "LawFirmPolicy"
+    },
+    {
+      "source": "CV2",
+      "target": "NewCases"
+    },
+    {
+      "source": "Ann",
+      "target": "LeadAttorneys"
+    },
+    {
+      "source": "CV16",
+      "target": "NewCases"
+    },
+    {
+      "source": "LeadAttorneys",
+      "target": "AvailableAttorneys"
+    }
+  ],
+  "associations": [
+    {
+      "source": "AvailableAttorneys",
+      "target": "NewCases",
+      "operations": [
+        "refuse",
+        "accept"
+      ]
+    },
+    {
+      "source": "LeadAttorneys",
+      "target": "AvailableAttorneys",
+      "operations": [
+        "remove"
+      ]
+    },
+    {
+      "source": "LeadAttorneys",
+      "target": "AcceptedCases",
+      "operations": [
+        "approve"
+      ]
+    },
+    {
+      "source": "LeadAttorneys",
+      "target": "NewCases",
+      "operations": [
+        "withdraw"
+      ]
+    }
+  ]
+}
