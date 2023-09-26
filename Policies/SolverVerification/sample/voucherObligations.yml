@@ -1,0 +1,96 @@
+label: LawUseCase Obligations
+rules:
+  - label: obligation1
+    event:
+      subject:
+        anyUser: 
+          - "clerk"
+      operations:
+        - prepare
+      target:
+        policyElements:
+          - name: voucher
+            type: OA
+    response:      
+      actions:
+        - grant:
+            - subject:
+                name: superviser
+                type: UA
+              operations:
+                - approve
+              target:
+                name: voucher
+                type: OA 
+        - delete:
+            - subject:
+                name: clerk
+                type: UA
+              operations:
+                - prepare
+              target:
+                name: voucher
+                type: OA               
+  - label: obligation2
+    event:
+      subject:
+        anyUser: 
+          - "superviser"
+      operations:
+        - approve
+      target:
+        policyElements:
+          - name: voucher
+            type: OA
+    response:      
+      actions:
+        - grant:
+            - subject:
+                name: clerk
+                type: UA
+              operations:
+                - issue
+              target:
+                name: voucher
+                type: OA 
+        - delete:
+            - subject:
+                name: superviser
+                type: UA
+              operations:
+                - approve
+              target:
+                name: voucher
+                type: OA                  
+  - label: obligation3
+    event:
+      subject:
+        anyUser: 
+          - "clerk"
+      operations:
+        - issue
+      target:
+        policyElements:
+          - name: voucher
+            type: OA
+    response:      
+      actions:
+        - delete:
+            - subject:
+                name: clerk
+                type: UA
+              operations:
+                - issue
+              target:
+                name: voucher
+                type: OA    
+        - grant:
+            - subject:
+                name: clerk
+                type: UA
+              operations:
+                - prepare
+              target:
+                name: voucher
+                type: OA                 
+                                                                                                   

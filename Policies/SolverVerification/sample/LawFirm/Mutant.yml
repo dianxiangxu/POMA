@@ -1,0 +1,111 @@
+label: LawUseCase Obligations               
+rules:
+  - label: obligation1
+    event:
+      subject:
+        anyUser: 
+          - "Attorneys"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:
+      actions:
+        - condition!:
+          - function:
+              name: is_node_contained_in
+              args:
+                - function:
+                    name: get_node
+                    args:
+                      - Attorneys1
+                      - UA  
+                - function:
+                    name: get_node
+                    args:
+                      - Attorneys
+                      - UA    
+      actions:
+        - assign:
+            - what:
+                name: Attorneys1
+                type: UA
+              where:
+                name: Attorneys
+                type: UA                                             
+  - label: obligation2
+    event:
+      subject:
+        anyUser: 
+          - "Attorneys1"
+      operations:
+        - accept
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:   
+      actions:
+        - condition!:
+          - function:
+              name: is_node_contained_in
+              args:
+                - function:
+                    name: get_node
+                    args:
+                      - Attorneys2
+                      - UA  
+                - function:
+                    name: get_node
+                    args:
+                      - Attorneys1
+                      - UA    
+      actions:
+        - assign:
+            - what:
+                name: Attorneys2
+                type: UA
+              where:
+                name: Attorneys1
+                type: UA       
+  - label: obligation3
+    event:
+      subject:
+        anyUser: 
+          - "Attorneys2"
+      operations:
+        - accept
+        - refuse
+      target:
+        policyElements:
+          - name: Case3Info
+            type: OA
+    response:
+      actions:
+        - condition!:
+          - function:
+              name: is_node_contained_in
+              args:
+                - function:
+                    name: get_node
+                    args:
+                      - Attorneys3
+                      - UA  
+                - function:
+                    name: get_node
+                    args:
+                      - Attorneys2
+                      - UA    
+      actions:
+        - assign:
+            - what:
+                name: Attorneys3
+                type: UA
+              where:
+                name: Attorneys2
+                type: UA                 
+                                         
+                                                                                                   
+                                                                                                   

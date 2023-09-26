@@ -30,10 +30,11 @@ import POMA.Mutation.EquivalentMutantAnalyzer.AccessRequest;
 import POMA.Mutation.EquivalentMutantAnalyzer.MutantTester;
 import POMA.Mutation.EquivalentMutantAnalyzer.Utils;
 //import prohibition interfaces
+import POMA.Mutation.MutationOperators.GraphUtils;
 
-public class IAA_Solver extends MutantTester {
+public class RDA_Solver extends MutantTester {
 	static Graph g;
-	public IAA_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath, List<AccessRequest> arList) throws GraphDoesNotMatchTestSuitException {
+	public RDA_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath, List<AccessRequest> arList) throws GraphDoesNotMatchTestSuitException {
 		super(testMethod, graph, prohibitions, obligationPath, arList);
 	}
 
@@ -46,7 +47,7 @@ public class IAA_Solver extends MutantTester {
 		int i = 0; //index of mutant
 		int index; //index of action
 		List<Action> newActions = new ArrayList<>();
-		EvrNode what, where, oldWhere;
+		EvrNode what, where;
 		
 		getAllEvrNodes(Utils.createObligationCopy());
 		List<Rule> rules = Utils.createObligationCopy().getRules();
@@ -95,90 +96,66 @@ public class IAA_Solver extends MutantTester {
 					tmpAssignments.remove(as);
 					newAction.setAssignments(tmpAssignments);
 					
-					oldWhere = as.getWhere();
-					for (Node newWhere : UAsOAs) {
-						if (newWhere.getName().equals(oldWhere.getName()))
-							continue;
-						if (!newWhere.getType().toString().equals(oldWhere.getType()))
-							continue;
-						if (Utils.isContained(newWhere.getName(), what.getName(), graph))
-							continue;
-						where = new EvrNode(newWhere.getName(), newWhere.getType().toString(), newWhere.getProperties());
-						
-						System.out.println("(IAA_Solver) " + ruleLabel + "|actionIndex:" + index);
-						System.out.println("What:" + what.getName() + "|" + what.getType());
-						System.out.println("Old where:" + as.getWhere().getName() + "|" + as.getWhere().getType());
-						System.out.println("New where:" + where.getName() + "|" + where.getType());
-						Assignment assignment = new Assignment(what, where);
-						newAction.addAssignment(assignment);
-						
-						//keep conditions identical
-						newAction.setCondition(actionToChange.getCondition());
-						newAction.setNegatedCondition(actionToChange.getNegatedCondition());
-						newActions.add(newAction);
-						
-						//generate mutant
-						Obligation mutant = Utils.createObligationCopy();
-						mutant = updateActions(mutant, ruleLabel, newActions);
-						Utils.setObligationMutant(mutant);
-						
-						Obligation obM = Utils.createObligationWithCondtionCopy();
-						obM = updateActions(obM, ruleLabel, newActions);
-						Utils.setObligationMutant(obM);
-						
-						//generate RConstraint
-//						RConstraint = null;
-//						for (String subject : Utils.getAllSubject(event)) {
-//							for (String operation : event.getOperations()) {
-//								for (String target : Utils.getAllTarget(event)) {
-//									String a = "PERMIT(?user,"+operation+","+target+")";
-//									String b = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
-//									String c = "ASSIGN(?user,"+subject+")";
-//									String all = Utils.andP(Utils.andP(a, b), c);
-//									if (RConstraint == null)
-//										RConstraint = all;
-//									else
-//										RConstraint = Utils.orP(RConstraint, all);
-//								}
-//							}
-//						}
-						
-						//generate Pconstraint
-						PConstraint = Utils.getPropagationConstraintIAA(what.getName(), oldWhere.getName(), where.getName());
-						//generate preConstraint
-//						preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
-						preConstraint = PConstraint + ";";
-						System.out.println(i + "Pre:" + preConstraint);
-						//generate postConstraint
-						postConstraint = Utils.generatePostConstraint(responsePattern);
-						String tmpS = null;
-						for (String subject : Utils.getAllSubject(event)) {
-							for (String operation : event.getOperations()) {
-								for (String target : Utils.getAllTarget(event)) {
-									String a = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
-									String b = "ASSIGN(?user,"+subject+")";
-									String all = Utils.andP(a, b);
-									if (tmpS == null)
-										tmpS = all;
-									else
-										tmpS = Utils.orP(tmpS, all);
-								}
+					where = as.getWhere();
+					if (Utils.isContained(what.getName(), where.getName(), graph))
+						continue;
+					
+					System.out.println("(RDA_Solver) " + ruleLabel + "|actionIndex:" + index);
+					System.out.println("What:" + what.getName() + "|" + what.getType());
+					System.out.println("Where:" + where.getName() + "|" + where.getType());
+					
+					Assignment assignment = new Assignment(where, what);
+					newAction.addAssignment(assignment);
+					
+					//keep conditions identical
+					newAction.setCondition(actionToChange.getCondition());
+					newAction.setNegatedCondition(actionToChange.getNegatedCondition());
+					newActions.add(newAction);
+					
+					//generate mutant
+					Obligation mutant = Utils.createObligationCopy();
+					mutant = updateActions(mutant, ruleLabel, newActions);
+					Utils.setObligationMutant(mutant);
+					
+					Obligation obM = Utils.createObligationWithCondtionCopy();
+					obM = updateActions(obM, ruleLabel, newActions);
+					Utils.setObligationMutant(obM);
+					
+					//generate Pconstraint
+					PConstraint = Utils.getPropagationConstraintRDA(what.getName(), where.getName());
+					//generate preConstraint
+//					preConstraint = Utils.andP(RConstraint, PConstraint) + ";";
+					preConstraint = PConstraint + ";";
+					System.out.println(i + "Pre:" + preConstraint);
+					//generate postConstraint
+					postConstraint = Utils.generatePostConstraint(responsePattern);
+					String tmpS = null;
+					for (String subject : Utils.getAllSubject(event)) {
+						for (String operation : event.getOperations()) {
+							for (String target : Utils.getAllTarget(event)) {
+								String a = "OBLIGATIONLABEL("+ruleLabel+",?user,"+operation+","+target+")";
+								String b = "ASSIGN(?user,"+subject+")";
+								String all = Utils.andP(a, b);
+								if (tmpS == null)
+									tmpS = all;
+								else
+									tmpS = Utils.orP(tmpS, all);
 							}
 						}
-						postConstraint = Utils.andP(postConstraint, tmpS) + ";"; 
-						System.out.println(i + "Post:" + postConstraint);
-						
-//						Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
-						Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
-						if (res) {
-							setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
-						}
-						setNumberOfMutants(getNumberOfMutants() + 1);
-						i++;
-						
-						//reset mutant
-						newActions.remove(newAction);
 					}
+					postConstraint = Utils.andP(postConstraint, tmpS) + ";"; 
+					System.out.println(i + "Post:" + postConstraint);
+					
+//					Boolean res = Utils.killMutant (mutant, ruleLabel, preConstraint, postConstraint);
+					Boolean res = Utils.killMutantT (mutant, ruleLabel, preConstraint, postConstraint, obM);
+					if (res) {
+						setNumberOfKilledMutants(getNumberOfKilledMutants() + 1);
+					}
+					setNumberOfMutants(getNumberOfMutants() + 1);
+					i++;
+					
+					//reset mutant
+					newActions.remove(newAction);
 				}
 				index++;
 			}

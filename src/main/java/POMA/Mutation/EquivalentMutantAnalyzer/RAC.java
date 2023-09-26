@@ -71,16 +71,21 @@ public class RAC extends MutantTester {
 		ascendantListA.add(sourceName);
 		
 		for (String ascendant : ascendantListA) {
-			Graph mutant = createCopy();
-			PReviewDecider decider = new PReviewDecider(mutant, prohibitions);
-			Map<String, Set<String>> CapabilityList = decider.getCapabilityList(ascendant, null);
+			
+			PReviewDecider deciderO = new PReviewDecider(createCopy(), prohibitions);
+			Map<String, Set<String>> CapabilityList = deciderO.getCapabilityList(ascendant, null);
 
+			Graph mutant = createCopy();
 			mutant.dissociate(sourceName, targetName);
 			
-			decider = new PReviewDecider(mutant, prohibitions);
-			Map<String, Set<String>> CapabilityListMutant = decider.getCapabilityList(ascendant, null);
+			PReviewDecider deciderM = new PReviewDecider(mutant, prohibitions);
+			Map<String, Set<String>> CapabilityListMutant = deciderM.getCapabilityList(ascendant, null);
 			
-			AccessRequest q = CapabilityList.size() >= CapabilityListMutant.size() ? 
+			AccessRequest q = Utils.pretestArlist(deciderO, deciderM, arList);
+			if (q != null)
+				return q;
+			
+			q = CapabilityList.size() >= CapabilityListMutant.size() ? 
 				Utils.compareTwoLists(CapabilityList, CapabilityListMutant, "UA") :
 				Utils.compareTwoLists(CapabilityListMutant, CapabilityList, "UA");
 

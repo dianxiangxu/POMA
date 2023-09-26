@@ -32,6 +32,8 @@ public class ROB_Solver extends MutantTester {
 
 
 	public void init() throws Exception {
+//		int r = Utils.tryKillMutants();
+//		System.out.print(r);
 		this.mutationMethod = "";
 		List<String> constraintR = new ArrayList<String>();
 //		List<String> constraintN = new ArrayList<String>();

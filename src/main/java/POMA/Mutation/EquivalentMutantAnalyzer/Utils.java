@@ -21,14 +21,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.internal.TextListener;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+
 import com.opencsv.CSVReader;
 
 //import CaseStudies.LawUseCase.customEvents.AcceptEvent;
-//import CaseStudies.LawUseCase.customEvents.ApproveEvent;
-//import CaseStudies.LawUseCase.customEvents.CreateEvent;
-//import CaseStudies.LawUseCase.customEvents.DisapproveEvent;
-//import CaseStudies.LawUseCase.customEvents.RefuseEvent;
-//import CaseStudies.LawUseCase.customEvents.WithdrawEvent;
+//import CaseStudies.gpms.customFunctions.IsNodeInListExecutor;
 
 import CaseStudies.gpms.Constants;
 import CaseStudies.gpms.customEvents.AddCoPIEvent;
@@ -61,6 +61,16 @@ import CaseStudies.gpms.customFunctions.SPToAddExecutor;
 import CaseStudies.gpms.customFunctions.SPToDeleteExecutor;
 
 import POMA.Exceptions.GraphDoesNotMatchTestSuitException;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.Bank_AC;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.Bank_CC;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.Bank_MCDC;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.Bank_OC;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.GPMS_AC;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.GPMS_CC;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.GPMS_MCDC;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.GPMS_OC;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.Law_OC;
+import POMA.Mutation.ObligationMutationOperators.ObligationTestMutation;
 import POMA.Verification.ReachabilityAnalysis.ObligationChecker;
 import POMA.Verification.ReachabilityAnalysis.model.ObligationFiring;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
@@ -1064,12 +1074,14 @@ public class Utils extends MutantTester {
 				String subject = ((GrantAction) action).getSubject().getName();
 				List<String> operations = ((GrantAction) action).getOperations();
 				String target = ((GrantAction) action).getTarget().getName();
+				if (target == null)
+					target = "?t";
 				int i = 0;
 				for (String op : operations) {
 					if (i == 0) {
 						postConstraint = "ASSOCIATE(" + subject + "," + op + "," + target + ")";
 					} else 
-						andP(postConstraint, "ASSOCIATE(" + subject + "," + op + "," + target + ")");
+						postConstraint = andP(postConstraint, "ASSOCIATE(" + subject + "," + op + "," + target + ")");
 					i++;
 				}
 			
@@ -1119,6 +1131,8 @@ public class Utils extends MutantTester {
 						String subject = ((GrantAction) gAction).getSubject().getName();
 						List<String> operations = ((GrantAction) gAction).getOperations();//operation cannot be empty
 						String target = ((GrantAction) gAction).getTarget().getName();
+						if (target == null)
+							target = "?t";
 //						String operation = "{";
 //						String firstOp = operations.get(0);
 //						if(operations.size() != 0)
@@ -1214,7 +1228,7 @@ public class Utils extends MutantTester {
 	}
 	
 	//constraintP: action should change permit or deny
-	public static List<String> getPropagationConstraintRemove (Action action) {
+	public static List<String> getPropagationConstraintRemove (Action action) throws PMException {
 		List<String> tmpConstraints = new ArrayList<String>();
 		if (action instanceof CreateAction) {
 //			for (CreateNode createNode: ((CreateAction) action).getCreateNodesList()) {
@@ -1229,14 +1243,14 @@ public class Utils extends MutantTester {
 				String what = assignment.getWhat().getName();
 				String where = assignment.getWhere().getName();
 				String tmp = "PERMIT(" + where + ",?ar,?at)";
-				tmp = andP(tmp, "NOT(PERMIT(" + what + ",?ar,?at))");
+				tmp = andP(tmp, "DENY(" + what + ",?ar,?at)");
 				tmp = andP(tmp, "NOT(HIERARCHY(" + what + "," + where + "))");
 //				tmp = andP(tmp, "NODEEXISTS(" + what + ")");
 //				tmp = andP(tmp, "NODEEXISTS(" + where  + ")");
 				tmpConstraints.add(tmp);
 
 				tmp = "PERMIT(?s,?ar," + where + ")";
-				tmp = andP(tmp, "NOT(PERMIT(?s,?at," + what + "))");
+				tmp = andP(tmp, "DENY(?s,?at," + what + ")");
 				tmp = andP(tmp, "NOT(HIERARCHY(" + what + "," + where + "))");
 //				tmp = andP(tmp, "NODEEXISTS(" + what + ")");
 //				tmp = andP(tmp, "NODEEXISTS(" + where  + ")");
@@ -1247,7 +1261,7 @@ public class Utils extends MutantTester {
 			List<String> operations = ((GrantAction) action).getOperations();
 			String target = ((GrantAction) action).getTarget().getName();
 			for (String op : operations) {
-				String tmp = "NOT(PERMIT(" + subject + "," + op + "," + target + "))";
+				String tmp = "DENY(" + subject + "," + op + "," + target + ")";
 //				tmp = andP(tmp, "NODEEXISTS(" + subject + ")");
 //				tmp = andP(tmp, "NODEEXISTS(" + target + ")");		
 				tmpConstraints.add(tmp);
@@ -1301,6 +1315,17 @@ public class Utils extends MutantTester {
 					String subject = ((GrantAction) gAction).getSubject().getName();
 					List<String> operations = ((GrantAction) gAction).getOperations();//operation cannot be empty
 					String target = ((GrantAction) gAction).getTarget().getName();
+					if (target == null)
+						target = "?t";
+					if (operations == null || operations.size() == 0) {
+						OperationSet tmpOPSet = graph.getSourceAssociations(subject).get(target);
+						if (tmpOPSet == null)
+							continue;
+						for (String s : tmpOPSet) {
+							operations.add(s);
+						}
+					}
+					
 					String operation = "{";
 					String firstOp = operations.get(0);
 					if(operations.size() != 0)
@@ -1313,11 +1338,15 @@ public class Utils extends MutantTester {
 					operation += "}";
 					
 					String tmp;
+					String tmpS;
 					for (String op : operations) {
 						tmp = "ASSOCIATE(" + subject + "," + op + "," + target + ")";
-						tmp = andP(tmp, "NOT(ASSOCIATE(?s," + op + ",?at))");
-						tmp = andP(tmp, "IMPLICITASSIGN(" + subject + ",?s)");
-						tmp = andP(tmp, "IMPLICITASSIGN(" + target + ",?at)");
+						tmpS = "ASSOCIATE(?s," + op + ",?at)";
+						tmpS = andP(tmpS, "IMPLICITASSIGN(" + subject + ",?s)");
+						tmpS = andP(tmpS, "IMPLICITASSIGN(" + target + ",?at)");
+						tmpS = "NOT(" + tmpS + ")";
+						tmp = andP(tmp, tmpS);
+						
 						tmpConstraints.add(tmp);
 					}
 					
@@ -1347,22 +1376,22 @@ public class Utils extends MutantTester {
 	}
 	
 	//a:old what, b:old where, c:new where
-	public static String getPropagationConstraintIAA (String a, String b, String c) {
+	public static String getPropagationConstraintCDA (String a, String b, String c) {
 		String tmpConstraints1;
 		String tmpConstraints2;
 		
 		String tmp1 = "PERMIT(" + c + ",?ar,?at)";
-		tmp1 = andP(tmp1,"NOT(PERMIT(" + a + ",?at,?at))");
+		tmp1 = andP(tmp1,"DENY(" + a + ",?at,?at)");
 		String tmp2 = "PERMIT(?s,?ar," + c + ")";
-		tmp2 = andP(tmp2,"NOT(PERMIT(?s,?ar," + a + "))");
+		tmp2 = andP(tmp2,"DENY(?s,?ar," + a + ")");
 		tmpConstraints1 =  orP(tmp1,tmp2);
 		
 		tmp1 = "PERMIT(" + a + ",?ar,?at1)";
-		tmp1 = andP(tmp1,"NOT(PERMIT(" + c + ",?ar,?at1))");
+		tmp1 = andP(tmp1,"DENY(" + c + ",?ar,?at1)");
 		tmp1 = andP(tmp1,"NOT(ASSOCIATE(" + a + ",?ar,?at2))");
 		tmp1 = andP(tmp1,"IMPLICITASSIGN(?at1,?at2)");
 		tmp2 = "PERMIT(?s1,?ar,"+ a + ")";
-		tmp2 = andP(tmp2,"NOT(PERMIT(?s1,?ar," + c + "))");
+		tmp2 = andP(tmp2,"DENY(?s1,?ar," + c + ")");
 		tmp2 = andP(tmp2,"NOT(ASSOCIATE(?s2,?ar," + a + "))");
 		tmp2 = andP(tmp2,"IMPLICITASSIGN(?s1,?s2)");
 		tmpConstraints2 = orP(tmp1,tmp2);
@@ -1370,31 +1399,102 @@ public class Utils extends MutantTester {
 		return orP(tmpConstraints1,tmpConstraints2);
 	}
 	
-	//a:old what, b:old where, c:new where
-		public static String getPropagationConstraintIGA (String a, String b, String c, List<String> operations) {
-			String tmpConstraint = null;
-			
-			for (String op : operations) {
-				String tmp1 = "PERMIT("+ a +"," + op + "," + b + ")";
-				tmp1 = andP(tmp1,"NOT(PERMIT("+ a +"," + op + "," + c + "))");
-				String tmp2 = "NOT(PERMIT(" + a + "," + op + "," + b + "))";
-				tmp2 = andP(tmp2,"NOT(IMPLICITASSIGN(" + b + "," + c + "))");
-				if (tmpConstraint == null)
-					tmpConstraint = orP(tmp1,tmp2);
-				else
-					tmpConstraint = orP(tmpConstraint, orP(tmp1,tmp2));
-			}
-			return tmpConstraint;
-		}
+	//a:old what, b:old where, c:new what
+	public static String getPropagationConstraintCASA (String a, String b, String c) {
+		String tmpConstraints1;
+		String tmpConstraints2;
+		
+		String tmp1 = "PERMIT(" + b + ",?ar,?at)";
+		tmp1 = andP(tmp1,"DENY(" + a + ",?at,?at)");
+		String tmp2 = "PERMIT(?s,?ar," + b + ")";
+		tmp2 = andP(tmp2,"DENY(?s,?ar," + a + ")");
+		tmpConstraints1 =  orP(tmp1,tmp2);
+		
+		tmp1 = "PERMIT(" + b + ",?ar,?at)";
+		tmp1 = andP(tmp1,"DENY(" + c + ",?at,?at)");
+		tmp2 = "PERMIT(?s,?ar," + b + ")";
+		tmp2 = andP(tmp2,"DENY(?s,?ar," + c + ")");
+		tmpConstraints2 =  orP(tmp1,tmp2);
+		
+		return orP(tmpConstraints1,tmpConstraints2);
+	}
+		
+	//a:what, b:where; (a,b)->(b,a)
+	public static String getPropagationConstraintRDA (String a, String b) {
+		String tmpConstraints1;
+		String tmpConstraints2;
+		
+		String tmp1 = "PERMIT(" + b + ",?ar,?at)";
+		tmp1 = andP(tmp1,"DENY(" + a + ",?at,?at)");
+		String tmp2 = "PERMIT(?s,?ar," + b + ")";
+		tmp2 = andP(tmp2,"DENY(?s,?ar," + a + ")");
+		tmpConstraints1 =  orP(tmp1,tmp2);
+
+		tmp1 = "PERMIT(" + a + ",?ar,?at)";
+		tmp1 = andP(tmp1,"DENY(" + b + ",?at,?at)");
+		tmp2 = "PERMIT(?s,?ar," + a + ")";
+		tmp2 = andP(tmp2,"DENY(?s,?ar," + b + ")");
+		tmpConstraints2 =  orP(tmp1,tmp2);
+		
+		return orP(tmpConstraints1,tmpConstraints2);
+	}		
 	
-	public static List<AccessRequest> sendToSolver (Graph g, Prohibitions p, Obligation ob, String preConstraints, String postConstraint, Set<String> attributeList) throws Exception {
+	//a:old what, b:old where, c:new where
+	public static String getPropagationConstraintCTG (String a, String b, String c, List<String> operations) {
+		String tmpConstraint = null;
+		
+		for (String op : operations) {
+			String tmp1 = "PERMIT("+ a +"," + op + "," + b + ")";
+			tmp1 = andP(tmp1,"DENY("+ a +"," + op + "," + c + ")");
+			String tmp2 = "DENY(" + a + "," + op + "," + b + ")";
+			tmp2 = andP(tmp2,"NOT(IMPLICITASSIGN(" + b + "," + c + "))");
+			if (tmpConstraint == null)
+				tmpConstraint = orP(tmp1,tmp2);
+			else
+				tmpConstraint = orP(tmpConstraint, orP(tmp1,tmp2));
+		}
+		return tmpConstraint;
+	}
+	
+	//a:subject, b:target, c:new subject
+	public static String getPropagationConstraintCSG (String a, String b, String c, List<String> operations) {
+		String tmpConstraint = null;
+		
+		for (String op : operations) {
+			String tmp1 = "PERMIT("+ a +"," + op + "," + b + ")";
+			tmp1 = andP(tmp1,"DENY("+ c +"," + op + "," + b + ")");
+			String tmp2 = "DENY(" + a + "," + op + "," + b + ")";
+			tmp2 = andP(tmp2,"NOT(IMPLICITASSIGN(" + a + "," + c + "))");
+			if (tmpConstraint == null)
+				tmpConstraint = orP(tmp1,tmp2);
+			else
+				tmpConstraint = orP(tmpConstraint, orP(tmp1,tmp2));
+		}
+		return tmpConstraint;
+	}	
+	
+	public static String getPropagationConstraintCARG (String a, String b, String oldAr, String newAr) {
+		String tmpConstraint1 = "DENY("+ a +"," + oldAr + "," + b + ")";
+		String tmpConstraint2 = "DENY("+ a +"," + newAr + "," + b + ")";
+		return orP(tmpConstraint1, tmpConstraint2);
+	}		
+	
+	public static String getPropagationConstraintAARG (String a, String b, String newAr) {
+		return "DENY("+ a +"," + newAr + "," + b + ")";
+	}
+	
+	public static String getPropagationConstraintRARG (String a, String b, String ar) {
+		return "DENY("+ a +"," + ar + "," + b + ")";
+	}	
+	
+	public static List<AccessRequest> sendToSolver (Graph g, Prohibitions p, Obligation ob, String preConstraints, String postConstraint) throws Exception {
 		//FIXME:ob here is the version W/O condition, the original ob ignored/ only in LAWFIRM example
 		//once below line works, it blocks solver finding solution with mutant obligation
 //		ob = readObligation("Policies/SolverVerification/LawFirm/ObligationsNoCondition.yml");
 		
 		List<AccessRequest> eventList= new ArrayList<AccessRequest>();
 		ObligationChecker checker = new ObligationChecker(g, ob);
-		checker.setBound(3);
+		checker.setBound(7);
 //		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		//constraint example"(PERMIT(Attorneys2U, accept, Case3Info) OR PERMIT(Attorneys2U, accept, Case3Info));"
 		Solution solution = checker.solveConstraint(preConstraints, postConstraint, g);
@@ -1407,15 +1507,15 @@ public class Utils extends MutantTester {
 			eventList.add(q);
 		}
 		
-		Variables vs = solution.getVariables();
-		for (Variable v : vs.getVariables()) {
-			attributeList.add(v.getAssignment());
-		}
+//		Variables vs = solution.getVariables();
+//		for (Variable v : vs.getVariables()) {
+//			attributeList.add(v.getAssignment());
+//		}
 
 		return eventList;
 	}
 	
-	static public AccessRequest verifyEventList(Obligation obligation, Obligation mutant, List<AccessRequest> eventList, String ruleLabel, Set<String> aList) throws Exception {
+	static public AccessRequest verifyEventList(PReviewDecider deciderI, PReviewDecider deciderM, Set<String> attributeList) throws Exception {
 		//FIXME: return null currently; wait sample ready to test
 //		if (true)
 //			return null;
@@ -1424,33 +1524,11 @@ public class Utils extends MutantTester {
 		Map<String, Set<String>> ACL = null;
 		Map<String, Set<String>> ACLM = null;
 		AccessRequest q;
-		Set<String> potentialAttributeList = new HashSet<String>();
-
-//		//get potentially affected attributes
-		Set<String> attributeList = new HashSet<String>();
-		getAffectedAttributes(potentialAttributeList, ruleLabel);
-		filterNotU(potentialAttributeList, attributeList);
-		attributeList.addAll(aList);
-				
-		Graph graphI = createCopy();
-		Graph graphM = createCopy();
-		Prohibitions prohibitionsI = createProhibitionsCopy();
-		Prohibitions prohibitionsM = createProhibitionsCopy();
-		runPolicyMachine(graphI, prohibitionsI, obligation, eventList);
-		runPolicyMachine(graphM, prohibitionsM, mutant, eventList);
-//		System.out.print(GraphSerializer.toJson(graphI));
-//		System.out.print(GraphSerializer.toJson(graphM));
-		PReviewDecider deciderI = new PReviewDecider(graphI, prohibitionsI);
-		PReviewDecider deciderM = new PReviewDecider(graphM, prohibitionsM);
 		
 		
 		for (String attribute : attributeList) {
-			if (graphI.exists(attribute)) {
-				CapabilityList = deciderI.getCapabilityList(attribute, null);
-			}
-			if (graphM.exists(attribute)) {
-				CapabilityListMutant = deciderM.getCapabilityList(attribute, null);
-			}
+			CapabilityList = deciderI.getCapabilityList(attribute, null);
+			CapabilityListMutant = deciderM.getCapabilityList(attribute, null);
 		
 			if (CapabilityList == null) {
 				q = compareTwoLists(CapabilityListMutant, CapabilityList, "UA");
@@ -1468,12 +1546,8 @@ public class Utils extends MutantTester {
 			}
 				
 			
-			if (graphI.exists(attribute)) {
-				ACL = deciderI.generateACL(attribute, null);
-			}
-			if (graphM.exists(attribute)) {
-				ACLM = deciderM.generateACL(attribute, null);
-			}
+			ACL = deciderI.generateACL(attribute, null);
+			ACLM = deciderM.generateACL(attribute, null);
 			
 			if (ACL == null) {
 				q = compareTwoLists(ACLM, ACL, "OA");
@@ -1496,67 +1570,88 @@ public class Utils extends MutantTester {
 		return null;
 	}
 	
-	static public void runPolicyMachine (Graph graph, Prohibitions prohibitions, Obligation obligation, List<AccessRequest> eventList) throws Exception {
-		PDP pdp = getPdpLawFirm(graph, prohibitions, obligation);
-		AccessRequest deciderRequest;
+	static public AccessRequest runPolicyMachine (Graph graphI, Prohibitions prohibitionsI, Obligation obligation, Graph graphM, Prohibitions prohibitionsM, Obligation mutant, List<AccessRequest> eventList, List<AccessRequest> actualEventList, Set<String> attributeList) throws Exception {
+		PDP pdpI = getPdpLawFirm(graphI, prohibitionsI, obligation);
+		PDP pdpM = getPdpLawFirm(graphM, prohibitionsM, mutant);
+		PReviewDecider deciderI = new PReviewDecider(graphI, prohibitionsI);
+		PReviewDecider deciderM = new PReviewDecider(graphM, prohibitionsM);
+		AccessRequest decideq;
+		
+//		System.out.println(GraphSerializer.toJson(graphI));
+//		System.out.println(GraphSerializer.toJson(graphM));
 		
 		for (AccessRequest q : eventList) {
 			if (obligation.getLabel().equals("LawUseCase Obligations")) {
 				switch (q.getAR()) {
 //				case "accept":
-//					pdp.getEPP().processEvent(new AcceptEvent(graph.getNode(q.getTA())), q.getSA(), "Accept");
+//					pdpI.getEPP().processEvent(new AcceptEvent(graphI.getNode(q.getTA())), q.getSA(), "Accept");
+//					pdpM.getEPP().processEvent(new AcceptEvent(graphM.getNode(q.getTA())), q.getSA(), "Accept");
 //					System.out.println(q.getSA() + "||" + q.getTA());
 //					break;
-////				case "create":
-////					pdp.getEPP().processEvent(new CreateEvent(graph.getNode(q.getTA())), q.getSA(), "Create");
-////					break;
+//				case "create":
+//					pdp.getEPP().processEvent(new CreateEvent(graphI.getNode(q.getTA())), q.getSA(), "Create");
+//					break;
 //				case "approve":
-//					pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(q.getTA())), q.getSA(), "Approve");
+//					pdpI.getEPP().processEvent(new ApproveEvent(graphI.getNode(q.getTA())), q.getSA(), "Approve");
+//					pdpM.getEPP().processEvent(new ApproveEvent(graphM.getNode(q.getTA())), q.getSA(), "Approve");
 //					break;
 //				case "disapprove":
-//					pdp.getEPP().processEvent(new DisapproveEvent(graph.getNode(q.getTA())), q.getSA(), "Disapprove");
+//					pdpI.getEPP().processEvent(new DisapproveEvent(graphI.getNode(q.getTA())), q.getSA(), "Disapprove");
+//					pdpM.getEPP().processEvent(new DisapproveEvent(graphM.getNode(q.getTA())), q.getSA(), "Disapprove");
 //					break;
 //				case "withdraw":
-//					pdp.getEPP().processEvent(new WithdrawEvent(graph.getNode(q.getTA())), q.getSA(), "Withdraw");
+//					pdpI.getEPP().processEvent(new WithdrawEvent(graphI.getNode(q.getTA())), q.getSA(), "Withdraw");
+//					pdpM.getEPP().processEvent(new WithdrawEvent(graphM.getNode(q.getTA())), q.getSA(), "Withdraw");
 //					break;
 //				case "refuse":
-//					pdp.getEPP().processEvent(new RefuseEvent(graph.getNode(q.getTA())), q.getSA(), "Withdraw");
+//					pdpI.getEPP().processEvent(new RefuseEvent(graphI.getNode(q.getTA())), q.getSA(), "Refuse");
+//					pdpM.getEPP().processEvent(new RefuseEvent(graphM.getNode(q.getTA())), q.getSA(), "Refuse");
 //					break;
 //				case "finalAccept":
 //					break;
-//				default:
-//					break;
+				default:
+					break;
 				}
 			} else if (obligation.getLabel().equals("GPMS Obligations")) {
 				switch (q.getAR()) {
 				case "submit":
-					pdp.getEPP().processEvent(new SubmitEvent(graph.getNode(q.getTA()), true),q.getSA(), "Submit");
+					pdpI.getEPP().processEvent(new SubmitEvent(graphI.getNode(q.getTA()), true),q.getSA(), "Submit");
+					pdpM.getEPP().processEvent(new SubmitEvent(graphM.getNode(q.getTA()), true),q.getSA(), "Submit");
 					break;
 				case "approve":
-					pdp.getEPP().processEvent(new ApproveEvent(graph.getNode(q.getTA())), q.getSA(), "Approve");
+					pdpI.getEPP().processEvent(new ApproveEvent(graphI.getNode(q.getTA())), q.getSA(), "Approve");
+					pdpM.getEPP().processEvent(new ApproveEvent(graphM.getNode(q.getTA())), q.getSA(), "Approve");
 					break;
 				case "archive":
-					pdp.getEPP().processEvent(new ArchiveEvent(graph.getNode(q.getTA())), q.getSA(), "Archive");
+					pdpI.getEPP().processEvent(new ArchiveEvent(graphI.getNode(q.getTA())), q.getSA(), "Archive");
+					pdpM.getEPP().processEvent(new ArchiveEvent(graphM.getNode(q.getTA())), q.getSA(), "Archive");
 					break;
-//				case "create":
-//					break;
-//				case "add-copi":
-//					break;
-//				case "add-sp":
-//					break;
-//				case "delete-copi":
-//					break;
-//				case "delete-sp":
-//					break;
-//				case "disapprove":
-//					break;
-//				case "RAsubmit":
-//					break;
-//				default:
-//					break;
+				case "create":
+					break;
+				case "add-copi":
+					break;
+				case "add-sp":
+					break;
+				case "delete-copi":
+					break;
+				case "delete-sp":
+					break;
+				case "disapprove":
+					break;
+				case "RAsubmit":
+					break;
+				default:
+					break;
 				}
 			}
+//			System.out.println(GraphSerializer.toJson(graphI));
+//			System.out.println(GraphSerializer.toJson(graphM));
+			actualEventList.add(q);
+			decideq = verifyEventList(deciderI, deciderM, attributeList);
+			if(decideq != null)
+				return decideq;
 		}
+		return null;
 	}
 	
 	static public String andP (String a, String b) {
@@ -1567,7 +1662,7 @@ public class Utils extends MutantTester {
 		return "(" + a + " OR " + b + ")";
 	}
 	
-	static public String generatePConstraint(ResponsePattern responsePattern) {
+	static public String generatePConstraint(ResponsePattern responsePattern) throws PMException {
 		String PConstraint = null;
 		List<Action> actions = responsePattern.getActions();
 		for (Action action : actions) {
@@ -1585,7 +1680,7 @@ public class Utils extends MutantTester {
 		return PConstraint;
 	}
 	
-	static public String generatePConstraintOneAction(Action action) {
+	static public String generatePConstraintOneAction(Action action) throws PMException {
 		String PConstraint = null;
 		List<String> constraintP = getPropagationConstraintRemove(action);
 		if (constraintP == null)
@@ -1617,84 +1712,137 @@ public class Utils extends MutantTester {
 		return postConstraint;
 	}
 	
-	//FIXME: obM is the mutant with condtion
+//	//FIXME: obM is the mutant with condtion
+//	public static boolean killMutantT (Obligation mutant, String ruleLabel, String preConstraint, String postConstraint, Obligation obM) throws FileNotFoundException, EVRException, Exception {
+////		if (true)
+////		return true;
+//		List<AccessRequest> actualEventList = new ArrayList<AccessRequest>();
+//		AccessRequest q;
+//		//send to solver
+//		try {
+//			List<AccessRequest> eventList = sendToSolver(createCopy(), createProhibitionsCopy(), createObligationCopy(), preConstraint, postConstraint);
+//			if (eventList == null) {
+//				eventList = sendToSolver(createCopy(), createProhibitionsCopy(), mutant, preConstraint, postConstraint);
+//			}
+//			if (eventList == null) {
+//				//equivalent mutant
+//				System.out.println("Mutant not killed! No solution found!");
+//				return false;
+//			}
+//			
+//			//get potentially affected attributes
+//			Set<String> attributeList = new HashSet<String>();
+//			Set<String> potentialAttributeList = new HashSet<String>();
+//			getAffectedAttributes(potentialAttributeList, ruleLabel);
+//			filterNotU(potentialAttributeList, attributeList);
+//					
+//			//run policy machine
+//			Graph graphI = createCopy();
+//			Graph graphM = createCopy();
+//			Prohibitions prohibitionsI = createProhibitionsCopy();
+//			Prohibitions prohibitionsM = createProhibitionsCopy();
+////			System.out.print(GraphSerializer.toJson(graphI));
+////			System.out.print(GraphSerializer.toJson(graphM));
+//			
+//			//FIXME:for running obligation, load obligtion with condition to avoid PM error
+//			Obligation ob;
+//			if (mutant.getLabel().equals("LawUseCase Obligations")) {
+//				ob = readObligation("Policies/SolverVerification/LawFirm/ObligationsWithCondition.yml");
+//				q = runPolicyMachine(graphI, prohibitionsI, ob, graphM, prohibitionsM, obM, eventList, actualEventList, attributeList);
+////				q = verifyEventList(ob, obM, eventList, ruleLabel, attributeList);
+//			} else {
+//				ob = createObligationCopy();
+//				q = runPolicyMachine(graphI, prohibitionsI, ob, graphM, prohibitionsM, obM, eventList, actualEventList, attributeList);
+////				q = verifyEventList(ob, mutant, eventList, ruleLabel, attributeList);
+//			}
+//			
+//			
+//			
+//			if (q == null) {
+//			//equivalent mutant
+//				System.out.println("Mutant not killed!");
+//				return false;
+//			} else {
+//				System.out.println("Mutant Killed! Event sequence:");
+//				for (AccessRequest event : actualEventList) {
+//					System.out.println("(" + event.getSA() + "," + event.getAR() + "," + event.getTA() + ")");
+//				}
+//				System.out.println("Assert request:(" + q.getSA() + "," + q.getAR() + "," + q.getTA() + ").");
+//				//FIXME: should save actualEventList+assert request, q, into test suite
+////				Utils.addToARList(actualEventList);
+////				Utils.addToARList(q);
+//				return true;
+//			}
+//		} catch (PMException e) {
+//			e.printStackTrace();
+//			return true;
+//		}
+//	}
+//
+//	
+//	//FIXME: obM is the mutant with condtion
+//	public static boolean killMutant (Obligation mutant, String ruleLabel, String preConstraint, String postConstraint) throws FileNotFoundException, EVRException, Exception {
+//		List<AccessRequest> actualEventList = new ArrayList<AccessRequest>();
+//		AccessRequest q;
+//		//send to solver
+//		List<AccessRequest> eventList = sendToSolver(createCopy(), createProhibitionsCopy(), createObligationCopy(), preConstraint, postConstraint);
+//		if (eventList == null) {
+//			eventList = sendToSolver(createCopy(), createProhibitionsCopy(), mutant, preConstraint, postConstraint);
+//		}
+//		if (eventList == null) {
+//			//equivalent mutant
+//			System.out.println("Mutant not killed! No solution found!");
+//			return false;
+//		}
+//		
+//		//get potentially affected attributes
+//		Set<String> attributeList = new HashSet<String>();
+//		Set<String> potentialAttributeList = new HashSet<String>();
+//		getAffectedAttributes(potentialAttributeList, ruleLabel);
+//		filterNotU(potentialAttributeList, attributeList);
+//				
+//		//run policy machine
+//		Graph graphI = createCopy();
+//		Graph graphM = createCopy();
+//		Prohibitions prohibitionsI = createProhibitionsCopy();
+//		Prohibitions prohibitionsM = createProhibitionsCopy();
+//		
+//		
+//		//run policy machine
+//		try {
+//			//FIXME:for running obligation, load obligtion with condition to avoid PM error
+//			//CTG not available in LawFirm policies
+//			q = runPolicyMachine(graphI, prohibitionsI, createObligationCopy(), graphM, prohibitionsM, mutant, eventList, actualEventList, attributeList);
+//			
+//			if (q == null) {
+//			//equivalent mutant
+//				System.out.println("Mutant not killed!");
+//				return false;
+//			} else {
+//				System.out.println("Mutant Killed! Event sequence:");
+//				for (AccessRequest event : actualEventList) {
+//					System.out.println("(" + event.getSA() + "," + event.getAR() + "," + event.getTA() + ")");
+//				}
+//				System.out.println("Assert request:(" + q.getSA() + "," + q.getAR() + "," + q.getTA() + ").");
+//				//FIXME: should save actualEventList+assert request, q, into test suite
+////				Utils.addToARList(actualEventList);
+////				Utils.addToARList(q);
+//				return true;
+//			}
+//		} catch (PMException e) {
+//			e.printStackTrace();
+//			return true;
+//		}
+//	}
+	
+	//this is an override of killMutantT, aims to kill mutants by handwriting obligation tests
 	public static boolean killMutantT (Obligation mutant, String ruleLabel, String preConstraint, String postConstraint, Obligation obM) throws FileNotFoundException, EVRException, Exception {
-		Set<String> attributeList = new HashSet<String>();
-		//send to solver
-		try {
-			List<AccessRequest> eventList = sendToSolver(createCopy(), createProhibitionsCopy(), createObligationCopy(), preConstraint, postConstraint, attributeList);
-			if (eventList == null) {
-				eventList = sendToSolver(createCopy(), createProhibitionsCopy(), mutant, preConstraint, postConstraint, attributeList);
-			}
-			if (eventList == null) {
-				//equivalent mutant
-				System.out.println("Mutant not killed! No solution found!");
-				return false;
-			}
-		
-			//run policy machine
-			Obligation ob;
-			//FIXME:for running obligation, load obligtion with condition to avoid PM error
-			if (mutant.getLabel().equals("LawUseCase Obligations")) {
-				ob = readObligation("Policies/SolverVerification/LawFirm/ObligationsWithCondition.yml");
-			} else {
-				ob = createObligationCopy();
-			}
-			
-		
-			AccessRequest q = verifyEventList(ob, obM, eventList, ruleLabel, attributeList);
-			if (q == null) {
-			//equivalent mutant
-				System.out.println("Mutant not killed!");
-				return false;
-			} else {
-				System.out.println("Mutant Killed! Assert request:(" + q.getSA() + "," + q.getAR() + "," + q.getTA() + ")");
-				//FIXME: should save eventList+assert request, q, into test suite
-//				System.out.println(eventList.toString());
-//				Utils.addToARList(eventList);
-//				Utils.addToARList(q);
-				return true;
-			}
-		} catch (PMException e) {
-			e.printStackTrace();
-			return true;
-		}
+		return testMutant(mutant);
 	}
 	
-	//FIXME: obM is the mutant with condtion
+	//this is an override of killMutant, aims to kill mutants by handwriting obligation tests
 	public static boolean killMutant (Obligation mutant, String ruleLabel, String preConstraint, String postConstraint) throws FileNotFoundException, EVRException, Exception {
-		Set<String> attributeList = new HashSet<String>();
-		//send to solver
-		List<AccessRequest> eventList = sendToSolver(createCopy(), createProhibitionsCopy(), createObligationCopy(), preConstraint, postConstraint, attributeList);
-		if (eventList == null) {
-			eventList = sendToSolver(createCopy(), createProhibitionsCopy(), mutant, preConstraint, postConstraint, attributeList);
-		}
-		if (eventList == null) {
-			//equivalent mutant
-			System.out.println("Mutant not killed! No solution found!");
-			return false;
-		}
-		
-		//run policy machine
-		try {
-			AccessRequest q = verifyEventList(createObligationCopy(), mutant, eventList, ruleLabel, attributeList);
-			if (q == null) {
-			//equivalent mutant
-				System.out.println("Mutant not killed!");
-				return false;
-			} else {
-				System.out.println("Mutant Killed!");
-				//FIXME: should save eventList+assert request, q, into test suite
-//				System.out.println(eventList.toString());
-				System.out.println(q.getSA() + "," + q.getAR() + "," + q.getTA());
-//				Utils.addToARList(eventList);
-//				Utils.addToARList(q);
-				return true;
-			}
-		} catch (PMException e) {
-			e.printStackTrace();
-			return true;
-		}
+		return testMutant(mutant);
 	}
 	
 	static void filterNotU (Set<String> potentialAttributeList, Set<String> userList) throws PMException {
@@ -1707,7 +1855,198 @@ public class Utils extends MutantTester {
 				}
 			}
 		}
+	}
+	
+	static AccessRequest pretestArlist (PReviewDecider deciderO, PReviewDecider deciderM, List<AccessRequest> arList) throws PMException {
+		for (AccessRequest q : arList) {
+			if (deciderO.check(q.getSA(),"",q.getTA(),q.getAR()) != deciderM.check(q.getSA(),"",q.getTA(),q.getAR())) {
+				System.out.println("Pre-Tested");
+				return q;
+			}
+		}
+		return null;
+	}
+	
+	//below is test function for sample GPMS
+//	public static int tryKillMutants () throws Exception {
+//		Graph graphI = createCopy();
+//		Graph graphM = createCopy();
+//		boolean res1 = false;
+//		boolean res2 = false;
+//		Obligation obligation = EVRParser.parse(new FileInputStream(new File("Policies/SolverVerification/sample/GPMS/Obligations.yml")));
+//		Obligation mutant = EVRParser.parse(new FileInputStream(new File("Policies/SolverVerification/sample/GPMS/Mutant.yml")));
+////		Obligation mutant = EVRParser.parse(new FileInputStream(new File("Policies/SolverVerification/sample/GPMS/Obligations.yml")));
+//		
+//		PDP pdpI = getPdpLawFirm(graphI, null, obligation);
+//		PDP pdpM = getPdpLawFirm(graphM, null, mutant);
+//		PReviewDecider deciderI = new PReviewDecider(graphI);
+//		PReviewDecider deciderM = new PReviewDecider(graphM);
+//		List<AccessRequest> eventList = new ArrayList<AccessRequest>();
+//		
+////		Set<String> attributeList = new HashSet<String>();
+////		Set<String> potentialAttributeList = new HashSet<String>();
+////		getAffectedAttributes(potentialAttributeList, "obligation3");
+////		filterNotU(potentialAttributeList, attributeList);
+//		
+//		eventList.add(new AccessRequest("Vlad","submit","PDSWhole"));//fault 6//1
+//		eventList.add(new AccessRequest("UChair","approve","PDSWhole"));
+//		eventList.add(new AccessRequest("UBM","approve","PDSWhole"));//fault 4,5//2
+//		eventList.add(new AccessRequest("UDean","approve","PDSWhole"));//fault 3//3
+//		eventList.add(new AccessRequest("URA","submit","PDSWhole"));//fault 2,8//4
+//		eventList.add(new AccessRequest("URD","archive","PDSWhole"));//fault 1,7//5
+//		
+//		for (AccessRequest q : eventList) {
+//			switch (q.getAR()) {
+//				case "submit":
+//					pdpI.getEPP().processEvent(new SubmitEvent(graphI.getNode(q.getTA()), true),q.getSA(), "Submit");
+//					pdpM.getEPP().processEvent(new SubmitEvent(graphM.getNode(q.getTA()), true),q.getSA(), "Submit");
+//					break;
+//				case "approve":
+//					pdpI.getEPP().processEvent(new ApproveEvent(graphI.getNode(q.getTA())), q.getSA(), "Approve");
+//					pdpM.getEPP().processEvent(new ApproveEvent(graphM.getNode(q.getTA())), q.getSA(), "Approve");
+//					break;
+//				case "archive":
+//					pdpI.getEPP().processEvent(new ArchiveEvent(graphI.getNode(q.getTA())), q.getSA(), "Archive");
+//					pdpM.getEPP().processEvent(new ArchiveEvent(graphM.getNode(q.getTA())), q.getSA(), "Archive");
+//					break;
+//				default:
+//					break;
+//			}
+////			decideq = verifyEventList(deciderI, deciderM, attributeList);
+////			if(decideq != null)
+////				return decideq;
+//			
+//		}
+//		
+//		//detect fault6
+//		res1 = deciderI.check("Vlad", "", "PDSWhole", "submit");
+//		res2 = deciderM.check("Vlad", "", "PDSWhole", "submit");
+//		System.out.println(res1 + "......" + res2);
+//		
+////		//detect fault4,5
+//		res1 = deciderI.check("UBM", "", "PDSWhole", "approve");
+//		res2 = deciderM.check("UBM", "", "PDSWhole", "approve");
+//		System.out.println(res1 + "......" + res2);
+//		
+////		//detect faul3
+//		res1 = deciderI.check("UDean", "", "PDSWhole", "approve");
+//		res2 = deciderM.check("UDean", "", "PDSWhole", "approve");
+//		System.out.println(res1 + "......" + res2);
+//		
+////		//detect fault2,8
+//		res1 = deciderI.check("URA", "", "PDSWhole", "submit");
+//		res2 = deciderM.check("URA", "", "PDSWhole", "submit");
+//		System.out.println(res1 + "......" + res2);
+////				
+//		//detect fault1,7
+//		res1 = deciderI.check("UChair", "", "PDSWhole", "approve");
+//		res2 = deciderM.check("UChair", "", "PDSWhole", "approve");
+//		System.out.println(res1 + "......" + res2);
+//		
+//		return 0;
+//	}
+	
+	//below is test function for sample LawFirm
+	public static int tryKillMutants () throws Exception {
+		Graph graphI = createCopy();
+		Graph graphM = createCopy();
+		boolean res1 = false;
+		boolean res2 = false;
+		Obligation obligation = EVRParser.parse(new FileInputStream(new File("Policies/SolverVerification/sample/LawFirm/Obligations.yml")));
+		Obligation mutant = EVRParser.parse(new FileInputStream(new File("Policies/SolverVerification/sample/LawFirm/Mutant.yml")));
 		
+		PDP pdpI = getPdpLawFirm(graphI, null, obligation);
+		PDP pdpM = getPdpLawFirm(graphM, null, mutant);
+		PReviewDecider deciderI = new PReviewDecider(graphI);
+		PReviewDecider deciderM = new PReviewDecider(graphM);
+		List<AccessRequest> eventList = new ArrayList<AccessRequest>();
+		
+		eventList.add(new AccessRequest("LeadAttorneysU","accept","Case3Info"));//fault 1,2//output 1,2
+		
+//		eventList.add(new AccessRequest("Attorneys1U","accept","Case3Info2"));//fault 3//output 3
+//		
+//		eventList.add(new AccessRequest("LeadAttorneysU","accept","Case3Info"));//fault 4//output 3
+//		
+//		eventList.add(new AccessRequest("Attorneys1U","accept","Case3Info"));
+//		eventList.add(new AccessRequest("LeadAttorneysU","accept","Case3Info"));//fault 5//output 4
+//		
+//		eventList.add(new AccessRequest("Attorneys1U","accept","Case3Info"));
+//		eventList.add(new AccessRequest("Attorneys2U","accept","Case3Info"));//fault 6//output 5
+//	
+		eventList.add(new AccessRequest("Attorneys1U","accept","Case3Info"));
+		eventList.add(new AccessRequest("Attorneys2U","refuse","Case3Info"));//fault 7//output 4
+		for (AccessRequest q : eventList) {
+			switch (q.getAR()) {
+			case "accept":
+//			pdpI.getEPP().processEvent(new AcceptEvent(graphI.getNode(q.getTA())), q.getSA(), "Accept");
+//			pdpM.getEPP().processEvent(new AcceptEvent(graphM.getNode(q.getTA())), q.getSA(), "Accept");
+			System.out.println(q.getSA() + "||" + q.getTA());
+			break;
+				default:
+					break;
+			}
+//			decideq = verifyEventList(deciderI, deciderM, attributeList);
+//			if(decideq != null)
+//				return decideq;
+			
+		}
+		
+		//detect fault 1
+		res1 = deciderI.check("Attorneys1U", "", "Case3Info2", "approve");
+		res2 = deciderM.check("Attorneys1U", "", "Case3Info2", "approve");
+		System.out.println(res1 + "......" + res2);
+		
+		//detect fault 2
+		res1 = deciderI.check("Attorneys1U", "", "Case3Info2", "refuse");
+		res2 = deciderM.check("Attorneys1U", "", "Case3Info2", "refuse");
+		System.out.println(res1 + "......" + res2);
+		
+//		//detect fault 3,4
+		res1 = deciderI.check("Attorneys2U", "", "Case3Info2", "refuse");
+		res2 = deciderM.check("Attorneys2U", "", "Case3Info2", "refuse");
+		System.out.println(res1 + "......" + res2);
+		
+////		//detect faul 5,7
+		res1 = deciderI.check("Attorneys3U", "", "Case3Info", "refuse");
+		res2 = deciderM.check("Attorneys3U", "", "Case3Info", "refuse");
+		System.out.println(res1 + "......" + res2);
+//		
+//		//detect faul 6
+		res1 = deciderI.check("Attorneys3U", "", "Case3Info2", "refuse");
+		res2 = deciderM.check("Attorneys3U", "", "Case3Info2", "refuse");
+		System.out.println(res1 + "......" + res2);
+		
+		return 0;
+	}
+	
+	public static boolean testMutant(Obligation obligation) throws PMException, IOException {
+		//invoke junit here
+		//and collect mutation info
+		JUnitCore junit = new JUnitCore();
+		junit.addListener(new TextListener(System.out));
+		Result result = null;
+		
+		setObligationMutant(obligation);
+		//GPMS
+//		result = junit.run(GPMS_OC.class);
+//		result = junit.run(GPMS_AC.class);
+//		result = junit.run(GPMS_CC.class);
+//		result = junit.run(GPMS_MCDC.class);
+		//LawFirm
+//		result = junit.run(Law_OC.class);
+		//Bank
+//		result = junit.run(Bank_OC.class);
+//		result = junit.run(Bank_AC.class);
+//		result = junit.run(Bank_CC.class);
+		result = junit.run(Bank_MCDC.class);
+		
+		if (result.getFailureCount() != 0) {
+			return true;
+		}
+		if (result.getIgnoreCount() != 0) {
+			return true;
+		} 
+		return false;
 	}
 	
 	//parse received string into list of struct AccessRequest

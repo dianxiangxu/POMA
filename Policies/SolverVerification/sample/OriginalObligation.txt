@@ -1,0 +1,10 @@
+
+
+	Obligation ϕ1
+	Event:		(Attorneys,accept,Case3)
+	Response:	Assign (Attorneys1,Attorneys)
+	Obligation ϕ2
+	Event:		(Attorneys1,accept,Case3)
+	Response:	Assign (Attorneys2,Attorneys1)
+
+
