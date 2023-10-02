@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import POMA.Utils;
-import POMA.Verification.ReachabilityAnalysis.ObligationInterference.SolutionSimulator;
+//import POMA.Verification.ReachabilityAnalysis.ObligationInterference.SolutionSimulator;
 import POMA.Verification.ReachabilityAnalysis.model.Solution;
 import POMA.Verification.Translator.AssociationRelation;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -64,6 +64,7 @@ public class ObligationChecker extends Planner {
 
 		//SolutionSimulator ss = new SolutionSimulator(solution, graph, obligation);
 		//ss.simulate();
+
 	}
 
 	public ObligationChecker() throws Exception {

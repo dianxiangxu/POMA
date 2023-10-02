@@ -84,10 +84,11 @@ public class CUAA extends MutantTester {
 		attributeToCheckList.add(newSourceNode);
 		
 		for (String ascendant : attributeToCheckList) {
-			Graph mutant = createCopy();
-			PReviewDecider decider = new PReviewDecider(mutant, prohibitions);
-			Map<String, Set<String>> CapabilityList = decider.getCapabilityList(ascendant, null);
 			
+			PReviewDecider deciderO = new PReviewDecider(createCopy(), prohibitions);
+			Map<String, Set<String>> CapabilityList = deciderO.getCapabilityList(ascendant, null);
+			
+			Graph mutant = createCopy();
 			mutant.dissociate(oldSourceNode, targetNode);
 			try {
 				mutant.associate(newSourceNode, targetNode, accessRights);
@@ -95,10 +96,14 @@ public class CUAA extends MutantTester {
 				return null;
 			}
 			
-			decider = new PReviewDecider(mutant, prohibitions);
-			Map<String, Set<String>> CapabilityListMutant = decider.getCapabilityList(ascendant, null);
+			PReviewDecider deciderM = new PReviewDecider(mutant, prohibitions);
+			Map<String, Set<String>> CapabilityListMutant = deciderM.getCapabilityList(ascendant, null);
 			
-			AccessRequest q = CapabilityList.size() >= CapabilityListMutant.size() ? 
+			AccessRequest q = Utils.pretestArlist(deciderO, deciderM, arList);
+			if (q != null)
+				return q;
+			
+			q = CapabilityList.size() >= CapabilityListMutant.size() ? 
 				Utils.compareTwoLists(CapabilityList, CapabilityListMutant, "UA") :
 				Utils.compareTwoLists(CapabilityListMutant, CapabilityList, "UA");
 

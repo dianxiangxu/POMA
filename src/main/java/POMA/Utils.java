@@ -8,9 +8,11 @@ import static gov.nist.csd.pm.pip.graph.model.nodes.NodeType.UA;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -40,6 +42,9 @@ import gov.nist.csd.pm.pip.graph.dag.searcher.DepthFirstSearcher;
 import gov.nist.csd.pm.pip.graph.dag.searcher.Direction;
 import gov.nist.csd.pm.pip.graph.dag.visitor.Visitor;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
+import gov.nist.csd.pm.pip.obligations.evr.EVRException;
+import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
+import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.prohibitions.MemProhibitions;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 import gov.nist.csd.pm.pip.prohibitions.ProhibitionsSerializer;
@@ -212,6 +217,14 @@ public class Utils {
 		GraphSerializer.fromJson(ngacGraph, graphJSON);
 
 		return ngacGraph;
+	}
+	
+	public static Obligation readObligation(String path) throws FileNotFoundException, EVRException {
+		File obligationFile = new File(path);
+		InputStream inputStream = new FileInputStream(obligationFile);
+		Obligation obligation = EVRParser.parse(inputStream);
+
+		return obligation;
 	}
 
 	public static Prohibitions readProhibitions(String path) throws PMException, IOException {

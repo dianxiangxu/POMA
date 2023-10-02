@@ -1,0 +1,74 @@
+{
+  "nodes": [
+    {
+      "name": "clerk",
+      "type": "UA",
+      "properties": {}
+    },
+	{
+      "name": "clerkU1",
+      "type": "U",
+      "properties": {}
+    },
+	{
+      "name": "clerkU2",
+      "type": "U",
+      "properties": {}
+    },
+	{
+      "name": "superviser",
+      "type": "UA",
+      "properties": {}
+    },
+	{
+      "name": "superviserU1",
+      "type": "U",
+      "properties": {}
+    },
+	{
+      "name": "voucher",
+      "type": "OA",
+      "properties": {}
+    },
+	{
+      "name": "CHECK",
+      "type": "PC",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "superviser",
+      "target": "clerk"
+    },
+	{
+      "source": "clerk",
+      "target": "CHECK"
+    },
+	{
+      "source": "voucher",
+      "target": "CHECK"
+    },
+	{
+      "source": "clerkU1",
+      "target": "clerk"
+    },
+	{
+      "source": "clerkU2",
+      "target": "clerk"
+    },
+	{
+      "source": "superviserU1",
+      "target": "superviser"
+    }
+  ],
+  "associations": [
+    {
+      "source": "clerk",
+      "target": "voucher",
+      "operations": [
+        "prepare"
+      ]
+    }
+  ]
+}

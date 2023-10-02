@@ -1,0 +1,45 @@
+
+fault1: in obligation1, Old where:Attorneys|UA,New where:LeadAttorneys|UA(CDA)
+	Event sequence:
+	(LeadAttorneysU,accept,Case3Info)
+	Assert request:(Attorneys1U,approve,Case3Info2)
+	
+fault2: in obligation1, Change PE from: Case3Info to LeadAttorneys(CET)
+	Event sequence:
+	(LeadAttorneysU,accept,Case3Info)
+	Assert request:(Attorneys1U,refuse,Case3Info)
+
+fault3: in obligation2, Remove PE: Case3Info(RET)
+	Event sequence:
+	(LeadAttorneysU,accept,Case3Info)
+	(Attorneys1U,accept,Case3Info2)
+	Assert request:(Attorneys2U,refuse,Case3Info2)
+	
+fault4: in obligation2, change from Attorneys1 to Attorneys(CEU)
+	Event sequence:
+	(LeadAttorneysU,accept,Case3Info)
+	(LeadAttorneysU,accept,Case3Info)
+	Assert request:(Attorneys2U,refuse,Case3Info2)
+	
+
+fault5: in obligation3, subject be removed:Attorneys2(REU)
+	Event sequence:
+	(LeadAttorneysU,accept,Case3Info)
+	(Attorneys1U,accept,Case3Info)
+	(LeadAttorneysU,accept,Case3Info)
+	Assert request:(Attorneys3U,refuse,Case3Info)
+
+fault6: in obligation3, change operation:[accept] to [refuse](CEO)
+	Event sequence:
+	(LeadAttorneysU,accept,Case3Info)
+	(Attorneys1U,accept,Case3Info)
+	(Attorneys2U,accept,Case3Info)
+	Assert request:(Attorneys3U,refuse,Case3Info2)
+	
+fault7: in obligation3, change operation:[accept] to [accept, refuse](AEO)
+	Event sequence:
+	(LeadAttorneysU,accept,Case3Info)
+	(Attorneys1U,accept,Case3Info)
+	(Attorneys2U,refuse,Case3Info)
+	Assert request:(Attorneys3U,refuse,Case3Info)
+

@@ -57,12 +57,21 @@ import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.CEU_Sol
 import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.REU_Solver;
 import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.CEO_Solver;
 import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.AEO_Solver;
-import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.CEPE_Solver;
-import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.REPE_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.CET_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.RET_Solver;
 import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.ROA_Solver;
-import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.IAA_Solver;
-import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.IGA_Solver;
-
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.CDA_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.CASA_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.RDA_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.CTG_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.CSG_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.CARG_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.AARG_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.RARG_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.ROC_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.NCD_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.ROF_Solver;
+import POMA.Mutation.EquivalentMutantAnalyzer.ObligationConstraintSolver.NOF_Solver;
 
 import POMA.Mutation.EquivalentMutantAnalyzer.AccessRequest;
 import POMA.Utils;
@@ -126,8 +135,21 @@ public class EquivalentMutantAnalyzer {
 ////      initialProhibitionConfig = "Policies/ForBMC/LawFirmSimplified/prohibitions.json";
 		
 		//BMC: GPMS
-		initialGraphConfig = "Policies/SolverVerification/GPMS/Graph.json";
-		obligationPath = "Policies/SolverVerification/GPMS/Obligations.yml";
+//		initialGraphConfig = "Policies/SolverVerification/GPMS/Graph.json";
+//		obligationPath = "Policies/SolverVerification/GPMS/Obligations.yml";
+		
+//		//Coverage-Based test generation: GPMS
+//		initialGraphConfig = "Policies/GPMS/Graph.json";
+//		obligationPath = "Policies/GPMS/Obligations.yml";
+//		
+//		//Coverage-Based test generation: Law Firm
+//		initialGraphConfig = "Policies/LawUseCase/Graph.json";
+//		obligationPath = "Policies/LawUseCase/Obligations.yml";
+//		initialProhibitionConfig = "Policies/LawUseCase/prohibitions.json";
+		
+		//Coverage-Based test generation: GPMS
+		initialGraphConfig = "Policies/BankPolicy/OnePolicyClass/Graph.json";
+		obligationPath = "Policies/BankPolicy/OnePolicyClass/Obligations.yml";
 
 		
 		File folder = new File(initialGraphConfig).getParentFile();
@@ -136,7 +158,6 @@ public class EquivalentMutantAnalyzer {
 //		mutantNames.add("RAD");
 //		mutantNames.add("CAD");
 //		mutantNames.add("CAA");
-//
 //		mutantNames.add("CUAA");
 //		mutantNames.add("COAA");
 //		mutantNames.add("RARA");
@@ -179,24 +200,30 @@ public class EquivalentMutantAnalyzer {
 //			mutantNames.add("INA");
 			
 			//FIXME: reserved for solver
-			mutantNames.add("ROB_Solver");
-//			mutantNames.add("CEU_Solver");
-//			mutantNames.add("REU_Solver");
+//			mutantNames.add("ROB_Solver");
+//			mutantNames.add("CEU_Solver");//GPMS:NO
+//			mutantNames.add("REU_Solver");//GPMS:NO
 //			mutantNames.add("CEO_Solver");
 //			mutantNames.add("AEO_Solver");
-//			mutantNames.add("REO_Solver");
-//			mutantNames.add("CEPE_Solver");
-//			mutantNames.add("REPE_Solver");
+//			mutantNames.add("REO_Solver");//Not implemented
+//			mutantNames.add("CET_Solver");
+//			mutantNames.add("RET_Solver");
 //			mutantNames.add("ROC_Solver");
 //			mutantNames.add("NCD_Solver");
 //			mutantNames.add("ROF_Solver");
-//			mutantNames.add("NOF_Solver");
+			mutantNames.add("NOF_Solver");
 //			mutantNames.add("ROA_Solver");
-//			mutantNames.add("COA_Solver");
-//			mutantNames.add("ICA_Solver");
-//			mutantNames.add("IGA_Solver");
-//			mutantNames.add("IAA_Solver");
-//			mutantNames.add("INA_Solver");
+//			mutantNames.add("COA_Solver");//Not implemented
+//			mutantNames.add("CDC_Solver");//Not implemented
+//			mutantNames.add("CTG_Solver");
+//			mutantNames.add("CSG_Solver");
+//			mutantNames.add("CARG_Solver");
+//			mutantNames.add("AARG_Solver");
+//			mutantNames.add("RARG_Solver");			
+//			mutantNames.add("CDA_Solver");
+//			mutantNames.add("CASA_Solver");//GPMS:NO
+//			mutantNames.add("RDA_Solver");//BUG: when running GPMS
+//			mutantNames.add("CTD_Solver");//Not implemented
 		}
 		
 		mc.graph = Utils.readAnyGraph(initialGraphConfig);// .readGPMSGraph();
@@ -262,7 +289,15 @@ public class EquivalentMutantAnalyzer {
 		String[] row40 = new String[colCount];
 		String[] row41 = new String[colCount];
 		String[] row42 = new String[colCount];
-		row42[0] = "totalMutationScore";
+		String[] row43 = new String[colCount];
+		String[] row44 = new String[colCount];
+		String[] row45 = new String[colCount];
+		String[] row46 = new String[colCount];
+		String[] row47 = new String[colCount];
+		String[] row48 = new String[colCount];
+		String[] row49 = new String[colCount];
+		String[] row50 = new String[colCount];
+		row50[0] = "totalMutationScore";
 
 		long startTime = System.currentTimeMillis();
 		int j = 0;
@@ -278,6 +313,7 @@ public class EquivalentMutantAnalyzer {
 
 			for (int i = 0; i < mutantNames.size(); i++) {
 				System.out.println(mutantNames.toString());
+				System.out.println("Total size of tests: " + arList.size());
 				double result = 0;
 				if (mutantNames.get(i).equals("AAG")) {
 					row2[0] = "AAG";
@@ -414,24 +450,54 @@ public class EquivalentMutantAnalyzer {
 				} else if (mutantNames.get(i).equals("AEO_Solver")) {
 					row28[0] = "AEO_Solver";
 					row28[j] = Double.toString(testAEO_Solver(testMethod, graph, prohibitions, obligationPath));
-				} else if (mutantNames.get(i).equals("CEPE_Solver")) {
-					row30[0] = "CEPE_Solver";
-					row30[j] = Double.toString(testCEPE_Solver(testMethod, graph, prohibitions, obligationPath));
-				} else if (mutantNames.get(i).equals("REPE_Solver")) {
-					row31[0] = "REPE_Solver";
-					row31[j] = Double.toString(testREPE_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("CET_Solver")) {
+					row30[0] = "CET_Solver";
+					row30[j] = Double.toString(testCET_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("RET_Solver")) {
+					row31[0] = "RET_Solver";
+					row31[j] = Double.toString(testRET_Solver(testMethod, graph, prohibitions, obligationPath));
 				} else if (mutantNames.get(i).equals("ROA_Solver")) {
 					row36[0] = "ROA_Solver";
 					row36[j] = Double.toString(testROA_Solver(testMethod, graph, prohibitions, obligationPath));
-				} else if (mutantNames.get(i).equals("IGA")) {
-					row39[0] = "IGA_Solver";
-					row39[j] = Double.toString(testIGA_Solver(testMethod, graph, prohibitions, obligationPath));
-				} else if (mutantNames.get(i).equals("IAA_Solver")) {
-					row40[0] = "IAA_Solver";
-					row40[j] = Double.toString(testIAA_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("CTG_Solver")) {
+					row39[0] = "CTG_Solver";
+					row39[j] = Double.toString(testCTG_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("CDA_Solver")) {
+					row40[0] = "CDA_Solver";
+					row40[j] = Double.toString(testCDA_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("CASA_Solver")) {
+					row41[0] = "CASA_Solver";
+					row41[j] = Double.toString(testCASA_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("RDA_Solver")) {
+					row42[0] = "RDA_Solver";
+					row42[j] = Double.toString(testRDA_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("CSG_Solver")) {
+					row43[0] = "CSG_Solver";
+					row43[j] = Double.toString(testCSG_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("CARG_Solver")) {
+					row44[0] = "CARG_Solver";
+					row44[j] = Double.toString(testCARG_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("AARG_Solver")) {
+					row45[0] = "AARG_Solver";
+					row45[j] = Double.toString(testAARG_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("RARG_Solver")) {
+					row46[0] = "RARG_Solver";
+					row46[j] = Double.toString(testRARG_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("ROC_Solver")) {
+					row47[0] = "ROC_Solver";
+					row47[j] = Double.toString(testROC_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("NCD_Solver")) {
+					row48[0] = "NCD_Solver";
+					row48[j] = Double.toString(testNCD_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("ROF_Solver")) {
+					row49[0] = "ROF_Solver";
+					row49[j] = Double.toString(testROF_Solver(testMethod, graph, prohibitions, obligationPath));
+				} else if (mutantNames.get(i).equals("NOF_Solver")) {
+					row50[0] = "NOF_Solver";
+					row50[j] = Double.toString(testNOF_Solver(testMethod, graph, prohibitions, obligationPath));
 				}
 			}
-			row42[j] = Double.toString(
+			row50[j] = Double.toString(
 					(double) totalNumberOfKilledMutantsForTest / (double) totalNumberOfMutantsForTest * 100);
 		
 		}
@@ -478,7 +544,11 @@ public class EquivalentMutantAnalyzer {
 		data.add(row42);
 
 		//DEBUG
-		System.out.print(arList);
+		System.out.println("Total size of tests: " + arList.size());
+		for (AccessRequest q : arList) {
+			System.out.println("("+q.getSA()+","+q.getAR()+","+q.getTA()+")");
+		}
+//		System.out.print(arList);
 		System.out.print(totalNumberOfMutantsForTest);
 		System.out.print(totalNumberOfKilledMutantsForTest);
 		
@@ -512,7 +582,8 @@ public class EquivalentMutantAnalyzer {
 			e.printStackTrace();
 		}
 		
-		arList = AAG.getARList();
+		arList.clear();
+		arList.addAll(AAG.getARList());
 		
 		double mutationScore = AAG.calculateMutationScore(AAG.getNumberOfMutants(),
 				AAG.getNumberOfKilledMutants());
@@ -539,7 +610,8 @@ public class EquivalentMutantAnalyzer {
 			e.printStackTrace();
 		}
 
-		arList = RAG.getARList();
+		arList.clear();
+		arList.addAll(RAG.getARList());
 		
 		double mutationScore = RAG.calculateMutationScore(RAG.getNumberOfMutants(),
 				RAG.getNumberOfKilledMutants());
@@ -566,8 +638,10 @@ public class EquivalentMutantAnalyzer {
 			e.printStackTrace();
 		}
 
-		arList = RAD.getARList();
+		arList.clear();
+		arList.addAll(RAD.getARList());
 		
+
 		double mutationScore = RAD.calculateMutationScore(RAD.getNumberOfMutants(),
 				RAD.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
@@ -593,8 +667,10 @@ public class EquivalentMutantAnalyzer {
 			e.printStackTrace();
 		}
 
-		arList = CAD.getARList();
+		arList.clear();
+		arList.addAll(CAD.getARList());
 		
+
 		double mutationScore = CAD.calculateMutationScore(CAD.getNumberOfMutants(),
 				CAD.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
@@ -620,8 +696,10 @@ public class EquivalentMutantAnalyzer {
 			e.printStackTrace();
 		}
 
-		arList = CAA.getARList();
+		arList.clear();
+		arList.addAll(CAA.getARList());
 		
+
 		double mutationScore = CAA.calculateMutationScore(CAA.getNumberOfMutants(),
 				CAA.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
@@ -647,8 +725,10 @@ public class EquivalentMutantAnalyzer {
 			e.printStackTrace();
 		}
 
-		arList = CUAA.getARList();
+		arList.clear();
+		arList.addAll(CUAA.getARList());
 		
+
 		double mutationScore = CUAA.calculateMutationScore(CUAA.getNumberOfMutants(),
 				CUAA.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
@@ -674,8 +754,10 @@ public class EquivalentMutantAnalyzer {
 			e.printStackTrace();
 		}
 
-		arList = COAA.getARList();
+		arList.clear();
+		arList.addAll(COAA.getARList());
 		
+
 		double mutationScore = COAA.calculateMutationScore(COAA.getNumberOfMutants(),
 				COAA.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
@@ -701,8 +783,10 @@ public class EquivalentMutantAnalyzer {
 			e.printStackTrace();
 		}
 
-		arList = RARA.getARList();
+		arList.clear();
+		arList.addAll(RARA.getARList());
 		
+
 		double mutationScore = RARA.calculateMutationScore(RARA.getNumberOfMutants(),
 				RARA.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
@@ -728,8 +812,10 @@ public class EquivalentMutantAnalyzer {
 			e.printStackTrace();
 		}
 
-		arList = AARA.getARList();
+		arList.clear();
+		arList.addAll(AARA.getARList());
 		
+
 		double mutationScore = AARA.calculateMutationScore(AARA.getNumberOfMutants(),
 				AARA.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
@@ -755,8 +841,10 @@ public class EquivalentMutantAnalyzer {
 			e.printStackTrace();
 		}
 
-		arList = RAC.getARList();
+		arList.clear();
+		arList.addAll(RAC.getARList());
 		
+
 		double mutationScore = RAC.calculateMutationScore(RAC.getNumberOfMutants(),
 				RAC.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
@@ -781,9 +869,10 @@ public class EquivalentMutantAnalyzer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		arList = AAC.getARList();
 		
+		arList.clear();
+		arList.addAll(AAC.getARList());
+
 		double mutationScore = AAC.calculateMutationScore(AAC.getNumberOfMutants(),
 				AAC.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
@@ -809,8 +898,10 @@ public class EquivalentMutantAnalyzer {
 			e.printStackTrace();
 		}
 
-		arList = RARAA.getARList();
+		arList.clear();
+		arList.addAll(RARAA.getARList());
 		
+
 		double mutationScore = RARAA.calculateMutationScore(RARAA.getNumberOfMutants(),
 				RARAA.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
@@ -1715,57 +1806,57 @@ public class EquivalentMutantAnalyzer {
 		return mutationScore;
 	}
 	
-	private double testCEPE_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
-		CEPE_Solver CEPE_Solver = new CEPE_Solver(testMethod, graph, prohibitions, obligationPath, arList);
-		System.out.println("MutationMethod is CEPE_Solver");
+	private double testCET_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		CET_Solver CET_Solver = new CET_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is CET_Solver");
 
 		try {
-			CEPE_Solver.init();
+			CET_Solver.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		arList = CEPE_Solver.getARList();
+		arList = CET_Solver.getARList();
 		
-		double mutationScore = CEPE_Solver.calculateMutationScore(CEPE_Solver.getNumberOfMutants(),
-				CEPE_Solver.getNumberOfKilledMutants());
+		double mutationScore = CET_Solver.calculateMutationScore(CET_Solver.getNumberOfMutants(),
+				CET_Solver.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + CEPE_Solver.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + CEPE_Solver.getNumberOfKilledMutants());
+		System.out.println("Number of mutations: " + CET_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + CET_Solver.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += CEPE_Solver.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += CEPE_Solver.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += CET_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += CET_Solver.getNumberOfKilledMutants();
 		return mutationScore;
 	}
 	
-	private double testREPE_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
-		REPE_Solver REPE_Solver = new REPE_Solver(testMethod, graph, prohibitions, obligationPath, arList);
-		System.out.println("MutationMethod is REPE_Solver");
+	private double testRET_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		RET_Solver RET_Solver = new RET_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is RET_Solver");
 
 		try {
-			REPE_Solver.init();
+			RET_Solver.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		arList = REPE_Solver.getARList();
+		arList = RET_Solver.getARList();
 		
-		double mutationScore = REPE_Solver.calculateMutationScore(REPE_Solver.getNumberOfMutants(),
-				REPE_Solver.getNumberOfKilledMutants());
+		double mutationScore = RET_Solver.calculateMutationScore(RET_Solver.getNumberOfMutants(),
+				RET_Solver.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + REPE_Solver.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + REPE_Solver.getNumberOfKilledMutants());
+		System.out.println("Number of mutations: " + RET_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + RET_Solver.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += REPE_Solver.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += REPE_Solver.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += RET_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += RET_Solver.getNumberOfKilledMutants();
 		return mutationScore;
 	}
 	
@@ -1796,57 +1887,327 @@ public class EquivalentMutantAnalyzer {
 		return mutationScore;
 	}
 	
-	private double testIGA_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
-		IGA_Solver IGA_Solver = new IGA_Solver(testMethod, graph, prohibitions, obligationPath, arList);
-		System.out.println("MutationMethod is IGA_Solver");
+	private double testCTG_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		CTG_Solver CTG_Solver = new CTG_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is CTG_Solver");
 
 		try {
-			IGA_Solver.init();
+			CTG_Solver.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		arList = IGA_Solver.getARList();
+		arList = CTG_Solver.getARList();
 		
-		double mutationScore = IGA_Solver.calculateMutationScore(IGA_Solver.getNumberOfMutants(),
-				IGA_Solver.getNumberOfKilledMutants());
+		double mutationScore = CTG_Solver.calculateMutationScore(CTG_Solver.getNumberOfMutants(),
+				CTG_Solver.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + IGA_Solver.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + IGA_Solver.getNumberOfKilledMutants());
+		System.out.println("Number of mutations: " + CTG_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + CTG_Solver.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += IGA_Solver.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += IGA_Solver.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += CTG_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += CTG_Solver.getNumberOfKilledMutants();
 		return mutationScore;
 	}
 	
-	private double testIAA_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
-		IAA_Solver IAA_Solver = new IAA_Solver(testMethod, graph, prohibitions, obligationPath, arList);
-		System.out.println("MutationMethod is IAA_Solver");
+	private double testCSG_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		CSG_Solver CSG_Solver = new CSG_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is CSG_Solver");
 
 		try {
-			IAA_Solver.init();
+			CSG_Solver.init();
 		} catch (PMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		arList = IAA_Solver.getARList();
+		arList = CSG_Solver.getARList();
 		
-		double mutationScore = IAA_Solver.calculateMutationScore(IAA_Solver.getNumberOfMutants(),
-				IAA_Solver.getNumberOfKilledMutants());
+		double mutationScore = CSG_Solver.calculateMutationScore(CSG_Solver.getNumberOfMutants(),
+				CSG_Solver.getNumberOfKilledMutants());
 		System.out.println("TestMethod is " + testMethod);
-		System.out.println("Number of mutations: " + IAA_Solver.getNumberOfMutants());
-		System.out.println("Number of killed mutants: " + IAA_Solver.getNumberOfKilledMutants());
+		System.out.println("Number of mutations: " + CSG_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + CSG_Solver.getNumberOfKilledMutants());
 
 		System.out.println("Mutation Score: " + mutationScore + "%");
 		System.out.println();
-		totalNumberOfMutantsForTest += IAA_Solver.getNumberOfMutants();
-		totalNumberOfKilledMutantsForTest += IAA_Solver.getNumberOfKilledMutants();
+		totalNumberOfMutantsForTest += CSG_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += CSG_Solver.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testCARG_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		CARG_Solver CARG_Solver = new CARG_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is CARG_Solver");
+
+		try {
+			CARG_Solver.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		arList = CARG_Solver.getARList();
+		
+		double mutationScore = CARG_Solver.calculateMutationScore(CARG_Solver.getNumberOfMutants(),
+				CARG_Solver.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + CARG_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + CARG_Solver.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += CARG_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += CARG_Solver.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testAARG_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		AARG_Solver AARG_Solver = new AARG_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is AARG_Solver");
+
+		try {
+			AARG_Solver.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		arList = AARG_Solver.getARList();
+		
+		double mutationScore = AARG_Solver.calculateMutationScore(AARG_Solver.getNumberOfMutants(),
+				AARG_Solver.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + AARG_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + AARG_Solver.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += AARG_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += AARG_Solver.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testRARG_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		RARG_Solver RARG_Solver = new RARG_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is RARG_Solver");
+
+		try {
+			RARG_Solver.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		arList = RARG_Solver.getARList();
+		
+		double mutationScore = RARG_Solver.calculateMutationScore(RARG_Solver.getNumberOfMutants(),
+				RARG_Solver.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + RARG_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + RARG_Solver.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += RARG_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += RARG_Solver.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testCDA_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		CDA_Solver CDA_Solver = new CDA_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is CDA_Solver");
+
+		try {
+			CDA_Solver.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		arList = CDA_Solver.getARList();
+		
+		double mutationScore = CDA_Solver.calculateMutationScore(CDA_Solver.getNumberOfMutants(),
+				CDA_Solver.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + CDA_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + CDA_Solver.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += CDA_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += CDA_Solver.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testCASA_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		CASA_Solver CASA_Solver = new CASA_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is CASA_Solver");
+
+		try {
+			CASA_Solver.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		arList = CASA_Solver.getARList();
+		
+		double mutationScore = CASA_Solver.calculateMutationScore(CASA_Solver.getNumberOfMutants(),
+				CASA_Solver.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + CASA_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + CASA_Solver.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += CASA_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += CASA_Solver.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testRDA_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		RDA_Solver RDA_Solver = new RDA_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is RDA_Solver");
+
+		try {
+			RDA_Solver.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		arList = RDA_Solver.getARList();
+		
+		double mutationScore = RDA_Solver.calculateMutationScore(RDA_Solver.getNumberOfMutants(),
+				RDA_Solver.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + RDA_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + RDA_Solver.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += RDA_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += RDA_Solver.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testROC_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		ROC_Solver ROC_Solver = new ROC_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is ROC_Solver");
+
+		try {
+			ROC_Solver.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		arList = ROC_Solver.getARList();
+		
+		double mutationScore = ROC_Solver.calculateMutationScore(ROC_Solver.getNumberOfMutants(),
+				ROC_Solver.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + ROC_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + ROC_Solver.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += ROC_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += ROC_Solver.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testNCD_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		NCD_Solver NCD_Solver = new NCD_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is NCD_Solver");
+
+		try {
+			NCD_Solver.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		arList = NCD_Solver.getARList();
+		
+		double mutationScore = NCD_Solver.calculateMutationScore(NCD_Solver.getNumberOfMutants(),
+				NCD_Solver.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + NCD_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + NCD_Solver.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += NCD_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += NCD_Solver.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testROF_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		ROF_Solver ROF_Solver = new ROF_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is ROF_Solver");
+
+		try {
+			ROF_Solver.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		arList = ROF_Solver.getARList();
+		
+		double mutationScore = ROF_Solver.calculateMutationScore(ROF_Solver.getNumberOfMutants(),
+				ROF_Solver.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + ROF_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + ROF_Solver.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += ROF_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += ROF_Solver.getNumberOfKilledMutants();
+		return mutationScore;
+	}
+	
+	private double testNOF_Solver(String testMethod, Graph graph, Prohibitions prohibitions, String obligationPath) throws Exception {
+		NOF_Solver NOF_Solver = new NOF_Solver(testMethod, graph, prohibitions, obligationPath, arList);
+		System.out.println("MutationMethod is NOF_Solver");
+
+		try {
+			NOF_Solver.init();
+		} catch (PMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		arList = NOF_Solver.getARList();
+		
+		double mutationScore = NOF_Solver.calculateMutationScore(NOF_Solver.getNumberOfMutants(),
+				NOF_Solver.getNumberOfKilledMutants());
+		System.out.println("TestMethod is " + testMethod);
+		System.out.println("Number of mutations: " + NOF_Solver.getNumberOfMutants());
+		System.out.println("Number of killed mutants: " + NOF_Solver.getNumberOfKilledMutants());
+
+		System.out.println("Mutation Score: " + mutationScore + "%");
+		System.out.println();
+		totalNumberOfMutantsForTest += NOF_Solver.getNumberOfMutants();
+		totalNumberOfKilledMutantsForTest += NOF_Solver.getNumberOfKilledMutants();
 		return mutationScore;
 	}
 	
