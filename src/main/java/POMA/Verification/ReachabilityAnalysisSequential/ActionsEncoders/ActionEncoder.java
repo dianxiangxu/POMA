@@ -13,6 +13,9 @@ import gov.nist.csd.pm.pip.obligations.model.functions.Arg;
 
 public abstract class ActionEncoder {
 
+	protected List<String> customVariables = new ArrayList<String>();
+
+	
 	protected String condition = "";
 	protected String negatedCondition = "";
 	protected HierarchyType conditionHierarchyType;
@@ -41,12 +44,12 @@ public abstract class ActionEncoder {
 
 	public List<Prerequisite> prerequisites;
 
-	List<ConditionCustom> conditions = new ArrayList<ConditionCustom>();
+	protected List<ConditionCustom> conditions = new ArrayList<ConditionCustom>();
 
-	HashMap<String, Integer> mapOfIDs;
+	protected HashMap<String, Integer> mapOfIDs;
 
 	public enum RelationType {
-		ASSIGN, ASSOCIATE
+		ASSIGN, ASSOCIATE, CUSTOM
 	}
 
 	public enum HierarchyType {
@@ -54,7 +57,7 @@ public abstract class ActionEncoder {
 	}
 
 	public enum ActionType {
-		ADD, REMOVE
+		ADD, REMOVE, CUSTOM
 	}
 
 	public ActionEncoder(HashMap<String, Integer> mapOfIDs, RelationType relationType, ActionType actionType) {
@@ -66,7 +69,9 @@ public abstract class ActionEncoder {
 	public String getCondition() {
 		return condition;
 	}
-
+	public String encodeCustomVariables() {
+		return "";
+	}
 	protected void setCondition(String condition) {
 		this.condition = condition;
 	}

@@ -1,0 +1,191 @@
+label: Assign
+rules:                 
+  - label: add_copi
+    event:
+      subject:
+        anyUser: 
+          - "PICreate"
+      policyClass: 
+        policyClass: EditingPolicyClass
+      operations:
+        - add-copi
+      target:
+        policyElements:
+          - name: CoPI
+            type: UA
+    response:
+      condition:
+        - function:
+            name: is_node_contained_in
+            args:
+              - function:
+                  name: copi_to_add
+              - function:
+                  name: get_node
+                  args:
+                    - CoPIEligible
+                    - UA    
+      actions:                
+        - assign:
+            - what:
+                function:
+                  name: copi_to_add
+              where:
+                name: CoPI
+                type: UA
+        - condition!:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_child_user_in_policy_class
+                      args: 
+                        - function:
+                            name: get_ancestor_in_policy_class
+                            args: 
+                              - function:
+                                  name: copi_to_add
+                              - function:
+                                  name: get_node
+                                  args:
+                                    - AcademicUnitsPolicyClass
+                                    - PC
+                              - "2"
+                        - function:
+                            name: get_node
+                            args:
+                              - AcademicUnitsPolicyClass
+                              - PC   
+                  - function:
+                      name: get_node
+                      args:
+                        - Chair
+                        - UA                  
+          assign:
+            - what:
+                function:
+                  name: get_child_user_in_policy_class
+                  args: 
+                    - function:
+                        name: get_ancestor_in_policy_class
+                        args: 
+                          - function:
+                              name: copi_to_add
+                          - function:
+                              name: get_node
+                              args:
+                                - AcademicUnitsPolicyClass
+                                - PC
+                          - "2"        
+                    - function:
+                        name: get_node
+                        args:
+                          - AcademicUnitsPolicyClass
+                          - PC                   
+              where:
+                name: Chair
+                type: UA
+        - condition!:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_child_user_in_policy_class
+                      args: 
+                        - function:
+                            name: get_ancestor_in_policy_class
+                            args: 
+                              - function:
+                                  name: copi_to_add
+                              - function:
+                                  name: get_node
+                                  args:
+                                    - AcademicUnitsPolicyClass
+                                    - PC
+                              - "4" 
+                        - function:
+                            name: get_node
+                            args:
+                              - AcademicUnitsPolicyClass
+                              - PC  
+                  - function:
+                      name: get_node
+                      args:
+                        - Dean
+                        - UA 
+          assign:
+            - what:
+                function:
+                  name: get_child_user_in_policy_class
+                  args: 
+                    - function:
+                        name: get_ancestor_in_policy_class
+                        args: 
+                          - function:
+                              name: copi_to_add
+                          - function:
+                              name: get_node
+                              args:
+                                - AcademicUnitsPolicyClass
+                                - PC
+                          - "4"
+                    - function:
+                        name: get_node
+                        args:
+                          - AcademicUnitsPolicyClass
+                          - PC                  
+              where:
+                name: Dean
+                type: UA
+        - condition!:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_child_user_in_policy_class
+                      args: 
+                        - function:
+                            name: get_ancestor_in_policy_class
+                            args: 
+                              - function:
+                                  name: copi_to_add
+                              - function:
+                                  name: get_node
+                                  args:
+                                    - AcademicUnitsPolicyClass
+                                    - PC
+                              - "3"
+                        - function:
+                            name: get_node
+                            args:
+                              - AcademicUnitsPolicyClass
+                              - PC   
+                  - function:
+                      name: get_node
+                      args:
+                        - Business Manager
+                        - UA
+          assign:
+            - what:
+                function:
+                  name: get_child_user_in_policy_class
+                  args: 
+                    - function:
+                        name: get_ancestor_in_policy_class
+                        args: 
+                          - function:
+                              name: copi_to_add
+                          - function:
+                              name: get_node
+                              args:
+                                - AcademicUnitsPolicyClass
+                                - PC
+                          - "3" 
+                    - function:
+                        name: get_node
+                        args:
+                          - AcademicUnitsPolicyClass
+                          - PC                                                    
+              where:
+                name: Business Manager
+                type: UA                                          

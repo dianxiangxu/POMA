@@ -34,19 +34,19 @@ public class SMTComposer extends Planner {
 //		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmRunning/LawFirmPolicy.json");
 //		 String yml = new String(
 //		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmRunning/Obligations_built_in_functions.yml")));
-		Graph graph = Utils.readAnyGraph("Policies/SequencesTestEnabling/Graph.json");
-		String yml = new String(Files.readAllBytes(Paths.get("Policies/SequencesTestDisabling/GrantGrant.yml")));
+		Graph graph = Utils.readAnyGraph("Policies/TEST/GPMS46Associate/Graph.json");
+		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/GPMS46Associate/Grant.yml")));
 //		String yml = new String(Files.readAllBytes(Paths.get("Policies/SequencesTestEnabling/AssignAssign.yml")));
 
 		Obligation obligation = EVRParser.parse(yml);
 		SMTComposer checker = new SMTComposer(graph, obligation);
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		checker.setBound(2);
+		checker.setBound(4);
 		checker.enableSMTOutput(true);
 
 		String precondition = "OBLIGATIONLABEL(obligation0, ?u1, ?ar1,?at1);";
-		String postcondition = "OBLIGATIONLABEL(obligation0, ?u1, ?ar1,?at1);";// "OBLIGATIONLABEL(accept_case, ?u, ?ar, PendingCases);";
+		String postcondition = "OBLIGATIONLABEL(obligation2, ?u1, ?ar1,?at1);";// "OBLIGATIONLABEL(accept_case, ?u, ?ar, PendingCases);";
 
 	 Solution solution = checker.solveConstraint(precondition, postcondition,
 	 graph);

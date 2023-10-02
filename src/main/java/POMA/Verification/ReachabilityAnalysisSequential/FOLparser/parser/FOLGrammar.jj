@@ -96,6 +96,7 @@ TOKEN :
 | < EXPLICITASSIGN : "EXPLICITASSIGN" >
 | < IMPLICITASSIGN : "IMPLICITASSIGN" >
 | < ASSIGN : "ASSIGN" >
+| < ASSIGNEFFECT : "ASSIGNEFFECT" >
 | < ASSOCIATE : "ASSOCIATE" >
 | < HIERARCHY : "HIERARCHY" >
 | < OBLIGATIONLABEL : "OBLIGATIONLABEL" >
@@ -169,6 +170,10 @@ IPredicate getPredicate() :
   {
     return new AssignPredicate();
   }
+| < ASSIGNEFFECT >
+  {
+    return new AssignEffectPredicate();
+  }  
 | < ASSOCIATE >
   {
     return new AssociatePredicate();
