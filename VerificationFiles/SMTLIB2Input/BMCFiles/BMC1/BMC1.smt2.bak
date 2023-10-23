@@ -114,19 +114,19 @@
 (assert (= (ASSOC 0) (set.insert(tuple 4 26 20) 
 (tuple 14 28 20) 
 (tuple 16 25 20) 
-(tuple 18 25 20) 
+(tuple 18 29 20) 
 (tuple 19 27 20) 
 (tuple 23 24 20) 
 (tuple 4 26 20) 
 (tuple 14 28 20) 
 (tuple 16 25 20) 
-(tuple 18 25 20) 
+(tuple 18 29 20) 
 (tuple 19 27 20) 
 (tuple 23 24 20) 
 (tuple 4 26 20) 
 (tuple 14 28 20) 
 (tuple 16 25 20) 
-(tuple 18 25 20) 
+(tuple 18 29 20) 
 (tuple 19 27 20) 
 (set.singleton (tuple 23 24 20)))))
 
@@ -156,205 +156,142 @@
 (set.singleton (tuple 23 23))))) 
 
 
-(declare-fun obligation1 (Int) Bool)
-(declare-fun obligation0 (Int) Bool)
+(declare-fun add_copi (Int) Bool)
 ;--------------------------------------------------------------------------------------------------------------------
 ;STEP1
 
 ; 5.1 a->PRE
-(declare-fun obligation0U_0 () Int)
-(declare-fun obligation0UA_0 () Int)
-(declare-fun obligation0AT_0 () Int)
-(declare-fun obligation0UO_0 () Int)
-(declare-fun obligation0ar_0 () Int)
-(declare-fun obligation0S_0 () Int)
-(declare-fun obligation0T_0 () Int)
-(assert (>= obligation0U_0 0))
-(assert (>= obligation0UA_0 0))
-(assert (>= obligation0AT_0 0))
-(assert (>= obligation0UO_0 0))
-(assert (or (= obligation0ar_0 27)
+(declare-fun add_copiU_0 () Int)
+(declare-fun add_copiUA_0 () Int)
+(declare-fun add_copiAT_0 () Int)
+(declare-fun add_copiUO_0 () Int)
+(declare-fun add_copiar_0 () Int)
+(declare-fun add_copiS_0 () Int)
+(declare-fun add_copiT_0 () Int)
+(assert (>= add_copiU_0 0))
+(assert (>= add_copiUA_0 0))
+(assert (>= add_copiAT_0 0))
+(assert (>= add_copiUO_0 0))
+(assert (or (= add_copiar_0 29)
 ))
-(assert (= obligation0S_0 19))
-(assert (= obligation0T_0 20))
-(assert (=> (= (obligation0 0) true) (and
- (set.member (tuple  obligation0U_0 obligation0S_0) (ASSIGN* 0))
- (set.member (tuple  obligation0U_0 obligation0UA_0) (ASSIGN* 0))
- (set.member (tuple obligation0UA_0 obligation0ar_0 obligation0AT_0) (ASSOC 0))
- (set.member (tuple  obligation0UO_0 obligation0T_0) (ASSIGN* 0))
- (set.member (tuple  obligation0UO_0 obligation0AT_0) (ASSIGN* 0))
- (set.member (tuple  obligation0U_0 obligation0U_0) USERS)
- (distinct obligation0S_0 obligation0U_0)
-)))
-
-
-(declare-fun obligation1U_0 () Int)
-(declare-fun obligation1UA_0 () Int)
-(declare-fun obligation1AT_0 () Int)
-(declare-fun obligation1UO_0 () Int)
-(declare-fun obligation1ar_0 () Int)
-(declare-fun obligation1S_0 () Int)
-(declare-fun obligation1T_0 () Int)
-(assert (>= obligation1U_0 0))
-(assert (>= obligation1UA_0 0))
-(assert (>= obligation1AT_0 0))
-(assert (>= obligation1UO_0 0))
-(assert (or (= obligation1ar_0 25)
-))
-(assert (= obligation1S_0 16))
-(assert (= obligation1T_0 20))
-(assert (=> (= (obligation1 0) true) (and
- (set.member (tuple  obligation1U_0 obligation1S_0) (ASSIGN* 0))
- (set.member (tuple  obligation1U_0 obligation1UA_0) (ASSIGN* 0))
- (set.member (tuple obligation1UA_0 obligation1ar_0 obligation1AT_0) (ASSOC 0))
- (set.member (tuple  obligation1UO_0 obligation1T_0) (ASSIGN* 0))
- (set.member (tuple  obligation1UO_0 obligation1AT_0) (ASSIGN* 0))
- (set.member (tuple  obligation1U_0 obligation1U_0) USERS)
- (distinct obligation1S_0 obligation1U_0)
+(assert (= add_copiS_0 18))
+(assert (= add_copiT_0 4))
+(assert (=> (= (add_copi 0) true) (and
+ (set.member (tuple  add_copiU_0 add_copiS_0) (ASSIGN* 0))
+ (set.member (tuple  add_copiU_0 add_copiUA_0) (ASSIGN* 0))
+ (set.member (tuple add_copiUA_0 add_copiar_0 add_copiAT_0) (ASSOC 0))
+ (set.member (tuple  add_copiUO_0 add_copiT_0) (ASSIGN* 0))
+ (set.member (tuple  add_copiUO_0 add_copiAT_0) (ASSIGN* 0))
+ (set.member (tuple  add_copiU_0 add_copiU_0) USERS)
+ (distinct add_copiS_0 add_copiU_0)
 )))
 
 
 
 
 ; 5.2 a->Eff
+;Configuration Modification Sets
+(declare-fun add_copi_AssignAction_1_0 () (Set (Tuple Int Int)))
 
-(declare-fun obligation0_AssignAction_1_0 () (Set (Tuple Int Int)))
+(declare-fun add_copi_AssignAction_1_1 () (Set (Tuple Int Int)))
 
-(declare-fun obligation0_AssignAction_1_0_* () (Set (Tuple Int Int)))
+(declare-fun add_copi_AssignAction_1_2 () (Set (Tuple Int Int)))
 
-(assert (=> (= ( obligation0 0) true)
+(declare-fun add_copi_AssignAction_1_3 () (Set (Tuple Int Int)))
+
+(declare-fun add_copi_AssignAction_1_0_* () (Set (Tuple Int Int)))
+
+(declare-fun add_copi_AssignAction_1_1_* () (Set (Tuple Int Int)))
+
+(declare-fun add_copi_AssignAction_1_2_* () (Set (Tuple Int Int)))
+
+(declare-fun add_copi_AssignAction_1_3_* () (Set (Tuple Int Int)))
+
+;Custom Variables
+(declare-fun ?copi_to_add_customvar_1 () Int)
+
+(declare-fun ?chair_customvar_1 () Int)
+
+(declare-fun ?bm_customvar_1 () Int)
+
+(declare-fun ?dean_customvar_1 () Int)
+
+(assert (=> (= ( add_copi 0) true)
 (and
 
 	;INDEPENDENT ACTIONS
 	(and
 
-		;ACTION: obligation0_AssignAction_1_0
-		(=>(and(not (set.member (tuple 17 16) (ASSIGN 0)))(not (= 17 16))(not (set.member (tuple 16 17) (ASSIGN* 0)))) (and (= obligation0_AssignAction_1_0 (set.singleton( tuple 17 16))) (= obligation0_AssignAction_1_0_* (set.union (set.singleton (tuple 17 16)) (rel.join (set.singleton (tuple 17 16)) (rel.join (set.singleton (tuple 16 16)) (ASSIGN* 0)))))))
+		;ACTION: add_copi_AssignAction_1_0
+		(=>(and(not (set.member (tuple ?copi_to_add_customvar_1 4) (ASSIGN 0)))(not (= ?copi_to_add_customvar_1 4))(not (set.member (tuple 4 ?copi_to_add_customvar_1) (ASSIGN* 0)))) (and (= add_copi_AssignAction_1_0 (set.singleton( tuple ?copi_to_add_customvar_1 4))) (= add_copi_AssignAction_1_0_* (set.union (set.singleton (tuple ?copi_to_add_customvar_1 4)) (rel.join (set.singleton (tuple ?copi_to_add_customvar_1 4)) (rel.join (set.singleton (tuple 4 4)) (ASSIGN* 0)))))))
 
-		(=>(not (and(not (set.member (tuple 17 16) (ASSIGN 0)))(not (= 17 16))(not (set.member (tuple 16 17) (ASSIGN* 0))))) (and (= obligation0_AssignAction_1_0 (as set.empty (Set (Tuple Int Int)))) (= obligation0_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))))
+		(=>(not (and(not (set.member (tuple ?copi_to_add_customvar_1 4) (ASSIGN 0)))(not (= ?copi_to_add_customvar_1 4))(not (set.member (tuple 4 ?copi_to_add_customvar_1) (ASSIGN* 0))))) (and (= add_copi_AssignAction_1_0 (as set.empty (Set (Tuple Int Int)))) (= add_copi_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))))
 
-	)
-)
-)
-)(assert (=> (= ( obligation0 0) false) (and(= obligation0_AssignAction_1_0 (as set.empty (Set (Tuple Int Int))))(= obligation0_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int)))))))
+		;ACTION: add_copi_AssignAction_1_1
+		(=>(and(not (set.member (tuple ?chair_customvar_1 2) (ASSIGN 0)))(not (= ?chair_customvar_1 2))(not (set.member (tuple 2 ?chair_customvar_1) (ASSIGN* 0)))) (and (= add_copi_AssignAction_1_1 (set.singleton( tuple ?chair_customvar_1 2))) (= add_copi_AssignAction_1_1_* (set.union (set.singleton (tuple ?chair_customvar_1 2)) (rel.join (set.singleton (tuple ?chair_customvar_1 2)) (rel.join (set.singleton (tuple 2 2)) (ASSIGN* 0)))))))
 
+		(=>(not (and(not (set.member (tuple ?chair_customvar_1 2) (ASSIGN 0)))(not (= ?chair_customvar_1 2))(not (set.member (tuple 2 ?chair_customvar_1) (ASSIGN* 0))))) (and (= add_copi_AssignAction_1_1 (as set.empty (Set (Tuple Int Int)))) (= add_copi_AssignAction_1_1_* (as set.empty (Set (Tuple Int Int))))))
 
+		;ACTION: add_copi_AssignAction_1_2
+		(=>(and(not (set.member (tuple ?bm_customvar_1 8) (ASSIGN 0)))(not (= ?bm_customvar_1 8))(not (set.member (tuple 8 ?bm_customvar_1) (ASSIGN* 0)))) (and (= add_copi_AssignAction_1_2 (set.singleton( tuple ?bm_customvar_1 8))) (= add_copi_AssignAction_1_2_* (set.union (set.singleton (tuple ?bm_customvar_1 8)) (rel.join (set.singleton (tuple ?bm_customvar_1 8)) (rel.join (set.singleton (tuple 8 8)) (ASSIGN* 0)))))))
 
-(declare-fun obligation1_AssignAction_1_0 () (Set (Tuple Int Int)))
+		(=>(not (and(not (set.member (tuple ?bm_customvar_1 8) (ASSIGN 0)))(not (= ?bm_customvar_1 8))(not (set.member (tuple 8 ?bm_customvar_1) (ASSIGN* 0))))) (and (= add_copi_AssignAction_1_2 (as set.empty (Set (Tuple Int Int)))) (= add_copi_AssignAction_1_2_* (as set.empty (Set (Tuple Int Int))))))
 
-(declare-fun obligation1_AssignAction_1_1 () (Set (Tuple Int Int)))
+		;ACTION: add_copi_AssignAction_1_3
+		(=>(and(not (set.member (tuple ?dean_customvar_1 10) (ASSIGN 0)))(not (= ?dean_customvar_1 10))(not (set.member (tuple 10 ?dean_customvar_1) (ASSIGN* 0)))) (and (= add_copi_AssignAction_1_3 (set.singleton( tuple ?dean_customvar_1 10))) (= add_copi_AssignAction_1_3_* (set.union (set.singleton (tuple ?dean_customvar_1 10)) (rel.join (set.singleton (tuple ?dean_customvar_1 10)) (rel.join (set.singleton (tuple 10 10)) (ASSIGN* 0)))))))
 
-(declare-fun obligation1_AssignAction_1_0_* () (Set (Tuple Int Int)))
-
-(declare-fun obligation1_AssignAction_1_1_* () (Set (Tuple Int Int)))
-
-(assert (=> (= ( obligation1 0) true)
-(and
-
-
-(or
-	(and
-	;NEGATED PRECONDITION: obligation1_AssignAction_1_1
-	(not 	(and
-		(and 
-			(not (set.member (tuple 15 18) (ASSIGN 0))) 
-			(not (set.subset (set.singleton(tuple 15 18)) (set.union (set.singleton (tuple 15 18)) (rel.join (set.singleton (tuple 15 18)) (rel.join (set.singleton (tuple 18 18)) (ASSIGN* 0)))) )		)
-		)
-		(and 
-			(not (set.member (tuple 18 15) (ASSIGN 0))) 
-			(not (set.subset (set.singleton(tuple 18 15)) (set.union (set.singleton (tuple 15 18)) (rel.join (set.singleton (tuple 15 18)) (rel.join (set.singleton (tuple 18 18)) (ASSIGN* 0)))) )		)
-		)
-	))
-	;NEGATED POSTCONDITION: obligation1_AssignAction_1_1
-	(= obligation1_AssignAction_1_1 (as set.empty (Set (Tuple Int Int))))
-	)
-
-	(and
-	;PRECONDITION: obligation1_AssignAction_1_1
-	(and
-		(and 
-			(not (set.member (tuple 15 18) (ASSIGN 0))) 
-			(not (set.subset (set.singleton(tuple 15 18)) (set.union (set.singleton (tuple 15 18)) (rel.join (set.singleton (tuple 15 18)) (rel.join (set.singleton (tuple 18 18)) (ASSIGN* 0)))) )		)
-		)
-		(and 
-			(not (set.member (tuple 18 15) (ASSIGN 0))) 
-			(not (set.subset (set.singleton(tuple 18 15)) (set.union (set.singleton (tuple 15 18)) (rel.join (set.singleton (tuple 15 18)) (rel.join (set.singleton (tuple 18 18)) (ASSIGN* 0)))) )		)
-		)
-	)
-	;POSTCONDITION: obligation1_AssignAction_1_1
-	(= obligation1_AssignAction_1_1 (set.singleton( tuple 15 18)))	;POSTCONDITION FLATTEN: obligation1_AssignAction_1_1_*
-	(= obligation1_AssignAction_1_1_* (set.union (set.singleton (tuple 15 18)) (rel.join (set.singleton (tuple 15 18)) (rel.join (set.singleton (tuple 18 18)) (ASSIGN* 0)))))
-	)
-)
-
-	;INDEPENDENT ACTIONS
-	(and
-
-		;ACTION: obligation1_AssignAction_1_0
-		(=>(and(not (set.member (tuple 15 18) (ASSIGN 0)))(not (= 15 18))(not (set.member (tuple 18 15) (ASSIGN* 0)))) (and (= obligation1_AssignAction_1_0 (set.singleton( tuple 15 18))) (= obligation1_AssignAction_1_0_* (set.union (set.singleton (tuple 15 18)) (rel.join (set.singleton (tuple 15 18)) (rel.join (set.singleton (tuple 18 18)) (ASSIGN* 0)))))))
-
-		(=>(not (and(not (set.member (tuple 15 18) (ASSIGN 0)))(not (= 15 18))(not (set.member (tuple 18 15) (ASSIGN* 0))))) (and (= obligation1_AssignAction_1_0 (as set.empty (Set (Tuple Int Int)))) (= obligation1_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))))
+		(=>(not (and(not (set.member (tuple ?dean_customvar_1 10) (ASSIGN 0)))(not (= ?dean_customvar_1 10))(not (set.member (tuple 10 ?dean_customvar_1) (ASSIGN* 0))))) (and (= add_copi_AssignAction_1_3 (as set.empty (Set (Tuple Int Int)))) (= add_copi_AssignAction_1_3_* (as set.empty (Set (Tuple Int Int))))))
 
 	)
 )
 )
-)(assert (=> (= ( obligation1 0) false) (and(= obligation1_AssignAction_1_0 (as set.empty (Set (Tuple Int Int))))(= obligation1_AssignAction_1_1 (as set.empty (Set (Tuple Int Int))))(= obligation1_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))(= obligation1_AssignAction_1_1_* (as set.empty (Set (Tuple Int Int)))))))
+)(assert (=> (= ( add_copi 0) false) (and(= add_copi_AssignAction_1_0 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_1 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_2 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_3 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_1_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_2_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_3_* (as set.empty (Set (Tuple Int Int)))))))
 
 
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 1) 
-	(set.union (ASSIGN 0) (set.union obligation1_AssignAction_1_1 (set.union obligation1_AssignAction_1_0  obligation0_AssignAction_1_0)))
+	(set.union (ASSIGN 0) (set.union add_copi_AssignAction_1_3 (set.union add_copi_AssignAction_1_2 (set.union add_copi_AssignAction_1_1  add_copi_AssignAction_1_0))))
 ))
 (assert (= (ASSIGN* 1) 
-	(set.union (ASSIGN* 0) (set.union obligation1_AssignAction_1_1_* (set.union obligation1_AssignAction_1_0_*  obligation0_AssignAction_1_0_*)))
+	(set.union (ASSIGN* 0) (set.union add_copi_AssignAction_1_3_* (set.union add_copi_AssignAction_1_2_* (set.union add_copi_AssignAction_1_1_*  add_copi_AssignAction_1_0_*))))
 ))
 (assert (= (ASSOC 1) (ASSOC 0)))
 
 ; 5.3 change implies the execution
 (assert (=> (distinct (ASSIGN* 1) (ASSIGN* 0))
 (or 
-(= (obligation0 0) true)(= (obligation1 0) true))))
+(= (add_copi 0) true))))
 (assert (=> (distinct (ASSIGN 1) (ASSIGN 0))
-(or (= (obligation0 0) true)(= (obligation1 0) true))))
-(assert (=> (distinct (ASSOC 1) (ASSOC 0))
-(or 
-)))
+(or (= (add_copi 0) true))))
+
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (obligation1 0) true)(= (obligation0 0) true)))
+(assert (or(= (add_copi 0) true)))
 
 ;PRE PROPERTY
 
 ;POST PROPERTY
-(declare-fun queryVARu2 () Int)
-(declare-fun queryVARar2 () Int)
-(declare-fun queryVARat2 () Int)
+(declare-fun queryVARu1 () Int)
+(declare-fun queryVARar1 () Int)
+(declare-fun queryVARat1 () Int)
 (assert 
-(and (= (obligation15 0) true)
- (= obligation15U_0 queryVARu2 ) (= obligation15ar_0 queryVARar2 ) (= obligation15T_0 queryVARat2 )))
+(and (= (add_copi 0) true)
+ (= add_copiU_0 queryVARu1 ) (= add_copiar_0 queryVARar1 ) (= add_copiT_0 queryVARat1 )))
 (check-sat)
-(get-value (obligation1))
-(get-value (obligation0))
-(get-value (obligation0U_0))
-(get-value (obligation0UA_0))
-(get-value (obligation0AT_0))
-(get-value (obligation0UO_0))
-(get-value (obligation0S_0))
-(get-value (obligation0T_0))
-(get-value (obligation0ar_0))
-(get-value (obligation1U_0))
-(get-value (obligation1UA_0))
-(get-value (obligation1AT_0))
-(get-value (obligation1UO_0))
-(get-value (obligation1S_0))
-(get-value (obligation1T_0))
-(get-value (obligation1ar_0))
-(get-value (queryVARu2))
-(get-value (queryVARar2))
-(get-value (queryVARat2))
+(get-value (add_copi))
+(get-value (add_copiU_0))
+(get-value (add_copiUA_0))
+(get-value (add_copiAT_0))
+(get-value (add_copiUO_0))
+(get-value (add_copiS_0))
+(get-value (add_copiT_0))
+(get-value (add_copiar_0))
+(get-value (queryVARu1))
+(get-value (queryVARar1))
+(get-value (queryVARat1))
 (get-value ((ASSIGN 0)))
 (get-value ((ASSIGN 1)))
 (get-value ((ASSOC 0)))

@@ -4,7 +4,7 @@ rules:
     event:
       subject:
         anyUser: 
-          - "PICreate"
+          - "PI"
       policyClass: 
         policyClass: EditingPolicyClass
       operations:

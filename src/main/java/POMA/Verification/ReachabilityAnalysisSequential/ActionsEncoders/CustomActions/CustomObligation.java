@@ -24,6 +24,4 @@ public class CustomObligation {
 		this.actions = actions;
 	}
 
-
-
 }

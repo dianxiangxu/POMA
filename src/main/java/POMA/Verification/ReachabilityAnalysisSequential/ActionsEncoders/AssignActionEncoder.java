@@ -15,17 +15,17 @@ import gov.nist.csd.pm.pip.obligations.model.actions.AssignAction.Assignment;
 public class AssignActionEncoder extends ActionEncoder {
 
 	private AssignAction assignAction;
-	private AssignmentCustom assignment;
+	private AssignmentCustom assignmentCustom;
 
 	public AssignActionEncoder(AssignAction action, HashMap<String, Integer> mapOfIDs) {
 		super(mapOfIDs, RelationType.ASSIGN, ActionType.ADD);
 		assignAction = action;
 		retrieveActionPolicyElements();
-		if (assignment.getWhatType().equals("UA") || assignment.getWhatType().equals("U")) {
+		if (assignmentCustom.getWhatType().equals("UA") || assignmentCustom.getWhatType().equals("U")) {
 			setPreconditionHierarchyType(HierarchyType.UA);
 			setPostconditionHierarchyType(HierarchyType.UA);
 		}
-		if (assignment.getWhatType().equals("OA") || assignment.getWhatType().equals("O")) {
+		if (assignmentCustom.getWhatType().equals("OA") || assignmentCustom.getWhatType().equals("O")) {
 			setPreconditionHierarchyType(HierarchyType.UA);
 			setPostconditionHierarchyType(HierarchyType.OA);
 		}
@@ -36,21 +36,35 @@ public class AssignActionEncoder extends ActionEncoder {
 		encodeNegatedCondition();
 		encodeNegatedPrecondition();
 	}
-
+	
+	public AssignActionEncoder(AssignmentCustom action, String customCondition, HashMap<String, Integer> mapOfIDs) {
+		super(mapOfIDs, RelationType.ASSIGN, ActionType.ADD);
+		assignmentCustom = action;
+		if (assignmentCustom.getWhatType().equals("UA") || assignmentCustom.getWhatType().equals("U")) {
+			setPreconditionHierarchyType(HierarchyType.UA);
+			setPostconditionHierarchyType(HierarchyType.UA);
+		}
+		if (assignmentCustom.getWhatType().equals("OA") || assignmentCustom.getWhatType().equals("O")) {
+			setPreconditionHierarchyType(HierarchyType.UA);
+			setPostconditionHierarchyType(HierarchyType.OA);
+		}
+		encodeActionPreconditions();
+		encodeActionPostcondition();
+		encodeActionPostconditionFlatten();
+		encodeNegatedCondition();
+		encodeNegatedPrecondition();
+	}
+	
 	protected void encodeActionPreconditions() {
 		conditions.add(new ConditionCustom(
-				"(not (set.member (tuple " + assignment.getWhat() + " " + assignment.getWhere() + ") (ASSIGN {k-1})))",
-				"(set.singleton(tuple " + assignment.getWhat() + " " + assignment.getWhere() + "))",
-				this.getConditionHierarchyType(), ConditionType.EXCLUSIVE));
-		conditions.add(new ConditionCustom(
-				"(not (set.member (tuple " + assignment.getWhere() + " " + assignment.getWhat() + ") (ASSIGN {k-1})))",
-				"(set.singleton(tuple " + assignment.getWhere() + " " + assignment.getWhat() + "))",
+				"(not (set.member (tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere() + ") (ASSIGN {k-1})))",
+				"(set.singleton(tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere() + "))",
 				this.getConditionHierarchyType(), ConditionType.EXCLUSIVE));
 
-		setPrecondition("(and" + "(not (set.member (tuple " + assignment.getWhat() + " " + assignment.getWhere()
+		setPrecondition("(and" + "(not (set.member (tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere()
 				+ ") (ASSIGN {k-1})))" // duplicate
-				+ "(not (= " + assignment.getWhat() + " " + assignment.getWhere() + "))" // x=y: cycle
-				+ "(not (set.member (tuple " + assignment.getWhere() + " " + assignment.getWhat() + ") (ASSIGN* {k-1})))" // ensure
+				+ "(not (= " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere() + "))" // x=y: cycle
+				+ "(not (set.member (tuple " + assignmentCustom.getWhere() + " " + assignmentCustom.getWhat() + ") (ASSIGN* {k-1})))" // ensure
 																														// that
 																														// no
 																														// assignment
@@ -60,52 +74,80 @@ public class AssignActionEncoder extends ActionEncoder {
 																														// a
 																														// cycle
 				+ ")");
-		setPreconditionSet("(set.singleton(tuple " + assignment.getWhat() + " " + assignment.getWhere() + "))");
+		setPreconditionSet("(set.singleton(tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere() + "))");
 	}
 
+	protected void encodeActionPreconditions(String customCondition) {
+		conditions.add(new ConditionCustom(
+				"(not (set.member (tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere() + ") (ASSIGN {k-1})))",
+				"(set.singleton(tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere() + "))",
+				this.getConditionHierarchyType(), ConditionType.EXCLUSIVE));
+
+		setPrecondition("(and " + customCondition + System.lineSeparator()+
+				
+				" (and" + "(not (set.member (tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere()
+				+ ") (ASSIGN {k-1})))" // duplicate
+				+ "(not (= " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere() + "))" // x=y: cycle
+				+ "(not (set.member (tuple " + assignmentCustom.getWhere() + " " + assignmentCustom.getWhat() + ") (ASSIGN* {k-1})))" // ensure
+																														// that
+																														// no
+																														// assignment
+																														// results
+																														// in
+																														// creating
+																														// a
+																														// cycle
+				+ "))");
+//		setPrecondition(customCondition);
+		setPreconditionSet("(set.singleton(tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere() + "))");
+	}	
+	
 	protected void encodeActionPostcondition() {
-		setPostcondition("(set.union (ASSIGN {k-1}) (set.singleton (tuple " + assignment.getWhat() + " "
-				+ assignment.getWhere() + ")))");
-		setPostconditionSet("(set.singleton( tuple " + assignment.getWhat() + " " + assignment.getWhere() + "))");
+		setPostcondition("(set.union (ASSIGN {k-1}) (set.singleton (tuple " + assignmentCustom.getWhat() + " "
+				+ assignmentCustom.getWhere() + ")))");
+		setPostconditionSet("(set.singleton( tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere() + "))");
 		setNegatedPostconditionSet("(as set.empty (Set (Tuple Int Int)))");
 	}
 
 	protected void encodeActionPostconditionFlatten() {
-		if (assignment.getWhatType().equals("UA")) {
+		if (assignmentCustom.getWhatType().equals("UA")) {
 			setPostconditionFlatten(getATATEncoding());
-		} else if (assignment.getWhatType().equals("OA")) {
+		} else if (assignmentCustom.getWhatType().equals("OA")) {
 			setPostconditionFlatten(getATATEncoding());
-		} else if (assignment.getWhatType().equals("U")) {
+		} else if (assignmentCustom.getWhatType().equals("U")) {
 			setPostconditionFlatten(getPEATEncoding());
-		} else if (assignment.getWhatType().equals("O")) {
+		} else if (assignmentCustom.getWhatType().equals("O")) {
+			setPostconditionFlatten(getPEATEncoding());
+		}
+		else {
 			setPostconditionFlatten(getPEATEncoding());
 		}
 	}
 
 	private String getATATEncoding() {
-		setPostconditionFlattenSet("(rel.join (rel.join (set.union (set.singleton (tuple " + assignment.getWhat() + " "
-				+ assignment.getWhat() + ")) (rel.join (ASSIGN* " + "{k-1}" + ") (set.singleton (tuple "
-				+ assignment.getWhat() + " " + assignment.getWhat() + ")))) (set.singleton (tuple " + assignment.getWhat()
-				+ " " + assignment.getWhere() + "))) (set.union (set.singleton (tuple " + assignment.getWhere() + " "
-				+ assignment.getWhere() + ")) (rel.join (set.singleton (tuple " + assignment.getWhere() + " "
-				+ assignment.getWhere() + ")) (ASSIGN* " + "{k-1}" + "))))");
+		setPostconditionFlattenSet("(rel.join (rel.join (set.union (set.singleton (tuple " + assignmentCustom.getWhat() + " "
+				+ assignmentCustom.getWhat() + ")) (rel.join (ASSIGN* " + "{k-1}" + ") (set.singleton (tuple "
+				+ assignmentCustom.getWhat() + " " + assignmentCustom.getWhat() + ")))) (set.singleton (tuple " + assignmentCustom.getWhat()
+				+ " " + assignmentCustom.getWhere() + "))) (set.union (set.singleton (tuple " + assignmentCustom.getWhere() + " "
+				+ assignmentCustom.getWhere() + ")) (rel.join (set.singleton (tuple " + assignmentCustom.getWhere() + " "
+				+ assignmentCustom.getWhere() + ")) (ASSIGN* " + "{k-1}" + "))))");
 
-		return "(set.union (ASSIGN* " + "{k-1}" + ") (rel.join (rel.join (set.union (set.singleton (tuple " + assignment.getWhat() + " "
-				+ assignment.getWhat() + ")) (rel.join (ASSIGN* " + "{k-1}" + ") (set.singleton (tuple "
-				+ assignment.getWhat() + " " + assignment.getWhat() + ")))) (set.singleton (tuple " + assignment.getWhat()
-				+ " " + assignment.getWhere() + "))) (set.union (set.singleton (tuple " + assignment.getWhere() + " "
-				+ assignment.getWhere() + ")) (rel.join (set.singleton (tuple " + assignment.getWhere() + " "
-				+ assignment.getWhere() + ")) (ASSIGN* " + "{k-1}" + ")))))";
+		return "(set.union (ASSIGN* " + "{k-1}" + ") (rel.join (rel.join (set.union (set.singleton (tuple " + assignmentCustom.getWhat() + " "
+				+ assignmentCustom.getWhat() + ")) (rel.join (ASSIGN* " + "{k-1}" + ") (set.singleton (tuple "
+				+ assignmentCustom.getWhat() + " " + assignmentCustom.getWhat() + ")))) (set.singleton (tuple " + assignmentCustom.getWhat()
+				+ " " + assignmentCustom.getWhere() + "))) (set.union (set.singleton (tuple " + assignmentCustom.getWhere() + " "
+				+ assignmentCustom.getWhere() + ")) (rel.join (set.singleton (tuple " + assignmentCustom.getWhere() + " "
+				+ assignmentCustom.getWhere() + ")) (ASSIGN* " + "{k-1}" + ")))))";
 	}
 
 	private String getPEATEncoding() {
-		setPostconditionFlattenSet("(set.union (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere()
-				+ ")) (rel.join (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere()
-				+ ")) (rel.join (set.singleton (tuple " + assignment.getWhere() + " " + assignment.getWhere() + ")) (ASSIGN* "
+		setPostconditionFlattenSet("(set.union (set.singleton (tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere()
+				+ ")) (rel.join (set.singleton (tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere()
+				+ ")) (rel.join (set.singleton (tuple " + assignmentCustom.getWhere() + " " + assignmentCustom.getWhere() + ")) (ASSIGN* "
 				+ "{k-1}" + "))))");
-		return "(set.union (ASSIGN* {k-1}) (set.union (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere()
-				+ ")) (rel.join (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere()
-				+ ")) (rel.join (set.singleton (tuple " + assignment.getWhere() + " " + assignment.getWhere() + ")) (ASSIGN* "
+		return "(set.union (ASSIGN* {k-1}) (set.union (set.singleton (tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere()
+				+ ")) (rel.join (set.singleton (tuple " + assignmentCustom.getWhat() + " " + assignmentCustom.getWhere()
+				+ ")) (rel.join (set.singleton (tuple " + assignmentCustom.getWhere() + " " + assignmentCustom.getWhere() + ")) (ASSIGN* "
 				+ "{k-1}" + ")))))";
 	}
 
@@ -140,7 +182,7 @@ public class AssignActionEncoder extends ActionEncoder {
 			whereType = whereNode.getType();
 		}
 
-		this.assignment = new AssignmentCustom(whatID, whereID, whatType, whereType);
+		this.assignmentCustom = new AssignmentCustom(whatID, whereID, whatType, whereType);
 	}
 
 	

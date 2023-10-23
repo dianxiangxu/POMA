@@ -22,7 +22,7 @@
     },
     {
       "name": "URD",
-      "type": "UA",
+      "type": "U",
       "properties": {}
     },
     {
@@ -251,5 +251,13 @@
         "create"
       ]
     }
+    ,
+    {
+      "source": "PI",
+      "target": "PDSWhole",
+      "operations": [
+        "add-copi"
+      ]
+    }    
   ]
 }

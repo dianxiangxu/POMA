@@ -47,4 +47,26 @@ public class ExplicitAssignPredicate implements IPredicate{
 		smtlibv2Code += System.lineSeparator();
 		return smtlibv2Code;
 	}
+
+	@Override
+	public String toSMTCustomFunction() throws Exception {
+		if (tuple.size() != 2) {
+			throw new Exception(
+					"Incorrect EXPLICITASSIGN predictate format. Please use the following format: EXPLICITASSIGN(ancestor, descendant)");
+		}
+		String smtlibv2Code = "";
+		String a = tuple.get(0) instanceof Constant ? tuple.get(0).getElement() : null;
+		String d = tuple.get(1) instanceof Constant ? tuple.get(1).getElement() : null;
+
+		String aVar = tuple.get(0).getElement()  + "_customvar_{k}";
+		String dVar = tuple.get(1).getElement()  + "_customvar_{k}";
+
+		String aSpec = a != null ? " [" + a + "] " : aVar;
+		String dSpec = d != null ? " [" + d + "] " : dVar;
+		smtlibv2Code += System.lineSeparator();
+		smtlibv2Code += "(set.member (tuple " + aSpec + " " + dSpec + " ) (ASSIGN " + "{k}" + "))";
+
+		smtlibv2Code += System.lineSeparator();
+		return smtlibv2Code;
+	}
 }

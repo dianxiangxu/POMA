@@ -2,49 +2,56 @@ package POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.CustomA
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.IFormula;
+import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.terms.ITerm;
 import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.parser.FOLGrammar;
 
 public class CustomAction {
 
-	private String relationType;
+	private String action;
+	
+
 	private String precondition;
 	private String effect;
 	static FOLGrammar parser = null;
+	private int index;
 
-	public String getRelationType() {
-		return relationType;
+	public String getAction() {
+		return action;
 	}
 
-	public void setRelationType(String relationType) {
-		this.relationType = relationType;
+	public void setAction(String action) {
+		this.action = action;
 	}
-
-	public String getPrecondition(int k) throws Exception {
-		return generateSMT(parseQuery(precondition), k, new ArrayList<String>(), new ArrayList<String>());
+	
+	public String getPrecondition(HashMap<String, Integer> mapOfIDs) throws Exception {
+		return generateSMT(parseQuery(precondition), mapOfIDs);
 	}
 
 	public void setPrecondition(String precondition) {
 		this.precondition = precondition;
 	}
 
-	public String getEffect(int k) throws Exception {
-		return generateSMT(parseQuery(effect), k, new ArrayList<String>(), new ArrayList<String>());
+	public List<ITerm> getEffectTuple() throws Exception {
+		IFormula f = parseQuery(effect);
+		f.getTuple();
+		return f.getTuple();
 	}
 
 	public void setEffect(String effect) {
 		this.effect = effect;
 	}
-
+	
 	public IFormula parseQuery(String query) {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(query.getBytes());
-		if (parser == null) {
-			parser = new FOLGrammar(inputStream);
-		} else {
+//		if (parser == null) {
+//			parser = new FOLGrammar(inputStream);
+//		} else {
 			parser.ReInit(inputStream);
-		}
+//		}
 
 		while (true) {
 			try {
@@ -61,34 +68,27 @@ public class CustomAction {
 		return null;
 	}
 
-	public String generateSMT(IFormula f, int k, List<String> queryVARS, List<String> queryConst) throws Exception {
+	public String generateSMT(IFormula f, HashMap<String, Integer> mapOfIDs) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
-		String formula = f.toSMT();
-
-		String formulaWithStep = formula.replace("{k}", Integer.toString(k)).replace("{(k + 1)}",
-				Integer.toString((k + 1)));
+		String formula = f.toSMTCustomFunction();
 
 		String[] splittedFormula = formula.split(" ");
 		for (String formulaElement : splittedFormula) {
-			if (formulaElement.contains("queryCONST") && !queryConst.contains(formulaElement)) {
-				sb.append("(declare-fun " + formulaElement + " () Int)");
-				sb.append(System.lineSeparator());
-				queryConst.add(formulaElement);
-				continue;
+			if (formulaElement.contains("[")) {
+				String cleanFormulaElement = formulaElement.replace("[", "").replace("]", "");
+				Integer elementId = mapOfIDs.getOrDefault(cleanFormulaElement, -1);
+				formula = formula.replace(formulaElement, Integer.toString(elementId));
 			}
-			if (formulaElement.contains("queryVAR") && !queryVARS.contains(formulaElement)) {
-				sb.append("(declare-fun " + formulaElement + " () Int)");
-				sb.append(System.lineSeparator());
-				queryVARS.add(formulaElement);
-				continue;
-			}
-//				if (formulaElement.contains("[")) {
-//					String cleanFormulaElement = formulaElement.replace("[", "").replace("]", "");
-//					Integer elementId = mapOfIDs.getOrDefault(cleanFormulaElement, -1);
-//					formulaWithStep = formulaWithStep.replace(formulaElement, Integer.toString(elementId));
-//				}
 		}
-		return formulaWithStep;
+		return formula;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 }

@@ -6,10 +6,10 @@ import java.util.List;
 import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.terms.Constant;
 import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.terms.ITerm;
 
-public class AssignEffectPredicate implements IPredicate {
+public class IsUserPredicate implements IPredicate {
 	List<ITerm> tuple = new ArrayList<ITerm>();
 
-	public AssignEffectPredicate() {
+	public IsUserPredicate() {
 	}
 
 	public List<ITerm> getTuple() {
@@ -22,35 +22,46 @@ public class AssignEffectPredicate implements IPredicate {
 
 	@Override
 	public String toString() {
-		return "AssignEffectPredicate [tuple=" + tuple + "]";
+		return "IsUserPredicate [tuple=" + tuple + "]";
 	}
 
 	public String toSMT() throws Exception {
-		if (tuple.size() != 2) {
+		if (tuple.size() != 1) {
 			throw new Exception(
-					"Incorrect ASSIGN predictate format. Please use the following format: ASSIGN(ancestor, descendant)");
+					"Incorrect IsUser predictate format. Please use the following format: ISUSER(user)");
 		}
 		String smtlibv2Code = "";
 		String a = tuple.get(0) instanceof Constant ? tuple.get(0).getElement() : null;
-		String d = tuple.get(1) instanceof Constant ? tuple.get(1).getElement() : null;
 
 		String aEncoding = "queryVAR" + tuple.get(0).getElement().replace("?", "");
-		String dEncoding = "queryVAR" + tuple.get(1).getElement().replace("?", "");
 
 		String aSpec = a != null ? " [" + a + "] " : aEncoding;
-		String dSpec = d != null ? " [" + d + "] " : dEncoding;
-
+		
 		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += "(set.union (set.singleton (tuple " + aSpec + " " + dSpec + " )) {SET})";
+		smtlibv2Code += "(set.member (tuple " + aSpec + " " + aSpec + " ) USERS)";
 
 		smtlibv2Code += System.lineSeparator();
 		return smtlibv2Code;
 	}
 
 	@Override
-	public String toSMTCustomFunction() {
-		// TODO Auto-generated method stub
-		return null;
+	public String toSMTCustomFunction() throws Exception {
+		if (tuple.size() != 1) {
+			throw new Exception(
+					"Incorrect IsUser predictate format. Please use the following format: ISUSER(user)");
+		}
+		String smtlibv2Code = "";
+		String a = tuple.get(0) instanceof Constant ? tuple.get(0).getElement() : null;
+
+		String aEncoding =  tuple.get(0).getElement() + "_customvar_{k}";
+
+		String aSpec = a != null ? " [" + a + "] " : aEncoding;
+
+		smtlibv2Code += System.lineSeparator();
+		smtlibv2Code += "(set.member (tuple " + aSpec + " " + aSpec + " ) USERS)";
+
+		smtlibv2Code += System.lineSeparator();
+		return smtlibv2Code;
 	}
 
 }

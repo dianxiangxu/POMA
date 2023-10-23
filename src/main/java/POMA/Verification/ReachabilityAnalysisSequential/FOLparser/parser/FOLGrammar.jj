@@ -102,7 +102,7 @@ TOKEN :
 | < OBLIGATIONLABEL : "OBLIGATIONLABEL" >
 | < NODEEXISTS : "NODEEXISTS" >
 | < EQUALS : "EQUALS" >
-
+| < ISUSER : "ISUSER" >
 }
 
 //logical connectives
@@ -189,6 +189,10 @@ IPredicate getPredicate() :
 | < NODEEXISTS >
 {
   return new NodeExistsPredicate();
+}
+| < ISUSER >
+{
+  return new IsUserPredicate();
 }
 | < EQUALS >
 {

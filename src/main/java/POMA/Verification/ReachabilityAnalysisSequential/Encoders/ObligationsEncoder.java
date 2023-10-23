@@ -59,12 +59,16 @@ public class ObligationsEncoder {
 	Obligation obligation;
 	HashMap<String, Integer> mapOfIDs;
 	List<Node> listOfNodes;
+	private String customObligationSpecPath = "";
+
 
 	public List<Node> getListOfNodes() {
 		return listOfNodes;
 	}
 
-	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, List<Node> listOfNodes) {
+	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, List<Node> listOfNodes, String customObligationSpecPath) {
+		this.customObligationSpecPath = customObligationSpecPath;
+
 		this.mapOfIDs = mapOfIDs;
 		this.listOfNodes = listOfNodes;
 		try {
@@ -77,7 +81,9 @@ public class ObligationsEncoder {
 		preprocessObligationRules();
 	}
 
-	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, String pathToObligations, List<Node> listOfNodes) {
+	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, String pathToObligations, List<Node> listOfNodes, String customObligationSpecPath) {
+		this.customObligationSpecPath = customObligationSpecPath;
+
 		this.mapOfIDs = mapOfIDs;
 		this.pathToObligations = pathToObligations;
 		this.listOfNodes = listOfNodes;
@@ -91,10 +97,13 @@ public class ObligationsEncoder {
 		preprocessObligationRules();
 	}
 
-	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, Obligation obligation, List<Node> listOfNodes) {
+	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, Obligation obligation, List<Node> listOfNodes, String customObligationSpecPath) {
+		this.customObligationSpecPath = customObligationSpecPath;
+
 		this.mapOfIDs = mapOfIDs;
 		this.obligation = obligation;
 		this.listOfNodes = listOfNodes;
+		
 		preprocessObligationRules();
 	}
 
@@ -200,7 +209,7 @@ public class ObligationsEncoder {
 			processVariables(obligationU, obligationUA, obligationAT, obligationUO, obligationS, obligationT,
 					obligationAR, sb, subjectID, targetID, arIds);
 
-			String condition = processEventCondition(r, k, obligationU, obligationUO);
+//			String condition = processEventCondition(r, k, obligationU, obligationUO);
 
 			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true) (and\r\n"
 					+ " (set.member (tuple  " + obligationU + " " + obligationS + ") (ASSIGN* " + (k - 1) + "))\r\n"
@@ -211,7 +220,10 @@ public class ObligationsEncoder {
 					+ (k - 1) + "))\r\n" + " (set.member (tuple  " + obligationU + " " + obligationU + ") USERS)\r\n"
 					+ " (distinct " + obligationS + " " + obligationU + ")\r\n"
 					// + " (distinct " + obligationUO + " " + obligationT + ")\r\n"
-					+ condition + ")))");
+//					+ condition 
+					+ 
+					
+					")))");
 			sb.append(System.lineSeparator());
 			sb.append(System.lineSeparator());
 			ruleLabels.add(r.getLabel());
@@ -331,6 +343,8 @@ public class ObligationsEncoder {
 
 		for (Rule rule : obligation.getRules()) {
 			ObligationEncoder oe = new ObligationEncoder();
+			oe.setCustomizationPath(customObligationSpecPath);
+			
 			sb.append(System.lineSeparator());
 			sb.append(oe.encodeObligation(rule, mapOfIDs, k));
 			sb.append(System.lineSeparator());

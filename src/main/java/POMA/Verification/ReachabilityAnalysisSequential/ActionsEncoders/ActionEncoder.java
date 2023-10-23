@@ -42,7 +42,7 @@ public abstract class ActionEncoder {
 	public String operationSet = "";
 	public String operationSetFlat = "";
 
-	public List<Prerequisite> prerequisites;
+	public List<Prerequisite> prerequisites = new ArrayList<Prerequisite>();
 
 	protected List<ConditionCustom> conditions = new ArrayList<ConditionCustom>();
 
@@ -262,7 +262,7 @@ public abstract class ActionEncoder {
 	}
 
 	protected void encodeNegatedCondition() {
-		if (condition.isBlank()) {
+		if (condition.trim().isEmpty()) {
 			return;
 		}
 		setNegatedPrecondition("(not " + condition + ")");

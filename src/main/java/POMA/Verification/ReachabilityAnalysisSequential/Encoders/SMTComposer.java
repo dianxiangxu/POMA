@@ -25,6 +25,9 @@ public class SMTComposer extends Planner {
 	private Map<String, String> eventMembers = new HashMap<String, String>();
 	private List<String> obligationEventVariables = new ArrayList<String>();
 	String pathToGraph;
+	private String customObligationSpecPath = "";
+
+	
 
 	ConfigurationEncoder gt;
 	ObligationsEncoder ot;
@@ -34,19 +37,21 @@ public class SMTComposer extends Planner {
 //		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmRunning/LawFirmPolicy.json");
 //		 String yml = new String(
 //		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmRunning/Obligations_built_in_functions.yml")));
-		Graph graph = Utils.readAnyGraph("Policies/TEST/GPMS46Associate/Graph.json");
-		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/GPMS46Associate/Grant.yml")));
+		Graph graph = Utils.readAnyGraph("Policies/TEST/ADDCOPI/Graph.json");
+		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/ADDCOPI/AddCoPI.yml")));
 //		String yml = new String(Files.readAllBytes(Paths.get("Policies/SequencesTestEnabling/AssignAssign.yml")));
 
 		Obligation obligation = EVRParser.parse(yml);
-		SMTComposer checker = new SMTComposer(graph, obligation);
+//		SMTComposer checker = new SMTComposer(graph, obligation, "Policies/TEST/ADDCOPI/customization_v2.txt");
+		SMTComposer checker = new SMTComposer(graph, obligation, "");
+
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		checker.setBound(4);
+		checker.setBound(1);
 		checker.enableSMTOutput(true);
 
-		String precondition = "OBLIGATIONLABEL(obligation0, ?u1, ?ar1,?at1);";
-		String postcondition = "OBLIGATIONLABEL(obligation2, ?u1, ?ar1,?at1);";// "OBLIGATIONLABEL(accept_case, ?u, ?ar, PendingCases);";
+		String precondition = "OBLIGATIONLABEL(add_copi, ?u1, ?ar1,?at1);";
+		String postcondition = "OBLIGATIONLABEL(add_copi, ?u1, ?ar1,?at1);";// "OBLIGATIONLABEL(accept_case, ?u, ?ar, PendingCases);";
 
 	 Solution solution = checker.solveConstraint(precondition, postcondition,
 	 graph);
@@ -66,10 +71,10 @@ public class SMTComposer extends Planner {
 		// ss.simulate();
 	}
 
-	public SMTComposer() throws Exception {
+	public SMTComposer(String customObligationSpecPath) throws Exception {
 		gt = new ConfigurationEncoder(pathToGraph);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationsEncoder(mapOfIDs, listOfNodes);
+		ot = new ObligationsEncoder(mapOfIDs, listOfNodes, customObligationSpecPath);
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
@@ -81,13 +86,14 @@ public class SMTComposer extends Planner {
 		eventMembers.putAll(ot.getEventMembers());
 	}
 
-	public SMTComposer(String pathToGraph, String pathToObligations) throws Exception {
+	public SMTComposer(String pathToGraph, String pathToObligations, String customObligationSpecPath) throws Exception {
 		this.pathToGraph = pathToGraph;
 		gt = new ConfigurationEncoder(pathToGraph);
 		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels,
 				eventMembers, listOfNodes);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationsEncoder(mapOfIDs, pathToObligations, listOfNodes);
+		ot = new ObligationsEncoder(mapOfIDs, pathToObligations, listOfNodes, customObligationSpecPath);
+
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
@@ -99,12 +105,13 @@ public class SMTComposer extends Planner {
 		eventMembers.putAll(ot.getEventMembers());
 	}
 
-	public SMTComposer(Graph graph, Obligation obligations) throws Exception {
+	public SMTComposer(Graph graph, Obligation obligations, String customObligationSpecPath) throws Exception {
 		gt = new ConfigurationEncoder(graph);
 		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels,
 				eventMembers, listOfNodes);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationsEncoder(mapOfIDs, obligations, listOfNodes);
+		ot = new ObligationsEncoder(mapOfIDs, obligations, listOfNodes, customObligationSpecPath);
+
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());
 		obligationsEvents.addAll(ot.getProcessedObligationsEventLabels());
