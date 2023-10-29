@@ -55,6 +55,7 @@ public class ObligationsEncoder {
 	private String actionsTranslation;
 	private Map<String, String> eventMembers = new HashMap<String, String>();
 	private List<String> obligationEventVariables = new ArrayList<String>();
+	List<String> _customActionVariables = new ArrayList<String>();
 
 	Obligation obligation;
 	HashMap<String, Integer> mapOfIDs;
@@ -219,7 +220,7 @@ public class ObligationsEncoder {
 					+ (k - 1) + "))\r\n" + " (set.member (tuple  " + obligationUO + " " + obligationAT + ") (ASSIGN* "
 					+ (k - 1) + "))\r\n" + " (set.member (tuple  " + obligationU + " " + obligationU + ") USERS)\r\n"
 					+ " (distinct " + obligationS + " " + obligationU + ")\r\n"
-					// + " (distinct " + obligationUO + " " + obligationT + ")\r\n"
+					 + " (distinct " + obligationUO + " " + obligationT + ")\r\n"
 //					+ condition 
 					+ 
 					
@@ -360,6 +361,7 @@ public class ObligationsEncoder {
 			if (oe.isAssociateRelated) {
 				associateRelatedObligationLabels.add(rule.getLabel());
 			}
+			_customActionVariables = oe.getCustomActionVariables();
 		}
 		sb.append(System.lineSeparator());
 		try {
@@ -614,7 +616,15 @@ public class ObligationsEncoder {
 		return actionsTranslation;
 	}
 
-	Map<String, String> getEventMembers() {
+	Map<String, String> getEventPolicyElements() {
 		return eventMembers;
+	}
+	
+	public List<String> getCustomActionVariables() {
+		return _customActionVariables;
+	}
+
+	public void set_customActionVariables(List<String> _customActionVariables) {
+		this._customActionVariables = _customActionVariables;
 	}
 }

@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -52,10 +53,10 @@ public class ObligationEncoder {
 
 	List<String> _customActionVariables = new ArrayList<String>();
 
+	List<String> _customAxioms = new ArrayList<String>();
+
 	private List<ActionEncoder> preprocessActions(List<Action> actions, HashMap<String, Integer> mapOfIDs, String label,
 			CustomObligation co) {
-
-//		List<CustomAction> customActions = processCustomObligations(_customizationPath).get(0).getActions();
 
 		List<ActionEncoder> encodedActions = new ArrayList<ActionEncoder>();
 		List<Prerequisite> allPrerequisites = new ArrayList<Prerequisite>();
@@ -67,12 +68,14 @@ public class ObligationEncoder {
 
 			if (co != null) {
 				List<CustomAction> customActions = co.getActions();
+				Optional<CustomAction> foundCustomAction = customActions.stream()
+						.filter(a -> a.getIndex() == actionIndex).findFirst();
 
-				if (customActions.stream().anyMatch(a -> a.getIndex() == actionIndex)) {
-
+				if (foundCustomAction.isPresent()) {
+					CustomAction customAction = foundCustomAction.get();
 					try {
-						actionEncoder = convertCustomActionToEncoder(customActions.get(actionIndex), action, mapOfIDs,
-								label, i);
+						actionEncoder = convertCustomActionToEncoder(customAction, action, mapOfIDs, label,
+								co.getAxiom(mapOfIDs), i);
 						encodedActions.add(actionEncoder);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -130,41 +133,72 @@ public class ObligationEncoder {
 	}
 
 	private ActionEncoder convertCustomActionToEncoder(CustomAction customAction, Action action,
-			HashMap<String, Integer> mapOfIDs, String label, int i) throws Exception {
-		List<ITerm> tuple = customAction.getEffectTuple();
-
-		if (customAction.getAction().equals("assign")) {
+			HashMap<String, Integer> mapOfIDs, String label, String query, int i) throws Exception {
+		List<ITerm> tuple = customAction.getActionTuple();
+		ActionEncoder encoder = null;
+		if (customAction.getAction().toLowerCase().contains("assign")) {
 			String ancestor = tuple.get(0).getElement();
 			String descendant = tuple.get(1).getElement();
 
 			if (ancestor.startsWith("?")) {
 				ancestor = ancestor + "_" + "customvar_{k}";
-				_customActionVariables.add(ancestor);
+				if (!_customActionVariables.contains(ancestor))
+					_customActionVariables.add(ancestor);
 			} else {
 				ancestor = mapOfIDs.get(ancestor).toString();
 			}
 			if (descendant.startsWith("?")) {
 				descendant = descendant + "_" + "customvar_{k}";
-				_customActionVariables.add(descendant);
+				if (!_customActionVariables.contains(descendant))
+					_customActionVariables.add(descendant);
 			} else {
 				descendant = mapOfIDs.get(descendant).toString();
 			}
 			isAssignRelated = true;
 			String operationSet = label + "_" + "AssignAction_{k}_" + i;
 			String operationSetFlat = label + "_" + "AssignAction_{k}_" + i + "_*";
-			String precondition = customAction.getPrecondition(mapOfIDs);
-			extractCustomVariables(precondition);
-			AssignActionEncoder encoder = new AssignActionEncoder(
+			extractCustomVariables(query);
+
+			encoder = new AssignActionEncoder(
 					new POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.AssignmentCustom(
 							ancestor, descendant, "", ""),
-					precondition, mapOfIDs);
+					mapOfIDs);
 			encoder.operationSet = operationSet;
 			encoder.operationSetFlat = operationSetFlat;
 			_actionSetsAssignAdd.add(operationSet);
 			_actionSetsAssignAddFlat.add(operationSetFlat);
-			return encoder;
+		} else if (customAction.getAction().toLowerCase().contains("associate")) {
+			String source = tuple.get(0).getElement();
+			String ar = tuple.get(1).getElement();
+			String target = tuple.get(2).getElement();
+
+			if (source.startsWith("?")) {
+				source = source + "_" + "customvar_{k}";
+				if (!_customActionVariables.contains(source))
+					_customActionVariables.add(source);
+			} else {
+				source = mapOfIDs.get(source).toString();
+			}
+			if (target.startsWith("?")) {
+				target = target + "_" + "customvar_{k}";
+				if (!_customActionVariables.contains(target))
+					_customActionVariables.add(target);
+			} else {
+				target = mapOfIDs.get(target).toString();
+			}
+			isAssociateRelated = true;
+			String operationSet = label + "_" + "GrantAction_{k}_" + i;
+
+			encoder = new GrantActionEncoder(
+					new POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.AssociationCustom(
+							source, target, "", List.of(mapOfIDs.get(ar))),
+					mapOfIDs);
+			encoder.operationSet = operationSet;
+			_actionSetsAssociateAdd.add(operationSet);
 		}
-		return null;
+		extractCustomVariables(query);
+
+		return encoder;
 	}
 
 	public void extractCustomVariables(String input) {
@@ -188,27 +222,27 @@ public class ObligationEncoder {
 			List<CustomObligation> customObligations = new ArrayList<CustomObligation>();
 			CustomObligation obligation = null;
 			List<CustomAction> actions = new ArrayList<CustomAction>();
-			int actionIndex = 0;
 			String[] lines = content.split("\n");
 			for (int i = 0; i < lines.length; i++) {
 				String line = lines[i].trim();
-				if (line.startsWith("Obligation:")) {
+				if (line.startsWith("CustomFunctions:")) {
 					if (obligation != null) {
 						obligation.setActions(actions);
 						customObligations.add(obligation);
-						actionIndex = 0;
 						actions = new ArrayList<CustomAction>();
 					}
 					obligation = new CustomObligation();
 					obligation.setLabel(line.split(":")[1].trim());
+				} else if (line.startsWith("query:")) {
+					obligation.setAxiom(line.split(":")[1].trim());
 				} else if (line.startsWith("action_")) {
+					int endIndex = line.indexOf(':');
+					int actionIndex = Integer.parseInt(line.substring("action_".length(), endIndex));
+
 					CustomAction action = new CustomAction();
 					action.setAction(lines[++i].split(":")[1].trim());
-					action.setPrecondition(lines[++i].split(":")[1].trim());
-					action.setEffect(lines[++i].split(":")[1].trim());
 					action.setIndex(actionIndex);
 					actions.add(action);
-					actionIndex++;
 				}
 
 			}
@@ -273,7 +307,8 @@ public class ObligationEncoder {
 		return operatingSetsDeclaration;
 	}
 
-	private String encodeObligation(List<ActionEncoder> actions, String label) throws Exception {
+	private String encodeObligation(List<ActionEncoder> actions, String label, CustomObligation co,
+			HashMap<String, Integer> mapOfIDs, int k) throws Exception {
 		StringBuilder sb = new StringBuilder();
 
 		List<ActionEncoder> independentActions = actions.stream().filter(action -> action.prerequisites.size() == 0)
@@ -281,11 +316,20 @@ public class ObligationEncoder {
 		List<ActionEncoder> conflictingActions = actions.stream().filter(action -> action.prerequisites.size() > 0)
 				.collect(Collectors.toList());
 		encodeConflictingActions(sb, conflictingActions);
-
-		return initializeActionSets() + System.lineSeparator() + "(assert (=> (= ( " + label + " {k-1}) true)"
-				+ System.lineSeparator() + "(and" + System.lineSeparator() + sb.toString()
+		String customAxiom = "";
+		if (co != null) {
+			customAxiom = encodeObligationAxiom(label, co.getAxiom(mapOfIDs), k);
+		}
+		return initializeActionSets() + customAxiom + System.lineSeparator() + "(assert (=> (= ( " + label
+				+ " {k-1}) true)" + System.lineSeparator() + "(and" + System.lineSeparator() + sb.toString()
 				+ encodeIndependentActions(independentActions) + ")" + System.lineSeparator() + ")"
 				+ System.lineSeparator() + ")" + encodeEventNegation(label) + System.lineSeparator();
+	}
+
+	private String encodeObligationAxiom(String label, String axiom, int k) throws Exception {
+		axiom = "(assert (=> (= ( " + label + " {k-1}) true)" + axiom + "))";
+		return System.lineSeparator() + ";AXIOM" + System.lineSeparator() + ActionEncoder.replaceKWithValue(axiom, k)
+				+ System.lineSeparator();
 	}
 
 	private String encodeEventNegation(String label) {
@@ -421,7 +465,8 @@ public class ObligationEncoder {
 		List<ActionEncoder> convertedActions = preprocessActions(obligation.getResponsePattern().getActions(), mapOfIDs,
 				obligation.getLabel(), co);
 		try {
-			return ActionEncoder.replaceKWithValue(encodeObligation(convertedActions, obligation.getLabel()), k);
+			return ActionEncoder
+					.replaceKWithValue(encodeObligation(convertedActions, obligation.getLabel(), co, mapOfIDs, k), k);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -448,25 +493,32 @@ public class ObligationEncoder {
 		return false;
 	}
 
-	public static void main(String[] args) throws Exception {
-		Graph graph = Utils.readAnyGraph("Policies/TEST/ADDCOPI/Graph.json");
-		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/ADDCOPI/AddCoPI.yml")));
-		Obligation obligation = EVRParser.parse(yml);
-		SMTComposer composer = new SMTComposer(graph, obligation, "");
-		HashMap<String, Integer> mapOfIDs = composer.getMapOfIDs();
-		ObligationEncoder oe = new ObligationEncoder();
-//		CustomObligation co = oe.processCustomObligation("Policies/TEST/ADDCOPI/customization_v2.txt");	
-
-//		List<ActionEncoder> convertedActions = oe.preprocessActions(
-//				obligation.getRules().get(0).getResponsePattern().getActions(), mapOfIDs,
-//				obligation.getRules().get(0).getLabel(), co);
-
-//		System.out.println(composer.generateHeadCode());
 //
-//		System.out.println(ActionEncoder
-//				.replaceKWithValue(oe.encodeObligation(convertedActions, obligation.getRules().get(0).getLabel()), 1));
-		return;
-
+//	public static void main(String[] args) throws Exception {
+//		Graph graph = Utils.readAnyGraph("Policies/TEST/ADDCOPI/Graph.json");
+//		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/ADDCOPI/AddCoPI.yml")));
+//		Obligation obligation = EVRParser.parse(yml);
+//		SMTComposer composer = new SMTComposer(graph, obligation, "");
+//		HashMap<String, Integer> mapOfIDs = composer.getMapOfIDs();
+//		ObligationEncoder oe = new ObligationEncoder();
+////		CustomObligation co = oe.processCustomObligation("Policies/TEST/ADDCOPI/customization_v2.txt");	
+//
+////		List<ActionEncoder> convertedActions = oe.preprocessActions(
+////				obligation.getRules().get(0).getResponsePattern().getActions(), mapOfIDs,
+////				obligation.getRules().get(0).getLabel(), co);
+//
+////		System.out.println(composer.generateHeadCode());
+////
+////		System.out.println(ActionEncoder
+////				.replaceKWithValue(oe.encodeObligation(convertedActions, obligation.getRules().get(0).getLabel()), 1));
+//		return;
+//
+//	}
+	public List<String> getCustomActionVariables() {
+		return _customActionVariables;
 	}
 
+	public void set_customActionVariables(List<String> _customActionVariables) {
+		this._customActionVariables = _customActionVariables;
+	}
 }

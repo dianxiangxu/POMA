@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import POMA.Utils;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder;
 import POMA.Verification.ReachabilityAnalysisSequential.model.Solution;
 import POMA.Verification.Translator.AssociationRelation;
 import gov.nist.csd.pm.pip.graph.Graph;
@@ -25,9 +26,6 @@ public class SMTComposer extends Planner {
 	private Map<String, String> eventMembers = new HashMap<String, String>();
 	private List<String> obligationEventVariables = new ArrayList<String>();
 	String pathToGraph;
-	private String customObligationSpecPath = "";
-
-	
 
 	ConfigurationEncoder gt;
 	ObligationsEncoder ot;
@@ -42,19 +40,19 @@ public class SMTComposer extends Planner {
 //		String yml = new String(Files.readAllBytes(Paths.get("Policies/SequencesTestEnabling/AssignAssign.yml")));
 
 		Obligation obligation = EVRParser.parse(yml);
-//		SMTComposer checker = new SMTComposer(graph, obligation, "Policies/TEST/ADDCOPI/customization_v2.txt");
-		SMTComposer checker = new SMTComposer(graph, obligation, "");
+		SMTComposer checker = new SMTComposer(graph, obligation, "Policies/TEST/ADDCOPI/customization_v3.txt");
+//		SMTComposer checker = new SMTComposer(graph, obligation, "");
 
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		checker.setBound(1);
+		checker.setBound(2);
 		checker.enableSMTOutput(true);
 
-		String precondition = "OBLIGATIONLABEL(add_copi, ?u1, ?ar1,?at1);";
-		String postcondition = "OBLIGATIONLABEL(add_copi, ?u1, ?ar1,?at1);";// "OBLIGATIONLABEL(accept_case, ?u, ?ar, PendingCases);";
+		String precondition = "OBLIGATIONLABEL(add_copi, ?u, ?ar,?at);";
+		String postcondition = "OBLIGATIONLABEL(add_copi, ?u, ?ar,?at);";// "OBLIGATIONLABEL(accept_case, ?u, ?ar,
+																			// PendingCases);";
 
-	 Solution solution = checker.solveConstraint(precondition, postcondition,
-	 graph);
+		Solution solution = checker.solveConstraint(precondition, postcondition, graph);
 //		 String precondition = "";
 //		String postcondition = "OBLIGATIONLABEL(obligation0, ?u2, ?ar2,?at2);";
 
@@ -83,7 +81,7 @@ public class SMTComposer extends Planner {
 		listOfAddedNodesUA_U.addAll(ot.getListOfCreatedNodesUA_U());
 		listOfAddedNodesOA_O.addAll(ot.getListOfCreatedNodesOA_O());
 		obligationLabels.addAll(ot.getRuleLabels());
-		eventMembers.putAll(ot.getEventMembers());
+		eventMembers.putAll(ot.getEventPolicyElements());
 	}
 
 	public SMTComposer(String pathToGraph, String pathToObligations, String customObligationSpecPath) throws Exception {
@@ -102,7 +100,7 @@ public class SMTComposer extends Planner {
 		listOfAddedNodesUA_U.addAll(ot.getListOfCreatedNodesUA_U());
 		listOfAddedNodesOA_O.addAll(ot.getListOfCreatedNodesOA_O());
 		obligationLabels.addAll(ot.getRuleLabels());
-		eventMembers.putAll(ot.getEventMembers());
+		eventMembers.putAll(ot.getEventPolicyElements());
 	}
 
 	public SMTComposer(Graph graph, Obligation obligations, String customObligationSpecPath) throws Exception {
@@ -123,7 +121,7 @@ public class SMTComposer extends Planner {
 		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels,
 				eventMembers, listOfNodes);
 		mapOfIDs = gt.getMapOfIDs();
-		eventMembers.putAll(ot.getEventMembers());
+		eventMembers.putAll(ot.getEventPolicyElements());
 	}
 
 	public SMTComposer(Solver solver, int bound, int amount) {
@@ -148,6 +146,8 @@ public class SMTComposer extends Planner {
 
 	protected String generateTailCode(List<String> queryVARS, int k) {
 		obligationEventVariables.addAll(ot.getObligationEventVariables());
+		List<String> customVariables = ot.getCustomActionVariables();
+
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += "(check-sat)";
 		smtlibv2Code += System.lineSeparator();
@@ -163,6 +163,22 @@ public class SMTComposer extends Planner {
 			smtlibv2Code += "(get-value (" + udVar + "))";
 			smtlibv2Code += System.lineSeparator();
 		}
+		for (String customFunctionVariable : customVariables) {
+			for (int i = 1; i <= k; i++) {
+				try {
+					String customVariable = ActionEncoder.replaceKWithValue(customFunctionVariable, i);
+					if (!_customFunctionVariables.contains(customVariable)) {
+						_customFunctionVariables.add(customVariable);
+					}
+						smtlibv2Code += "(get-value (" + customVariable + "))";
+						smtlibv2Code += System.lineSeparator();
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		for (int i = 0; i <= k; i++) {
 			smtlibv2Code += "(get-value ((" + "ASSIGN" + " " + i + ")))";
 			smtlibv2Code += System.lineSeparator();
@@ -171,6 +187,7 @@ public class SMTComposer extends Planner {
 			smtlibv2Code += "(get-value ((" + "ASSOC" + " " + i + ")))";
 			smtlibv2Code += System.lineSeparator();
 		}
+
 		return smtlibv2Code;
 	}
 

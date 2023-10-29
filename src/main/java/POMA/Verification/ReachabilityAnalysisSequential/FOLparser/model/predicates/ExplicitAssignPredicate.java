@@ -64,7 +64,7 @@ public class ExplicitAssignPredicate implements IPredicate{
 		String aSpec = a != null ? " [" + a + "] " : aVar;
 		String dSpec = d != null ? " [" + d + "] " : dVar;
 		smtlibv2Code += System.lineSeparator();
-		smtlibv2Code += "(set.member (tuple " + aSpec + " " + dSpec + " ) (ASSIGN " + "{k}" + "))";
+		smtlibv2Code += "(and (set.member (tuple " + aSpec + " " + dSpec + " ) (ASSIGN " + "{k-1}" + ")) (distinct " + aSpec + " " + dSpec + "))";
 
 		smtlibv2Code += System.lineSeparator();
 		return smtlibv2Code;

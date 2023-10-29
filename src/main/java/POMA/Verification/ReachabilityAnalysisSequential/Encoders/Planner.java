@@ -22,7 +22,8 @@ public abstract class Planner {
 	private int bound = 8;
 	private String smtCodeFilePath = "";
 	HashMap<String, Integer> mapOfIDs;
-	
+	List<String> _customFunctionVariables = new ArrayList<String>();
+
 	public HashMap<String, Integer> getMapOfIDs() {
 		return mapOfIDs;
 	}
@@ -107,7 +108,7 @@ public abstract class Planner {
 			String pathToFile = smtCodeFilePath + k + ".smt2";
 			saveCodeToFile(smtlibv2Code, pathToFile);
 			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
-					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes);
+					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes, _customFunctionVariables);
 			solved = solution == null ? false : true;
 			if (!solved) {
 				System.out.println("Solution not found with time horizon: " + k);

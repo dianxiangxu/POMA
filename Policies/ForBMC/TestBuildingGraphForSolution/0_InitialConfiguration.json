@@ -1,160 +1,170 @@
 {
   "nodes": [
     {
-      "name": "Case3Info",
-      "type": "OA",
-      "properties": {}
-    },
-    {
-      "name": "LeadAttorneysU",
+      "name": "BMCS",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "Attorneys",
+      "name": "Chair",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "AttorneysU",
+      "name": "CoPI",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Alice",
       "type": "U",
       "properties": {}
     },
     {
-      "name": "LeadAttorneys",
+      "name": "DeanCSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BM",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "AttorneysMain",
+      "name": "Dean",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "Attorneys3",
+      "name": "ChairCSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Vlad",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairCS",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "Attorneys1",
+      "name": "PDSO",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "DeanCS",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "CasePolicy",
+      "name": "DeptCS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "PI",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMCSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "EditingPolicy",
       "type": "PC",
       "properties": {}
     },
     {
-      "name": "Attorneys2",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "Attorneys3U",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "Attorneys2U",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "Attorneys1U",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "Case3",
+      "name": "PDS",
       "type": "OA",
       "properties": {}
     }
   ],
   "assignments": [
     {
-      "source": "Attorneys1U",
-      "target": "Attorneys1"
+      "source": "DeanCSUser",
+      "target": "DeanCS"
     },
     {
-      "source": "Attorneys2U",
-      "target": "Attorneys2"
+      "source": "PI",
+      "target": "EditingPolicy"
     },
     {
-      "source": "LeadAttorneys",
-      "target": "CasePolicy"
+      "source": "DeptCS",
+      "target": "ChairCS"
     },
     {
-      "source": "LeadAttorneys",
-      "target": "Attorneys"
+      "source": "Dean",
+      "target": "EditingPolicy"
     },
     {
-      "source": "Attorneys2U",
-      "target": "Attorneys"
+      "source": "BMCS",
+      "target": "DeanCS"
     },
     {
-      "source": "Attorneys3U",
-      "target": "Attorneys3"
+      "source": "Chair",
+      "target": "EditingPolicy"
     },
     {
-      "source": "AttorneysMain",
-      "target": "CasePolicy"
+      "source": "Alice",
+      "target": "DeptCS"
     },
     {
-      "source": "Attorneys",
-      "target": "AttorneysMain"
+      "source": "ChairCSUser",
+      "target": "ChairCS"
     },
     {
-      "source": "Attorneys2",
-      "target": "CasePolicy"
+      "source": "Vlad",
+      "target": "PI"
     },
     {
-      "source": "Attorneys1",
-      "target": "CasePolicy"
+      "source": "DeanCS",
+      "target": "EditingPolicy"
     },
     {
-      "source": "Case3Info",
-      "target": "Case3"
+      "source": "CoPI",
+      "target": "EditingPolicy"
     },
     {
-      "source": "Attorneys3",
-      "target": "CasePolicy"
+      "source": "BM",
+      "target": "EditingPolicy"
     },
     {
-      "source": "AttorneysU",
-      "target": "Attorneys"
+      "source": "BMCSUser",
+      "target": "BMCS"
     },
     {
-      "source": "Case3",
-      "target": "CasePolicy"
+      "source": "PDSO",
+      "target": "PDS"
     },
     {
-      "source": "LeadAttorneysU",
-      "target": "LeadAttorneys"
+      "source": "PDS",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "ChairCS",
+      "target": "BMCS"
     }
   ],
   "associations": [
     {
-      "source": "Attorneys",
-      "target": "Case3",
+      "source": "CoPI",
+      "target": "PDS",
       "operations": [
-        "refuse"
+        "delete"
       ]
     },
     {
-      "source": "LeadAttorneys",
-      "target": "Case3",
+      "source": "PI",
+      "target": "PDS",
       "operations": [
-        "approve",
-        "disapprove",
-        "withdraw"
-      ]
-    },
-    {
-      "source": "AttorneysMain",
-      "target": "Case3",
-      "operations": [
-        "accept"
+        "create"
       ]
     }
   ]

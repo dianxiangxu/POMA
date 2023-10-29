@@ -12,10 +12,7 @@ import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.parser.FOLGram
 public class CustomAction {
 
 	private String action;
-	
 
-	private String precondition;
-	private String effect;
 	static FOLGrammar parser = null;
 	private int index;
 
@@ -24,33 +21,27 @@ public class CustomAction {
 	}
 
 	public void setAction(String action) {
-		this.action = action;
-	}
-	
-	public String getPrecondition(HashMap<String, Integer> mapOfIDs) throws Exception {
-		return generateSMT(parseQuery(precondition), mapOfIDs);
-	}
-
-	public void setPrecondition(String precondition) {
-		this.precondition = precondition;
+		int index = action.indexOf('(');
+		String prefix = action.substring(0, index).toUpperCase();
+		if (prefix.toLowerCase().equals("grant")) {
+			prefix = "ASSOCIATE";
+		}
+		String rest = action.substring(index);
+		this.action = prefix + rest;
 	}
 
-	public List<ITerm> getEffectTuple() throws Exception {
-		IFormula f = parseQuery(effect);
+	public List<ITerm> getActionTuple() throws Exception {
+		IFormula f = parseQuery(action);
 		f.getTuple();
 		return f.getTuple();
 	}
 
-	public void setEffect(String effect) {
-		this.effect = effect;
-	}
-	
-	public IFormula parseQuery(String query) {
+	public static IFormula parseQuery(String query) {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(query.getBytes());
 //		if (parser == null) {
 //			parser = new FOLGrammar(inputStream);
 //		} else {
-			parser.ReInit(inputStream);
+		parser.ReInit(inputStream);
 //		}
 
 		while (true) {
@@ -68,7 +59,7 @@ public class CustomAction {
 		return null;
 	}
 
-	public String generateSMT(IFormula f, HashMap<String, Integer> mapOfIDs) throws Exception {
+	public static String generateSMT(IFormula f, HashMap<String, Integer> mapOfIDs) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
 		String formula = f.toSMTCustomFunction();

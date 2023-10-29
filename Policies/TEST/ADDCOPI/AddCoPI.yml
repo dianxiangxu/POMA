@@ -1,5 +1,27 @@
-label: Assign
-rules:                 
+label: CustomFunctions
+rules: 
+  - label: create_proposal
+    event:
+      subject:
+        anyUser: 
+          - PI     
+      operations:
+        - create
+      target:
+        policyElements:
+          - name: PDS
+            type: OA        
+    response:      
+      actions: 
+        - grant:
+             subject:
+               name: PI
+               type: UA
+             operations:
+               - add-copi
+             target:
+               name: PDS
+               type: OA                    
   - label: add_copi
     event:
       subject:
@@ -8,11 +30,11 @@ rules:
       policyClass: 
         policyClass: EditingPolicyClass
       operations:
-        - add-copi
+        - create
       target:
         policyElements:
-          - name: CoPI
-            type: UA
+          - name: PDS
+            type: OA
     response:
       condition:
         - function:
@@ -26,13 +48,6 @@ rules:
                     - CoPIEligible
                     - UA    
       actions:                
-        - assign:
-            - what:
-                function:
-                  name: copi_to_add
-              where:
-                name: CoPI
-                type: UA
         - condition!:
             - function:
                 name: is_node_contained_in
@@ -85,6 +100,13 @@ rules:
               where:
                 name: Chair
                 type: UA
+        - assign:
+            - what:
+                name: Alice
+                type: U
+              where:
+                name: CoPI
+                type: UA                
         - condition!:
             - function:
                 name: is_node_contained_in
@@ -188,4 +210,11 @@ rules:
                           - PC                                                    
               where:
                 name: Business Manager
-                type: UA                                          
+                type: UA 
+        - assign:
+            - what:
+                name: Alice
+                type: U
+              where:
+                name: CoPI
+                type: UA                                                           

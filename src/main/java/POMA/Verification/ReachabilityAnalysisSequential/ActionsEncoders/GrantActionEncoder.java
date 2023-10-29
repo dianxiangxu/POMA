@@ -37,7 +37,23 @@ public class GrantActionEncoder extends ActionEncoder {
 		encodeNegatedCondition();
 		encodeNegatedPrecondition();
 	}
-
+	public GrantActionEncoder(AssociationCustom action, HashMap<String, Integer> mapOfIDs) {
+		super(mapOfIDs, RelationType.ASSOCIATE, ActionType.ADD);
+		association = action;
+		if(association.getTargetType().equals("OA")) {
+			setPreconditionHierarchyType(HierarchyType.OTHER);
+			setPostconditionHierarchyType(HierarchyType.OTHER);
+		}
+		else {
+			setPreconditionHierarchyType(HierarchyType.UA);
+			setPostconditionHierarchyType(HierarchyType.UA);
+		}
+		encodeActionPreconditions();
+		encodeActionPostcondition();
+		encodeActionPostconditionFlatten();
+		encodeNegatedCondition();
+		encodeNegatedPrecondition();
+	}
 	protected void encodeActionPreconditions() {
 		List<Integer> ops = association.getOps();
 		if(ops.size()==1) {
