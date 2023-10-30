@@ -164,7 +164,7 @@
 (assert (>= add_copiUA_0 0))
 (assert (>= add_copiAT_0 0))
 (assert (>= add_copiUO_0 0))
-(assert (or (= add_copiar_0 18)
+(assert (or (= add_copiar_0 20)
 ))
 (assert (= add_copiS_0 14))
 (assert (= add_copiT_0 17))

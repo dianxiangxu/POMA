@@ -30,7 +30,7 @@ rules:
       policyClass: 
         policyClass: EditingPolicyClass
       operations:
-        - create
+        - add-copi
       target:
         policyElements:
           - name: PDS

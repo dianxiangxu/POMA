@@ -160,6 +160,13 @@
         "create",
         "add-copi"
       ]
+    },
+    {
+      "source": "CoPI",
+      "target": "PDS",
+      "operations": [
+        "delete"
+      ]
     }
   ]
 }

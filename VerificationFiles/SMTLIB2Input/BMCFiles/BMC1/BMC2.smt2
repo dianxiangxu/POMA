@@ -164,7 +164,7 @@
 (assert (>= add_copiUA_0 0))
 (assert (>= add_copiAT_0 0))
 (assert (>= add_copiUO_0 0))
-(assert (or (= add_copiar_0 18)
+(assert (or (= add_copiar_0 20)
 ))
 (assert (= add_copiS_0 14))
 (assert (= add_copiT_0 17))
@@ -212,8 +212,6 @@
 
 (declare-fun add_copi_AssignAction_1_3 () (Set (Tuple Int Int)))
 
-(declare-fun add_copi_GrantAction_1_4 () (Set (Tuple Int Int)))
-
 (declare-fun add_copi_AssignAction_1_0_* () (Set (Tuple Int Int)))
 
 (declare-fun add_copi_AssignAction_1_1_* () (Set (Tuple Int Int)))
@@ -221,6 +219,8 @@
 (declare-fun add_copi_AssignAction_1_2_* () (Set (Tuple Int Int)))
 
 (declare-fun add_copi_AssignAction_1_3_* () (Set (Tuple Int Int)))
+
+(declare-fun add_copi_GrantAction_1_4 () (Set (Tuple Int Int Int)))
 
 ;Custom Variables
 (declare-fun ?chair_customvar_1 () Int)
@@ -296,19 +296,19 @@
 	)
 )
 )
-)(assert (=> (= ( add_copi 0) false) (and(= add_copi_AssignAction_1_0 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_1 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_2 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_3 (as set.empty (Set (Tuple Int Int))))(= add_copi_GrantAction_1_4 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_1_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_2_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_3_* (as set.empty (Set (Tuple Int Int)))))))
+)(assert (=> (= ( add_copi 0) false) (and(= add_copi_AssignAction_1_0 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_1 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_2 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_3 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_1_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_2_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_1_3_* (as set.empty (Set (Tuple Int Int))))(= add_copi_GrantAction_1_4 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 1) 
-	(set.union (ASSIGN 0) (set.union add_copi_GrantAction_1_4 (set.union add_copi_AssignAction_1_3 (set.union add_copi_AssignAction_1_2 (set.union add_copi_AssignAction_1_1  add_copi_AssignAction_1_0)))))
+	(set.union (ASSIGN 0) (set.union add_copi_AssignAction_1_3 (set.union add_copi_AssignAction_1_2 (set.union add_copi_AssignAction_1_1  add_copi_AssignAction_1_0))))
 ))
 (assert (= (ASSIGN* 1) 
 	(set.union (ASSIGN* 0) (set.union add_copi_AssignAction_1_3_* (set.union add_copi_AssignAction_1_2_* (set.union add_copi_AssignAction_1_1_*  add_copi_AssignAction_1_0_*))))
 ))
 (assert (= (ASSOC 1) 
-	(set.union (ASSOC 0)  create_proposal_GrantAction_1_0)
+	(set.union (ASSOC 0) (set.union add_copi_GrantAction_1_4  create_proposal_GrantAction_1_0))
 ))
 
 ; 5.3 change implies the execution
@@ -369,7 +369,7 @@
 (assert (>= add_copiUA_1 0))
 (assert (>= add_copiAT_1 0))
 (assert (>= add_copiUO_1 0))
-(assert (or (= add_copiar_1 18)
+(assert (or (= add_copiar_1 20)
 ))
 (assert (= add_copiS_1 14))
 (assert (= add_copiT_1 17))
@@ -417,8 +417,6 @@
 
 (declare-fun add_copi_AssignAction_2_3 () (Set (Tuple Int Int)))
 
-(declare-fun add_copi_GrantAction_2_4 () (Set (Tuple Int Int)))
-
 (declare-fun add_copi_AssignAction_2_0_* () (Set (Tuple Int Int)))
 
 (declare-fun add_copi_AssignAction_2_1_* () (Set (Tuple Int Int)))
@@ -426,6 +424,8 @@
 (declare-fun add_copi_AssignAction_2_2_* () (Set (Tuple Int Int)))
 
 (declare-fun add_copi_AssignAction_2_3_* () (Set (Tuple Int Int)))
+
+(declare-fun add_copi_GrantAction_2_4 () (Set (Tuple Int Int Int)))
 
 ;Custom Variables
 (declare-fun ?chair_customvar_2 () Int)
@@ -501,19 +501,19 @@
 	)
 )
 )
-)(assert (=> (= ( add_copi 1) false) (and(= add_copi_AssignAction_2_0 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_1 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_2 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_3 (as set.empty (Set (Tuple Int Int))))(= add_copi_GrantAction_2_4 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_0_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_1_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_2_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_3_* (as set.empty (Set (Tuple Int Int)))))))
+)(assert (=> (= ( add_copi 1) false) (and(= add_copi_AssignAction_2_0 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_1 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_2 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_3 (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_0_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_1_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_2_* (as set.empty (Set (Tuple Int Int))))(= add_copi_AssignAction_2_3_* (as set.empty (Set (Tuple Int Int))))(= add_copi_GrantAction_2_4 (as set.empty (Set (Tuple Int Int Int)))))))
 
 
 
 ;RELATION TRANSITION ENCODING
 (assert (= (ASSIGN 2) 
-	(set.union (ASSIGN 1) (set.union add_copi_GrantAction_2_4 (set.union add_copi_AssignAction_2_3 (set.union add_copi_AssignAction_2_2 (set.union add_copi_AssignAction_2_1  add_copi_AssignAction_2_0)))))
+	(set.union (ASSIGN 1) (set.union add_copi_AssignAction_2_3 (set.union add_copi_AssignAction_2_2 (set.union add_copi_AssignAction_2_1  add_copi_AssignAction_2_0))))
 ))
 (assert (= (ASSIGN* 2) 
 	(set.union (ASSIGN* 1) (set.union add_copi_AssignAction_2_3_* (set.union add_copi_AssignAction_2_2_* (set.union add_copi_AssignAction_2_1_*  add_copi_AssignAction_2_0_*))))
 ))
 (assert (= (ASSOC 2) 
-	(set.union (ASSOC 1)  create_proposal_GrantAction_2_0)
+	(set.union (ASSOC 1) (set.union add_copi_GrantAction_2_4  create_proposal_GrantAction_2_0))
 ))
 
 ; 5.3 change implies the execution

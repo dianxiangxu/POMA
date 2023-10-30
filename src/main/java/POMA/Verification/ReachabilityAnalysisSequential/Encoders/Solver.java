@@ -170,17 +170,19 @@ public class Solver {
 				}
 			}
 			for (String var : customFunctionVariables) {
-					try {
-						var = ActionEncoder.replaceKWithValue(var, k);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					if (lineContains(line, var)) {
-						String[] splittedLineWithVars = line.split(" ");
-						int varAssignment = Integer.parseInt(splittedLineWithVars[splittedLineWithVars.length - 1]);
-						String variableName = var.replace("customvar_", "").replace("?", "");
+				try {
+					var = ActionEncoder.replaceKWithValue(var, k);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (lineContains(line, var)) {
+					String[] splittedLineWithVars = line.split(" ");
+					int varAssignment = Integer.parseInt(splittedLineWithVars[splittedLineWithVars.length - 1]);
+					String variableName = var.replace("customvar_", "").replace("?", "");
+					if (!getKeyFromValue(varAssignment, mapOfIDs).equals("NONE")) {
 						variablesList.add(new Variable(variableName, getKeyFromValue(varAssignment, mapOfIDs)));
-					}				
+					}
+				}
 			}
 			if (lineContains(line, "ASSIGN ")) {
 				int index = Integer.parseInt((line.split(" "))[1]);
