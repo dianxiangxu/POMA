@@ -180,6 +180,13 @@
         "create",
         "add-copi"
       ]
+    },
+    {
+      "source": "Chair",
+      "target": "PDS",
+      "operations": [
+        "approve"
+      ]
     }
   ]
 }

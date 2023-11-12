@@ -14,8 +14,13 @@ import gov.nist.csd.pm.pip.obligations.model.functions.Arg;
 public abstract class ActionEncoder {
 
 	protected List<String> customVariables = new ArrayList<String>();
+	public String customCondition;
 
 	
+	public void setCustomCondition(String customCondition) {
+		this.customCondition = customCondition;
+	}
+
 	protected String condition = "";
 	protected String negatedCondition = "";
 	protected HierarchyType conditionHierarchyType;

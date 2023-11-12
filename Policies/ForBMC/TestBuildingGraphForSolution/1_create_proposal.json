@@ -157,6 +157,7 @@
       "source": "PI",
       "target": "PDS",
       "operations": [
+        "submit",
         "create",
         "add-copi"
       ]

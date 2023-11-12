@@ -5,8 +5,4 @@ CustomFunctions: add_copi
 	action_2: 
 		action: assign(?bm, BM);
 	action_3: 
-		condition: NOT(EXPLICITASSIGN(?dean, Dean));	
-		action: assign(?dean, Dean);
-	action_4: 
-		condition: NOT(EXPLICITASSIGN(?dean, Dean));		
-		action: grant(PI, submit, ?test);	
+		action: assign(?dean, Dean);			

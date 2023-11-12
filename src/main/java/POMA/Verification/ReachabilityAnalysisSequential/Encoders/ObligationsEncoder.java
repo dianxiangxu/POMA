@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import POMA.Utils;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder;
@@ -361,7 +363,9 @@ public class ObligationsEncoder {
 			if (oe.isAssociateRelated) {
 				associateRelatedObligationLabels.add(rule.getLabel());
 			}
-			_customActionVariables = oe.getCustomActionVariables();
+			_customActionVariables = Stream.concat(_customActionVariables.stream(), oe.getCustomActionVariables().stream())
+		            .distinct()
+		            .collect(Collectors.toList());
 		}
 		sb.append(System.lineSeparator());
 		try {
@@ -572,27 +576,26 @@ public class ObligationsEncoder {
 		sb.append("))");
 		sb.append(System.lineSeparator());
 
-		// // AT MOST ONE
-		// sb.append(System.lineSeparator());
-		// sb.append(System.lineSeparator());
-		// sb.append("; AT MOST ONE");
-		// for (String tuple : labelTuples) {
-		// String[] tupleArray = tuple.split(":");
-		// sb.append(System.lineSeparator());
-		// sb.append("(assert (not (and (= (" + tupleArray[0] + " " + (k - 1) + ") true)
-		// (= (" + tupleArray[1] + " "
-		// + (k - 1) + ") true))))");
-		// }
-		// sb.append(System.lineSeparator());
-		// sb.append(System.lineSeparator());
-		// sb.append("; AT LEAST ONE");
-		// sb.append(System.lineSeparator());
-		// sb.append("(assert (or");
-		// for (String label : ruleLabels) {
-		// sb.append("(= (" + label + " " + (k - 1) + ") true)");
-		// }
-		// sb.append("))");
-		// sb.append(System.lineSeparator());
+		 // AT MOST ONE
+		 sb.append(System.lineSeparator());
+		 sb.append(System.lineSeparator());
+		 sb.append("; AT MOST ONE");
+		 for (String tuple : labelTuples) {
+		 String[] tupleArray = tuple.split(":");
+		 sb.append(System.lineSeparator());
+		 sb.append("(assert (not (and (= (" + tupleArray[0] + " " + (k - 1) + ") true)(= (" + tupleArray[1] + " "
+		 + (k - 1) + ") true))))");
+		 }
+		 sb.append(System.lineSeparator());
+		 sb.append(System.lineSeparator());
+		 sb.append("; AT LEAST ONE");
+		 sb.append(System.lineSeparator());
+		 sb.append("(assert (or");
+		 for (String label : ruleLabels) {
+		 sb.append("(= (" + label + " " + (k - 1) + ") true)");
+		 }
+		 sb.append("))");
+		 sb.append(System.lineSeparator());
 		return sb.toString();
 	}
 

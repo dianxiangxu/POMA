@@ -166,6 +166,13 @@
   ],
   "associations": [
     {
+      "source": "Chair",
+      "target": "PDS",
+      "operations": [
+        "approve"
+      ]
+    },
+    {
       "source": "CoPI",
       "target": "PDS",
       "operations": [

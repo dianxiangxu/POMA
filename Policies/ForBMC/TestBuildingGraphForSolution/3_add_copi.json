@@ -112,6 +112,10 @@
       "target": "DeanCS"
     },
     {
+      "source": "Alice",
+      "target": "CoPI"
+    },
+    {
       "source": "Chair",
       "target": "EditingPolicy"
     },
@@ -166,19 +170,26 @@
   ],
   "associations": [
     {
-      "source": "CoPI",
-      "target": "PDS",
-      "operations": [
-        "delete"
-      ]
-    },
-    {
       "source": "PI",
       "target": "PDS",
       "operations": [
         "submit",
         "create",
         "add-copi"
+      ]
+    },
+    {
+      "source": "Chair",
+      "target": "PDS",
+      "operations": [
+        "approve"
+      ]
+    },
+    {
+      "source": "CoPI",
+      "target": "PDS",
+      "operations": [
+        "delete"
       ]
     }
   ]

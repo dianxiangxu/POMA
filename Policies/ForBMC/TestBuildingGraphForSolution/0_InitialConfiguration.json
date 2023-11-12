@@ -154,17 +154,17 @@
   ],
   "associations": [
     {
-      "source": "CoPI",
-      "target": "PDS",
-      "operations": [
-        "delete"
-      ]
-    },
-    {
       "source": "PI",
       "target": "PDS",
       "operations": [
         "create"
+      ]
+    },
+    {
+      "source": "CoPI",
+      "target": "PDS",
+      "operations": [
+        "delete"
       ]
     }
   ]

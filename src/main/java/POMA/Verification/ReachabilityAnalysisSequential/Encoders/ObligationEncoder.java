@@ -136,6 +136,11 @@ public class ObligationEncoder {
 			HashMap<String, Integer> mapOfIDs, String label, String query, int i) throws Exception {
 		List<ITerm> tuple = customAction.getActionTuple();
 		ActionEncoder encoder = null;
+		String customConditionEncoding = null;
+		if(customAction.getCondition()!=null) {
+			customConditionEncoding = customAction.getConditionEncoding(mapOfIDs);
+			extractCustomVariables(customConditionEncoding);
+		}
 		if (customAction.getAction().toLowerCase().contains("assign")) {
 			String ancestor = tuple.get(0).getElement();
 			String descendant = tuple.get(1).getElement();
@@ -157,12 +162,11 @@ public class ObligationEncoder {
 			isAssignRelated = true;
 			String operationSet = label + "_" + "AssignAction_{k}_" + i;
 			String operationSetFlat = label + "_" + "AssignAction_{k}_" + i + "_*";
-			extractCustomVariables(query);
 
 			encoder = new AssignActionEncoder(
-					new POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.AssignmentCustom(
-							ancestor, descendant, "", ""),
-					mapOfIDs);
+								new POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.AssignmentCustom(
+										ancestor, descendant, "", ""),
+								mapOfIDs, customConditionEncoding);
 			encoder.operationSet = operationSet;
 			encoder.operationSetFlat = operationSetFlat;
 			_actionSetsAssignAdd.add(operationSet);
@@ -192,12 +196,12 @@ public class ObligationEncoder {
 			encoder = new GrantActionEncoder(
 					new POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.AssociationCustom(
 							source, target, "", List.of(mapOfIDs.get(ar))),
-					mapOfIDs);
+					mapOfIDs, customConditionEncoding);
 			encoder.operationSet = operationSet;
 			_actionSetsAssociateAdd.add(operationSet);
 		}
 		extractCustomVariables(query);
-
+		
 		return encoder;
 	}
 
@@ -235,13 +239,18 @@ public class ObligationEncoder {
 					obligation.setLabel(line.split(":")[1].trim());
 				} else if (line.startsWith("query:")) {
 					obligation.setAxiom(line.split(":")[1].trim());
-				} else if (line.startsWith("action_")) {
+				}
+				else if (line.startsWith("action_")) {
 					int endIndex = line.indexOf(':');
 					int actionIndex = Integer.parseInt(line.substring("action_".length(), endIndex));
 
 					CustomAction action = new CustomAction();
-					action.setAction(lines[++i].split(":")[1].trim());
 					action.setIndex(actionIndex);
+
+					if(lines[i+1].contains("condition:")) {
+						action.setCondition(lines[++i].split(":")[1].trim());
+					}
+					action.setAction(lines[++i].split(":")[1].trim());
 					actions.add(action);
 				}
 

@@ -12,6 +12,7 @@ import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.parser.FOLGram
 public class CustomAction {
 
 	private String action;
+	private String condition;
 
 	static FOLGrammar parser = null;
 	private int index;
@@ -81,5 +82,15 @@ public class CustomAction {
 
 	public void setIndex(int index) {
 		this.index = index;
+	}
+	public String getCondition() throws Exception {
+		return condition;
+	}
+	public String getConditionEncoding(HashMap<String, Integer> mapOfIDs) throws Exception {
+		return generateSMT(CustomAction.parseQuery(condition), mapOfIDs);
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
 	}
 }

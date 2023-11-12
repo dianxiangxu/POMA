@@ -16,12 +16,12 @@
       "properties": {}
     },
     {
-      "name": "DeanCSUser",
+      "name": "Alice",
       "type": "U",
       "properties": {}
     },
     {
-      "name": "Alice",
+      "name": "DeanCSUser",
       "type": "U",
       "properties": {}
     },
@@ -96,10 +96,6 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "BMCSUser",
-      "target": "BM"
-    },
-    {
       "source": "DeptCS",
       "target": "ChairCS"
     },
@@ -144,20 +140,12 @@
       "target": "BMCS"
     },
     {
-      "source": "DeanCSUser",
-      "target": "Dean"
-    },
-    {
       "source": "PDSO",
       "target": "PDS"
     },
     {
       "source": "PDS",
       "target": "EditingPolicy"
-    },
-    {
-      "source": "ChairCSUser",
-      "target": "Chair"
     },
     {
       "source": "ChairCS",
@@ -179,6 +167,13 @@
         "submit",
         "create",
         "add-copi"
+      ]
+    },
+    {
+      "source": "Chair",
+      "target": "PDS",
+      "operations": [
+        "approve"
       ]
     }
   ]

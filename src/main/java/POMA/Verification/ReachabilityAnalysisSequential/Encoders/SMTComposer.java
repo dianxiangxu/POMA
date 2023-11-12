@@ -36,7 +36,7 @@ public class SMTComposer extends Planner {
 //		 String yml = new String(
 //		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmRunning/Obligations_built_in_functions.yml")));
 		Graph graph = Utils.readAnyGraph("Policies/TEST/ADDCOPI/Graph.json");
-		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/ADDCOPI/AddCoPI.yml")));
+		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/ADDCOPI/obligation.yml")));
 //		String yml = new String(Files.readAllBytes(Paths.get("Policies/SequencesTestEnabling/AssignAssign.yml")));
 
 		Obligation obligation = EVRParser.parse(yml);
@@ -45,12 +45,14 @@ public class SMTComposer extends Planner {
 
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		checker.setBound(2);
+		checker.setBound(4);
 		checker.enableSMTOutput(true);
 
-		String precondition = "OBLIGATIONLABEL(add_copi, ?u, ?ar,?at);";
-		String postcondition = "OBLIGATIONLABEL(add_copi, ?u, ?ar,?at);";// "OBLIGATIONLABEL(accept_case, ?u, ?ar,
-																			// PendingCases);";
+		String precondition = "OBLIGATIONLABEL(submit_proposal, ?u0, ?ar0,?at0);";
+		
+		
+		String postcondition = "OBLIGATIONLABEL(chair_approve, ?u, ?ar,?at);";
+		
 
 		Solution solution = checker.solveConstraint(precondition, postcondition, graph);
 //		 String precondition = "";
