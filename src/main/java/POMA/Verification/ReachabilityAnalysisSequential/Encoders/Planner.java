@@ -97,7 +97,7 @@ public abstract class Planner {
 			List<String> queryConst = new ArrayList<String>();
 
 			smtlibv2Code += ";PRE PROPERTY";
-			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k-2), queryVARS, queryConst) : "";
+//			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k-2), queryVARS, queryConst) : "";
 			smtlibv2Code += System.lineSeparator()
 					+ System.lineSeparator()
 					+ ";POST PROPERTY";

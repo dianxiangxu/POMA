@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import POMA.Utils;
+import POMA.Verification.ReachabilityAnalysisRace.Encoders.RaceObligationProcessor;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder;
 import POMA.Verification.Translator.AssociationRelation;
 import gov.nist.csd.pm.operations.OperationSet;
@@ -64,12 +65,12 @@ public class ObligationsEncoder {
 	List<Node> listOfNodes;
 	private String customObligationSpecPath = "";
 
-
 	public List<Node> getListOfNodes() {
 		return listOfNodes;
 	}
 
-	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, List<Node> listOfNodes, String customObligationSpecPath) {
+	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, List<Node> listOfNodes,
+			String customObligationSpecPath) {
 		this.customObligationSpecPath = customObligationSpecPath;
 
 		this.mapOfIDs = mapOfIDs;
@@ -84,7 +85,8 @@ public class ObligationsEncoder {
 		preprocessObligationRules();
 	}
 
-	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, String pathToObligations, List<Node> listOfNodes, String customObligationSpecPath) {
+	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, String pathToObligations, List<Node> listOfNodes,
+			String customObligationSpecPath) {
 		this.customObligationSpecPath = customObligationSpecPath;
 
 		this.mapOfIDs = mapOfIDs;
@@ -100,13 +102,21 @@ public class ObligationsEncoder {
 		preprocessObligationRules();
 	}
 
-	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, Obligation obligation, List<Node> listOfNodes, String customObligationSpecPath) {
+	public ObligationsEncoder(HashMap<String, Integer> mapOfIDs, Obligation obligation, List<Node> listOfNodes,
+			String customObligationSpecPath, boolean processRaceConditions) {
 		this.customObligationSpecPath = customObligationSpecPath;
 
 		this.mapOfIDs = mapOfIDs;
 		this.obligation = obligation;
 		this.listOfNodes = listOfNodes;
-		
+		if (processRaceConditions) {
+			RaceObligationProcessor rop = new RaceObligationProcessor();
+			List<Rule> raceObligations = rop.getObligationsWithRaces(obligation);
+			List<Rule> allObligations = new ArrayList<Rule>();
+			allObligations.addAll(obligation.getRules());
+			allObligations.addAll(raceObligations);
+			obligation.setRules(allObligations);
+		}
 		preprocessObligationRules();
 	}
 
@@ -212,8 +222,6 @@ public class ObligationsEncoder {
 			processVariables(obligationU, obligationUA, obligationAT, obligationUO, obligationS, obligationT,
 					obligationAR, sb, subjectID, targetID, arIds);
 
-//			String condition = processEventCondition(r, k, obligationU, obligationUO);
-
 			sb.append("(assert (=> (= (" + obligationLabel + " " + (k - 1) + ") true) (and\r\n"
 					+ " (set.member (tuple  " + obligationU + " " + obligationS + ") (ASSIGN* " + (k - 1) + "))\r\n"
 					+ " (set.member (tuple  " + obligationU + " " + obligationUA + ") (ASSIGN* " + (k - 1) + "))\r\n"
@@ -221,12 +229,8 @@ public class ObligationsEncoder {
 					+ (k - 1) + "))\r\n" + " (set.member (tuple  " + obligationUO + " " + obligationT + ") (ASSIGN* "
 					+ (k - 1) + "))\r\n" + " (set.member (tuple  " + obligationUO + " " + obligationAT + ") (ASSIGN* "
 					+ (k - 1) + "))\r\n" + " (set.member (tuple  " + obligationU + " " + obligationU + ") USERS)\r\n"
-					+ " (distinct " + obligationS + " " + obligationU + ")\r\n"
-					 + " (distinct " + obligationUO + " " + obligationT + ")\r\n"
-//					+ condition 
-					+ 
-					
-					")))");
+					+ " (distinct " + obligationS + " " + obligationU + ")\r\n" + " (distinct " + obligationUO + " "
+					+ obligationT + ")\r\n" + ")))");
 			sb.append(System.lineSeparator());
 			sb.append(System.lineSeparator());
 			ruleLabels.add(r.getLabel());
@@ -347,7 +351,7 @@ public class ObligationsEncoder {
 		for (Rule rule : obligation.getRules()) {
 			ObligationEncoder oe = new ObligationEncoder();
 			oe.setCustomizationPath(customObligationSpecPath);
-			
+
 			sb.append(System.lineSeparator());
 			sb.append(oe.encodeObligation(rule, mapOfIDs, k));
 			sb.append(System.lineSeparator());
@@ -363,9 +367,9 @@ public class ObligationsEncoder {
 			if (oe.isAssociateRelated) {
 				associateRelatedObligationLabels.add(rule.getLabel());
 			}
-			_customActionVariables = Stream.concat(_customActionVariables.stream(), oe.getCustomActionVariables().stream())
-		            .distinct()
-		            .collect(Collectors.toList());
+			_customActionVariables = Stream
+					.concat(_customActionVariables.stream(), oe.getCustomActionVariables().stream()).distinct()
+					.collect(Collectors.toList());
 		}
 		sb.append(System.lineSeparator());
 		try {
@@ -576,26 +580,26 @@ public class ObligationsEncoder {
 		sb.append("))");
 		sb.append(System.lineSeparator());
 
-		 // AT MOST ONE
-		 sb.append(System.lineSeparator());
-		 sb.append(System.lineSeparator());
-		 sb.append("; AT MOST ONE");
-		 for (String tuple : labelTuples) {
-		 String[] tupleArray = tuple.split(":");
-		 sb.append(System.lineSeparator());
-		 sb.append("(assert (not (and (= (" + tupleArray[0] + " " + (k - 1) + ") true)(= (" + tupleArray[1] + " "
-		 + (k - 1) + ") true))))");
-		 }
-		 sb.append(System.lineSeparator());
-		 sb.append(System.lineSeparator());
-		 sb.append("; AT LEAST ONE");
-		 sb.append(System.lineSeparator());
-		 sb.append("(assert (or");
-		 for (String label : ruleLabels) {
-		 sb.append("(= (" + label + " " + (k - 1) + ") true)");
-		 }
-		 sb.append("))");
-		 sb.append(System.lineSeparator());
+		// AT MOST ONE
+		sb.append(System.lineSeparator());
+		sb.append(System.lineSeparator());
+		sb.append("; AT MOST ONE");
+		for (String tuple : labelTuples) {
+			String[] tupleArray = tuple.split(":");
+			sb.append(System.lineSeparator());
+			sb.append("(assert (not (and (= (" + tupleArray[0] + " " + (k - 1) + ") true)(= (" + tupleArray[1] + " "
+					+ (k - 1) + ") true))))");
+		}
+		sb.append(System.lineSeparator());
+		sb.append(System.lineSeparator());
+		sb.append("; AT LEAST ONE");
+		sb.append(System.lineSeparator());
+		sb.append("(assert (or");
+		for (String label : ruleLabels) {
+			sb.append("(= (" + label + " " + (k - 1) + ") true)");
+		}
+		sb.append("))");
+		sb.append(System.lineSeparator());
 		return sb.toString();
 	}
 
@@ -622,7 +626,7 @@ public class ObligationsEncoder {
 	Map<String, String> getEventPolicyElements() {
 		return eventMembers;
 	}
-	
+
 	public List<String> getCustomActionVariables() {
 		return _customActionVariables;
 	}

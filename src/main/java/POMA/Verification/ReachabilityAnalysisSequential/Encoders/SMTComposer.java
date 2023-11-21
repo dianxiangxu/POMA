@@ -35,8 +35,21 @@ public class SMTComposer extends Planner {
 //		 Graph graph = Utils.readAnyGraph("Policies/ForBMC/LawFirmRunning/LawFirmPolicy.json");
 //		 String yml = new String(
 //		 		Files.readAllBytes(Paths.get("Policies/ForBMC/LawFirmRunning/Obligations_built_in_functions.yml")));
-		Graph graph = Utils.readAnyGraph("Policies/TEST/ADDCOPI/Graph.json");
-		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/ADDCOPI/obligation.yml")));
+
+		// CUSTOM FUNCTIONS TEST
+//		Graph graph = Utils.readAnyGraph("Policies/TEST/ADDCOPI/Graph.json");
+//		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/ADDCOPI/obligation.yml")));
+//		String precondition = "OBLIGATIONLABEL(submit_proposal, ?u0, ?ar0,?at0);";
+//
+//		String postcondition = "OBLIGATIONLABEL(chair_approve, ?u, ?ar,?at);";
+		
+		// RACE CONDITIONS TEST
+		Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");
+
+		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/AssignANDGrant.yml")));
+		String precondition = "OBLIGATIONLABEL(obligation1_obligation2, ?u0, ?ar0,?at0);";
+
+		String postcondition = "OBLIGATIONLABEL(obligation1_obligation2, ?u, ?ar,?at);";
 //		String yml = new String(Files.readAllBytes(Paths.get("Policies/SequencesTestEnabling/AssignAssign.yml")));
 
 		Obligation obligation = EVRParser.parse(yml);
@@ -47,12 +60,6 @@ public class SMTComposer extends Planner {
 		long start = System.currentTimeMillis();
 		checker.setBound(4);
 		checker.enableSMTOutput(true);
-
-		String precondition = "OBLIGATIONLABEL(submit_proposal, ?u0, ?ar0,?at0);";
-		
-		
-		String postcondition = "OBLIGATIONLABEL(chair_approve, ?u, ?ar,?at);";
-		
 
 		Solution solution = checker.solveConstraint(precondition, postcondition, graph);
 //		 String precondition = "";
@@ -106,11 +113,12 @@ public class SMTComposer extends Planner {
 	}
 
 	public SMTComposer(Graph graph, Obligation obligations, String customObligationSpecPath) throws Exception {
+
 		gt = new ConfigurationEncoder(graph);
 		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels,
 				eventMembers, listOfNodes);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationsEncoder(mapOfIDs, obligations, listOfNodes, customObligationSpecPath);
+		ot = new ObligationsEncoder(mapOfIDs, obligations, listOfNodes, customObligationSpecPath, true);
 
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());
@@ -172,9 +180,9 @@ public class SMTComposer extends Planner {
 					if (!_customFunctionVariables.contains(customVariable)) {
 						_customFunctionVariables.add(customVariable);
 					}
-						smtlibv2Code += "(get-value (" + customVariable + "))";
-						smtlibv2Code += System.lineSeparator();
-					
+					smtlibv2Code += "(get-value (" + customVariable + "))";
+					smtlibv2Code += System.lineSeparator();
+
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

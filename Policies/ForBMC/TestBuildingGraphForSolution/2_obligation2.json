@@ -1,11 +1,6 @@
 {
   "nodes": [
     {
-      "name": "UBM",
-      "type": "U",
-      "properties": {}
-    },
-    {
       "name": "Chair",
       "type": "UA",
       "properties": {}
@@ -16,23 +11,73 @@
       "properties": {}
     },
     {
+      "name": "URD",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "PDSWholeO",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "Vlad",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "PIDelete",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Bob",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "PICreate",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "EditingPolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "UChair",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "SP",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "UBM",
+      "type": "U",
+      "properties": {}
+    },
+    {
       "name": "CoPI",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "URD",
+      "name": "Alice",
       "type": "U",
       "properties": {}
     },
     {
       "name": "PDSEditing",
       "type": "OA",
-      "properties": {}
-    },
-    {
-      "name": "BM",
-      "type": "UA",
       "properties": {}
     },
     {
@@ -51,12 +96,12 @@
       "properties": {}
     },
     {
-      "name": "Vlad",
-      "type": "U",
+      "name": "RD",
+      "type": "UA",
       "properties": {}
     },
     {
-      "name": "RD",
+      "name": "PISubmit",
       "type": "UA",
       "properties": {}
     },
@@ -74,24 +119,13 @@
       "name": "PDSWhole",
       "type": "OA",
       "properties": {}
-    },
-    {
-      "name": "EditingPolicy",
-      "type": "PC",
-      "properties": {}
-    },
-    {
-      "name": "UChair",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "SP",
-      "type": "UA",
-      "properties": {}
     }
   ],
   "assignments": [
+    {
+      "source": "Nazmul",
+      "target": "RD"
+    },
     {
       "source": "PI",
       "target": "EditingPolicy"
@@ -101,7 +135,15 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "UBM",
+      "source": "PICreate",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "PDSWholeO",
+      "target": "PDSWhole"
+    },
+    {
+      "source": "Bob",
       "target": "BM"
     },
     {
@@ -115,6 +157,14 @@
     {
       "source": "URD",
       "target": "RD"
+    },
+    {
+      "source": "PIDelete",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "UBM",
+      "target": "BM"
     },
     {
       "source": "RD",
@@ -133,16 +183,20 @@
       "target": "PI"
     },
     {
-      "source": "CoPI",
+      "source": "BM",
       "target": "EditingPolicy"
     },
     {
-      "source": "BM",
+      "source": "CoPI",
       "target": "EditingPolicy"
     },
     {
       "source": "UDean",
       "target": "Dean"
+    },
+    {
+      "source": "PISubmit",
+      "target": "EditingPolicy"
     },
     {
       "source": "UChair",
@@ -153,8 +207,8 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "Nazmul",
-      "target": "CoPI"
+      "source": "Alice",
+      "target": "RA"
     },
     {
       "source": "PDSWhole",
@@ -163,11 +217,17 @@
   ],
   "associations": [
     {
-      "source": "BM",
+      "source": "PI",
       "target": "PDSWhole",
       "operations": [
-        "approve",
-        "disapprove"
+        "submit"
+      ]
+    },
+    {
+      "source": "PIDelete",
+      "target": "PDSWhole",
+      "operations": [
+        "delete"
       ]
     },
     {
@@ -175,6 +235,35 @@
       "target": "PDSWhole",
       "operations": [
         "edit"
+      ]
+    },
+    {
+      "source": "BM",
+      "target": "PDSWhole",
+      "operations": [
+        "approve",
+        "withdraw"
+      ]
+    },
+    {
+      "source": "PICreate",
+      "target": "PDSWhole",
+      "operations": [
+        "create"
+      ]
+    },
+    {
+      "source": "SP",
+      "target": "PDSWhole",
+      "operations": [
+        "read"
+      ]
+    },
+    {
+      "source": "PISubmit",
+      "target": "PDSWhole",
+      "operations": [
+        "submit"
       ]
     }
   ]
