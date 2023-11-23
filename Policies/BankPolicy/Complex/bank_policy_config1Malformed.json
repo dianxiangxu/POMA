@@ -8,7 +8,8 @@
     {
       "name": "a11",
       "type": "O",
-      
+      "properties": {}      
+    },
     {
       "name": "a21",
       "type": "O",

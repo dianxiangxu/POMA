@@ -217,13 +217,6 @@
   ],
   "associations": [
     {
-      "source": "PIDelete",
-      "target": "PDSWhole",
-      "operations": [
-        "delete"
-      ]
-    },
-    {
       "source": "PISubmit",
       "target": "PDSWhole",
       "operations": [
@@ -245,17 +238,33 @@
       ]
     },
     {
-      "source": "PI",
-      "target": "PDSWhole",
-      "operations": [
-        "start"
-      ]
-    },
-    {
       "source": "SP",
       "target": "PDSWhole",
       "operations": [
         "read"
+      ]
+    },
+    {
+      "source": "PI",
+      "target": "PDSWhole",
+      "operations": [
+        "submit",
+        "start"
+      ]
+    },
+    {
+      "source": "RD",
+      "target": "PDSWhole",
+      "operations": [
+        "approve",
+        "withdraw"
+      ]
+    },
+    {
+      "source": "PIDelete",
+      "target": "PDSWhole",
+      "operations": [
+        "delete"
       ]
     }
   ]

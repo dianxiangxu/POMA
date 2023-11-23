@@ -55,6 +55,13 @@ public class ObligationEncoder {
 
 	List<String> _customAxioms = new ArrayList<String>();
 
+	String raceConditionEncoding = "";
+	List<String> conditionalInterferenceVariables = new ArrayList<String>();
+
+	public List<String> getConditionalInterferenceVariables() {
+		return conditionalInterferenceVariables;
+	}
+
 	private List<ActionEncoder> preprocessActions(List<Action> actions, HashMap<String, Integer> mapOfIDs, String label,
 			CustomObligation co) {
 
@@ -98,11 +105,13 @@ public class ObligationEncoder {
 				actionEncoder.operationSetFlat = operationSetFlat;
 				_actionSetsAssignAdd.add(operationSet);
 				_actionSetsAssignAddFlat.add(operationSetFlat);
+				actionEncoder.setActionId(label + "_" + "AssignAction_{k}_" + i);
 			} else if (action instanceof GrantAction) {
 				actionEncoder = new GrantActionEncoder((GrantAction) action, mapOfIDs);
 				String operationSet = label + "_" + "GrantAction_{k}_" + i;
 				actionEncoder.operationSet = operationSet;
 				_actionSetsAssociateAdd.add(operationSet);
+				actionEncoder.setActionId(label + "_" + "GrantAction_{k}_" + i);
 			} else if (action instanceof DeleteAction) {
 				DeleteAction deleteAction = (DeleteAction) action;
 				if (deleteAction.getAssignments() != null) {
@@ -114,11 +123,13 @@ public class ObligationEncoder {
 					actionEncoder.operationSetFlat = operationSetFlat;
 					_actionSetsAssignRemove.add(operationSet);
 					_actionSetsAssignRemoveFlat.add(operationSetFlat);
+					actionEncoder.setActionId(label + "_" + "DeleteAssignAction_{k}_" + i);
 				} else if (deleteAction.getAssociations() != null) {
 					actionEncoder = new DeleteGrantActionEncoder(deleteAction, mapOfIDs);
 					String operationSet = label + "_" + "DeleteGrantAction_{k}_" + i;
 					actionEncoder.operationSet = operationSet;
 					_actionSetsAssociateRemove.add(operationSet);
+					actionEncoder.setActionId(label + "_" + "DeleteGrantAction_{k}_" + i);
 				} else {
 					continue;
 				}
@@ -128,8 +139,37 @@ public class ObligationEncoder {
 			}
 			preprocessPrerequisites(allPrerequisites, actionEncoder, i);
 			encodedActions.add(actionEncoder);
+			encodeRaceConditionVariables(actionEncoder.getConditionalInterference());
 		}
 		return encodedActions;
+	}
+
+	private void encodeRaceConditionVariables(HashMap<String, List<String>> conditionalInterference) {
+		if (conditionalInterference.keySet().size() == 0) {
+			return;
+		}
+		raceConditionEncoding += System.lineSeparator() + ";RACE CONDITION VARIABLES ENCODING";
+
+		for (String key : conditionalInterference.keySet()) {
+			String civariable = "RC_" + key; 
+			raceConditionEncoding += System.lineSeparator() + "(declare-fun " + civariable + " () Bool)"
+					+ System.lineSeparator();
+			List<String> interferences = conditionalInterference.get(key);
+			raceConditionEncoding += "(assert (= " + civariable + System.lineSeparator() +"(not "+ System.lineSeparator();
+
+			if (interferences.size() > 1) {
+				raceConditionEncoding += System.lineSeparator() + "(and " + System.lineSeparator();
+				for (String interference : interferences) {
+					raceConditionEncoding += interference + System.lineSeparator();
+				}
+				raceConditionEncoding += ")" + System.lineSeparator();
+			} else {
+				raceConditionEncoding += System.lineSeparator()+interferences.get(0) + System.lineSeparator();
+			}
+			conditionalInterferenceVariables.add(civariable);
+		}
+
+		raceConditionEncoding += ")" + System.lineSeparator() + ")" + System.lineSeparator() + ")";
 	}
 
 	private ActionEncoder convertCustomActionToEncoder(CustomAction customAction, Action action,
@@ -137,7 +177,7 @@ public class ObligationEncoder {
 		List<ITerm> tuple = customAction.getActionTuple();
 		ActionEncoder encoder = null;
 		String customConditionEncoding = null;
-		if(customAction.getCondition()!=null) {
+		if (customAction.getCondition() != null) {
 			customConditionEncoding = customAction.getConditionEncoding(mapOfIDs);
 			extractCustomVariables(customConditionEncoding);
 		}
@@ -164,9 +204,9 @@ public class ObligationEncoder {
 			String operationSetFlat = label + "_" + "AssignAction_{k}_" + i + "_*";
 
 			encoder = new AssignActionEncoder(
-								new POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.AssignmentCustom(
-										ancestor, descendant, "", ""),
-								mapOfIDs, customConditionEncoding);
+					new POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.AssignmentCustom(
+							ancestor, descendant, "", ""),
+					mapOfIDs, customConditionEncoding);
 			encoder.operationSet = operationSet;
 			encoder.operationSetFlat = operationSetFlat;
 			_actionSetsAssignAdd.add(operationSet);
@@ -201,7 +241,7 @@ public class ObligationEncoder {
 			_actionSetsAssociateAdd.add(operationSet);
 		}
 		extractCustomVariables(query);
-		
+
 		return encoder;
 	}
 
@@ -239,15 +279,14 @@ public class ObligationEncoder {
 					obligation.setLabel(line.split(":")[1].trim());
 				} else if (line.startsWith("query:")) {
 					obligation.setAxiom(line.split(":")[1].trim());
-				}
-				else if (line.startsWith("action_")) {
+				} else if (line.startsWith("action_")) {
 					int endIndex = line.indexOf(':');
 					int actionIndex = Integer.parseInt(line.substring("action_".length(), endIndex));
 
 					CustomAction action = new CustomAction();
 					action.setIndex(actionIndex);
 
-					if(lines[i+1].contains("condition:")) {
+					if (lines[i + 1].contains("condition:")) {
 						action.setCondition(lines[++i].split(":")[1].trim());
 					}
 					action.setAction(lines[++i].split(":")[1].trim());
@@ -270,7 +309,7 @@ public class ObligationEncoder {
 			int actionIndex) {
 		actionEncoder.setPrerequisites(filterPrerequisites(allPrerequisites, actionEncoder.getRelationType(),
 				actionEncoder.getPostconditionHierarchyType()));
-		actionEncoder.processPrerequisitesInternally();
+		actionEncoder.processPrerequisites();
 		allPrerequisites.add(new Prerequisite(actionEncoder.getRelationType(),
 				actionEncoder.getPostconditionHierarchyType(), actionEncoder.getActionType(),
 				actionEncoder.getPostconditionSet(), actionEncoder.getPostconditionFlattenSet(), actionIndex));
@@ -332,7 +371,7 @@ public class ObligationEncoder {
 		return initializeActionSets() + customAxiom + System.lineSeparator() + "(assert (=> (= ( " + label
 				+ " {k-1}) true)" + System.lineSeparator() + "(and" + System.lineSeparator() + sb.toString()
 				+ encodeIndependentActions(independentActions) + ")" + System.lineSeparator() + ")"
-				+ System.lineSeparator() + ")" + encodeEventNegation(label) + System.lineSeparator();
+				+ System.lineSeparator() + ")" + encodeEventNegation(label) + System.lineSeparator() + raceConditionEncoding;
 	}
 
 	private String encodeObligationAxiom(String label, String axiom, int k) throws Exception {
@@ -446,7 +485,7 @@ public class ObligationEncoder {
 			sb.append(System.lineSeparator());
 		}
 		sb.append("\t;NEGATED POSTCONDITION: " + encoder.operationSet + System.lineSeparator() + "\t(= "
-				+ encoder.operationSet + " " + encoder.negatedPostconditionSet + ")");
+				+ encoder.operationSet + " " + encoder.negatedPostconditionSet + "\t)");
 		sb.append(System.lineSeparator() + "\t)" + System.lineSeparator());
 	}
 
@@ -454,8 +493,9 @@ public class ObligationEncoder {
 		sb.append("\t;POSTCONDITION: " + encoder.operationSet + System.lineSeparator() + "\t(= " + encoder.operationSet
 				+ " " + encoder.postconditionSet + ")");
 		if (!encoder.postconditionFlattenSet.isEmpty()) {
-			sb.append("\t;POSTCONDITION FLATTEN: " + encoder.operationSetFlat + System.lineSeparator() + "\t(= "
-					+ encoder.operationSetFlat + " " + encoder.postconditionFlattenSet + ")");
+			sb.append(System.lineSeparator() + "\t;POSTCONDITION FLATTEN: " + encoder.operationSetFlat
+					+ System.lineSeparator() + "\t(= " + encoder.operationSetFlat + " "
+					+ encoder.postconditionFlattenSet + ")");
 		}
 	}
 

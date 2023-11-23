@@ -16,9 +16,28 @@ public abstract class ActionEncoder {
 	protected List<String> customVariables = new ArrayList<String>();
 	public String customCondition;
 
-	
 	public void setCustomCondition(String customCondition) {
 		this.customCondition = customCondition;
+	}
+
+	private HashMap<String, List<String>> conditionalInterference = new HashMap<String, List<String>>();
+
+	public HashMap<String, List<String>> getConditionalInterference() {
+		return conditionalInterference;
+	}
+    public void addToConditionalInterference(HashMap<String, List<String>> map, String key, String value) {
+        if (!map.containsKey(key)) {
+            List<String> newList = new ArrayList<>();
+            newList.add(value);
+            map.put(key, newList);
+        } else {
+            map.get(key).add(value);
+        }
+    }
+	private String actionId = "";
+
+	public void setActionId(String actionId) {
+		this.actionId = actionId;
 	}
 
 	protected String condition = "";
@@ -35,7 +54,6 @@ public abstract class ActionEncoder {
 	protected String preconditionSet = "";
 	public String postconditionSet = "";
 	public String negatedPostconditionSet = "";
-
 
 	public String postconditionFlattenSet = "";
 
@@ -74,9 +92,11 @@ public abstract class ActionEncoder {
 	public String getCondition() {
 		return condition;
 	}
+
 	public String encodeCustomVariables() {
 		return "";
 	}
+
 	protected void setCondition(String condition) {
 		this.condition = condition;
 	}
@@ -89,9 +109,9 @@ public abstract class ActionEncoder {
 		this.conditionHierarchyType = conditionHierarchyType;
 	}
 
-	public void processPrerequisitesInternally() {
+	public void processPrerequisites() {
 		if (prerequisites.size() != 0) {
-			setPrecondition(processPreconditionsWithPrerequisites(prerequisites));
+			setPrecondition(processPrerequisites(prerequisites));
 		}
 		encodeNegatedPrecondition();
 	}
@@ -100,7 +120,7 @@ public abstract class ActionEncoder {
 		return precondition;
 	}
 
-	private String processPreconditionsWithPrerequisites(List<Prerequisite> prerequisites) {
+	private String processPrerequisites(List<Prerequisite> prerequisites) {
 		StringBuilder sb = new StringBuilder();
 
 		if (prerequisites.size() > 1 || conditions.size() > 1) {
@@ -114,32 +134,38 @@ public abstract class ActionEncoder {
 				if ((prerequisiteType.equals(ActionType.ADD) && conditionType.equals(ConditionType.EXCLUSIVE))
 						|| (prerequisiteType.equals(ActionType.REMOVE)
 								&& conditionType.equals(ConditionType.INCLUSIVE))) {
-					sb.append("\t\t" +"(and " +System.lineSeparator()+ "\t\t\t" + condition.getCondition() + " ");
+					sb.append("\t\t" + "(and " + System.lineSeparator() + "\t\t\t" + condition.getCondition() + " ");
 					sb.append(System.lineSeparator());
-					if(!prerequisite.getActionSetFlatten().isEmpty()) {
-					sb.append("\t\t\t" +"(not (set.subset " + condition.getConditionElements() + " "
-							+ prerequisite.getActionSetFlatten() + " )"+"\t\t" +")");
-					}
-					else {
-						sb.append("\t\t\t" +"(not (set.subset " + condition.getConditionElements() + " "
-								+ prerequisite.getActionSet() + " )"+"\t\t" +")");
+					if (!prerequisite.getActionSetFlatten().isEmpty()) {
+						sb.append("\t\t\t" + "(not (set.subset " + condition.getConditionElements() + " "
+								+ prerequisite.getActionSetFlatten() + " )" + "\t\t" + ")");
+						addToConditionalInterference(conditionalInterference, actionId, "(not (set.subset " + condition.getConditionElements() + " "
+								+ prerequisite.getActionSetFlatten() + " )" + "\t\t" + ")");
+					} else {
+						sb.append("\t\t\t" + "(not (set.subset " + condition.getConditionElements() + " "
+								+ prerequisite.getActionSet() + " )" + "\t\t" + ")");
+						addToConditionalInterference(conditionalInterference, actionId, "(not (set.subset " + condition.getConditionElements() + " "
+								+ prerequisite.getActionSet() + " )" + "\t\t" + ")");
 					}
 				}
 				if ((prerequisiteType.equals(ActionType.REMOVE) && conditionType.equals(ConditionType.EXCLUSIVE))
 						|| (prerequisiteType.equals(ActionType.ADD) && conditionType.equals(ConditionType.INCLUSIVE))) {
 					sb.append("(or " + condition.getCondition() + " ");
 					sb.append(System.lineSeparator());
-					if(!prerequisite.getActionSetFlatten().isEmpty()) {
-						sb.append("(set.subset " + condition.getConditionElements() + " " + prerequisite.getActionSetFlatten()
-						+ "\t\t" +")");
-					}
-					else {
+					if (!prerequisite.getActionSetFlatten().isEmpty()) {
+						sb.append("(set.subset " + condition.getConditionElements() + " "
+								+ prerequisite.getActionSetFlatten() + "\t\t" + ")");
+						addToConditionalInterference(conditionalInterference, actionId, "(not (set.subset " + condition.getConditionElements() + " "
+								+ prerequisite.getActionSetFlatten() + " )" + "\t\t" + ")");
+					} else {
 						sb.append("(set.subset " + condition.getConditionElements() + " " + prerequisite.getActionSet()
-						+ "\t\t" +")");
+								+ "\t\t" + ")");
+						addToConditionalInterference(conditionalInterference, actionId, "(not (set.subset " + condition.getConditionElements() + " "
+								+ prerequisite.getActionSet() + " )" + "\t\t" + ")");
 					}
-					
+
 				}
-				sb.append(System.lineSeparator()+"\t\t"+")");
+				sb.append(System.lineSeparator() + "\t\t" + ")");
 				sb.append(System.lineSeparator());
 			}
 		}
@@ -153,7 +179,7 @@ public abstract class ActionEncoder {
 		if (precondition.isBlank()) {
 			return;
 		}
-		setNegatedPrecondition("(not " + precondition +")");
+		setNegatedPrecondition("(not " + System.lineSeparator() + precondition + "\t)");
 	}
 
 	protected void setPrecondition(String precondition) {
@@ -259,7 +285,8 @@ public abstract class ActionEncoder {
 
 		conditions.add(new ConditionCustom(
 				"(set.member (tuple " + ancestor + " " + descendant + ") (ASSIGN* " + "{k-1}" + "))",
-				"(set.singleton(tuple " + ancestor + " " + descendant + "))", HierarchyType.UA, ConditionType.EXCLUSIVE));
+				"(set.singleton(tuple " + ancestor + " " + descendant + "))", HierarchyType.UA,
+				ConditionType.EXCLUSIVE));
 		setCondition("(set.member (tuple " + ancestor + " " + descendant + ") (ASSIGN* " + "{k-1}" + "))");
 
 		setConditionHierarchyType(HierarchyType.UA);
@@ -282,13 +309,13 @@ public abstract class ActionEncoder {
 	}
 
 	public String getNegatedPrecondition() {
-		return "\t"+negatedPrecondition;
+		return "\t" + negatedPrecondition;
 	}
 
 	protected void setNegatedPrecondition(String negatedPrecondition) {
 		this.negatedPrecondition = negatedPrecondition;
 	}
-	
+
 	public void setNegatedPostconditionSet(String negatedPostconditionSet) {
 		this.negatedPostconditionSet = negatedPostconditionSet;
 	}
@@ -311,6 +338,4 @@ public abstract class ActionEncoder {
 		return encoding.replace("{k}", Integer.toString(k)).replace("{k-1}", Integer.toString((k - 1)));
 	}
 
-	
-	
 }

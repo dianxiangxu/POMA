@@ -10,7 +10,9 @@ public class Variables {
     public List<Variable> getVariables() {
         return variables;
     }
-
+    public void setVariables(List<Variable> variables) {
+        this.variables = variables;
+    }
     public Variables(List<Variable> variables) {
         this.variables = variables;
     }

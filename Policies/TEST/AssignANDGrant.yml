@@ -1,5 +1,48 @@
-label: Assign
+label: RaceTest
 rules:
+  - label: start
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - start
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - grant:
+             subject:
+               name: PI
+               type: UA
+             operations:
+               - submit
+             target:
+               name: PDSWhole
+               type: OA    
+  
+  - label: obligation0
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - assign:
+            - what:
+                name: UBM
+                type: U
+              where:
+                name: BM
+                type: UA                    
   - label: obligation1
     event:
       subject:
@@ -19,8 +62,31 @@ rules:
                 type: U
               where:
                 name: BM
-                type: UA    
+                type: UA  
   - label: obligation2
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - submit
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - grant:
+             subject:
+               name: RD
+               type: UA
+             operations:
+               - approve
+               - withdraw
+             target:
+               name: PDSWhole
+               type: OA    
+  - label: obligation3
     event:
       subject:
         anyUser: 
@@ -35,77 +101,8 @@ rules:
       actions: 
         - assign:
             - what:
-                name: UBM
+                name: URD
                 type: U
               where:
-                name: BM
-                type: UA   
-  # - label: obligation2
-  #   event:
-  #     subject:
-  #       anyUser: 
-  #         - "PI"     
-  #     operations:
-  #       - submit
-  #     target:
-  #       policyElements:
-  #         - name: PDSWhole
-  #           type: O        
-  #   response:      
-  #     actions: 
-  #       - grant:
-  #            subject:
-  #              name: BM
-  #              type: UA
-  #            operations:
-  #              - approve
-  #              - withdraw
-  #            target:
-  #              name: PDSWhole
-  #              type: OA    
-  # - label: obligation3
-  #   event:
-  #     subject:
-  #       anyUser: 
-  #         - "PI"     
-  #     operations:
-  #       - write
-  #     target:
-  #       policyElements:
-  #         - name: PDSWhole
-  #           type: O        
-  #   response:      
-  #     actions: 
-  #       - grant:
-  #            subject:
-  #              name: BM
-  #              type: UA
-  #            operations:
-  #              - approve
-  #              - withdraw
-  #            target:
-  #              name: PDSWhole
-  #              type: OA    
-  # - label: obligation4
-  #   event:
-  #     subject:
-  #       anyUser: 
-  #         - "PI"     
-  #     operations:
-  #       - write
-  #     target:
-  #       policyElements:
-  #         - name: PDSWhole
-  #           type: O        
-  #   response:      
-  #     actions: 
-  #       - grant:
-  #            subject:
-  #              name: BM
-  #              type: UA
-  #            operations:
-  #              - approve
-  #              - withdraw
-  #            target:
-  #              name: PDSWhole
-  #              type: OA                                                                               
+                name: RD
+                type: UA 

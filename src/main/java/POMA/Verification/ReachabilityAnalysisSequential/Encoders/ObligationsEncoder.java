@@ -59,6 +59,8 @@ public class ObligationsEncoder {
 	private Map<String, String> eventMembers = new HashMap<String, String>();
 	private List<String> obligationEventVariables = new ArrayList<String>();
 	List<String> _customActionVariables = new ArrayList<String>();
+	List<String> _raceObligationLabels = new ArrayList<String>();
+	List<String> _conditionalInterferenceVariables = new ArrayList<String>();
 
 	Obligation obligation;
 	HashMap<String, Integer> mapOfIDs;
@@ -116,8 +118,13 @@ public class ObligationsEncoder {
 			allObligations.addAll(obligation.getRules());
 			allObligations.addAll(raceObligations);
 			obligation.setRules(allObligations);
+			_raceObligationLabels.addAll(raceObligations.stream().map(Rule::getLabel).collect(Collectors.toList()));
 		}
 		preprocessObligationRules();
+	}
+
+	public List<String> getRaceObligationLabels() {
+		return _raceObligationLabels;
 	}
 
 	public List<String> getProcessedObligations() {
@@ -333,7 +340,7 @@ public class ObligationsEncoder {
 	}
 
 	// 5.2
-	String processEffects(int k) {
+	String processEffect(int k) {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(System.lineSeparator());
@@ -370,6 +377,7 @@ public class ObligationsEncoder {
 			_customActionVariables = Stream
 					.concat(_customActionVariables.stream(), oe.getCustomActionVariables().stream()).distinct()
 					.collect(Collectors.toList());
+			_conditionalInterferenceVariables.addAll(oe.getConditionalInterferenceVariables());
 		}
 		sb.append(System.lineSeparator());
 		try {
@@ -591,14 +599,7 @@ public class ObligationsEncoder {
 					+ (k - 1) + ") true))))");
 		}
 		sb.append(System.lineSeparator());
-		sb.append(System.lineSeparator());
-		sb.append("; AT LEAST ONE");
-		sb.append(System.lineSeparator());
-		sb.append("(assert (or");
-		for (String label : ruleLabels) {
-			sb.append("(= (" + label + " " + (k - 1) + ") true)");
-		}
-		sb.append("))");
+
 		sb.append(System.lineSeparator());
 		return sb.toString();
 	}
@@ -631,7 +632,12 @@ public class ObligationsEncoder {
 		return _customActionVariables;
 	}
 
-	public void set_customActionVariables(List<String> _customActionVariables) {
+	public void setCustomActionVariables(List<String> _customActionVariables) {
 		this._customActionVariables = _customActionVariables;
 	}
+
+	public List<String> getConditionalInterferenceVariables() {
+		return _conditionalInterferenceVariables;
+	}
+	
 }

@@ -77,10 +77,11 @@ public class Solver {
 		return false;
 	}
 
+
 	protected Solution runSolver(String pathToFile, int k, List<String> confirmedObligations,
 			List<String> obligationLabels, List<String> obligationEventVariables, HashMap<String, Integer> mapOfIDs,
 			boolean showSMTOutput, List<String> queryVARS, Graph initialGraph, List<Node> listOfNodes,
-			List<String> customFunctionVariables) throws IOException {
+			List<String> customFunctionVariables, List<String> conditionalInterferenceVariables) throws IOException {
 
 		String[] cmdArguments = commandArguments(pathToFile);
 		Process proc = Runtime.getRuntime().exec(cmdArguments);
@@ -105,17 +106,16 @@ public class Solver {
 					}
 				}
 				Solution solution = findSolution(output, obligationLabels, mapOfIDs, queryVARS, k, initialGraph,
-						listOfNodes, customFunctionVariables);
+						listOfNodes, customFunctionVariables, conditionalInterferenceVariables);
 
 				return solution;
 			}
 		}
 		return null;
 	}
-
 	Solution findSolution(List<String> output, List<String> obligationLabels, HashMap<String, Integer> mapOfIDs,
 			List<String> queryVARS, int k, Graph initialGraph, List<Node> listOfNodes,
-			List<String> customFunctionVariables) {
+			List<String> customFunctionVariables, List<String> conditionalInterferenceVariables) {
 		ObligationFiring[] arrayOfSteps = new ObligationFiring[100];
 		String[] assigns = new String[k + 1];
 		String[] assocs = new String[k + 1];
@@ -182,6 +182,19 @@ public class Solver {
 					if (!getKeyFromValue(varAssignment, mapOfIDs).equals("NONE")) {
 						variablesList.add(new Variable(variableName, getKeyFromValue(varAssignment, mapOfIDs)));
 					}
+				}
+			}
+			for (String var : conditionalInterferenceVariables) {
+				try {
+					var = ActionEncoder.replaceKWithValue(var, k);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (lineContains(line, var)) {
+					String[] splittedLineWithVars = line.split(" ");
+					Boolean varAssignment = Boolean.parseBoolean(splittedLineWithVars[splittedLineWithVars.length - 1]);
+					String variableName = var.replace("customvar_", "").replace("?", "");
+					variablesList.add(new Variable(variableName, varAssignment.toString()));
 				}
 			}
 			if (lineContains(line, "ASSIGN ")) {

@@ -63,9 +63,8 @@ public class RaceObligationProcessor {
 			for (List<Rule> permutation : permutations) {
 				Rule newObligation = new Rule();
 				newObligation.setEventPattern(permutation.get(0).getEventPattern());
-//				List<Action> actions = obligationToAdd.getResponsePattern().getActions();
 				newObligation.setResponsePattern(new ResponsePattern());
-				String combinedLabels = permutation.stream().map(Rule::getLabel).collect(Collectors.joining("_"));
+				String combinedLabels = permutation.stream().map(Rule::getLabel).collect(Collectors.joining("__"));
 				newObligation.setLabel(combinedLabels);
 
 				for (int i = 0; i < permutation.size(); i++) {

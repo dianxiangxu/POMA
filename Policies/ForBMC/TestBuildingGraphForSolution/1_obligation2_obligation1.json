@@ -217,14 +217,14 @@
   ],
   "associations": [
     {
-      "source": "PIDelete",
+      "source": "CoPI",
       "target": "PDSWhole",
       "operations": [
-        "delete"
+        "edit"
       ]
     },
     {
-      "source": "PISubmit",
+      "source": "PI",
       "target": "PDSWhole",
       "operations": [
         "submit"
@@ -238,17 +238,17 @@
       ]
     },
     {
-      "source": "CoPI",
+      "source": "PIDelete",
       "target": "PDSWhole",
       "operations": [
-        "edit"
+        "delete"
       ]
     },
     {
-      "source": "PI",
+      "source": "PISubmit",
       "target": "PDSWhole",
       "operations": [
-        "start"
+        "submit"
       ]
     },
     {
