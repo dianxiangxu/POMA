@@ -468,8 +468,8 @@
 (declare-fun queryVARar () Int)
 (declare-fun queryVARat () Int)
 (assert 
-(and (= (start 0) true)
- (= startU_0 queryVARu ) (= startar_0 queryVARar ) (= startT_0 queryVARat )))
+(and (= (obligation0 0) true)
+ (= obligation0U_0 queryVARu ) (= obligation0ar_0 queryVARar ) (= obligation0T_0 queryVARat )))
 (check-sat)
 (get-value (start))
 (get-value (obligation3))

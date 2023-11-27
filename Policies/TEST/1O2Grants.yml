@@ -10,7 +10,7 @@ rules:
       target:
         policyElements:
           - name: PDSWhole
-            type: O        
+            type: OA        
     response:      
       actions: 
         - grant:
@@ -32,4 +32,4 @@ rules:
                - withdraw
              target:
                name: PDSWhole
-               type: OA                                                
+               type: OA                                                

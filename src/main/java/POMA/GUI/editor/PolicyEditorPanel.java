@@ -62,6 +62,7 @@ import POMA.GUI.GraphVisualization.GraphVisualizer;
 import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
+import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 import gov.nist.csd.pm.pip.prohibitions.ProhibitionsSerializer;
 
@@ -72,14 +73,15 @@ import gov.nist.csd.pm.pip.prohibitions.ProhibitionsSerializer;
  * 
  * @author Jie Ren
  */
-public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
+public class PolicyEditorPanel extends AbstractPolicyEditor {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 2743420290926563880L;
 	protected String policy;
-	MemGraph g;
+	MemGraph graph;
 	Prohibitions prohibitions;
+//	Obligation obligations;
 	File temporal;
 	JTextArea policyText = new JTextArea();
 	JApplet graphComponent;
@@ -128,7 +130,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	public MemGraph getGraph() {
-		return g;
+		return graph;
 	}
 
 	public Prohibitions getProhibitions() {
@@ -153,7 +155,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		return true;
 	}
 
-	public PolicyEditorPanelDemo(String f) throws SAXException, IOException {
+	public PolicyEditorPanel(String f) throws SAXException, IOException {
 		try {
 			jbInit();
 			if (new File(f).exists()) {
@@ -173,7 +175,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 		}
 	}
 
-	public PolicyEditorPanelDemo() {
+	public PolicyEditorPanel() {
 		try {
 			jbInit();
 			actionPerformed(new ActionEvent(mnuItNuevo, 0, "mnuFiles_New"));
@@ -285,8 +287,8 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	private void emptyGraphComponent() {
-		g = new MemGraph();
-		GraphVisualizer gui = new GraphVisualizer(g);
+		graph = new MemGraph();
+		GraphVisualizer gui = new GraphVisualizer(graph);
 		gui.init();
 		graphComponent = gui.returnPane();
 		jsplitpanevertical = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -424,7 +426,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	private boolean handlePolicyLoading() {
-		g = null;
+		graph = null;
 		String ext = FilenameUtils.getExtension(temporal.getPath());
 		if (ext.equalsIgnoreCase("yml")) {
 			updateObligationTextComonent();
@@ -474,23 +476,24 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	private void updateGraphComponent() throws IOException {
+//			obligations = null;
 		try {
 			if (temporal.isDirectory()) {
 				ConfigTuple ct = Utils.readAllFilesInFolderToConfig(temporal);
-				g = ct.getGraph();
+				graph = ct.getGraph();
 				prohibitions = ct.getProhibitions();
+				obligations = ct.getObligations();
 			} else {
-				g = utils.readAnyMemGraph(temporal.getPath());
+				graph = utils.readAnyMemGraph(temporal.getPath());
 				prohibitions = null;
 			}
-			policyText.setText(GraphSerializer.toJson(g));
+			policyText.setText(GraphSerializer.toJson(graph));
 			GraphVisualizer gui;
-			if(g.getNodes().size()<400) {
-				 gui = new GraphVisualizer(g);
-				 gui.init();
+			if (graph.getNodes().size() < 400) {
+				gui = new GraphVisualizer(graph);
+				gui.init();
 				graphComponent = gui.returnPane();
-			}
-			else {
+			} else {
 				EmptyGraphComponent egc = new EmptyGraphComponent();
 				egc.init();
 				graphComponent = egc;
@@ -506,7 +509,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 			jsplitpanevertical.setResizeWeight(0.5);
 			policyjSplitPanel.setRightComponent(jsplitpanevertical);
 			policyjSplitPanel.setResizeWeight(0.4);
-			if (g.getNodes().size() == 0) {
+			if (graph.getNodes().size() == 0) {
 				policyText.setText("No JSON file found in this folder");
 			} else {
 				if (!temporal.isDirectory()) {
@@ -514,7 +517,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 				} else {
 					policyText.setEditable(false);
 				}
-				policyText.setText(GraphSerializer.toJson(g));
+				policyText.setText(GraphSerializer.toJson(graph));
 			}
 		} catch (PMException e) {
 			policyText.setEditable(false);
@@ -522,10 +525,25 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	public void saveFile() {
-		if (archivoActual == null) {
-			saveAsFile();
-		} else {
-
+		if (temporal == null) {
+			return;
+		}
+		if (!temporal.exists()) {
+			return;
+		}
+		if (temporal.isDirectory()) {
+			return;
+		}
+		if (!temporal.isAbsolute()) {
+			return;
+		}
+		if (policyText == null) {
+			return;
+		}
+		try {
+			Utils.saveDataToFile(policyText.getText(), temporal.getAbsolutePath());
+		} catch (Exception e) {
+			System.out.println("Exception occured while saving the file: " + e.getMessage());
 		}
 	}
 
@@ -615,9 +633,9 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	private static class MiActionAdapter implements ActionListener {
-		private PolicyEditorPanelDemo adaptee;
+		private PolicyEditorPanel adaptee;
 
-		MiActionAdapter(PolicyEditorPanelDemo adaptee) {
+		MiActionAdapter(PolicyEditorPanel adaptee) {
 			this.adaptee = adaptee;
 		}
 
@@ -627,9 +645,9 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	private static class MiTreeSelectionAdapter implements TreeSelectionListener {
-		private PolicyEditorPanelDemo adaptee;
+		private PolicyEditorPanel adaptee;
 
-		MiTreeSelectionAdapter(PolicyEditorPanelDemo adaptee) {
+		MiTreeSelectionAdapter(PolicyEditorPanel adaptee) {
 			this.adaptee = adaptee;
 		}
 
@@ -639,9 +657,9 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	private static class MiMouseAdapter extends MouseAdapter {
-		private PolicyEditorPanelDemo adaptee;
+		private PolicyEditorPanel adaptee;
 
-		MiMouseAdapter(PolicyEditorPanelDemo adaptee) {
+		MiMouseAdapter(PolicyEditorPanel adaptee) {
 			this.adaptee = adaptee;
 		}
 
@@ -651,9 +669,9 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	}
 
 	private static class MiWindowAdapter extends WindowAdapter {
-		private PolicyEditorPanelDemo adaptee;
+		private PolicyEditorPanel adaptee;
 
-		MiWindowAdapter(PolicyEditorPanelDemo adaptee) {
+		MiWindowAdapter(PolicyEditorPanel adaptee) {
 			this.adaptee = adaptee;
 		}
 
@@ -678,7 +696,7 @@ public class PolicyEditorPanelDemo extends AbstractPolicyEditor {
 	public static void main(String[] args) throws PMException, IOException {
 
 		JFrame frame = new JFrame();
-		PolicyEditorPanelDemo panel = new PolicyEditorPanelDemo();
+		PolicyEditorPanel panel = new PolicyEditorPanel();
 		frame.getContentPane().add(panel);
 
 		frame.pack();

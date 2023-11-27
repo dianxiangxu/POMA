@@ -62,15 +62,15 @@ public class SMTComposer extends Planner {
 		checker.enableSMTOutput(true);
 
 //		Solution solution = checker.solveConstraint(precondition, postcondition, graph);
-		checker.raceConditionFinder(graph);
+//		checker.raceConditionFinder(graph);
 
 //		 String precondition = "";
-//		String postcondition = "OBLIGATIONLABEL(obligation0, ?u2, ?ar2,?at2);";
-
-//		Solution solution = checker.solveConstraint(precondition, postcondition, graph);
+		String postcondition = "OBLIGATIONLABEL(start, ?u, ?ar,?at);";
+		Solution solution = checker.solveConstraint(null, postcondition, graph);
+		
 //		 checker.solveConstraint("PERMIT(LeadAttorneys,approve,AcceptedCases);",
 //		 graph);
-//		System.out.println(solution);
+		System.out.println(solution);
 //		System.out.println(checker.mapOfIDs);
 		long end = System.currentTimeMillis();
 		float sec = (end - start) / 1000F;
@@ -120,7 +120,7 @@ public class SMTComposer extends Planner {
 		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels,
 				eventMembers, listOfNodes);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationsEncoder(mapOfIDs, obligations, listOfNodes, customObligationSpecPath, true);
+		ot = new ObligationsEncoder(mapOfIDs, obligations, listOfNodes, customObligationSpecPath, false);
 
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());

@@ -1,6 +1,16 @@
 {
   "nodes": [
     {
+      "name": "UBM",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "CoPI",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "Chair",
       "type": "UA",
       "properties": {}
@@ -18,61 +28,6 @@
     {
       "name": "BM",
       "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "PDSWholeO",
-      "type": "O",
-      "properties": {}
-    },
-    {
-      "name": "Vlad",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "PIDelete",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "Bob",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "PICreate",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "EditingPolicy",
-      "type": "PC",
-      "properties": {}
-    },
-    {
-      "name": "UChair",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "SP",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "UBM",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "CoPI",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "Alice",
-      "type": "U",
       "properties": {}
     },
     {
@@ -96,13 +51,8 @@
       "properties": {}
     },
     {
-      "name": "RD",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "PISubmit",
-      "type": "UA",
+      "name": "Vlad",
+      "type": "U",
       "properties": {}
     },
     {
@@ -111,21 +61,67 @@
       "properties": {}
     },
     {
+      "name": "Bob",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Alice",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "RD",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "PI",
       "type": "UA",
       "properties": {}
     },
     {
+      "name": "PICreate",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "PISubmit",
+      "type": "UA",
+      "properties": {}
+    },    
+    {
       "name": "PDSWhole",
       "type": "OA",
       "properties": {}
+    },
+    {
+      "name": "EditingPolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "UChair",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "SP",
+      "type": "UA",
+      "properties": {}
+    },
+    { 
+     "name": "PIDelete",
+     "type": "UA",
+     "properties": {}
+    },
+    {
+    "name":"PDSWholeO",
+    "type": "O",
+    "properties": {}
     }
   ],
   "assignments": [
-    {
-      "source": "Nazmul",
-      "target": "RD"
-    },
     {
       "source": "PI",
       "target": "EditingPolicy"
@@ -135,36 +131,16 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "PICreate",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "PDSWholeO",
-      "target": "PDSWhole"
-    },
-    {
-      "source": "Bob",
-      "target": "BM"
+      "source": "UDean",
+      "target": "Dean"
     },
     {
       "source": "Chair",
       "target": "EditingPolicy"
     },
     {
-      "source": "URA",
-      "target": "RA"
-    },
-    {
-      "source": "URD",
-      "target": "RD"
-    },
-    {
-      "source": "PIDelete",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "UBM",
-      "target": "BM"
+      "source": "UChair",
+      "target": "Chair"
     },
     {
       "source": "RD",
@@ -179,57 +155,67 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "Vlad",
-      "target": "PI"
-    },
-    {
-      "source": "BM",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "CoPI",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "UDean",
-      "target": "Dean"
-    },
-    {
       "source": "PISubmit",
       "target": "EditingPolicy"
     },
     {
-      "source": "UChair",
-      "target": "Chair"
+      "source": "URA",
+      "target": "RA"
     },
     {
-      "source": "SP",
-      "target": "EditingPolicy"
+      "source": "Vlad",
+      "target": "PI"
+    },
+    {
+      "source": "Bob",
+      "target": "BM"
     },
     {
       "source": "Alice",
       "target": "RA"
     },
     {
+      "source": "CoPI",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "BM",
+      "target": "EditingPolicy"
+    },
+        {
+      "source": "PICreate",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "UBM",
+      "target": "BM"
+    },
+    {
+      "source": "SP",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "URD",
+      "target": "RD"
+    },
+    {
+      "source": "Nazmul",
+      "target": "RD"
+    },
+    {
       "source": "PDSWhole",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "PDSWholeO",
+      "target": "PDSWhole"
+    },
+    {
+      "source": "PIDelete",
       "target": "EditingPolicy"
     }
   ],
   "associations": [
-    {
-      "source": "PISubmit",
-      "target": "PDSWhole",
-      "operations": [
-        "submit"
-      ]
-    },
-    {
-      "source": "SP",
-      "target": "PDSWhole",
-      "operations": [
-        "read"
-      ]
-    },
     {
       "source": "CoPI",
       "target": "PDSWhole",
@@ -237,26 +223,41 @@
         "edit"
       ]
     },
-    {
-      "source": "PICreate",
+        {
+      "source": "SP",
       "target": "PDSWhole",
       "operations": [
-        "create"
-      ]
-    },
-    {
-      "source": "PIDelete",
-      "target": "PDSWhole",
-      "operations": [
-        "delete"
+        "read"
       ]
     },
     {
       "source": "PI",
       "target": "PDSWhole",
       "operations": [
-        "submit",
         "start"
+      ]
+    },
+    {
+      "source": "PISubmit",
+      "target": "PDSWhole",
+      "operations": [
+        "submit"
+      ]
+    }
+    ,
+    {
+      "source": "PIDelete",
+      "target": "PDSWhole",
+      "operations": [
+        "delete"
+      ]
+    }
+    ,
+    {
+      "source": "PICreate",
+      "target": "PDSWhole",
+      "operations": [
+        "create"
       ]
     }
   ]

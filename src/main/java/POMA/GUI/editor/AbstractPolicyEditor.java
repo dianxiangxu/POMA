@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.swing.JPanel;
 
 import gov.nist.csd.pm.pip.graph.MemGraph;
+import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public abstract class AbstractPolicyEditor extends JPanel{
@@ -16,7 +17,8 @@ public abstract class AbstractPolicyEditor extends JPanel{
 	MemGraph g;
     File temporal;
     Prohibitions prohibitions;
-
+    Obligation obligations;
+    
 	abstract public File getWorkingPolicyFile();	
 		
 	abstract public void openFile();
@@ -26,7 +28,6 @@ public abstract class AbstractPolicyEditor extends JPanel{
 	}
 
 	public void saveFile() {
-		
 	}
 	
 	public void saveAsFile(){
@@ -54,5 +55,7 @@ public abstract class AbstractPolicyEditor extends JPanel{
 
 	public abstract void updateFileTree();
 
-
+	public Obligation getObligations() {
+		return obligations;
+	}
 }

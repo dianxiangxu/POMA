@@ -98,7 +98,7 @@ public abstract class Planner {
 		List<String> confirmedObligations = new ArrayList<String>();
 		int count = 0;
 		boolean solved = false;
-		IFormula formulaPre = pre.isEmpty() ? null : parseQuery(pre);
+		IFormula formulaPre = pre == null || pre.isEmpty() ? null : parseQuery(pre);
 		IFormula formulaPost = post.isEmpty() ? null : parseQuery(post);
 
 		String headCode = generateHeadCode();
@@ -122,7 +122,7 @@ public abstract class Planner {
 			saveCodeToFile(smtlibv2Code, pathToFile);
 			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
 					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes,
-					_customFunctionVariables, _conditionalInterferenceVariables);
+					_customFunctionVariables, new ArrayList<String>());
 			solved = solution == null ? false : true;
 			if (!solved) {
 				System.out.println("Solution not found with time horizon: " + k);

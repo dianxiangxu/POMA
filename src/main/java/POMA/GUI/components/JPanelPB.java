@@ -15,7 +15,7 @@ public class JPanelPB extends JPanel {
 	public void startProgressStatus() {
 		timer = new Timer();
 		timerTask = new ProgressBarTask();
-		timer.scheduleAtFixedRate(timerTask, 1800, 500);
+		timer.scheduleAtFixedRate(timerTask, 500, 500);
 	}
 	
 	public void stopProgressStatus() {

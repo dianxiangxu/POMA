@@ -158,7 +158,6 @@ public class Utils {
 		FileWriter myWriter = new FileWriter(file);
 		myWriter.write(data);
 		myWriter.close();
-
 	}
 
 	public String readTextFile(String path) {
@@ -403,21 +402,29 @@ public class Utils {
 		MemGraph graph = new MemGraph();
 		ConfigTuple ct = new ConfigTuple();
 		for (final File fileEntry : folder.listFiles()) {
-			if (!fileEntry.toString().endsWith(".json")) {
+			if (!fileEntry.toString().endsWith(".json") && !fileEntry.toString().endsWith(".yml")) {
+				continue;
+			}
+			if(fileEntry.toString().endsWith(".yml")) {
+				try {
+					ct.setObligations(readObligation(fileEntry.getPath()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				continue;
 			}
 			try {
 				Prohibitions prohibitions = readProhibitions(fileEntry.getPath());
 				ct.setProhibitions(prohibitions);
 				continue;
-			} catch (Exception ex) {
+			} catch (Exception e) {
 			}
 			addJSONToGraph(graph, fileEntry.getAbsolutePath());
 		}
 		ct.setGraph(graph);
 		return ct;
 	}
-
+	
 	public static JApplet getGraphVisualization(MemGraph graph) {
 		GraphVisualizer gui = new GraphVisualizer(graph);
 		gui.init();

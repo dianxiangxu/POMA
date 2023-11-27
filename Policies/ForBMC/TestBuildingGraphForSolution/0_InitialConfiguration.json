@@ -217,20 +217,6 @@
   ],
   "associations": [
     {
-      "source": "PIDelete",
-      "target": "PDSWhole",
-      "operations": [
-        "delete"
-      ]
-    },
-    {
-      "source": "PISubmit",
-      "target": "PDSWhole",
-      "operations": [
-        "submit"
-      ]
-    },
-    {
       "source": "PICreate",
       "target": "PDSWhole",
       "operations": [
@@ -242,6 +228,20 @@
       "target": "PDSWhole",
       "operations": [
         "edit"
+      ]
+    },
+    {
+      "source": "PISubmit",
+      "target": "PDSWhole",
+      "operations": [
+        "submit"
+      ]
+    },
+    {
+      "source": "PIDelete",
+      "target": "PDSWhole",
+      "operations": [
+        "delete"
       ]
     },
     {

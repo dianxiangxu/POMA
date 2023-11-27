@@ -475,10 +475,10 @@ public class MutationPanel extends JPanelPB {
 			if (!globalFile.isDirectory()) {
 				mutationSuccesfull = generateMutants(editorPanel.getGraph(),
 						globalFile.getParentFile());
-				((PolicyEditorPanelDemo) editorPanel).updateFileTree();
+				((PolicyEditorPanel) editorPanel).updateFileTree();
 			} else {
 				mutationSuccesfull = generateMutants(editorPanel.getGraph(), globalFile);
-				((PolicyEditorPanelDemo) editorPanel).updateFileTree();
+				((PolicyEditorPanel) editorPanel).updateFileTree();
 			}
 		} catch (Exception e2) {
 			JOptionPane.showMessageDialog(editorPanel, "Selected folder does not contain the testing suit",
@@ -513,7 +513,7 @@ public class MutationPanel extends JPanelPB {
 	
 	private JPanel createFileTreePanel(AbstractPolicyEditor editorPanel) {
 		JPanel fileTreePanel = new JPanel();
-		JScrollPane scrollMutationResultsFileTree = new JScrollPane(((PolicyEditorPanelDemo) editorPanel).getFileTree(),
+		JScrollPane scrollMutationResultsFileTree = new JScrollPane(((PolicyEditorPanel) editorPanel).getFileTree(),
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollMutationResultsFileTree.setPreferredSize(new Dimension(700, 750));
 		fileTreePanel.add(scrollMutationResultsFileTree);
