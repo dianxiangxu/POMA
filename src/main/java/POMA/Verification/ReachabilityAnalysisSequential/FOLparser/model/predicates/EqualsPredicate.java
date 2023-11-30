@@ -47,4 +47,10 @@ public class EqualsPredicate implements IPredicate {
 		return smtlibv2Code;
 	}
 
+	@Override
+	public String toSMTCustomFunction() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

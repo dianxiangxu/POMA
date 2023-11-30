@@ -51,4 +51,9 @@ public class DenyPredicate implements IPredicate{
 		smtlibv2Code += System.lineSeparator();
 		return smtlibv2Code;
 	}
+	@Override
+	public String toSMTCustomFunction() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

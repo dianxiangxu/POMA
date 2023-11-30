@@ -22,11 +22,10 @@ public class GrantActionEncoder extends ActionEncoder {
 		super(mapOfIDs, RelationType.ASSOCIATE, ActionType.ADD);
 		grantAction = action;
 		retrieveActionPolicyElements();
-		if(association.getTargetType().equals("OA")) {
+		if (association.getTargetType().equals("OA")) {
 			setPreconditionHierarchyType(HierarchyType.OTHER);
 			setPostconditionHierarchyType(HierarchyType.OTHER);
-		}
-		else {
+		} else {
 			setPreconditionHierarchyType(HierarchyType.UA);
 			setPostconditionHierarchyType(HierarchyType.UA);
 		}
@@ -38,29 +37,59 @@ public class GrantActionEncoder extends ActionEncoder {
 		encodeNegatedPrecondition();
 	}
 
+	public GrantActionEncoder(AssociationCustom action, HashMap<String, Integer> mapOfIDs,
+			String customConditionEncoding) {
+		super(mapOfIDs, RelationType.ASSOCIATE, ActionType.ADD);
+		association = action;
+		if (association.getTargetType().equals("OA")) {
+			setPreconditionHierarchyType(HierarchyType.OTHER);
+			setPostconditionHierarchyType(HierarchyType.OTHER);
+		} else {
+			setPreconditionHierarchyType(HierarchyType.UA);
+			setPostconditionHierarchyType(HierarchyType.UA);
+		}
+		setCustomCondition(customConditionEncoding);
+		encodeActionPreconditions();
+		encodeActionPostcondition();
+		encodeActionPostconditionFlatten();
+		encodeNegatedCondition();
+		encodeNegatedPrecondition();
+	}
+
 	protected void encodeActionPreconditions() {
 		List<Integer> ops = association.getOps();
-		if(ops.size()==1) {
-			setPrecondition("(not (set.member (tuple " + association.getSubject() + " " + ops.get(0) + " "
-					+ association.getTarget() + ") (ASSOC {k-1})))");
-			conditions.add(new ConditionCustom(
-					precondition,
-					"(set.singleton(tuple " + association.getSubject() + " " + ops.get(0) + " " + association.getTarget() +"))",
+		if (ops.size() == 1) {
+			if (customCondition != null) {
+				setPrecondition("(and " + customCondition + "(not (set.member (tuple " + association.getSubject() + " "
+						+ ops.get(0) + " " + association.getTarget() + ") (ASSOC {k-1})))" + ")");
+			} else {
+				setPrecondition("(not (set.member (tuple " + association.getSubject() + " " + ops.get(0) + " "
+						+ association.getTarget() + ") (ASSOC {k-1})))");
+			}
+			conditions.add(new ConditionCustom(precondition,
+					"(set.singleton(tuple " + association.getSubject() + " " + ops.get(0) + " "
+							+ association.getTarget() + "))",
 					this.getConditionHierarchyType(), ConditionType.EXCLUSIVE));
 			return;
 		}
 		String precondition = "(and ";
 		for (Integer op : association.getOps()) {
 			precondition += "(not (set.member (tuple " + association.getSubject() + " " + op + " "
-					+ association.getTarget() + ") (ASSOC {k-1})))"; // have to check every access right
+					+ association.getTarget() + ") (ASSOC {k-1})))";
 		}
 		precondition += ")";
-		setPrecondition(precondition); // duplicate
-		
-		conditions.add(new ConditionCustom(
-				precondition,
-				"(set.singleton(tuple " + association.getSubject() + " " + ops.get(0) + " " + association.getTarget() +"))",
-				this.getConditionHierarchyType(), ConditionType.EXCLUSIVE));
+
+		if (customCondition != null) {
+			precondition = "(and " + precondition + ")";
+		}
+
+		setPrecondition(precondition);
+
+		conditions
+				.add(new ConditionCustom(precondition,
+						"(set.singleton(tuple " + association.getSubject() + " " + ops.get(0) + " "
+								+ association.getTarget() + "))",
+						this.getConditionHierarchyType(), ConditionType.EXCLUSIVE));
 
 	}
 
@@ -78,18 +107,17 @@ public class GrantActionEncoder extends ActionEncoder {
 
 	private String handleAssociationAction(Integer ar, String innerAction) {
 		if (innerAction.isEmpty()) {
-			return "(set.union " + "(ASSOC " + "{k-1}" + ")" + "(set.singleton(tuple " + association.getSubject() + " " + ar
-					+ " " + association.getTarget() + ")))";
+			return "(set.union " + "(ASSOC " + "{k-1}" + ")" + "(set.singleton(tuple " + association.getSubject() + " "
+					+ ar + " " + association.getTarget() + ")))";
 		} else {
 			return "(set.union " + innerAction + "(set.singleton(tuple " + association.getSubject() + " " + ar + " "
 					+ association.getTarget() + ")))";
 		}
 	}
-	
+
 	private String handleAssociationSet(Integer ar, String innerAction) {
 		if (innerAction.isEmpty()) {
-			return "(set.singleton(tuple " + association.getSubject() + " " + ar
-					+ " " + association.getTarget() + "))";
+			return "(set.singleton(tuple " + association.getSubject() + " " + ar + " " + association.getTarget() + "))";
 		} else {
 			return "(set.union " + innerAction + "(set.singleton(tuple " + association.getSubject() + " " + ar + " "
 					+ association.getTarget() + ")))";

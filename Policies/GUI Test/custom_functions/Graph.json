@@ -1,0 +1,177 @@
+{
+  "nodes": [
+    {
+      "name": "CoPI",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "ChairCS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Chair",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BM",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMCS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "BMCSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "DeanCS",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "DeanCSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Dean",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Vlad",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Alice",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "PI",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "EditingPolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "DeptCS",
+      "type": "UA",
+      "properties": {}
+    }
+    ,
+    {
+      "name": "ChairCSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "PDS",
+      "type": "OA",
+      "properties": {}
+    } ,
+    {
+      "name": "PDSO",
+      "type": "O",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "PI",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Dean",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "BM",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Chair",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Vlad",
+      "target": "PI"
+    },
+    {
+      "source": "CoPI",
+      "target": "EditingPolicy"
+    },   
+   {
+      "source": "PDS",
+      "target": "EditingPolicy"
+    }
+    ,   
+   {
+      "source": "PDSO",
+      "target": "PDS"
+    }
+    ,   
+   {
+      "source": "Alice",
+      "target": "DeptCS"
+    },   
+   {
+      "source": "DeptCS",
+      "target": "ChairCS"
+    },
+    {
+      "source": "ChairCS",
+      "target": "BMCS"
+    }
+    ,  
+    {
+      "source": "ChairCSUser",
+      "target": "ChairCS"
+    }
+     ,  
+   {
+      "source": "BMCSUser",
+      "target": "BMCS"
+    }
+    ,  
+   {
+      "source": "BMCS",
+      "target": "DeanCS"
+    },  
+   {
+      "source": "DeanCS",
+      "target": "EditingPolicy"
+    },  
+   {
+      "source": "DeanCSUser",
+      "target": "DeanCS"
+    }
+  ],
+  "associations": [
+    {
+      "source": "PI",
+      "target": "PDS",
+      "operations": [
+        "create"
+      ]
+    }, 
+    {
+      "source": "CoPI",
+      "target": "PDS",
+      "operations": [
+        "delete"
+      ]
+    }        
+  ]
+}

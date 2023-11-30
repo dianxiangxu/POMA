@@ -96,12 +96,13 @@ TOKEN :
 | < EXPLICITASSIGN : "EXPLICITASSIGN" >
 | < IMPLICITASSIGN : "IMPLICITASSIGN" >
 | < ASSIGN : "ASSIGN" >
+| < ASSIGNEFFECT : "ASSIGNEFFECT" >
 | < ASSOCIATE : "ASSOCIATE" >
 | < HIERARCHY : "HIERARCHY" >
 | < OBLIGATIONLABEL : "OBLIGATIONLABEL" >
 | < NODEEXISTS : "NODEEXISTS" >
 | < EQUALS : "EQUALS" >
-
+| < ISUSER : "ISUSER" >
 }
 
 //logical connectives
@@ -169,6 +170,10 @@ IPredicate getPredicate() :
   {
     return new AssignPredicate();
   }
+| < ASSIGNEFFECT >
+  {
+    return new AssignEffectPredicate();
+  }  
 | < ASSOCIATE >
   {
     return new AssociatePredicate();
@@ -184,6 +189,10 @@ IPredicate getPredicate() :
 | < NODEEXISTS >
 {
   return new NodeExistsPredicate();
+}
+| < ISUSER >
+{
+  return new IsUserPredicate();
 }
 | < EQUALS >
 {

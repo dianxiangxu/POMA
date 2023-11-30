@@ -1,168 +1,260 @@
 {
   "nodes": [
     {
-      "name": "Case3Info",
-      "type": "OA",
-      "properties": {}
-    },
-    {
-      "name": "LeadAttorneysU",
+      "name": "Chair",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "Attorneys",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "AttorneysU",
+      "name": "URA",
       "type": "U",
       "properties": {}
     },
     {
-      "name": "LeadAttorneys",
+      "name": "URD",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "AttorneysMain",
+      "name": "BM",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "Attorneys3",
+      "name": "PDSWholeO",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "Vlad",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "PIDelete",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "Attorneys1",
+      "name": "Bob",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "PICreate",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "CasePolicy",
+      "name": "EditingPolicy",
       "type": "PC",
       "properties": {}
     },
     {
-      "name": "Attorneys2",
+      "name": "UChair",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "SP",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "Attorneys3U",
+      "name": "UBM",
       "type": "U",
       "properties": {}
     },
     {
-      "name": "Attorneys2U",
+      "name": "CoPI",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Alice",
       "type": "U",
       "properties": {}
     },
     {
-      "name": "Attorneys1U",
+      "name": "PDSEditing",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "UDean",
       "type": "U",
       "properties": {}
     },
     {
-      "name": "Case3",
+      "name": "Dean",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "RA",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "RD",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "PISubmit",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "Nazmul",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "PI",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "PDSWhole",
       "type": "OA",
       "properties": {}
     }
   ],
   "assignments": [
     {
-      "source": "Attorneys1U",
-      "target": "Attorneys1"
+      "source": "Vlad",
+      "target": "PICreate"
     },
     {
-      "source": "Attorneys2U",
-      "target": "Attorneys2"
+      "source": "Dean",
+      "target": "EditingPolicy"
     },
     {
-      "source": "LeadAttorneys",
-      "target": "CasePolicy"
+      "source": "PDSWholeO",
+      "target": "PDSWhole"
     },
     {
-      "source": "LeadAttorneys",
-      "target": "Attorneys"
+      "source": "Bob",
+      "target": "BM"
     },
     {
-      "source": "Attorneys2U",
-      "target": "Attorneys"
+      "source": "Chair",
+      "target": "EditingPolicy"
     },
     {
-      "source": "Attorneys3",
-      "target": "Attorneys2"
+      "source": "URA",
+      "target": "RA"
     },
     {
-      "source": "Attorneys3U",
-      "target": "Attorneys3"
+      "source": "PIDelete",
+      "target": "EditingPolicy"
     },
     {
-      "source": "AttorneysMain",
-      "target": "CasePolicy"
+      "source": "UBM",
+      "target": "BM"
     },
     {
-      "source": "Attorneys",
-      "target": "AttorneysMain"
+      "source": "RD",
+      "target": "EditingPolicy"
     },
     {
-      "source": "Attorneys2",
-      "target": "CasePolicy"
+      "source": "Vlad",
+      "target": "PI"
     },
     {
-      "source": "Attorneys1",
-      "target": "CasePolicy"
+      "source": "Vlad",
+      "target": "PIDelete"
     },
     {
-      "source": "Case3Info",
-      "target": "Case3"
+      "source": "CoPI",
+      "target": "EditingPolicy"
     },
     {
-      "source": "Attorneys3",
-      "target": "CasePolicy"
+      "source": "UDean",
+      "target": "Dean"
     },
     {
-      "source": "AttorneysU",
-      "target": "Attorneys"
+      "source": "SP",
+      "target": "EditingPolicy"
     },
     {
-      "source": "Case3",
-      "target": "CasePolicy"
+      "source": "Alice",
+      "target": "RA"
     },
     {
-      "source": "Attorneys1",
-      "target": "Attorneys"
+      "source": "Nazmul",
+      "target": "RD"
     },
     {
-      "source": "LeadAttorneysU",
-      "target": "LeadAttorneys"
+      "source": "PI",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Vlad",
+      "target": "CoPI"
+    },
+    {
+      "source": "PICreate",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "URD",
+      "target": "RD"
+    },
+    {
+      "source": "Vlad",
+      "target": "SP"
+    },
+    {
+      "source": "Vlad",
+      "target": "PISubmit"
+    },
+    {
+      "source": "PDSEditing",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "RA",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "BM",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "PISubmit",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "UChair",
+      "target": "Chair"
+    },
+    {
+      "source": "PDSWhole",
+      "target": "EditingPolicy"
     }
   ],
   "associations": [
     {
-      "source": "AttorneysMain",
-      "target": "Case3",
+      "source": "CoPI",
+      "target": "PDSWhole",
       "operations": [
-        "accept"
+        "edit"
       ]
     },
     {
-      "source": "LeadAttorneys",
-      "target": "Case3",
+      "source": "PISubmit",
+      "target": "PDSWhole",
       "operations": [
-        "approve",
-        "disapprove",
-        "withdraw"
+        "submit"
       ]
     },
     {
-      "source": "Attorneys",
-      "target": "Case3",
+      "source": "PI",
+      "target": "PDSWhole",
       "operations": [
-        "refuse"
+        "add"
       ]
     }
   ]

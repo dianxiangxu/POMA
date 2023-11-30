@@ -1,0 +1,17 @@
+Obligation: add_copi
+	action_0: 
+		action: assign
+		precondition: (ISUSER(?copi_to_add) AND NOT(EXPLICITASSIGN(?copi_to_add, CoPI)));
+		effect: ASSIGNEFFECT(?copi_to_add, CoPI);
+	action_1: 
+		action: assign
+		precondition: ((EXPLICITASSIGN(?ancestor1, ?ancestor2) AND EXPLICITASSIGN(?chair, ?ancestor2)) AND EXPLICITASSIGN(?copi_to_add, ?ancestor1)); 
+		effect: ASSIGNEFFECT(?chair, Chair);
+	action_2: 
+		action: assign
+		precondition: (EXPLICITASSIGN(?ancestor2, ?ancestor3) AND EXPLICITASSIGN(?bm, ?ancestor3)); 
+		effect: ASSIGNEFFECT(?bm, BM);
+	action_3: 
+		action: assign
+		precondition: (EXPLICITASSIGN(?ancestor3, ?ancestor4) AND EXPLICITASSIGN(?dean, ?ancestor4)); 
+		effect: ASSIGNEFFECT(?dean, Dean);			

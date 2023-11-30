@@ -1,12 +1,7 @@
 {
   "nodes": [
     {
-      "name": "Kate",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "CoPI",
+      "name": "BMCS",
       "type": "UA",
       "properties": {}
     },
@@ -16,17 +11,17 @@
       "properties": {}
     },
     {
-      "name": "Alice",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "CoPIEligible",
+      "name": "CoPI",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "Nick",
+      "name": "DeanCSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Alice",
       "type": "U",
       "properties": {}
     },
@@ -36,43 +31,38 @@
       "properties": {}
     },
     {
-      "name": "PDSEditing",
-      "type": "OA",
-      "properties": {}
-    },
-    {
-      "name": "Amy",
-      "type": "U",
-      "properties": {}
-    },
-    {
       "name": "Dean",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "RA",
+      "name": "ChairCSUser",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Vlad",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "ChairCS",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "RD",
+      "name": "PDSO",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "DeanCS",
       "type": "UA",
       "properties": {}
     },
     {
-      "name": "Erin",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "Bob",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "Chris",
-      "type": "U",
+      "name": "DeptCS",
+      "type": "UA",
       "properties": {}
     },
     {
@@ -81,13 +71,8 @@
       "properties": {}
     },
     {
-      "name": "SPEligible",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "PDSWhole",
-      "type": "OA",
+      "name": "BMCSUser",
+      "type": "U",
       "properties": {}
     },
     {
@@ -96,64 +81,59 @@
       "properties": {}
     },
     {
-      "name": "Anne",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "SP",
-      "type": "UA",
+      "name": "PDS",
+      "type": "OA",
       "properties": {}
     }
   ],
   "assignments": [
     {
+      "source": "DeanCSUser",
+      "target": "DeanCS"
+    },
+    {
       "source": "PI",
       "target": "EditingPolicy"
+    },
+    {
+      "source": "BMCSUser",
+      "target": "BM"
+    },
+    {
+      "source": "DeptCS",
+      "target": "ChairCS"
     },
     {
       "source": "Dean",
       "target": "EditingPolicy"
     },
     {
-      "source": "Anne",
-      "target": "RD"
+      "source": "BMCS",
+      "target": "DeanCS"
     },
     {
-      "source": "Kate",
-      "target": "BM"
+      "source": "Alice",
+      "target": "CoPI"
     },
     {
       "source": "Chair",
       "target": "EditingPolicy"
     },
     {
-      "source": "RD",
+      "source": "Alice",
+      "target": "DeptCS"
+    },
+    {
+      "source": "ChairCSUser",
+      "target": "ChairCS"
+    },
+    {
+      "source": "Vlad",
+      "target": "PI"
+    },
+    {
+      "source": "DeanCS",
       "target": "EditingPolicy"
-    },
-    {
-      "source": "PI",
-      "target": "CoPI"
-    },
-    {
-      "source": "PDSEditing",
-      "target": "PDSWhole"
-    },
-    {
-      "source": "PDSEditing",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "RA",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "Bob",
-      "target": "CoPI"
-    },
-    {
-      "source": "Chris",
-      "target": "SPEligible"
     },
     {
       "source": "CoPI",
@@ -164,80 +144,44 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "Bob",
-      "target": "CoPIEligible"
+      "source": "BMCSUser",
+      "target": "BMCS"
     },
     {
-      "source": "Alice",
-      "target": "PI"
-    },
-    {
-      "source": "SPEligible",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "CoPIEligible",
-      "target": "SPEligible"
-    },
-    {
-      "source": "SP",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "Amy",
+      "source": "DeanCSUser",
       "target": "Dean"
     },
     {
-      "source": "Nick",
+      "source": "PDSO",
+      "target": "PDS"
+    },
+    {
+      "source": "PDS",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "ChairCSUser",
       "target": "Chair"
     },
     {
-      "source": "Erin",
-      "target": "RA"
-    },
-    {
-      "source": "PDSWhole",
-      "target": "EditingPolicy"
+      "source": "ChairCS",
+      "target": "BMCS"
     }
   ],
   "associations": [
     {
-      "source": "CoPI",
-      "target": "PDSWhole",
-      "operations": [
-        "edit"
-      ]
-    },
-    {
       "source": "PI",
-      "target": "PDSWhole",
+      "target": "PDS",
       "operations": [
-        "submit",
         "create",
         "delete"
       ]
     },
     {
-      "source": "SP",
-      "target": "PDSWhole",
-      "operations": [
-        "read"
-      ]
-    },
-    {
       "source": "CoPI",
-      "target": "SPEligible",
+      "target": "PDS",
       "operations": [
-        "delete-sp",
-        "add-sp"
-      ]
-    },
-    {
-      "source": "PI",
-      "target": "CoPIEligible",
-      "operations": [
-        "delete-copi",
-        "add-copi"
+        "delete"
       ]
     }
   ]

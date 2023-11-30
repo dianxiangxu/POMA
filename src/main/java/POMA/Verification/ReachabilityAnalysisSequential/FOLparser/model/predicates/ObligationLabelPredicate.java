@@ -58,4 +58,10 @@ public class ObligationLabelPredicate implements IPredicate {
 		smtlibv2Code += ")";
 		return smtlibv2Code;
 	}
+
+	@Override
+	public String toSMTCustomFunction() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

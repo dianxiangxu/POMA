@@ -6,7 +6,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.model.nodes.Node;
@@ -15,6 +19,7 @@ import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.*;
 import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.parser.FOLGrammar;
 import POMA.Verification.ReachabilityAnalysisSequential.model.Solution;
+import POMA.Verification.ReachabilityAnalysisSequential.model.Variable;
 
 public abstract class Planner {
 
@@ -22,19 +27,22 @@ public abstract class Planner {
 	private int bound = 8;
 	private String smtCodeFilePath = "";
 	HashMap<String, Integer> mapOfIDs;
-	
+	List<String> _customFunctionVariables = new ArrayList<String>();
+	List<String> _conditionalInterferenceVariables = new ArrayList<String>();
+
 	public HashMap<String, Integer> getMapOfIDs() {
 		return mapOfIDs;
 	}
 
 	protected List<Node> listOfNodes = new ArrayList<Node>();
-	
+
 	public List<Node> getListOfNodes() {
 		return listOfNodes;
 	}
 
 	boolean showSMTOutput = false;
 	static FOLGrammar parser = null;
+
 	void setSolver(Solver solver) {
 		this.solver = solver;
 	}
@@ -66,28 +74,35 @@ public abstract class Planner {
 
 	abstract List<String> getObligationLabels();
 
+	abstract List<String> getRaceObligationLabels();
+
 	abstract List<String> getObligationEventVariables();
 
 	public Solution solveConstraint(String pre, String post, Graph initialGraph) throws Exception {
-			Solution s = check(pre, post, initialGraph);
-			return s;
+		Solution s = check(pre, post, initialGraph);
+		return s;
 	}
-	public Solution solveConstraint( String property, Graph initialGraph) throws Exception {
-			Solution s = check(property, initialGraph);
-			return s;
+
+	public boolean solveConstraint(String property, Graph initialGraph) throws Exception {
+		return checkStaticConfiguration(property, initialGraph);
 	}
+
+//	public void startRaceConditionFinder(String obligation, String post, Graph initialGraph) throws Exception {
+//		raceConditionFinder(initialGraph);
+//	}
+
 	public Solution check(String pre, String post, Graph initialGraph) throws Exception {
 
 		List<String> obligationLabels = getObligationLabels();
 		List<String> confirmedObligations = new ArrayList<String>();
 		int count = 0;
 		boolean solved = false;
-		IFormula formulaPre = pre.isEmpty() ? null : parseQuery(pre);
+		IFormula formulaPre = pre == null || pre.isEmpty() ? null : parseQuery(pre);
 		IFormula formulaPost = post.isEmpty() ? null : parseQuery(post);
 
 		String headCode = generateHeadCode();
 		String iterationCode = "";
-		
+
 		Solution solution = null;
 		for (int k = 1; k <= bound && !solved; k++) {
 			iterationCode += generateIterationCode(k);
@@ -96,18 +111,17 @@ public abstract class Planner {
 			List<String> queryConst = new ArrayList<String>();
 
 			smtlibv2Code += ";PRE PROPERTY";
-//			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k-2), queryVARS, queryConst) : "";
-			smtlibv2Code += System.lineSeparator()
-					+ System.lineSeparator()
-					+ ";POST PROPERTY";
-			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k-1), queryVARS, queryConst) : "";
+			smtlibv2Code += formulaPre != null ? generateProperty(formulaPre, (k - 2), queryVARS, queryConst) : "";
+			smtlibv2Code += System.lineSeparator() + System.lineSeparator() + ";POST PROPERTY";
+			smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1), queryVARS, queryConst) : "";
 			System.out.println("Time horizon " + k + " processing...");
 			smtlibv2Code += generateTailCode(queryVARS, k);
-			
+
 			String pathToFile = smtCodeFilePath + k + ".smt2";
 			saveCodeToFile(smtlibv2Code, pathToFile);
 			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
-					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes);
+					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes,
+					_customFunctionVariables, new ArrayList<String>());
 			solved = solution == null ? false : true;
 			if (!solved) {
 				System.out.println("Solution not found with time horizon: " + k);
@@ -118,30 +132,90 @@ public abstract class Planner {
 		return solution;
 	}
 
-	public Solution check(String property, Graph initialGraph) throws Exception {
-
-		int count = 0;
-
-		boolean solved = false;
+	public boolean checkStaticConfiguration(String property, Graph initialGraph) throws Exception {
 		IFormula formulaProperty = property.isEmpty() ? null : parseQuery(property);
 		List<String> queryVARS = new ArrayList<String>();
 		List<String> queryConst = new ArrayList<String>();
-		String headCode = generateHeadCode();			
+		String headCode = generateHeadCode();
 		String smtlibv2Code = headCode;
-
-		String iterationCode = "";
 		smtlibv2Code += formulaProperty != null ? generateProperty(formulaProperty, -1, queryVARS, queryConst) : "";
 
 		smtlibv2Code += generateTailCode(queryVARS, 0);
 		String pathToFile = smtCodeFilePath + 0 + ".smt2";
 		saveCodeToFile(smtlibv2Code, pathToFile);
-		solver.runSolver(pathToFile,0,
-				 mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes);
-		Solution solution = null;
-		return solution;
+		boolean propertySatisfied = solver.runSolver(pathToFile, 0, mapOfIDs, showSMTOutput, queryVARS, initialGraph,
+				listOfNodes);
+		return propertySatisfied;
 	}
-	
-	public Solution solveConstraint(Graph graph, Prohibitions prohibitions, // not now
+
+	public String raceConditionFinder(Graph initialGraph, int max) throws Exception {
+		String solutionOutput = "";
+		List<String> obligationLabels = getObligationLabels();
+		List<String> confirmedObligations = new ArrayList<String>();
+		boolean solved = false;
+
+		List<String> raceObligationLabels = getRaceObligationLabels();
+		if (raceObligationLabels.size() == 0) {
+			throw new Exception("Obligations with the same event are not found");
+		}
+		int iterations = 0;
+		for (String label : raceObligationLabels) {
+			Solution solution = null;
+
+			String headCode = generateHeadCode();
+			String iterationCode = "";
+
+			System.out.println("Looking for race conditions in the following obligation combination: " + label);
+			String encodedLabel = "OBLIGATIONLABEL(" + label + ", ?u, ?ar,?at);";
+			IFormula formulaPost = parseQuery(encodedLabel);
+			solved = false;
+			for (int k = 1; k <= bound && !solved; k++) {
+				iterationCode += generateIterationCode(k);
+				String smtlibv2Code = headCode + iterationCode;
+				List<String> queryVARS = new ArrayList<String>();
+				List<String> queryConst = new ArrayList<String>();
+
+				smtlibv2Code += System.lineSeparator() + System.lineSeparator() + ";POST PROPERTY";
+				smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1), queryVARS, queryConst)
+						: "";
+				System.out.println("Time horizon " + k + " processing...");
+				smtlibv2Code += generateTailCode(queryVARS, k);
+
+				String pathToFile = smtCodeFilePath + k + ".smt2";
+				saveCodeToFile(smtlibv2Code, pathToFile);
+				solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
+						getObligationEventVariables(), mapOfIDs, false, queryVARS, initialGraph, listOfNodes,
+						_customFunctionVariables, _conditionalInterferenceVariables);
+				solved = solution == null ? false : true;
+				if (!solved) {
+					System.out.println("Solution not found with time horizon: " + k);
+				}
+			}
+			if (solved) {
+				filterRaceVariables(solution, label);
+				System.out.println(solution);
+				solutionOutput += System.lineSeparator() + solution.toString() + System.lineSeparator();
+				System.out.println(mapOfIDs);
+			}
+			iterations++;
+			if (iterations >= max) {
+				break;
+			}
+		}
+		return solutionOutput;
+	}
+
+	private void filterRaceVariables(Solution solution, String label) {
+		Set<String> seenNames = new HashSet<String>();
+		List<Variable> variables = solution.getVariables().getVariables();
+
+		List<Variable> uniqueFilteredVariables = variables.stream()
+				.filter(variable -> variable.getName().contains(label)).distinct()
+				.filter(variable -> seenNames.add(variable.getName())).collect(Collectors.toList());
+		solution.getVariables().setVariables(uniqueFilteredVariables);
+	}
+
+	public Solution solveConstraint(Graph graph, Prohibitions prohibitions, // future
 			Obligations obligations, String constraint) {
 
 		return null;

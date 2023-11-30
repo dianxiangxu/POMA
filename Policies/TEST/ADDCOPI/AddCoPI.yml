@@ -1,0 +1,220 @@
+label: CustomFunctions
+rules: 
+  - label: create_proposal
+    event:
+      subject:
+        anyUser: 
+          - PI     
+      operations:
+        - create
+      target:
+        policyElements:
+          - name: PDS
+            type: OA        
+    response:      
+      actions: 
+        - grant:
+             subject:
+               name: PI
+               type: UA
+             operations:
+               - add-copi
+             target:
+               name: PDS
+               type: OA                    
+  - label: add_copi
+    event:
+      subject:
+        anyUser: 
+          - "PI"
+      policyClass: 
+        policyClass: EditingPolicyClass
+      operations:
+        - add-copi
+      target:
+        policyElements:
+          - name: PDS
+            type: OA
+    response:
+      condition:
+        - function:
+            name: is_node_contained_in
+            args:
+              - function:
+                  name: copi_to_add
+              - function:
+                  name: get_node
+                  args:
+                    - CoPIEligible
+                    - UA    
+      actions:                
+        - condition!:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_child_user_in_policy_class
+                      args: 
+                        - function:
+                            name: get_ancestor_in_policy_class
+                            args: 
+                              - function:
+                                  name: copi_to_add
+                              - function:
+                                  name: get_node
+                                  args:
+                                    - AcademicUnitsPolicyClass
+                                    - PC
+                              - "2"
+                        - function:
+                            name: get_node
+                            args:
+                              - AcademicUnitsPolicyClass
+                              - PC   
+                  - function:
+                      name: get_node
+                      args:
+                        - Chair
+                        - UA                  
+          assign:
+            - what:
+                function:
+                  name: get_child_user_in_policy_class
+                  args: 
+                    - function:
+                        name: get_ancestor_in_policy_class
+                        args: 
+                          - function:
+                              name: copi_to_add
+                          - function:
+                              name: get_node
+                              args:
+                                - AcademicUnitsPolicyClass
+                                - PC
+                          - "2"        
+                    - function:
+                        name: get_node
+                        args:
+                          - AcademicUnitsPolicyClass
+                          - PC                   
+              where:
+                name: Chair
+                type: UA
+        - assign:
+            - what:
+                name: Alice
+                type: U
+              where:
+                name: CoPI
+                type: UA                
+        - condition!:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_child_user_in_policy_class
+                      args: 
+                        - function:
+                            name: get_ancestor_in_policy_class
+                            args: 
+                              - function:
+                                  name: copi_to_add
+                              - function:
+                                  name: get_node
+                                  args:
+                                    - AcademicUnitsPolicyClass
+                                    - PC
+                              - "4" 
+                        - function:
+                            name: get_node
+                            args:
+                              - AcademicUnitsPolicyClass
+                              - PC  
+                  - function:
+                      name: get_node
+                      args:
+                        - Dean
+                        - UA 
+          assign:
+            - what:
+                function:
+                  name: get_child_user_in_policy_class
+                  args: 
+                    - function:
+                        name: get_ancestor_in_policy_class
+                        args: 
+                          - function:
+                              name: copi_to_add
+                          - function:
+                              name: get_node
+                              args:
+                                - AcademicUnitsPolicyClass
+                                - PC
+                          - "4"
+                    - function:
+                        name: get_node
+                        args:
+                          - AcademicUnitsPolicyClass
+                          - PC                  
+              where:
+                name: Dean
+                type: UA
+        - condition!:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_child_user_in_policy_class
+                      args: 
+                        - function:
+                            name: get_ancestor_in_policy_class
+                            args: 
+                              - function:
+                                  name: copi_to_add
+                              - function:
+                                  name: get_node
+                                  args:
+                                    - AcademicUnitsPolicyClass
+                                    - PC
+                              - "3"
+                        - function:
+                            name: get_node
+                            args:
+                              - AcademicUnitsPolicyClass
+                              - PC   
+                  - function:
+                      name: get_node
+                      args:
+                        - Business Manager
+                        - UA
+          assign:
+            - what:
+                function:
+                  name: get_child_user_in_policy_class
+                  args: 
+                    - function:
+                        name: get_ancestor_in_policy_class
+                        args: 
+                          - function:
+                              name: copi_to_add
+                          - function:
+                              name: get_node
+                              args:
+                                - AcademicUnitsPolicyClass
+                                - PC
+                          - "3" 
+                    - function:
+                        name: get_node
+                        args:
+                          - AcademicUnitsPolicyClass
+                          - PC                                                    
+              where:
+                name: Business Manager
+                type: UA 
+        - assign:
+            - what:
+                name: Alice
+                type: U
+              where:
+                name: CoPI
+                type: UA                                                           

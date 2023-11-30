@@ -46,5 +46,25 @@ public class AssignPredicate implements IPredicate {
 		smtlibv2Code += System.lineSeparator();
 		return smtlibv2Code;
 	}
+	public String toSMTCustomFunction() throws Exception {
+		if (tuple.size() != 2) {
+			throw new Exception(
+					"Incorrect ASSIGN predictate format. Please use the following format: ASSIGN(ancestor, descendant)");
+		}
+		String smtlibv2Code = "";
+		String a = tuple.get(0) instanceof Constant ? tuple.get(0).getElement() : null;
+		String d = tuple.get(1) instanceof Constant ? tuple.get(1).getElement() : null;
 
+		String aEncoding =  tuple.get(0).getElement()  + "_customvar_{k}";
+		String dEncoding =  tuple.get(1).getElement()  + "_customvar_{k}";
+
+		String aSpec = a != null ? " [" + a + "] " : aEncoding;
+		String dSpec = d != null ? " [" + d + "] " : dEncoding;
+
+		smtlibv2Code += System.lineSeparator();
+		smtlibv2Code += "(set.member (tuple " + aSpec + " " + dSpec + " ) (ASSIGN* " + "{k}" + "))";
+
+		smtlibv2Code += System.lineSeparator();
+		return smtlibv2Code;
+	}
 }

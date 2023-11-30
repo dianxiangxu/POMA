@@ -1,6 +1,9 @@
 package POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.connectives;
 
+import java.util.List;
+
 import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.IFormula;
+import POMA.Verification.ReachabilityAnalysisSequential.FOLparser.model.terms.ITerm;
 
 public class Conjunctive implements IFormula {
 	private IFormula subformulaA = null, subformulaB = null;
@@ -30,4 +33,16 @@ public class Conjunctive implements IFormula {
 		// }
 		return "(and " +subformulaA.toSMT()+" "+ subformulaB.toSMT()+")";
 	}
+
+	@Override
+	public List<ITerm> getTuple() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String toSMTCustomFunction() throws Exception {
+		// TODO Auto-generated method stub
+		return "(and " +subformulaA.toSMTCustomFunction()+" "+ subformulaB.toSMTCustomFunction()+")";
+		}
 }

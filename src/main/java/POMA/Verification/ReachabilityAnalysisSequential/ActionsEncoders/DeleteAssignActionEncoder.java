@@ -46,16 +46,20 @@ public class DeleteAssignActionEncoder extends ActionEncoder {
     
 	protected void encodeActionPostcondition() {
 		setPostcondition("(set.setminus (ASSIGN {k-1}) (set.singleton (tuple " + assignment.getWhat() + " " + assignment.getWhere() + ")))");
+		setPostconditionSet(
+				"(set.singleton( tuple " + assignment.getWhat() + " " + assignment.getWhere() + "))");
 		setNegatedPostconditionSet("(as set.empty (Set (Tuple Int Int)))");
 	}	
 	
 	protected void encodeActionPostconditionFlatten() {
 		if(assignment.getWhatType().equals("UA") || assignment.getWhereType().equals("OA") || assignment.getWhereType().isBlank()){
-			setPostconditionFlatten(getATATEncoding());
+			setPostconditionFlatten(getATATEncoding());		
 		}
 		else if(assignment.getWhatType().equals("U") || assignment.getWhatType().equals("O")) {
 			setPostconditionFlatten(getPEATEncoding());
 		}
+		setPostconditionFlattenSet(
+				"(set.singleton( tuple " + assignment.getWhat() + " " + assignment.getWhere() + "))");
 	}		
 	
 	private String getATATEncoding() {

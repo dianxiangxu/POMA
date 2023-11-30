@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import POMA.Utils;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder;
 import POMA.Verification.ReachabilityAnalysisSequential.model.ObligationFiring;
 import POMA.Verification.ReachabilityAnalysisSequential.model.Solution;
 import POMA.Verification.ReachabilityAnalysisSequential.model.Variable;
@@ -50,10 +51,8 @@ public class Solver {
 		return "Solver " + name + ": " + executable;
 	}
 
-	protected boolean runSolver(String pathToFile, int k,
-			  HashMap<String, Integer> mapOfIDs,
-			boolean showSMTOutput, List<String> queryVARS, Graph initialGraph, List<Node> listOfNodes)
-			throws IOException {
+	protected boolean runSolver(String pathToFile, int k, HashMap<String, Integer> mapOfIDs, boolean showSMTOutput,
+			List<String> queryVARS, Graph initialGraph, List<Node> listOfNodes) throws IOException {
 
 		String[] cmdArguments = commandArguments(pathToFile);
 		Process proc = Runtime.getRuntime().exec(cmdArguments);
@@ -71,18 +70,18 @@ public class Solver {
 					String[] labelArray = (stringArray[0]).split(" \\(lambda \\(\\(|\\(\\(");
 					String label = labelArray[1];
 				}
-				
 
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
+
 	protected Solution runSolver(String pathToFile, int k, List<String> confirmedObligations,
 			List<String> obligationLabels, List<String> obligationEventVariables, HashMap<String, Integer> mapOfIDs,
-			boolean showSMTOutput, List<String> queryVARS, Graph initialGraph, List<Node> listOfNodes)
-			throws IOException {
+			boolean showSMTOutput, List<String> queryVARS, Graph initialGraph, List<Node> listOfNodes,
+			List<String> customFunctionVariables, List<String> conditionalInterferenceVariables) throws IOException {
 
 		String[] cmdArguments = commandArguments(pathToFile);
 		Process proc = Runtime.getRuntime().exec(cmdArguments);
@@ -107,16 +106,16 @@ public class Solver {
 					}
 				}
 				Solution solution = findSolution(output, obligationLabels, mapOfIDs, queryVARS, k, initialGraph,
-						listOfNodes);
+						listOfNodes, customFunctionVariables, conditionalInterferenceVariables);
 
 				return solution;
 			}
 		}
 		return null;
 	}
-
 	Solution findSolution(List<String> output, List<String> obligationLabels, HashMap<String, Integer> mapOfIDs,
-			List<String> queryVARS, int k, Graph initialGraph, List<Node> listOfNodes) {
+			List<String> queryVARS, int k, Graph initialGraph, List<Node> listOfNodes,
+			List<String> customFunctionVariables, List<String> conditionalInterferenceVariables) {
 		ObligationFiring[] arrayOfSteps = new ObligationFiring[100];
 		String[] assigns = new String[k + 1];
 		String[] assocs = new String[k + 1];
@@ -124,7 +123,7 @@ public class Solver {
 		List<Variable> variablesList = new ArrayList<Variable>();
 		for (String line : output) {
 			for (String label : obligationLabels) {
-				if (isContain(line, label)) {
+				if (lineContains(line, label)) {
 					String[] splittedLine = line.split(" ");
 					for (String stepNumber : splittedLine) {
 
@@ -138,19 +137,19 @@ public class Solver {
 							for (String line2 : output) {
 								String[] splittedLine2 = line2.split(" ");
 								String varAssignment = splittedLine2[splittedLine2.length - 1];
-								if (isContain(line2, label + "U_" + stepNumber)) {
+								if (lineContains(line2, label + "U_" + stepNumber)) {
 									int varAssignmentInt = Integer.parseInt(varAssignment);
 									step.setSubject(getKeyFromValue(varAssignmentInt, mapOfIDs));
-								} else if (isContain(line2, label + "UO_" + stepNumber)) {
+								} else if (lineContains(line2, label + "UO_" + stepNumber)) {
 									int varAssignmentInt = Integer.parseInt(varAssignment);
 									step.setObject(getKeyFromValue(varAssignmentInt, mapOfIDs));
-								} else if (isContain(line2, label + "ar_" + stepNumber)) {
+								} else if (lineContains(line2, label + "ar_" + stepNumber)) {
 									int varAssignmentInt = Integer.parseInt(varAssignment);
 									step.setEvent(getKeyFromValue(varAssignmentInt, mapOfIDs));
-								} else if (isContain(line2, label + "S_" + stepNumber)) {
+								} else if (lineContains(line2, label + "S_" + stepNumber)) {
 									int varAssignmentInt = Integer.parseInt(varAssignment);
 									step.setSource(getKeyFromValue(varAssignmentInt, mapOfIDs));
-								} else if (isContain(line2, label + "T_" + stepNumber)) {
+								} else if (lineContains(line2, label + "T_" + stepNumber)) {
 									int varAssignmentInt = Integer.parseInt(varAssignment);
 									step.setTarget(getKeyFromValue(varAssignmentInt, mapOfIDs));
 								}
@@ -163,19 +162,46 @@ public class Solver {
 			}
 
 			for (String var : queryVARS) {
-				if (isContain(line, var)) {
+				if (lineContains(line, var)) {
 					String[] splittedLineWithVars = line.split(" ");
 					int varAssignment = Integer.parseInt(splittedLineWithVars[splittedLineWithVars.length - 1]);
 					String variableName = var.replace("queryVAR", "");
 					variablesList.add(new Variable(variableName, getKeyFromValue(varAssignment, mapOfIDs)));
 				}
 			}
-
-			if (isContain(line, "ASSIGN ")) {
+			for (String var : customFunctionVariables) {
+				try {
+					var = ActionEncoder.replaceKWithValue(var, k);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (lineContains(line, var)) {
+					String[] splittedLineWithVars = line.split(" ");
+					int varAssignment = Integer.parseInt(splittedLineWithVars[splittedLineWithVars.length - 1]);
+					String variableName = var.replace("customvar_", "").replace("?", "");
+					if (!getKeyFromValue(varAssignment, mapOfIDs).equals("NONE")) {
+						variablesList.add(new Variable(variableName, getKeyFromValue(varAssignment, mapOfIDs)));
+					}
+				}
+			}
+			for (String var : conditionalInterferenceVariables) {
+				try {
+					var = ActionEncoder.replaceKWithValue(var, k);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (lineContains(line, var)) {
+					String[] splittedLineWithVars = line.split(" ");
+					Boolean varAssignment = Boolean.parseBoolean(splittedLineWithVars[splittedLineWithVars.length - 1]);
+					String variableName = var.replace("customvar_", "").replace("?", "");
+					variablesList.add(new Variable(variableName, varAssignment.toString()));
+				}
+			}
+			if (lineContains(line, "ASSIGN ")) {
 				int index = Integer.parseInt((line.split(" "))[1]);
 				assigns[index] = line.replace("union", "").replace("singleton", "").replace("ASSIGN " + index, "");
 			}
-			if (isContain(line, "ASSOC ")) {
+			if (lineContains(line, "ASSOC ")) {
 				int index = Integer.parseInt((line.split(" "))[1]);
 				assocs[index] = line.replace("union", "").replace("singleton", "").replace("ASSOC " + index, "");
 			}
@@ -185,13 +211,13 @@ public class Solver {
 			Graph graph = new MemGraph();
 			try {
 				getConfigurationAtTimestep(i, initialGraph, mapOfIDs, graph, assigns[i], assocs[i], listOfNodes);
-				if (graph.getNodes().size() != 0)
-				{
-					if(i==0) {
-						Utils.saveGraph(graph, "Policies/ForBMC/TestBuildingGraphForSolution/"+i+"_InitialConfiguration"+ ".json");
-					}
-					else {
-					Utils.saveGraph(graph, "Policies/ForBMC/TestBuildingGraphForSolution/"+i+"_"+arrayOfSteps[i-1].getObligationLabel() + ".json");
+				if (graph.getNodes().size() != 0) {
+					if (i == 0) {
+						Utils.saveGraph(graph, "Policies/ForBMC/TestBuildingGraphForSolution/" + i
+								+ "_InitialConfiguration" + ".json");
+					} else {
+						Utils.saveGraph(graph, "Policies/ForBMC/TestBuildingGraphForSolution/" + i + "_"
+								+ arrayOfSteps[i - 1].getObligationLabel() + ".json");
 					}
 					listOfConfigurations.add(graph);
 				}
@@ -212,8 +238,8 @@ public class Solver {
 		} catch (PMException e) {
 			e.printStackTrace();
 		}
-		String[] splittedAssign = assign.split("mkTuple");
-		String[] splittedAssoc = assoc.split("mkTuple");
+		String[] splittedAssign = assign.split("tuple");
+		String[] splittedAssoc = assoc.split("tuple");
 
 		try {
 			processAssignments(splittedAssign, initialGraph, mapOfIDs, pcs, graph, listOfNodes);
@@ -227,7 +253,7 @@ public class Solver {
 	private static void processAssignments(String[] splittedLine, Graph initialGraph, HashMap<String, Integer> mapOfIDs,
 			Set<String> pcs, Graph graph, List<Node> listOfNodes) throws Exception {
 		List<String[]> listOfTuples = new ArrayList<String[]>();
-		
+
 		for (int i = 1; i < splittedLine.length; i++) {
 			String[] idTuples = splittedLine[i].split(" ");
 			String anc = getKeyFromValue(Integer.parseInt(idTuples[1]), mapOfIDs);
@@ -289,7 +315,7 @@ public class Solver {
 		}
 	}
 
-	private static boolean isContain(String source, String subItem) {
+	private static boolean lineContains(String source, String subItem) {
 		String pattern = "\\b" + subItem + "\\b";
 		Pattern p = Pattern.compile(pattern);
 		Matcher m = p.matcher(source);
