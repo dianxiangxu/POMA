@@ -18,7 +18,11 @@ public abstract class AbstractPolicyEditor extends JPanel{
     File temporal;
     Prohibitions prohibitions;
     Obligation obligations;
-    
+	String customFunctionSpecificationPath = "";
+	String preproperty = "";
+	String postproperty = "";
+	String obligationPath = "";
+
 	abstract public File getWorkingPolicyFile();	
 		
 	abstract public void openFile();
@@ -57,5 +61,21 @@ public abstract class AbstractPolicyEditor extends JPanel{
 
 	public Obligation getObligations() {
 		return obligations;
+	}
+
+	public String getCustomFunctionSpecificationPath() {
+		return customFunctionSpecificationPath;
+	}
+
+	public String getPreproperty() {
+		return preproperty;
+	}
+
+	public String getPostproperty() {
+		return postproperty;
+	}
+
+	public String getObligationPath() {
+		return obligationPath;
 	}
 }

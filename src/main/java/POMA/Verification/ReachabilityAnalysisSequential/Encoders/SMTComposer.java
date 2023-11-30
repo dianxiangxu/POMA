@@ -43,18 +43,24 @@ public class SMTComposer extends Planner {
 //
 //		String postcondition = "OBLIGATIONLABEL(chair_approve, ?u, ?ar,?at);";
 		
-		// RACE CONDITIONS TEST
-		Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");
+//		// RACE CONDITIONS TEST
+//		Graph graph = Utils.readAnyGraph("Policies/TEST/Graph.json");
+//
+//		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/AssignANDGrant.yml")));
+		
+		//GUI TEST
+		Graph graph = Utils.readAnyGraph("Policies/GUI Test/custom_functions/Graph.json");
 
-		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/AssignANDGrant.yml")));
+		String yml = new String(Files.readAllBytes(Paths.get("Policies/GUI Test/custom_functions/AddCoPI.yml")));
+		
 //		String precondition = "OBLIGATIONLABEL(obligation1_obligation2, ?u0, ?ar0,?at0);";
 
 //		String postcondition = "OBLIGATIONLABEL(obligation1_obligation2, ?u, ?ar,?at);";
 //		String yml = new String(Files.readAllBytes(Paths.get("Policies/SequencesTestEnabling/AssignAssign.yml")));
 
 		Obligation obligation = EVRParser.parse(yml);
-//		SMTComposer checker = new SMTComposer(graph, obligation, "Policies/TEST/ADDCOPI/customization_v3.txt");
-		SMTComposer checker = new SMTComposer(graph, obligation, "");
+		SMTComposer checker = new SMTComposer(graph, obligation, "C:\\Users\\dubro\\git\\POMA\\Policies\\GUI Test\\custom_functions\\customization.txt", false);
+//		SMTComposer checker = new SMTComposer(graph, obligation, "");
 
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
@@ -65,7 +71,7 @@ public class SMTComposer extends Planner {
 //		checker.raceConditionFinder(graph);
 
 //		 String precondition = "";
-		String postcondition = "OBLIGATIONLABEL(start, ?u, ?ar,?at);";
+		String postcondition = "OBLIGATIONLABEL(add_copi, ?u, ?ar,?at);";
 		Solution solution = checker.solveConstraint(null, postcondition, graph);
 		
 //		 checker.solveConstraint("PERMIT(LeadAttorneys,approve,AcceptedCases);",
@@ -114,13 +120,13 @@ public class SMTComposer extends Planner {
 		eventMembers.putAll(ot.getEventPolicyElements());
 	}
 
-	public SMTComposer(Graph graph, Obligation obligations, String customObligationSpecPath) throws Exception {
+	public SMTComposer(Graph graph, Obligation obligations, String customObligationSpecPath, boolean processRaceCondition) throws Exception {
 
 		gt = new ConfigurationEncoder(graph);
 		gt.translateHeadCode(listOfAddedAssociations, listOfAddedNodesUA_U, listOfAddedNodesOA_O, obligationLabels,
 				eventMembers, listOfNodes);
 		mapOfIDs = gt.getMapOfIDs();
-		ot = new ObligationsEncoder(mapOfIDs, obligations, listOfNodes, customObligationSpecPath, false);
+		ot = new ObligationsEncoder(mapOfIDs, obligations, listOfNodes, customObligationSpecPath, processRaceCondition);
 
 		ot.findAllAbsentElements();
 		listOfNodes.addAll(ot.getListOfNodes());

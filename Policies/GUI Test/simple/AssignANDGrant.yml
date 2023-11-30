@@ -86,23 +86,23 @@ rules:
              target:
                name: PDSWhole
                type: OA    
-  - label: obligation3
-    event:
-      subject:
-        anyUser: 
-          - "PI"     
-      operations:
-        - submit
-      target:
-        policyElements:
-          - name: PDSWhole
-            type: O        
-    response:      
-      actions: 
-        - assign:
-            - what:
-                name: URD
-                type: U
-              where:
-                name: RD
-                type: UA 
+  # - label: obligation3
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "PI"     
+  #     operations:
+  #       - submit
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - assign:
+  #           - what:
+  #               name: URD
+  #               type: U
+  #             where:
+  #               name: RD
+  #               type: UA 

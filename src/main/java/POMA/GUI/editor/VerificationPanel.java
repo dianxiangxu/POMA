@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -26,18 +28,22 @@ import gov.nist.csd.pm.exceptions.PMException;
 import gov.nist.csd.pm.pip.graph.Graph;
 import gov.nist.csd.pm.pip.graph.GraphSerializer;
 import gov.nist.csd.pm.pip.graph.MemGraph;
+import gov.nist.csd.pm.pip.obligations.evr.EVRException;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public class VerificationPanel extends JPanelPB {
 
 	public enum ACTION {
-		Verify, AllAccessRights
+		Verify, VerifyStatic, RaceCondition, AllAccessRights
 	}
 
 	Graph graph;
 	Prohibitions prohibitions;
 	Obligation obligations;
+	String customFunctionSpecificationPath;
+	String obligationPath;
+
 	AbstractPolicyEditor editorPanel;
 	JSplitPane allAccessRights;
 	JSplitPane accessRightsForEach;
@@ -62,7 +68,7 @@ public class VerificationPanel extends JPanelPB {
 	Translator translator = new Translator();;
 	SMTComposer checker;
 	JComboBox<Integer> timeHorizonPicker;
-	
+	JComboBox<Integer> raceIterationsMaxPicker;
 	public VerificationPanel() {
 //		createTranslationScroll();
 		createOutputTextScroll();
@@ -71,18 +77,15 @@ public class VerificationPanel extends JPanelPB {
 	}
 
 	public JSplitPane createTranslationSplitPanel(Graph graph, AbstractPolicyEditor editorPanel) {
-		String fullOutput = "";
 		try {
 			if (graph.getNodes().size() == 0) {
 				return null;
 			}
-			fullOutput = translator.translateGraphOnly(graph);
 		} catch (Exception e1) {
 			System.out.println("2");
 			return null;
 		}
 		JSplitPane translationSplitPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-//		fullTranslation.setText(fullOutput);
 		fullTranslationScroll.setPreferredSize(new Dimension(600, 800));
 		fullTranslationPanel.add(fullTranslationScroll, BorderLayout.CENTER);
 		translationSplitPanel.setRightComponent(Utils.getGraphVisualization((MemGraph) graph));
@@ -110,10 +113,61 @@ public class VerificationPanel extends JPanelPB {
 		return mainSplitPanel;
 	}
 
-	public JSplitPane createReachabilityPanelSplitPanel(Graph graph, Obligation obligations,
-			AbstractPolicyEditor editorPanel, ACTION action) {
-		this.graph = graph;
-		this.obligations = obligations;
+	public JSplitPane createReachabilityAnalysisSplitPanel(AbstractPolicyEditor editorPanel, ACTION action) {
+		this.graph = editorPanel.getGraph();
+		this.obligations = editorPanel.getObligations();
+		this.customFunctionSpecificationPath = editorPanel.getCustomFunctionSpecificationPath();
+
+		try {
+			if (graph.getNodes().size() == 0) {
+				return null;
+			}
+		} catch (PMException pme) {
+			return null;
+		}
+		inputPanel.removeAll();
+
+		addScrollsToPanels();
+		createSplitPanelForAction(action);
+		queryPreInputTextArea.setText(editorPanel.getPreproperty());
+		queryPostInputTextArea.setText(editorPanel.getPostproperty());
+
+		return mainSplitPanel;
+	}
+
+	public JSplitPane createReachabilityAnalysisStaticSplitPanel(AbstractPolicyEditor editorPanel,
+			ACTION action) {
+		this.graph = editorPanel.getGraph();
+		this.obligations = editorPanel.getObligations();
+		this.customFunctionSpecificationPath = editorPanel.getCustomFunctionSpecificationPath();
+
+
+		try {
+			if (graph.getNodes().size() == 0) {
+				return null;
+			}
+		} catch (PMException pme) {
+			return null;
+		}
+		inputPanel.removeAll();
+
+		addScrollsToPanels();
+		createSplitPanelForAction(action);
+		queryPreInputTextArea.setText(editorPanel.getPreproperty());
+
+		return mainSplitPanel;
+	}
+
+	public JSplitPane createRaceConditionAnalysisSplitPanel(AbstractPolicyEditor editorPanel, ACTION action) {
+		this.graph = editorPanel.getGraph();
+		try {
+			this.obligationPath = editorPanel.getObligationPath();
+			this.obligations = Utils.readObligation(obligationPath);//required to read obligation because the obligation object will be modified
+		} catch (Exception e) {
+			System.out.println("Error occured while reading the obligation: "+ e.getMessage());
+		} 
+		this.customFunctionSpecificationPath = editorPanel.getCustomFunctionSpecificationPath();
+
 		try {
 			if (graph.getNodes().size() == 0) {
 				return null;
@@ -135,6 +189,12 @@ public class VerificationPanel extends JPanelPB {
 		case Verify:
 			verifyAction();
 			break;
+		case VerifyStatic:
+			verifyStaticAction();
+			break;
+		case RaceCondition:
+			verifyRaceCondition();
+			break;
 		case AllAccessRights:
 			try {
 				allAccessRights();
@@ -150,7 +210,6 @@ public class VerificationPanel extends JPanelPB {
 		inputPanel.add(queryPreInputScrollPanel);
 		inputPanel.add(queryPostinputScrollPanel);
 		queryOutput.add(queryOutputScroll, BorderLayout.CENTER);
-//		fullTranslationPanel.add(fullTranslationScroll, BorderLayout.CENTER);
 		outputTextPanel.add(scrollOutputText, BorderLayout.CENTER);
 	}
 
@@ -189,8 +248,8 @@ public class VerificationPanel extends JPanelPB {
 			return;
 		}
 		try {
-			checker = new SMTComposer(graph, obligations, "");            
-			int timeHorizon = (int)timeHorizonPicker.getSelectedItem();
+			checker = new SMTComposer(graph, obligations, customFunctionSpecificationPath, false);
+			int timeHorizon = (int) timeHorizonPicker.getSelectedItem();
 			checker.setBound(timeHorizon);
 			solution = checker.solveConstraint(prePropertyInput, postPropertyInput, graph);
 			checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
@@ -211,15 +270,71 @@ public class VerificationPanel extends JPanelPB {
 		queryPreInputTextArea.setEditable(true);
 	}
 
+	private void verifyStaticAction() {
+		String prePropertyInput = queryPreInputTextArea.getText();
+
+		boolean propertySatisfied = false;
+		if (prePropertyInput.isEmpty()) {
+			handleError("Property is required");
+			return;
+		}
+		try {
+			checker = new SMTComposer(graph, obligations, customFunctionSpecificationPath, false);
+			int timeHorizon = (int) timeHorizonPicker.getSelectedItem();
+			checker.setBound(timeHorizon);
+			propertySatisfied = checker.solveConstraint(prePropertyInput, graph);
+			checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
+
+		} catch (Exception e) {
+			handleError("Error occured while performing the reachability analysis");
+			System.out.println(e.getMessage());
+			this.stopProgressStatus();
+			return;
+		}
+		if (propertySatisfied) {
+			queryOutputTextArea.setText("Property is satisfied in the static configuration");
+		} else {
+			queryOutputTextArea.setText("Property is not satisfied in the static configuration");
+		}
+		queryOutputTextArea.setFont(queryOutputTextArea.getFont().deriveFont(16f));
+		queryPostInputTextArea.setEditable(true);
+		queryPreInputTextArea.setEditable(true);
+		this.stopProgressStatus();
+	}
+
+	private void verifyRaceCondition() {
+
+		String result = "Error retrieving solution";
+		try {
+			this.obligations = Utils.readObligation(obligationPath);//required to read obligation because the obligation object will be modified
+
+			checker = new SMTComposer(graph, obligations, customFunctionSpecificationPath, true);
+			int timeHorizon = (int) timeHorizonPicker.getSelectedItem();
+			checker.setBound(timeHorizon);
+			result = checker.raceConditionFinder(graph, (int)raceIterationsMaxPicker.getSelectedItem());
+			checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
+		} catch (Exception e) {
+			handleError("Error occured while performing the reachability analysis");
+			System.out.println(e.getMessage());
+			this.stopProgressStatus();
+			return;
+		}
+		queryOutputTextArea.setText(result);
+		queryOutputTextArea.setFont(queryOutputTextArea.getFont().deriveFont(16f));
+		queryPostInputTextArea.setEditable(true);
+		queryPreInputTextArea.setEditable(true);
+		
+		this.stopProgressStatus();
+	}
+
 	private void createSplitPanelForAction(ACTION action) {
-		
-		
-        Integer[] timeHorizons = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-        timeHorizonPicker = new JComboBox<>(timeHorizons);
-        timeHorizonPicker.setMaximumRowCount(5);
-        inputPanel.add(new JLabel("Select the time horizon:"));
-        inputPanel.add(timeHorizonPicker);
-//		fullTranslationScroll.setPreferredSize(new Dimension(600, 350));
+
+		Integer[] timeHorizons = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+		timeHorizonPicker = new JComboBox<>(timeHorizons);
+		timeHorizonPicker.setMaximumRowCount(5);
+		JLabel timeHorizonPickerLabel = new JLabel("Select the time horizon: ");
+		inputPanel.add(timeHorizonPickerLabel);
+		inputPanel.add(timeHorizonPicker);
 		emptyTextFields();
 		setMainSplitPanel();
 		queryPostInputTextArea.setEditable(true);
@@ -227,23 +342,40 @@ public class VerificationPanel extends JPanelPB {
 		queryPostInputTextArea.setFont(queryPostInputTextArea.getFont().deriveFont(15f));
 		queryPreInputTextArea.setFont(queryPreInputTextArea.getFont().deriveFont(15f));
 		JButton startVerificationTask = new JButton("Run");
-		inputPanel.add(startVerificationTask);
 		startVerificationTask.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-		        new Thread(new Runnable() {
-		            @Override
-		            public void run() {
-		                performAction(action);	               
-		            }
-		        }).start();
+
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						performAction(action);
+					}
+				}).start();
 			}
 		});
+		if (action.equals(ACTION.RaceCondition)) {
+			inputPanel.remove(queryPreInputScrollPanel);
+			inputPanel.remove(queryPostinputScrollPanel);
+			Integer[] raceIterationsMax = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+			raceIterationsMaxPicker = new JComboBox<>(raceIterationsMax);
+			raceIterationsMaxPicker.setMaximumRowCount(5);
+			JLabel raceIterationsMaxLabel = new JLabel("Max combinations: ");
+			inputPanel.add(raceIterationsMaxLabel);
+			inputPanel.add(raceIterationsMaxPicker);
+		}
+		inputPanel.add(startVerificationTask);
+
 		if (action.equals(ACTION.AllAccessRights)) {
 			startVerificationTask.doClick();
 			inputPanel.remove(startVerificationTask);
 			inputPanel.remove(queryPreInputScrollPanel);
 			inputPanel.remove(queryPostinputScrollPanel);
+			inputPanel.remove(timeHorizonPicker);
+		}
+		if (action.equals(ACTION.VerifyStatic)) {
+			inputPanel.remove(queryPostinputScrollPanel);
+			inputPanel.remove(timeHorizonPicker);
+			inputPanel.remove(timeHorizonPickerLabel);
 		}
 	}
 
@@ -289,19 +421,17 @@ public class VerificationPanel extends JPanelPB {
 	private void createInputTextScroll() {
 		queryPostInputTextArea = new JTextArea();
 		queryPostInputTextArea.setFont(queryPostInputTextArea.getFont().deriveFont(15f));
-		PromptSupport.setPrompt("ENTER POST GOAL(REQUIRED)"
-				, queryPostInputTextArea);
+		PromptSupport.setPrompt("ENTER POST GOAL(REQUIRED)", queryPostInputTextArea);
 		queryPostInputTextArea.setEditable(true);
 		queryPostinputScrollPanel = new JScrollPane(queryPostInputTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		queryPostinputScrollPanel.setPreferredSize(new Dimension(500, 100));
-		
+
 		queryPreInputTextArea = new JTextArea();
 		queryPreInputTextArea.setFont(queryPreInputTextArea.getFont().deriveFont(15f));
-		PromptSupport.setPrompt("ENTER PRE GOAL(OPTIONAL)"
-				, queryPreInputTextArea);
+		PromptSupport.setPrompt("ENTER PRE GOAL(OPTIONAL)", queryPreInputTextArea);
 		queryPreInputTextArea.setEditable(true);
-		queryPreInputScrollPanel= new JScrollPane(queryPreInputTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		queryPreInputScrollPanel = new JScrollPane(queryPreInputTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		queryPreInputScrollPanel.setPreferredSize(new Dimension(500, 100));
 
@@ -310,7 +440,7 @@ public class VerificationPanel extends JPanelPB {
 
 	private void createAccessRightsTextScroll() {
 		queryOutputTextArea = new JTextArea();
-		PromptSupport.setPrompt("Query Output", queryOutputTextArea);
+		PromptSupport.setPrompt("Output", queryOutputTextArea);
 		PromptSupport.setFocusBehavior(FocusBehavior.SHOW_PROMPT, queryOutputTextArea);
 		queryOutputTextArea.setFont(queryOutputTextArea.getFont().deriveFont(35f));
 		queryOutputTextArea.setEditable(false);

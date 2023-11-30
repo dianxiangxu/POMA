@@ -83,14 +83,13 @@ public abstract class Planner {
 		return s;
 	}
 
-	public Solution solveConstraint(String property, Graph initialGraph) throws Exception {
-		Solution s = checkStaticConfiguration(property, initialGraph);
-		return s;
+	public boolean solveConstraint(String property, Graph initialGraph) throws Exception {
+		return checkStaticConfiguration(property, initialGraph);
 	}
 
-	public void startRaceConditionFinder(String obligation, String post, Graph initialGraph) throws Exception {
-		raceConditionFinder(initialGraph);
-	}
+//	public void startRaceConditionFinder(String obligation, String post, Graph initialGraph) throws Exception {
+//		raceConditionFinder(initialGraph);
+//	}
 
 	public Solution check(String pre, String post, Graph initialGraph) throws Exception {
 
@@ -133,7 +132,7 @@ public abstract class Planner {
 		return solution;
 	}
 
-	public Solution checkStaticConfiguration(String property, Graph initialGraph) throws Exception {
+	public boolean checkStaticConfiguration(String property, Graph initialGraph) throws Exception {
 		IFormula formulaProperty = property.isEmpty() ? null : parseQuery(property);
 		List<String> queryVARS = new ArrayList<String>();
 		List<String> queryConst = new ArrayList<String>();
@@ -144,13 +143,13 @@ public abstract class Planner {
 		smtlibv2Code += generateTailCode(queryVARS, 0);
 		String pathToFile = smtCodeFilePath + 0 + ".smt2";
 		saveCodeToFile(smtlibv2Code, pathToFile);
-		solver.runSolver(pathToFile, 0, mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes);
-		Solution solution = null;
-		return solution;
+		boolean propertySatisfied = solver.runSolver(pathToFile, 0, mapOfIDs, showSMTOutput, queryVARS, initialGraph,
+				listOfNodes);
+		return propertySatisfied;
 	}
 
-	public void raceConditionFinder(Graph initialGraph) throws Exception {
-
+	public String raceConditionFinder(Graph initialGraph, int max) throws Exception {
+		String solutionOutput = "";
 		List<String> obligationLabels = getObligationLabels();
 		List<String> confirmedObligations = new ArrayList<String>();
 		boolean solved = false;
@@ -159,7 +158,7 @@ public abstract class Planner {
 		if (raceObligationLabels.size() == 0) {
 			throw new Exception("Obligations with the same event are not found");
 		}
-
+		int iterations = 0;
 		for (String label : raceObligationLabels) {
 			Solution solution = null;
 
@@ -192,12 +191,18 @@ public abstract class Planner {
 					System.out.println("Solution not found with time horizon: " + k);
 				}
 			}
-			filterRaceVariables(solution, label);
-//			solution.getVariables().setVariables(uniqueFilteredVariables);
-			System.out.println(solution);
-			System.out.println(mapOfIDs);
-			return;
+			if (solved) {
+				filterRaceVariables(solution, label);
+				System.out.println(solution);
+				solutionOutput += System.lineSeparator() + solution.toString() + System.lineSeparator();
+				System.out.println(mapOfIDs);
+			}
+			iterations++;
+			if (iterations >= max) {
+				break;
+			}
 		}
+		return solutionOutput;
 	}
 
 	private void filterRaceVariables(Solution solution, String label) {

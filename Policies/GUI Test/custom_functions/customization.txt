@@ -1,0 +1,12 @@
+CustomFunctions: add_copi
+	query: (((((((((EXPLICITASSIGN(?copi_to_add, ?department) AND EXPLICITASSIGN(?department, ?chairattribute)) AND EXPLICITASSIGN(?chair, ?chairattribute)) AND EXPLICITASSIGN(?chairattribute, ?bmattribute)) AND EXPLICITASSIGN(?bm, ?bmattribute)) AND ISUSER(?chair)) AND ISUSER(?bm)) AND EXPLICITASSIGN(?bmattribute, ?deanattribute)) AND EXPLICITASSIGN(?dean, ?deanattribute)) AND ISUSER(?dean)); 
+	action_0:
+		action: assign(?chair, Chair);
+	action_2: 
+		action: assign(?bm, BM);
+	action_3: 
+		condition: NOT(EXPLICITASSIGN(?dean, Dean));	
+		action: assign(?dean, Dean);
+	action_4: 
+		condition: NOT(EXPLICITASSIGN(?dean, Dean));		
+		action: grant(PI, submit, ?test);	

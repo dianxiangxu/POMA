@@ -217,17 +217,17 @@
   ],
   "associations": [
     {
-      "source": "PISubmit",
-      "target": "PDSWhole",
-      "operations": [
-        "submit"
-      ]
-    },
-    {
       "source": "SP",
       "target": "PDSWhole",
       "operations": [
         "read"
+      ]
+    },
+    {
+      "source": "PIDelete",
+      "target": "PDSWhole",
+      "operations": [
+        "delete"
       ]
     },
     {
@@ -245,10 +245,10 @@
       ]
     },
     {
-      "source": "PIDelete",
+      "source": "PISubmit",
       "target": "PDSWhole",
       "operations": [
-        "delete"
+        "submit"
       ]
     },
     {

@@ -217,10 +217,19 @@
   ],
   "associations": [
     {
-      "source": "PICreate",
+      "source": "PI",
       "target": "PDSWhole",
       "operations": [
-        "create"
+        "submit",
+        "start"
+      ]
+    },
+    {
+      "source": "RD",
+      "target": "PDSWhole",
+      "operations": [
+        "approve",
+        "withdraw"
       ]
     },
     {
@@ -231,18 +240,10 @@
       ]
     },
     {
-      "source": "PI",
+      "source": "PICreate",
       "target": "PDSWhole",
       "operations": [
-        "submit",
-        "start"
-      ]
-    },
-    {
-      "source": "PIDelete",
-      "target": "PDSWhole",
-      "operations": [
-        "delete"
+        "create"
       ]
     },
     {
@@ -250,6 +251,13 @@
       "target": "PDSWhole",
       "operations": [
         "read"
+      ]
+    },
+    {
+      "source": "PIDelete",
+      "target": "PDSWhole",
+      "operations": [
+        "delete"
       ]
     },
     {

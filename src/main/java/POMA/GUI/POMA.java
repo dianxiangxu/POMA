@@ -23,6 +23,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -37,6 +38,7 @@ import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.HyperlinkListener;
 
 import POMA.GlobalVariables;
 import POMA.GUI.GraphVisualization.GraphVisualizer;
@@ -47,7 +49,6 @@ import POMA.GUI.editor.TestPanel;
 import POMA.GUI.editor.VerificationPanel;
 import POMA.GUI.editor.VerificationPanel.ACTION;
 import gov.nist.csd.pm.pip.graph.Graph;
-import gov.nist.csd.pm.pip.obligations.model.Obligation;
 import gov.nist.csd.pm.pip.prohibitions.Prohibitions;
 
 public class POMA extends JFrame implements ItemListener, ActionListener {
@@ -60,8 +61,8 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	protected Action openTestsAction, generateAllTestsAction, generateCoverageTestsAction, generateMutationTestsAction,
 			generatePNOMutationTestsAction, runTestsAction, evaluateCoverageAction, generateAllCombPermOnlyTestsAction;
 	protected Action openMutantsAction, generateMutantsAction, generateSecondOrderMutantsAction, testMutantsAction;
-	protected Action localizeFaultAction, fixFaultAction;
-	protected Action reachabilityAnalysisAction, initialPolicyAccessRights;
+	protected Action reachabilityAnalysisAction, reachabilityAnalysisStaticAction, raceConditionAnalysisAction, initialPolicyAccessRights;
+	protected Action aboutAction, verificationHelpAction;
 	protected JCheckBoxMenuItem[] items;
 	protected Action saveOracleValuesAction;
 	boolean showVersionWarning = true;
@@ -82,7 +83,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	}
 
 	protected ImageIcon createNavigationIcon(String imageName) {
-		String imgLocation = "org/umu/icons/" + imageName + ".gif";
+		String imgLocation = "icons/" + imageName + ".gif";
 		java.net.URL imageURL = this.getClass().getClassLoader().getResource(imgLocation);
 		if (imageURL == null) {
 			return null;
@@ -94,44 +95,14 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 	public JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(createPolicyMenu());
-		menuBar.add(createTestMenu());
-//		menuBar.add(createDebuggingMenu());
-		menuBar.add(createMutationMenu());
 		menuBar.add(createVerifyMenu());
-//		menuBar.add(createHelpMenu());
+		menuBar.add(createTestMenu());
+		menuBar.add(createMutationMenu());
+		menuBar.add(createHelpMenu());
 		return menuBar;
 	}
 
-	public class TranslatePolicyGraphAction extends AbstractAction {
-		private static final long serialVersionUID = 1L;
 
-		public TranslatePolicyGraphAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
-			super(text, icon);
-			putValue(SHORT_DESCRIPTION, desc);
-			putValue(MNEMONIC_KEY, mnemonic);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			Graph graph = editorPanel.getGraph();
-			// try {
-			// System.out.println("GRAPH SIZE: "+graph.getNodes().size());
-			// } //catch (PMException e1) {
-			// TODO Auto-generated catch block
-			// e1.printStackTrace();
-			// }
-			JSplitPane translationSplitPanel = verificationPanel.createTranslationSplitPanel(graph, editorPanel);
-			if (translationSplitPanel == null) {
-				JOptionPane.showMessageDialog(editorPanel, "No policy found in selection", "Error of Selection",
-						JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-			cleanUpVerifyTabs();
-			mainTabbedPane.addTab("Show Translated Graph", createNavigationIcon("images/policy.gif"),
-					translationSplitPanel);
-			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Show Translated Graph"));
-		}
-
-	}
 
 	public class VerifyAction extends AbstractAction {
 
@@ -144,9 +115,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			Graph graph = editorPanel.getGraph();
-			Obligation obligations = editorPanel.getObligations();
-			JSplitPane splitPanel = verificationPanel.createReachabilityPanelSplitPanel(graph, obligations, editorPanel, ACTION.Verify);
+			JSplitPane splitPanel = verificationPanel.createReachabilityAnalysisSplitPanel(editorPanel, ACTION.Verify);
 			if (splitPanel == null) {
 				JOptionPane.showMessageDialog(editorPanel, "No policy found in selection", "Error of Selection",
 						JOptionPane.WARNING_MESSAGE);
@@ -156,9 +125,52 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 			addCustomTab("Reachability analysis", splitPanel);
 			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Reachability analysis"));
 		}
-
 	}
+	public class VerifyRaceConditionAction extends AbstractAction {
 
+		private static final long serialVersionUID = 1L;
+
+		public VerifyRaceConditionAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
+			super(text, icon);
+			putValue(SHORT_DESCRIPTION, desc);
+			putValue(MNEMONIC_KEY, mnemonic);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			JSplitPane splitPanel = verificationPanel.createRaceConditionAnalysisSplitPanel(editorPanel, ACTION.RaceCondition);
+			if (splitPanel == null) {
+				JOptionPane.showMessageDialog(editorPanel, "No policy found in selection", "Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			cleanUpVerifyTabs();
+			addCustomTab("Race condition analysis", splitPanel);
+			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Race condition analysis"));
+		}
+	}
+	
+	public class VerifyStaticAction extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+
+		public VerifyStaticAction(String text, ImageIcon icon, String desc, Integer mnemonic) {
+			super(text, icon);
+			putValue(SHORT_DESCRIPTION, desc);
+			putValue(MNEMONIC_KEY, mnemonic);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			JSplitPane splitPanel = verificationPanel.createReachabilityAnalysisStaticSplitPanel(editorPanel, ACTION.VerifyStatic);
+			if (splitPanel == null) {
+				JOptionPane.showMessageDialog(editorPanel, "No policy found in selection", "Error of Selection",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			cleanUpVerifyTabs();
+			addCustomTab("Initial configuration analysis", splitPanel);
+			mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Initial configuration analysis"));
+		}
+	}
 	public class QueryAccessRightsAction extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -204,8 +216,8 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		gbc.gridy = 0;
 		gbc.weightx = 1;
 		gbc.insets = new Insets(0, 0, 0, 10); // Adding some space on the right of the label
-	    btnClose.setFont(new Font("Arial", Font.BOLD, 11)); // Adjust font and size as needed
-	    btnClose.setMargin(new Insets(0, 0, 0, 0)); // Reducing the margins
+		btnClose.setFont(new Font("Arial", Font.BOLD, 11)); // Adjust font and size as needed
+		btnClose.setMargin(new Insets(0, 0, 0, 0)); // Reducing the margins
 
 		pnlTab.add(lblTitle, gbc);
 
@@ -249,15 +261,27 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		if (mainTabbedPane.indexOfTab("Initial policy permissions") != -1) {
 			mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Initial policy permissions"));
 		}
+		if (mainTabbedPane.indexOfTab("Race condition analysis") != -1) {
+			mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Race condition analysis"));
+		}
+		if (mainTabbedPane.indexOfTab("Initial configuration analysis") != -1) {
+			mainTabbedPane.removeTabAt(mainTabbedPane.indexOfTab("Initial configuration analysis"));
+		}
 	}
 
 	private void createVerifyActions() {
 		reachabilityAnalysisAction = new VerifyAction("Reachability analysis",
 				createNavigationIcon("Reachability analysis"), "Reachability analysis", new Integer(KeyEvent.VK_O));
+		reachabilityAnalysisStaticAction = new VerifyStaticAction("Initial configuration analysis",
+				createNavigationIcon("Initial configuration analysis"), "Initial configuration analysis", new Integer(KeyEvent.VK_O));
+		raceConditionAnalysisAction = new VerifyRaceConditionAction("Race condition analysis",
+				createNavigationIcon("Race condition analysis"), "Race condition analysis", new Integer(KeyEvent.VK_O));
 		initialPolicyAccessRights = new QueryAccessRightsAction("Initial policy permissions",
 				createNavigationIcon("showAllAccessRights"), "Initial policy permissions", new Integer(KeyEvent.VK_O));
 	}
 
+	
+	
 	private void createFileActions() {
 //		newAction = new NewAction("New", createNavigationIcon("new"), "New", new Integer(KeyEvent.VK_N));
 		openAction = new OpenAction("Open...", createNavigationIcon("open"), "Open", new Integer(KeyEvent.VK_O));
@@ -323,14 +347,14 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		add(toolBar, BorderLayout.PAGE_START);
 
 		// new button
-		button = new JButton(newAction);
-		button.setMargin(margins);
-		button.setBorderPainted(false);
-
-		if (button.getIcon() != null) {
-			button.setText(""); // an icon-only button
-		}
-		toolBar.add(button);
+//		button = new JButton(newAction);
+//		button.setMargin(margins);
+//		button.setBorderPainted(false);
+//
+//		if (button.getIcon() != null) {
+//			button.setText(""); // an icon-only button
+//		}
+//		toolBar.add(button);
 
 		// open button
 		button = new JButton(openAction);
@@ -409,7 +433,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 
 	protected JMenu createVerifyMenu() {
 		JMenu testMenu = new JMenu("Verify");
-		Action[] actions = { reachabilityAnalysisAction, initialPolicyAccessRights };
+		Action[] actions = { reachabilityAnalysisAction, reachabilityAnalysisStaticAction, raceConditionAnalysisAction, initialPolicyAccessRights };
 		for (int i = 0; i < actions.length; i++) {
 			JMenuItem menuItem = new JMenuItem(actions[i]);
 			menuItem.setIcon(null); // arbitrarily chose not to use icon
@@ -430,20 +454,26 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
 		return mutationMenu;
 	}
 
-	protected JMenu createDebuggingMenu() {
-		JMenu debuggingMenu = new JMenu("Debug");
-		Action[] actions = { localizeFaultAction, fixFaultAction };
-		for (int i = 0; i < actions.length; i++) {
-			JMenuItem menuItem = new JMenuItem(actions[i]);
-			menuItem.setIcon(null);
-			debuggingMenu.add(menuItem);
-		}
-		return debuggingMenu;
-	}
-
 	protected JMenu createHelpMenu() {
-		JMenu caMenu = new JMenu("Help");
-		return caMenu;
+		
+		JMenu helpMenu = new JMenu("Help");
+        JMenuItem aboutItem = new JMenuItem("About");
+        String helpMessage = "POMA Version 1.0\n"
+                + "-----------------\n"
+                + "POlicy Machine Analyzer\n"
+                + "Bug reports, comments, and requests should be emailed to dxu@umsystem.edu\n"
+                + "Credits: JavaCC, policy-machine-core, apache.commons, jgrapht, opencsv, junit\n"
+                + "User manual: https://github.com/dianxiangxu/POMA#user-interface\n"
+                + "Dr. Dianxing Xu";
+        aboutItem.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null, helpMessage, "Help Menu", JOptionPane.INFORMATION_MESSAGE);
+
+        });
+
+   
+        helpMenu.add(aboutItem);
+
+		return helpMenu;
 	}
 
 	public void itemStateChanged(ItemEvent e) {

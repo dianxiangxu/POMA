@@ -112,6 +112,10 @@
       "target": "DeanCS"
     },
     {
+      "source": "Alice",
+      "target": "CoPI"
+    },
+    {
       "source": "Chair",
       "target": "EditingPolicy"
     },

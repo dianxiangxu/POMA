@@ -217,7 +217,7 @@ public class Utils {
 
 		return ngacGraph;
 	}
-	
+
 	public static Obligation readObligation(String path) throws FileNotFoundException, EVRException {
 		File obligationFile = new File(path);
 		InputStream inputStream = new FileInputStream(obligationFile);
@@ -402,29 +402,53 @@ public class Utils {
 		MemGraph graph = new MemGraph();
 		ConfigTuple ct = new ConfigTuple();
 		for (final File fileEntry : folder.listFiles()) {
-			if (!fileEntry.toString().endsWith(".json") && !fileEntry.toString().endsWith(".yml")) {
+			if (!fileEntry.toString().endsWith(".json") && !fileEntry.toString().endsWith(".yml")
+					&& !fileEntry.toString().endsWith("customization.txt") && !fileEntry.toString().endsWith("property")) {
 				continue;
 			}
-			if(fileEntry.toString().endsWith(".yml")) {
+			if (fileEntry.toString().endsWith(".yml")) {
 				try {
 					ct.setObligations(readObligation(fileEntry.getPath()));
+					ct.setObligationPath(fileEntry.getAbsolutePath());
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println("Error reading obligations: " + e.getMessage());
 				}
 				continue;
+			}
+			if(fileEntry.toString().endsWith("customization.txt"))
+			{
+				ct.setCustomFunctionSpecificationPath(fileEntry.getAbsolutePath());
+				System.out.println("Loaded custom obligation specification from: "+ fileEntry.getAbsolutePath());
+			}
+			if(fileEntry.toString().endsWith("pre.property")) {
+	            try {
+					String content = new String(Files.readAllBytes(Paths.get(fileEntry.getAbsolutePath())));
+					ct.setPreproperty(content);
+				} catch (Exception e) {
+					System.out.println("Error reading pre property: " + e.getMessage());
+				}
+			}
+			if(fileEntry.toString().endsWith("post.property")) {
+	            try {
+					String content = new String(Files.readAllBytes(Paths.get(fileEntry.getAbsolutePath())));
+					ct.setPostproperty(content);
+				} catch (Exception e) {
+					System.out.println("Error reading pre property: " + e.getMessage());
+				}
 			}
 			try {
 				Prohibitions prohibitions = readProhibitions(fileEntry.getPath());
 				ct.setProhibitions(prohibitions);
 				continue;
 			} catch (Exception e) {
+//				System.out.println("Error reading prohibitions, no prohibitions found in the folder");
 			}
 			addJSONToGraph(graph, fileEntry.getAbsolutePath());
 		}
 		ct.setGraph(graph);
 		return ct;
 	}
-	
+
 	public static JApplet getGraphVisualization(MemGraph graph) {
 		GraphVisualizer gui = new GraphVisualizer(graph);
 		gui.init();

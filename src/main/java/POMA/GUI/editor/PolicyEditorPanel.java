@@ -81,7 +81,7 @@ public class PolicyEditorPanel extends AbstractPolicyEditor {
 	protected String policy;
 	MemGraph graph;
 	Prohibitions prohibitions;
-//	Obligation obligations;
+
 	File temporal;
 	JTextArea policyText = new JTextArea();
 	JApplet graphComponent;
@@ -324,7 +324,7 @@ public class PolicyEditorPanel extends AbstractPolicyEditor {
 			return;
 		}
 		try {
-			updateGraphComponent();
+			updateVerificationComponents();
 			jsplitpanevertical.setBottomComponent(graphComponent);
 			policyjSplitPanel.setResizeWeight(0.4);
 
@@ -434,7 +434,7 @@ public class PolicyEditorPanel extends AbstractPolicyEditor {
 			return true;
 		}
 		try {
-			updateGraphComponent();
+			updateVerificationComponents();
 			return false;
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this, "File cannot be opened", "Error of Selection",
@@ -475,14 +475,18 @@ public class PolicyEditorPanel extends AbstractPolicyEditor {
 
 	}
 
-	private void updateGraphComponent() throws IOException {
-//			obligations = null;
+	private void updateVerificationComponents() throws IOException {
 		try {
 			if (temporal.isDirectory()) {
 				ConfigTuple ct = Utils.readAllFilesInFolderToConfig(temporal);
 				graph = ct.getGraph();
 				prohibitions = ct.getProhibitions();
 				obligations = ct.getObligations();
+				obligationPath = ct.getObligationPath();
+				customFunctionSpecificationPath = ct.getCustomFunctionSpecificationPath();
+				preproperty = ct.getPreproperty();
+				postproperty = ct.getPostproperty();
+
 			} else {
 				graph = utils.readAnyMemGraph(temporal.getPath());
 				prohibitions = null;

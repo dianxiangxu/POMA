@@ -123,19 +123,11 @@
   ],
   "assignments": [
     {
-      "source": "Nazmul",
-      "target": "RD"
-    },
-    {
-      "source": "PI",
-      "target": "EditingPolicy"
+      "source": "Vlad",
+      "target": "PICreate"
     },
     {
       "source": "Dean",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "PICreate",
       "target": "EditingPolicy"
     },
     {
@@ -155,10 +147,6 @@
       "target": "RA"
     },
     {
-      "source": "URD",
-      "target": "RD"
-    },
-    {
       "source": "PIDelete",
       "target": "EditingPolicy"
     },
@@ -171,20 +159,12 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "PDSEditing",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "RA",
-      "target": "EditingPolicy"
-    },
-    {
       "source": "Vlad",
       "target": "PI"
     },
     {
-      "source": "BM",
-      "target": "EditingPolicy"
+      "source": "Vlad",
+      "target": "PIDelete"
     },
     {
       "source": "CoPI",
@@ -195,20 +175,60 @@
       "target": "Dean"
     },
     {
-      "source": "PISubmit",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "UChair",
-      "target": "Chair"
-    },
-    {
       "source": "SP",
       "target": "EditingPolicy"
     },
     {
       "source": "Alice",
       "target": "RA"
+    },
+    {
+      "source": "Nazmul",
+      "target": "RD"
+    },
+    {
+      "source": "PI",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Vlad",
+      "target": "CoPI"
+    },
+    {
+      "source": "PICreate",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "URD",
+      "target": "RD"
+    },
+    {
+      "source": "Vlad",
+      "target": "SP"
+    },
+    {
+      "source": "Vlad",
+      "target": "PISubmit"
+    },
+    {
+      "source": "PDSEditing",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "RA",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "BM",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "PISubmit",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "UChair",
+      "target": "Chair"
     },
     {
       "source": "PDSWhole",
@@ -224,25 +244,10 @@
       ]
     },
     {
-      "source": "CoPI",
+      "source": "PISubmit",
       "target": "PDSWhole",
       "operations": [
-        "edit"
-      ]
-    },
-    {
-      "source": "PI",
-      "target": "PDSWhole",
-      "operations": [
-        "submit",
-        "start"
-      ]
-    },
-    {
-      "source": "PIDelete",
-      "target": "PDSWhole",
-      "operations": [
-        "delete"
+        "submit"
       ]
     },
     {
@@ -253,10 +258,17 @@
       ]
     },
     {
-      "source": "PISubmit",
+      "source": "PI",
       "target": "PDSWhole",
       "operations": [
-        "submit"
+        "add"
+      ]
+    },
+    {
+      "source": "CoPI",
+      "target": "PDSWhole",
+      "operations": [
+        "edit"
       ]
     }
   ]
