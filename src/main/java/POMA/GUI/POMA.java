@@ -464,7 +464,7 @@ public class POMA extends JFrame implements ItemListener, ActionListener {
                 + "Bug reports, comments, and requests should be emailed to dxu@umsystem.edu\n"
                 + "Credits: JavaCC, policy-machine-core, apache.commons, jgrapht, opencsv, junit\n"
                 + "User manual: https://github.com/dianxiangxu/POMA#user-interface\n"
-                + "Dr. Dianxing Xu";
+                + "Dr. Dianxing Xu, Vlad Dubrovenski, Leo Chen";
         aboutItem.addActionListener(e -> {
             JOptionPane.showMessageDialog(null, helpMessage, "Help Menu", JOptionPane.INFORMATION_MESSAGE);
 
