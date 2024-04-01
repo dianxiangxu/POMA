@@ -1,6 +1,6 @@
 label: RaceTest
 rules:
-  - label: start
+  - label: obligation_phi
     event:
       subject:
         anyUser: 

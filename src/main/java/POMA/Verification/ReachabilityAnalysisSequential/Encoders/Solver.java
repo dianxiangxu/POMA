@@ -66,17 +66,33 @@ public class Solver {
 				while ((result = stdInput.readLine()) != null) {
 					String line = result.replaceAll("[()]", "");
 					output.add(line);
-					String[] stringArray = result.split("BOUND_VARIABLE|\\)\\)|\\)|\\(ite \\(=");
-					String[] labelArray = (stringArray[0]).split(" \\(lambda \\(\\(|\\(\\(");
-					String label = labelArray[1];
 				}
-
 				return true;
 			}
 		}
 		return false;
 	}
 
+	protected String runSolver(String pathToFile) throws IOException {
+
+		String[] cmdArguments = commandArguments(pathToFile);
+		Process proc = Runtime.getRuntime().exec(cmdArguments);
+		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+		String result = null;
+		List<String> output = new ArrayList<String>();
+		StringBuilder sb = new StringBuilder();
+		while ((result = stdInput.readLine()) != null) {
+			if (result.equals("sat")) {
+				while ((result = stdInput.readLine()) != null) {
+					String line = result;//.replaceAll("[()]", "");
+					output.add(line);	
+					sb.append(line+System.lineSeparator());
+				}
+				return sb.toString();
+			}
+		}
+		return null;
+	}
 
 	protected Solution runSolver(String pathToFile, int k, List<String> confirmedObligations,
 			List<String> obligationLabels, List<String> obligationEventVariables, HashMap<String, Integer> mapOfIDs,
@@ -118,6 +134,7 @@ public class Solver {
 			List<String> customFunctionVariables, List<String> conditionalInterferenceVariables) {
 		ObligationFiring[] arrayOfSteps = new ObligationFiring[100];
 		String[] assigns = new String[k + 1];
+		String[] transitiveassigns = new String[k + 1];
 		String[] assocs = new String[k + 1];
 		List<Graph> listOfConfigurations = new ArrayList<Graph>();
 		List<Variable> variablesList = new ArrayList<Variable>();
@@ -201,12 +218,17 @@ public class Solver {
 				int index = Integer.parseInt((line.split(" "))[1]);
 				assigns[index] = line.replace("union", "").replace("singleton", "").replace("ASSIGN " + index, "");
 			}
+			if (lineContains(line, "ASSIGN* ")) {
+				int index = Integer.parseInt((line.split(" "))[1]);
+				transitiveassigns[index] = line.replace("union", "").replace("singleton", "").replace("ASSIGN* " + index, "");
+			}
 			if (lineContains(line, "ASSOC ")) {
 				int index = Integer.parseInt((line.split(" "))[1]);
 				assocs[index] = line.replace("union", "").replace("singleton", "").replace("ASSOC " + index, "");
 			}
 
 		}
+		
 		for (int i = 0; i <= k; i++) {
 			Graph graph = new MemGraph();
 			try {
@@ -215,7 +237,7 @@ public class Solver {
 					if (i == 0) {
 						Utils.saveGraph(graph, "Policies/ForBMC/TestBuildingGraphForSolution/" + i
 								+ "_InitialConfiguration" + ".json");
-					} else {
+					} else if(arrayOfSteps[i - 1] !=null) {
 						Utils.saveGraph(graph, "Policies/ForBMC/TestBuildingGraphForSolution/" + i + "_"
 								+ arrayOfSteps[i - 1].getObligationLabel() + ".json");
 					}
@@ -225,9 +247,14 @@ public class Solver {
 				e.printStackTrace();
 			}
 		}
-		return new Solution(Arrays.asList(arrayOfSteps).stream().filter(Objects::nonNull).collect(Collectors.toList()),
+		Solution solution = new Solution(Arrays.asList(arrayOfSteps).stream().filter(Objects::nonNull).collect(Collectors.toList()),
 				new Variables(variablesList), listOfConfigurations);
+		solution.setLastAssignments(assigns[k]);
+		solution.setLastTransitiveAssignments(transitiveassigns[k]);
+		solution.setTransitiveAssignments(transitiveassigns[k-1]);
+		solution.setLastAssociations(assocs[k]);
 
+		return solution;
 	}
 
 	private void getConfigurationAtTimestep(int i, Graph initialGraph, HashMap<String, Integer> mapOfIDs, Graph graph,

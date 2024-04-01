@@ -26,6 +26,7 @@ public class SMTComposer extends Planner {
 	private Map<String, String> eventMembers = new HashMap<String, String>();
 	private List<String> obligationEventVariables = new ArrayList<String>();
 	String pathToGraph;
+	List<ObligationEncoder> _obligationEncoders = new ArrayList<ObligationEncoder>();
 
 	ConfigurationEncoder gt;
 	ObligationsEncoder ot;
@@ -48,35 +49,39 @@ public class SMTComposer extends Planner {
 //
 //		String yml = new String(Files.readAllBytes(Paths.get("Policies/TEST/AssignANDGrant.yml")));
 		
-		//GUI TEST
-		Graph graph = Utils.readAnyGraph("Policies/GUI Test/custom_functions/Graph.json");
+		//GPMS RACE CONDITION
+//		Graph graph = Utils.readAnyGraph("Policies/RaceCondition/GPMS/Graph.json");
+//
+//		String yml = new String(Files.readAllBytes(Paths.get("Policies/RaceCondition/GPMS/Obligations.yml")));
+		//LAWFIRM RACE CONDITION
+		Graph graph = Utils.readAnyGraph("Policies/RaceCondition/GPMS/Case2/Graph.json");
+		Obligation obligation = Utils.readObligation("Policies/RaceCondition/GPMS/Case2/Obligations.yml");
 
-		String yml = new String(Files.readAllBytes(Paths.get("Policies/GUI Test/custom_functions/AddCoPI.yml")));
-		
+		//String yml = new String(Files.readAllBytes(Paths.get("Policies/RaceCondition/GPMS/Case1/Obligations.yml")));
 //		String precondition = "OBLIGATIONLABEL(obligation1_obligation2, ?u0, ?ar0,?at0);";
 
 //		String postcondition = "OBLIGATIONLABEL(obligation1_obligation2, ?u, ?ar,?at);";
 //		String yml = new String(Files.readAllBytes(Paths.get("Policies/SequencesTestEnabling/AssignAssign.yml")));
 
-		Obligation obligation = EVRParser.parse(yml);
-		SMTComposer checker = new SMTComposer(graph, obligation, "C:\\Users\\dubro\\git\\POMA\\Policies\\GUI Test\\custom_functions\\customization.txt", false);
-//		SMTComposer checker = new SMTComposer(graph, obligation, "");
+		//Obligation obligation = EVRParser.parse(yml);
+//		SMTComposer checker = new SMTComposer(graph, obligation, "C:\\Users\\dubro\\git\\POMA\\Policies\\GUI Test\\custom_functions\\customization.txt", false);
+		SMTComposer checker = new SMTComposer(graph, obligation, "", true);
 
 		checker.setSMTCodePath("VerificationFiles/SMTLIB2Input/BMCFiles/BMC1/BMC");
 		long start = System.currentTimeMillis();
-		checker.setBound(4);
+		checker.setBound(2);
 		checker.enableSMTOutput(true);
 
 //		Solution solution = checker.solveConstraint(precondition, postcondition, graph);
-//		checker.raceConditionFinder(graph);
 
-//		 String precondition = "";
-		String postcondition = "OBLIGATIONLABEL(add_copi, ?u, ?ar,?at);";
-		Solution solution = checker.solveConstraint(null, postcondition, graph);
-		
+//		String precondition = "";
+//		String postcondition = "OBLIGATIONLABEL(obligation3, ?u, ?ar,?at);";
+//		Solution solution = checker.solveConstraint(null, postcondition, graph);
 //		 checker.solveConstraint("PERMIT(LeadAttorneys,approve,AcceptedCases);",
 //		 graph);
-		System.out.println(solution);
+		checker.raceConditionFinder(graph);
+//		System.out.println(solution);
+
 //		System.out.println(checker.mapOfIDs);
 		long end = System.currentTimeMillis();
 		float sec = (end - start) / 1000F;
@@ -166,7 +171,6 @@ public class SMTComposer extends Planner {
 		obligationEventVariables.addAll(ot.getObligationEventVariables());
 		List<String> customVariables = ot.getCustomActionVariables();
 		List<String> conditionalInterferenceVariables = ot.getConditionalInterferenceVariables();
-
 		String smtlibv2Code = System.lineSeparator();
 		smtlibv2Code += "(check-sat)";
 		smtlibv2Code += System.lineSeparator();
@@ -191,15 +195,13 @@ public class SMTComposer extends Planner {
 					}
 					smtlibv2Code += "(get-value (" + customVariable + "))";
 					smtlibv2Code += System.lineSeparator();
-
+					
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 		for (String conditionalInterferenceVariable : conditionalInterferenceVariables) {
-//			for (int i = 1; i <= k; i++) {
 				try {
 					String customVariable = ActionEncoder.replaceKWithValue(conditionalInterferenceVariable, k);
 					if (!_conditionalInterferenceVariables.contains(customVariable)) {
@@ -209,10 +211,8 @@ public class SMTComposer extends Planner {
 					smtlibv2Code += System.lineSeparator();
 
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//			}
 		}
 		for (int i = 0; i <= k; i++) {
 			smtlibv2Code += "(get-value ((" + "ASSIGN" + " " + i + ")))";
@@ -222,7 +222,10 @@ public class SMTComposer extends Planner {
 			smtlibv2Code += "(get-value ((" + "ASSOC" + " " + i + ")))";
 			smtlibv2Code += System.lineSeparator();
 		}
-
+		for (int i = 0; i <= k; i++) {
+			smtlibv2Code += "(get-value ((" + "ASSIGN*" + " " + i + ")))";
+			smtlibv2Code += System.lineSeparator();
+		}
 		return smtlibv2Code;
 	}
 	public List<String> getRaceObligationLabels(){
@@ -241,7 +244,10 @@ public class SMTComposer extends Planner {
 		sb.append(System.lineSeparator());
 		sb.append(ot.processEffect(k));
 		sb.append(System.lineSeparator());
+		_obligationEncoders = ot.getObligationEncoders();
 		return sb.toString();
 	}
-
+	public List<ObligationEncoder> getObligationEncoders() {
+		return _obligationEncoders;
+	}
 }

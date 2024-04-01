@@ -139,6 +139,10 @@
       "target": "BM"
     },
     {
+      "source": "Alice",
+      "target": "CoPI"
+    },
+    {
       "source": "Chair",
       "target": "EditingPolicy"
     },
@@ -159,20 +163,16 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "Vlad",
-      "target": "PI"
-    },
-    {
-      "source": "Vlad",
-      "target": "PIDelete"
-    },
-    {
       "source": "CoPI",
       "target": "EditingPolicy"
     },
     {
       "source": "UDean",
       "target": "Dean"
+    },
+    {
+      "source": "Bob",
+      "target": "PI"
     },
     {
       "source": "SP",
@@ -183,32 +183,20 @@
       "target": "RA"
     },
     {
-      "source": "Nazmul",
-      "target": "RD"
-    },
-    {
       "source": "PI",
       "target": "EditingPolicy"
-    },
-    {
-      "source": "Vlad",
-      "target": "CoPI"
     },
     {
       "source": "PICreate",
       "target": "EditingPolicy"
     },
     {
+      "source": "Nazmul",
+      "target": "PISubmit"
+    },
+    {
       "source": "URD",
       "target": "RD"
-    },
-    {
-      "source": "Vlad",
-      "target": "SP"
-    },
-    {
-      "source": "Vlad",
-      "target": "PISubmit"
     },
     {
       "source": "PDSEditing",
@@ -217,6 +205,10 @@
     {
       "source": "RA",
       "target": "EditingPolicy"
+    },
+    {
+      "source": "Alice",
+      "target": "SP"
     },
     {
       "source": "BM",
@@ -231,16 +223,41 @@
       "target": "Chair"
     },
     {
+      "source": "Nazmul",
+      "target": "PICreate"
+    },
+    {
       "source": "PDSWhole",
       "target": "EditingPolicy"
     }
   ],
   "associations": [
     {
-      "source": "PICreate",
+      "source": "SP",
       "target": "PDSWhole",
       "operations": [
-        "create"
+        "read"
+      ]
+    },
+    {
+      "source": "CoPI",
+      "target": "PDSWhole",
+      "operations": [
+        "edit"
+      ]
+    },
+    {
+      "source": "PIDelete",
+      "target": "PDSWhole",
+      "operations": [
+        "delete"
+      ]
+    },
+    {
+      "source": "PI",
+      "target": "PDSWhole",
+      "operations": [
+        "submit"
       ]
     },
     {
@@ -251,24 +268,10 @@
       ]
     },
     {
-      "source": "SP",
+      "source": "PICreate",
       "target": "PDSWhole",
       "operations": [
-        "read"
-      ]
-    },
-    {
-      "source": "PI",
-      "target": "PDSWhole",
-      "operations": [
-        "add"
-      ]
-    },
-    {
-      "source": "CoPI",
-      "target": "PDSWhole",
-      "operations": [
-        "edit"
+        "create"
       ]
     }
   ]

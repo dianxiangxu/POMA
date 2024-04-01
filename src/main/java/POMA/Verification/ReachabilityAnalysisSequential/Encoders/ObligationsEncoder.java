@@ -61,6 +61,11 @@ public class ObligationsEncoder {
 	List<String> _customActionVariables = new ArrayList<String>();
 	List<String> _raceObligationLabels = new ArrayList<String>();
 	List<String> _conditionalInterferenceVariables = new ArrayList<String>();
+	List<ObligationEncoder> _obligationEncoders = new ArrayList<ObligationEncoder>();
+
+	public List<ObligationEncoder> getObligationEncoders() {
+		return _obligationEncoders;
+	}
 
 	Obligation obligation;
 	HashMap<String, Integer> mapOfIDs;
@@ -354,7 +359,7 @@ public class ObligationsEncoder {
 		List<String> actionSetsAssignRemoveFlat = new ArrayList<String>();
 		List<String> assignRelatedObligationLabels = new ArrayList<String>();
 		List<String> associateRelatedObligationLabels = new ArrayList<String>();
-
+		_obligationEncoders = new ArrayList<ObligationEncoder>();
 		for (Rule rule : obligation.getRules()) {
 			ObligationEncoder oe = new ObligationEncoder();
 			oe.setCustomizationPath(customObligationSpecPath);
@@ -378,6 +383,7 @@ public class ObligationsEncoder {
 					.concat(_customActionVariables.stream(), oe.getCustomActionVariables().stream()).distinct()
 					.collect(Collectors.toList());
 			_conditionalInterferenceVariables.addAll(oe.getConditionalInterferenceVariables());
+			_obligationEncoders.add(oe);
 		}
 		sb.append(System.lineSeparator());
 		try {

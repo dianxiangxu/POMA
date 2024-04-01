@@ -41,7 +41,8 @@ public class ObligationEncoder {
 	List<String> _actionSetsAssociateRemove = new ArrayList<String>();
 	List<String> _actionSetsAssignRemove = new ArrayList<String>();
 	List<String> _actionSetsAssignRemoveFlat = new ArrayList<String>();
-
+	List<ActionEncoder> _actionEncoders = new ArrayList<ActionEncoder>();
+	String _label;
 	boolean isAssignRelated = false;
 	boolean isAssociateRelated = false;
 
@@ -364,6 +365,7 @@ public class ObligationEncoder {
 		List<ActionEncoder> conflictingActions = actions.stream().filter(action -> action.prerequisites.size() > 0)
 				.collect(Collectors.toList());
 		encodeConflictingActions(sb, conflictingActions);
+		_actionEncoders = actions;
 		String customAxiom = "";
 		if (co != null) {
 			customAxiom = encodeObligationAxiom(label, co.getAxiom(mapOfIDs), k);
@@ -433,7 +435,7 @@ public class ObligationEncoder {
 		}
 
 		sb.append(System.lineSeparator());
-
+		
 		for (int i = 0; i < actionsWithConflict.size(); i++) {
 			sb.append(System.lineSeparator());
 			sb.append("(or");
@@ -501,6 +503,7 @@ public class ObligationEncoder {
 
 	public String encodeObligation(Rule obligation, HashMap<String, Integer> mapOfIDs, int k) {
 		List<CustomObligation> customObligations;
+		_label = obligation.getLabel();
 		CustomObligation co = null;
 		if (!_customizationPath.isEmpty()) {
 			customObligations = processCustomObligations(_customizationPath);

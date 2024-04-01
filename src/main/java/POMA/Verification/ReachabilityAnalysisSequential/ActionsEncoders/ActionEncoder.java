@@ -39,7 +39,9 @@ public abstract class ActionEncoder {
 	public void setActionId(String actionId) {
 		this.actionId = actionId;
 	}
-
+	public String getActionId() {
+		return actionId;
+	}
 	protected String condition = "";
 	protected String negatedCondition = "";
 	protected HierarchyType conditionHierarchyType;

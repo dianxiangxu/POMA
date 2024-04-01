@@ -29,6 +29,7 @@ public abstract class Planner {
 	HashMap<String, Integer> mapOfIDs;
 	List<String> _customFunctionVariables = new ArrayList<String>();
 	List<String> _conditionalInterferenceVariables = new ArrayList<String>();
+//	List<ObligationEncoder> _obligationEncoders;
 
 	public HashMap<String, Integer> getMapOfIDs() {
 		return mapOfIDs;
@@ -61,7 +62,9 @@ public abstract class Planner {
 
 	abstract String generateIterationCode(int k);
 
-	private void saveCodeToFile(String code, String path) throws IOException {
+	abstract List<ObligationEncoder> getObligationEncoders();
+
+	private static void saveCodeToFile(String code, String path) throws IOException {
 		File file = new File(path);
 		FileWriter myWriter = new FileWriter(file);
 		myWriter.write(code);
@@ -118,6 +121,7 @@ public abstract class Planner {
 			smtlibv2Code += generateTailCode(queryVARS, k);
 
 			String pathToFile = smtCodeFilePath + k + ".smt2";
+
 			saveCodeToFile(smtlibv2Code, pathToFile);
 			solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
 					getObligationEventVariables(), mapOfIDs, showSMTOutput, queryVARS, initialGraph, listOfNodes,
@@ -148,61 +152,58 @@ public abstract class Planner {
 		return propertySatisfied;
 	}
 
-	public String raceConditionFinder(Graph initialGraph, int max) throws Exception {
-		String solutionOutput = "";
+	public String raceConditionFinder(Graph initialGraph) throws Exception {
 		List<String> obligationLabels = getObligationLabels();
-		List<String> confirmedObligations = new ArrayList<String>();
-		boolean solved = false;
-
-		List<String> raceObligationLabels = getRaceObligationLabels();
-		if (raceObligationLabels.size() == 0) {
+		List<String> obligationEventGroupSequences = getRaceObligationLabels();
+		if (obligationEventGroupSequences.size() == 0) {
 			throw new Exception("Obligations with the same event are not found");
 		}
-		int iterations = 0;
-		for (String label : raceObligationLabels) {
-			Solution solution = null;
-
-			String headCode = generateHeadCode();
-			String iterationCode = "";
-
-			System.out.println("Looking for race conditions in the following obligation combination: " + label);
-			String encodedLabel = "OBLIGATIONLABEL(" + label + ", ?u, ?ar,?at);";
-			IFormula formulaPost = parseQuery(encodedLabel);
-			solved = false;
-			for (int k = 1; k <= bound && !solved; k++) {
-				iterationCode += generateIterationCode(k);
+		String headCode = generateHeadCode();
+		String iterationCode = "";
+		for (int k = 1; k <= bound; k++) {
+			//loop over obligationEventGroups
+			RaceConditionChecker csc = new RaceConditionChecker();
+			iterationCode += generateIterationCode(k);
+			
+			for (String sequence : obligationEventGroupSequences) {
 				String smtlibv2Code = headCode + iterationCode;
+				System.out.println("Looking for race conditions in the following obligation sequence: " + sequence);
+				String encodedLabel = "OBLIGATIONLABEL(" + sequence + ", ?u, ?ar,?at);";
+				IFormula formulaPost = parseQuery(encodedLabel);
 				List<String> queryVARS = new ArrayList<String>();
 				List<String> queryConst = new ArrayList<String>();
-
-				smtlibv2Code += System.lineSeparator() + System.lineSeparator() + ";POST PROPERTY";
-				smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1), queryVARS, queryConst)
-						: "";
+				smtlibv2Code += System.lineSeparator() + System.lineSeparator() + ";SEQUENCE PROPERTY";
+				smtlibv2Code += formulaPost != null ? generateProperty(formulaPost, (k - 1), queryVARS, queryConst) : "";
 				System.out.println("Time horizon " + k + " processing...");
 				smtlibv2Code += generateTailCode(queryVARS, k);
-
 				String pathToFile = smtCodeFilePath + k + ".smt2";
 				saveCodeToFile(smtlibv2Code, pathToFile);
-				solution = solver.runSolver(pathToFile, k, confirmedObligations, obligationLabels,
+				Solution solution = solver.runSolver(pathToFile, k, new ArrayList<String>(), obligationLabels,
 						getObligationEventVariables(), mapOfIDs, false, queryVARS, initialGraph, listOfNodes,
 						_customFunctionVariables, _conditionalInterferenceVariables);
-				solved = solution == null ? false : true;
-				if (!solved) {
-					System.out.println("Solution not found with time horizon: " + k);
+				boolean obligationGroupEventIsExecutable = solution == null ? false : true;
+				
+				if (!obligationGroupEventIsExecutable) {
+					System.out.println("Obligation sequence is not eligible to be run at time horizon: " + k);
+					break;//obligation sequence is not eligible to be run, can break here
+				}
+				if (obligationGroupEventIsExecutable) {
+					filterRaceVariables(solution, sequence);
+					System.out.println(solution);
+					List<ObligationEncoder> encoders = getObligationEncoders();
+					String raceCheckFilePath = smtCodeFilePath + "RACECHECK.smt2";
+					csc.setConfiguration(solution.getLastAssignments(), solution.getLastTransitiveAssignments(), solution.getTransitiveAssignments(), solution.getLastAssociations(), encoders, sequence);
+					String raceCheckSMTEncoding = csc.raceCheckEncoder();
+					saveCodeToFile(raceCheckSMTEncoding, raceCheckFilePath);
+					String raceCheckResult = solver.runSolver(raceCheckFilePath);
+					if(csc.searchForRace(raceCheckResult)) {
+						return "Race found.";
+					}
 				}
 			}
-			if (solved) {
-				filterRaceVariables(solution, label);
-				System.out.println(solution);
-				solutionOutput += System.lineSeparator() + solution.toString() + System.lineSeparator();
-				System.out.println(mapOfIDs);
-			}
-			iterations++;
-			if (iterations >= max) {
-				break;
-			}
 		}
-		return solutionOutput;
+		System.out.println("Race was not found");
+		return "Race not found";
 	}
 
 	private void filterRaceVariables(Solution solution, String label) {

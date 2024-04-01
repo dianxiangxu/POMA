@@ -9,6 +9,11 @@ public class Solution {
 
 	private List<ObligationFiring> obligationFirings = new ArrayList<ObligationFiring>();
 	private List<Graph> listOfConfigurations = new ArrayList<Graph>();
+	
+	private String transitiveAssignments = "";
+	private String lastAssignments = "";
+	private String lastTransitiveAssignments= "";
+	private String lastAssociations= "";
 
 	public List<Graph> getListOfConfigurations() {
 		return listOfConfigurations;
@@ -47,5 +52,37 @@ public class Solution {
 		sb.append(System.lineSeparator() + variables);
 		
 		return sb.toString();
+	}
+
+	public String getTransitiveAssignments() {
+		return transitiveAssignments;
+	}
+
+	public void setTransitiveAssignments(String transitiveAssignments) {
+		this.transitiveAssignments = transitiveAssignments;
+	}
+
+	public String getLastAssignments() {
+		return lastAssignments;
+	}
+
+	public void setLastAssignments(String lastAssignments) {
+		this.lastAssignments = lastAssignments;
+	}
+	
+	public String getLastTransitiveAssignments() {
+		return lastTransitiveAssignments;
+	}
+
+	public void setLastTransitiveAssignments(String lastTransitiveAssignments) {
+		this.lastTransitiveAssignments = lastTransitiveAssignments;
+	}
+
+	public String getLastAssociations() {
+		return lastAssociations;
+	}
+
+	public void setLastAssociations(String lastAssociations) {
+		this.lastAssociations = lastAssociations;
 	}
 }

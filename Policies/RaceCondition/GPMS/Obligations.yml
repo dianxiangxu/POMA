@@ -1,0 +1,385 @@
+label: Grant
+rules:
+  - label: obligation0
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - add
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - grant:
+             subject:
+               name: PISubmit
+               type: UA
+             operations:
+               - submit
+             target:
+               name: PDSWhole
+               type: OA  
+                     
+  # - label: obligation0race0
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "PI"     
+  #     operations:
+  #       - add
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - assign:
+  #           - what:
+  #               name: Nazmul
+  #               type: U
+  #             where:
+  #               name: PISubmit
+  #               type: UA       
+  - label: obligation0race1
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - add
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - grant:
+             subject:
+               name: PISubmit
+               type: UA
+             operations:
+               - submit
+               - delete
+             target:
+               name: PDSWhole
+               type: OA      
+  - label: obligation0race2
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - add
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - grant:
+             subject:
+               name: PISubmit
+               type: UA
+             operations:
+               - create
+             target:
+               name: PDSWhole
+               type: OA    
+        - grant:
+             subject:
+               name: PISubmit
+               type: UA
+             operations:
+               - remove
+             target:
+               name: PDSWhole
+               type: OA                                                                                                       
+  # - label: obligation1
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "PISubmit"     
+  #     operations:
+  #       - submit
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: CoPI
+  #              type: UA
+  #            operations:
+  #              - edit
+  #            target:
+  #              name: PDSWhole
+  #              type: OA                                                    
+  # - label: obligation2
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "CoPI"     
+  #     operations:
+  #       - edit
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: SP
+  #              type: UA
+  #            operations:
+  #              - read
+  #            target:
+  #              name: PDSWhole
+  #              type: OA                                     
+  # - label: obligation3
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "SP"     
+  #     operations:
+  #       - read
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: PICreate
+  #              type: UA
+  #            operations:
+  #              - create
+  #            target:
+  #              name: PDSWhole
+  #              type: OA                                                     
+  # - label: obligation4
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "PICreate"     
+  #     operations:
+  #       - create
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: PIDelete
+  #              type: UA
+  #            operations:
+  #              - delete
+  #            target:
+  #              name: PDSWhole
+  #              type: OA                                                      
+  # - label: obligation5
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "PIDelete"     
+  #     operations:
+  #       - delete
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: Chair
+  #              type: UA
+  #            operations:
+  #              - approve
+  #            target:
+  #              name: PDSWhole
+  #              type: OA                                         
+  # - label: obligation6
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "Chair"     
+  #     operations:
+  #       - approve
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: BM
+  #              type: UA
+  #            operations:
+  #              - disapprove
+  #            target:
+  #              name: PDSWhole
+  #              type: OA                                                    
+  # - label: obligation7
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "BM"     
+  #     operations:
+  #       - disapprove
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: RA
+  #              type: UA
+  #            operations:
+  #              - accept
+  #            target:
+  #              name: PDSWhole
+  #              type: OA                                                  
+  # - label: obligation9
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "RA"     
+  #     operations:
+  #       - accept
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: RD
+  #              type: UA
+  #            operations:
+  #              - archive
+  #            target:
+  #              name: PDSWhole
+  #              type: OA                                        
+  # - label: obligation10
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "RD"     
+  #     operations:
+  #       - archive
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: RA
+  #              type: UA
+  #            operations:
+  #              - write
+  #            target:
+  #              name: PDSWhole
+  #              type: OA                                                 
+  # - label: obligation11
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "RA"     
+  #     operations:
+  #       - write
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: RD
+  #              type: UA
+  #            operations:
+  #              - test1
+  #            target:
+  #              name: PDSWhole
+  #              type: OA                                                  
+  # - label: obligation12
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "RD"     
+  #     operations:
+  #       - test1
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: RA
+  #              type: UA
+  #            operations:
+  #              - test2
+  #            target:
+  #              name: PDSWhole
+  #              type: OA 
+  # - label: test1
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "RD"     
+  #     operations:
+  #       - test1
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: RA
+  #              type: UA
+  #            operations:
+  #              - test2
+  #            target:
+  #              name: PDSWhole
+  #              type: OA   
+  # - label: test2
+  #   event:
+  #     subject:
+  #       anyUser: 
+  #         - "RD"     
+  #     operations:
+  #       - test1
+  #     target:
+  #       policyElements:
+  #         - name: PDSWhole
+  #           type: O        
+  #   response:      
+  #     actions: 
+  #       - grant:
+  #            subject:
+  #              name: RA
+  #              type: UA
+  #            operations:
+  #              - test2
+  #            target:
+  #              name: PDSWhole
+  #              type: OA                                                                                                                                                                                                                                                                                                                                               

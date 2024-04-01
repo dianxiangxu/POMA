@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.ActionType;
+import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.HierarchyType;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder.RelationType;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.Relations.AssociationCustom;
 import gov.nist.csd.pm.pip.obligations.model.EvrNode;
@@ -21,6 +22,13 @@ public class DeleteGrantActionEncoder extends ActionEncoder {
 		super(mapOfIDs, RelationType.ASSOCIATE, ActionType.REMOVE);
 		deleteGrantAction = action;
 		retrieveActionPolicyElements();
+		if (association.getTargetType().equals("OA")) {
+			setPreconditionHierarchyType(HierarchyType.OTHER);
+			setPostconditionHierarchyType(HierarchyType.OTHER);
+		} else {
+			setPreconditionHierarchyType(HierarchyType.UA);
+			setPostconditionHierarchyType(HierarchyType.UA);
+		}
 		encodeActionPreconditions();
 		encodeActionPostcondition();
 		encodeActionPostconditionFlatten();
@@ -32,7 +40,7 @@ public class DeleteGrantActionEncoder extends ActionEncoder {
 	protected void encodeActionPreconditions() {
 		String precondition = "(and ";
 		for(Integer op: association.getOps()) {
-			precondition +="(member (mkTuple " + association.getSubject() + " " + op + " " + association.getTarget()+") (ASSOC {k-1}))"; //have to check every access right
+			precondition +="(set.member (tuple " + association.getSubject() + " " + op + " " + association.getTarget()+") (ASSOC {k-1}))"; //have to check every access right
 		}
 		precondition += ")";
 		setPrecondition(precondition); //exists						
@@ -41,23 +49,34 @@ public class DeleteGrantActionEncoder extends ActionEncoder {
     
 	protected void encodeActionPostcondition() {
 		String innerAction = "";
+		String innerActionSet = "";
 		for (Integer op : association.getOps()) {
 			innerAction = handleAssociationAction(op, innerAction);
+			innerActionSet = handleAssociationSet(op, innerActionSet);
 		}	
 		setPostcondition(innerAction);
+		setPostconditionSet(innerActionSet);
 		setNegatedPostconditionSet("(as set.empty (Set (Tuple Int Int Int)))");
 		//setPostcondition("(union  (singleton (mkTuple " + association.getSubject() + " " + association.getTarget() + ")) (ASSIGN {k-1}))");
 	}	
 	
 	private String handleAssociationAction(Integer ar, String innerAction) {
 		if (innerAction.isEmpty()) {
-			return "(setminus " + "(ASSOC " + "{k-1}" + ")" + "(singleton(mkTuple " + association.getSubject() + " " + ar + " "
+			return "(set.minus " + "(ASSOC " + "{k-1}" + ")" + "(set.singleton(tuple " + association.getSubject() + " " + ar + " "
 					+ association.getTarget() + ")))";
 		} else {
-			return "(setminus " + innerAction + "(singleton(mkTuple " + association.getSubject() + " " + association.getTarget() + ")))";
+			return "(set.minus " + innerAction + "(set.singleton(tuple " + association.getSubject() + " " + association.getTarget() + ")))";
 		}
 	}	
 	
+	private String handleAssociationSet(Integer ar, String innerAction) {
+		if (innerAction.isEmpty()) {
+			return "(set.singleton(tuple " + association.getSubject() + " " + ar + " " + association.getTarget() + "))";
+		} else {
+			return "(set.union " + innerAction + "(set.singleton(tuple " + association.getSubject() + " " + ar + " "
+					+ association.getTarget() + ")))";
+		}
+	}
 	protected void retrieveActionPolicyElements() {
 		EvrNode whatNode = deleteGrantAction.getAssociations().get(0).getSubject();
 		EvrNode whereNode = deleteGrantAction.getAssociations().get(0).getTarget();

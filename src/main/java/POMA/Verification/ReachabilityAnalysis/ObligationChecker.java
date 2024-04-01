@@ -47,8 +47,8 @@ public class ObligationChecker extends Planner {
 		checker.enableSMTOutput(true);
 
 	
-		String precondition = "PERMIT(?u,?ar, PendingCases);";
-		String postcondition = "";//"OBLIGATIONLABEL(accept_case, ?u, ?ar, PendingCases);";
+		String precondition = "(((PERMIT(?s,?ar,?pe) AND ASSIGN(?ua,?s)) AND NOT(ASSOCIATE(?ua1,?ar1,?oa1))) AND NOT((ASSOCIATE(?ua2,?ar1,?oa1) AND ASSOCIATE(?ua1,?ar1,?oa1))));";
+		String postcondition ="((OBLIGATIONLABEL(obligation_phi, ?u, ?ar, ?pe) AND NOT((ASSOCIATE(?ua2,?ar1,?oa1) AND ASSOCIATE(?ua1,?ar1,?oa1)))) AND ASSOCIATE(?ua1,?ar1,?oa1));";//"";
 
 		//Solution solution = checker.solveConstraint(precondition, postcondition, graph);
 		//String precondition = "";
