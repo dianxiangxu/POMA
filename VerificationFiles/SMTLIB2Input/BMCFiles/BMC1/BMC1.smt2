@@ -128,16 +128,10 @@
 
 (assert (= (ASSOC 0) (set.insert(tuple 23 25 24) 
 (tuple 23 26 24) 
-(tuple 23 27 24) 
-(tuple 23 28 24) 
 (tuple 23 25 24) 
 (tuple 23 26 24) 
-(tuple 23 27 24) 
-(tuple 23 28 24) 
 (tuple 23 25 24) 
-(tuple 23 26 24) 
-(tuple 23 27 24) 
-(set.singleton (tuple 23 28 24)))))
+(set.singleton (tuple 23 26 24)))))
 
 (declare-fun NODES () (Set (Tuple Int Int)))
 (assert (= NODES (set.insert (tuple 1 1) 
@@ -166,13 +160,18 @@
 (set.singleton (tuple 24 24))))) 
 
 
-(declare-fun AddCoPI3__AddCoPI1 (Int) Bool)
 (declare-fun DeleteCoPI1__DeleteCoPI2 (Int) Bool)
 (declare-fun AddCoPI1 (Int) Bool)
-(declare-fun AddCoPI1__AddCoPI3 (Int) Bool)
-(declare-fun DeleteCoPI2__DeleteCoPI1 (Int) Bool)
-(declare-fun DeleteCoPI2 (Int) Bool)
+(declare-fun AddCoPI1__AddCoPI3__AddCoPI2 (Int) Bool)
+(declare-fun AddCoPI2__AddCoPI3__AddCoPI1 (Int) Bool)
 (declare-fun AddCoPI3 (Int) Bool)
+(declare-fun AddCoPI2 (Int) Bool)
+(declare-fun AddCoPI1__AddCoPI2__AddCoPI3 (Int) Bool)
+(declare-fun AddCoPI3__AddCoPI2__AddCoPI1 (Int) Bool)
+(declare-fun DeleteCoPI2__DeleteCoPI1 (Int) Bool)
+(declare-fun AddCoPI2__AddCoPI1__AddCoPI3 (Int) Bool)
+(declare-fun DeleteCoPI2 (Int) Bool)
+(declare-fun AddCoPI3__AddCoPI1__AddCoPI2 (Int) Bool)
 (declare-fun CreatePDS (Int) Bool)
 (declare-fun DeleteCoPI1 (Int) Bool)
 ;--------------------------------------------------------------------------------------------------------------------
@@ -190,7 +189,7 @@
 (assert (>= CreatePDSUA_0 0))
 (assert (>= CreatePDSAT_0 0))
 (assert (>= CreatePDSUO_0 0))
-(assert (or (= CreatePDSar_0 27)
+(assert (or (= CreatePDSar_0 25)
 ))
 (assert (= CreatePDSS_0 23))
 (assert (= CreatePDST_0 24))
@@ -206,60 +205,6 @@
 )))
 
 
-(declare-fun AddCoPI1U_0 () Int)
-(declare-fun AddCoPI1UA_0 () Int)
-(declare-fun AddCoPI1AT_0 () Int)
-(declare-fun AddCoPI1UO_0 () Int)
-(declare-fun AddCoPI1ar_0 () Int)
-(declare-fun AddCoPI1S_0 () Int)
-(declare-fun AddCoPI1T_0 () Int)
-(assert (>= AddCoPI1U_0 0))
-(assert (>= AddCoPI1UA_0 0))
-(assert (>= AddCoPI1AT_0 0))
-(assert (>= AddCoPI1UO_0 0))
-(assert (or (= AddCoPI1ar_0 29)
-))
-(assert (= AddCoPI1S_0 23))
-(assert (= AddCoPI1T_0 24))
-(assert (=> (= (AddCoPI1 0) true) (and
- (set.member (tuple  AddCoPI1U_0 AddCoPI1S_0) (ASSIGN* 0))
- (set.member (tuple  AddCoPI1U_0 AddCoPI1UA_0) (ASSIGN* 0))
- (set.member (tuple AddCoPI1UA_0 AddCoPI1ar_0 AddCoPI1AT_0) (ASSOC 0))
- (set.member (tuple  AddCoPI1UO_0 AddCoPI1T_0) (ASSIGN* 0))
- (set.member (tuple  AddCoPI1UO_0 AddCoPI1AT_0) (ASSIGN* 0))
- (set.member (tuple  AddCoPI1U_0 AddCoPI1U_0) USERS)
- (distinct AddCoPI1S_0 AddCoPI1U_0)
- (distinct AddCoPI1UO_0 AddCoPI1T_0)
-)))
-
-
-(declare-fun AddCoPI3U_0 () Int)
-(declare-fun AddCoPI3UA_0 () Int)
-(declare-fun AddCoPI3AT_0 () Int)
-(declare-fun AddCoPI3UO_0 () Int)
-(declare-fun AddCoPI3ar_0 () Int)
-(declare-fun AddCoPI3S_0 () Int)
-(declare-fun AddCoPI3T_0 () Int)
-(assert (>= AddCoPI3U_0 0))
-(assert (>= AddCoPI3UA_0 0))
-(assert (>= AddCoPI3AT_0 0))
-(assert (>= AddCoPI3UO_0 0))
-(assert (or (= AddCoPI3ar_0 29)
-))
-(assert (= AddCoPI3S_0 23))
-(assert (= AddCoPI3T_0 24))
-(assert (=> (= (AddCoPI3 0) true) (and
- (set.member (tuple  AddCoPI3U_0 AddCoPI3S_0) (ASSIGN* 0))
- (set.member (tuple  AddCoPI3U_0 AddCoPI3UA_0) (ASSIGN* 0))
- (set.member (tuple AddCoPI3UA_0 AddCoPI3ar_0 AddCoPI3AT_0) (ASSOC 0))
- (set.member (tuple  AddCoPI3UO_0 AddCoPI3T_0) (ASSIGN* 0))
- (set.member (tuple  AddCoPI3UO_0 AddCoPI3AT_0) (ASSIGN* 0))
- (set.member (tuple  AddCoPI3U_0 AddCoPI3U_0) USERS)
- (distinct AddCoPI3S_0 AddCoPI3U_0)
- (distinct AddCoPI3UO_0 AddCoPI3T_0)
-)))
-
-
 (declare-fun DeleteCoPI1U_0 () Int)
 (declare-fun DeleteCoPI1UA_0 () Int)
 (declare-fun DeleteCoPI1AT_0 () Int)
@@ -271,7 +216,7 @@
 (assert (>= DeleteCoPI1UA_0 0))
 (assert (>= DeleteCoPI1AT_0 0))
 (assert (>= DeleteCoPI1UO_0 0))
-(assert (or (= DeleteCoPI1ar_0 28)
+(assert (or (= DeleteCoPI1ar_0 26)
 ))
 (assert (= DeleteCoPI1S_0 23))
 (assert (= DeleteCoPI1T_0 24))
@@ -298,7 +243,7 @@
 (assert (>= DeleteCoPI2UA_0 0))
 (assert (>= DeleteCoPI2AT_0 0))
 (assert (>= DeleteCoPI2UO_0 0))
-(assert (or (= DeleteCoPI2ar_0 28)
+(assert (or (= DeleteCoPI2ar_0 26)
 ))
 (assert (= DeleteCoPI2S_0 23))
 (assert (= DeleteCoPI2T_0 24))
@@ -314,6 +259,87 @@
 )))
 
 
+(declare-fun AddCoPI1U_0 () Int)
+(declare-fun AddCoPI1UA_0 () Int)
+(declare-fun AddCoPI1AT_0 () Int)
+(declare-fun AddCoPI1UO_0 () Int)
+(declare-fun AddCoPI1ar_0 () Int)
+(declare-fun AddCoPI1S_0 () Int)
+(declare-fun AddCoPI1T_0 () Int)
+(assert (>= AddCoPI1U_0 0))
+(assert (>= AddCoPI1UA_0 0))
+(assert (>= AddCoPI1AT_0 0))
+(assert (>= AddCoPI1UO_0 0))
+(assert (or (= AddCoPI1ar_0 27)
+))
+(assert (= AddCoPI1S_0 23))
+(assert (= AddCoPI1T_0 24))
+(assert (=> (= (AddCoPI1 0) true) (and
+ (set.member (tuple  AddCoPI1U_0 AddCoPI1S_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI1U_0 AddCoPI1UA_0) (ASSIGN* 0))
+ (set.member (tuple AddCoPI1UA_0 AddCoPI1ar_0 AddCoPI1AT_0) (ASSOC 0))
+ (set.member (tuple  AddCoPI1UO_0 AddCoPI1T_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI1UO_0 AddCoPI1AT_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI1U_0 AddCoPI1U_0) USERS)
+ (distinct AddCoPI1S_0 AddCoPI1U_0)
+ (distinct AddCoPI1UO_0 AddCoPI1T_0)
+)))
+
+
+(declare-fun AddCoPI2U_0 () Int)
+(declare-fun AddCoPI2UA_0 () Int)
+(declare-fun AddCoPI2AT_0 () Int)
+(declare-fun AddCoPI2UO_0 () Int)
+(declare-fun AddCoPI2ar_0 () Int)
+(declare-fun AddCoPI2S_0 () Int)
+(declare-fun AddCoPI2T_0 () Int)
+(assert (>= AddCoPI2U_0 0))
+(assert (>= AddCoPI2UA_0 0))
+(assert (>= AddCoPI2AT_0 0))
+(assert (>= AddCoPI2UO_0 0))
+(assert (or (= AddCoPI2ar_0 27)
+))
+(assert (= AddCoPI2S_0 23))
+(assert (= AddCoPI2T_0 24))
+(assert (=> (= (AddCoPI2 0) true) (and
+ (set.member (tuple  AddCoPI2U_0 AddCoPI2S_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI2U_0 AddCoPI2UA_0) (ASSIGN* 0))
+ (set.member (tuple AddCoPI2UA_0 AddCoPI2ar_0 AddCoPI2AT_0) (ASSOC 0))
+ (set.member (tuple  AddCoPI2UO_0 AddCoPI2T_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI2UO_0 AddCoPI2AT_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI2U_0 AddCoPI2U_0) USERS)
+ (distinct AddCoPI2S_0 AddCoPI2U_0)
+ (distinct AddCoPI2UO_0 AddCoPI2T_0)
+)))
+
+
+(declare-fun AddCoPI3U_0 () Int)
+(declare-fun AddCoPI3UA_0 () Int)
+(declare-fun AddCoPI3AT_0 () Int)
+(declare-fun AddCoPI3UO_0 () Int)
+(declare-fun AddCoPI3ar_0 () Int)
+(declare-fun AddCoPI3S_0 () Int)
+(declare-fun AddCoPI3T_0 () Int)
+(assert (>= AddCoPI3U_0 0))
+(assert (>= AddCoPI3UA_0 0))
+(assert (>= AddCoPI3AT_0 0))
+(assert (>= AddCoPI3UO_0 0))
+(assert (or (= AddCoPI3ar_0 27)
+))
+(assert (= AddCoPI3S_0 23))
+(assert (= AddCoPI3T_0 24))
+(assert (=> (= (AddCoPI3 0) true) (and
+ (set.member (tuple  AddCoPI3U_0 AddCoPI3S_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI3U_0 AddCoPI3UA_0) (ASSIGN* 0))
+ (set.member (tuple AddCoPI3UA_0 AddCoPI3ar_0 AddCoPI3AT_0) (ASSOC 0))
+ (set.member (tuple  AddCoPI3UO_0 AddCoPI3T_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI3UO_0 AddCoPI3AT_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI3U_0 AddCoPI3U_0) USERS)
+ (distinct AddCoPI3S_0 AddCoPI3U_0)
+ (distinct AddCoPI3UO_0 AddCoPI3T_0)
+)))
+
+
 (declare-fun DeleteCoPI1__DeleteCoPI2U_0 () Int)
 (declare-fun DeleteCoPI1__DeleteCoPI2UA_0 () Int)
 (declare-fun DeleteCoPI1__DeleteCoPI2AT_0 () Int)
@@ -325,7 +351,7 @@
 (assert (>= DeleteCoPI1__DeleteCoPI2UA_0 0))
 (assert (>= DeleteCoPI1__DeleteCoPI2AT_0 0))
 (assert (>= DeleteCoPI1__DeleteCoPI2UO_0 0))
-(assert (or (= DeleteCoPI1__DeleteCoPI2ar_0 28)
+(assert (or (= DeleteCoPI1__DeleteCoPI2ar_0 26)
 ))
 (assert (= DeleteCoPI1__DeleteCoPI2S_0 23))
 (assert (= DeleteCoPI1__DeleteCoPI2T_0 24))
@@ -352,7 +378,7 @@
 (assert (>= DeleteCoPI2__DeleteCoPI1UA_0 0))
 (assert (>= DeleteCoPI2__DeleteCoPI1AT_0 0))
 (assert (>= DeleteCoPI2__DeleteCoPI1UO_0 0))
-(assert (or (= DeleteCoPI2__DeleteCoPI1ar_0 28)
+(assert (or (= DeleteCoPI2__DeleteCoPI1ar_0 26)
 ))
 (assert (= DeleteCoPI2__DeleteCoPI1S_0 23))
 (assert (= DeleteCoPI2__DeleteCoPI1T_0 24))
@@ -368,57 +394,165 @@
 )))
 
 
-(declare-fun AddCoPI1__AddCoPI3U_0 () Int)
-(declare-fun AddCoPI1__AddCoPI3UA_0 () Int)
-(declare-fun AddCoPI1__AddCoPI3AT_0 () Int)
-(declare-fun AddCoPI1__AddCoPI3UO_0 () Int)
-(declare-fun AddCoPI1__AddCoPI3ar_0 () Int)
-(declare-fun AddCoPI1__AddCoPI3S_0 () Int)
-(declare-fun AddCoPI1__AddCoPI3T_0 () Int)
-(assert (>= AddCoPI1__AddCoPI3U_0 0))
-(assert (>= AddCoPI1__AddCoPI3UA_0 0))
-(assert (>= AddCoPI1__AddCoPI3AT_0 0))
-(assert (>= AddCoPI1__AddCoPI3UO_0 0))
-(assert (or (= AddCoPI1__AddCoPI3ar_0 29)
+(declare-fun AddCoPI1__AddCoPI2__AddCoPI3U_0 () Int)
+(declare-fun AddCoPI1__AddCoPI2__AddCoPI3UA_0 () Int)
+(declare-fun AddCoPI1__AddCoPI2__AddCoPI3AT_0 () Int)
+(declare-fun AddCoPI1__AddCoPI2__AddCoPI3UO_0 () Int)
+(declare-fun AddCoPI1__AddCoPI2__AddCoPI3ar_0 () Int)
+(declare-fun AddCoPI1__AddCoPI2__AddCoPI3S_0 () Int)
+(declare-fun AddCoPI1__AddCoPI2__AddCoPI3T_0 () Int)
+(assert (>= AddCoPI1__AddCoPI2__AddCoPI3U_0 0))
+(assert (>= AddCoPI1__AddCoPI2__AddCoPI3UA_0 0))
+(assert (>= AddCoPI1__AddCoPI2__AddCoPI3AT_0 0))
+(assert (>= AddCoPI1__AddCoPI2__AddCoPI3UO_0 0))
+(assert (or (= AddCoPI1__AddCoPI2__AddCoPI3ar_0 27)
 ))
-(assert (= AddCoPI1__AddCoPI3S_0 23))
-(assert (= AddCoPI1__AddCoPI3T_0 24))
-(assert (=> (= (AddCoPI1__AddCoPI3 0) true) (and
- (set.member (tuple  AddCoPI1__AddCoPI3U_0 AddCoPI1__AddCoPI3S_0) (ASSIGN* 0))
- (set.member (tuple  AddCoPI1__AddCoPI3U_0 AddCoPI1__AddCoPI3UA_0) (ASSIGN* 0))
- (set.member (tuple AddCoPI1__AddCoPI3UA_0 AddCoPI1__AddCoPI3ar_0 AddCoPI1__AddCoPI3AT_0) (ASSOC 0))
- (set.member (tuple  AddCoPI1__AddCoPI3UO_0 AddCoPI1__AddCoPI3T_0) (ASSIGN* 0))
- (set.member (tuple  AddCoPI1__AddCoPI3UO_0 AddCoPI1__AddCoPI3AT_0) (ASSIGN* 0))
- (set.member (tuple  AddCoPI1__AddCoPI3U_0 AddCoPI1__AddCoPI3U_0) USERS)
- (distinct AddCoPI1__AddCoPI3S_0 AddCoPI1__AddCoPI3U_0)
- (distinct AddCoPI1__AddCoPI3UO_0 AddCoPI1__AddCoPI3T_0)
+(assert (= AddCoPI1__AddCoPI2__AddCoPI3S_0 23))
+(assert (= AddCoPI1__AddCoPI2__AddCoPI3T_0 24))
+(assert (=> (= (AddCoPI1__AddCoPI2__AddCoPI3 0) true) (and
+ (set.member (tuple  AddCoPI1__AddCoPI2__AddCoPI3U_0 AddCoPI1__AddCoPI2__AddCoPI3S_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI1__AddCoPI2__AddCoPI3U_0 AddCoPI1__AddCoPI2__AddCoPI3UA_0) (ASSIGN* 0))
+ (set.member (tuple AddCoPI1__AddCoPI2__AddCoPI3UA_0 AddCoPI1__AddCoPI2__AddCoPI3ar_0 AddCoPI1__AddCoPI2__AddCoPI3AT_0) (ASSOC 0))
+ (set.member (tuple  AddCoPI1__AddCoPI2__AddCoPI3UO_0 AddCoPI1__AddCoPI2__AddCoPI3T_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI1__AddCoPI2__AddCoPI3UO_0 AddCoPI1__AddCoPI2__AddCoPI3AT_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI1__AddCoPI2__AddCoPI3U_0 AddCoPI1__AddCoPI2__AddCoPI3U_0) USERS)
+ (distinct AddCoPI1__AddCoPI2__AddCoPI3S_0 AddCoPI1__AddCoPI2__AddCoPI3U_0)
+ (distinct AddCoPI1__AddCoPI2__AddCoPI3UO_0 AddCoPI1__AddCoPI2__AddCoPI3T_0)
 )))
 
 
-(declare-fun AddCoPI3__AddCoPI1U_0 () Int)
-(declare-fun AddCoPI3__AddCoPI1UA_0 () Int)
-(declare-fun AddCoPI3__AddCoPI1AT_0 () Int)
-(declare-fun AddCoPI3__AddCoPI1UO_0 () Int)
-(declare-fun AddCoPI3__AddCoPI1ar_0 () Int)
-(declare-fun AddCoPI3__AddCoPI1S_0 () Int)
-(declare-fun AddCoPI3__AddCoPI1T_0 () Int)
-(assert (>= AddCoPI3__AddCoPI1U_0 0))
-(assert (>= AddCoPI3__AddCoPI1UA_0 0))
-(assert (>= AddCoPI3__AddCoPI1AT_0 0))
-(assert (>= AddCoPI3__AddCoPI1UO_0 0))
-(assert (or (= AddCoPI3__AddCoPI1ar_0 29)
+(declare-fun AddCoPI1__AddCoPI3__AddCoPI2U_0 () Int)
+(declare-fun AddCoPI1__AddCoPI3__AddCoPI2UA_0 () Int)
+(declare-fun AddCoPI1__AddCoPI3__AddCoPI2AT_0 () Int)
+(declare-fun AddCoPI1__AddCoPI3__AddCoPI2UO_0 () Int)
+(declare-fun AddCoPI1__AddCoPI3__AddCoPI2ar_0 () Int)
+(declare-fun AddCoPI1__AddCoPI3__AddCoPI2S_0 () Int)
+(declare-fun AddCoPI1__AddCoPI3__AddCoPI2T_0 () Int)
+(assert (>= AddCoPI1__AddCoPI3__AddCoPI2U_0 0))
+(assert (>= AddCoPI1__AddCoPI3__AddCoPI2UA_0 0))
+(assert (>= AddCoPI1__AddCoPI3__AddCoPI2AT_0 0))
+(assert (>= AddCoPI1__AddCoPI3__AddCoPI2UO_0 0))
+(assert (or (= AddCoPI1__AddCoPI3__AddCoPI2ar_0 27)
 ))
-(assert (= AddCoPI3__AddCoPI1S_0 23))
-(assert (= AddCoPI3__AddCoPI1T_0 24))
-(assert (=> (= (AddCoPI3__AddCoPI1 0) true) (and
- (set.member (tuple  AddCoPI3__AddCoPI1U_0 AddCoPI3__AddCoPI1S_0) (ASSIGN* 0))
- (set.member (tuple  AddCoPI3__AddCoPI1U_0 AddCoPI3__AddCoPI1UA_0) (ASSIGN* 0))
- (set.member (tuple AddCoPI3__AddCoPI1UA_0 AddCoPI3__AddCoPI1ar_0 AddCoPI3__AddCoPI1AT_0) (ASSOC 0))
- (set.member (tuple  AddCoPI3__AddCoPI1UO_0 AddCoPI3__AddCoPI1T_0) (ASSIGN* 0))
- (set.member (tuple  AddCoPI3__AddCoPI1UO_0 AddCoPI3__AddCoPI1AT_0) (ASSIGN* 0))
- (set.member (tuple  AddCoPI3__AddCoPI1U_0 AddCoPI3__AddCoPI1U_0) USERS)
- (distinct AddCoPI3__AddCoPI1S_0 AddCoPI3__AddCoPI1U_0)
- (distinct AddCoPI3__AddCoPI1UO_0 AddCoPI3__AddCoPI1T_0)
+(assert (= AddCoPI1__AddCoPI3__AddCoPI2S_0 23))
+(assert (= AddCoPI1__AddCoPI3__AddCoPI2T_0 24))
+(assert (=> (= (AddCoPI1__AddCoPI3__AddCoPI2 0) true) (and
+ (set.member (tuple  AddCoPI1__AddCoPI3__AddCoPI2U_0 AddCoPI1__AddCoPI3__AddCoPI2S_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI1__AddCoPI3__AddCoPI2U_0 AddCoPI1__AddCoPI3__AddCoPI2UA_0) (ASSIGN* 0))
+ (set.member (tuple AddCoPI1__AddCoPI3__AddCoPI2UA_0 AddCoPI1__AddCoPI3__AddCoPI2ar_0 AddCoPI1__AddCoPI3__AddCoPI2AT_0) (ASSOC 0))
+ (set.member (tuple  AddCoPI1__AddCoPI3__AddCoPI2UO_0 AddCoPI1__AddCoPI3__AddCoPI2T_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI1__AddCoPI3__AddCoPI2UO_0 AddCoPI1__AddCoPI3__AddCoPI2AT_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI1__AddCoPI3__AddCoPI2U_0 AddCoPI1__AddCoPI3__AddCoPI2U_0) USERS)
+ (distinct AddCoPI1__AddCoPI3__AddCoPI2S_0 AddCoPI1__AddCoPI3__AddCoPI2U_0)
+ (distinct AddCoPI1__AddCoPI3__AddCoPI2UO_0 AddCoPI1__AddCoPI3__AddCoPI2T_0)
+)))
+
+
+(declare-fun AddCoPI2__AddCoPI1__AddCoPI3U_0 () Int)
+(declare-fun AddCoPI2__AddCoPI1__AddCoPI3UA_0 () Int)
+(declare-fun AddCoPI2__AddCoPI1__AddCoPI3AT_0 () Int)
+(declare-fun AddCoPI2__AddCoPI1__AddCoPI3UO_0 () Int)
+(declare-fun AddCoPI2__AddCoPI1__AddCoPI3ar_0 () Int)
+(declare-fun AddCoPI2__AddCoPI1__AddCoPI3S_0 () Int)
+(declare-fun AddCoPI2__AddCoPI1__AddCoPI3T_0 () Int)
+(assert (>= AddCoPI2__AddCoPI1__AddCoPI3U_0 0))
+(assert (>= AddCoPI2__AddCoPI1__AddCoPI3UA_0 0))
+(assert (>= AddCoPI2__AddCoPI1__AddCoPI3AT_0 0))
+(assert (>= AddCoPI2__AddCoPI1__AddCoPI3UO_0 0))
+(assert (or (= AddCoPI2__AddCoPI1__AddCoPI3ar_0 27)
+))
+(assert (= AddCoPI2__AddCoPI1__AddCoPI3S_0 23))
+(assert (= AddCoPI2__AddCoPI1__AddCoPI3T_0 24))
+(assert (=> (= (AddCoPI2__AddCoPI1__AddCoPI3 0) true) (and
+ (set.member (tuple  AddCoPI2__AddCoPI1__AddCoPI3U_0 AddCoPI2__AddCoPI1__AddCoPI3S_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI2__AddCoPI1__AddCoPI3U_0 AddCoPI2__AddCoPI1__AddCoPI3UA_0) (ASSIGN* 0))
+ (set.member (tuple AddCoPI2__AddCoPI1__AddCoPI3UA_0 AddCoPI2__AddCoPI1__AddCoPI3ar_0 AddCoPI2__AddCoPI1__AddCoPI3AT_0) (ASSOC 0))
+ (set.member (tuple  AddCoPI2__AddCoPI1__AddCoPI3UO_0 AddCoPI2__AddCoPI1__AddCoPI3T_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI2__AddCoPI1__AddCoPI3UO_0 AddCoPI2__AddCoPI1__AddCoPI3AT_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI2__AddCoPI1__AddCoPI3U_0 AddCoPI2__AddCoPI1__AddCoPI3U_0) USERS)
+ (distinct AddCoPI2__AddCoPI1__AddCoPI3S_0 AddCoPI2__AddCoPI1__AddCoPI3U_0)
+ (distinct AddCoPI2__AddCoPI1__AddCoPI3UO_0 AddCoPI2__AddCoPI1__AddCoPI3T_0)
+)))
+
+
+(declare-fun AddCoPI2__AddCoPI3__AddCoPI1U_0 () Int)
+(declare-fun AddCoPI2__AddCoPI3__AddCoPI1UA_0 () Int)
+(declare-fun AddCoPI2__AddCoPI3__AddCoPI1AT_0 () Int)
+(declare-fun AddCoPI2__AddCoPI3__AddCoPI1UO_0 () Int)
+(declare-fun AddCoPI2__AddCoPI3__AddCoPI1ar_0 () Int)
+(declare-fun AddCoPI2__AddCoPI3__AddCoPI1S_0 () Int)
+(declare-fun AddCoPI2__AddCoPI3__AddCoPI1T_0 () Int)
+(assert (>= AddCoPI2__AddCoPI3__AddCoPI1U_0 0))
+(assert (>= AddCoPI2__AddCoPI3__AddCoPI1UA_0 0))
+(assert (>= AddCoPI2__AddCoPI3__AddCoPI1AT_0 0))
+(assert (>= AddCoPI2__AddCoPI3__AddCoPI1UO_0 0))
+(assert (or (= AddCoPI2__AddCoPI3__AddCoPI1ar_0 27)
+))
+(assert (= AddCoPI2__AddCoPI3__AddCoPI1S_0 23))
+(assert (= AddCoPI2__AddCoPI3__AddCoPI1T_0 24))
+(assert (=> (= (AddCoPI2__AddCoPI3__AddCoPI1 0) true) (and
+ (set.member (tuple  AddCoPI2__AddCoPI3__AddCoPI1U_0 AddCoPI2__AddCoPI3__AddCoPI1S_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI2__AddCoPI3__AddCoPI1U_0 AddCoPI2__AddCoPI3__AddCoPI1UA_0) (ASSIGN* 0))
+ (set.member (tuple AddCoPI2__AddCoPI3__AddCoPI1UA_0 AddCoPI2__AddCoPI3__AddCoPI1ar_0 AddCoPI2__AddCoPI3__AddCoPI1AT_0) (ASSOC 0))
+ (set.member (tuple  AddCoPI2__AddCoPI3__AddCoPI1UO_0 AddCoPI2__AddCoPI3__AddCoPI1T_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI2__AddCoPI3__AddCoPI1UO_0 AddCoPI2__AddCoPI3__AddCoPI1AT_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI2__AddCoPI3__AddCoPI1U_0 AddCoPI2__AddCoPI3__AddCoPI1U_0) USERS)
+ (distinct AddCoPI2__AddCoPI3__AddCoPI1S_0 AddCoPI2__AddCoPI3__AddCoPI1U_0)
+ (distinct AddCoPI2__AddCoPI3__AddCoPI1UO_0 AddCoPI2__AddCoPI3__AddCoPI1T_0)
+)))
+
+
+(declare-fun AddCoPI3__AddCoPI2__AddCoPI1U_0 () Int)
+(declare-fun AddCoPI3__AddCoPI2__AddCoPI1UA_0 () Int)
+(declare-fun AddCoPI3__AddCoPI2__AddCoPI1AT_0 () Int)
+(declare-fun AddCoPI3__AddCoPI2__AddCoPI1UO_0 () Int)
+(declare-fun AddCoPI3__AddCoPI2__AddCoPI1ar_0 () Int)
+(declare-fun AddCoPI3__AddCoPI2__AddCoPI1S_0 () Int)
+(declare-fun AddCoPI3__AddCoPI2__AddCoPI1T_0 () Int)
+(assert (>= AddCoPI3__AddCoPI2__AddCoPI1U_0 0))
+(assert (>= AddCoPI3__AddCoPI2__AddCoPI1UA_0 0))
+(assert (>= AddCoPI3__AddCoPI2__AddCoPI1AT_0 0))
+(assert (>= AddCoPI3__AddCoPI2__AddCoPI1UO_0 0))
+(assert (or (= AddCoPI3__AddCoPI2__AddCoPI1ar_0 27)
+))
+(assert (= AddCoPI3__AddCoPI2__AddCoPI1S_0 23))
+(assert (= AddCoPI3__AddCoPI2__AddCoPI1T_0 24))
+(assert (=> (= (AddCoPI3__AddCoPI2__AddCoPI1 0) true) (and
+ (set.member (tuple  AddCoPI3__AddCoPI2__AddCoPI1U_0 AddCoPI3__AddCoPI2__AddCoPI1S_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI3__AddCoPI2__AddCoPI1U_0 AddCoPI3__AddCoPI2__AddCoPI1UA_0) (ASSIGN* 0))
+ (set.member (tuple AddCoPI3__AddCoPI2__AddCoPI1UA_0 AddCoPI3__AddCoPI2__AddCoPI1ar_0 AddCoPI3__AddCoPI2__AddCoPI1AT_0) (ASSOC 0))
+ (set.member (tuple  AddCoPI3__AddCoPI2__AddCoPI1UO_0 AddCoPI3__AddCoPI2__AddCoPI1T_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI3__AddCoPI2__AddCoPI1UO_0 AddCoPI3__AddCoPI2__AddCoPI1AT_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI3__AddCoPI2__AddCoPI1U_0 AddCoPI3__AddCoPI2__AddCoPI1U_0) USERS)
+ (distinct AddCoPI3__AddCoPI2__AddCoPI1S_0 AddCoPI3__AddCoPI2__AddCoPI1U_0)
+ (distinct AddCoPI3__AddCoPI2__AddCoPI1UO_0 AddCoPI3__AddCoPI2__AddCoPI1T_0)
+)))
+
+
+(declare-fun AddCoPI3__AddCoPI1__AddCoPI2U_0 () Int)
+(declare-fun AddCoPI3__AddCoPI1__AddCoPI2UA_0 () Int)
+(declare-fun AddCoPI3__AddCoPI1__AddCoPI2AT_0 () Int)
+(declare-fun AddCoPI3__AddCoPI1__AddCoPI2UO_0 () Int)
+(declare-fun AddCoPI3__AddCoPI1__AddCoPI2ar_0 () Int)
+(declare-fun AddCoPI3__AddCoPI1__AddCoPI2S_0 () Int)
+(declare-fun AddCoPI3__AddCoPI1__AddCoPI2T_0 () Int)
+(assert (>= AddCoPI3__AddCoPI1__AddCoPI2U_0 0))
+(assert (>= AddCoPI3__AddCoPI1__AddCoPI2UA_0 0))
+(assert (>= AddCoPI3__AddCoPI1__AddCoPI2AT_0 0))
+(assert (>= AddCoPI3__AddCoPI1__AddCoPI2UO_0 0))
+(assert (or (= AddCoPI3__AddCoPI1__AddCoPI2ar_0 27)
+))
+(assert (= AddCoPI3__AddCoPI1__AddCoPI2S_0 23))
+(assert (= AddCoPI3__AddCoPI1__AddCoPI2T_0 24))
+(assert (=> (= (AddCoPI3__AddCoPI1__AddCoPI2 0) true) (and
+ (set.member (tuple  AddCoPI3__AddCoPI1__AddCoPI2U_0 AddCoPI3__AddCoPI1__AddCoPI2S_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI3__AddCoPI1__AddCoPI2U_0 AddCoPI3__AddCoPI1__AddCoPI2UA_0) (ASSIGN* 0))
+ (set.member (tuple AddCoPI3__AddCoPI1__AddCoPI2UA_0 AddCoPI3__AddCoPI1__AddCoPI2ar_0 AddCoPI3__AddCoPI1__AddCoPI2AT_0) (ASSOC 0))
+ (set.member (tuple  AddCoPI3__AddCoPI1__AddCoPI2UO_0 AddCoPI3__AddCoPI1__AddCoPI2T_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI3__AddCoPI1__AddCoPI2UO_0 AddCoPI3__AddCoPI1__AddCoPI2AT_0) (ASSIGN* 0))
+ (set.member (tuple  AddCoPI3__AddCoPI1__AddCoPI2U_0 AddCoPI3__AddCoPI1__AddCoPI2U_0) USERS)
+ (distinct AddCoPI3__AddCoPI1__AddCoPI2S_0 AddCoPI3__AddCoPI1__AddCoPI2U_0)
+ (distinct AddCoPI3__AddCoPI1__AddCoPI2UO_0 AddCoPI3__AddCoPI1__AddCoPI2T_0)
 )))
 
 
@@ -435,61 +569,15 @@
 	(and
 
 		;ACTION: CreatePDS_GrantAction_1_0
-		(=>(not (set.member (tuple 23 29 24) (ASSOC 0))) (= CreatePDS_GrantAction_1_0 (set.singleton(tuple 23 29 24))))
+		(=>(not (set.member (tuple 23 27 24) (ASSOC 0))) (= CreatePDS_GrantAction_1_0 (set.singleton(tuple 23 27 24))))
 
 		(=>(not 
-(not (set.member (tuple 23 29 24) (ASSOC 0)))	) (= CreatePDS_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+(not (set.member (tuple 23 27 24) (ASSOC 0)))	) (= CreatePDS_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
 
 	)
 )
 )
 )(assert (=> (= ( CreatePDS 0) false) (and(= CreatePDS_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
-
-
-;Configuration Modification Sets
-(declare-fun AddCoPI1_AssignAction_1_0 () (Set (Tuple Int Int)))
-
-(declare-fun AddCoPI1_AssignAction_1_0_* () (Set (Tuple Int Int)))
-
-(assert (=> (= ( AddCoPI1 0) true)
-(and
-
-	;INDEPENDENT ACTIONS
-	(and
-
-		;ACTION: AddCoPI1_AssignAction_1_0
-		(=>(and(not (set.member (tuple 15 14) (ASSIGN 0)))(not (= 15 14))(not (set.member (tuple 14 15) (ASSIGN* 0)))) (and (= AddCoPI1_AssignAction_1_0 (set.singleton( tuple 15 14))) (= AddCoPI1_AssignAction_1_0_* (set.union (set.singleton (tuple 15 14)) (rel.join (set.singleton (tuple 15 14)) (rel.join (set.singleton (tuple 14 14)) (ASSIGN* 0)))))))
-
-		(=>(not 
-(and(not (set.member (tuple 15 14) (ASSIGN 0)))(not (= 15 14))(not (set.member (tuple 14 15) (ASSIGN* 0))))	) (and (= AddCoPI1_AssignAction_1_0 (as set.empty (Set (Tuple Int Int)))) (= AddCoPI1_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))))
-
-	)
-)
-)
-)(assert (=> (= ( AddCoPI1 0) false) (and(= AddCoPI1_AssignAction_1_0 (as set.empty (Set (Tuple Int Int))))(= AddCoPI1_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int)))))))
-
-
-;Configuration Modification Sets
-(declare-fun AddCoPI3_AssignAction_1_0 () (Set (Tuple Int Int)))
-
-(declare-fun AddCoPI3_AssignAction_1_0_* () (Set (Tuple Int Int)))
-
-(assert (=> (= ( AddCoPI3 0) true)
-(and
-
-	;INDEPENDENT ACTIONS
-	(and
-
-		;ACTION: AddCoPI3_AssignAction_1_0
-		(=>(and(not (set.member (tuple 8 14) (ASSIGN 0)))(not (= 8 14))(not (set.member (tuple 14 8) (ASSIGN* 0)))) (and (= AddCoPI3_AssignAction_1_0 (set.singleton( tuple 8 14))) (= AddCoPI3_AssignAction_1_0_* (set.union (set.singleton (tuple 8 14)) (rel.join (set.singleton (tuple 8 14)) (rel.join (set.singleton (tuple 14 14)) (ASSIGN* 0)))))))
-
-		(=>(not 
-(and(not (set.member (tuple 8 14) (ASSIGN 0)))(not (= 8 14))(not (set.member (tuple 14 8) (ASSIGN* 0))))	) (and (= AddCoPI3_AssignAction_1_0 (as set.empty (Set (Tuple Int Int)))) (= AddCoPI3_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))))
-
-	)
-)
-)
-)(assert (=> (= ( AddCoPI3 0) false) (and(= AddCoPI3_AssignAction_1_0 (as set.empty (Set (Tuple Int Int))))(= AddCoPI3_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int)))))))
 
 
 ;Configuration Modification Sets
@@ -502,10 +590,10 @@
 	(and
 
 		;ACTION: DeleteCoPI1_DeleteGrantAction_1_0
-		(=>(and (set.member (tuple 14 25 24) (ASSOC 0))) (= DeleteCoPI1_DeleteGrantAction_1_0 (set.singleton(tuple 14 25 24))))
+		(=>(and (set.member (tuple 14 58 24) (ASSOC 0))) (= DeleteCoPI1_DeleteGrantAction_1_0 (set.singleton(tuple 14 58 24))))
 
 		(=>(not 
-(and (set.member (tuple 14 25 24) (ASSOC 0)))	) (= DeleteCoPI1_DeleteGrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+(and (set.member (tuple 14 58 24) (ASSOC 0)))	) (= DeleteCoPI1_DeleteGrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
 
 	)
 )
@@ -523,16 +611,116 @@
 	(and
 
 		;ACTION: DeleteCoPI2_DeleteGrantAction_1_0
-		(=>(and (set.member (tuple 14 26 24) (ASSOC 0))) (= DeleteCoPI2_DeleteGrantAction_1_0 (set.singleton(tuple 14 26 24))))
+		(=>(and (set.member (tuple 14 61 24) (ASSOC 0))) (= DeleteCoPI2_DeleteGrantAction_1_0 (set.singleton(tuple 14 61 24))))
 
 		(=>(not 
-(and (set.member (tuple 14 26 24) (ASSOC 0)))	) (= DeleteCoPI2_DeleteGrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+(and (set.member (tuple 14 61 24) (ASSOC 0)))	) (= DeleteCoPI2_DeleteGrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
 
 	)
 )
 )
 )(assert (=> (= ( DeleteCoPI2 0) false) (and(= DeleteCoPI2_DeleteGrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
 
+
+;Configuration Modification Sets
+(declare-fun AddCoPI1_GrantAction_1_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( AddCoPI1 0) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: AddCoPI1_GrantAction_1_0
+		(=>(not (set.member (tuple 14 61 24) (ASSOC 0))) (= AddCoPI1_GrantAction_1_0 (set.singleton(tuple 14 61 24))))
+
+		(=>(not 
+(not (set.member (tuple 14 61 24) (ASSOC 0)))	) (= AddCoPI1_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( AddCoPI1 0) false) (and(= AddCoPI1_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+;Configuration Modification Sets
+(declare-fun AddCoPI2_GrantAction_1_0 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( AddCoPI2 0) true)
+(and
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: AddCoPI2_GrantAction_1_0
+		(=>(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) (= AddCoPI2_GrantAction_1_0 (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24)))))
+
+		(=>(not 
+(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0))))	) (= AddCoPI2_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( AddCoPI2 0) false) (and(= AddCoPI2_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))))
+
+
+;Configuration Modification Sets
+(declare-fun AddCoPI3_GrantAction_1_0 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI3_GrantAction_1_1 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( AddCoPI3 0) true)
+(and
+
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI3_GrantAction_1_1
+	(not 
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+	)
+	;NEGATED POSTCONDITION: AddCoPI3_GrantAction_1_1
+	(= AddCoPI3_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI3_GrantAction_1_1
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+
+	;POSTCONDITION: AddCoPI3_GrantAction_1_1
+	(= AddCoPI3_GrantAction_1_1 (set.singleton(tuple 14 59 24)))
+	)
+)
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: AddCoPI3_GrantAction_1_0
+		(=>(not (set.member (tuple 14 58 24) (ASSOC 0))) (= AddCoPI3_GrantAction_1_0 (set.singleton(tuple 14 58 24))))
+
+		(=>(not 
+(not (set.member (tuple 14 58 24) (ASSOC 0)))	) (= AddCoPI3_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( AddCoPI3 0) false) (and(= AddCoPI3_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI3_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int)))))))
+
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI3_GrantAction_1_1 () Bool)
+(assert (= RC_AddCoPI3_GrantAction_1_1
+(not 
+
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+)
+)
+)
 
 ;Configuration Modification Sets
 (declare-fun DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_0 () (Set (Tuple Int Int Int)))
@@ -547,14 +735,14 @@
 	(and
 	;NEGATED PRECONDITION: DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_1
 	(not 
-(and (set.member (tuple 14 26 24) (ASSOC 0)))	)
+(and (set.member (tuple 14 61 24) (ASSOC 0)))	)
 	;NEGATED POSTCONDITION: DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_1
 	(= DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_1 (as set.empty (Set (Tuple Int Int Int)))	)
 	)
 
 	(and
 	;POSTCONDITION: DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_1
-	(= DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_1 (set.singleton(tuple 14 26 24)))
+	(= DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_1 (set.singleton(tuple 14 61 24)))
 	)
 )
 
@@ -562,10 +750,10 @@
 	(and
 
 		;ACTION: DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_0
-		(=>(and (set.member (tuple 14 25 24) (ASSOC 0))) (= DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_0 (set.singleton(tuple 14 25 24))))
+		(=>(and (set.member (tuple 14 58 24) (ASSOC 0))) (= DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_0 (set.singleton(tuple 14 58 24))))
 
 		(=>(not 
-(and (set.member (tuple 14 25 24) (ASSOC 0)))	) (= DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+(and (set.member (tuple 14 58 24) (ASSOC 0)))	) (= DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
 
 	)
 )
@@ -586,14 +774,14 @@
 	(and
 	;NEGATED PRECONDITION: DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_1
 	(not 
-(and (set.member (tuple 14 25 24) (ASSOC 0)))	)
+(and (set.member (tuple 14 58 24) (ASSOC 0)))	)
 	;NEGATED POSTCONDITION: DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_1
 	(= DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_1 (as set.empty (Set (Tuple Int Int Int)))	)
 	)
 
 	(and
 	;POSTCONDITION: DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_1
-	(= DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_1 (set.singleton(tuple 14 25 24)))
+	(= DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_1 (set.singleton(tuple 14 58 24)))
 	)
 )
 
@@ -601,10 +789,10 @@
 	(and
 
 		;ACTION: DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_0
-		(=>(and (set.member (tuple 14 26 24) (ASSOC 0))) (= DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_0 (set.singleton(tuple 14 26 24))))
+		(=>(and (set.member (tuple 14 61 24) (ASSOC 0))) (= DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_0 (set.singleton(tuple 14 61 24))))
 
 		(=>(not 
-(and (set.member (tuple 14 26 24) (ASSOC 0)))	) (= DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+(and (set.member (tuple 14 61 24) (ASSOC 0)))	) (= DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
 
 	)
 )
@@ -613,200 +801,1110 @@
 
 
 ;Configuration Modification Sets
-(declare-fun AddCoPI1__AddCoPI3_AssignAction_1_0 () (Set (Tuple Int Int)))
+(declare-fun AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_0 () (Set (Tuple Int Int Int)))
 
-(declare-fun AddCoPI1__AddCoPI3_AssignAction_1_1 () (Set (Tuple Int Int)))
+(declare-fun AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_1 () (Set (Tuple Int Int Int)))
 
-(declare-fun AddCoPI1__AddCoPI3_AssignAction_1_0_* () (Set (Tuple Int Int)))
+(declare-fun AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_2 () (Set (Tuple Int Int Int)))
 
-(declare-fun AddCoPI1__AddCoPI3_AssignAction_1_1_* () (Set (Tuple Int Int)))
+(declare-fun AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_3 () (Set (Tuple Int Int Int)))
 
-(assert (=> (= ( AddCoPI1__AddCoPI3 0) true)
+(assert (=> (= ( AddCoPI1__AddCoPI2__AddCoPI3 0) true)
 (and
 
 
 (or
 	(and
-	;NEGATED PRECONDITION: AddCoPI1__AddCoPI3_AssignAction_1_1
+	;NEGATED PRECONDITION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_1
 	(not 
 		(and 
-			(not (set.member (tuple 8 14) (ASSIGN 0))) 
-			(not (set.subset (set.singleton(tuple 8 14)) (set.union (set.singleton (tuple 15 14)) (rel.join (set.singleton (tuple 15 14)) (rel.join (set.singleton (tuple 14 14)) (ASSIGN* 0)))) )		)
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 61 24)) )		)
 		)
 	)
-	;NEGATED POSTCONDITION: AddCoPI1__AddCoPI3_AssignAction_1_1
-	(= AddCoPI1__AddCoPI3_AssignAction_1_1 (as set.empty (Set (Tuple Int Int)))	)
+	;NEGATED POSTCONDITION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_1
+	(= AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int)))	)
 	)
 
 	(and
-	;PRECONDITION: AddCoPI1__AddCoPI3_AssignAction_1_1
+	;PRECONDITION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_1
 		(and 
-			(not (set.member (tuple 8 14) (ASSIGN 0))) 
-			(not (set.subset (set.singleton(tuple 8 14)) (set.union (set.singleton (tuple 15 14)) (rel.join (set.singleton (tuple 15 14)) (rel.join (set.singleton (tuple 14 14)) (ASSIGN* 0)))) )		)
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 61 24)) )		)
 		)
 
-	;POSTCONDITION: AddCoPI1__AddCoPI3_AssignAction_1_1
-	(= AddCoPI1__AddCoPI3_AssignAction_1_1 (set.singleton( tuple 8 14)))
-	;POSTCONDITION FLATTEN: AddCoPI1__AddCoPI3_AssignAction_1_1_*
-	(= AddCoPI1__AddCoPI3_AssignAction_1_1_* (set.union (set.singleton (tuple 8 14)) (rel.join (set.singleton (tuple 8 14)) (rel.join (set.singleton (tuple 14 14)) (ASSIGN* 0)))))
+	;POSTCONDITION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_1
+	(= AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_1 (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))))
+	)
+)
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_2
+	(not 
+	(and
+		(and 
+			(not (set.member (tuple 14 58 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 58 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 58 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 58 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+	)	)
+	;NEGATED POSTCONDITION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_2
+	(= AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_2 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_2
+	(and
+		(and 
+			(not (set.member (tuple 14 58 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 58 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 58 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 58 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+	)
+	;POSTCONDITION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_2
+	(= AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_2 (set.singleton(tuple 14 58 24)))
+	)
+)
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_3
+	(not 
+	(and
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+	)	)
+	;NEGATED POSTCONDITION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_3
+	(= AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_3 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_3
+	(and
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+	)
+	;POSTCONDITION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_3
+	(= AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_3 (set.singleton(tuple 14 59 24)))
 	)
 )
 
 	;INDEPENDENT ACTIONS
 	(and
 
-		;ACTION: AddCoPI1__AddCoPI3_AssignAction_1_0
-		(=>(and(not (set.member (tuple 15 14) (ASSIGN 0)))(not (= 15 14))(not (set.member (tuple 14 15) (ASSIGN* 0)))) (and (= AddCoPI1__AddCoPI3_AssignAction_1_0 (set.singleton( tuple 15 14))) (= AddCoPI1__AddCoPI3_AssignAction_1_0_* (set.union (set.singleton (tuple 15 14)) (rel.join (set.singleton (tuple 15 14)) (rel.join (set.singleton (tuple 14 14)) (ASSIGN* 0)))))))
+		;ACTION: AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_0
+		(=>(not (set.member (tuple 14 61 24) (ASSOC 0))) (= AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_0 (set.singleton(tuple 14 61 24))))
 
 		(=>(not 
-(and(not (set.member (tuple 15 14) (ASSIGN 0)))(not (= 15 14))(not (set.member (tuple 14 15) (ASSIGN* 0))))	) (and (= AddCoPI1__AddCoPI3_AssignAction_1_0 (as set.empty (Set (Tuple Int Int)))) (= AddCoPI1__AddCoPI3_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))))
+(not (set.member (tuple 14 61 24) (ASSOC 0)))	) (= AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
 
 	)
 )
 )
-)(assert (=> (= ( AddCoPI1__AddCoPI3 0) false) (and(= AddCoPI1__AddCoPI3_AssignAction_1_0 (as set.empty (Set (Tuple Int Int))))(= AddCoPI1__AddCoPI3_AssignAction_1_1 (as set.empty (Set (Tuple Int Int))))(= AddCoPI1__AddCoPI3_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))(= AddCoPI1__AddCoPI3_AssignAction_1_1_* (as set.empty (Set (Tuple Int Int)))))))
+)(assert (=> (= ( AddCoPI1__AddCoPI2__AddCoPI3 0) false) (and(= AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_2 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_3 (as set.empty (Set (Tuple Int Int Int)))))))
 
 ;RACE CONDITION VARIABLES ENCODING
-(declare-fun RC_AddCoPI1__AddCoPI3_AssignAction_1_1 () Bool)
-(assert (= RC_AddCoPI1__AddCoPI3_AssignAction_1_1
+(declare-fun RC_AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_1 () Bool)
+(assert (= RC_AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_1
 (not 
 
-(not (set.subset (set.singleton(tuple 8 14)) (set.union (set.singleton (tuple 15 14)) (rel.join (set.singleton (tuple 15 14)) (rel.join (set.singleton (tuple 14 14)) (ASSIGN* 0)))) )		)
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 61 24)) )		)
+)
+)
+)
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_2 () Bool)
+(assert (= RC_AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_2
+(not 
+
+(and 
+(not (set.subset (set.singleton(tuple 14 58 24)) (set.singleton(tuple 14 61 24)) )		)
+(not (set.subset (set.singleton(tuple 14 58 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+)
+)
+)
+)
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_3 () Bool)
+(assert (= RC_AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_3
+(not 
+
+(and 
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 61 24)) )		)
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+)
 )
 )
 )
 
 ;Configuration Modification Sets
-(declare-fun AddCoPI3__AddCoPI1_AssignAction_1_0 () (Set (Tuple Int Int)))
+(declare-fun AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_0 () (Set (Tuple Int Int Int)))
 
-(declare-fun AddCoPI3__AddCoPI1_AssignAction_1_1 () (Set (Tuple Int Int)))
+(declare-fun AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_1 () (Set (Tuple Int Int Int)))
 
-(declare-fun AddCoPI3__AddCoPI1_AssignAction_1_0_* () (Set (Tuple Int Int)))
+(declare-fun AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_2 () (Set (Tuple Int Int Int)))
 
-(declare-fun AddCoPI3__AddCoPI1_AssignAction_1_1_* () (Set (Tuple Int Int)))
+(declare-fun AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_3 () (Set (Tuple Int Int Int)))
 
-(assert (=> (= ( AddCoPI3__AddCoPI1 0) true)
+(assert (=> (= ( AddCoPI1__AddCoPI3__AddCoPI2 0) true)
 (and
 
 
 (or
 	(and
-	;NEGATED PRECONDITION: AddCoPI3__AddCoPI1_AssignAction_1_1
+	;NEGATED PRECONDITION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_1
 	(not 
 		(and 
-			(not (set.member (tuple 15 14) (ASSIGN 0))) 
-			(not (set.subset (set.singleton(tuple 15 14)) (set.union (set.singleton (tuple 8 14)) (rel.join (set.singleton (tuple 8 14)) (rel.join (set.singleton (tuple 14 14)) (ASSIGN* 0)))) )		)
+			(not (set.member (tuple 14 58 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 58 24)) (set.singleton(tuple 14 61 24)) )		)
 		)
 	)
-	;NEGATED POSTCONDITION: AddCoPI3__AddCoPI1_AssignAction_1_1
-	(= AddCoPI3__AddCoPI1_AssignAction_1_1 (as set.empty (Set (Tuple Int Int)))	)
+	;NEGATED POSTCONDITION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_1
+	(= AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int)))	)
 	)
 
 	(and
-	;PRECONDITION: AddCoPI3__AddCoPI1_AssignAction_1_1
+	;PRECONDITION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_1
 		(and 
-			(not (set.member (tuple 15 14) (ASSIGN 0))) 
-			(not (set.subset (set.singleton(tuple 15 14)) (set.union (set.singleton (tuple 8 14)) (rel.join (set.singleton (tuple 8 14)) (rel.join (set.singleton (tuple 14 14)) (ASSIGN* 0)))) )		)
+			(not (set.member (tuple 14 58 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 58 24)) (set.singleton(tuple 14 61 24)) )		)
 		)
 
-	;POSTCONDITION: AddCoPI3__AddCoPI1_AssignAction_1_1
-	(= AddCoPI3__AddCoPI1_AssignAction_1_1 (set.singleton( tuple 15 14)))
-	;POSTCONDITION FLATTEN: AddCoPI3__AddCoPI1_AssignAction_1_1_*
-	(= AddCoPI3__AddCoPI1_AssignAction_1_1_* (set.union (set.singleton (tuple 15 14)) (rel.join (set.singleton (tuple 15 14)) (rel.join (set.singleton (tuple 14 14)) (ASSIGN* 0)))))
+	;POSTCONDITION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_1
+	(= AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_1 (set.singleton(tuple 14 58 24)))
+	)
+)
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_2
+	(not 
+	(and
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+	)	)
+	;NEGATED POSTCONDITION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_2
+	(= AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_2 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_2
+	(and
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+	)
+	;POSTCONDITION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_2
+	(= AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_2 (set.singleton(tuple 14 59 24)))
+	)
+)
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_3
+	(not 
+	(and
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+		)
+	)	)
+	;NEGATED POSTCONDITION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_3
+	(= AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_3 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_3
+	(and
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+		)
+	)
+	;POSTCONDITION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_3
+	(= AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_3 (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))))
 	)
 )
 
 	;INDEPENDENT ACTIONS
 	(and
 
-		;ACTION: AddCoPI3__AddCoPI1_AssignAction_1_0
-		(=>(and(not (set.member (tuple 8 14) (ASSIGN 0)))(not (= 8 14))(not (set.member (tuple 14 8) (ASSIGN* 0)))) (and (= AddCoPI3__AddCoPI1_AssignAction_1_0 (set.singleton( tuple 8 14))) (= AddCoPI3__AddCoPI1_AssignAction_1_0_* (set.union (set.singleton (tuple 8 14)) (rel.join (set.singleton (tuple 8 14)) (rel.join (set.singleton (tuple 14 14)) (ASSIGN* 0)))))))
+		;ACTION: AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_0
+		(=>(not (set.member (tuple 14 61 24) (ASSOC 0))) (= AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_0 (set.singleton(tuple 14 61 24))))
 
 		(=>(not 
-(and(not (set.member (tuple 8 14) (ASSIGN 0)))(not (= 8 14))(not (set.member (tuple 14 8) (ASSIGN* 0))))	) (and (= AddCoPI3__AddCoPI1_AssignAction_1_0 (as set.empty (Set (Tuple Int Int)))) (= AddCoPI3__AddCoPI1_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))))
+(not (set.member (tuple 14 61 24) (ASSOC 0)))	) (= AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
 
 	)
 )
 )
-)(assert (=> (= ( AddCoPI3__AddCoPI1 0) false) (and(= AddCoPI3__AddCoPI1_AssignAction_1_0 (as set.empty (Set (Tuple Int Int))))(= AddCoPI3__AddCoPI1_AssignAction_1_1 (as set.empty (Set (Tuple Int Int))))(= AddCoPI3__AddCoPI1_AssignAction_1_0_* (as set.empty (Set (Tuple Int Int))))(= AddCoPI3__AddCoPI1_AssignAction_1_1_* (as set.empty (Set (Tuple Int Int)))))))
+)(assert (=> (= ( AddCoPI1__AddCoPI3__AddCoPI2 0) false) (and(= AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_2 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_3 (as set.empty (Set (Tuple Int Int Int)))))))
 
 ;RACE CONDITION VARIABLES ENCODING
-(declare-fun RC_AddCoPI3__AddCoPI1_AssignAction_1_1 () Bool)
-(assert (= RC_AddCoPI3__AddCoPI1_AssignAction_1_1
+(declare-fun RC_AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_1 () Bool)
+(assert (= RC_AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_1
 (not 
 
-(not (set.subset (set.singleton(tuple 15 14)) (set.union (set.singleton (tuple 8 14)) (rel.join (set.singleton (tuple 8 14)) (rel.join (set.singleton (tuple 14 14)) (ASSIGN* 0)))) )		)
+(not (set.subset (set.singleton(tuple 14 58 24)) (set.singleton(tuple 14 61 24)) )		)
+)
+)
+)
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_2 () Bool)
+(assert (= RC_AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_2
+(not 
+
+(and 
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 61 24)) )		)
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+)
+)
+)
+)
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_3 () Bool)
+(assert (= RC_AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_3
+(not 
+
+(and 
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 61 24)) )		)
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+)
+)
+)
+)
+
+;Configuration Modification Sets
+(declare-fun AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_0 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_1 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_2 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_3 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( AddCoPI2__AddCoPI1__AddCoPI3 0) true)
+(and
+
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_1
+	(not 
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+	)
+	;NEGATED POSTCONDITION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_1
+	(= AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_1
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+
+	;POSTCONDITION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_1
+	(= AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_1 (set.singleton(tuple 14 61 24)))
+	)
+)
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_2
+	(not 
+	(and
+		(and 
+			(not (set.member (tuple 14 58 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 58 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 58 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 58 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+	)	)
+	;NEGATED POSTCONDITION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_2
+	(= AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_2 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_2
+	(and
+		(and 
+			(not (set.member (tuple 14 58 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 58 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 58 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 58 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+	)
+	;POSTCONDITION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_2
+	(= AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_2 (set.singleton(tuple 14 58 24)))
+	)
+)
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_3
+	(not 
+	(and
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+	)	)
+	;NEGATED POSTCONDITION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_3
+	(= AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_3 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_3
+	(and
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+	)
+	;POSTCONDITION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_3
+	(= AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_3 (set.singleton(tuple 14 59 24)))
+	)
+)
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_0
+		(=>(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) (= AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_0 (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24)))))
+
+		(=>(not 
+(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0))))	) (= AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( AddCoPI2__AddCoPI1__AddCoPI3 0) false) (and(= AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_2 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_3 (as set.empty (Set (Tuple Int Int Int)))))))
+
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_1 () Bool)
+(assert (= RC_AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_1
+(not 
+
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+)
+)
+)
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_2 () Bool)
+(assert (= RC_AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_2
+(not 
+
+(and 
+(not (set.subset (set.singleton(tuple 14 58 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+(not (set.subset (set.singleton(tuple 14 58 24)) (set.singleton(tuple 14 61 24)) )		)
+)
+)
+)
+)
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_3 () Bool)
+(assert (= RC_AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_3
+(not 
+
+(and 
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 61 24)) )		)
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+)
+)
+)
+)
+
+;Configuration Modification Sets
+(declare-fun AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_0 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_1 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_2 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_3 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( AddCoPI2__AddCoPI3__AddCoPI1 0) true)
+(and
+
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_1
+	(not 
+		(and 
+			(not (set.member (tuple 14 58 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 58 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+	)
+	;NEGATED POSTCONDITION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_1
+	(= AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_1
+		(and 
+			(not (set.member (tuple 14 58 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 58 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+
+	;POSTCONDITION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_1
+	(= AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_1 (set.singleton(tuple 14 58 24)))
+	)
+)
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_2
+	(not 
+	(and
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+	)	)
+	;NEGATED POSTCONDITION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_2
+	(= AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_2 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_2
+	(and
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+	)
+	;POSTCONDITION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_2
+	(= AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_2 (set.singleton(tuple 14 59 24)))
+	)
+)
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_3
+	(not 
+	(and
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+		)
+	)	)
+	;NEGATED POSTCONDITION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_3
+	(= AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_3 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_3
+	(and
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+		)
+	)
+	;POSTCONDITION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_3
+	(= AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_3 (set.singleton(tuple 14 61 24)))
+	)
+)
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_0
+		(=>(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) (= AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_0 (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24)))))
+
+		(=>(not 
+(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0))))	) (= AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( AddCoPI2__AddCoPI3__AddCoPI1 0) false) (and(= AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_2 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_3 (as set.empty (Set (Tuple Int Int Int)))))))
+
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_1 () Bool)
+(assert (= RC_AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_1
+(not 
+
+(not (set.subset (set.singleton(tuple 14 58 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+)
+)
+)
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_2 () Bool)
+(assert (= RC_AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_2
+(not 
+
+(and 
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+)
+)
+)
+)
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_3 () Bool)
+(assert (= RC_AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_3
+(not 
+
+(and 
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+)
+)
+)
+)
+
+;Configuration Modification Sets
+(declare-fun AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_0 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_1 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_2 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_3 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( AddCoPI3__AddCoPI2__AddCoPI1 0) true)
+(and
+
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_1
+	(not 
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+	)
+	;NEGATED POSTCONDITION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_1
+	(= AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_1
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+
+	;POSTCONDITION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_1
+	(= AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_1 (set.singleton(tuple 14 59 24)))
+	)
+)
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_2
+	(not 
+	(and
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+		)
+	)	)
+	;NEGATED POSTCONDITION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_2
+	(= AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_2 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_2
+	(and
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+		)
+	)
+	;POSTCONDITION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_2
+	(= AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_2 (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))))
+	)
+)
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_3
+	(not 
+	(and
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+	)	)
+	;NEGATED POSTCONDITION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_3
+	(= AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_3 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_3
+	(and
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+		)
+	)
+	;POSTCONDITION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_3
+	(= AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_3 (set.singleton(tuple 14 61 24)))
+	)
+)
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_0
+		(=>(not (set.member (tuple 14 58 24) (ASSOC 0))) (= AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_0 (set.singleton(tuple 14 58 24))))
+
+		(=>(not 
+(not (set.member (tuple 14 58 24) (ASSOC 0)))	) (= AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( AddCoPI3__AddCoPI2__AddCoPI1 0) false) (and(= AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_2 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_3 (as set.empty (Set (Tuple Int Int Int)))))))
+
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_1 () Bool)
+(assert (= RC_AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_1
+(not 
+
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+)
+)
+)
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_2 () Bool)
+(assert (= RC_AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_2
+(not 
+
+(and 
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+)
+)
+)
+)
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_3 () Bool)
+(assert (= RC_AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_3
+(not 
+
+(and 
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))) )		)
+)
+)
+)
+)
+
+;Configuration Modification Sets
+(declare-fun AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_0 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_1 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_2 () (Set (Tuple Int Int Int)))
+
+(declare-fun AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_3 () (Set (Tuple Int Int Int)))
+
+(assert (=> (= ( AddCoPI3__AddCoPI1__AddCoPI2 0) true)
+(and
+
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_1
+	(not 
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+	)
+	;NEGATED POSTCONDITION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_1
+	(= AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_1
+		(and 
+			(not (set.member (tuple 14 59 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+
+	;POSTCONDITION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_1
+	(= AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_1 (set.singleton(tuple 14 59 24)))
+	)
+)
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_2
+	(not 
+	(and
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+		)
+	)	)
+	;NEGATED POSTCONDITION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_2
+	(= AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_2 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_2
+	(and
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+		(and 
+			(not (set.member (tuple 14 61 24) (ASSOC 0))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+		)
+	)
+	;POSTCONDITION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_2
+	(= AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_2 (set.singleton(tuple 14 61 24)))
+	)
+)
+
+(or
+	(and
+	;NEGATED PRECONDITION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_3
+	(not 
+	(and
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+		)
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+	)	)
+	;NEGATED POSTCONDITION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_3
+	(= AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_3 (as set.empty (Set (Tuple Int Int Int)))	)
+	)
+
+	(and
+	;PRECONDITION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_3
+	(and
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+		)
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+		)
+		(and 
+			(and (not (set.member (tuple 14 61 24) (ASSOC 0)))(not (set.member (tuple 14 62 24) (ASSOC 0)))) 
+			(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 61 24)) )		)
+		)
+	)
+	;POSTCONDITION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_3
+	(= AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_3 (set.union (set.singleton(tuple 14 61 24))(set.singleton(tuple 14 62 24))))
+	)
+)
+
+	;INDEPENDENT ACTIONS
+	(and
+
+		;ACTION: AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_0
+		(=>(not (set.member (tuple 14 58 24) (ASSOC 0))) (= AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_0 (set.singleton(tuple 14 58 24))))
+
+		(=>(not 
+(not (set.member (tuple 14 58 24) (ASSOC 0)))	) (= AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int)))))
+
+	)
+)
+)
+)(assert (=> (= ( AddCoPI3__AddCoPI1__AddCoPI2 0) false) (and(= AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_0 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_1 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_2 (as set.empty (Set (Tuple Int Int Int))))(= AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_3 (as set.empty (Set (Tuple Int Int Int)))))))
+
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_1 () Bool)
+(assert (= RC_AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_1
+(not 
+
+(not (set.subset (set.singleton(tuple 14 59 24)) (set.singleton(tuple 14 58 24)) )		)
+)
+)
+)
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_2 () Bool)
+(assert (= RC_AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_2
+(not 
+
+(and 
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+)
+)
+)
+)
+;RACE CONDITION VARIABLES ENCODING
+(declare-fun RC_AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_3 () Bool)
+(assert (= RC_AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_3
+(not 
+
+(and 
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 58 24)) )		)
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 59 24)) )		)
+(not (set.subset (set.singleton(tuple 14 61 24)) (set.singleton(tuple 14 61 24)) )		)
+)
 )
 )
 )
 
 
 ;RELATION TRANSITION ENCODING
-(assert (= (ASSIGN 1) 
-	(set.union (ASSIGN 0) (set.union AddCoPI3__AddCoPI1_AssignAction_1_1 (set.union AddCoPI3__AddCoPI1_AssignAction_1_0 (set.union AddCoPI1__AddCoPI3_AssignAction_1_1 (set.union AddCoPI1__AddCoPI3_AssignAction_1_0 (set.union AddCoPI3_AssignAction_1_0  AddCoPI1_AssignAction_1_0))))))
-))
-(assert (= (ASSIGN* 1) 
-	(set.union (ASSIGN* 0) (set.union AddCoPI3__AddCoPI1_AssignAction_1_1_* (set.union AddCoPI3__AddCoPI1_AssignAction_1_0_* (set.union AddCoPI1__AddCoPI3_AssignAction_1_1_* (set.union AddCoPI1__AddCoPI3_AssignAction_1_0_* (set.union AddCoPI3_AssignAction_1_0_*  AddCoPI1_AssignAction_1_0_*))))))
-))
+(assert (= (ASSIGN 1) (ASSIGN 0)))
+(assert (= (ASSIGN* 1) (ASSIGN* 0)))
 (assert (= (ASSOC 1) 
 	(set.minus 
-	(set.union (ASSOC 0)  CreatePDS_GrantAction_1_0) 
+	(set.union (ASSOC 0) (set.union AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_3 (set.union AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_2 (set.union AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_1 (set.union AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_0 (set.union AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_3 (set.union AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_2 (set.union AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_1 (set.union AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_0 (set.union AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_3 (set.union AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_2 (set.union AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_1 (set.union AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_0 (set.union AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_3 (set.union AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_2 (set.union AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_1 (set.union AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_0 (set.union AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_3 (set.union AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_2 (set.union AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_1 (set.union AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_0 (set.union AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_3 (set.union AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_2 (set.union AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_1 (set.union AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_0 (set.union AddCoPI3_GrantAction_1_1 (set.union AddCoPI3_GrantAction_1_0 (set.union AddCoPI2_GrantAction_1_0 (set.union AddCoPI1_GrantAction_1_0  CreatePDS_GrantAction_1_0))))))))))))))))))))))))))))) 
 	(set.union DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_1 	(set.union DeleteCoPI2__DeleteCoPI1_DeleteGrantAction_1_0 	(set.union DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_1 	(set.union DeleteCoPI1__DeleteCoPI2_DeleteGrantAction_1_0 	(set.union DeleteCoPI2_DeleteGrantAction_1_0  DeleteCoPI1_DeleteGrantAction_1_0)))))
 )
 ))
 
 ; 5.3 change implies the execution
-(assert (=> (distinct (ASSIGN* 1) (ASSIGN* 0))
-(or 
-(= (AddCoPI1 0) true)(= (AddCoPI3 0) true)(= (AddCoPI1__AddCoPI3 0) true)(= (AddCoPI3__AddCoPI1 0) true))))
-(assert (=> (distinct (ASSIGN 1) (ASSIGN 0))
-(or (= (AddCoPI1 0) true)(= (AddCoPI3 0) true)(= (AddCoPI1__AddCoPI3 0) true)(= (AddCoPI3__AddCoPI1 0) true))))
+
+
 (assert (=> (distinct (ASSOC 1) (ASSOC 0))
 (or 
-(= (CreatePDS 0) true)(= (DeleteCoPI1 0) true)(= (DeleteCoPI2 0) true)(= (DeleteCoPI1__DeleteCoPI2 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
+(= (CreatePDS 0) true)(= (DeleteCoPI1 0) true)(= (DeleteCoPI2 0) true)(= (AddCoPI1 0) true)(= (AddCoPI2 0) true)(= (AddCoPI3 0) true)(= (DeleteCoPI1__DeleteCoPI2 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true)(= (AddCoPI1__AddCoPI2__AddCoPI3 0) true)(= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (AddCoPI2__AddCoPI1__AddCoPI3 0) true)(= (AddCoPI2__AddCoPI3__AddCoPI1 0) true)(= (AddCoPI3__AddCoPI2__AddCoPI1 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true))))
 
 
 ; 5.4 Exactly one naive
 ; AT LEAST ONE
-(assert (or(= (AddCoPI3__AddCoPI1 0) true)(= (DeleteCoPI1__DeleteCoPI2 0) true)(= (AddCoPI1 0) true)(= (AddCoPI1__AddCoPI3 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true)(= (DeleteCoPI2 0) true)(= (AddCoPI3 0) true)(= (CreatePDS 0) true)(= (DeleteCoPI1 0) true)))
+(assert (or(= (DeleteCoPI1__DeleteCoPI2 0) true)(= (AddCoPI1 0) true)(= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (AddCoPI2__AddCoPI3__AddCoPI1 0) true)(= (AddCoPI3 0) true)(= (AddCoPI2 0) true)(= (AddCoPI1__AddCoPI2__AddCoPI3 0) true)(= (AddCoPI3__AddCoPI2__AddCoPI1 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true)(= (AddCoPI2__AddCoPI1__AddCoPI3 0) true)(= (DeleteCoPI2 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true)(= (CreatePDS 0) true)(= (DeleteCoPI1 0) true)))
 
 
 ; AT MOST ONE
-(assert (not (and (= (AddCoPI3__AddCoPI1 0) true)(= (DeleteCoPI1__DeleteCoPI2 0) true))))
-(assert (not (and (= (AddCoPI3__AddCoPI1 0) true)(= (AddCoPI1 0) true))))
-(assert (not (and (= (AddCoPI3__AddCoPI1 0) true)(= (AddCoPI1__AddCoPI3 0) true))))
-(assert (not (and (= (AddCoPI3__AddCoPI1 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
-(assert (not (and (= (AddCoPI3__AddCoPI1 0) true)(= (DeleteCoPI2 0) true))))
-(assert (not (and (= (AddCoPI3__AddCoPI1 0) true)(= (AddCoPI3 0) true))))
-(assert (not (and (= (AddCoPI3__AddCoPI1 0) true)(= (CreatePDS 0) true))))
-(assert (not (and (= (AddCoPI3__AddCoPI1 0) true)(= (DeleteCoPI1 0) true))))
 (assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (AddCoPI1 0) true))))
-(assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (AddCoPI1__AddCoPI3 0) true))))
-(assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
-(assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (DeleteCoPI2 0) true))))
+(assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (AddCoPI1__AddCoPI3__AddCoPI2 0) true))))
+(assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (AddCoPI2__AddCoPI3__AddCoPI1 0) true))))
 (assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (AddCoPI3 0) true))))
+(assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (AddCoPI2 0) true))))
+(assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (AddCoPI1__AddCoPI2__AddCoPI3 0) true))))
+(assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (AddCoPI3__AddCoPI2__AddCoPI1 0) true))))
+(assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
+(assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (AddCoPI2__AddCoPI1__AddCoPI3 0) true))))
+(assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (DeleteCoPI2 0) true))))
+(assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true))))
 (assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (CreatePDS 0) true))))
 (assert (not (and (= (DeleteCoPI1__DeleteCoPI2 0) true)(= (DeleteCoPI1 0) true))))
-(assert (not (and (= (AddCoPI1 0) true)(= (AddCoPI1__AddCoPI3 0) true))))
-(assert (not (and (= (AddCoPI1 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
-(assert (not (and (= (AddCoPI1 0) true)(= (DeleteCoPI2 0) true))))
+(assert (not (and (= (AddCoPI1 0) true)(= (AddCoPI1__AddCoPI3__AddCoPI2 0) true))))
+(assert (not (and (= (AddCoPI1 0) true)(= (AddCoPI2__AddCoPI3__AddCoPI1 0) true))))
 (assert (not (and (= (AddCoPI1 0) true)(= (AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI1 0) true)(= (AddCoPI2 0) true))))
+(assert (not (and (= (AddCoPI1 0) true)(= (AddCoPI1__AddCoPI2__AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI1 0) true)(= (AddCoPI3__AddCoPI2__AddCoPI1 0) true))))
+(assert (not (and (= (AddCoPI1 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI1 0) true)(= (AddCoPI2__AddCoPI1__AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI1 0) true)(= (DeleteCoPI2 0) true))))
+(assert (not (and (= (AddCoPI1 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true))))
 (assert (not (and (= (AddCoPI1 0) true)(= (CreatePDS 0) true))))
 (assert (not (and (= (AddCoPI1 0) true)(= (DeleteCoPI1 0) true))))
-(assert (not (and (= (AddCoPI1__AddCoPI3 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
-(assert (not (and (= (AddCoPI1__AddCoPI3 0) true)(= (DeleteCoPI2 0) true))))
-(assert (not (and (= (AddCoPI1__AddCoPI3 0) true)(= (AddCoPI3 0) true))))
-(assert (not (and (= (AddCoPI1__AddCoPI3 0) true)(= (CreatePDS 0) true))))
-(assert (not (and (= (AddCoPI1__AddCoPI3 0) true)(= (DeleteCoPI1 0) true))))
-(assert (not (and (= (DeleteCoPI2__DeleteCoPI1 0) true)(= (DeleteCoPI2 0) true))))
-(assert (not (and (= (DeleteCoPI2__DeleteCoPI1 0) true)(= (AddCoPI3 0) true))))
-(assert (not (and (= (DeleteCoPI2__DeleteCoPI1 0) true)(= (CreatePDS 0) true))))
-(assert (not (and (= (DeleteCoPI2__DeleteCoPI1 0) true)(= (DeleteCoPI1 0) true))))
-(assert (not (and (= (DeleteCoPI2 0) true)(= (AddCoPI3 0) true))))
-(assert (not (and (= (DeleteCoPI2 0) true)(= (CreatePDS 0) true))))
-(assert (not (and (= (DeleteCoPI2 0) true)(= (DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (AddCoPI2__AddCoPI3__AddCoPI1 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (AddCoPI2 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (AddCoPI1__AddCoPI2__AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (AddCoPI3__AddCoPI2__AddCoPI1 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (AddCoPI2__AddCoPI1__AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (DeleteCoPI2 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (CreatePDS 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI3__AddCoPI2 0) true)(= (DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI3__AddCoPI1 0) true)(= (AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI3__AddCoPI1 0) true)(= (AddCoPI2 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI3__AddCoPI1 0) true)(= (AddCoPI1__AddCoPI2__AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI3__AddCoPI1 0) true)(= (AddCoPI3__AddCoPI2__AddCoPI1 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI3__AddCoPI1 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI3__AddCoPI1 0) true)(= (AddCoPI2__AddCoPI1__AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI3__AddCoPI1 0) true)(= (DeleteCoPI2 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI3__AddCoPI1 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI3__AddCoPI1 0) true)(= (CreatePDS 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI3__AddCoPI1 0) true)(= (DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI3 0) true)(= (AddCoPI2 0) true))))
+(assert (not (and (= (AddCoPI3 0) true)(= (AddCoPI1__AddCoPI2__AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI3 0) true)(= (AddCoPI3__AddCoPI2__AddCoPI1 0) true))))
+(assert (not (and (= (AddCoPI3 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI3 0) true)(= (AddCoPI2__AddCoPI1__AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI3 0) true)(= (DeleteCoPI2 0) true))))
+(assert (not (and (= (AddCoPI3 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true))))
 (assert (not (and (= (AddCoPI3 0) true)(= (CreatePDS 0) true))))
 (assert (not (and (= (AddCoPI3 0) true)(= (DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI2 0) true)(= (AddCoPI1__AddCoPI2__AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI2 0) true)(= (AddCoPI3__AddCoPI2__AddCoPI1 0) true))))
+(assert (not (and (= (AddCoPI2 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI2 0) true)(= (AddCoPI2__AddCoPI1__AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI2 0) true)(= (DeleteCoPI2 0) true))))
+(assert (not (and (= (AddCoPI2 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true))))
+(assert (not (and (= (AddCoPI2 0) true)(= (CreatePDS 0) true))))
+(assert (not (and (= (AddCoPI2 0) true)(= (DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI2__AddCoPI3 0) true)(= (AddCoPI3__AddCoPI2__AddCoPI1 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI2__AddCoPI3 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI2__AddCoPI3 0) true)(= (AddCoPI2__AddCoPI1__AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI2__AddCoPI3 0) true)(= (DeleteCoPI2 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI2__AddCoPI3 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI2__AddCoPI3 0) true)(= (CreatePDS 0) true))))
+(assert (not (and (= (AddCoPI1__AddCoPI2__AddCoPI3 0) true)(= (DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI3__AddCoPI2__AddCoPI1 0) true)(= (DeleteCoPI2__DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI3__AddCoPI2__AddCoPI1 0) true)(= (AddCoPI2__AddCoPI1__AddCoPI3 0) true))))
+(assert (not (and (= (AddCoPI3__AddCoPI2__AddCoPI1 0) true)(= (DeleteCoPI2 0) true))))
+(assert (not (and (= (AddCoPI3__AddCoPI2__AddCoPI1 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true))))
+(assert (not (and (= (AddCoPI3__AddCoPI2__AddCoPI1 0) true)(= (CreatePDS 0) true))))
+(assert (not (and (= (AddCoPI3__AddCoPI2__AddCoPI1 0) true)(= (DeleteCoPI1 0) true))))
+(assert (not (and (= (DeleteCoPI2__DeleteCoPI1 0) true)(= (AddCoPI2__AddCoPI1__AddCoPI3 0) true))))
+(assert (not (and (= (DeleteCoPI2__DeleteCoPI1 0) true)(= (DeleteCoPI2 0) true))))
+(assert (not (and (= (DeleteCoPI2__DeleteCoPI1 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true))))
+(assert (not (and (= (DeleteCoPI2__DeleteCoPI1 0) true)(= (CreatePDS 0) true))))
+(assert (not (and (= (DeleteCoPI2__DeleteCoPI1 0) true)(= (DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI1__AddCoPI3 0) true)(= (DeleteCoPI2 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI1__AddCoPI3 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI1__AddCoPI3 0) true)(= (CreatePDS 0) true))))
+(assert (not (and (= (AddCoPI2__AddCoPI1__AddCoPI3 0) true)(= (DeleteCoPI1 0) true))))
+(assert (not (and (= (DeleteCoPI2 0) true)(= (AddCoPI3__AddCoPI1__AddCoPI2 0) true))))
+(assert (not (and (= (DeleteCoPI2 0) true)(= (CreatePDS 0) true))))
+(assert (not (and (= (DeleteCoPI2 0) true)(= (DeleteCoPI1 0) true))))
+(assert (not (and (= (AddCoPI3__AddCoPI1__AddCoPI2 0) true)(= (CreatePDS 0) true))))
+(assert (not (and (= (AddCoPI3__AddCoPI1__AddCoPI2 0) true)(= (DeleteCoPI1 0) true))))
 (assert (not (and (= (CreatePDS 0) true)(= (DeleteCoPI1 0) true))))
 
 
@@ -817,16 +1915,21 @@
 (declare-fun queryVARar () Int)
 (declare-fun queryVARat () Int)
 (assert 
-(and (= (AddCoPI1__AddCoPI3 0) true)
- (= AddCoPI1__AddCoPI3U_0 queryVARu ) (= AddCoPI1__AddCoPI3ar_0 queryVARar ) (= AddCoPI1__AddCoPI3T_0 queryVARat )))
+(and (= (AddCoPI1__AddCoPI2__AddCoPI3 0) true)
+ (= AddCoPI1__AddCoPI2__AddCoPI3U_0 queryVARu ) (= AddCoPI1__AddCoPI2__AddCoPI3ar_0 queryVARar ) (= AddCoPI1__AddCoPI2__AddCoPI3T_0 queryVARat )))
 (check-sat)
-(get-value (AddCoPI3__AddCoPI1))
 (get-value (DeleteCoPI1__DeleteCoPI2))
 (get-value (AddCoPI1))
-(get-value (AddCoPI1__AddCoPI3))
-(get-value (DeleteCoPI2__DeleteCoPI1))
-(get-value (DeleteCoPI2))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1))
 (get-value (AddCoPI3))
+(get-value (AddCoPI2))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1))
+(get-value (DeleteCoPI2__DeleteCoPI1))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3))
+(get-value (DeleteCoPI2))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2))
 (get-value (CreatePDS))
 (get-value (DeleteCoPI1))
 (get-value (CreatePDSU_0))
@@ -836,20 +1939,6 @@
 (get-value (CreatePDSS_0))
 (get-value (CreatePDST_0))
 (get-value (CreatePDSar_0))
-(get-value (AddCoPI1U_0))
-(get-value (AddCoPI1UA_0))
-(get-value (AddCoPI1AT_0))
-(get-value (AddCoPI1UO_0))
-(get-value (AddCoPI1S_0))
-(get-value (AddCoPI1T_0))
-(get-value (AddCoPI1ar_0))
-(get-value (AddCoPI3U_0))
-(get-value (AddCoPI3UA_0))
-(get-value (AddCoPI3AT_0))
-(get-value (AddCoPI3UO_0))
-(get-value (AddCoPI3S_0))
-(get-value (AddCoPI3T_0))
-(get-value (AddCoPI3ar_0))
 (get-value (DeleteCoPI1U_0))
 (get-value (DeleteCoPI1UA_0))
 (get-value (DeleteCoPI1AT_0))
@@ -864,6 +1953,27 @@
 (get-value (DeleteCoPI2S_0))
 (get-value (DeleteCoPI2T_0))
 (get-value (DeleteCoPI2ar_0))
+(get-value (AddCoPI1U_0))
+(get-value (AddCoPI1UA_0))
+(get-value (AddCoPI1AT_0))
+(get-value (AddCoPI1UO_0))
+(get-value (AddCoPI1S_0))
+(get-value (AddCoPI1T_0))
+(get-value (AddCoPI1ar_0))
+(get-value (AddCoPI2U_0))
+(get-value (AddCoPI2UA_0))
+(get-value (AddCoPI2AT_0))
+(get-value (AddCoPI2UO_0))
+(get-value (AddCoPI2S_0))
+(get-value (AddCoPI2T_0))
+(get-value (AddCoPI2ar_0))
+(get-value (AddCoPI3U_0))
+(get-value (AddCoPI3UA_0))
+(get-value (AddCoPI3AT_0))
+(get-value (AddCoPI3UO_0))
+(get-value (AddCoPI3S_0))
+(get-value (AddCoPI3T_0))
+(get-value (AddCoPI3ar_0))
 (get-value (DeleteCoPI1__DeleteCoPI2U_0))
 (get-value (DeleteCoPI1__DeleteCoPI2UA_0))
 (get-value (DeleteCoPI1__DeleteCoPI2AT_0))
@@ -878,20 +1988,48 @@
 (get-value (DeleteCoPI2__DeleteCoPI1S_0))
 (get-value (DeleteCoPI2__DeleteCoPI1T_0))
 (get-value (DeleteCoPI2__DeleteCoPI1ar_0))
-(get-value (AddCoPI1__AddCoPI3U_0))
-(get-value (AddCoPI1__AddCoPI3UA_0))
-(get-value (AddCoPI1__AddCoPI3AT_0))
-(get-value (AddCoPI1__AddCoPI3UO_0))
-(get-value (AddCoPI1__AddCoPI3S_0))
-(get-value (AddCoPI1__AddCoPI3T_0))
-(get-value (AddCoPI1__AddCoPI3ar_0))
-(get-value (AddCoPI3__AddCoPI1U_0))
-(get-value (AddCoPI3__AddCoPI1UA_0))
-(get-value (AddCoPI3__AddCoPI1AT_0))
-(get-value (AddCoPI3__AddCoPI1UO_0))
-(get-value (AddCoPI3__AddCoPI1S_0))
-(get-value (AddCoPI3__AddCoPI1T_0))
-(get-value (AddCoPI3__AddCoPI1ar_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3U_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3UA_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3AT_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3UO_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3S_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3T_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3ar_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2U_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2UA_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2AT_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2UO_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2S_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2T_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2ar_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3U_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3UA_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3AT_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3UO_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3S_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3T_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3ar_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1U_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1UA_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1AT_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1UO_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1S_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1T_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1ar_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1U_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1UA_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1AT_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1UO_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1S_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1T_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1ar_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2U_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2UA_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2AT_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2UO_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2S_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2T_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2ar_0))
 (get-value (CreatePDSU_0))
 (get-value (CreatePDSUA_0))
 (get-value (CreatePDSAT_0))
@@ -899,20 +2037,6 @@
 (get-value (CreatePDSS_0))
 (get-value (CreatePDST_0))
 (get-value (CreatePDSar_0))
-(get-value (AddCoPI1U_0))
-(get-value (AddCoPI1UA_0))
-(get-value (AddCoPI1AT_0))
-(get-value (AddCoPI1UO_0))
-(get-value (AddCoPI1S_0))
-(get-value (AddCoPI1T_0))
-(get-value (AddCoPI1ar_0))
-(get-value (AddCoPI3U_0))
-(get-value (AddCoPI3UA_0))
-(get-value (AddCoPI3AT_0))
-(get-value (AddCoPI3UO_0))
-(get-value (AddCoPI3S_0))
-(get-value (AddCoPI3T_0))
-(get-value (AddCoPI3ar_0))
 (get-value (DeleteCoPI1U_0))
 (get-value (DeleteCoPI1UA_0))
 (get-value (DeleteCoPI1AT_0))
@@ -927,6 +2051,27 @@
 (get-value (DeleteCoPI2S_0))
 (get-value (DeleteCoPI2T_0))
 (get-value (DeleteCoPI2ar_0))
+(get-value (AddCoPI1U_0))
+(get-value (AddCoPI1UA_0))
+(get-value (AddCoPI1AT_0))
+(get-value (AddCoPI1UO_0))
+(get-value (AddCoPI1S_0))
+(get-value (AddCoPI1T_0))
+(get-value (AddCoPI1ar_0))
+(get-value (AddCoPI2U_0))
+(get-value (AddCoPI2UA_0))
+(get-value (AddCoPI2AT_0))
+(get-value (AddCoPI2UO_0))
+(get-value (AddCoPI2S_0))
+(get-value (AddCoPI2T_0))
+(get-value (AddCoPI2ar_0))
+(get-value (AddCoPI3U_0))
+(get-value (AddCoPI3UA_0))
+(get-value (AddCoPI3AT_0))
+(get-value (AddCoPI3UO_0))
+(get-value (AddCoPI3S_0))
+(get-value (AddCoPI3T_0))
+(get-value (AddCoPI3ar_0))
 (get-value (DeleteCoPI1__DeleteCoPI2U_0))
 (get-value (DeleteCoPI1__DeleteCoPI2UA_0))
 (get-value (DeleteCoPI1__DeleteCoPI2AT_0))
@@ -941,20 +2086,48 @@
 (get-value (DeleteCoPI2__DeleteCoPI1S_0))
 (get-value (DeleteCoPI2__DeleteCoPI1T_0))
 (get-value (DeleteCoPI2__DeleteCoPI1ar_0))
-(get-value (AddCoPI1__AddCoPI3U_0))
-(get-value (AddCoPI1__AddCoPI3UA_0))
-(get-value (AddCoPI1__AddCoPI3AT_0))
-(get-value (AddCoPI1__AddCoPI3UO_0))
-(get-value (AddCoPI1__AddCoPI3S_0))
-(get-value (AddCoPI1__AddCoPI3T_0))
-(get-value (AddCoPI1__AddCoPI3ar_0))
-(get-value (AddCoPI3__AddCoPI1U_0))
-(get-value (AddCoPI3__AddCoPI1UA_0))
-(get-value (AddCoPI3__AddCoPI1AT_0))
-(get-value (AddCoPI3__AddCoPI1UO_0))
-(get-value (AddCoPI3__AddCoPI1S_0))
-(get-value (AddCoPI3__AddCoPI1T_0))
-(get-value (AddCoPI3__AddCoPI1ar_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3U_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3UA_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3AT_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3UO_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3S_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3T_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3ar_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2U_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2UA_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2AT_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2UO_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2S_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2T_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2ar_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3U_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3UA_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3AT_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3UO_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3S_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3T_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3ar_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1U_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1UA_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1AT_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1UO_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1S_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1T_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1ar_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1U_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1UA_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1AT_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1UO_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1S_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1T_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1ar_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2U_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2UA_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2AT_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2UO_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2S_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2T_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2ar_0))
 (get-value (CreatePDSU_0))
 (get-value (CreatePDSUA_0))
 (get-value (CreatePDSAT_0))
@@ -962,20 +2135,6 @@
 (get-value (CreatePDSS_0))
 (get-value (CreatePDST_0))
 (get-value (CreatePDSar_0))
-(get-value (AddCoPI1U_0))
-(get-value (AddCoPI1UA_0))
-(get-value (AddCoPI1AT_0))
-(get-value (AddCoPI1UO_0))
-(get-value (AddCoPI1S_0))
-(get-value (AddCoPI1T_0))
-(get-value (AddCoPI1ar_0))
-(get-value (AddCoPI3U_0))
-(get-value (AddCoPI3UA_0))
-(get-value (AddCoPI3AT_0))
-(get-value (AddCoPI3UO_0))
-(get-value (AddCoPI3S_0))
-(get-value (AddCoPI3T_0))
-(get-value (AddCoPI3ar_0))
 (get-value (DeleteCoPI1U_0))
 (get-value (DeleteCoPI1UA_0))
 (get-value (DeleteCoPI1AT_0))
@@ -990,6 +2149,27 @@
 (get-value (DeleteCoPI2S_0))
 (get-value (DeleteCoPI2T_0))
 (get-value (DeleteCoPI2ar_0))
+(get-value (AddCoPI1U_0))
+(get-value (AddCoPI1UA_0))
+(get-value (AddCoPI1AT_0))
+(get-value (AddCoPI1UO_0))
+(get-value (AddCoPI1S_0))
+(get-value (AddCoPI1T_0))
+(get-value (AddCoPI1ar_0))
+(get-value (AddCoPI2U_0))
+(get-value (AddCoPI2UA_0))
+(get-value (AddCoPI2AT_0))
+(get-value (AddCoPI2UO_0))
+(get-value (AddCoPI2S_0))
+(get-value (AddCoPI2T_0))
+(get-value (AddCoPI2ar_0))
+(get-value (AddCoPI3U_0))
+(get-value (AddCoPI3UA_0))
+(get-value (AddCoPI3AT_0))
+(get-value (AddCoPI3UO_0))
+(get-value (AddCoPI3S_0))
+(get-value (AddCoPI3T_0))
+(get-value (AddCoPI3ar_0))
 (get-value (DeleteCoPI1__DeleteCoPI2U_0))
 (get-value (DeleteCoPI1__DeleteCoPI2UA_0))
 (get-value (DeleteCoPI1__DeleteCoPI2AT_0))
@@ -1004,25 +2184,70 @@
 (get-value (DeleteCoPI2__DeleteCoPI1S_0))
 (get-value (DeleteCoPI2__DeleteCoPI1T_0))
 (get-value (DeleteCoPI2__DeleteCoPI1ar_0))
-(get-value (AddCoPI1__AddCoPI3U_0))
-(get-value (AddCoPI1__AddCoPI3UA_0))
-(get-value (AddCoPI1__AddCoPI3AT_0))
-(get-value (AddCoPI1__AddCoPI3UO_0))
-(get-value (AddCoPI1__AddCoPI3S_0))
-(get-value (AddCoPI1__AddCoPI3T_0))
-(get-value (AddCoPI1__AddCoPI3ar_0))
-(get-value (AddCoPI3__AddCoPI1U_0))
-(get-value (AddCoPI3__AddCoPI1UA_0))
-(get-value (AddCoPI3__AddCoPI1AT_0))
-(get-value (AddCoPI3__AddCoPI1UO_0))
-(get-value (AddCoPI3__AddCoPI1S_0))
-(get-value (AddCoPI3__AddCoPI1T_0))
-(get-value (AddCoPI3__AddCoPI1ar_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3U_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3UA_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3AT_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3UO_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3S_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3T_0))
+(get-value (AddCoPI1__AddCoPI2__AddCoPI3ar_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2U_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2UA_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2AT_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2UO_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2S_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2T_0))
+(get-value (AddCoPI1__AddCoPI3__AddCoPI2ar_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3U_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3UA_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3AT_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3UO_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3S_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3T_0))
+(get-value (AddCoPI2__AddCoPI1__AddCoPI3ar_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1U_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1UA_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1AT_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1UO_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1S_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1T_0))
+(get-value (AddCoPI2__AddCoPI3__AddCoPI1ar_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1U_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1UA_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1AT_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1UO_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1S_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1T_0))
+(get-value (AddCoPI3__AddCoPI2__AddCoPI1ar_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2U_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2UA_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2AT_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2UO_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2S_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2T_0))
+(get-value (AddCoPI3__AddCoPI1__AddCoPI2ar_0))
 (get-value (queryVARu))
 (get-value (queryVARar))
 (get-value (queryVARat))
-(get-value (RC_AddCoPI1__AddCoPI3_AssignAction_1_1))
-(get-value (RC_AddCoPI3__AddCoPI1_AssignAction_1_1))
+(get-value (RC_AddCoPI3_GrantAction_1_1))
+(get-value (RC_AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_1))
+(get-value (RC_AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_2))
+(get-value (RC_AddCoPI1__AddCoPI2__AddCoPI3_GrantAction_1_3))
+(get-value (RC_AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_1))
+(get-value (RC_AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_2))
+(get-value (RC_AddCoPI1__AddCoPI3__AddCoPI2_GrantAction_1_3))
+(get-value (RC_AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_1))
+(get-value (RC_AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_2))
+(get-value (RC_AddCoPI2__AddCoPI1__AddCoPI3_GrantAction_1_3))
+(get-value (RC_AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_1))
+(get-value (RC_AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_2))
+(get-value (RC_AddCoPI2__AddCoPI3__AddCoPI1_GrantAction_1_3))
+(get-value (RC_AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_1))
+(get-value (RC_AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_2))
+(get-value (RC_AddCoPI3__AddCoPI2__AddCoPI1_GrantAction_1_3))
+(get-value (RC_AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_1))
+(get-value (RC_AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_2))
+(get-value (RC_AddCoPI3__AddCoPI1__AddCoPI2_GrantAction_1_3))
 (get-value ((ASSIGN 0)))
 (get-value ((ASSIGN 1)))
 (get-value ((ASSOC 0)))

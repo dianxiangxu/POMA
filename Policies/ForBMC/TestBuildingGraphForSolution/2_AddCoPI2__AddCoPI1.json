@@ -215,6 +215,10 @@
       "target": "PISubmit"
     },
     {
+      "source": "Bob",
+      "target": "CoPI"
+    },
+    {
       "source": "PDSEditing",
       "target": "EditingPolicy"
     },
@@ -244,7 +248,10 @@
       "source": "PI",
       "target": "PDSWhole",
       "operations": [
+        "read",
+        "edit",
         "create",
+        "delete-copi",
         "add-copi"
       ]
     }

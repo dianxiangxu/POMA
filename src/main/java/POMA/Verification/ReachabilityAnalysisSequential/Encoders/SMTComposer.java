@@ -1,7 +1,5 @@
 package POMA.Verification.ReachabilityAnalysisSequential.Encoders;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,10 +7,8 @@ import java.util.Map;
 
 import POMA.Utils;
 import POMA.Verification.ReachabilityAnalysisSequential.ActionsEncoders.ActionEncoder;
-import POMA.Verification.ReachabilityAnalysisSequential.model.Solution;
 import POMA.Verification.Translator.AssociationRelation;
 import gov.nist.csd.pm.pip.graph.Graph;
-import gov.nist.csd.pm.pip.obligations.evr.EVRParser;
 import gov.nist.csd.pm.pip.obligations.model.Obligation;
 
 public class SMTComposer extends Planner {
@@ -54,8 +50,8 @@ public class SMTComposer extends Planner {
 //
 //		String yml = new String(Files.readAllBytes(Paths.get("Policies/RaceCondition/GPMS/Obligations.yml")));
 		//LAWFIRM RACE CONDITION
-		Graph graph = Utils.readAnyGraph("Policies/RaceCondition/GPMS/Case2/Graph.json");
-		Obligation obligation = Utils.readObligation("Policies/RaceCondition/GPMS/Case2/Obligations.yml");
+		Graph graph = Utils.readAnyGraph("Policies/RaceCondition/GPMS/Case1/Graph.json");
+		Obligation obligation = Utils.readObligation("Policies/RaceCondition/GPMS/Case1/Obligations.yml");
 
 		//String yml = new String(Files.readAllBytes(Paths.get("Policies/RaceCondition/GPMS/Case1/Obligations.yml")));
 //		String precondition = "OBLIGATIONLABEL(obligation1_obligation2, ?u0, ?ar0,?at0);";

@@ -1,6 +1,16 @@
 {
   "nodes": [
     {
+      "name": "UBM",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "CoPI",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "Chair",
       "type": "UA",
       "properties": {}
@@ -18,61 +28,6 @@
     {
       "name": "BM",
       "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "PDSWholeO",
-      "type": "O",
-      "properties": {}
-    },
-    {
-      "name": "Vlad",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "PIDelete",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "Bob",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "PICreate",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "EditingPolicy",
-      "type": "PC",
-      "properties": {}
-    },
-    {
-      "name": "UChair",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "SP",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "UBM",
-      "type": "U",
-      "properties": {}
-    },
-    {
-      "name": "CoPI",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "Alice",
-      "type": "U",
       "properties": {}
     },
     {
@@ -96,13 +51,8 @@
       "properties": {}
     },
     {
-      "name": "RD",
-      "type": "UA",
-      "properties": {}
-    },
-    {
-      "name": "PISubmit",
-      "type": "UA",
+      "name": "Vlad",
+      "type": "U",
       "properties": {}
     },
     {
@@ -111,63 +61,73 @@
       "properties": {}
     },
     {
+      "name": "Bob",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Alice",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "RD",
+      "type": "UA",
+      "properties": {}
+    },
+    {
       "name": "PI",
       "type": "UA",
       "properties": {}
     },
     {
+      "name": "PICreate",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "PISubmit",
+      "type": "UA",
+      "properties": {}
+    },    
+    {
       "name": "PDSWhole",
       "type": "OA",
       "properties": {}
+    },    
+    {
+      "name": "PDSWholeO",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "EditingPolicy",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "UChair",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "SP",
+      "type": "UA",
+      "properties": {}
+    },
+    { 
+     "name": "PIDelete",
+     "type": "UA",
+     "properties": {}
     }
   ],
   "assignments": [
     {
-      "source": "Vlad",
-      "target": "PICreate"
+      "source": "PI",
+      "target": "EditingPolicy"
     },
     {
       "source": "Dean",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "PDSWholeO",
-      "target": "PDSWhole"
-    },
-    {
-      "source": "Bob",
-      "target": "BM"
-    },
-    {
-      "source": "Chair",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "URA",
-      "target": "RA"
-    },
-    {
-      "source": "PIDelete",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "UBM",
-      "target": "BM"
-    },
-    {
-      "source": "RD",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "Vlad",
-      "target": "PI"
-    },
-    {
-      "source": "Vlad",
-      "target": "PIDelete"
-    },
-    {
-      "source": "CoPI",
       "target": "EditingPolicy"
     },
     {
@@ -175,40 +135,16 @@
       "target": "Dean"
     },
     {
-      "source": "SP",
+      "source": "Chair",
       "target": "EditingPolicy"
     },
     {
-      "source": "Alice",
-      "target": "RA"
+      "source": "UChair",
+      "target": "Chair"
     },
     {
-      "source": "Nazmul",
-      "target": "RD"
-    },
-    {
-      "source": "PI",
+      "source": "RD",
       "target": "EditingPolicy"
-    },
-    {
-      "source": "Vlad",
-      "target": "CoPI"
-    },
-    {
-      "source": "PICreate",
-      "target": "EditingPolicy"
-    },
-    {
-      "source": "URD",
-      "target": "RD"
-    },
-    {
-      "source": "Vlad",
-      "target": "SP"
-    },
-    {
-      "source": "Vlad",
-      "target": "PISubmit"
     },
     {
       "source": "PDSEditing",
@@ -219,32 +155,99 @@
       "target": "EditingPolicy"
     },
     {
-      "source": "BM",
-      "target": "EditingPolicy"
-    },
-    {
       "source": "PISubmit",
       "target": "EditingPolicy"
     },
     {
-      "source": "UChair",
-      "target": "Chair"
+      "source": "URA",
+      "target": "RA"
+    },
+    {
+      "source": "Vlad",
+      "target": "PICreate"
+    },
+    {
+      "source": "Vlad",
+      "target": "PI"
+    },
+     {
+      "source": "Vlad",
+      "target": "PISubmit"
+    },
+    {
+      "source": "Bob",
+      "target": "BM"
+    },
+    {
+      "source": "Alice",
+      "target": "RA"
+    },
+    {
+      "source": "CoPI",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Vlad",
+      "target": "CoPI"
+    },
+    {
+      "source": "BM",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "PICreate",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "UBM",
+      "target": "BM"
+    },
+    {
+      "source": "SP",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Vlad",
+      "target": "SP"
+    },
+    {
+      "source": "URD",
+      "target": "RD"
+    },
+    {
+      "source": "Nazmul",
+      "target": "RD"
     },
     {
       "source": "PDSWhole",
       "target": "EditingPolicy"
+    },
+    {
+      "source": "PDSWholeO",
+      "target": "PDSWhole"
+    },
+    {
+      "source": "PDSWhole",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "PIDelete",
+      "target": "EditingPolicy"
+    },
+    {
+      "source": "Vlad",
+      "target": "PIDelete"
     }
   ],
   "associations": [
-    {
+  	{
       "source": "PI",
       "target": "PDSWhole",
       "operations": [
-        "read",
-        "edit",
         "create",
         "delete-copi",
-        "add-copi"
+        "read",
+        "edit"
       ]
     }
   ]

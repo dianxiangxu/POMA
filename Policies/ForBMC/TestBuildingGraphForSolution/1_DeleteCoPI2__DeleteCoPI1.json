@@ -240,8 +240,6 @@
       "source": "PI",
       "target": "PDSWhole",
       "operations": [
-        "read",
-        "edit",
         "create",
         "delete-copi"
       ]

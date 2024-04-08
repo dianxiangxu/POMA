@@ -116,10 +116,11 @@ public class RaceConditionChecker {
 			if (encoder.getRelationType().equals(RelationType.ASSIGN)) {
 				String postconditionFlattenSet = (encoder.postconditionFlattenSet).replace("(ASSIGN* {k-1})", PREVIOUS_TRANSITIVE_ASSIGN_TYPE);
 				if (encoder.getActionType().equals(ActionType.ADD)) {
-					
 					sb.append("\t;POSTCONDITION: " + System.lineSeparator() + "\t(= " + encoder.getActionId()
-							+ " (and (set.subset" + " " + encoder.postconditionSet + " ASSIGN) (set.subset "
-							+ postconditionFlattenSet + " ASSIGN*)))");
+					+ "  (set.subset" + " " + encoder.postconditionSet + " ASSIGN))");
+//					sb.append("\t;POSTCONDITION: " + System.lineSeparator() + "\t(= " + encoder.getActionId()
+//							+ " (and (set.subset" + " " + encoder.postconditionSet + " ASSIGN) (set.subset "
+//							+ postconditionFlattenSet + " ASSIGN*)))");
 				} else if (encoder.getActionType().equals(ActionType.REMOVE)) {
 					sb.append("\t;POSTCONDITION TRANSITIVE: " + System.lineSeparator() + "\t(= " + encoder.getActionId()
 							+ " (and (not (set.subset" + " " + postconditionFlattenSet
