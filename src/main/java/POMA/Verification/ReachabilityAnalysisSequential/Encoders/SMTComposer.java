@@ -50,8 +50,8 @@ public class SMTComposer extends Planner {
 //
 //		String yml = new String(Files.readAllBytes(Paths.get("Policies/RaceCondition/GPMS/Obligations.yml")));
 		//LAWFIRM RACE CONDITION
-		Graph graph = Utils.readAnyGraph("Policies/RaceCondition/GPMS/Case1/Graph.json");
-		Obligation obligation = Utils.readObligation("Policies/RaceCondition/GPMS/Case1/Obligations.yml");
+		Graph graph = Utils.readAnyGraph("Policies/RaceCondition/GPMS/Case6/Graph.json");
+		Obligation obligation = Utils.readObligation("Policies/RaceCondition/GPMS/Case6/Obligations.yml");
 
 		//String yml = new String(Files.readAllBytes(Paths.get("Policies/RaceCondition/GPMS/Case1/Obligations.yml")));
 //		String precondition = "OBLIGATIONLABEL(obligation1_obligation2, ?u0, ?ar0,?at0);";

@@ -23,83 +23,6 @@ rules:
                name: PDSWhole
                type: OA   
 
-  - label: AddCoPI1
-    event:
-      subject:
-        anyUser: 
-          - "PI"     
-      operations:
-        - add-copi
-      target:
-        policyElements:
-          - name: PDSWhole
-            type: OA        
-    response:      
-      actions: 
-        - assign:
-            - what:
-                name: Alice
-                type: U
-              where:
-                name: CoPI
-                type: UA   
-                      
-  # - label: AddCoPI2
-  #   event:
-  #     subject:
-  #       anyUser: 
-  #         - "PI"     
-  #     operations:
-  #       - add-copi
-  #     target:
-  #       policyElements:
-  #         - name: PDSWhole
-  #           type: O        
-  #   response:      
-  #     actions: 
-  #       - condition:
-  #           - function:
-  #               name: is_node_contained_in
-  #               args:
-  #                 - function:
-  #                     name: get_node
-  #                     args:
-  #                       - Alice
-  #                       - U 
-  #                 - function:
-  #                     name: get_node
-  #                     args:
-  #                       - CoPI
-  #                       - UA      
-  #         assign:
-  #           - what:
-  #               name: Bob
-  #               type: U
-  #             where:
-  #               name: CoPI
-  #               type: UA
-
-  - label: AddCoPI3
-    event:
-      subject:
-        anyUser: 
-          - "PI"     
-      operations:
-        - add-copi
-      target:
-        policyElements:
-          - name: PDSWhole
-            type: O        
-    response:      
-      actions:
-        - delete:  
-            assignments:
-              - what:
-                  name: Alice
-                  type: U
-                where:
-                  name: CoPI
-                  type: UA  
 
   - label: DeleteCoPI1
     event:
@@ -147,5 +70,92 @@ rules:
                   - edit  
                 target:
                   name: PDSWhole
-                  type: OA                                                                                                                                                                                                                                                                                                                                        
+                  type: OA        
+
+  - label: AddCoPI1
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - add-copi
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: OA        
+    response:      
+      actions: 
+        - assign:
+            - what:
+                name: Bob
+                type: U
+              where:
+                name: CoPI
+                type: UA  
+        - delete:  
+            assignments:
+              - what:
+                  name: Alice
+                  type: U
+                where:
+                  name: CoPI
+                  type: UA                   
+                      
+  - label: AddCoPI2
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - add-copi
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions: 
+        - condition:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - Alice
+                        - U 
+                  - function:
+                      name: get_node
+                      args:
+                        - CoPI
+                        - UA      
+          assign:
+            - what:
+                name: Bob
+                type: U
+              where:
+                name: CoPI
+                type: UA
+                                               
+  - label: AddCoPI3
+    event:
+      subject:
+        anyUser: 
+          - "PI"     
+      operations:
+        - add-copi
+      target:
+        policyElements:
+          - name: PDSWhole
+            type: O        
+    response:      
+      actions:
+        - delete:  
+            assignments:
+              - what:
+                  name: Alice
+                  type: U
+                where:
+                  name: CoPI
+                  type: UA  
+                                                                                                                                                                                                                                                                                                                                
 

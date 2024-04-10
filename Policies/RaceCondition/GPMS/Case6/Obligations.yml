@@ -1,4 +1,4 @@
-label: Case1
+label: Case2
 rules:
   - label: CreatePDS
     event:
@@ -69,7 +69,7 @@ rules:
                   - edit  
                 target:
                   name: PDSWhole
-                  type: OA       
+                  type: OA        
 
   - label: AddCoPI1
     event:
@@ -84,25 +84,29 @@ rules:
             type: OA        
     response:      
       actions: 
-        - grant:
-             subject:
-               name: CoPI
-               type: UA
-             operations:
-               - edit
-             target:
-               name: PDSWhole
-               type: OA  
-        - grant:
-             subject:
-               name: CoPI
-               type: UA
-             operations:
-               - edit
-               - delete
-             target:
-               name: PDSWhole
-               type: OA                        
+        - condition:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - James
+                        - U 
+                  - function:
+                      name: get_node
+                      args:
+                        - CoPI
+                        - UA      
+          delete:  
+            assignments:
+              - what:
+                  name: Alice
+                  type: U
+                where:
+                  name: CoPI
+                  type: UA                               
+                     
   - label: AddCoPI2
     event:
       subject:
@@ -116,17 +120,28 @@ rules:
             type: O        
     response:      
       actions: 
-        - grant:
-             subject:
-               name: CoPI
-               type: UA
-             operations:
-               - edit
-               - delete
-             target:
-               name: PDSWhole
-               type: OA      
-
+        - condition:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - Alice
+                        - U 
+                  - function:
+                      name: get_node
+                      args:
+                        - CoPI
+                        - UA      
+          assign:
+            - what:
+                name: James
+                type: U
+              where:
+                name: CoPI
+                type: UA      
+                                               
   - label: AddCoPI3
     event:
       subject:
@@ -139,24 +154,13 @@ rules:
           - name: PDSWhole
             type: O        
     response:      
-      actions: 
-        - grant:
-             subject:
-               name: CoPI
-               type: UA
-             operations:
-               - read
-             target:
-               name: PDSWhole
-               type: OA    
-        - grant:
-             subject:
-               name: PI
-               type: UA
-             operations:
-               - add-copi
-             target:
-               name: PDSWhole
-               type: OA        
+      actions:
+        - assign:
+            - what:
+                name: Bob
+                type: U
+              where:
+                name: CoPI
+                type: UA  
+                                                                                                                                                                                                                                                                                                                                
 
-                                                                                                                                                                                                                                                                                                                                 
