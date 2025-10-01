@@ -82,8 +82,6 @@ public class EmailExecutor implements FunctionExecutor{
 //			        properties.put("mail.smtp.auth", "true");
 //			        properties.put("mail.smtp.starttls.enable", "true"); //TLS
 //			        properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-//				final String from = "gpmsngac2020@gmail.com";
-//		        final String password = "GPMSngac2020*";
 //		        String host = "smtp.gmail.com";
 ////		        Properties properties = System.getProperties();
 //		        
